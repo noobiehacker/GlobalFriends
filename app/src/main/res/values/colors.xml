@@ -1,0 +1,37 @@
+<resources>
+
+    <!-- grayscale -->
+
+    <color name="white">#FEFEFE</color>
+    <color name="gray_light_one">#E4E4E4</color>
+    <color name="gray_light_two">#CACACA</color>
+    <color name="gray_light_three">#AFAFAF</color>
+    <color name="gray_light_four">#959595</color>
+    <color name="gray_dark_one">#7b7b7b</color>
+    <color name="gray_dark_two">#616161</color>
+    <color name="gray_dark_three">#464646</color>
+    <color name="gray_dark_four">#2c2c2c</color>
+    <color name="black">#121212</color>
+    <color name="transparent">#337b7b7b</color>
+
+    <!-- basic colors -->
+
+    <!-- Identity palette -->
+
+    <color name="yellow">#FAB800</color>
+    <color name="orange">#F7921E</color>
+    <color name="red">#CC0104</color>
+    <color name="brown">#8A061B</color>
+    <color name="purple">#662c91</color>
+    <color name="blue_navy">#1840A5</color>
+    <color name="blue_sky">#4FADE3</color>
+    <color name="green">#009245</color>
+
+    <!--Web UI palette -->
+
+    <color name="orange_light">#FFAA4A</color>
+    <color name="red_light">#F51F21</color>
+    <color name="blue_sky_light">#73C4F2</color>
+    <color name="green_light">#00C55D</color>
+
+</resources>

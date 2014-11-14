@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--API related-->
+    <string name="steak_end_point_url">>http://10.0.2.16:3000/api/auth/v1</string>
+
+</resources>

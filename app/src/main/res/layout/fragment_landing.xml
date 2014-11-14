@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1">
+
+    //Header
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/mitoo_white" />
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
+        android:layout_below="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_marginTop="95dp"
+        android:layout_height="175dp" />
+
+    <com.daimajia.slider.library.Indicators.PagerIndicator
+        android:id="@+id/custom_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    //Footer
+    <Button
+        android:id="@+id/searchButton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_above="@+id/signupButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:text="@string/landing_page_text7"
+        android:onClick="searchButtonAction"
+        style="@style/skyBlueButton"
+        />
+
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:text="@string/landing_page_text8"
+        android:onClick="loginButtonAction"
+        style="@style/transparentButton"
+        />
+
+</RelativeLayout>

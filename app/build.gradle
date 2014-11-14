@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+apply plugin: 'robolectric'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
+
+    defaultConfig {
+        applicationId "co.mitoo.sashimi"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("release.jks")
+            storePassword "password"
+            keyAlias "MobileAndroid"
+            keyPassword "password"
+        }
+    }
+
+    buildTypes {
+        debug {
+            runProguard false
+        }
+        release {
+            signingConfig signingConfigs.release
+            runProguard true
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        androidTest {
+            setRoot('src/androidTest')
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'LICENSE.txt'
+    }
+}
+
+robolectric {
+    include '**/*Test.class'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //*****Views*****//
+
+    //ViewAnimation
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.0@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.2@aar'
+    //Glass Action Bar
+    compile 'com.github.manuelpeinado.glassactionbar:glassactionbar:0.3.0'
+    //Picasso Image Loader
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    //progress dialog for fragments
+    compile 'com.github.johnkil.android-progressfragment:progressfragment-native:1.4.+'
+    //AndroidImageSlider
+    compile 'com.daimajia.slider:library:1.1.0@aar'
+    //Calligraphy
+    compile 'uk.co.chrisjenx:calligraphy:1.2.0'
+
+    //*****Model*****//
+
+    //Network Connection
+    compile 'com.squareup.retrofit:retrofit:1.7.1'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    //Json/Xml Parser
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
+
+    //*****Presenter*****//
+
+    //Reactive Programming
+    compile 'io.reactivex:rxjava:1.0.0-rc.10'
+    compile 'io.reactivex:rxandroid:0.22.0'
+    //View Injection
+    compile 'com.jakewharton:butterknife:6.0.0'
+
+    //Testing
+    androidTestCompile 'com.jayway.android.robotium:robotium:5.2.1'
+    androidTestCompile 'org.robolectric:robolectric:2.4'
+    androidTestCompile 'junit:junit:4.8.2'
+
+    //*****Others*****//
+    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:appcompat-v7:21.+'
+
+}

@@ -1,0 +1,29 @@
+<resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+        parent="@android:style/Theme.Holo">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+    <style name="TranslucentActionBar" parent="android:Widget.ActionBar">
+        <item name="android:background">@drawable/ab_transparent</item>
+    </style>
+
+    <style name="skyBlueButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/blue_sky</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+    <style name="navyBlueButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/blue_navy</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+    <style name="transparentButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+</resources>

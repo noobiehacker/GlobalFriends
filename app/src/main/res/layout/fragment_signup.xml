@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg2" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/signupTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/signup_page_title"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_large"
+            android:textStyle="bold|italic"
+            android:layout_marginBottom="@dimen/spacing_normal" />
+
+        <Button
+            android:id="@+id/facebookLoginButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/signup_page_text1"
+            android:layout_below="@+id/loginTitleText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_smallest"
+            android:onClick="facebookLoginButtonAction"
+            style="@style/navyBlueButton"
+            />
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/signup_page_text3"
+            android:layout_below="@+id/facebookLoginButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_smallest"
+            android:textSize="@dimen/font_normal" />
+
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/signup_page_text4"
+            android:layout_below="@+id/nameInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_smallest"
+            android:textSize="@dimen/font_normal" />
+
+        <EditText
+            android:id="@+id/phoneInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/signup_page_text5"
+            android:layout_below="@+id/emailInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_smallest"
+            android:textSize="@dimen/font_normal" />
+
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/signup_page_text6"
+            android:layout_below="@+id/phoneInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_smallest"
+            android:textSize="@dimen/font_normal" />
+
+        <Button
+            android:id="@+id/signupButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/passwordInput"
+            android:layout_centerHorizontal="true"
+            android:text="@string/signup_page_text7"
+            android:background="@color/transparent"
+            android:onClick="loginButtonAction"
+            style="@style/transparentButton"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>
