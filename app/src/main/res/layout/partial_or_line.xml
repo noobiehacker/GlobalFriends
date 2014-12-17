@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/or_line"
+    android:layout_centerInParent="true"
+    android:layout_width="@dimen/button_width"
+    android:layout_height="@dimen/button_height"
+    android:orientation="horizontal">
+
+    <View
+        android:layout_height="1px"
+        android:layout_width="@dimen/line_length"
+        android:background="@color/white"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/loginTitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="@string/facebook_separator"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_normal"
+        android:textStyle="bold|italic"
+        android:layout_centerInParent="true" />
+
+    <View
+        android:layout_height="1px"
+        android:layout_width="@dimen/line_length"
+        android:background="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

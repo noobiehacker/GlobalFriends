@@ -13,21 +13,5 @@
         <item name="android:background">@drawable/ab_transparent</item>
     </style>
 
-    <style name="skyBlueButton">
-        android:textColor="@color/white"
-        android:background="@color/blue_sky"
-        android:textSize="@dimen/font_normal"
-    </style>
 
-    <style name="navyBlueButton">
-        android:textColor="@color/white"
-        android:background="@color/blue_navy"
-        android:textSize="@dimen/font_normal"
-    </style>
-
-    <style name="transparentButton">
-        android:textColor="@color/white"
-        android:background="@color/transparent"
-        android:textSize="@dimen/font_normal"
-    </style>
 </resources>

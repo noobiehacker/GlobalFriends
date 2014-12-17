@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- grayscale -->
+    <!-- White <-> Black palette -->
 
     <color name="white">#FEFEFE</color>
     <color name="gray_light_one">#E4E4E4</color>

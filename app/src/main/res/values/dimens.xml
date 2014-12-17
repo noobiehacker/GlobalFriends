@@ -3,23 +3,40 @@
     <!-- font sizes -->
     <dimen name="font_larger">70sp</dimen>
     <dimen name="font_large">26sp</dimen>
-    <dimen name="font_normal">16sp</dimen>
-    <dimen name="font_small">13sp</dimen>
-    <dimen name="font_smaller">10sp</dimen>
+    <dimen name="font_big">16dp</dimen>
+    <dimen name="font_normal">13sp</dimen>
+    <dimen name="font_small">10sp</dimen>
+    <dimen name="font_smaller">7sp</dimen>
 
     <!-- typical spacing between two views -->
-    <dimen name="spacing_huge">40dp</dimen>
+    <dimen name="spacing_huge">200dp</dimen>
+    <dimen name="spacing_larger">40dp</dimen>
     <dimen name="spacing_large">35dp</dimen>
-    <dimen name="spacing_normal">22dp</dimen>
+
+    <dimen name="spacing_normal">18dp</dimen>
     <dimen name="spacing_small">14dp</dimen>
     <dimen name="spacing_smallest">7dp</dimen>
+    <dimen name="spacing_tiny">3dp</dimen>
+
+    <!-- header / footer -->
+    <dimen name="header">120dp</dimen>
+    <dimen name="footer">120dp</dimen>
 
     <!-- typical sizes of views -->
     <dimen name="button_height">45dp</dimen>
-    <dimen name="button_width">318dp</dimen>
+    <dimen name="button_width">324dp</dimen>
 
+    <dimen name="toggle_height">56dp</dimen>
+
+    <dimen name="list_view_height">100dp</dimen>
+    <dimen name="league_image_container_height">120dp</dimen>
     <!-- stock android values -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Widgets -->
+    <dimen name="corner_radius_small">3dp</dimen>
+    <dimen name="line_length">125dp</dimen>
+    <dimen name="circle_button_diameter">82dp</dimen>
+    <dimen name="circle_button_radius">82dp</dimen>
 </resources>

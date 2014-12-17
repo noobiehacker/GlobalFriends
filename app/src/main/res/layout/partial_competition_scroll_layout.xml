@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_below="@id/search_bar_shadow"
+    >
+    <RelativeLayout
+        android:id="@+id/scroll_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/leagueListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+<!--
+        <include
+            android:id="@+id/league_result"
+            layout="@layout/list_view_item_league"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/list_shadow"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/league_result2"
+            layout="@layout/list_view_item_league"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/league_result"
+            android:layout_centerHorizontal="true" />
+
+        <include
+            android:id="@+id/league_result3"
+            layout="@layout/list_view_item_league"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/league_result2"
+            android:layout_centerHorizontal="true" />
+
+        !-->
+
+    </RelativeLayout>
+</ScrollView>

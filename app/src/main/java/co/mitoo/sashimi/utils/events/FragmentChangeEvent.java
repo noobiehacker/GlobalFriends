@@ -8,21 +8,21 @@ import java.util.EventObject;
 public class FragmentChangeEvent extends EventObject{
 
 
-    private Class<?> fragmentType;
+    private int fragmentId;
     private boolean push;
 
     public FragmentChangeEvent(Object source) {
         super(source);
     }
 
-    public FragmentChangeEvent(Object source , Class<?> fragmentType) {
+    public FragmentChangeEvent(Object source , int fragmentId) {
         super(source);
-        this.fragmentType = fragmentType;
+        this.fragmentId= fragmentId;
         push=false;
     }
 
-    public Class<?> getFragmentType() {
-        return fragmentType;
+    public int getFragmentId() {
+        return fragmentId;
     }
 
     public boolean isPush() {

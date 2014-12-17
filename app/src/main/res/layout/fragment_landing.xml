@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/background"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_landing"
+    android:background="@drawable/bg1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg1">
+    android:layout_height="match_parent">
 
-    //Header
+
+<com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="match_parent" />
+
+    //Top
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -15,20 +24,16 @@
         android:layout_marginTop="70dp"
         android:background="@drawable/mitoo_white" />
 
-    <com.daimajia.slider.library.SliderLayout
-        android:id="@+id/slider"
-        android:layout_below="@+id/logo"
-        android:layout_width="match_parent"
-        android:layout_marginTop="95dp"
-        android:layout_height="175dp" />
-
     <com.daimajia.slider.library.Indicators.PagerIndicator
         android:id="@+id/custom_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:layout_above="@+id/searchButton"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="@dimen/spacing_large"
+        />
 
-    //Footer
+    //Bottom
     <Button
         android:id="@+id/searchButton"
         android:layout_width="@dimen/button_width"
@@ -36,9 +41,8 @@
         android:layout_above="@+id/signupButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:text="@string/landing_page_text7"
-        android:onClick="searchButtonAction"
-        style="@style/skyBlueButton"
+        android:text="@string/landing_page_text10"
+        style="@style/darkGrayButton"
         />
 
     <Button
@@ -48,9 +52,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/spacing_large"
-        android:text="@string/landing_page_text8"
-        android:onClick="loginButtonAction"
-        style="@style/transparentButton"
+        android:text="@string/landing_page_text11"
+
+        style="@style/noBackgroundButton"
         />
 
 </RelativeLayout>

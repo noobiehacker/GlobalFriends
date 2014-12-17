@@ -19,6 +19,9 @@ import co.mitoo.sashimi.R;
 public class MultiTextSliderView extends BaseSliderView {
 
     private String mTitle;
+    private String mDescriptionOne;
+    private String mDescriptionTwo;
+    private int mIconId;
     public MultiTextSliderView(Context context) {
         super(context);
     }
@@ -26,12 +29,16 @@ public class MultiTextSliderView extends BaseSliderView {
     @Override
     public View getView() {
         View v = LayoutInflater.from(getContext()).inflate(R.layout.render_type_multi_text, null);
-        ImageView target = (ImageView) v.findViewById(R.id.image);
+        ImageView background = (ImageView) v.findViewById(R.id.image);
+        ImageView icon = (ImageView) v.findViewById(R.id.icon);
         TextView title = (TextView) v.findViewById(R.id.title);
-        TextView description = (TextView) v.findViewById(R.id.description);
-        description.setText(getDescription());
+        TextView descriptionOne = (TextView) v.findViewById(R.id.descriptionOne);
+        TextView descriptionTwo = (TextView) v.findViewById(R.id.descriptionTwo);
+        descriptionOne.setText(getDescriptionOne());
+        descriptionTwo.setText(getDescriptionTwo());
+        icon.setBackgroundResource(getIconId());
         title.setText(getTitle());
-        bindEventAndShow(v, target);
+        bindEventAndShow(v, background);
         return v;
     }
 
@@ -39,8 +46,34 @@ public class MultiTextSliderView extends BaseSliderView {
         return mTitle;
     }
 
-    public BaseSliderView title(String Title){
+    public String getDescriptionOne(){
+        return mDescriptionOne;
+    }
+
+    public String getDescriptionTwo(){
+        return mDescriptionTwo;
+    }
+
+    public int getIconId(){
+        return mIconId;
+    }
+
+    public MultiTextSliderView title(String Title){
         mTitle = Title;
+        return this;
+    }
+    public MultiTextSliderView descriptionOne(String description){
+        mDescriptionOne = description;
+        return this;
+    }
+
+    public MultiTextSliderView descriptionTwo(String description){
+        mDescriptionTwo = description;
+        return this;
+    }
+
+    public MultiTextSliderView icon(int id){
+        mIconId = id;
         return this;
     }
 }

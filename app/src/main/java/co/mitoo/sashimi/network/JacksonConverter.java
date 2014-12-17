@@ -1,10 +1,13 @@
 package co.mitoo.sashimi.network;
 
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonParseException;
 
 import java.io.IOException;
@@ -31,10 +34,12 @@ public class JacksonConverter implements Converter {
 
     public JacksonConverter() {
         this(new ObjectMapper());
+        configureMapper();
     }
 
     public JacksonConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+        configureMapper();
     }
 
     @Override public Object fromBody(TypedInput body, Type type) throws ConversionException {
@@ -59,5 +64,15 @@ public class JacksonConverter implements Converter {
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError(e);
         }
+    }
+
+    private void configureMapper(){
+        if(this.objectMapper!=null){
+            this.objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES , true);
+            this.objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+            this.objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
+
+        }
+
     }
 }

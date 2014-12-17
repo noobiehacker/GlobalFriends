@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/phone_edit_text"
+    android:layout_centerInParent="true"
+    android:layout_width="@dimen/button_width"
+    android:layout_height="@dimen/button_height"
+    android:orientation="horizontal"
+    style="@style/whiteLayout">
+
+<TextView
+    android:id="@+id/areaCode"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:inputType="textPersonName"
+    android:text="@string/northAmericaAreaCode"
+    android:textColor="@color/black"
+    android:textSize="@dimen/font_normal"
+    android:paddingLeft="@dimen/spacing_small"
+    android:layout_centerVertical="true"/>
+
+    <EditText
+        android:id="@+id/phoneInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_phone"
+        android:layout_toRightOf="@+id/areaCode"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="@dimen/spacing_small"
+        android:layout_centerVertical="true"
+        style="@style/whiteEditText"
+        />
+
+
+</RelativeLayout>

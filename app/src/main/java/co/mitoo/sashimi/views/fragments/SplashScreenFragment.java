@@ -14,11 +14,9 @@ import co.mitoo.sashimi.utils.listener.FragmentChangeListener;
  */
 public class SplashScreenFragment extends Fragment {
 
-    private FragmentChangeListener  listner;
 
-    public static SplashScreenFragment newInstance(FragmentChangeListener listner) {
+    public static SplashScreenFragment newInstance() {
         SplashScreenFragment fragment = new SplashScreenFragment();
-        fragment.listner=listner;
         return fragment;
     }
 

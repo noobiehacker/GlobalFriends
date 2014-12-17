@@ -1,0 +1,102 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_join"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/joinTitleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="@string/join_page_title"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_large"
+            android:textStyle="bold|italic"
+             />
+
+        <Button
+            android:id="@+id/facebookJoinButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:text="@string/join_page_text1"
+            android:layout_below="@+id/joinTitleText"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:onClick="facebookButtonJoinAction"
+            style="@style/navyBlueButton"
+            />
+
+        <include layout="@layout/partial_or_line"
+            android:id="@+id/orLine"
+            android:layout_below="@+id/facebookJoinButton"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginTop="@dimen/spacing_smallest"/>
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/join_page_text2"
+            android:layout_below="@+id/orLine"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_smallest"
+            style="@style/whiteEditText"
+            />
+
+        <EditText
+            android:id="@+id/emailInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/join_page_text3"
+            android:layout_below="@+id/nameInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_smallest"
+            style="@style/whiteEditText"
+            />
+
+
+        <include layout="@layout/view_phone_edit_text"
+            android:id="@+id/phoneLayout"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/emailInput"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_smallest"/>
+
+
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:hint="@string/join_page_text5"
+            android:layout_below="@+id/phoneLayout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_smallest"
+            style="@style/whiteEditText"
+            />
+
+        <Button
+            android:id="@+id/joinButton"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_below="@+id/passwordInput"
+            android:layout_centerHorizontal="true"
+            android:text="@string/join_page_text6"
+            android:onClick="joinButtonAction"
+            android:layout_marginTop="@dimen/spacing_smallest"
+            style="@style/darkGrayButton"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

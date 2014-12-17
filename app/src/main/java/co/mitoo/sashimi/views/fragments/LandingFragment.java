@@ -1,34 +1,32 @@
 package co.mitoo.sashimi.views.fragments;
-
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.*;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-
+import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.utils.listener.FragmentChangeListener;
+import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.views.widgets.MultiTextSliderView;
 
 /**
  * Created by david on 14-11-05.
  */
-public class LandingFragment extends MitooFragment implements BaseSliderView.OnSliderClickListener{
+public class LandingFragment extends MitooFragment implements BaseSliderView.OnSliderClickListener
+{
 
     private SliderLayout slider;
-    private List<sliderContent> sliderContents ;
+    private PagerIndicator indicator;
+    private Handler myHandler;
+    private Runnable changeBackgroundCallBack;
+    private boolean stacked = false;
+    private int sliderPosition = 0;
 
-    public static LandingFragment newInstance(FragmentChangeListener listner) {
+    public static LandingFragment newInstance() {
         LandingFragment fragment = new LandingFragment();
-        fragment.viewlistner=listner;
         return fragment;
     }
 
@@ -37,7 +35,9 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_landing,
                 container, false);
-        initializeOnClickListeners(view);
+        initializeViewElements(view);
+        initializeFields();
+        myHandler.postDelayed(changeBackgroundCallBack, 1000);
         return view;
     }
 
@@ -45,34 +45,69 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     public void onSliderClick(BaseSliderView baseSliderView) {
         //Override just to satisfy library interface
     }
+
     @Override
     public void onResume(){
-        if(slider==null)
-            setUpSlider();
-        super.onStart();
-
+        changeBackgroundToMatchSlider();
+        super.onResume();
     }
+
     @Override
     public void onPause(){
-        slider=null;
+        myHandler.removeCallbacks(changeBackgroundCallBack);
+        updateSliderPosition();
         super.onPause();
     }
 
+    @Override
+    public void onStop() {
+        myHandler.removeCallbacks(changeBackgroundCallBack);
+        super.onStop();
+
+    }
+
+    @Subscribe
+    public void onLocationServicePrompt(LocationPromptEvent event){
+        this.buildLocationServicePrompt();
+    }
+
     private void searchButtonAction(){
-        FragmentChangeEvent event = new FragmentChangeEvent(this, SignupFragment.class);
-        event.setPush(true);
-        viewlistner.onFragmentChange(event);
+        fireFragmentChangeAction(R.id.fragment_competition);
     }
 
     private void loginButtonAction(){
-        FragmentChangeEvent event = new FragmentChangeEvent(this, LoginFragment.class);
-        event.setPush(true);
-        viewlistner.onFragmentChange(event);
+        fireFragmentChangeAction(R.id.fragment_login);
+    }
+
+    private void logoTriggerJoinAction(){
+        fireFragmentChangeAction(R.id.fragment_join);
+    }
+
+    private void initializeFields(){
+        this.myHandler = new Handler();
+    }
+
+    private void initializeViewElements(View view){
+        //Work around for the animation to display a gray background during load
+        indicator = (PagerIndicator)view.findViewById(R.id.custom_indicator);
+        initializeOnClickListeners(view);
+        initializeCallBacks();
+        initializeSlider(view);
+    }
+
+    private void initializeCallBacks(){
+        changeBackgroundCallBack = new Runnable() {
+            @Override
+            public void run() {
+                changeBackground(R.color.gray_light_two);
+            }
+        };
     }
 
     private void initializeOnClickListeners(View view){
         view.findViewById(R.id.signupButton).setOnClickListener(this);
         view.findViewById(R.id.searchButton).setOnClickListener(this);
+        view.findViewById(R.id.logo).setOnClickListener(this);
     }
 
     @Override
@@ -84,76 +119,88 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
             case R.id.searchButton:
                 searchButtonAction();
                 break;
+            case R.id.logo:
+                logoTriggerJoinAction();
+                break;
         }
-    }
-
-    private void changeBackground(int id){
-
-        //Fade out and than fade in
-        View view = getView().findViewById(R.id.background);
-        YoYo.with(Techniques.FadeOutLeft)
-                .duration(700)
-                .playOn(view);
-        Drawable drawable = getResources().getDrawable(id);
-        view.setBackgroundResource(id);
-        YoYo.with(Techniques.FadeInRight)
-                .duration(700)
-                .playOn(view);
-
     }
 
     //Inner class for holding fields
     private class sliderContent{
 
-        public sliderContent(int imageId, int textTitle , int textDescription){
-            this.imageId = imageId;
+        public sliderContent(int imageBackgroundId, int imageIconId, int textTitle , int descriptionOne , int descriptionTwo){
+            this.imageBackgroundId = imageBackgroundId;
+            this.imageIconId = imageIconId;
             this.title = textTitle;
-            this.description = textDescription;
+            this.descriptionOne = descriptionOne;
+            this.descriptionTwo = descriptionTwo;
         }
-        public int imageId;
+        public int imageBackgroundId;
+        public int imageIconId;
         public int title;
-        public int description;
+        public int descriptionOne;
+        public int descriptionTwo;
 
     }
 
-    private void initializeSlider(){
+
+    private List<sliderContent> createSliderContents() {
         List<sliderContent> contents = new ArrayList<sliderContent>();
-        contents.add(new sliderContent(R.drawable.ic_search_white, R.string.landing_page_slider_text1 , R.string.landing_page_slider_text2));
-        contents.add(new sliderContent(R.drawable.ic_account_circle_white, R.string.landing_page_slider_text3, R.string.landing_page_slider_text4));
-        contents.add(new sliderContent(R.drawable.ic_alarm_white, R.string.landing_page_slider_text5 , R.string.landing_page_slider_text6));
-        this.sliderContents = contents;
+        contents.add(new sliderContent(R.drawable.bg1, R.drawable.ic_search_white, R.string.landing_page_slider_text1 , R.string.landing_page_slider_text2, R.string.landing_page_slider_text3));
+        contents.add(new sliderContent(R.drawable.bg2, R.drawable.ic_account_circle_white, R.string.landing_page_slider_text4 , R.string.landing_page_slider_text5, R.string.landing_page_slider_text6));
+        contents.add(new sliderContent(R.drawable.bg3, R.drawable.ic_alarm_white, R.string.landing_page_slider_text7 , R.string.landing_page_slider_text8, R.string.landing_page_slider_text9));
+        return contents;
     }
 
-    private List<sliderContent> getSliderContents() {
-        if(sliderContents==null){
-            initializeSlider();
-        }
-        return sliderContents;
+
+    private void initializeSlider(View view) {
+
+        slider = (SliderLayout)view.findViewById(R.id.slider);
+        List<sliderContent> contents = createSliderContents();
+        addContentsToSlider(slider, contents);
+        slider.setPresetTransformer(SliderLayout.Transformer.Stack);
+        slider.setCustomIndicator(indicator);
+        slider.stopAutoCycle();
+
     }
 
-    private SliderLayout getSlider() {
-        if(slider==null)
-            slider = (SliderLayout)getView().findViewById(R.id.slider);
+    private void updateSliderPosition(){
 
-        return slider;
+        sliderPosition = slider.getCurrentPosition();
+
     }
 
-    private void setUpSlider(){
-        slider = (SliderLayout)getView().findViewById(R.id.slider);
-        List<sliderContent> contents = getSliderContents();
+    private void addContentsToSlider(SliderLayout slider , List<sliderContent> contents){
         for(sliderContent content : contents){
             MultiTextSliderView textSliderView = new MultiTextSliderView(getActivity());
             textSliderView
+                    .descriptionOne(getResources().getString(content.descriptionOne))
+                    .descriptionTwo(getResources().getString(content.descriptionTwo))
                     .title(getResources().getString(content.title))
-                    .description(getResources().getString(content.description))
-                    .image(content.imageId)
+                    .icon(content.imageIconId)
+                    .image(content.imageBackgroundId)
                     .setScaleType(BaseSliderView.ScaleType.Fit);
             slider.addSlider(textSliderView);
         }
-        slider.setPresetTransformer(SliderLayout.Transformer.FlipHorizontal);
-        slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        slider.setCustomAnimation(new DescriptionAnimation());
-        slider.setDuration(5000);
+    }
+
+    private void changeBackgroundToMatchSlider(){
+
+        switch(sliderPosition){
+            case 0:
+                changeBackground(R.drawable.bg1);
+                break;
+            case 1:
+                changeBackground(R.drawable.bg2);
+                break;
+            case 2:
+                changeBackground(R.drawable.bg3);
+                break;
+        }
+    }
+
+    private void changeBackground(int resource){
+        getActivity().findViewById(R.id.fragment_landing).setBackgroundResource(resource);
     }
 
 }

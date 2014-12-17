@@ -1,0 +1,128 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
+
+    defaultConfig {
+        applicationId "co.mitoo.sashimi"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("release.jks")
+            storePassword "password"
+            keyAlias "MobileAndroid"
+            keyPassword "password"
+        }
+    }
+
+    buildTypes {
+        debug {
+            runProguard false
+        }
+        release {
+            signingConfig signingConfigs.release
+            runProguard true
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        test {
+            setRoot('src/test/java')
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE.txt'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //Tests And Mocks
+    androidTestCompile('com.jakewharton.espresso:espresso:1.1-r3'){
+        exclude group:'com.android.support', module:'support-v4'
+    }
+
+    androidTestCompile('org.mockito:mockito-core:1.9.5+'){
+        exclude group: 'org.hamcrest'
+    }
+
+    androidTestCompile('junit:junit-dep:4.10'){
+        exclude group: 'org.hamcrest'
+    }
+
+    androidTestCompile('com.google.dexmaker:dexmaker-mockito:1.0'){
+        exclude group: 'org.hamcrest'
+    }
+
+    androidTestCompile('com.android.support:support-v4:+')
+    androidTestCompile('com.squareup.picasso:picasso:2.3.2')
+    androidTestCompile('com.nineoldandroids:library:2.4.0')
+    androidTestCompile('com.daimajia.slider:library:1.1.2@aar')
+    //*****Views*****//
+
+    //ViewAnimation
+    compile 'org.mockito:mockito-core:1.9.5+'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.easing:library:1.0.0@aar'
+    compile 'com.daimajia.androidanimations:library:1.1.2@aar'
+    //Glass Action Bar
+    compile 'com.github.manuelpeinado.glassactionbar:glassactionbar:0.3.0'
+    //Picasso Image Loader
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    //progress dialog for fragments
+    compile 'com.github.johnkil.android-progressfragment:progressfragment-native:1.4.+'
+    //AndroidImageSlider
+    compile 'com.daimajia.slider:library:1.1.0@aar'
+    //Material design circle button
+    compile 'com.github.markushi:circlebutton:1.1'
+    //Calligraphy
+    compile 'uk.co.chrisjenx:calligraphy:1.2.0'
+    //*****Model*****//
+    //Network Connection
+    compile 'com.squareup.retrofit:retrofit:1.7.1'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    //Json/Xml Parser
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
+    //*****Presenter*****//
+    //Event Handling
+    compile 'com.squareup:otto:1.3.5'
+    //Reactive Programming
+    compile 'io.reactivex:rxjava:1.0.0-rc.10'
+    compile 'io.reactivex:rxandroid:0.23.0'
+    compile 'pl.charmas.android:android-reactive-location:0.2@aar'
+    //View Injection
+    compile 'com.jakewharton:butterknife:6.0.0'
+    //Mocking
+    compile "org.mockito:mockito-core:1.+"
+    //Networking
+    compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
+    //*****Others*****//
+    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:appcompat-v7:21.+'
+    compile 'com.google.android.gms:play-services:6.1.+'
+
+
+}

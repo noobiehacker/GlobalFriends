@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/filterButtonTop"
+                android:layout_width="@dimen/circle_button_diameter"
+                android:layout_height="@dimen/circle_button_diameter"
+                android:src="@drawable/ic_filter_black"
+                app:cb_color="@color/gray_light_two"
+                app:cb_pressedRingWidth="8dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/circle_button_diameter"/>
+
+        </RelativeLayout>
+    </FrameLayout>
+</LinearLayout>

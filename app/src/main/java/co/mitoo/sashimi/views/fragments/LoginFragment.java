@@ -5,15 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.ILoginModel;
-import co.mitoo.sashimi.models.LoginModel;
-import co.mitoo.sashimi.models.Pojo.Auth_token;
-import rx.Subscriber;
+import co.mitoo.sashimi.models.IUserModel;
+import co.mitoo.sashimi.models.UserModel;
+import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
+import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.LoginRequestEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
 import rx.Subscription;
-import rx.android.observables.AndroidObservable;
 import rx.observables.ConnectableObservable;
 
 /**
@@ -22,19 +26,18 @@ import rx.observables.ConnectableObservable;
 public class LoginFragment extends MitooFragment{
 
     protected Subscription subscription;
-    private ILoginModel model;
-    private ConnectableObservable<Auth_token> observable;
+    private IUserModel model;
+    private ConnectableObservable<UserSend> observable;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
-        fragment.initializeSubscription();
-        fragment.model = new LoginModel(fragment.getActivity().getResources());
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -43,39 +46,37 @@ public class LoginFragment extends MitooFragment{
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_login,
                 container, false);
         initializeOnClickListeners(view);
+        initializeFields();
         return view;
     }
 
     @Override
     public void onResume(){
-        super.onStart();
+        super.onResume();
+
     }
 
-    private void initializeSubscription(){
-        subscription = AndroidObservable.bindFragment(this, observable).subscribe(new Subscriber<Auth_token>() {
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 
-            @Override
-            public void onCompleted() {
-                Toast.makeText(getActivity(), "Done!", Toast.LENGTH_SHORT).show();
-            }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
 
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-
-            @Override
-            public void onNext(Auth_token token) {
-                Toast.makeText(getActivity(), "Authorization Token Is" + token.id, Toast.LENGTH_SHORT).show();
-            }
-        });
+    private void initializeFields(){
+        model = new UserModel(getActivity().getResources());
     }
 
     private void initializeOnClickListeners(View view){
+
         view.findViewById(R.id.loginButton).setOnClickListener(this);
         view.findViewById(R.id.facebookLoginButton).setOnClickListener(this);
-    }
+        view.findViewById(R.id.forgetPasswordButton).setOnClickListener(this);
 
+    }
 
     @Override
     public void onClick(View v) {
@@ -86,22 +87,34 @@ public class LoginFragment extends MitooFragment{
             case R.id.facebookLoginButton:
                 facebookLoginButtonAction();
                 break;
+            case R.id.forgetPasswordButton:
+                forgetPasswordAction();
+                break;
         }
     }
 
     private void loginButtonAction(){
 
         if(getUsername().equals("")){
-            Toast.makeText(getActivity(),"Email can not be empty", Toast.LENGTH_SHORT).show();
+            displayText(getString(R.string.toast_email_empty));
         }
         else if(getPassword().equals("")){
-            Toast.makeText(getActivity(),"Password can not be empty", Toast.LENGTH_SHORT).show();
+            displayText(getString(R.string.toast_password_empty));
         }
         else{
-            Toast.makeText(getActivity(),"Logging in", Toast.LENGTH_SHORT).show();
+            displayText(getString(R.string.toast_loading));
             login(getUsername(), getPassword());
         }
+    }
 
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        handleAndDisplayError(error);
+    }
+
+    @Subscribe
+    public void onLoginResponse(UserRecieveResponseEvent event){
+        this.displayText(event.getUser().auth_token);
     }
 
     private void facebookLoginButtonAction(){
@@ -109,18 +122,25 @@ public class LoginFragment extends MitooFragment{
 
     }
 
+    private void forgetPasswordAction(){
+        FragmentChangeEvent event = new FragmentChangeEvent(this, R.id.fragment_reset_password);
+        event.setPush(true);
+        BusProvider.post(event);
+    }
+
     private void login(String username, String password){
-        observable = model.login(username, password).publish();
+        BusProvider.post(new LoginRequestEvent(username, password));
     }
 
     private String getUsername(){
-        EditText textField = (EditText) getActivity().findViewById(R.id.emailInput);
-        return textField.getText().toString();
+
+        return this.getTextFromTextField(R.id.emailInput);
+
     }
 
     private String getPassword(){
-        EditText textField = (EditText) getActivity().findViewById(R.id.passwordInput);
-        return textField.getText().toString();
+
+        return this.getTextFromTextField(R.id.passwordInput);
     }
 
 }

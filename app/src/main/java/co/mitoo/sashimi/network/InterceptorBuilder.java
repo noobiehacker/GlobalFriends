@@ -20,12 +20,23 @@ public class InterceptorBuilder {
         RequestInterceptor requestInterceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestInterceptor.RequestFacade request) {
-                for(String key : headerMappings.keySet()){
-                    request.addHeader(key, headerMappings.get(key));
+                Map<String, String> map = getHeaderMappings();
+                for(String key : map.keySet()){
+                    request.addHeader(key, map.get(key));
                 };
             }
         };
         return requestInterceptor;
+    }
+
+    public Map<String, String> getHeaderMappings() {
+        if(headerMappings==null)
+            initalizeHeaderMapping();
+        return headerMappings;
+    }
+
+    public void addXAuthToken(String token){
+        addHeaderMapping( "X-AUTH-TOKEN" , token);
     }
 
     private void initalizeHeaderMapping(){
@@ -33,7 +44,7 @@ public class InterceptorBuilder {
         headerMappings.put("Content-Type" , "application/json");
     }
 
-    public InterceptorBuilder addHeaderMapping(String key, String value)
+    private InterceptorBuilder addHeaderMapping(String key, String value)
     {
         if(headerMappings==null)
             initalizeHeaderMapping();
@@ -41,7 +52,7 @@ public class InterceptorBuilder {
         return this;
     }
 
-    public InterceptorBuilder removeHeaderMapping(String key)
+    private InterceptorBuilder removeHeaderMapping(String key)
     {
         headerMappings.remove(key);
         return this;

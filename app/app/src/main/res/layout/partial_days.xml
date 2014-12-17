@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/partialDaysOfWeek">
+
+    <TextView
+        android:id="@+id/daysLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_text_3"
+        android:layout_alignParentTop="true"
+        style="@style/grayLightMediumText"
+        />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/daysLabel"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/spacing_smallest">
+
+        <ToggleButton
+            android:id="@+id/monday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_mon"
+            android:textOn="@string/day_mon"
+                        style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/tuesday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_tues"
+            android:textOn="@string/day_tues"
+                        style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/wednesday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_wed"
+            android:textOn="@string/day_wed"
+                        style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/thursday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_thur"
+            android:textOn="@string/day_thur"
+                        style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/friday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_fri"
+            android:textOn="@string/day_fri"
+                        style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/saturday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_sat"
+            android:textOn="@string/day_sat"
+                        style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/sunday_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/day_sun"
+            android:textOn="@string/day_sun"
+                        style="@style/grayLightMediumText"/>
+
+    </LinearLayout>
+
+</RelativeLayout> 

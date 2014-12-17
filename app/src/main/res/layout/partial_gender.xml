@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/partialGender"
+    >
+
+    <TextView
+        android:id="@+id/genderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_text_6"
+        style="@style/grayLightMediumText"
+        />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/genderLabel"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/spacing_smallest">
+
+        <ToggleButton
+            android:id="@+id/coed_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/gender_coed"
+            android:textOn="@string/gender_coed"
+            style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/male_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/gender_male"
+            android:textOn="@string/gender_male"
+            style="@style/grayLightMediumText"/>
+
+        <ToggleButton
+            android:id="@+id/female_toggle"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/toggle_height"
+            android:layout_weight="1"
+            android:background="@drawable/toggle_gender"
+            android:textOff="@string/gender_female"
+            android:textOn="@string/gender_female"
+            style="@style/grayLightMediumText"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
