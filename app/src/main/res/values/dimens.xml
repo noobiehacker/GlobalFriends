@@ -27,7 +27,7 @@
     <dimen name="button_width">324dp</dimen>
 
     <dimen name="toggle_height_days">32dp</dimen>
-    <dimen name="toggle_height_gender">32dp</dimen>
+    <dimen name="toggle_height_gender">54dp</dimen>
 
     <dimen name="list_view_height">100dp</dimen>
     <dimen name="league_image_container_height">120dp</dimen>
@@ -38,6 +38,6 @@
     <!-- Widgets -->
     <dimen name="corner_radius_small">3dp</dimen>
     <dimen name="line_length">125dp</dimen>
-    <dimen name="circle_button_diameter">82dp</dimen>
-    <dimen name="circle_button_radius">82dp</dimen>
+    <dimen name="circle_button_diameter">64dp</dimen>
+    <dimen name="circle_button_radius">64dp</dimen>
 </resources>

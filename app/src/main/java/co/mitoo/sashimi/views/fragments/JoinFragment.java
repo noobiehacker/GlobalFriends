@@ -44,12 +44,6 @@ public class JoinFragment extends MitooFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
     }
@@ -87,7 +81,7 @@ public class JoinFragment extends MitooFragment {
         } else if (getPhone().equals("")) {
             this.displayText(getString(R.string.toast_phone_empty));
         } else {
-            this.displayText(getString(R.string.toast_loading));
+            this.displayText(getString(R.string.toast_signing_up));
             join(getUsername(), getEmail(), getPhone(), getPassword());
         }
 
@@ -95,7 +89,7 @@ public class JoinFragment extends MitooFragment {
 
     @Subscribe
     public void onJoinResponse(UserRecieveResponseEvent event) {
-
+        this.displayText(getString(R.string.toast_sign_up_success));
     }
 
     @Subscribe

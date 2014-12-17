@@ -26,12 +26,12 @@
 
     <!--Login Page-->
     <string name="login_page_title">LOGIN</string>
-    <string name="login_page_text1">Facebook Login</string>
+    <string name="login_page_text1">FACEBOOK LOGIN</string>
     <string name="login_page_text2">Or</string>
     <string name="login_page_text3">Email</string>
     <string name="login_page_text4">Password</string>
     <string name="login_page_text5">Forgot?</string>
-    <string name="login_page_text6">Login</string>
+    <string name="login_page_text6">LOGIN</string>
 
     <!--Signup Page-->
     <string name="signup_page_title">SIGNUP</string>
@@ -159,7 +159,10 @@
     <string name="toast_loading">Loading...</string>
     <string name="toast_finish_loading">Loading Complete</string>
     <string name="toast_authorization_token">Authorization Token Is</string>
-    <string name="toast_loggin_in">Logging in</string>
+    <string name="toast_logging_in">Logging in</string>
+    <string name="toast_login_success">Log in success</string>
+    <string name="toast_signing_up">Signing up</string>
+    <string name="toast_sign_up_success">Sign up success</string>
     <string name="toast_network_error">Network Unavailible</string>
     <string name="toast_password_reset">Password request successfully sent, please check your email</string>
         <!-- field checks -->

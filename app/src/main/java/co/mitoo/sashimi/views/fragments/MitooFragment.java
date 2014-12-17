@@ -17,6 +17,8 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.otto.Bus;
 
+import java.util.ArrayList;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -31,6 +33,7 @@ import retrofit.RetrofitError;
 public abstract class MitooFragment extends Fragment implements View.OnClickListener {
 
     protected Bus bus;
+    private ArrayList<Toast> toasts;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -54,6 +57,18 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void onPause() {
         super.onPause();
         BusProvider.unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        removeToast();
+    }
+
+    @Override
+    public void onStop () {
+        super.onStop();
+        removeToast();
     }
 
     protected MitooActivity getMitooActivity() {
@@ -190,6 +205,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         AlertDialog alert = builder.create();
         alert.show();
 
+    }
+
+    public void removeToast() {
+
+        if (toasts!=null && toasts.size()>0) {
+            for(Toast toast:toasts) {
+                toast.cancel();
+            }
+        }
+        toasts = null;
     }
 }
 

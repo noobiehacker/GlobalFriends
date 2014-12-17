@@ -35,12 +35,6 @@ public class LoginFragment extends MitooFragment{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_login,
@@ -48,22 +42,6 @@ public class LoginFragment extends MitooFragment{
         initializeOnClickListeners(view);
         initializeFields();
         return view;
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
     }
 
     private void initializeFields(){
@@ -102,7 +80,7 @@ public class LoginFragment extends MitooFragment{
             displayText(getString(R.string.toast_password_empty));
         }
         else{
-            displayText(getString(R.string.toast_loading));
+            displayText(getString(R.string.toast_logging_in));
             login(getUsername(), getPassword());
         }
     }
@@ -114,7 +92,7 @@ public class LoginFragment extends MitooFragment{
 
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
-        this.displayText(event.getUser().auth_token);
+        displayText(getString(R.string.toast_login_success));
     }
 
     private void facebookLoginButtonAction(){

@@ -26,12 +26,6 @@ public class ResetPasswordFragment extends MitooFragment{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_reset_password,
@@ -40,21 +34,9 @@ public class ResetPasswordFragment extends MitooFragment{
         return view;
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }
-
-
     private void initializeOnClickListeners(View view){
         view.findViewById(R.id.resetButton).setOnClickListener(this);
     }
-
 
     @Override
     public void onClick(View v) {
@@ -73,6 +55,7 @@ public class ResetPasswordFragment extends MitooFragment{
 
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
+
         handleAndDisplayError(error);
     }
 
@@ -104,6 +87,7 @@ public class ResetPasswordFragment extends MitooFragment{
             displayText(getString(R.string.toast_password_empty));
         }
         else{
+            this.displayText(getString(R.string.toast_loading));
             reset(getEmail());
         }
     }

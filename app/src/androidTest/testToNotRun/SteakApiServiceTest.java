@@ -2,12 +2,9 @@ package androidJunit; /**
  * Created by david on 14-12-01.
  */
 import android.test.AndroidTestCase;
-
 import com.squareup.otto.Subscribe;
-
 import org.junit.After;
 import org.junit.Before;
-
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
@@ -29,9 +26,6 @@ import rx.functions.Action1;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-
-
-import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class SteakApiServiceTest extends AndroidTestCase {

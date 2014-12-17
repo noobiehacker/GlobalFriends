@@ -122,6 +122,7 @@
         <item name="android:paddingRight">@dimen/spacing_small</item>
         <item name="android:paddingTop">@dimen/spacing_smallest</item>
         <item name="android:paddingBottom">@dimen/spacing_smallest</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -134,6 +135,7 @@
         <item name="android:paddingRight">@dimen/spacing_small</item>
         <item name="android:paddingTop">@dimen/spacing_smallest</item>
         <item name="android:paddingBottom">@dimen/spacing_smallest</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textStyle">bold</item>
     </style>
 </resources>

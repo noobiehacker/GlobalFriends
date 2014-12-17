@@ -67,11 +67,6 @@ public class CompetitionFragment extends MitooFragment implements AdapterView.On
         model.requestLocation();
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }
-
     private void initializeFields(){
 
         model = new CompetitionModel(getResources());
