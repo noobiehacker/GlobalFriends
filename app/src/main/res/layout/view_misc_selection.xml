@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:background="@color/gray_light_one"
+    android:padding="@dimen/spacing_small"
     style="@style/grayLightMediumText">
 
 <!--Sport Button-->

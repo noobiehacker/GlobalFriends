@@ -75,7 +75,7 @@
             android:layout_width="@dimen/circle_button_diameter"
             android:layout_height="@dimen/circle_button_diameter"
             android:src="@drawable/ic_filter_black"
-            app:cb_color="@color/gray_light_two"
+            app:cb_color="@color/gray_light_one"
             app:cb_pressedRingWidth="8dip"
             android:layout_marginRight="@dimen/spacing_smallest"
             android:layout_marginBottom="@dimen/spacing_smallest"

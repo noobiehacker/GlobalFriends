@@ -38,6 +38,6 @@
     <!-- Widgets -->
     <dimen name="corner_radius_small">3dp</dimen>
     <dimen name="line_length">125dp</dimen>
-    <dimen name="circle_button_diameter">64dp</dimen>
-    <dimen name="circle_button_radius">64dp</dimen>
+    <dimen name="circle_button_diameter">76dp</dimen>
+    <dimen name="circle_button_radius">76dp</dimen>
 </resources>
