@@ -82,6 +82,7 @@
             android:layout_below="@+id/phoneLayout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/spacing_smallest"
+            android:password="true"
             style="@style/whiteEditText"
             />
 

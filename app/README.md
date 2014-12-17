@@ -79,9 +79,16 @@ Preference -> Gradle -> Offline Mode
 Running Test
 --------------
 
-- Test will be broken into two different frameworks.  One of them will be POJO test that just runs normal
-junit 3.
-- For Android and UI specifc tests, I am using espresso framework that is based on Robotium
+- Test will be broken into two different frameworks.  One of them will be POJO test that I will be
+using Roboletric to run the tests on a VM which is perform extremely fast.  It doesn't have great
+AS support for now so make sure to run the test in gradle
+
+    ./gradlew test
+
+- For Android and UI specifc tests, I am using espresso framework that is based on Robotium.  It will
+like a UI automated test that can also run on Appthwack for quick profiling services.  To run it
+set a configuration in Android Studio to select your Instrumentation runner and the selected directories
+for the tests
 
 License
 -------

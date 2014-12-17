@@ -4,9 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:background="@color/gray_light_one"
-    android:layout_marginTop="36dp"
-    android:paddingRight="@dimen/spacing_small"
-    android:paddingLeft="@dimen/spacing_small"
+    android:padding="@dimen/spacing_small"
     style="@style/grayLightMediumText">
 
 <!--Sport Button-->
@@ -14,12 +12,11 @@
     <Button
         android:id="@+id/sportFilterButton"
         android:layout_alignParentTop="true"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/button_height"
         android:layout_centerHorizontal="true"
         android:text="@string/filter_text_1"
         style="@style/blackMediumText"
-        android:layout_marginTop="@dimen/spacing_smallest"
         />
 
 <!--Level-->
@@ -48,7 +45,7 @@
         android:id="@+id/days"
         android:layout_below="@+id/levelSpinner"
         android:layout_centerHorizontal="true"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_smallest"/>
 
@@ -57,7 +54,7 @@
     <TextView
         android:id="@+id/distance_text"
         android:layout_below="@+id/days"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/filter_text_4"
         android:layout_marginTop="@dimen/spacing_smallest"
@@ -75,7 +72,7 @@
     <TextView
         android:id="@+id/starting_within_text"
         android:layout_below="@+id/distance_bar"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/filter_text_5"
         android:layout_marginTop="@dimen/spacing_smallest"

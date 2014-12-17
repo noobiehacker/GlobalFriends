@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -20,7 +19,7 @@ import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
 /**
  * Created by david on 14-11-19.
  */
-public class JoinFragment extends MitooFragment{
+public class JoinFragment extends MitooFragment {
 
     private IUserModel model;
 
@@ -45,23 +44,23 @@ public class JoinFragment extends MitooFragment{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
     }
 
 
-    private void initializeOnClickListeners(View view){
+    private void initializeOnClickListeners(View view) {
         view.findViewById(R.id.joinButton).setOnClickListener(this);
         view.findViewById(R.id.facebookJoinButton).setOnClickListener(this);
     }
 
-    private void initializeFields(){
+    private void initializeFields() {
         model = new UserModel(getActivity().getResources());
     }
 
@@ -77,60 +76,56 @@ public class JoinFragment extends MitooFragment{
         }
     }
 
-    private void joinButtonAction(){
+    private void joinButtonAction() {
 
-       if(getUsername().equals("")){
-           this.displayText(getString(R.string.toast_username_empty));
-        }
-        else if(getEmail().equals("")){
-           this.displayText(getString(R.string.toast_email_empty));
-        }
-        else if(getPassword().equals("")){
-           this.displayText(getString(R.string.toast_password_empty));
-        }
-        else if(getPhone().equals("")){
-           this.displayText(getString(R.string.toast_phone_empty));
-        }
-        else{
-           this.displayText(getString(R.string.toast_loading));
-           join(getUsername(), getEmail(), getPhone(), getPassword());
+        if (getUsername().equals("")) {
+            this.displayText(getString(R.string.toast_username_empty));
+        } else if (getEmail().equals("")) {
+            this.displayText(getString(R.string.toast_email_empty));
+        } else if (getPassword().equals("")) {
+            this.displayText(getString(R.string.toast_password_empty));
+        } else if (getPhone().equals("")) {
+            this.displayText(getString(R.string.toast_phone_empty));
+        } else {
+            this.displayText(getString(R.string.toast_loading));
+            join(getUsername(), getEmail(), getPhone(), getPassword());
         }
 
     }
 
     @Subscribe
-    public void onJoinResponse(UserRecieveResponseEvent event){
-        this.displayText(event.getUser().auth_token);
+    public void onJoinResponse(UserRecieveResponseEvent event) {
+
     }
 
     @Subscribe
-    public void onError(MitooActivitiesErrorEvent error){
+    public void onError(MitooActivitiesErrorEvent error) {
 
         handleAndDisplayError(error);
     }
 
-    private void facebookJoinButtonAction(){
+    private void facebookJoinButtonAction() {
 
 
     }
 
-    private void join(String username, String email, String phone, String password){
+    private void join(String username, String email, String phone, String password) {
         BusProvider.post(new JoinRequestEvent(email, password));
     }
 
-    private String getUsername(){
+    private String getUsername() {
         return this.getTextFromTextField(R.id.nameInput);
     }
 
-    private String getEmail(){
+    private String getEmail() {
         return this.getTextFromTextField(R.id.emailInput);
     }
 
-    private String getPhone(){
+    private String getPhone() {
         return this.getTextFromTextField(R.id.phoneInput);
     }
 
-    private String getPassword(){
+    private String getPassword() {
         return this.getTextFromTextField(R.id.passwordInput);
     }
 

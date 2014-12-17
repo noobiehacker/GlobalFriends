@@ -51,7 +51,7 @@
         android:layout_height="@dimen/button_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_normal"
         android:text="@string/landing_page_text11"
 
         style="@style/noBackgroundButton"

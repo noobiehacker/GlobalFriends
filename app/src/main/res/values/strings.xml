@@ -21,8 +21,8 @@
     <string name="landing_page_slider_text7">GET NOTIFIED</string>
     <string name="landing_page_slider_text8">We keep you inform of any update on</string>
     <string name="landing_page_slider_text9">the competition you joined</string>
-    <string name="landing_page_text10">Find a team sport near me</string>
-    <string name="landing_page_text11">Already have an account? Login</string>
+    <string name="landing_page_text10">FIND A TEAM SPORT NEAR ME</string>
+    <string name="landing_page_text11">ALREADY HAVE AN ACCOUNT? LOG IN</string>
 
     <!--Login Page-->
     <string name="login_page_title">LOGIN</string>

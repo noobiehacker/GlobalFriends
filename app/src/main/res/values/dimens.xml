@@ -26,7 +26,8 @@
     <dimen name="button_height">45dp</dimen>
     <dimen name="button_width">324dp</dimen>
 
-    <dimen name="toggle_height">56dp</dimen>
+    <dimen name="toggle_height_days">32dp</dimen>
+    <dimen name="toggle_height_gender">32dp</dimen>
 
     <dimen name="list_view_height">100dp</dimen>
     <dimen name="league_image_container_height">120dp</dimen>
