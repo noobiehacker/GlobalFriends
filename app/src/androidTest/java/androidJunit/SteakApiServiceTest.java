@@ -1,7 +1,6 @@
 package androidJunit; /**
  * Created by david on 14-12-01.
  */
-import android.test.AndroidTestCase;
 import com.squareup.otto.Subscribe;
 
 import junit.framework.TestCase;
@@ -27,8 +26,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+
 
 public class SteakApiServiceTest extends TestCase {
 

@@ -13,8 +13,12 @@ android {
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+       
+       /**use for espresso
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
-    }
+        **/
+        }
 
     signingConfigs {
         release {
@@ -38,8 +42,8 @@ android {
 
     sourceSets {
 
-        androidTest {
-            setRoot('src/test')
+        test {
+            setRoot('src/androidTest')
         }
 
     }
@@ -57,11 +61,14 @@ android {
     }
 }
 
+
 dependencies {
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    androidTestCompile 'junit:junit:4.8+'
     androidTestCompile fileTree(dir: 'libs', include: ['*.jar'])
-
+    androidTestCompile fileTree(dir: "$project.buildDir/../../build/exploded-aar", include: "**/classes.jar")
+    testCompile fileTree(dir: "$project.buildDir/../../build/exploded-aar", include: "**/classes.jar")
     //Tests And Mocks
     androidTestCompile('com.jakewharton.espresso:espresso:1.1-r3'){
         exclude group:'com.android.support', module:'support-v4'
@@ -70,10 +77,11 @@ dependencies {
     androidTestCompile('org.mockito:mockito-core:1.9.5+'){
         exclude group: 'org.hamcrest'
     }
-
+    androidTestCompile('junit:junit')
+    /**expresso
     androidTestCompile('junit:junit-dep:4.10'){
         exclude group: 'org.hamcrest'
-    }
+    }**/
 
     androidTestCompile('com.google.dexmaker:dexmaker-mockito:1.0'){
         exclude group: 'org.hamcrest'
