@@ -3,6 +3,9 @@ package androidJunit; /**
  */
 import android.test.AndroidTestCase;
 import com.squareup.otto.Subscribe;
+
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import java.util.UUID;
@@ -27,8 +30,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
-@RunWith(RobolectricTestRunner.class)
-public class SteakApiServiceTest extends AndroidTestCase {
+public class SteakApiServiceTest extends TestCase {
 
     protected MitooActivitiesErrorEvent error;
     protected CountDownLatch signal = new CountDownLatch(1);
