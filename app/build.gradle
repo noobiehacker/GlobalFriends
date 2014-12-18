@@ -37,9 +37,11 @@ android {
     }
 
     sourceSets {
-        test {
-            setRoot('src/test/java')
+
+        androidTest {
+            setRoot('src/test')
         }
+
     }
 
     packagingOptions {
@@ -81,7 +83,7 @@ dependencies {
     androidTestCompile('com.squareup.picasso:picasso:2.3.2')
     androidTestCompile('com.nineoldandroids:library:2.4.0')
     androidTestCompile('com.daimajia.slider:library:1.1.2@aar')
-    androidTestCompile('org.robolectric:robolectric:2.3') {
+    androidTestCompile('org.robolectric:robolectric:2.4') {
         exclude module: 'classworlds'
         exclude module: 'commons-logging'
         exclude module: 'httpclient'
@@ -113,7 +115,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.4.0'
     //progress dialog for fragments
     compile 'com.github.johnkil.android-progressfragment:progressfragment-native:1.4.+'
-    //AndroidImageSlider
+    //AndroidImageSl
     compile 'com.daimajia.slider:library:1.1.0@aar'
     //Material design circle button
     compile 'com.github.markushi:circlebutton:1.1'
@@ -145,22 +147,7 @@ dependencies {
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:appcompat-v7:21.+'
     compile 'com.google.android.gms:play-services:6.1.+'
-
 }
 
-robolectric {
-    // configure the set of classes for JUnit tests
-    include '**/*Test.class'
-    exclude '**/espresso/**/*.class'
 
-    // configure max heap size of the test JVM
-
-    // configure the test JVM arguments
-
-    // Specify max number of processes (default is 1)
-
-    // Specify max number of test classes to execute in a test process
-    // before restarting the process (default is unlimited)
-
-}
 

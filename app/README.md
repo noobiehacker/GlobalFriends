@@ -83,7 +83,7 @@ Running Test
 using Roboletric to run the tests on a VM which is perform extremely fast.  It doesn't have great
 AS support for now so make sure to run the test in gradle
 
-    ./gradlew test
+    ./gradlew clean test
 
 - For Android and UI specifc tests, I am using espresso framework that is based on Robotium.  It will
 like a UI automated test that can also run on Appthwack for quick profiling services.  To run it
