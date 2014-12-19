@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/fragment_landing"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/white"
+android:orientation="vertical">
+
+    <include layout="@layout/line_description"
+        android:id="@+id/descriptionLine"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/league_bottom_description_text"
+        android:layout_below="@+id/descriptionLine"
+        android:textColor="@color/gray_light_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_normal"
+        android:text="@string/place_holder_league_bottom"
+        android:minLines= "3"
+        android:paddingTop = "@dimen/spacing_smallest"
+        android:layout_centerHorizontal="true"/>
+
+    <include layout="@layout/line_location"
+        android:id="@+id/locationLine"
+        android:layout_below="@+id/league_bottom_description_text"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_smallest"/>
+
+    <ImageView
+        android:id="@+id/leagueImage"
+        android:layout_below="@+id/locationLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/place_holder_map"
+        android:layout_marginTop="@dimen/spacing_smallest"/>
+</RelativeLayout>

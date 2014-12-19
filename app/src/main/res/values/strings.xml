@@ -134,7 +134,6 @@
     <string name="empty"></string>
 
     <!--View-->
-    <string name="facebook_separator">Or</string>
     <string name="northAmericaAreaCode">+1</string>
 
     <!--Hint-->
@@ -153,7 +152,11 @@
     <string name="place_holder_day">Friday</string>
     <string name="place_holder_level">CO-ED</string>
     <string name="place_holder_league">XOSO SPORT AND SOCIAL LEAGUE</string>
-
+    <string name="place_holder_league_bottom">This competition is a social sports league
+    ,we welcome players with any skill level</string>
+    <string name="place_holder_join_as_player">Join as a player</string>
+    <string name="place_holder_join_as_team">Join as a team</string>
+    <string name="place_holder_price_two">$99.99</string>
     <!-- Toast -->
     <string name="toast_error">An error has occured</string>
     <string name="toast_loading">Loading...</string>
@@ -176,6 +179,13 @@
     <string name="prompt_location_services_message">Please turn on location services</string>
     <string name="prompt_yes">Yes</string>
     <string name="prompt_no">No</string>
+
+    <!-- Static Text -->
+    <string name="static_text_location">LOCATION</string>
+    <string name="static_text_description">DESCRIPTION</string>
+    <string name="static_text_or">Or</string>
+    <string name="static_text_from">From</string>
+
 
     <!--Misc -->
 

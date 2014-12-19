@@ -80,14 +80,10 @@ public class CompetitionFragment extends MitooFragment implements AdapterView.On
         sportsImageadapter = new SportAdapter(getActivity(),R.id.sportSelectionGrid, sportData);
         sportsGrid = (GridView) view.findViewById(R.id.sportSelectionGrid);
         sportsGrid.setAdapter(sportsImageadapter);
-
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View sportSelectionButton = vi.inflate(R.layout.view_sport_selection_button, null);
-
         leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData);
         leagueList = (ListView) view.findViewById(R.id.leagueListView);
         leagueList.setAdapter(leagueDataAdapter);
-        leagueList.addHeaderView(sportSelectionButton);
         leagueList.setOnItemClickListener(this);
     }
 

@@ -23,8 +23,11 @@
     <dimen name="footer">120dp</dimen>
 
     <!-- typical sizes of views -->
-    <dimen name="button_height">45dp</dimen>
-    <dimen name="button_width">324dp</dimen>
+    <dimen name="gray_button_height">45dp</dimen>
+    <dimen name="gray_button_width">324dp</dimen>
+
+    <dimen name="yellow_button_height">45dp</dimen>
+    <dimen name="yellow_button_width">162dp</dimen>
 
     <dimen name="toggle_height_days">32dp</dimen>
     <dimen name="toggle_height_gender">54dp</dimen>

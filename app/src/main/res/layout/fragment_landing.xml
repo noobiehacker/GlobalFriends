@@ -36,8 +36,8 @@
     //Bottom
     <Button
         android:id="@+id/searchButton"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
         android:layout_above="@+id/signupButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/spacing_small"
@@ -47,8 +47,8 @@
 
     <Button
         android:id="@+id/signupButton"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/spacing_normal"
