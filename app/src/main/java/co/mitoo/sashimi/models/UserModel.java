@@ -79,7 +79,7 @@ public class UserModel extends MitooModel implements IUserModel {
 
             JoinRequestEvent joinRequestEvent = (JoinRequestEvent) event;
             handleObservable(getSteakApiService().createRegistration(
-                            StaticString.apiConstantRegister, joinRequestEvent.getLogin()),
+                            StaticString.apiConstantRegister, joinRequestEvent.getCredentials()),
                     UserRecieve.class);
 
         } else if (event instanceof LoginRequestEvent) {

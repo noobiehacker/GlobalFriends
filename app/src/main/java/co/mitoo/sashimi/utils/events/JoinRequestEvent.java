@@ -7,13 +7,13 @@ import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
  */
 public class JoinRequestEvent  extends MitooRequestEvent{
 
-    private UserSend usersend;
+    private UserSend credentials;
 
     public JoinRequestEvent(String email, String password){
-        this.usersend = new UserSend(email,password);
+        this.credentials = new UserSend(email,password);
     }
 
-    public UserSend getLogin() {
-        return usersend;
+    public UserSend getCredentials() {
+        return credentials;
     }
 }

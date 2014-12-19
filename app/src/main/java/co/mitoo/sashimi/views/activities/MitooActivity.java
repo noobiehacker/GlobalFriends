@@ -132,6 +132,12 @@ public class MitooActivity extends Activity  {
 
     }
 
+    private void popTopFragment(){
+        
+        
+    }
+    
+    
     private void hideActionBar(){
         ActionBar actionBar = getActionBar();
         actionBar.hide();

@@ -93,6 +93,7 @@ public class LoginFragment extends MitooFragment{
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
         displayText(getString(R.string.toast_login_success));
+        popFragmentAction();
     }
 
     private void facebookLoginButtonAction(){

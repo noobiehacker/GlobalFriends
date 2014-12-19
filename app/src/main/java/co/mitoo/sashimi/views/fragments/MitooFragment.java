@@ -3,8 +3,10 @@ package co.mitoo.sashimi.views.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected Bus bus;
     private ArrayList<Toast> toasts;
+    private Toast currentToast;
+    private Handler handler;
+    private Runnable runnable;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -56,18 +61,21 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
+        handleCallBacks();
         BusProvider.unregister(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        handleCallBacks();
         removeToast();
     }
 
     @Override
     public void onStop () {
         super.onStop();
+        handleCallBacks();
         removeToast();
     }
 
@@ -166,18 +174,47 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         event.setPush(true);
         BusProvider.post(event);
     }
+    
+    protected void popFragmentAction(){
+
+        FragmentManager fm = getActivity().getFragmentManager();
+        fm.popBackStack();
+        /*
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+            }
+        }, 1000);*/
+        
+    }
 
     protected void displayText(String text) {
-        Activity activity = getActivity();
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View layout = inflater.inflate(R.layout.view_toast,
-                (ViewGroup) activity.findViewById(R.id.toast_layout_root));
-        TextView textView = (TextView) layout.findViewById(R.id.text);
-        textView.setText(text);
+
+        removeToast();
+        
+        View toastLayout = createToastView();
+        createTextForToast(toastLayout,text);
+
         Toast toast = new Toast(getActivity().getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(layout);
+        toast.setView(toastLayout);
         toast.show();
+        currentToast=toast;
+    }
+    
+    private View createToastView(){
+
+        View layout = getActivity().getLayoutInflater().inflate(R.layout.view_toast,
+                (ViewGroup) getActivity().findViewById(R.id.toast_layout_root));
+        return layout;
+    }
+    
+    private void createTextForToast(View layout, String text){
+
+        TextView textView = (TextView) layout.findViewById(R.id.text);
+        textView.setText(text);
+        
     }
 
     protected void buildLocationServicePrompt() {
@@ -207,14 +244,21 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
+    private void handleCallBacks(){
+        if(handler!=null && runnable != null){
+            handler.removeCallbacks(runnable);
+        }
+        
+    }
+    
     public void removeToast() {
 
-        if (toasts!=null && toasts.size()>0) {
-            for(Toast toast:toasts) {
-                toast.cancel();
-            }
+        if(currentToast!=null)
+        {
+            currentToast.cancel();
         }
-        toasts = null;
+        currentToast=null;
+
     }
 }
 

@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.views.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,7 @@ public class JoinFragment extends MitooFragment {
     @Subscribe
     public void onJoinResponse(UserRecieveResponseEvent event) {
         this.displayText(getString(R.string.toast_sign_up_success));
+        popFragmentAction();
     }
 
     @Subscribe
