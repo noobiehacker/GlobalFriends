@@ -8,6 +8,7 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.Login;
+import co.mitoo.sashimi.utils.StaticString;
 
 /**
  * Created by david on 14-11-19.
@@ -49,7 +50,7 @@ public class MockPojo {
 
     public static Resources getResources(){
         Resources resources = mock(Resources.class);
-        when(resources.getString(R.string.steak_end_point_url)).thenReturn("http://mitoo.co/api/COMPONENT/v1");
+        when(resources.getString(R.string.steak_apiary_end_point)).thenReturn(StaticString.steakApiaryEndPoint);
         return resources;
     }
 }

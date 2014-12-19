@@ -66,21 +66,12 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     }
 
-    @Subscribe
-    public void onLocationServicePrompt(LocationPromptEvent event){
-        this.buildLocationServicePrompt();
-    }
-
     private void searchButtonAction(){
         fireFragmentChangeAction(R.id.fragment_competition);
     }
 
     private void loginButtonAction(){
         fireFragmentChangeAction(R.id.fragment_login);
-    }
-
-    private void logoTriggerJoinAction(){
-        fireFragmentChangeAction(R.id.fragment_join);
     }
 
     private void initializeFields(){
@@ -118,9 +109,6 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
                 break;
             case R.id.searchButton:
                 searchButtonAction();
-                break;
-            case R.id.logo:
-                logoTriggerJoinAction();
                 break;
         }
     }

@@ -49,7 +49,7 @@ public class SteakApiServiceTest extends TestCase {
     public void testNoNetwork() throws Exception {
 
         ServiceBuilder builder = new ServiceBuilder();
-        SteakApi api = builder.setEndPoint(StaticString.steakEndPoint)
+        SteakApi api = builder.setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class, new MockSteakApiService(200));
         MockRestAdapter adapter = builder.getMockRestAdapter();
         adapter.setErrorPercentage(100);
@@ -85,7 +85,7 @@ public class SteakApiServiceTest extends TestCase {
 
     public void deleteSession() throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakEndPoint)
+        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                                            .create(SteakApi.class);
         Observable<UserRecieve> recieve = api.deleteSession();
         recieve.subscribe(new Action1<UserRecieve>() {
@@ -98,7 +98,7 @@ public class SteakApiServiceTest extends TestCase {
     }
     private void testCreateRegistration(String userID) throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakEndPoint)
+        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
         UserSend sendingObject = new UserSend(userID, StaticString.testPassword);
         Observable<UserRecieve> observable = api.createRegistration(StaticString.apiConstantRegister
@@ -111,7 +111,7 @@ public class SteakApiServiceTest extends TestCase {
 
     private void testCreateSession(String userID) throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakEndPoint)
+        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
         UserSend loginObject = new UserSend(userID, StaticString.testPassword);
         Observable<UserRecieve> observable = api.createSession(loginObject);
@@ -123,7 +123,7 @@ public class SteakApiServiceTest extends TestCase {
 
     private void testResetPassword(String userID) throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakEndPoint)
+        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
         Observable<Response> observable = api.resetPassword(new EmailSend(userID));
         testApiMethod(observable , Response.class);

@@ -9,6 +9,7 @@
         android:inputType="textPersonName"
         android:text="@string/place_holder_started_on"
         android:layout_alignParentLeft="true"
+        android:textIsSelectable="false"
         style="@style/blueBorderedSmallText"
         />
 
@@ -20,6 +21,7 @@
         android:text="@string/place_holder_date"
         android:layout_toRightOf="@id/distance"
         android:layout_marginLeft="@dimen/spacing_tiny"
+        android:textIsSelectable="false"
         style="@style/greenBorderedSmallText"
         />
 
@@ -31,6 +33,7 @@
         android:text="@string/place_holder_location"
         android:layout_toRightOf="@id/price"
         android:layout_marginLeft="@dimen/spacing_tiny"
+        android:textIsSelectable="false"
         style="@style/grayLightBorderedSmallText"
         />
 
@@ -42,6 +45,7 @@
         android:text="@string/place_holder_day"
         android:layout_toRightOf="@id/location"
         android:layout_marginLeft="@dimen/spacing_tiny"
+        android:textIsSelectable="false"
         style="@style/grayLightBorderedSmallText"
         />
 
@@ -53,6 +57,7 @@
         android:text="@string/place_holder_level"
         android:layout_toRightOf="@id/day"
         android:layout_marginLeft="@dimen/spacing_tiny"
+        android:textIsSelectable="false"
         style="@style/grayLightBorderedSmallText"
         />
 

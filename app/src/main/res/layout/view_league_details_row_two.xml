@@ -9,6 +9,7 @@
         android:inputType="textPersonName"
         android:text="@string/place_holder_started_on"
         android:layout_alignParentLeft="true"
+        android:textIsSelectable="false"
         style="@style/grayLightSmallText"
         />
 
@@ -19,6 +20,7 @@
         android:inputType="textPersonName"
         android:text="@string/place_holder_date"
         android:layout_toRightOf="@id/startedOn"
+        android:textIsSelectable="false"
         style="@style/grayLightSmallText"
         />
 

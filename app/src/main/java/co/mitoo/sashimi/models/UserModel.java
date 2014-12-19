@@ -87,10 +87,7 @@ public class UserModel extends MitooModel implements IUserModel {
             LoginRequestEvent loginRequestEvent = (LoginRequestEvent) event;
             handleObservable(getSteakApiService().createSession(loginRequestEvent.getLogin()),
                     UserRecieve.class);
-
         }
-
-
     }
 
     private <T> void handleObservable(Observable<T> observable, Class<T> classType){
@@ -124,7 +121,7 @@ public class UserModel extends MitooModel implements IUserModel {
             postUserRecieveResponse();
 
         }else if (objectRecieve instanceof Response){
-            postResetPasswordResponse();
+            postResetPasswordResponse((Response)objectRecieve);
         }
     }
 
@@ -134,9 +131,17 @@ public class UserModel extends MitooModel implements IUserModel {
 
     }
 
-    private void postResetPasswordResponse(){
+    private void postResetPasswordResponse(Response response){
 
-        BusProvider.post(new ResetPasswordResponseEvent());
+        BusProvider.post(new ResetPasswordResponseEvent(response));
 
+    }
+    
+    private void handleHttpResponse(Response response){
+        if(response.getStatus()==204) {
+            postResetPasswordResponse(response);
+        }else {
+            BusProvider.post(new MitooActivitiesErrorEvent(StaticString.errorMessage));
+        }
     }
 }

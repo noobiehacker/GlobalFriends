@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <SeekBar
-        android:id="@+id/starting_within_bar"
+        android:id="@+id/startingWithinSeekBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/spacing_normal"

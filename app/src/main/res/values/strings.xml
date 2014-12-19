@@ -7,7 +7,7 @@
     <string name="action_register">Register</string>
 
     <!--API related-->
-    <string name="steak_end_point_url">http://private-87f66-steak.apiary-mock.com/auth/v1</string>
+    <string name="steak_apiary_end_point">http://private-87f66-steak.apiary-mock.com/auth/v1</string>
 
     <!--View Strings-->
 
@@ -152,11 +152,12 @@
     <string name="place_holder_day">Friday</string>
     <string name="place_holder_level">CO-ED</string>
     <string name="place_holder_league">XOSO SPORT AND SOCIAL LEAGUE</string>
-    <string name="place_holder_league_bottom">This competition is a social sports league
+    <string name="place_holder_league_bottom">This competition is a social sports league\n
     ,we welcome players with any skill level</string>
     <string name="place_holder_join_as_player">Join as a player</string>
     <string name="place_holder_join_as_team">Join as a team</string>
     <string name="place_holder_price_two">$99.99</string>
+    <string name="place_holder_sport">Football</string>
     <!-- Toast -->
     <string name="toast_error">An error has occured</string>
     <string name="toast_loading">Loading...</string>

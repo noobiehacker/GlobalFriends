@@ -23,7 +23,7 @@ public class SportAdapter extends ArrayAdapter<Sport> {
 
         this.getItem(position);
         if (convertView == null) {
-            convertView = View.inflate(getContext(), R.layout.griditem_sport, null);
+            convertView = View.inflate(getContext(), R.layout.list_view_item_sport, null);
         }
         return convertView;
 

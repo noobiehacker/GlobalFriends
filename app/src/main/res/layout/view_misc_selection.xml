@@ -16,7 +16,7 @@
         android:layout_height="@dimen/gray_button_height"
         android:layout_centerHorizontal="true"
         android:text="@string/filter_text_1"
-        style="@style/blackMediumText"
+        style="@style/darkGrayButton"
         />
 
 <!--Level-->

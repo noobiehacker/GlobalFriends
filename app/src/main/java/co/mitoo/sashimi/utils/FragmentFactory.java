@@ -35,6 +35,8 @@ public class FragmentFactory {
                 return CompetitionFragment.newInstance();
             case R.id.fragment_competition:
                 return CompetitionFragment.newInstance();
+            case R.id.fragment_league:
+                return LeagueFragment.newInstance();
             default:
                 return SplashScreenFragment.newInstance();
         }

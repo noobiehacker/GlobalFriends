@@ -24,6 +24,7 @@ android:orientation="vertical">
         android:text="@string/place_holder_league_bottom"
         android:minLines= "3"
         android:paddingTop = "@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:layout_centerHorizontal="true"/>
 
     <include layout="@layout/line_location"
@@ -37,9 +38,11 @@ android:orientation="vertical">
     <ImageView
         android:id="@+id/leagueImage"
         android:layout_below="@+id/locationLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/google_map_place_holder"
         android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/place_holder_map"
-        android:layout_marginTop="@dimen/spacing_smallest"/>
+        android:layout_marginTop="@dimen/spacing_normal"/>
 </RelativeLayout>

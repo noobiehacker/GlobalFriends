@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_competition"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_competition"
     android:background="@color/gray_light_two"
     android:orientation="vertical">
 
@@ -26,12 +26,12 @@
         android:id="@+id/leagueListView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/search_bar_shadow"/>
+        android:layout_below="@+id/search_bar_shadow"
+        android:descendantFocusability="blocksDescendants" />
 
-     //Sport Selection Frame
+    //Sport Selection Frame
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,13 +47,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true" />
-         </RelativeLayout>
+        </RelativeLayout>
     </FrameLayout>
 
     //Filter Frame with button
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -65,23 +64,25 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <include
-            layout="@layout/partial_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            <include
+                android:id="@+id/filterSelectionContainer"
+                layout="@layout/partial_general_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                />
 
-        <at.markushi.ui.CircleButton
-            android:id="@+id/filterButtonBottom"
-            android:layout_width="@dimen/circle_button_diameter"
-            android:layout_height="@dimen/circle_button_diameter"
-            android:src="@drawable/ic_filter_black"
-            app:cb_color="@color/gray_light_one"
-            app:cb_pressedRingWidth="8dip"
-            android:layout_marginRight="@dimen/spacing_smallest"
-            android:layout_marginBottom="@dimen/spacing_smallest"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"/>
+            <at.markushi.ui.CircleButton
+                android:id="@+id/filterButtonBottom"
+                android:layout_width="@dimen/circle_button_diameter"
+                android:layout_height="@dimen/circle_button_diameter"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/spacing_smallest"
+                android:layout_marginRight="@dimen/spacing_smallest"
+                android:src="@drawable/ic_filter_black"
+                app:cb_color="@color/gray_light_one"
+                app:cb_pressedRingWidth="8dip" />
 
         </RelativeLayout>
     </FrameLayout>

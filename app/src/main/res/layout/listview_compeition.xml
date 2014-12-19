@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="@dimen/list_view_height"
     android:padding="@dimen/spacing_small"
+    android:descendantFocusability="blocksDescendants"
     android:background="@color/white">
 
     <include layout="@layout/view_league_details_row_one"

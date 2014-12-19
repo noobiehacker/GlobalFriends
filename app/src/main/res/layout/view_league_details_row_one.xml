@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="@string/place_holder_competition"
+        android:textIsSelectable="false"
         style="@style/grayDarkBigText"
         />
 

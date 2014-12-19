@@ -40,7 +40,12 @@
 
     <!-- Widgets -->
     <dimen name="corner_radius_small">3dp</dimen>
-    <dimen name="line_length">125dp</dimen>
+    <dimen name="line_length_or">125dp</dimen>
+    <dimen name="line_length_description">115dp</dimen>
+    <dimen name="line_length_location">120dp</dimen>
     <dimen name="circle_button_diameter">76dp</dimen>
     <dimen name="circle_button_radius">76dp</dimen>
+    
+    <!-- PlaceHolders -->
+    <dimen name="google_map_place_holder">100dp</dimen>
 </resources>

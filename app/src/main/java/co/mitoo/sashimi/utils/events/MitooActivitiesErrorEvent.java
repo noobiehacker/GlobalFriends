@@ -11,7 +11,6 @@ public class MitooActivitiesErrorEvent {
     private String errorMessage;
 
     public MitooActivitiesErrorEvent(){
-
     }
 
     public MitooActivitiesErrorEvent(RetrofitError error){

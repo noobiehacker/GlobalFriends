@@ -41,6 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/leagueDetailsRowThree"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_smallest"/>
+        android:layout_marginTop="@dimen/spacing_normal"/>
     
 </RelativeLayout>

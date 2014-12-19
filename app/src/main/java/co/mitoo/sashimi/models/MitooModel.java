@@ -24,7 +24,7 @@ public abstract class MitooModel
 
     public SteakApi getSteakApiService() {
         if(steakApiService==null)
-            steakApiService = new ServiceBuilder().setEndPoint(StaticString.steakEndPoint)
+            steakApiService = new ServiceBuilder().setEndPoint(StaticString.steakStagingEndPoint)
                                                   .create(SteakApi.class);
         return steakApiService;
     }

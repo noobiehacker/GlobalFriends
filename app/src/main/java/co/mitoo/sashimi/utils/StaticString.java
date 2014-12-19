@@ -13,11 +13,13 @@ import java.util.Properties;
 public class StaticString {
 
     private static StaticString singleton_staticString;
-    public static String steakEndPoint = getString("endPoint");
+    public static String steakLocalEndPoint = getString("localEndPoint");
+    public static String steakApiaryEndPoint = getString("apiaryEndPoint");
+    public static String steakStagingEndPoint = getString("stagingEndPoint");
     public static String testPassword = getString("password");
     public static String errorMessage = getString("errorMessage");
     public static String apiConstantRegister = getString("apiConstantRegister");
-
+    
     private Properties properties;
 
     public static String getString(String key){

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_social_league">
-
+    android:background="@drawable/bg_social_league"
+>
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:focusable="false"
             android:src="@drawable/place_holder_league" />
 
         <TextView
@@ -24,8 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/leagueImage"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:inputType="textPersonName"
             android:text="@string/place_holder_league"
+            android:textIsSelectable="false"
             android:layout_centerHorizontal="true"
             style="@style/whiteMediumText"/>
 

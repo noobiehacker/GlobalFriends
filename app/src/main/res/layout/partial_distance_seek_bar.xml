@@ -15,7 +15,7 @@
         style="@style/grayLightMediumText"/>
 
     <SeekBar
-        android:id="@+id/distance_bar"
+        android:id="@+id/distanceSeekBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:max="100"
