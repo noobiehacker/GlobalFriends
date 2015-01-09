@@ -1,12 +1,16 @@
 package co.mitoo.sashimi.views.fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
+import android.widget.Toast;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.IUserModel;
@@ -19,7 +23,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
 import rx.Subscription;
 import rx.observables.ConnectableObservable;
-
+import com.greenhalolabs.facebooklogin.*;
 /**
  * Created by david on 14-11-05.
  */
@@ -93,12 +97,15 @@ public class LoginFragment extends MitooFragment{
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
         displayText(getString(R.string.toast_login_success));
+        model.removeReferences();
         popFragmentAction();
     }
 
     private void facebookLoginButtonAction(){
-
-
+        String applicationId =  getResources().getString(R.string.facebook_app_id);
+        ArrayList<String> permissions = new ArrayList<String>();
+        permissions.add("public_profile");
+       // FacebookLoginActivity.launch(getActivity(), applicationId, permissions);
     }
 
     private void forgetPasswordAction(){
@@ -120,6 +127,25 @@ public class LoginFragment extends MitooFragment{
     private String getPassword(){
 
         return this.getTextFromTextField(R.id.passwordInput);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      /*  super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
+
+            if (resultCode == Activity.RESULT_OK) {
+                String accessToken = data.getStringExtra(FacebookLoginActivity.EXTRA_FACEBOOK_ACCESS_TOKEN);
+                displayText(accessToken);
+            }
+            else {
+                String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
+                displayText(errorMessage);
+            }
+
+        }
+        */
     }
 
 }

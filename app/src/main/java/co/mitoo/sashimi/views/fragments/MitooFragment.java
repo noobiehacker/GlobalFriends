@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ContextThemeWrapper;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+//import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private Toast currentToast;
     private Handler handler;
     private Runnable runnable;
+    private boolean busRegistered= false;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -48,35 +51,47 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
-        BusProvider.register(this);
+        registerBus();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         handleNetwork();
-        BusProvider.register(this);
+        registerBus();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        handleCallBacks();
-        BusProvider.unregister(this);
+        tearDownReferences();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        handleCallBacks();
-        removeToast();
+        tearDownReferences();
     }
 
     @Override
     public void onStop () {
         super.onStop();
-        handleCallBacks();
-        removeToast();
+        tearDownReferences();
+    }
+    
+    public void registerBus(){
+        if(!busRegistered){
+            BusProvider.register(this);
+            busRegistered = true;
+        }
+    }
+    
+    public void unregisterBus(){
+        if(busRegistered)
+        {
+            BusProvider.unregister(this);
+            busRegistered =false;
+        }
     }
 
     protected MitooActivity getMitooActivity() {
@@ -177,15 +192,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     
     protected void popFragmentAction(){
 
-        FragmentManager fm = getActivity().getFragmentManager();
-        fm.popBackStack();
-        /*
+        unregisterBus();
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-
+                FragmentManager fm = getActivity().getFragmentManager();
+                fm.popBackStack();
             }
-        }, 1000);*/
+        }, 1000);
         
     }
 
@@ -260,6 +274,20 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         currentToast=null;
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+    
+    public void tearDownReferences(){
+
+        handleCallBacks();
+        removeToast();
+        unregisterBus();
+    }
+
 }
 
 

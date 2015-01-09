@@ -64,6 +64,7 @@ Important Libraries
 - Otto for event busing to create an MVC like architecture
 - Retrofit + OKHTTP and Jackson for API access
 - A lot of the UI stuff are referenced from Android Arsenal such as AndroidViewAnimation
+- Added NewRelic Library, Facebook Login Library, Algolia Search Library
 
 Services classes / Tricky Pieces
 --------------
@@ -92,3 +93,5 @@ for the tests
 
 License
 -------
+
+-APACHE and MIT LISENCES

@@ -144,4 +144,8 @@ public class UserModel extends MitooModel implements IUserModel {
             BusProvider.post(new MitooActivitiesErrorEvent(StaticString.errorMessage));
         }
     }
+
+    public void removeReferences(){
+        super.removeReferences();
+    }
 }

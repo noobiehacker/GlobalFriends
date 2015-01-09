@@ -16,7 +16,6 @@ import co.mitoo.sashimi.utils.events.JoinRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
 
-
 /**
  * Created by david on 14-11-19.
  */
@@ -91,6 +90,7 @@ public class JoinFragment extends MitooFragment {
     @Subscribe
     public void onJoinResponse(UserRecieveResponseEvent event) {
         this.displayText(getString(R.string.toast_sign_up_success));
+        model.removeReferences();
         popFragmentAction();
     }
 

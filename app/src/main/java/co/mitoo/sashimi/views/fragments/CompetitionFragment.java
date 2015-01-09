@@ -30,7 +30,6 @@ public class CompetitionFragment extends MitooFragment implements AdapterView.On
     private LeagueAdapter leagueDataAdapter;
     private SportAdapter sportsDataAdapter;
     private List<League> leagueData ;
-    
     private List<Sport> sportData ;
     private boolean filterOn = false;
     private boolean sportSelectionOn = false;
@@ -114,7 +113,11 @@ public class CompetitionFragment extends MitooFragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        view.setSelected(true);
+        if(parent.getId() == leagueList.getId())
+        {
             leagueListItemAction();
+        }
     }
 
     @Subscribe

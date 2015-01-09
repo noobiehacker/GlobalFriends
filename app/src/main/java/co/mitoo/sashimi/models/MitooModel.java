@@ -33,4 +33,7 @@ public abstract class MitooModel
         this.steakApiService = steakApiService;
     }
 
+    protected void removeReferences(){
+        BusProvider.unregister(this);
+    }
 }

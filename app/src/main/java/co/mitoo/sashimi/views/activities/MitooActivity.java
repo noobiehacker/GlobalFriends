@@ -20,11 +20,13 @@ import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
+import com.newrelic.agent.android.NewRelic;
 
 public class MitooActivity extends Activity  {
 
     private MitooLocationManager locationManager;
+  //  private APIClient algoliaClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         BusProvider.register(this);
@@ -39,6 +41,8 @@ public class MitooActivity extends Activity  {
                 MitooActivity.this.changeFragment(R.id.fragment_landing, false);
             }
         }, 1000);
+        setUpNewRelic();
+        setUpAlgolia();
 
     }
 
@@ -148,6 +152,15 @@ public class MitooActivity extends Activity  {
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
+    
+    private void setUpNewRelic(){
+        NewRelic.withApplicationToken(
+                "AA122023d85b82c7e121b4e55f6d8b0a524f5132d2"
+        ).start(this.getApplication());
+        
+    }
 
-
+    private void setUpAlgolia(){
+      //  algoliaClient = new APIClient("1ESI9QYTPJ" , "8c45f667d9649e81fa2a735dacefaa42") ;
+    }
 }

@@ -132,6 +132,7 @@
 
     <!--App -->
     <string name="empty"></string>
+    <string name="facebook_app_id">1524244734496711</string>
 
     <!--View-->
     <string name="northAmericaAreaCode">+1</string>

@@ -16,4 +16,6 @@ public interface ICompetitionModel {
     void updateLeagueData(List<League> data);
 
     void requestLocation();
+    
+    void removeReferences();
 }

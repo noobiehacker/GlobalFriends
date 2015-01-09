@@ -53,4 +53,8 @@ public class CompetitionModel extends MitooModel implements ICompetitionModel{
     public void updateLeagueData(List<League> data) {
 
     }
+
+    public void removeReferences(){
+        super.removeReferences();
+    }
 }

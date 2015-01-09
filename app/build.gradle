@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android'
 apply plugin: 'robolectric'
-
+apply plugin: 'newrelic'
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.0"
-
     defaultConfig {
         applicationId "co.mitoo.sashimi"
         minSdkVersion 14
@@ -14,12 +13,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
-       
-       /**use for espresso
-        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
-        **/
-        }
 
+        /**use for espresso
+         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+         **/
+    }
     signingConfigs {
         release {
             storeFile file("release.jks")
@@ -28,7 +26,6 @@ android {
             keyPassword "password"
         }
     }
-
     buildTypes {
         debug {
             minifyEnabled false
@@ -39,7 +36,6 @@ android {
             proguardFiles 'proguard-rules.pro'
         }
     }
-
     sourceSets {
 
         test {
@@ -47,7 +43,6 @@ android {
         }
 
     }
-
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
@@ -59,6 +54,8 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/NOTICE.txt'
     }
+    productFlavors {
+    }
 }
 robolectric {
     include '**/*Test.class'
@@ -66,9 +63,9 @@ robolectric {
 }
 
 dependencies {
+
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-
     //*****Views*****//
 
     //ViewAnimation
@@ -89,6 +86,7 @@ dependencies {
     //Calligraphy
     compile 'uk.co.chrisjenx:calligraphy:1.2.0'
     //*****Model*****//
+
     //Network Connection
     compile 'com.squareup.retrofit:retrofit:1.7.1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
@@ -98,6 +96,7 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
     //*****Presenter*****//
+
     //Event Handling
     compile 'com.squareup:otto:1.3.5'
     //Reactive Programming
@@ -107,43 +106,50 @@ dependencies {
     //View Injection
     compile 'com.jakewharton:butterknife:6.0.0'
     //Mocking
-    compile "org.mockito:mockito-core:1.+"
+    compile 'org.mockito:mockito-core:1.+'
     //Networking
     compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
     //*****Others*****//
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:appcompat-v7:21.+'
     compile 'com.google.android.gms:play-services:6.1.+'
-
-// Espresso
-androidTestCompile files('lib/espresso-1.1.jar', 'lib/testrunner-1.1.jar', 'lib/testrunner-runtime-1.1.jar')
-androidTestCompile 'com.google.guava:guava:14.0.1'
-androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
-androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
-androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
-androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-
-androidTestCompile('junit:junit:4.11') {
-    exclude module: 'hamcrest-core'
-}
-androidTestCompile('org.robolectric:robolectric:2.4') {
-    exclude module: 'classworlds'
-    exclude module: 'commons-logging'
-    exclude module: 'httpclient'
-    exclude module: 'maven-artifact'
-    exclude module: 'maven-artifact-manager'
-    exclude module: 'maven-error-diagnostics'
-    exclude module: 'maven-model'
-    exclude module: 'maven-project'
-    exclude module: 'maven-settings'
-    exclude module: 'plexus-container-default'
-    exclude module: 'plexus-interpolation'
-    exclude module: 'plexus-utils'
-    exclude module: 'wagon-file'
-    exclude module: 'wagon-http-lightweight'
-    exclude module: 'wagon-provider-api'
-}
-androidTestCompile 'com.squareup:fest-android:1.0.+'
+    //New relic
+    compile 'com.newrelic.agent.android:android-agent:4.120.0'
+    //Facebook
+    compile 'com.facebook.android:facebook-android-sdk:+'
+    compile files('libs/facebooklogin-sources.jar')
+    compile files('libs/algoliasearch-client-android-1.5.8.jar')
+    compile project(":facebooklogin")
+    // Espresso
+    androidTestCompile files('lib/espresso-1.1.jar')
+    androidTestCompile files('lib/testrunner-1.1.jar')
+    androidTestCompile files('lib/testrunner-runtime-1.1.jar')
+    androidTestCompile 'com.google.guava:guava:14.0.1'
+    androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
+    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
+    androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
+    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
+    androidTestCompile('junit:junit:4.11') {
+        exclude module: 'hamcrest-core'
+    }
+    androidTestCompile('org.robolectric:robolectric:2.4') {
+        exclude module: 'classworlds'
+        exclude module: 'commons-logging'
+        exclude module: 'httpclient'
+        exclude module: 'maven-artifact'
+        exclude module: 'maven-artifact-manager'
+        exclude module: 'maven-error-diagnostics'
+        exclude module: 'maven-model'
+        exclude module: 'maven-project'
+        exclude module: 'maven-settings'
+        exclude module: 'plexus-container-default'
+        exclude module: 'plexus-interpolation'
+        exclude module: 'plexus-utils'
+        exclude module: 'wagon-file'
+        exclude module: 'wagon-http-lightweight'
+        exclude module: 'wagon-provider-api'
+    }
+    androidTestCompile 'com.squareup:fest-android:1.0.+'
 }
 
 

@@ -18,4 +18,5 @@ public interface IUserModel {
 
     @Subscribe public void onResetPasswordAttempt(ResetPasswordRequestEvent event) ;
 
+    void removeReferences();
 }
