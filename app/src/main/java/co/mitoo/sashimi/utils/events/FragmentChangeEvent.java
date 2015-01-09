@@ -9,7 +9,7 @@ public class FragmentChangeEvent extends EventObject{
 
 
     private int fragmentId;
-    private boolean push;
+    private boolean push = false;
 
     public FragmentChangeEvent(Object source) {
         super(source);

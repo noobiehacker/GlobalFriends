@@ -193,13 +193,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected void popFragmentAction(){
 
         unregisterBus();
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                FragmentManager fm = getActivity().getFragmentManager();
-                fm.popBackStack();
-            }
-        }, 1000);
+        FragmentChangeEvent event = new FragmentChangeEvent(this);
+        event.setPush(false);
+        BusProvider.post(event);
         
     }
 

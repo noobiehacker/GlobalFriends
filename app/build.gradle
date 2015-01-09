@@ -8,7 +8,7 @@ android {
     buildToolsVersion "21.1.0"
     defaultConfig {
         applicationId "co.mitoo.sashimi"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -109,17 +109,17 @@ dependencies {
     compile 'org.mockito:mockito-core:1.+'
     //Networking
     compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
+    //Facebook
+    //compile 'com.facebook.android:facebook-android-sdk:3.22.0'
+    compile 'com.greenhalolabs:facebooklogin:1.0'
     //*****Others*****//
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:appcompat-v7:21.+'
     compile 'com.google.android.gms:play-services:6.1.+'
     //New relic
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
-    //Facebook
-    compile 'com.facebook.android:facebook-android-sdk:+'
-    compile files('libs/facebooklogin-sources.jar')
-    compile files('libs/algoliasearch-client-android-1.5.8.jar')
-    compile project(":facebooklogin")
+    compile files('libs/algoliasearch-client-android-1.5.9.jar')
+    compile files('libs/facebook-android-sdk-3.22.0-sources.jar')
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')

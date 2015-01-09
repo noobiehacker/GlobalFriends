@@ -2,6 +2,7 @@ package co.mitoo.sashimi.views.activities;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -11,21 +12,32 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
+import android.widget.Toast;
+
+import com.algolia.search.saas.APIClient;
+import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
+import com.newrelic.agent.android.NewRelic;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
+import co.mitoo.sashimi.models.IUserModel;
+import co.mitoo.sashimi.models.UserModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.utils.events.LocationRequestEvent;
+import co.mitoo.sashimi.views.fragments.LoginFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-import com.newrelic.agent.android.NewRelic;
 
 public class MitooActivity extends Activity  {
 
     private MitooLocationManager locationManager;
-  //  private APIClient algoliaClient;
+    private APIClient algoliaClient;
+    private Fragment topFragment;
+    private Handler handler;
+    private Runnable runnable;
+    private IUserModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,18 +102,26 @@ public class MitooActivity extends Activity  {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
 
+    private void initializeFields(){
+        model = new UserModel(getResources());
+    }
+    
     @Subscribe
     public void onFragmentChange(FragmentChangeEvent event) {
 
-        try{
-
-            changeFragment(event.getFragmentId(), event.isPush());
-
+        if(!event.isPush()){
+            popTopFragment();
         }
-        catch(Exception e){
+        else{
+            try{
 
+                changeFragment(event.getFragmentId(), event.isPush());
+
+            }
+            catch(Exception e){
+
+            }
         }
-
     }
 
     @Subscribe
@@ -133,12 +153,20 @@ public class MitooActivity extends Activity  {
         ft.setCustomAnimations(R.anim.enter, R.anim.exit);
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
+        setTopFragment(fragment);
 
     }
 
     private void popTopFragment(){
-        
-        
+
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                FragmentManager fm = getFragmentManager();
+                fm.popBackStack();
+            }
+        }, 1000);
+
     }
     
     
@@ -161,6 +189,21 @@ public class MitooActivity extends Activity  {
     }
 
     private void setUpAlgolia(){
-      //  algoliaClient = new APIClient("1ESI9QYTPJ" , "8c45f667d9649e81fa2a735dacefaa42") ;
+        algoliaClient = new APIClient("1ESI9QYTPJ" , "8c45f667d9649e81fa2a735dacefaa42") ;
+    }
+    
+    private void setTopFragment(Fragment fragment){
+        topFragment=fragment;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
+            if(topFragment instanceof LoginFragment){
+                LoginFragment loginFragment = (LoginFragment)topFragment;
+                loginFragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
     }
 }

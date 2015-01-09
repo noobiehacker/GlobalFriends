@@ -21,8 +21,6 @@ import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
  */
 public class JoinFragment extends MitooFragment {
 
-    private IUserModel model;
-
     public static JoinFragment newInstance() {
         return new JoinFragment();
     }
@@ -55,7 +53,6 @@ public class JoinFragment extends MitooFragment {
     }
 
     private void initializeFields() {
-        model = new UserModel(getActivity().getResources());
     }
 
     @Override
@@ -90,7 +87,6 @@ public class JoinFragment extends MitooFragment {
     @Subscribe
     public void onJoinResponse(UserRecieveResponseEvent event) {
         this.displayText(getString(R.string.toast_sign_up_success));
-        model.removeReferences();
         popFragmentAction();
     }
 

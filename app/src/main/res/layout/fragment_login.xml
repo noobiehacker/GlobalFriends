@@ -21,7 +21,7 @@
             android:textStyle="bold|italic"
             />
 
-        <com.facebook.widget.LoginButton
+        <Button
             android:id="@+id/facebookLoginButton"
             android:layout_width="@dimen/gray_button_width"
             android:layout_height="@dimen/gray_button_height"

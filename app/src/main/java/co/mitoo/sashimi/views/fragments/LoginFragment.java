@@ -6,8 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
+import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -23,14 +22,12 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
 import rx.Subscription;
 import rx.observables.ConnectableObservable;
-import com.greenhalolabs.facebooklogin.*;
 /**
  * Created by david on 14-11-05.
  */
 public class LoginFragment extends MitooFragment{
 
     protected Subscription subscription;
-    private IUserModel model;
     private ConnectableObservable<UserSend> observable;
 
     public static LoginFragment newInstance() {
@@ -49,7 +46,6 @@ public class LoginFragment extends MitooFragment{
     }
 
     private void initializeFields(){
-        model = new UserModel(getActivity().getResources());
     }
 
     private void initializeOnClickListeners(View view){
@@ -97,7 +93,6 @@ public class LoginFragment extends MitooFragment{
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
         displayText(getString(R.string.toast_login_success));
-        model.removeReferences();
         popFragmentAction();
     }
 
@@ -105,7 +100,7 @@ public class LoginFragment extends MitooFragment{
         String applicationId =  getResources().getString(R.string.facebook_app_id);
         ArrayList<String> permissions = new ArrayList<String>();
         permissions.add("public_profile");
-       // FacebookLoginActivity.launch(getActivity(), applicationId, permissions);
+        FacebookLoginActivity.launch(getActivity(), applicationId, permissions);
     }
 
     private void forgetPasswordAction(){
@@ -132,7 +127,7 @@ public class LoginFragment extends MitooFragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-      /*  super.onActivityResult(requestCode, resultCode, data);
+      super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
@@ -143,9 +138,8 @@ public class LoginFragment extends MitooFragment{
                 String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
                 displayText(errorMessage);
             }
-
+            popFragmentAction();
         }
-        */
     }
 
 }
