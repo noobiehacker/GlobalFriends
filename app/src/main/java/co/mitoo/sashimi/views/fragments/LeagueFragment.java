@@ -4,6 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import co.mitoo.sashimi.R;
 
 /**
@@ -73,5 +80,13 @@ public class LeagueFragment extends MitooFragment {
                 joinAsPlayerAction();
                 break;
         }
+    }
+    
+    private void setUpMap(Double latitude, Double longitude){
+        GoogleMap map = ((MapFragment) getFragmentManager()
+                .findFragmentById(R.id.googleMapFragment)).getMap();
+        LatLng latLng = new LatLng(latitude, longitude);
+        map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
+        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 }

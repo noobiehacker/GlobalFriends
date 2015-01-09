@@ -12,12 +12,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
-import android.widget.Toast;
-
 import com.algolia.search.saas.APIClient;
+import com.algolia.search.saas.Index;
+import com.algolia.search.saas.Query;
 import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.otto.Subscribe;
+import org.json.JSONObject;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.IUserModel;
@@ -34,6 +35,7 @@ public class MitooActivity extends Activity  {
 
     private MitooLocationManager locationManager;
     private APIClient algoliaClient;
+    private Index index;
     private Fragment topFragment;
     private Handler handler;
     private Runnable runnable;
@@ -190,6 +192,7 @@ public class MitooActivity extends Activity  {
 
     private void setUpAlgolia(){
         algoliaClient = new APIClient("1ESI9QYTPJ" , "8c45f667d9649e81fa2a735dacefaa42") ;
+        index = algoliaClient.initIndex("");
     }
     
     private void setTopFragment(Fragment fragment){
@@ -205,5 +208,8 @@ public class MitooActivity extends Activity  {
                 loginFragment.onActivityResult(requestCode, resultCode, data);
             }
         }
+    }
+
+    public void searchResult(Index index, Query query, JSONObject results) {
     }
 }
