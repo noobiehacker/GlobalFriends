@@ -1,17 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="android:Theme.Material.Light">
-        <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-    <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo">
-        <item name="android:windowActionBarOverlay">true</item>
-    </style>
-    <style name="TranslucentActionBar" parent="android:Widget.ActionBar">
-        <item name="android:background">@drawable/ab_transparent</item>
-    </style>
-
 
 </resources>

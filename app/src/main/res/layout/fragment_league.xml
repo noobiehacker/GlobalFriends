@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/league_image_holder"
-        layout="@layout/view_league_image"
+        layout="@layout/view_league_image_holder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/league_image_container_height"
         android:layout_alignParentTop="true"/>

@@ -1,11 +1,7 @@
 package co.mitoo.sashimi.utils.events;
 
 /**
- * Created by david on 14-12-08.
+ * Created by david on 15-01-09.
  */
-public class LocationRequestEvent extends MitooRequestEvent{
-
-    public LocationRequestEvent(){
-
-    }
+public class LocationRequestEvent {
 }

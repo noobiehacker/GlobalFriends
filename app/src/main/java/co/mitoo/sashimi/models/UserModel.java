@@ -8,9 +8,10 @@ import co.mitoo.sashimi.models.jsonPojo.send.EmailSend;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.StaticString;
+import co.mitoo.sashimi.utils.events.AuthTokenExchangeRequestEvent;
 import co.mitoo.sashimi.utils.events.JoinRequestEvent;
 import co.mitoo.sashimi.utils.events.LoginRequestEvent;
-import co.mitoo.sashimi.utils.events.MitooRequestEvent;
+import co.mitoo.sashimi.utils.events.TokenRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
 import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
@@ -20,10 +21,10 @@ import retrofit.client.Response;
 import rx.Observable;
 import rx.Subscriber;
 
-
 /**
  * Created by david on 14-11-11.
  */
+
 public class UserModel extends MitooModel implements IUserModel {
 
     public UserModel(Resources resources) {
@@ -40,40 +41,34 @@ public class UserModel extends MitooModel implements IUserModel {
         this.user = user;
     }
 
-    @Override
-    @Subscribe public void onLoginAttempt(LoginRequestEvent event){
+    @Subscribe public void onLoginRequest(LoginRequestEvent event){
 
-        if(user==null){
-            handleRequestEvent(event);
-        }else{
-            postUserRecieveResponse();
-        }
+        handleRequestEvent(event);
 
     }
 
-    @Override
-    @Subscribe public void onJoinAttempt(JoinRequestEvent event) {
+    @Subscribe public void onJoinRequest(JoinRequestEvent event) {
 
-        if(user==null){
-            handleRequestEvent(event);
-        }else{
-            postUserRecieveResponse();
-        }
+        handleRequestEvent(event);
+
     }
 
-    @Override
-    @Subscribe public void onResetPasswordAttempt(ResetPasswordRequestEvent event) {
+    @Subscribe public void onResetPasswordRequest(ResetPasswordRequestEvent event) {
 
         handleObservable(getSteakApiService().resetPassword(new EmailSend(event.getEmail())),
                 Response.class);
+    }
+
+    @Subscribe public void onAuthTokenExchangeRequest(AuthTokenExchangeRequestEvent event) {
+        
+        handleRequestEvent(event);
     }
 
     @Subscribe public void onApiFailEvent(RetrofitError event){
         BusProvider.post(new MitooActivitiesErrorEvent(event));
     }
 
-    private void handleRequestEvent(MitooRequestEvent event) {
-
+    private void handleRequestEvent(TokenRequestEvent event) {
 
         if (event instanceof JoinRequestEvent) {
 
@@ -87,6 +82,8 @@ public class UserModel extends MitooModel implements IUserModel {
             LoginRequestEvent loginRequestEvent = (LoginRequestEvent) event;
             handleObservable(getSteakApiService().createSession(loginRequestEvent.getLogin()),
                     UserRecieve.class);
+        }else if (event instanceof AuthTokenExchangeRequestEvent){
+            
         }
     }
 

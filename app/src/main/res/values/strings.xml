@@ -55,7 +55,7 @@
     <string name="join_page_text3">Email</string>
     <string name="join_page_text4">Phone</string>
     <string name="join_page_text5">Password</string>
-    <string name="join_page_text6">JOIN</string>
+    <string name="join_page_text6">IM INTERESTED</string>
 
     <!--Competition Page -->
     <string name="competition_page_text1">SELECT SPORT</string>
@@ -82,6 +82,30 @@
 
     <string name="distance_bar_left">0</string>
     <string name="distance_bar_right">100</string>
+
+    <!--User Profile Page -->
+    <string name="user_profile_page_text_1">ACCOUNT</string>
+    <string name="user_profile_page_text_2">Help and feedback</string>
+
+    <string-array name="user_profile_top_list">
+        <item>My Details</item>
+        <item>Notification</item>
+        <item>Sharing</item>
+    </string-array>
+
+    <string-array name="user_profile_bottom_list">
+        <item>Get help</item>
+        <item>Feedback</item>
+        <item>FAQ</item>
+        <item>About Mitoo</item>
+    </string-array>
+
+    <string-array name="user_profile_details_list">
+        <item>Name</item>
+        <item>Email</item>
+        <item>Phone</item>
+        <item>Password</item>
+    </string-array>
 
     <!--Error Message -->
     <string name="error_401">Incorrect credentials, please try again</string>
@@ -153,12 +177,15 @@
     <string name="place_holder_day">Friday</string>
     <string name="place_holder_level">CO-ED</string>
     <string name="place_holder_league">XOSO SPORT AND SOCIAL LEAGUE</string>
+    <string name="place_holder_player">Mitoo Player</string>
     <string name="place_holder_league_bottom">This competition is a social sports league\n
     ,we welcome players with any skill level</string>
     <string name="place_holder_join_as_player">Join as a player</string>
     <string name="place_holder_join_as_team">Join as a team</string>
     <string name="place_holder_price_two">$99.99</string>
     <string name="place_holder_sport">Football</string>
+    <string name="place_holder_dummie_text">Dummie Text</string>
+    
     <!-- Toast -->
     <string name="toast_error">An error has occured</string>
     <string name="toast_loading">Loading...</string>
@@ -170,7 +197,8 @@
     <string name="toast_sign_up_success">Sign up success</string>
     <string name="toast_network_error">Network Unavailible</string>
     <string name="toast_password_reset">Password request successfully sent, please check your email</string>
-        <!-- field checks -->
+    
+    <!-- field checks -->
     <string name="toast_username_empty">Username can not be empty</string>
     <string name="toast_email_empty">Email can not be empty</string>
     <string name="toast_password_empty">Password can not be empty</string>
@@ -188,9 +216,9 @@
     <string name="static_text_or">Or</string>
     <string name="static_text_from">From</string>
 
-
     <!--Misc -->
-
+    <string name="mitoo_copyright_location">LONDON - SAN FRANCISCO</string>
+    <string name="mitoo_copyright_version">Version 0.2</string>
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>
 </resources>

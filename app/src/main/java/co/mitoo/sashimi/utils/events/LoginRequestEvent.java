@@ -5,7 +5,7 @@ import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
 /**
  * Created by david on 14-11-26.
  */
-public class LoginRequestEvent  extends MitooRequestEvent{
+public class LoginRequestEvent  extends TokenRequestEvent {
 
     private UserSend user;
 
@@ -14,6 +14,7 @@ public class LoginRequestEvent  extends MitooRequestEvent{
     }
 
     public UserSend getLogin() {
+
         return user;
     }
 }

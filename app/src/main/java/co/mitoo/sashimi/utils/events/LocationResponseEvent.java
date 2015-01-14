@@ -3,7 +3,7 @@ package co.mitoo.sashimi.utils.events;
 import android.location.Location;
 
 /**
- * Created by david on 14-12-08.
+ * Created by david on 15-01-09.
  */
 public class LocationResponseEvent {
 

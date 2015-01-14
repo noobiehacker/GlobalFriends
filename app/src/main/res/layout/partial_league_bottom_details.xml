@@ -39,6 +39,7 @@ android:orientation="vertical">
         android:id="@+id/googleMapFragment"
         android:layout_below="@+id/locationLine"
         android:layout_width="@dimen/gray_button_width"
+        android:layout_centerHorizontal="true"
         android:layout_height="@dimen/google_map_place_holder"
         android:layout_marginTop="@dimen/spacing_normal"
         class="com.google.android.gms.maps.MapFragment" />

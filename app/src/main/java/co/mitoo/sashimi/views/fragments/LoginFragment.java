@@ -12,10 +12,10 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.IUserModel;
-import co.mitoo.sashimi.models.UserModel;
 import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.AuthTokenExchangeRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LoginRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -93,7 +93,8 @@ public class LoginFragment extends MitooFragment{
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
         displayText(getString(R.string.toast_login_success));
-        popFragmentAction();
+        FragmentChangeEvent fragmentChangeEvent = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.SWAP, R.id.fragment_user_profile);
+        BusProvider.post(fragmentChangeEvent);
     }
 
     private void facebookLoginButtonAction(){
@@ -104,8 +105,7 @@ public class LoginFragment extends MitooFragment{
     }
 
     private void forgetPasswordAction(){
-        FragmentChangeEvent event = new FragmentChangeEvent(this, R.id.fragment_reset_password);
-        event.setPush(true);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_reset_password);
         BusProvider.post(event);
     }
 
@@ -131,15 +131,19 @@ public class LoginFragment extends MitooFragment{
         if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
-                String accessToken = data.getStringExtra(FacebookLoginActivity.EXTRA_FACEBOOK_ACCESS_TOKEN);
-                displayText(accessToken);
+                String faceBookToken = data.getStringExtra(FacebookLoginActivity.EXTRA_FACEBOOK_ACCESS_TOKEN);
+                requestAuthToken(faceBookToken);
             }
             else {
                 String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
                 displayText(errorMessage);
             }
-            popFragmentAction();
         }
+    }
+    
+    private void requestAuthToken(String faceBookToken){
+        
+        BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
     }
 
 }

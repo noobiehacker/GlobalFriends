@@ -5,9 +5,9 @@
     android:descendantFocusability="blocksDescendants">
 
     <ImageView
+        android:id="@+id/sportsListThumbnail"
         android:layout_width="@dimen/spacing_large"
         android:layout_height="@dimen/spacing_large"
-        android:id="@+id/sportsListThumbnail"
         android:layout_centerVertical="true"
         android:padding="@dimen/spacing_normal"
         android:focusable="false"

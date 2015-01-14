@@ -1,58 +1,75 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg3"
+    android:background="@color/gray_light_two"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/progress_container"
+    <include android:id="@+id/app_bar" layout="@layout/app_bar" />
+
+    <ListView
+        android:id="@+id/leagueListView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/app_bar"
+        android:descendantFocusability="blocksDescendants" />
+<!-- Filters not needed for version 1
+    //Sport Selection Frame
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:paddingTop="@dimen/header">
 
-        <ProgressBar
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            style="?android:attr/progressBarStyleHorizontal"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/progress_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:text=""
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/content_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-        <TextView
-            android:id="@android:id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:padding="8dp"
-            android:shadowColor="#aa00"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:shadowRadius="4"
-            android:textColor="#a00"
-            android:textSize="18sp"
-            android:textStyle="bold|italic" />
+            <include
+                layout="@layout/partial_sport_selection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
     </FrameLayout>
 
-</RelativeLayout>
+    //Filter Frame with button
 
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/header">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/filterContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/filterSelectionContainer"
+                layout="@layout/partial_general_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                />
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/filterButtonBottom"
+                android:layout_width="@dimen/circle_button_diameter"
+                android:layout_height="@dimen/circle_button_diameter"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="@dimen/spacing_smallest"
+                android:layout_marginRight="@dimen/spacing_smallest"
+                android:src="@drawable/ic_filter_black"
+                app:cb_color="@color/gray_light_one"
+                app:cb_pressedRingWidth="8dip" />
+
+        </RelativeLayout>
+    </FrameLayout>
+-->
+</RelativeLayout>

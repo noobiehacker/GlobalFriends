@@ -29,6 +29,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+
         }
         release {
             signingConfig signingConfigs.release
@@ -85,6 +86,10 @@ dependencies {
     compile 'com.github.markushi:circlebutton:1.1'
     //Calligraphy
     compile 'uk.co.chrisjenx:calligraphy:1.2.0'
+    //Circle Profile Image
+    compile 'de.hdodenhof:circleimageview:1.2.1'
+    //Fading Action Bar
+    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
     //*****Model*****//
 
     //Network Connection

@@ -1,22 +1,22 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
+import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 
 /**
  * Created by david on 14-12-19.
  */
-public class LeagueFragment extends MitooFragment {
+
+public class LeagueFragment extends MitooLocationFragment {
 
     public static LeagueFragment newInstance() {
         LeagueFragment fragment = new LeagueFragment();
@@ -27,7 +27,7 @@ public class LeagueFragment extends MitooFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_league,
-                container, false);
+                        container, false);
         initializeViewElements(view);
         initializeFields();
         return view;
@@ -46,7 +46,15 @@ public class LeagueFragment extends MitooFragment {
     @Override
     public void onStop() {
         super.onStop();
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        MapFragment f = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.googleMapFragment);
+        if (f != null)
+            getFragmentManager().beginTransaction().remove(f).commit();
     }
 
     private void joinAsTeamAction(){
@@ -58,6 +66,7 @@ public class LeagueFragment extends MitooFragment {
     }
 
     private void initializeFields(){
+        setUpMap();
     }
 
     private void initializeViewElements(View view){
@@ -82,11 +91,19 @@ public class LeagueFragment extends MitooFragment {
         }
     }
     
-    private void setUpMap(Double latitude, Double longitude){
-        GoogleMap map = ((MapFragment) getFragmentManager()
-                .findFragmentById(R.id.googleMapFragment)).getMap();
-        LatLng latLng = new LatLng(latitude, longitude);
-        map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
-        map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    private void setUpMap(){
+        if(getLocation()!=null){
+            LatLng latLng = new LatLng(getLocation().getLatitude() , getLocation().getLongitude());
+            GoogleMap map = ((MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.googleMapFragment)).getMap();
+            map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
+            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        }
     }
+
+    @Subscribe
+    public void recieveLocation(LocationResponseEvent event){
+        setLocation(event.getLocation());
+    }
+
 }

@@ -5,11 +5,10 @@ import android.view.*;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.views.widgets.MultiTextSliderView;
 
 /**
@@ -67,7 +66,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     }
 
     private void searchButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_competition);
+        fireFragmentChangeAction(R.id.fragment_search);
     }
 
     private void loginButtonAction(){
@@ -134,9 +133,9 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     private List<sliderContent> createSliderContents() {
         List<sliderContent> contents = new ArrayList<sliderContent>();
-        contents.add(new sliderContent(R.drawable.bg1, R.drawable.ic_search_white, R.string.landing_page_slider_text1 , R.string.landing_page_slider_text2, R.string.landing_page_slider_text3));
-        contents.add(new sliderContent(R.drawable.bg2, R.drawable.ic_account_circle_white, R.string.landing_page_slider_text4 , R.string.landing_page_slider_text5, R.string.landing_page_slider_text6));
-        contents.add(new sliderContent(R.drawable.bg3, R.drawable.ic_alarm_white, R.string.landing_page_slider_text7 , R.string.landing_page_slider_text8, R.string.landing_page_slider_text9));
+        contents.add(new sliderContent(R.drawable.bg1, R.drawable.home_1_assets, R.string.landing_page_slider_text1 , R.string.landing_page_slider_text2, R.string.landing_page_slider_text3));
+        contents.add(new sliderContent(R.drawable.bg2, R.drawable.home_2_assets, R.string.landing_page_slider_text4 , R.string.landing_page_slider_text5, R.string.landing_page_slider_text6));
+        contents.add(new sliderContent(R.drawable.bg3, R.drawable.home_3_assets, R.string.landing_page_slider_text7 , R.string.landing_page_slider_text8, R.string.landing_page_slider_text9));
         return contents;
     }
 

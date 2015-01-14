@@ -1,14 +1,14 @@
 package co.mitoo.sashimi.views.activities;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
@@ -19,6 +19,7 @@ import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.otto.Subscribe;
 import org.json.JSONObject;
+import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.IUserModel;
@@ -26,12 +27,12 @@ import co.mitoo.sashimi.models.UserModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
-import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import co.mitoo.sashimi.views.fragments.LoginFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MitooActivity extends Activity  {
+public class MitooActivity extends ActionBarActivity {
 
     private MitooLocationManager locationManager;
     private APIClient algoliaClient;
@@ -40,19 +41,21 @@ public class MitooActivity extends Activity  {
     private Handler handler;
     private Runnable runnable;
     private IUserModel model;
+    private Stack<Fragment> fragmentStack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initializeFields();
         BusProvider.register(this);
         super.onCreate(savedInstanceState);
-        hideActionBar();
         locationManager = new MitooLocationManager(this);
         setContentView(R.layout.activity_mitoo);
-        changeFragment(R.id.fragment_splash, false);
+        swapFragment(R.id.fragment_splash, false);
         Handler h = new Handler();
         h.postDelayed(new Runnable() {
             public void run() {
-                MitooActivity.this.changeFragment(R.id.fragment_landing, false);
+                getFragmentManager().popBackStackImmediate();
+                swapFragment(R.id.fragment_landing, true);
             }
         }, 1000);
         setUpNewRelic();
@@ -106,28 +109,33 @@ public class MitooActivity extends Activity  {
 
     private void initializeFields(){
         model = new UserModel(getResources());
+        fragmentStack= new Stack<Fragment>();
     }
     
     @Subscribe
     public void onFragmentChange(FragmentChangeEvent event) {
 
-        if(!event.isPush()){
-            popTopFragment();
-        }
-        else{
-            try{
-
-                changeFragment(event.getFragmentId(), event.isPush());
-
-            }
-            catch(Exception e){
-
-            }
+        switch(event.getTransition()) {
+            case PUSH:
+                changeFragment(event.getFragmentId(), true);
+                break;
+            case SWAP:
+                changeFragment(event.getFragmentId(), false);
+                break;
+            case POP:
+                handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    public void run() {
+                        MitooActivity.this.popFragment();
+                    }
+                }, 1000);
+                fragmentStack.pop();
+                break;
         }
     }
 
     @Subscribe
-    public void locationRequest(LocationRequestEvent event){
+    public void locationRequest(GpsRequestEvent event){
 
         if(locationManager.LocationServicesIsOn()){
             locationManager.locationRequest();
@@ -142,6 +150,11 @@ public class MitooActivity extends Activity  {
         startActivity(intent);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
     public boolean LocationServicesIsOn(){
         return locationManager.LocationServicesIsOn();
     }
@@ -150,40 +163,62 @@ public class MitooActivity extends Activity  {
 
         Fragment fragment = FragmentFactory.getInstance().buildFragment(fragmentId);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(push)
+        if(push){
+            ft.setCustomAnimations(R.anim.enter, R.anim.exit);
             ft.addToBackStack(null);
+        }else{
+            if(fragmentStack.size()>0)
+                fragmentStack.pop();
+        }
+        ft.replace(R.id.content_frame, fragment);
+        fragmentStack.push(fragment);
+        ft.commit();
+
+    }
+
+    private void pushFragment(int fragmentId){
+
+        Fragment fragment = FragmentFactory.getInstance().buildFragment(fragmentId);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.enter, R.anim.exit);
+        ft.addToBackStack(null);
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
-        setTopFragment(fragment);
+        fragmentStack.push(fragment);
 
     }
 
-    private void popTopFragment(){
+    private void popFragment(){
 
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                FragmentManager fm = getFragmentManager();
-                fm.popBackStack();
-            }
-        }, 1000);
-
+        getFragmentManager().popBackStack();
+        fragmentStack.pop();
     }
-    
-    
-    private void hideActionBar(){
-        ActionBar actionBar = getActionBar();
-        actionBar.hide();
+
+    private void swapFragment(int fragmentId , boolean animation){
+
+        Fragment fragment = FragmentFactory.getInstance().buildFragment(fragmentId);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if(animation){
+            ft.setCustomAnimations(R.anim.enter, R.anim.exit);
+        }
+        ft.replace(R.id.content_frame, fragment);
+        ft.commit();
+        if(fragmentStack.size()>0)
+            fragmentStack.pop();
+        fragmentStack.push(fragment);
+
     }
 
     public boolean NetWorkConnectionIsOn() {
+        
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+        
     }
     
     private void setUpNewRelic(){
+        
         NewRelic.withApplicationToken(
                 "AA122023d85b82c7e121b4e55f6d8b0a524f5132d2"
         ).start(this.getApplication());
@@ -191,19 +226,26 @@ public class MitooActivity extends Activity  {
     }
 
     private void setUpAlgolia(){
+        
         algoliaClient = new APIClient("1ESI9QYTPJ" , "8c45f667d9649e81fa2a735dacefaa42") ;
         index = algoliaClient.initIndex("");
+        
     }
-    
-    private void setTopFragment(Fragment fragment){
-        topFragment=fragment;
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.moveTaskToBack(true);
+        } else {
+            popFragment();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
-            if(topFragment instanceof LoginFragment){
+            if(fragmentStack.peek() instanceof LoginFragment){
                 LoginFragment loginFragment = (LoginFragment)topFragment;
                 loginFragment.onActivityResult(requestCode, resultCode, data);
             }
@@ -212,4 +254,5 @@ public class MitooActivity extends Activity  {
 
     public void searchResult(Index index, Query query, JSONObject results) {
     }
+
 }

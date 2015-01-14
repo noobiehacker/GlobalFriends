@@ -44,7 +44,7 @@ public class LoginModelTest extends MitooPojoTest{
         mockApi = new ServiceBuilder().setEndPoint("http://www.mockendpoint.com")
                                       .create(SteakApi.class , new MockSteakApiService(200));
         model.setSteakApiService(mockApi);
-        model.onLoginAttempt(new LoginRequestEvent("tim@mitoo.com", "password"));
+        model.onLoginRequest(new LoginRequestEvent("tim@mitoo.com", "password"));
         signal.await();
         assertNotNull(model.getUser());
         assertNotNull(this.event);
@@ -65,7 +65,7 @@ public class LoginModelTest extends MitooPojoTest{
         signal = new CountDownLatch(1);
         mockApi = new ServiceBuilder().create(SteakApi.class , new MockSteakApiService(200));
         model.setSteakApiService(mockApi);
-        model.onLoginAttempt(new LoginRequestEvent("tim@mitoo.com", "password"));
+        model.onLoginRequest(new LoginRequestEvent("tim@mitoo.com", "password"));
         try{
             signal.await();
         }catch(Exception e){

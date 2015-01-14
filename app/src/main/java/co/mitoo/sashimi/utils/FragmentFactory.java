@@ -32,11 +32,11 @@ public class FragmentFactory {
             case R.id.fragment_reset_password:
                 return ResetPasswordFragment.newInstance();
             case R.id.fragment_search:
-                return CompetitionFragment.newInstance();
-            case R.id.fragment_competition:
-                return CompetitionFragment.newInstance();
+                return SearchFragment.newInstance();
             case R.id.fragment_league:
                 return LeagueFragment.newInstance();
+            case R.id.fragment_user_profile:
+                return UserProfileFragment.newInstance();
             default:
                 return SplashScreenFragment.newInstance();
         }

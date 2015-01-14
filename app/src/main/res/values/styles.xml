@@ -1,13 +1,5 @@
 <resources>
     <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo">
-        <item name="android:windowActionBarOverlay">true</item>
-    </style>
-    <style name="TranslucentActionBar" parent="android:Widget.ActionBar">
-        <item name="android:background">@drawable/ab_transparent</item>
-    </style>
-
     <style name="darkGrayButton">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/rounded_gray_dark_solid</item>
@@ -136,7 +128,6 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textStyle">bold</item>
     </style>
-
 
     <style name="grayToast">
         <item name="android:textColor">@color/white</item>

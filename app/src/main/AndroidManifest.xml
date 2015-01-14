@@ -5,11 +5,14 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".views.activities.MitooActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.TranslucentActionBar" >
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,6 +25,15 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
         <activity android:name="com.greenhalolabs.facebooklogin.FacebookLoginActivity" />
+        <!-- Google Map API -->
+        <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
+
+        <!-- Debug Map API Key -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0"/>
     </application>
 
     <!-- user permissions -->
@@ -32,15 +44,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!-- Google Map API -->
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"/>
-    
-    <!-- Debug Key -->
-    <meta-data
-        android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyAGG1bC7xc5tdVzK2GzpJTwwRP-7hjFrL0"/>
+./dbuild.sh
 
     <!-- Testing -->
     <instrumentation

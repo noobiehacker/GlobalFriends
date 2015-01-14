@@ -11,12 +11,12 @@ import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
  */
 public interface IUserModel {
     @Subscribe
-    public void onLoginAttempt(LoginRequestEvent event);
+    public void onLoginRequest(LoginRequestEvent event);
 
     @Subscribe
-    public void onJoinAttempt(JoinRequestEvent event);
+    public void onJoinRequest(JoinRequestEvent event);
 
-    @Subscribe public void onResetPasswordAttempt(ResetPasswordRequestEvent event) ;
+    @Subscribe public void onResetPasswordRequest(ResetPasswordRequestEvent event) ;
 
     void removeReferences();
 }

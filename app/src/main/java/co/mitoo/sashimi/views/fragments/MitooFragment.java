@@ -6,13 +6,17 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,13 +26,16 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import co.mitoo.sashimi.views.adapters.UserProfileInfoAdapter;
 import retrofit.RetrofitError;
 
 /**
@@ -152,6 +159,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     //Animation
+    
+/*    
+Taken out filters for release one
     protected void slideUpView(int id) {
         View view = getActivity().findViewById(id);
         view.setVisibility(View.VISIBLE);
@@ -182,19 +192,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 .duration(700)
                 .playOn(view);
         view.setVisibility(View.VISIBLE);
-    }
+    }*/
 
     protected void fireFragmentChangeAction(int fragmentId) {
-        FragmentChangeEvent event = new FragmentChangeEvent(this, fragmentId);
-        event.setPush(true);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH , fragmentId );
         BusProvider.post(event);
     }
     
     protected void popFragmentAction(){
 
         unregisterBus();
-        FragmentChangeEvent event = new FragmentChangeEvent(this);
-        event.setPush(false);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.POP , 0 );
         BusProvider.post(event);
         
     }
@@ -260,6 +268,24 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
         
     }
+
+    public List<String> buiildStringList(int arrayID){
+
+        List<String> returnList = new ArrayList<String>();
+        String[] arrayOfString = getResources().getStringArray(arrayID);
+        for(String item : arrayOfString){
+            returnList.add(item);
+        }
+        return returnList;
+
+    }
+    
+    protected <T> void setUpListView(ArrayAdapter<T> adapter, ListView listView,AdapterView.OnItemClickListener listener){
+        
+        listView.setOnItemClickListener(listener);
+        listView.setAdapter(adapter);
+        
+    }
     
     public void removeToast() {
 
@@ -282,6 +308,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         handleCallBacks();
         removeToast();
         unregisterBus();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+            Activity a = getActivity();
+            if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
 }

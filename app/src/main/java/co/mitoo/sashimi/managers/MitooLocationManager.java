@@ -12,7 +12,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.LocationResponseEvent;
+import co.mitoo.sashimi.utils.events.GpsResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.functions.Action1;
@@ -103,6 +103,6 @@ public class MitooLocationManager implements
     }
 
     private void postLocationResponse(Location location){
-        BusProvider.post(new LocationResponseEvent(location));
+        BusProvider.post(new GpsResponseEvent(location));
     }
 }
