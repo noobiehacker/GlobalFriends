@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_social_league"
+    android:background="@color/gray_dark_four"
     >
     <RelativeLayout
         android:id="@+id/container"
@@ -13,13 +13,13 @@
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/userProfileImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circle_image_diameter"
+            android:layout_height="@dimen/circle_image_diameter"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/bg_social_league"
+            android:src="@drawable/place_holder_profile"
             android:focusable="false"
-            app:border_color="#FF000000"
+            app:border_color="@color/black"
             app:border_width="2dp"
             />
 
@@ -28,11 +28,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/userProfileImage"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/place_holder_league_name"
+            android:layout_marginTop="@dimen/spacing_smallest"
+            android:text="@string/place_holder_player_name"
             android:textIsSelectable="false"
             android:layout_centerHorizontal="true"
-            style="@style/whiteMediumText"/>
+            android:textStyle="bold"
+            style="@style/whiteBigText"/>
 
     </RelativeLayout>
 

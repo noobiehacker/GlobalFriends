@@ -88,7 +88,6 @@
     <string name="user_profile_page_text_1">ACCOUNT</string>
     <string name="user_profile_page_text_2">Help and feedback</string>
 
-    
     <!--League Page -->
     <string name="league_page_subtitle_1">DETAILS</string>
     <string name="league_page_subtitle_2">WANT TO JOIN?</string>
@@ -188,7 +187,7 @@
     <string name="place_holder_level">CO-ED</string>
     <string name="place_holder_league_name">PORTLAND SOCCERPLEEX</string>
     <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
-    <string name="place_holder_player">Mitoo Player</string>
+    <string name="place_holder_player_name">Mitoo Valuable Player - MVP</string>
     <string name="place_holder_league_bottom">This competition is a social sports league\n
     ,we welcome players with any skill level</string>
     <string name="place_holder_price_two">$99.99</string>
@@ -277,10 +276,12 @@
     <string name="font_italic">italic</string>
     
     <!--API Key-->
-    <string name="API_key_new_relic">italic</string>
+    <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
     <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0"</string>
-    <string name="API_key_algolia">italic</string>
+    <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
     <string name="API_key_facebook">1524244734496711</string>
+
+    <string name="App_Id_algolia">1ESI9QYTPJ</string>
     
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>

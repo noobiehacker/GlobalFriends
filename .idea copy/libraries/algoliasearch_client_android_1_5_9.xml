@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="algoliasearch-client-android-1.5.9">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/algoliasearch-client-android-1.5.9.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

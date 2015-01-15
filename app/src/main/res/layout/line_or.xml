@@ -19,10 +19,9 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="@string/static_text_or"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_normal"
         android:textStyle="bold|italic"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        style="@style/whiteMediumText"/>
 
     <View
         android:layout_height="1px"

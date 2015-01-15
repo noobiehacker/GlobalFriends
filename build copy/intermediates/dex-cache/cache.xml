@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.daimajia.slider/library/1.1.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="8dfe9b99b0ac3a701cc663a8b78fb34f646c86a3">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-a368f5f4726648758d535c54d69d990be004d8cb.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/io.reactivex/rxandroid/0.23.0/9c437ce12df38b57fde4e3bb38ef6859f85ff737/rxandroid-0.23.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="9c437ce12df38b57fde4e3bb38ef6859f85ff737">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/rxandroid-0.23.0-2d53ba685a3dbc2a15aec907e5effbca789f84cb.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.7.1/168a878946d665200edc733ac715b1264a6cd7b6/retrofit-1.7.1.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="168a878946d665200edc733ac715b1264a6cd7b6">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/retrofit-1.7.1-30c88ab26ed1adbf3a5a52eaa82e1298fe1b2332.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.4.5/c69c0cb613128c69d84a6a0304ddb9fce82e8242/jackson-databind-2.4.5.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="c69c0cb613128c69d84a6a0304ddb9fce82e8242">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/jackson-databind-2.4.5-10f4d7bcfddadb0942bcd57e1f6d38672595e597.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.github.manuelpeinado.fadingactionbar/fadingactionbar/3.1.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="1db28e119b406a5fe367b63fb1be083d5dfe298a">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-d23eb7f5676ac97402d40a9d138c33fe8d1b4afc.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-4a59de3220c46d2724b00994c5d1d7bb8294cc39.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/library-2.4.0-7fcb81c3cfeb0187b76ee1ce41aa80d25a2301d8.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-89ff8e6f157c3cf8277a3013e7f449898aff3dfd.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.github.manuelpeinado.glassactionbar/glassactionbar/0.3.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="018e6aaefbe75797b879b21274fb2e022c15882e">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-84289d77c3b3ad24920e22c74316108f50b075ad.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.daimajia.androidanimations/library/1.1.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="85ccb558dc8258ecf4f0a19e97a3114ec2c64cb4">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-8716a163fef55f8ebcaa8f48ded423eb2865a1ef.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.0.0/2534c458682c73f5b9871131ab3098d3f987ca3/okio-1.0.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/okio-1.0.0-a0f190dc55ef7dcf8658a0e02e4ae1c3a9d60258.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.github.markushi/circlebutton/1.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="ebe3b1f14fa79ba3cd1588acda4e6517ee9fe611">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-b8cb67ab65f4df6b64480acc2bc2c6f1007f7be2.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit-mock/1.6.1/30543d69ad3557c92c3104e80eeb8dd4516a3945/retrofit-mock-1.6.1.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="30543d69ad3557c92c3104e80eeb8dd4516a3945">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/retrofit-mock-1.6.1-c0ff0ad489d3c9a89a24793cda2bd034589e34c2.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/gson-2.3-94c577fcf5ea85286f91bd6abc3686741f09df90.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/uk.co.chrisjenx/calligraphy/1.2.0/291c60026ceeda3d4da8daac28b0517e4dc3d159/calligraphy-1.2.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="291c60026ceeda3d4da8daac28b0517e4dc3d159">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/calligraphy-1.2.0-7046d31ac7f209e425719f613f87d9cdd141666d.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/libs/facebook-android-sdk-3.22.0-sources.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="46e947b9d7cf6d75d9aa90383d0c0fc7212532a2">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/facebook-android-sdk-3.22.0-sources-68f027211e3cbc84d46fead878fb107737a51b59.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.71/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="0f6d5c1ef2e982c3b7858408e3df389cf5d202da">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-1bec037e50de8b5faa6eed0607655e0b52c56987.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.0.0/4c8d1536dba3812cc1592090dc20c47a4ed3c35e/okhttp-2.0.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="4c8d1536dba3812cc1592090dc20c47a4ed3c35e">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/okhttp-2.0.0-857e865e776e9b66f2b5f5d169cd1f3efb01d582.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-de24f154123e462c8e4b019bf7073b94f1d9ee27.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.0.0-rc.10/fa4f149b1e7dd6ae6b8aac07df5df5bee2ef9a6f/rxjava-1.0.0-rc.10.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="fa4f149b1e7dd6ae6b8aac07df5df5bee2ef9a6f">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/rxjava-1.0.0-rc.10-cf5d978f49b839a40443249c09f6b43dde4870c8.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.4.5/b400d47efaf8ab612c03b904ae5bf26c6706ade6/jackson-annotations-2.4.5.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="b400d47efaf8ab612c03b904ae5bf26c6706ade6">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/jackson-annotations-2.4.5-88d22faa30000037e39060607c58a1300078f69c.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/android-sdk-macosx/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-06ca2c90c4c4df3be40de1b56766832e1729cb11.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/1.2.1/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="4b868b833b0887aa48c4e581558eef4f1196f6a2">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-df1fba74147b5987144d8fa65be6150114d303e6.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup/otto/1.3.5/7941cd2c2c8ec006800d75c35f8a9dacf892ab93/otto-1.3.5.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="7941cd2c2c8ec006800d75c35f8a9dacf892ab93">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/otto-1.3.5-618ff7c08ce6db53de3373bc843f3648d8ce6105.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.newrelic.agent.android/android-agent/4.120.0/37e9769c21827e9b8c4c3a686f8264fda9c41075/android-agent-4.120.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="37e9769c21827e9b8c4c3a686f8264fda9c41075">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/android-agent-4.120.0-d0c0c4dd7203eb9314058526f11103bd1b0922aa.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp-urlconnection/2.0.0/afe8399d352713b66e597e9670c741d1e60ae923/okhttp-urlconnection-2.0.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="afe8399d352713b66e597e9670c741d1e60ae923">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-2.0.0-edea459701473155f4597a2c069cc73025f5570a.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.daimajia.easing/library/1.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="e88a9ed27f98f8c0701d03d5553ce6111ca34a5b">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-4ba639850283422cad465c24ea646b15f27a4a5b.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/org.objenesis/objenesis/2.1/87c0ea803b69252868d09308b4618f766f135a96/objenesis-2.1.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="87c0ea803b69252868d09308b4618f766f135a96">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/objenesis-2.1-ce903e6a166b4e2f0b6ee2e66850735d581426ca.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/libs/algoliasearch-client-android-1.5.9.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="4d689f7558fec0ad018d8c46f46d95f8d80cc73f">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/algoliasearch-client-android-1.5.9-64ec8a787819bb8b6d20c1b5e691b287774b16a3.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.1/860340562250678d1a344907ac75754e259cdb14/hamcrest-core-1.1.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="860340562250678d1a344907ac75754e259cdb14">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/hamcrest-core-1.1-e48d21d68418036132543e64e37a3b11ebf66ea6.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.4.0/f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2/picasso-2.4.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/picasso-2.4.0-f8b871070171a3fd8d52d499ecba0dd54daaa3a1.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/pl.charmas.android/android-reactive-location/0.2/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="29d4b7508ef83291723f20822fc01d397eb08363">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-9b4d0946001e09c61fc8725026be9cd8cfc4b9a7.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/org.mockito/mockito-core/1.10.19/e8546f5bef4e061d8dd73895b4e8f40e3fe6effe/mockito-core-1.10.19.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="e8546f5bef4e061d8dd73895b4e8f40e3fe6effe">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/mockito-core-1.10.19-bd046acfd6f1ebb82b66182ea2a9e101243ab714.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.4.5/6fb96728ee26edb19fe329d94f3bd4df1a97652a/jackson-core-2.4.5.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="6fb96728ee26edb19fe329d94f3bd4df1a97652a">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/jackson-core-2.4.5-8b3e749d815e268416f872e81d9c7ee09b9aebe2.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.github.johnkil.android-progressfragment/progressfragment-native/1.4.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="2554370e7c83a0aaf8f216f479078bc98026c1ef">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-8ead87cb3a14e609082f8c8772013fd2dd166046.jar" />
+    </item>
+    <item
+        jar="/Users/david/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/6.0.0/3a10b25b6820e19102e118711afe6a66c0bae123/butterknife-6.0.0.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="3a10b25b6820e19102e118711afe6a66c0bae123">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/butterknife-6.0.0-4733ab676d876946a51f11607a20bd8c8f037101.jar" />
+    </item>
+    <item
+        jar="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/exploded-aar/com.greenhalolabs/facebooklogin/1.0/classes.jar"
+        jumboMode="false"
+        revision="21.1.0"
+        sha1="5e83627b6098907f3b1d0a673bec1a27019908a3">
+        <dex dex="/Users/david/Documents/Development/source/sashimi/app/build/intermediates/pre-dexed/debug/classes-7becbb366de2b470af17c223fa47f48351334086.jar" />
+    </item>
+
+</items>

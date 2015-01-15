@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="facebooklogin-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.greenhalolabs/facebooklogin/1.0/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.greenhalolabs/facebooklogin/1.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

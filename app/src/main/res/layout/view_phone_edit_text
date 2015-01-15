@@ -13,10 +13,9 @@
     android:layout_height="wrap_content"
     android:inputType="textPersonName"
     android:text="@string/northAmericaAreaCode"
-    android:textColor="@color/black"
-    android:textSize="@dimen/font_normal"
     android:paddingLeft="@dimen/spacing_small"
-    android:layout_centerVertical="true"/>
+    android:layout_centerVertical="true"
+    style="@style/blackMediumText"/>
 
     <EditText
         android:id="@+id/phoneInput"

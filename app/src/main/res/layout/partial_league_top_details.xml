@@ -15,7 +15,8 @@
         android:textSize="@dimen/font_normal"
         android:text="@string/league_page_subtitle_1"
         android:layout_centerHorizontal="true"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        style="@style/blackMediumText"/>
 
     <TextView
         android:id="@+id/league_join_details"
@@ -27,6 +28,7 @@
         android:text="@string/league_page_text_1"
         android:layout_marginTop="@dimen/spacing_small"
         android:gravity="center"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        style="@style/grayDarkMediumText"/>
     
 </RelativeLayout>
