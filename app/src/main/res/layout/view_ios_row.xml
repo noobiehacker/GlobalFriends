@@ -11,7 +11,8 @@
         android:text="@string/place_holder_dummie_text"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true" 
+        style="@style/grayDarkBigText"/>
 
     <ImageView
         android:id="@+id/rightArrowButtonView"

@@ -18,96 +18,6 @@
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
 
-    <style name="whiteEditText">
-        <item name="android:textColor">@color/gray_dark_three</item>
-        <item name="android:textColorHint">@color/gray_light_three</item>
-        <item name="android:background">@drawable/rounded_white_solid</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:paddingLeft">@dimen/spacing_small</item>
-        <item name="android:paddingRight">@dimen/spacing_normal</item>
-    </style>
-
-    <style name="whiteLayout">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:background">@drawable/rounded_white_solid</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-    </style>
-
-    <style name="blackMediumText">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-    </style>
-
-    <style name="blackBigText">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/font_big</item>
-    </style>
-
-    <style name="whiteSmallText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-    
-    <style name="whiteMediumText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-    </style>
-
-    <style name="whiteBigText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_big</item>
-    </style>
-
-    <style name="grayDarkBigText">
-        <item name="android:textColor">@color/gray_dark_three</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-    </style>
-
-    <style name="grayLightSmallText">
-        <item name="android:textColor">@color/gray_light_three</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-
-    <style name="grayLightMediumText">
-        <item name="android:textColor">@color/gray_light_three</item>
-        <item name="android:textSize">@dimen/font_normal</item>
-    </style>
-
-    <style name="grayItalicText">
-        <item name="android:textColor">@color/gray_light_two</item>
-        <item name="android:textSize">@dimen/font_big</item>
-        <item name="android:textStyle">italic</item>
-    </style>
-
-    <style name="greenSmallText">
-        <item name="android:textColor">@color/green_light</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-
-    <style name="blueSmallText">
-        <item name="android:textColor">@color/blue_sky_light</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-
-    <style name="grayLightBorderedSmallText">
-        <item name="android:textColor">@color/gray_light_three</item>
-        <item name="android:background">@drawable/rounded_gray_light_holo</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-
-    <style name="greenBorderedSmallText">
-        <item name="android:textColor">@color/green_light</item>
-        <item name="android:background">@drawable/rounded_green_light_holo</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-
-    <style name="blueBorderedSmallText">
-        <item name="android:textColor">@color/blue_sky_light</item>
-        <item name="android:background">@drawable/rounded_blue_sky_light_holo</item>
-        <item name="android:textSize">@dimen/font_small</item>
-    </style>
-
     <style name="transparentButton">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/rounded_transparent_solid</item>
@@ -117,6 +27,11 @@
     <style name="noBackgroundButton">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+    <style name="whiteLayout">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/rounded_white_solid</item>
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
 

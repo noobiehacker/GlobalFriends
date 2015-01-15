@@ -9,7 +9,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
@@ -220,16 +219,15 @@ public class MitooActivity extends Activity {
     
     private void setUpNewRelic(){
         
-        NewRelic.withApplicationToken(
-                "AA122023d85b82c7e121b4e55f6d8b0a524f5132d2"
+        NewRelic.withApplicationToken(getString(R.string.API_key_new_relic)
         ).start(this.getApplication());
         
     }
 
     private void setUpAlgolia(){
         
-        algoliaClient = new APIClient("1ESI9QYTPJ" , "8c45f667d9649e81fa2a735dacefaa42") ;
-        index = algoliaClient.initIndex("");
+        algoliaClient = new APIClient(getString(R.string.App_Id_algolia) , getString(R.string.API_key_algolia)) ;
+        index = algoliaClient.initIndex(getString(R.string.empty));
         
     }
 

@@ -16,9 +16,8 @@
             android:layout_height="wrap_content"
             android:text="@string/login_page_title"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_large"
             android:textStyle="bold|italic"
+            style="@style/whiteBigText"
             />
 
         <Button

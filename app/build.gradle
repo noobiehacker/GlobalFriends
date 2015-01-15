@@ -74,8 +74,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
-    //Glass Action Bar
-    compile 'com.github.manuelpeinado.glassactionbar:glassactionbar:0.3.0'
     //Picasso Image Loader
     compile 'com.squareup.picasso:picasso:2.4.0'
     //progress dialog for fragments
@@ -108,8 +106,6 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.0-rc.10'
     compile 'io.reactivex:rxandroid:0.23.0'
     compile 'pl.charmas.android:android-reactive-location:0.2@aar'
-    //View Injection
-    compile 'com.jakewharton:butterknife:6.0.0'
     //Mocking
     compile 'org.mockito:mockito-core:1.+'
     //Networking
@@ -125,6 +121,11 @@ dependencies {
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
     compile files('libs/algoliasearch-client-android-1.5.9.jar')
     compile files('libs/facebook-android-sdk-3.22.0-sources.jar')
+
+    //Library for future
+    //View Injection
+    //compile 'com.jakewharton:butterknife:6.0.0'
+    
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')

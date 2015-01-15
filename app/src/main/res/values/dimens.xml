@@ -47,6 +47,7 @@
     <dimen name="line_length_location">120dp</dimen>
     <dimen name="circle_button_diameter">76dp</dimen>
     <dimen name="circle_button_radius">76dp</dimen>
+    <dimen name="circle_image_diameter">72dp</dimen>
     
     <!-- PlaceHolders -->
     <dimen name="google_map_place_holder">200dp</dimen>
