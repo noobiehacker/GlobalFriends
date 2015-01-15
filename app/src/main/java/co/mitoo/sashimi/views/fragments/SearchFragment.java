@@ -245,8 +245,15 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     private void setUpToolBar(View view) {
 
         toolbar = (Toolbar)view.findViewById(R.id.app_bar);
+
+        /*
         ActionBarActivity activity = (ActionBarActivity)getActivity();
         activity.setSupportActionBar(toolbar);
+*/
+        
+        toolbar.setLogo(R.drawable.header_mitoo_logo);
+        toolbar.setTitle("");
+        toolbar.inflateMenu(R.menu.menu_mitoo);
 
     }
 

@@ -1,46 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/fragment_landing"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/white"
-android:orientation="vertical">
-
-    <include layout="@layout/line_description"
-        android:id="@+id/descriptionLine"
-        android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/gray_button_width"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/leagueBottomDetailsContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/league_bottom_description_text"
-        android:layout_below="@+id/descriptionLine"
-        android:textColor="@color/gray_light_one"
+        android:id="@+id/league_join_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/font_normal"
-        android:text="@string/place_holder_league_bottom"
-        android:minLines= "3"
-        android:paddingTop = "@dimen/spacing_smallest"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_centerHorizontal="true"/>
-
-    <include layout="@layout/line_location"
-        android:id="@+id/locationLine"
-        android:layout_below="@+id/league_bottom_description_text"
         android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/gray_button_width"
+        android:text="@string/league_page_subtitle_2"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_normal" 
+        />
+
+    <Button
+        android:id="@+id/interestedButton"
+        style="@style/yellowButton"
+        android:layout_width="@dimen/yellow_button_width"
+        android:layout_height="@dimen/yellow_button_height"
+        android:layout_below="@+id/league_join_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/league_page_button_text" />
+
+    <TextView
+        android:id="@+id/league_join_confirm"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_smallest"/>
-
-    <fragment
-        android:id="@+id/googleMapFragment"
-        android:layout_below="@+id/locationLine"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_below="@+id/interestedButton"
         android:layout_centerHorizontal="true"
-        android:layout_height="@dimen/google_map_place_holder"
         android:layout_marginTop="@dimen/spacing_normal"
-        class="com.google.android.gms.maps.MapFragment" />
+        android:gravity="center"
+        android:text="@string/league_page_text_2"
+        android:textColor="@color/gray_dark_one"
+        android:textSize="@dimen/font_normal" 
+        android:visibility="gone"/>
+
+
 </RelativeLayout>

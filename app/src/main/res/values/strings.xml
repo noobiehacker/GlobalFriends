@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">Mitoo</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_register">Register</string>
 
@@ -22,7 +21,7 @@
     <string name="landing_page_slider_text8">We keep you inform of any update on</string>
     <string name="landing_page_slider_text9">the competition you joined</string>
     <string name="landing_page_text10">FIND A TEAM SPORT NEAR ME</string>
-    <string name="landing_page_text11">ALREADY HAVE AN ACCOUNT? LOG IN</string>
+    <string name="landing_page_text11">ALREADY HAVE AN ACCOUNT? Login</string>
 
     <!--Login Page-->
     <string name="login_page_title">LOGIN</string>
@@ -44,18 +43,20 @@
     <string name="signup_page_text7">Signup</string>
 
     <!--Forgot Page-->
-    <string name="forgot_page_title">FORGOT PASSWORD?</string>
+    <string name="forgot_page_title">RESET PASSWORD</string>
     <string name="forgot_page_text1">Enter your email</string>
-    <string name="forgot_page_text2">Reset Password</string>
+    <string name="forgot_page_text2">RESET</string>
 
     <!--Join Page-->
     <string name="join_page_title">JOIN</string>
-    <string name="join_page_text1">CONNECT WITH FACEBOOK</string>
+    <string name="join_page_button_1_text">CONNECT WITH FACEBOOK</string>
     <string name="join_page_text2">Name</string>
     <string name="join_page_text3">Email</string>
     <string name="join_page_text4">Phone</string>
     <string name="join_page_text5">Password</string>
-    <string name="join_page_text6">IM INTERESTED</string>
+    <string name="join_page_button_2_text">IM INTERESTED</string>
+    <string name="join_page_text6">We\'ve sent your details to the league, they\nshould be in touch with you very shortly</string>
+    <string name="join_page_button_3_text">BACK TO RESULTS</string>
 
     <!--Competition Page -->
     <string name="competition_page_text1">SELECT SPORT</string>
@@ -87,6 +88,16 @@
     <string name="user_profile_page_text_1">ACCOUNT</string>
     <string name="user_profile_page_text_2">Help and feedback</string>
 
+    
+    <!--League Page -->
+    <string name="league_page_subtitle_1">DETAILS</string>
+    <string name="league_page_subtitle_2">WANT TO JOIN?</string>
+    <string name="league_page_subtitle_3">LOCATION</string>
+    <string name="league_page_text_1">This competition is for any kind of player, \n we\'ll train and  evaluate you before sending you \n to a competition...</string>
+    <string name="league_page_text_2">We\'ve sent your details to the league, they \nshould be in touch very soon</string>
+    <string name="league_page_button_text">I\'M INTERESTED</string>
+
+    
     <string-array name="user_profile_top_list">
         <item>My Details</item>
         <item>Notification</item>
@@ -156,7 +167,6 @@
 
     <!--App -->
     <string name="empty"></string>
-    <string name="facebook_app_id">1524244734496711</string>
 
     <!--View-->
     <string name="northAmericaAreaCode">+1</string>
@@ -176,12 +186,11 @@
     <string name="place_holder_location">CORNHOLE</string>
     <string name="place_holder_day">Friday</string>
     <string name="place_holder_level">CO-ED</string>
-    <string name="place_holder_league">XOSO SPORT AND SOCIAL LEAGUE</string>
+    <string name="place_holder_league_name">PORTLAND SOCCERPLEEX</string>
+    <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
     <string name="place_holder_player">Mitoo Player</string>
     <string name="place_holder_league_bottom">This competition is a social sports league\n
     ,we welcome players with any skill level</string>
-    <string name="place_holder_join_as_player">Join as a player</string>
-    <string name="place_holder_join_as_team">Join as a team</string>
     <string name="place_holder_price_two">$99.99</string>
     <string name="place_holder_sport">Football</string>
     <string name="place_holder_dummie_text">Dummie Text</string>
@@ -216,9 +225,63 @@
     <string name="static_text_or">Or</string>
     <string name="static_text_from">From</string>
 
+    <!--Menu -->
+    <string name="menu_league">League</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_search">Search</string>
+
+    <!--Menu -->
+    <string name="alert_positive">Continue</string>
+    <string name="alert_negative">Cancel</string>
+    <string name="alert_about_mitoo_title">About Mitoo</string>
+    <string name="alert_about_mitoo_text1">What\'s New?</string>
+    <string name="alert_about_mitoo_text2">Terms</string>
+    <string name="alert_about_mitoo_text3">Privacy Policy</string>
+
+    <string name="alert_feed_back_title">Feed Back</string>
+    <string name="alert_feed_back_text1">How do you feel about Mitoo?</string>
+    <string name="alert_feed_back_text2">Happy</string>
+    <string name="alert_feed_back_text3">Confused</string>
+    <string name="alert_feed_back_text4">Unhappy</string>
+    
+    <!--Unhappy Page -->
+    <string name="unhappy_page_text1">Thanks for the feedback.  We are really sorry that we have\nnot met your expectations.  How can we do better?</string>
+    <string name="unhappy_page_text2">Contact Mitoo</string>
+
+    <!--Confused Page -->
+    <string name="confused_page_text1">Thanks for the feedback.  Maybe our FAQ\'s might help you solve your problem?</string>
+    <string name="confused_page_text2">FAQ</string>
+    <string name="confused_page_text3">Perhaps we can assist you direction.  Tell us how we can help></string>
+    <string name="confused_page_text4">Contact Mitoo</string>
+    <!--Happy Page -->
+
+    <string name="happy_page_text1">Thanks for the feedback.  We would love for yout to reivew\n us on the app store</string>
+    <string name="happy_page_text2">Write a review</string>
+    <string name="happy_page_text3">Also if you have any request, questions, or would just like\nto find out more, please contact us.</string>
+    <string name="happy_page_text4">Contact Mitoo</string>
+    
+    <!--Toolbar Title-->
+    <string name="tool_bar_happy">HAPPY</string>
+    <string name="tool_bar_unhappy">UNHAPPY</string>
+    <string name="tool_bar_confused">CONFUSED</string>
+    <string name="tool_bar_my_details">My details</string>
+    <string name="tool_bar_terms">Terms</string>
+    <string name="tool_bar_near_you">Near You</string>
+    <string name="tool_bar_settings">Settings</string>
+    
     <!--Misc -->
     <string name="mitoo_copyright_location">LONDON - SAN FRANCISCO</string>
     <string name="mitoo_copyright_version">Version 0.2</string>
+    <string name="mitoo_copyright_terms">TERMS AND PRIVACY TEXT</string>
+    <string name="font_bold">bold</string>
+    <string name="font_italic">italic</string>
+    
+    <!--API Key-->
+    <string name="API_key_new_relic">italic</string>
+    <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0"</string>
+    <string name="API_key_algolia">italic</string>
+    <string name="API_key_facebook">1524244734496711</string>
+    
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>
 </resources>

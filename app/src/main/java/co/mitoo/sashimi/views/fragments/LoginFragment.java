@@ -98,7 +98,7 @@ public class LoginFragment extends MitooFragment{
     }
 
     private void facebookLoginButtonAction(){
-        String applicationId =  getResources().getString(R.string.facebook_app_id);
+        String applicationId =  getResources().getString(R.string.API_key_facebook);
         ArrayList<String> permissions = new ArrayList<String>();
         permissions.add("public_profile");
         FacebookLoginActivity.launch(getActivity(), applicationId, permissions);

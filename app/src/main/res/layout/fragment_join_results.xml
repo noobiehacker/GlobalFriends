@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxLargeImage"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/icon_round_check__big"/>
+
+    <TextView
+        android:id="@+id/joinResultText"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBoxLargeImage"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_centerHorizontal="true"
+        android:lineSpacingMultiplier="1.3"
+        android:gravity="center"
+        android:text="@string/join_page_text6"
+        style="@style/whiteMediumText"
+        />
+
+    <Button
+        android:id="@+id/backToResultsButton"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_below="@+id/joinResultText"
+        android:layout_centerHorizontal="true"
+        android:text="@string/join_page_button_3_text"
+        android:layout_marginTop="@dimen/spacing_normal"
+        style="@style/darkGrayButton"
+        />
+
+</RelativeLayout>

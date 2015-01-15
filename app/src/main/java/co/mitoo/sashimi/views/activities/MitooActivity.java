@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.views.activities;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -32,7 +33,7 @@ import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.views.fragments.LoginFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MitooActivity extends ActionBarActivity {
+public class MitooActivity extends Activity {
 
     private MitooLocationManager locationManager;
     private APIClient algoliaClient;
@@ -78,7 +79,7 @@ public class MitooActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_settings) {
             return true;
         }
 

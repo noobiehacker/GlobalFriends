@@ -3,17 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/black"
+    android:background="@color/gray_dark_four"
+    android:textColor="@color/white"
     >
 
-    <LinearLayout
-        android:id="@+id/search_bar_shadow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/abc_menu_dropdown_panel_holo_light"
-        android:orientation="vertical">
-        
         <!--
         <include
             android:id="@+id/search_bar"
@@ -22,5 +15,4 @@
             android:layout_height="@dimen/gray_button_height"
             android:layout_centerHorizontal="true" />
         -->
-    </LinearLayout>
 </android.support.v7.widget.Toolbar>

@@ -2,7 +2,7 @@
     android:id="@+id/fragment_join"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg1" >
+    android:background="@drawable/bg_social_league" >
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -10,24 +10,20 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/joinTitleText"
+
+        <include layout="@layout/view_league_icon_and_text"
+            android:id="@+id/leagueInfoContainter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="@string/join_page_title"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_large"
-            android:textStyle="bold|italic"
-             />
+            />
 
         <Button
             android:id="@+id/facebookJoinButton"
             android:layout_width="@dimen/gray_button_width"
             android:layout_height="@dimen/gray_button_height"
-            android:text="@string/join_page_text1"
-            android:layout_below="@+id/joinTitleText"
+            android:text="@string/join_page_button_1_text"
+            android:layout_below="@+id/leagueInfoContainter"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/spacing_normal"
             android:onClick="facebookButtonJoinAction"
@@ -92,7 +88,7 @@
             android:layout_height="@dimen/gray_button_height"
             android:layout_below="@+id/passwordInput"
             android:layout_centerHorizontal="true"
-            android:text="@string/join_page_text6"
+            android:text="@string/join_page_button_2_text"
             android:onClick="joinButtonAction"
             android:layout_marginTop="@dimen/spacing_smallest"
             style="@style/darkGrayButton"

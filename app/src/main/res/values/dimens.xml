@@ -18,6 +18,7 @@
     <dimen name="spacing_smallest">7dp</dimen>
     <dimen name="spacing_tiny">3dp</dimen>
 
+
     <!-- header / footer -->
     <dimen name="header">120dp</dimen>
     <dimen name="footer">120dp</dimen>
@@ -33,7 +34,7 @@
     <dimen name="toggle_height_gender">54dp</dimen>
 
     <dimen name="list_view_height">100dp</dimen>
-    <dimen name="league_image_container_height">120dp</dimen>
+    <dimen name="list_view_league_image_height">140dp</dimen>
     <!-- stock android values -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
@@ -41,11 +42,12 @@
     <!-- Widgets -->
     <dimen name="corner_radius_small">3dp</dimen>
     <dimen name="line_length_or">125dp</dimen>
+    <dimen name="line_length_league_bottom">5dp</dimen>
     <dimen name="line_length_description">115dp</dimen>
     <dimen name="line_length_location">120dp</dimen>
     <dimen name="circle_button_diameter">76dp</dimen>
     <dimen name="circle_button_radius">76dp</dimen>
     
     <!-- PlaceHolders -->
-    <dimen name="google_map_place_holder">100dp</dimen>
+    <dimen name="google_map_place_holder">200dp</dimen>
 </resources>

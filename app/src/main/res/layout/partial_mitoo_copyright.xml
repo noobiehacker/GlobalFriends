@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/mitoo_footer_assets" />
+        android:src="@drawable/logo_mitoo_footer" />
     
     <TextView
         android:id="@+id/mitooLocation"

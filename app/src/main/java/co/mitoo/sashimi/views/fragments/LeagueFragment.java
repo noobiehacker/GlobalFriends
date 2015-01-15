@@ -57,16 +57,12 @@ public class LeagueFragment extends MitooLocationFragment {
             getFragmentManager().beginTransaction().remove(f).commit();
     }
 
-    private void joinAsTeamAction(){
-        fireFragmentChangeAction(R.id.fragment_join);
-    }
-
-    private void joinAsPlayerAction(){
+    private void joinAction(){
         fireFragmentChangeAction(R.id.fragment_join);
     }
 
     private void initializeFields(){
-        setUpMap();
+        setUpMap(null);
     }
 
     private void initializeViewElements(View view){
@@ -75,30 +71,26 @@ public class LeagueFragment extends MitooLocationFragment {
     }
 
     private void initializeOnClickListeners(View view){
-        view.findViewById(R.id.joinAsPlayerButton).setOnClickListener(this);
-        view.findViewById(R.id.joinAsTeamButton).setOnClickListener(this);
+        view.findViewById(R.id.interestedButton).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.joinAsTeamButton:
-                 joinAsTeamAction();
-                break;
-            case R.id.joinAsPlayerButton:
-                joinAsPlayerAction();
+            case R.id.interestedButton:
+                 joinAction();
                 break;
         }
     }
     
-    private void setUpMap(){
-        if(getLocation()!=null){
-            LatLng latLng = new LatLng(getLocation().getLatitude() , getLocation().getLongitude());
-            GoogleMap map = ((MapFragment) getFragmentManager()
-                    .findFragmentById(R.id.googleMapFragment)).getMap();
-            map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
-            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        }
+    private void setUpMap(LatLng latLng){
+        latLng = new LatLng( 37.796648, -122.402406);
+        GoogleMap map = ((MapFragment) getFragmentManager()
+                .findFragmentById(R.id.googleMapFragment)).getMap();
+        map.animateCamera(CameraUpdateFactory.zoomIn());
+        map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
     }
 
     @Subscribe

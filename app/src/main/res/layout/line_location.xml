@@ -19,8 +19,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:text="@string/static_text_location"
-        android:textColor="@color/black"
-        android:textSize="@dimen/font_big"
+        android:textColor="@color/gray_dark_four"
+        android:textSize="@dimen/font_normal"
         android:textStyle="bold"
         android:layout_centerInParent="true" />
 

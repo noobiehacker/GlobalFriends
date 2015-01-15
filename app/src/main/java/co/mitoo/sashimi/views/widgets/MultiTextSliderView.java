@@ -32,10 +32,11 @@ public class MultiTextSliderView extends BaseSliderView {
         ImageView background = (ImageView) v.findViewById(R.id.image);
         ImageView icon = (ImageView) v.findViewById(R.id.icon);
         TextView title = (TextView) v.findViewById(R.id.title);
-        TextView descriptionOne = (TextView) v.findViewById(R.id.descriptionOne);
-        TextView descriptionTwo = (TextView) v.findViewById(R.id.descriptionTwo);
-        descriptionOne.setText(getDescriptionOne());
-        descriptionTwo.setText(getDescriptionTwo());
+        //TextView descriptionOne = (TextView) v.findViewById(R.id.descriptionOne);
+        //TextView descriptionTwo = (TextView) v.findViewById(R.id.descriptionTwo);
+        //refractor
+        //descriptionOne.setText(getDescriptionOne());
+        //descriptionTwo.setText(getDescriptionTwo());
         icon.setBackgroundResource(getIconId());
         title.setText(getTitle());
         bindEventAndShow(v, background);
