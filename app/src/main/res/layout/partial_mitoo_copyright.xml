@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mitoo_copy_right"
-    android:layout_centerInParent="true"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:orientation="vertical">
@@ -21,7 +20,7 @@
         android:textSize="@dimen/font_normal"
         android:layout_below="@+id/mitooLogo"
         android:layout_centerHorizontal="true"
-        android:paddingTop = "@dimen/spacing_smallest"
+        android:paddingTop = "@dimen/spacing_tiny"
         style="@style/grayDarkMediumText"/>
 
     <TextView
@@ -30,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mitooLocation"
-        android:paddingTop = "@dimen/spacing_smallest"
+        android:paddingTop = "@dimen/spacing_tiny"
         android:layout_centerHorizontal="true"
         style="@style/grayDarkMediumText"/>
 

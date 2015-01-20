@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_bar"
+    android:layout_centerInParent="true"
+    android:layout_marginBottom="@dimen/spacing_normal"
+    android:layout_height="@dimen/search_bar_height"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    style="@style/whiteLayout">
+
+
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_search"
+        android:paddingLeft="@dimen/spacing_smallest"
+        android:layout_centerVertical="true"
+        android:queryHint="@string/hint_search"
+        android:queryBackground="@string/hint_search"
+        style="@style/searchView"/>
+
+</RelativeLayout>

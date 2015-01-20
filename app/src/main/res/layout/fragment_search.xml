@@ -5,16 +5,27 @@
     android:background="@color/gray_light_two"
     android:orientation="vertical">
 
-    <include android:id="@+id/app_bar" layout="@layout/app_bar" />
+    <include android:id="@+id/app_bar" layout="@layout/app_search_bar" />
+
+    <include
+        layout="@layout/view_search_field"
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar"/>
 
     <ListView
-        android:id="@+id/leagueListView"
+        android:id="@+id/sportsListView"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/app_bar"
-        android:divider="@color/transparent"
-        android:dividerHeight="@dimen/spacing_small"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar"
+        android:divider="@color/gray_light_four"
+        android:dividerHeight="@dimen/list_divider_height"
+        android:background="@color/white"
         android:descendantFocusability="blocksDescendants" />
+
+    
+
 <!-- Filters not needed for version 1
     //Sport Selection Frame
 

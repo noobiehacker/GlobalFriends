@@ -121,7 +121,8 @@ dependencies {
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
     compile files('libs/algoliasearch-client-android-1.5.9.jar')
     compile files('libs/facebook-android-sdk-3.22.0-sources.jar')
-
+    //Cloning Libray
+    compile 'commons-lang:commons-lang:2.6'
     //Library for future
     //View Injection
     //compile 'com.jakewharton:butterknife:6.0.0'

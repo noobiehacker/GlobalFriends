@@ -14,6 +14,15 @@ public abstract class MitooModel
 {
 
     private Resources resources;
+
+    public Resources getResources() {
+        return resources;
+    }
+
+    public void setResources(Resources resources) {
+        this.resources = resources;
+    }
+
     private SteakApi steakApiService;
 
     public MitooModel(Resources resources) {

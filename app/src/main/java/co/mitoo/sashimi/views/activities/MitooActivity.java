@@ -9,39 +9,43 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
-import com.algolia.search.saas.APIClient;
-import com.algolia.search.saas.Index;
-import com.algolia.search.saas.Query;
+
 import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.otto.Subscribe;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.IUserModel;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.UserModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
+import co.mitoo.sashimi.utils.events.SearchResultsEvent;
 import co.mitoo.sashimi.views.fragments.LoginFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MitooActivity extends Activity {
 
     private MitooLocationManager locationManager;
-    private APIClient algoliaClient;
-    private Index index;
     private Fragment topFragment;
     private Handler handler;
     private Runnable runnable;
     private IUserModel model;
     private Stack<Fragment> fragmentStack;
+    private List<MitooModel> mitooModelList;
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,14 +63,13 @@ public class MitooActivity extends Activity {
             }
         }, 1000);
         setUpNewRelic();
-        setUpAlgolia();
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mitoo, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -106,21 +109,26 @@ public class MitooActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
-
+    
     private void initializeFields(){
         model = new UserModel(getResources());
         fragmentStack= new Stack<Fragment>();
+        mitooModelList = new ArrayList<MitooModel>();
     }
     
     @Subscribe
     public void onFragmentChange(FragmentChangeEvent event) {
 
+        if(event.getFragmentId()==R.id.fragment_home){
+               popAllFragments();
+        }
+        
         switch(event.getTransition()) {
             case PUSH:
-                changeFragment(event.getFragmentId(), true);
+                pushFragment(event);
                 break;
             case SWAP:
-                changeFragment(event.getFragmentId(), false);
+                swapFragment(event.getFragmentId(), false);
                 break;
             case POP:
                 handler = new Handler();
@@ -159,26 +167,12 @@ public class MitooActivity extends Activity {
         return locationManager.LocationServicesIsOn();
     }
 
-    public void changeFragment(int fragmentId, boolean push) {
 
-        Fragment fragment = FragmentFactory.getInstance().buildFragment(fragmentId);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(push){
-            ft.setCustomAnimations(R.anim.enter, R.anim.exit);
-            ft.addToBackStack(null);
-        }else{
-            if(fragmentStack.size()>0)
-                fragmentStack.pop();
-        }
-        ft.replace(R.id.content_frame, fragment);
-        fragmentStack.push(fragment);
-        ft.commit();
+    private void pushFragment(FragmentChangeEvent event){
 
-    }
-
-    private void pushFragment(int fragmentId){
-
-        Fragment fragment = FragmentFactory.getInstance().buildFragment(fragmentId);
+        Fragment fragment = FragmentFactory.getInstance().buildFragment(event.getFragmentId());
+        if(event.getBundle()!=null)
+            fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.enter, R.anim.exit);
         ft.addToBackStack(null);
@@ -208,6 +202,14 @@ public class MitooActivity extends Activity {
         fragmentStack.push(fragment);
 
     }
+    
+    private void popAllFragments(){
+        
+        while(fragmentStack.size()>0){
+            popFragment();
+        }
+        
+    }
 
     public boolean NetWorkConnectionIsOn() {
         
@@ -224,13 +226,6 @@ public class MitooActivity extends Activity {
         
     }
 
-    private void setUpAlgolia(){
-        
-        algoliaClient = new APIClient(getString(R.string.App_Id_algolia) , getString(R.string.API_key_algolia)) ;
-        index = algoliaClient.initIndex(getString(R.string.empty));
-        
-    }
-
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
@@ -240,6 +235,35 @@ public class MitooActivity extends Activity {
         }
     }
 
+    public void addModel(Class<?> modelClass) {
+        
+        if (!containsModelType(modelClass)) {
+            if (modelClass == LeagueModel.class) {
+                addModelToModelList(new LeagueModel(getResources()));
+            }
+        }
+    }    
+    
+    private void addModelToModelList(MitooModel model){
+        
+        this.mitooModelList.add(model);
+        
+    }
+    private boolean containsModelType(Class<?> modelClass){
+        
+        boolean result = false;
+        forloop:
+        for(MitooModel item : this.mitooModelList){
+            if(modelClass.isInstance(item)){
+                result = true;
+            }
+            if(result)
+                break forloop;
+        }
+        return result;
+        
+    }
+    
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -251,7 +275,5 @@ public class MitooActivity extends Activity {
         }
     }
 
-    public void searchResult(Index index, Query query, JSONObject results) {
-    }
 
 }

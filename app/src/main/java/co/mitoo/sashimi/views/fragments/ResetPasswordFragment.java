@@ -30,6 +30,8 @@ public class ResetPasswordFragment extends MitooFragment{
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_reset_password,
                 container, false);
+        initializeFields();
+        initializeViews(view);
         initializeOnClickListeners(view);
         return view;
     }
@@ -57,6 +59,12 @@ public class ResetPasswordFragment extends MitooFragment{
     public void onError(MitooActivitiesErrorEvent error){
 
         handleAndDisplayError(error);
+    }
+
+    @Override
+    protected void initializeFields() {
+        super.initializeFields();
+        setFragmentTitle(getString(R.string.tool_bar_join));
     }
 
     @Override

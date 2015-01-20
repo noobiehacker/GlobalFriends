@@ -42,37 +42,37 @@
     </style>
 
     <style name="grayDarkBigText">
-        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textColor">@color/gray_dark_one</item>
         <item name="android:textSize">@dimen/font_big</item>
     </style>
 
     <style name="grayDarkMediumText">
-        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textColor">@color/gray_dark_one</item>
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
 
     <style name="grayDarkSmallText">
-        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textColor">@color/gray_dark_one</item>
         <item name="android:textSize">@dimen/font_small</item>
     </style>
 
     <style name="grayLightSmallText">
-        <item name="android:textColor">@color/gray_light_three</item>
+        <item name="android:textColor">@color/gray_light_four</item>
         <item name="android:textSize">@dimen/font_small</item>
     </style>
 
     <style name="grayLightMediumText">
-        <item name="android:textColor">@color/gray_light_three</item>
+        <item name="android:textColor">@color/gray_light_four</item>
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
 
     <style name="grayLightBigText">
-        <item name="android:textColor">@color/gray_light_three</item>
+        <item name="android:textColor">@color/gray_light_four</item>
         <item name="android:textSize">@dimen/font_big</item>
     </style>
 
     <style name="grayItalicText">
-        <item name="android:textColor">@color/gray_light_two</item>
+        <item name="android:textColor">@color/gray_light_three</item>
         <item name="android:textSize">@dimen/font_big</item>
         <item name="android:textStyle">italic</item>
     </style>

@@ -13,7 +13,7 @@ import co.mitoo.sashimi.views.adapters.UserProfileInfoAdapter;
 /**
  * Created by david on 15-01-12.
  */
-public class UserProfileFragment extends MitooFragment {
+public class SettingsFragment extends MitooFragment {
 
     //Top List variables
     ListView topList;
@@ -27,15 +27,15 @@ public class UserProfileFragment extends MitooFragment {
     UserProfileInfoAdapter bottomListAdapter;
     ListViewOnClickLIstener bottomlistOnItemClickListner;
 
-    public static UserProfileFragment newInstance() {
-        UserProfileFragment fragment = new UserProfileFragment();
+    public static SettingsFragment newInstance() {
+        SettingsFragment fragment = new SettingsFragment();
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  getActivity().getLayoutInflater().inflate(R.layout.fragment_user_profile,
+        View view =  getActivity().getLayoutInflater().inflate(R.layout.fragment_settings,
                 container, false);
         initializeFields();
         initializeViews(view);
@@ -48,14 +48,17 @@ public class UserProfileFragment extends MitooFragment {
 
     }
 
-    private void initializeFields(){
+    @Override
+    protected void initializeFields(){
 
+        setFragmentTitle(getString(R.string.tool_bar_settings));
         topListData = buiildStringList(R.array.user_profile_top_list);
         bottomListData = buiildStringList(R.array.user_profile_bottom_list);
 
     }
     
-    private void initializeViews(View view){
+    @Override
+    protected void initializeViews(View view){
 
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
    

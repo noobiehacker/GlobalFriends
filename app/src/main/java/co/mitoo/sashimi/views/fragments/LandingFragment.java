@@ -73,7 +73,8 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         fireFragmentChangeAction(R.id.fragment_login);
     }
 
-    private void initializeFields(){
+    @Override
+    protected void initializeFields(){
         this.myHandler = new Handler();
     }
 
@@ -83,6 +84,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         initializeOnClickListeners(view);
         initializeCallBacks();
         initializeSlider(view);
+        setUpToolBar(view);
     }
 
     private void initializeCallBacks(){

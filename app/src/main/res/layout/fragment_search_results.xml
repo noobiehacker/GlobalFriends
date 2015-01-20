@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_search_results"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_light_two"
+    android:orientation="vertical">
+
+    <include android:id="@+id/app_bar" layout="@layout/app_tool_bar" />
+
+
+    <ListView
+        android:id="@+id/leagueListView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/app_bar"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/spacing_small"
+        android:descendantFocusability="blocksDescendants" />
+
+
+</RelativeLayout>

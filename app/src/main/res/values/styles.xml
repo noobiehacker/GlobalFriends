@@ -73,5 +73,14 @@
 
     <style name="AppTheme.OverFlow">
         <item name="android:src">@drawable/header_dots_icon</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
+    <style name="searchView">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textColorHint">@color/gray_light_three</item>
+        <item name="android:background">@drawable/rounded_white_solid</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:singleLine">true</item>
     </style>
 </resources>

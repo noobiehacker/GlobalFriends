@@ -44,13 +44,15 @@ public class UserDetailsFragment extends MitooFragment {
 
     }
 
-    private void initializeFields(){
+    @Override
+    protected void initializeFields(){
 
         detailsListData = buiildStringList(R.array.user_profile_top_list);
 
     }
 
-    private void initializeViews(View view){
+    @Override
+    protected void initializeViews(View view){
 
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

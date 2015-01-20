@@ -40,12 +40,16 @@ public class LoginFragment extends MitooFragment{
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_login,
                 container, false);
-        initializeOnClickListeners(view);
         initializeFields();
+        initializeViews(view);
+        initializeOnClickListeners(view);
         return view;
     }
 
-    private void initializeFields(){
+    @Override
+    protected void initializeFields() {
+        super.initializeFields();
+        setFragmentTitle(getString(R.string.tool_bar_login));
     }
 
     private void initializeOnClickListeners(View view){
@@ -93,7 +97,7 @@ public class LoginFragment extends MitooFragment{
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
         displayText(getString(R.string.toast_login_success));
-        FragmentChangeEvent fragmentChangeEvent = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.SWAP, R.id.fragment_user_profile);
+        FragmentChangeEvent fragmentChangeEvent = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.SWAP, R.id.fragment_home);
         BusProvider.post(fragmentChangeEvent);
     }
 

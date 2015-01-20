@@ -3,6 +3,7 @@
 
     <style name="AppTheme.OverFlow">
         <item name="android:src">@drawable/header_dots_icon</item>
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
 </resources>

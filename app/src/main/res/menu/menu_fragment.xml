@@ -1,24 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:yourapp="http://schemas.android.com/apk/res-auto"
-    tools:context=".MitooActivity">
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/header_search_icon"
-        android:title="@string/hint_search"
-        android:visible="false"
-        yourapp:actionViewClass="android.widget.SearchView"
-        yourapp:showAsAction="always" />
-    <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/header_search_icon"
-        android:title="@string/menu_search"
-        yourapp:showAsAction="always" />
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_league"
         android:icon="@drawable/header_league_icon"
         android:title="@string/menu_league"
-        yourapp:showAsAction="always" />
+        yourapp:showAsAction="never" />
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/me"
@@ -30,6 +18,4 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         yourapp:showAsAction="never" />
-
-
 </menu>

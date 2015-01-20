@@ -1,29 +1,30 @@
 package co.mitoo.sashimi.views.fragments;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.CompetitionModel;
-import co.mitoo.sashimi.models.ICompetitionModel;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.MockPojo;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.events.LeagueQueryRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.ToolBarDisplayEvent;
+import co.mitoo.sashimi.utils.events.SearchResultsEvent;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.adapters.SportAdapter;
 
@@ -32,7 +33,6 @@ import co.mitoo.sashimi.views.adapters.SportAdapter;
  */
 public class SearchFragment extends MitooLocationFragment implements AdapterView.OnItemClickListener {
 
-    private ICompetitionModel model;
     private ListView leagueList;
     private ListView sportsList;
     private LeagueAdapter leagueDataAdapter;
@@ -41,7 +41,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     private List<Sport> sportData ;
     private boolean filterOn = false;
     private boolean sportSelectionOn = false;
-    private Toolbar toolbar;
+    private String queryText;
 
     public static SearchFragment newInstance() {
 
@@ -68,52 +68,54 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     @Override
     public void onResume(){
         super.onResume();
-        searchAction();
-        BusProvider.post(new ToolBarDisplayEvent(true));
     }
     
     @Override
     public void onStop(){
         super.onStop();
-        BusProvider.post(new ToolBarDisplayEvent(false));
-        
+
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        BusProvider.post(new ToolBarDisplayEvent(false));
+    }
+
+
+    @Override
+    protected void initializeFields(){
+
+        setFragmentTitle(getString(R.string.tool_bar_near_you));
+        leagueData = new ArrayList<League>();
+        sportData= new ArrayList<Sport>();
+        sportData.addAll(MockPojo.getSportList());
+        getMitooActivity().addModel(LeagueModel.class);
+        
     }
     
-    private void initializeFields(){
+    @Subscribe
+    public void recieveLeagueResult(LeagueQueryResponseEvent event){
 
-        model = new CompetitionModel(getResources());
-        sportData = new ArrayList<Sport>();
-        leagueData = new ArrayList<League>();
+        if(event.getResults()!=null){
 
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.bundle_key_tool_bar_title), queryText);
+            fireFragmentChangeAction(R.id.fragment_search_results , bundle);
+            
+        }
     }
 
-    private void initializeViews(View view){
+    @Override
+    protected void initializeViews(View view){
 
+        super.initializeViews(view);
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData);
-        leagueList = (ListView) view.findViewById(R.id.leagueListView);
-        leagueList.setOnItemClickListener(this);
-        leagueList.setAdapter(leagueDataAdapter);
-        setUpToolBar(view);
-
-        /** Taking out filters for version 1
-         *
-         *
-         *
-         sportsDataAdapter = new SportAdapter(getActivity(),R.id.sportsListView, sportData);
+        setUpSearchView(view);
+        sportsDataAdapter = new SportAdapter(getActivity(),R.id.sportsListView, sportData);
         sportsList = (ListView) view.findViewById(R.id.sportsListView);
         sportsList.setOnItemClickListener(this);
         sportsList.setAdapter(sportsDataAdapter);
-         *
-         *
-         *
-         **/
+        sportsDataAdapter.notifyDataSetChanged();
 
     }
 
@@ -136,9 +138,6 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.micButton:
-                searchAction();
-                break;
 
                 /** Taking out filters for version 1
                  *
@@ -151,23 +150,15 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
                  *
                  *
                  *
+                 *             case R.id.leagueListView:
+                 leagueListItemAction();
+                 break;
+                 case R.id.sportFilterButton:
+                 sportSelectionAction();
+                 break;*
                  **/
 
-            case R.id.leagueListView:
-                leagueListItemAction();
-                break;
-            case R.id.sportFilterButton:
-                sportSelectionAction();
-                break;
-        }
-    }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        view.setSelected(true);
-        if(parent.getId() == leagueList.getId())
-        {
-            leagueListItemAction();
         }
     }
 
@@ -207,23 +198,31 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     *
     */
 
+    private void searchAction(String query){
 
-    private void leagueListItemAction(){
-        fireFragmentChangeAction(R.id.fragment_league);
+        search(query);
+     //   setFragmentTitle(searchInput);
+    }
+    
+    private synchronized <T> void addToListList(List<T>container ,List<T> additionList){
+        for(T item : additionList){
+            container.add(item);
+        }
     }
 
-    private void searchAction(){
-        search("");
-        //search(getSearchInput());
+    private synchronized <T> void clearList(List<T> result){
+        if(result!=null){
+            Iterator<T> iterator = result.iterator();
+            while(iterator.hasNext()){
+                iterator.remove();
+            }
+
+        }
     }
 
     private void search(String input){
-        leagueData.addAll(MockPojo.getLeagueList());
-        leagueDataAdapter.notifyDataSetChanged();
-    }
-
-    private String getSearchInput(){
-        return this.getTextFromTextField(R.id.search_input);
+        this.queryText=input;
+        BusProvider.post(new LeagueQueryRequestEvent(input));
     }
 
     @Subscribe
@@ -232,29 +231,33 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     }
 
 
-    private void hideActionBar(){
+    @Override
+    protected void setUpToolBar(View view) {
 
-        this.toolbar.setVisibility(View.GONE);
+        super.setUpToolBar(view);
+
 
     }
-
-    private void showActionBar(){
-
-        this.toolbar.setVisibility(View.VISIBLE);
-    }
-    private void setUpToolBar(View view) {
-
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-
-        /*
-        ActionBarActivity activity = (ActionBarActivity)getActivity();
-        activity.setSupportActionBar(toolbar);
-*/
+    
+    private void setUpSearchView(View view){
         
-        toolbar.setLogo(R.drawable.header_mitoo_logo);
-        toolbar.setTitle("");
-        toolbar.inflateMenu(R.menu.menu_mitoo);
+        final SearchView searchView = (SearchView)view.findViewById(R.id.search_view);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                searchAction(s);
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
 }

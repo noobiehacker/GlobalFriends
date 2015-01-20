@@ -18,6 +18,7 @@ import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 
 public class LeagueFragment extends MitooLocationFragment {
 
+    private String leagueTitle;
     public static LeagueFragment newInstance() {
         LeagueFragment fragment = new LeagueFragment();
         return fragment;
@@ -30,6 +31,7 @@ public class LeagueFragment extends MitooLocationFragment {
                         container, false);
         initializeViewElements(view);
         initializeFields();
+        initializeViews(view);
         return view;
     }
 
@@ -61,8 +63,12 @@ public class LeagueFragment extends MitooLocationFragment {
         fireFragmentChangeAction(R.id.fragment_join);
     }
 
-    private void initializeFields(){
+    @Override
+    protected void initializeFields(){
+        
         setUpMap(null);
+        Bundle arguments = getArguments();
+        setFragmentTitle(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
     }
 
     private void initializeViewElements(View view){
@@ -96,6 +102,15 @@ public class LeagueFragment extends MitooLocationFragment {
     @Subscribe
     public void recieveLocation(LocationResponseEvent event){
         setLocation(event.getLocation());
+    }
+
+
+    public String getLeagueTitle() {
+        return leagueTitle;
+    }
+
+    public void setLeagueTitle(String leagueTitle) {
+        this.leagueTitle = leagueTitle;
     }
 
 }

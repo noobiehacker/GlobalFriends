@@ -8,11 +8,18 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+    
+    <include
         android:id="@+id/league_image_holder"
         layout="@layout/list_view_item_league"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"/>
+        android:layout_below="@id/app_bar"/>
 
     <include
         android:id="@+id/league_top_details"

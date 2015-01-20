@@ -38,6 +38,7 @@ public class JoinFragment extends MitooFragment {
                 container, false);
         initializeOnClickListeners(view);
         initializeFields();
+        initializeViews(view);
         return view;
     }
 
@@ -52,7 +53,10 @@ public class JoinFragment extends MitooFragment {
         view.findViewById(R.id.facebookJoinButton).setOnClickListener(this);
     }
 
-    private void initializeFields() {
+    @Override
+    protected void initializeFields() {
+        super.initializeFields();
+        setFragmentTitle(getString(R.string.tool_bar_join));
     }
 
     @Override
@@ -86,8 +90,7 @@ public class JoinFragment extends MitooFragment {
 
     @Subscribe
     public void onJoinResponse(UserRecieveResponseEvent event) {
-        this.displayText(getString(R.string.toast_sign_up_success));
-        popFragmentAction();
+        fireFragmentChangeAction(R.id.fragment_confirm);
     }
 
     @Subscribe

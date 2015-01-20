@@ -33,7 +33,7 @@ public class MockPojo {
         List<League> league = new ArrayList<League>();
         for(int i = 0 ; i < 10 ; i ++) {
             League comp = new League();
-            comp.name = "Mock League" + i;
+            comp.setName( "Mock League" + i);
             league.add(comp);
         }
         return league;

@@ -7,12 +7,13 @@
 
     <ImageView
         android:id="@+id/leagueImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/league_icon_width"
+        android:layout_height="@dimen/league_icon_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:focusable="false"
         android:src="@drawable/place_holder_league"
+        android:scaleType="centerCrop"
         android:background="@drawable/rounded"/>
 
     <TextView

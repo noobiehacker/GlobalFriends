@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg1" >
 
+    <include android:id="@+id/app_bar" layout="@layout/app_tool_bar" />
+    
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"

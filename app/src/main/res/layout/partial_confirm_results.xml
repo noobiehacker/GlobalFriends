@@ -26,7 +26,7 @@
         />
 
     <Button
-        android:id="@+id/backToResultsButton"
+        android:id="@+id/viewMyLeaguesButton"
         android:layout_width="@dimen/gray_button_width"
         android:layout_height="@dimen/gray_button_height"
         android:layout_below="@+id/joinResultText"

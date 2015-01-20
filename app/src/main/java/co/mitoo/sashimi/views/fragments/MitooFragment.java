@@ -3,12 +3,13 @@ package co.mitoo.sashimi.views.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 //import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.squareup.otto.Bus;
 
@@ -35,7 +34,6 @@ import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.adapters.UserProfileInfoAdapter;
 import retrofit.RetrofitError;
 
 /**
@@ -49,6 +47,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private Handler handler;
     private Runnable runnable;
     private boolean busRegistered= false;
+    protected Toolbar toolbar;
+    protected String fragmentTitle = "";
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -58,6 +58,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
+        
         registerBus();
     }
 
@@ -99,6 +100,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             BusProvider.unregister(this);
             busRegistered =false;
         }
+    }
+    
+    protected void initializeFields(){
+        setFragmentTitle(getString(R.string.toolbar_placeholder));
+    }
+
+    protected void initializeViews(View view){
+
+       setUpToolBar(view);
+        
     }
 
     protected MitooActivity getMitooActivity() {
@@ -198,6 +209,11 @@ Taken out filters for release one
         FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH , fragmentId );
         BusProvider.post(event);
     }
+
+    protected void fireFragmentChangeAction(int fragmentId , Bundle bundle) {
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH , fragmentId , bundle);
+        BusProvider.post(event);
+    }
     
     protected void popFragmentAction(){
 
@@ -210,10 +226,8 @@ Taken out filters for release one
     protected void displayText(String text) {
 
         removeToast();
-        
         View toastLayout = createToastView();
         createTextForToast(toastLayout,text);
-
         Toast toast = new Toast(getActivity().getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(toastLayout);
@@ -317,6 +331,48 @@ Taken out filters for release one
             Activity a = getActivity();
             if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+    }
+
+    private void hideToolBar(){
+
+        if(this.toolbar !=null){
+            this.toolbar.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void showToolBar(){
+
+        if(this.toolbar !=null){
+            this.toolbar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void setUpToolBar(View view) {
+
+        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
+        if(toolbar!=null){
+
+            toolbar.setNavigationIcon(R.drawable.header_back_icon);
+            toolbar.setTitle(getFragmentTitle());
+            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MitooFragment.this.getMitooActivity().onBackPressed();
+                }
+            });
+
+        }
+
+    }
+
+    public String getFragmentTitle() {
+        return fragmentTitle;
+    }
+
+    public void setFragmentTitle(String fragmentTitle) {
+        this.fragmentTitle = fragmentTitle;
     }
 
 }

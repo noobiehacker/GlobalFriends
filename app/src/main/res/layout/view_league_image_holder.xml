@@ -2,8 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_social_league"
 >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/leagueBackGround"
+        android:src="@drawable/bg_social_league"
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -14,7 +20,8 @@
         android:visibility="gone"
         android:src="@drawable/round_check"
         android:layout_marginTop="@dimen/spacing_tiny"
-        android:layout_marginRight="@dimen/spacing_tiny"/>
+        android:layout_marginRight="@dimen/spacing_tiny"
+        />
 
     <include layout="@layout/view_league_icon_and_text"
         android:layout_width="wrap_content"
@@ -22,5 +29,15 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         />
+    
+    <!--
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    </FrameLayout>-->
 
 </RelativeLayout>

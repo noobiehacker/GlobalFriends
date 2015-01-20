@@ -36,7 +36,13 @@ public class FragmentFactory {
             case R.id.fragment_league:
                 return LeagueFragment.newInstance();
             case R.id.fragment_user_profile:
-                return UserProfileFragment.newInstance();
+                return SettingsFragment.newInstance();
+            case R.id.fragment_search_results:
+                return SearchResultsFragment.newInstance();
+            case R.id.fragment_confirm:
+                return ConfirmFragment.newInstance();
+            case R.id.fragment_home:
+                return HomeFragment.newInstance();
             default:
                 return SplashScreenFragment.newInstance();
         }

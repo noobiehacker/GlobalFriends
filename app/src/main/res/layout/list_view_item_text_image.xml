@@ -2,7 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants">
+    android:descendantFocusability="blocksDescendants"
+    android:paddingTop="@dimen/spacing_small"
+    android:paddingBottom="@dimen/spacing_small"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/itemText"
@@ -13,7 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:textIsSelectable="false"
-        style="@style/grayLightMediumText"
+        style="@style/grayDarkMediumText"
         />
     
     <ImageView
@@ -23,7 +26,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/spacing_normal"
-        android:background="@drawable/arrow"
+        android:background="@drawable/list_arrow"
         android:focusable="false"
         />
 
