@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.views.fragments;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,18 @@ public class ConfirmFragment extends MitooFragment {
         
         fireFragmentChangeAction(R.id.fragment_home);
         
+    }
+    
+    @Override
+    protected void setUpToolBar(View view) {
+
+        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
+        if(toolbar!=null){
+
+            toolbar.setTitle(getFragmentTitle());
+            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
+        }
     }
 
 }

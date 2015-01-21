@@ -7,19 +7,18 @@
         android:id="@+id/accountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/user_profile_page_text_1"
+        android:text="@string/settings_page_text_1"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_small"
         android:textStyle="bold"
-        style="@style/grayLightSmallText"/>
+        style="@style/blackBigText"/>
 
     <ListView
         android:id="@+id/userProfileTopList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:dividerHeight="@dimen/list_divider_height"
         android:background="@color/white"
         android:divider="@color/gray_light_four"/>
 
@@ -27,19 +26,18 @@
         android:id="@+id/helpAndFeedBackText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/user_profile_page_text_2"
+        android:text="@string/settings_page_text_2"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_small"
         android:textStyle="bold"
-        style="@style/grayLightSmallText"/>
+        style="@style/blackBigText"/>
 
     <ListView
         android:id="@+id/userProfileBottomList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" 
-        android:dividerHeight="@dimen/list_divider_height"
         android:background="@color/white"
         android:divider="@color/gray_light_four"/>
 

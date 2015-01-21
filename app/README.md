@@ -50,9 +50,9 @@ Architecture
 - A lot of the architecture is referenced from futurice's best practice guide : https://github.com/futurice/android-best-practices .
 - A lot of system classes uses Singleton for now, will use an Injection library to decrease the coupling
 - Fragments (View and Controller) that are connected to our Models, which get data through Network or Local Storage
-- All of the view related stuff should be in the fragment, the activity is mainly served as a master controller for all the system data related content
+- All of the view related stuff should be in the fragment, the context is mainly served as a master controller for all the system data related content
 - Model stores data and uses Otto for event handling to connect with Fragment and our Services
-- MitooActivity is the base activity and all the other views are fragments that gets switched depending on the event
+- MitooActivity is the base context and all the other views are fragments that gets switched depending on the event
 - Network Access uses a ServiceFactory to set the endPoints and create the services that we need to access (Steak , Algolia etc)
 - For SteakAPI, it will return an Observer to do asynchronous access and not block anything that the app
 needs to use.  After it has recieved the object, it will push the object to its subscriber which will post

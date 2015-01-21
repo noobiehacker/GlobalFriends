@@ -42,7 +42,7 @@ public class MockPojo {
     public static List<Sport> getSportList(){
         List<Sport> sport = new ArrayList<Sport>();
         for(int i = 0 ; i < 100 ; i ++) {
-            Sport item = new Sport();
+            Sport item = new Sport("Basketball");
             sport.add(item);
         }
         return sport;

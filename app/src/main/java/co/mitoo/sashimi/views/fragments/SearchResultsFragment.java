@@ -151,7 +151,7 @@ public class SearchResultsFragment extends MitooLocationFragment implements Adap
     private void leagueListItemAction(League league){
 
         Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.bundle_key_tool_bar_title),league.getName());
+        bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(league.getObjectID()));
         fireFragmentChangeAction(R.id.fragment_league , bundle);
 
     }

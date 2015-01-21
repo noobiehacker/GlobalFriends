@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     tools:context=".MitooActivity">
-
+    
     <item
-        android:id="@+id/menu_profile"
+        android:id="@+id/menu_feedback"
         android:icon="@drawable/me"
-        android:title="@string/menu_profile"
-        yourapp:showAsAction="always" />
+        android:title='@string/menu_feedback'
+        yourapp:showAsAction="never" />
     <!-- Settings, should always be in the overflow -->
     <item
         android:id="@+id/menu_settings"

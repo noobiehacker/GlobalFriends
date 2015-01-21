@@ -29,10 +29,10 @@ import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.UserModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentFactory;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
-import co.mitoo.sashimi.utils.events.SearchResultsEvent;
 import co.mitoo.sashimi.views.fragments.LoginFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -54,12 +54,12 @@ public class MitooActivity extends Activity {
         super.onCreate(savedInstanceState);
         locationManager = new MitooLocationManager(this);
         setContentView(R.layout.activity_mitoo);
-        swapFragment(R.id.fragment_splash, false);
+        swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.NONE ,R.id.fragment_splash));
         Handler h = new Handler();
         h.postDelayed(new Runnable() {
             public void run() {
                 getFragmentManager().popBackStackImmediate();
-                swapFragment(R.id.fragment_landing, true);
+                swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH ,R.id.fragment_landing));
             }
         }, 1000);
         setUpNewRelic();
@@ -122,13 +122,13 @@ public class MitooActivity extends Activity {
         if(event.getFragmentId()==R.id.fragment_home){
                popAllFragments();
         }
-        
         switch(event.getTransition()) {
             case PUSH:
                 pushFragment(event);
                 break;
-            case SWAP:
-                swapFragment(event.getFragmentId(), false);
+            case CHANGE:
+            case NONE:
+                swapFragment(event);
                 break;
             case POP:
                 handler = new Handler();
@@ -170,7 +170,7 @@ public class MitooActivity extends Activity {
 
     private void pushFragment(FragmentChangeEvent event){
 
-        Fragment fragment = FragmentFactory.getInstance().buildFragment(event.getFragmentId());
+        Fragment fragment = FragmentFactory.getInstance().buildFragment(event);
         if(event.getBundle()!=null)
             fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -188,11 +188,11 @@ public class MitooActivity extends Activity {
         fragmentStack.pop();
     }
 
-    private void swapFragment(int fragmentId , boolean animation){
+    private void swapFragment(FragmentChangeEvent event){
 
-        Fragment fragment = FragmentFactory.getInstance().buildFragment(fragmentId);
+        Fragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(animation){
+        if(event.getTransition() != MitooEnum.fragmentTransition.NONE){
             ft.setCustomAnimations(R.anim.enter, R.anim.exit);
         }
         ft.replace(R.id.content_frame, fragment);
@@ -275,5 +275,18 @@ public class MitooActivity extends Activity {
         }
     }
 
+    public MitooModel getModel(Class<?> modelClass) {
+
+        MitooModel result = null;
+        forloop:
+        for(MitooModel item : this.mitooModelList){
+            if(modelClass.isInstance(item)){
+                result = item;
+            }
+            if(result!=null)
+                break forloop;
+        }
+        return result;
+    }
 
 }

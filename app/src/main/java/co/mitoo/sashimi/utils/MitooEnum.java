@@ -7,6 +7,10 @@ public class MitooEnum {
 
 
     public enum fragmentTransition{
-        PUSH, POP, SWAP
+        PUSH, POP, CHANGE,NONE
+    }
+
+    public enum feedBackOption{
+        HAPPY, CONFUSED, UNHAPPY
     }
 }

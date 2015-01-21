@@ -19,8 +19,8 @@
         android:layout_alignParentRight="true"
         android:visibility="gone"
         android:src="@drawable/round_check"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:layout_marginRight="@dimen/spacing_tiny"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginRight="@dimen/spacing_normal"
         />
 
     <include layout="@layout/view_league_icon_and_text"

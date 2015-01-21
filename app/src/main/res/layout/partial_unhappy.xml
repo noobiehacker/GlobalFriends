@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/message_icon"
+        android:src="@drawable/feedback_icon_message"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"></ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/unhappy_page_text1"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_below="@+id/message_icon"
+        android:gravity="center"
+        style="@style/grayLightMediumText"
+        />
+
+</RelativeLayout>

@@ -2,6 +2,7 @@ package co.mitoo.sashimi.utils;
 
 import android.app.Fragment;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.fragments.*;
 
 /**
@@ -19,33 +20,50 @@ public class FragmentFactory {
     private FragmentFactory(){
     }
 
-    public Fragment buildFragment(int id){
-        switch(id){
+    public Fragment buildFragment(FragmentChangeEvent event) {
+        Fragment result = null;
+        switch (event.getFragmentId()) {
             case R.id.fragment_landing:
-                return LandingFragment.newInstance();
+                result = LandingFragment.newInstance();
+                break;
             case R.id.fragment_splash:
-                return SplashScreenFragment.newInstance();
+                result = SplashScreenFragment.newInstance();
+                break;
             case R.id.fragment_join:
-                return JoinFragment.newInstance();
+                result = JoinFragment.newInstance();
+                break;
             case R.id.fragment_login:
-                return LoginFragment.newInstance();
+                result = LoginFragment.newInstance();
+                break;
             case R.id.fragment_reset_password:
-                return ResetPasswordFragment.newInstance();
+                result = ResetPasswordFragment.newInstance();
+                break;
             case R.id.fragment_search:
-                return SearchFragment.newInstance();
+                result = SearchFragment.newInstance();
+                break;
             case R.id.fragment_league:
-                return LeagueFragment.newInstance();
-            case R.id.fragment_user_profile:
-                return SettingsFragment.newInstance();
+                result = LeagueFragment.newInstance();
+                break;
+            case R.id.fragment_settings:
+                result = SettingsFragment.newInstance();
+                break;
             case R.id.fragment_search_results:
-                return SearchResultsFragment.newInstance();
+                result = SearchResultsFragment.newInstance();
+                break;
             case R.id.fragment_confirm:
-                return ConfirmFragment.newInstance();
+                result = ConfirmFragment.newInstance();
+                break;
             case R.id.fragment_home:
-                return HomeFragment.newInstance();
+                result = HomeFragment.newInstance();
+                break;
+            case R.id.fragment_feed_back:
+                result = FeedBackFragment.newInstance();
+                break;
             default:
-                return SplashScreenFragment.newInstance();
+                result = SplashScreenFragment.newInstance();
         }
+        if (event.getBundle() != null)
+            result.setArguments(event.getBundle());
+        return result;
     }
-
 }

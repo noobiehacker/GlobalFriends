@@ -140,4 +140,20 @@ public class LeagueModel extends MitooModel {
         }
         return results;
     }
+    
+    public League getLeagueByObjectID(int ObjectID){
+
+        League result = null;
+        forloop:
+        for(League item : this.leagues){
+            if(result!=null)
+                break forloop;
+            else if(item.getObjectID() == ObjectID)
+            {
+                result = item;
+            }
+        }
+        return result;
+
+    }
 }

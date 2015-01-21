@@ -97,7 +97,7 @@ public class LoginFragment extends MitooFragment{
     @Subscribe
     public void onLoginResponse(UserRecieveResponseEvent event){
         displayText(getString(R.string.toast_login_success));
-        FragmentChangeEvent fragmentChangeEvent = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.SWAP, R.id.fragment_home);
+        FragmentChangeEvent fragmentChangeEvent = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.CHANGE, R.id.fragment_home);
         BusProvider.post(fragmentChangeEvent);
     }
 

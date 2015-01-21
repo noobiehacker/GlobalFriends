@@ -3,8 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:paddingTop="@dimen/spacing_small"
-    android:paddingBottom="@dimen/spacing_small"
     android:background="@color/white">
 
     <TextView
@@ -13,21 +11,18 @@
         android:layout_height="wrap_content"
         android:text="@string/place_holder_dummie_text"
         android:layout_marginLeft="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:textIsSelectable="false"
-        style="@style/grayDarkMediumText"
+        style="@style/grayDarkBigText"
         />
     
-    <ImageView
-        android:id="@+id/rightArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/spacing_normal"
-        android:background="@drawable/list_arrow"
-        android:focusable="false"
-        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider_height"
+        android:background="@color/gray_light_four"
+        android:layout_below="@+id/itemText"></View>
 
 </RelativeLayout>

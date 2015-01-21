@@ -1,5 +1,5 @@
 <resources>
-    <!-- the theme applied to the application or activity -->
+    <!-- the theme applied to the application or context -->
 
     <style name="whiteEditText">
         <item name="android:textColor">@color/gray_dark_three</item>

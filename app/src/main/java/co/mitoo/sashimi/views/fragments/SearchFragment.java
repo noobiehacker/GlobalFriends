@@ -2,7 +2,6 @@ package co.mitoo.sashimi.views.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import co.mitoo.sashimi.utils.events.LeagueQueryRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.SearchResultsEvent;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.adapters.SportAdapter;
 
@@ -119,6 +117,16 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        view.setSelected(true);
+        if(parent.getId() == sportsList.getId())
+        {
+            Sport item = (Sport)sportsList.getItemAtPosition(position);
+            search(item.getName());
+        }
+    }
+
     private void initializeOnClickListeners(View view){
 
         /** Taking out filters for version 1
@@ -198,10 +206,14 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     *
     */
 
-    private void searchAction(String query){
+    private void searchFieldAction(String query){
 
-        search(query);
-     //   setFragmentTitle(searchInput);
+        this.queryText=query;
+        BusProvider.post(new LeagueQueryRequestEvent(query));
+    }
+
+    private void search(String input){
+
     }
     
     private synchronized <T> void addToListList(List<T>container ,List<T> additionList){
@@ -220,10 +232,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         }
     }
 
-    private void search(String input){
-        this.queryText=input;
-        BusProvider.post(new LeagueQueryRequestEvent(input));
-    }
+
 
     @Subscribe
     public void recieveLocation(LocationResponseEvent event){
@@ -245,7 +254,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                searchAction(s);
+                searchFieldAction(s);
                 return false;
             }
 
@@ -256,8 +265,4 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         });
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
 }

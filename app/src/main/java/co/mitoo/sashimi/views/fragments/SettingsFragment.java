@@ -8,7 +8,7 @@ import android.widget.ListView;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.listener.ListViewOnClickLIstener;
-import co.mitoo.sashimi.views.adapters.UserProfileInfoAdapter;
+import co.mitoo.sashimi.views.adapters.StringListAdapter;
 
 /**
  * Created by david on 15-01-12.
@@ -17,14 +17,14 @@ public class SettingsFragment extends MitooFragment {
 
     //Top List variables
     ListView topList;
-    UserProfileInfoAdapter topListAdapter;
+    StringListAdapter topListAdapter;
     List<String> topListData;
     ListViewOnClickLIstener toplistOnItemClickListner;
 
     //Bottom List variables
     ListView bottomList;
     List<String> bottomListData;
-    UserProfileInfoAdapter bottomListAdapter;
+    StringListAdapter bottomListAdapter;
     ListViewOnClickLIstener bottomlistOnItemClickListner;
 
     public static SettingsFragment newInstance() {
@@ -52,8 +52,8 @@ public class SettingsFragment extends MitooFragment {
     protected void initializeFields(){
 
         setFragmentTitle(getString(R.string.tool_bar_settings));
-        topListData = buiildStringList(R.array.user_profile_top_list);
-        bottomListData = buiildStringList(R.array.user_profile_bottom_list);
+        topListData = buiildStringList(R.array.settings_top_menu_list);
+        bottomListData = buiildStringList(R.array.settings_bottom_menu_list);
 
     }
     
@@ -63,14 +63,15 @@ public class SettingsFragment extends MitooFragment {
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
    
         topList = (ListView) view.findViewById( R.id.userProfileTopList);
-        topListAdapter = new UserProfileInfoAdapter(getActivity(),R.id.userProfileTopList, topListData);
+        topListAdapter = new StringListAdapter(getActivity(),R.id.userProfileTopList, topListData);
         toplistOnItemClickListner = new ListViewOnClickLIstener(topList.getId());
         setUpListView(topListAdapter, topList, toplistOnItemClickListner );
 
         bottomList = (ListView) view.findViewById( R.id.userProfileBottomList);
-        bottomListAdapter = new UserProfileInfoAdapter(getActivity(),R.id.userProfileBottomList, bottomListData);
+        bottomListAdapter = new StringListAdapter(getActivity(),R.id.userProfileBottomList, bottomListData);
         bottomlistOnItemClickListner = new ListViewOnClickLIstener(topList.getId());
         setUpListView(bottomListAdapter, bottomList, bottomlistOnItemClickListner);
-
+        bottomListAdapter.notifyDataSetChanged();
+        setUpToolBar(view);
     }
 }

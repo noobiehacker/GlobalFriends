@@ -174,7 +174,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 /*    
 Taken out filters for release one
     protected void slideUpView(int id) {
-        View view = getActivity().findViewById(id);
+        View view = getContext().findViewById(id);
         view.setVisibility(View.VISIBLE);
         YoYo.with(Techniques.SlideInUp)
                 .duration(700)
@@ -182,14 +182,14 @@ Taken out filters for release one
     }
 
     protected void slidDownView(int id) {
-        View view = getActivity().findViewById(id);
+        View view = getContext().findViewById(id);
         YoYo.with(Techniques.SlideOutDown)
                 .duration(700)
                 .playOn(view);
     }
 
     protected void fadeOutView(int id) {
-        View view = getActivity().findViewById(id);
+        View view = getContext().findViewById(id);
         view.setVisibility(View.GONE);
         YoYo.with(Techniques.FadeOut)
                 .duration(700)
@@ -197,7 +197,7 @@ Taken out filters for release one
     }
 
     protected void fadeInView(int id) {
-        View view = getActivity().findViewById(id);
+        View view = getContext().findViewById(id);
         view.setVisibility(View.VISIBLE);
         YoYo.with(Techniques.FadeIn)
                 .duration(700)
@@ -255,12 +255,12 @@ Taken out filters for release one
                 getString(R.string.prompt_location_services_message),
                 getString(R.string.prompt_yes),
                 getString(R.string.prompt_no),
-                new LocationServicesPromptOnclickListener(true),
-                new LocationServicesPromptOnclickListener(false));
+                new LocationServicesPromptOnclickListener(true, getActivity()),
+                new LocationServicesPromptOnclickListener(false,getActivity()));
 
     }
 
-    private void buildPrompt(String title, String message, String positiveMessage,
+    protected void buildPrompt(String title, String message, String positiveMessage,
                              String negativeMessage, DialogInterface.OnClickListener positiveListener,
                              DialogInterface.OnClickListener negativeListener) {
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getActivity(),

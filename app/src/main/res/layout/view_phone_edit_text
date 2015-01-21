@@ -6,7 +6,7 @@
     android:layout_height="@dimen/gray_button_height"
     android:orientation="horizontal"
     style="@style/whiteLayout">
-
+<!--Take out area code for V1
 <TextView
     android:id="@+id/areaCode"
     android:layout_width="wrap_content"
@@ -16,18 +16,27 @@
     android:paddingLeft="@dimen/spacing_small"
     android:layout_centerVertical="true"
     style="@style/blackMediumText"/>
-
-    <EditText
+    
+        <EditText
         android:id="@+id/phoneInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/hint_phone"
         android:layout_toRightOf="@+id/areaCode"
-        android:layout_centerHorizontal="true"
         android:paddingLeft="@dimen/spacing_small"
         android:layout_centerVertical="true"
         style="@style/whiteEditText"
         />
+-->
+    <EditText
+        android:id="@+id/phoneInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_phone"
+        android:paddingLeft="@dimen/spacing_small"
+        android:layout_centerVertical="true"
+        style="@style/whiteEditText"
+        android:inputType="phone" />
 
 
 </RelativeLayout>

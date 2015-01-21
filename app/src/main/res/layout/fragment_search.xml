@@ -5,7 +5,7 @@
     android:background="@color/gray_light_two"
     android:orientation="vertical">
 
-    <include android:id="@+id/app_bar" layout="@layout/app_search_bar" />
+    <include android:id="@+id/app_bar" layout="@layout/app_tool_bar" />
 
     <include
         layout="@layout/view_search_field"

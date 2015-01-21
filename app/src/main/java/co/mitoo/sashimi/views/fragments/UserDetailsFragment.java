@@ -11,7 +11,7 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.listener.ListViewOnClickLIstener;
-import co.mitoo.sashimi.views.adapters.UserProfileInfoAdapter;
+import co.mitoo.sashimi.views.adapters.StringListAdapter;
 
 /**
  * Created by david on 15-01-12.
@@ -20,7 +20,7 @@ public class UserDetailsFragment extends MitooFragment {
 
     //Top List variables
     ListView detailsList;
-    UserProfileInfoAdapter detailsListAdapter;
+    StringListAdapter detailsListAdapter;
     List<String> detailsListData;
     ListViewOnClickLIstener detailsListOnItemClickListner;
 
@@ -47,7 +47,7 @@ public class UserDetailsFragment extends MitooFragment {
     @Override
     protected void initializeFields(){
 
-        detailsListData = buiildStringList(R.array.user_profile_top_list);
+        detailsListData = buiildStringList(R.array.settings_bottom_menu_list);
 
     }
 
@@ -58,7 +58,7 @@ public class UserDetailsFragment extends MitooFragment {
 
         detailsList = (ListView)view.findViewById(R.id.user_profile_details);
         detailsListOnItemClickListner = new ListViewOnClickLIstener(detailsList.getId());
-        detailsListAdapter = new UserProfileInfoAdapter(getActivity(),R.id.user_profile_details ,detailsListData);
+        detailsListAdapter = new StringListAdapter(getActivity(),R.id.user_profile_details ,detailsListData);
         setUpListView(detailsListAdapter, detailsList, detailsListOnItemClickListner );
 
     }

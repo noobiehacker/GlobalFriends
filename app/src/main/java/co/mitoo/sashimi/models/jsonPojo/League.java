@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 
+import co.mitoo.sashimi.R;
+
 /**
  * Created by david on 14-11-21.
  */
@@ -109,4 +111,16 @@ public class League implements Serializable {
         this._geoloc = _geoloc;
     }
 
+    public String getLeagueSports(){
+        
+        String result= "";
+        String[] sports = getSports();
+        for(int i = 0 ; i< sports.length ;i++){
+            if(i!=0)
+                result+= " - ";
+            result+= sports[i];
+        }
+        
+        return result;
+    }
 }

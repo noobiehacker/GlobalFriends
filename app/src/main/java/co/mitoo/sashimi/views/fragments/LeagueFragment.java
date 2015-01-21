@@ -3,13 +3,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.MitooModel;
+import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo._geoLoc;
+import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 
 /**
@@ -19,6 +27,9 @@ import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 public class LeagueFragment extends MitooLocationFragment {
 
     private String leagueTitle;
+    private LeagueModel leagueModel;
+    private League selectedLeague;
+    
     public static LeagueFragment newInstance() {
         LeagueFragment fragment = new LeagueFragment();
         return fragment;
@@ -66,14 +77,17 @@ public class LeagueFragment extends MitooLocationFragment {
     @Override
     protected void initializeFields(){
         
-        setUpMap(null);
-        Bundle arguments = getArguments();
-        setFragmentTitle(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
+        setUpMap();
+        setFragmentTitle(getSelectedLeague().getName());
     }
 
     private void initializeViewElements(View view){
         //Work around for the animation to display a gray background during load
         initializeOnClickListeners(view);
+        ViewHelper viewHelper = new ViewHelper(getActivity());
+        viewHelper.setUpLeagueImage(view, getSelectedLeague());
+        viewHelper.setUpLeageText(view , getSelectedLeague());
+        setUpText(view , getSelectedLeague());
     }
 
     private void initializeOnClickListeners(View view){
@@ -89,13 +103,14 @@ public class LeagueFragment extends MitooLocationFragment {
         }
     }
     
-    private void setUpMap(LatLng latLng){
-        latLng = new LatLng( 37.796648, -122.402406);
+    private void setUpMap(){
+        _geoLoc getLoc = getSelectedLeague().get_geoloc();
+        LatLng latLng =new LatLng(getLoc.getLat(), getLoc.getLng());
         GoogleMap map = ((MapFragment) getFragmentManager()
                 .findFragmentById(R.id.googleMapFragment)).getMap();
         map.animateCamera(CameraUpdateFactory.zoomIn());
         map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
 
     }
 
@@ -113,4 +128,38 @@ public class LeagueFragment extends MitooLocationFragment {
         this.leagueTitle = leagueTitle;
     }
 
+    private void setUpText(View view , League league){
+
+        TextView leagueInfoTextView =  (TextView) view.findViewById(R.id.league_join_details);
+        leagueInfoTextView.setText(league.getAbout());
+
+    }
+
+    public LeagueModel getLeagueModel() {
+        if(leagueModel==null){
+            MitooModel model = getMitooActivity().getModel(LeagueModel.class);
+            if(model!=null){
+                leagueModel = (LeagueModel) model;
+            }
+        }
+        return leagueModel;
+    }
+
+    public void setLeagueModel(LeagueModel leagueModel) {
+        this.leagueModel = leagueModel;
+    }
+
+    public League getSelectedLeague() {
+        if(selectedLeague==null){
+            Bundle arguments = getArguments();
+            String value = arguments.get(getString(R.string.bundle_key_league_object_id)).toString();
+            int objectID = Integer.parseInt(value);
+            setSelectedLeague(getLeagueModel().getLeagueByObjectID(objectID));
+        }
+        return selectedLeague;
+    }
+
+    public void setSelectedLeague(League selectedLeague) {
+        this.selectedLeague = selectedLeague;
+    }
 }

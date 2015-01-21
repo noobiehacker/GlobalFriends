@@ -36,7 +36,7 @@
 
     <dimen name="list_view_height">100dp</dimen>
     <dimen name="list_view_league_image_height">170dp</dimen>
-    <dimen name="list_divider_height">2dp</dimen>
+    <dimen name="list_divider_height">1dp</dimen>
     <!-- stock android values -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

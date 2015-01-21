@@ -20,4 +20,21 @@
         android:layout_below="@id/app_bar"
         android:layout_marginTop="@dimen/spacing_normal"
         />
+    
+    <TextView
+        android:id="@+id/enquired_league_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_bar"
+        android:text="@string/home_page_text_1"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        style="@style/grayLightMediumText"/>
+    
+    <include android:id="@+id/enquired_league"
+        layout="@layout/list_view_item_league"
+        android:layout_below="@id/enquired_league_text"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/spacing_normal"
+        />
 </RelativeLayout>
