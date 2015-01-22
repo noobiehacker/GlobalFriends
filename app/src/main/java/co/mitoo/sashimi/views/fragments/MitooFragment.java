@@ -1,9 +1,7 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,16 +17,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.squareup.otto.Bus;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.ModelRetriever;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
@@ -49,6 +43,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean busRegistered= false;
     protected Toolbar toolbar;
     protected String fragmentTitle = "";
+    private boolean allowBackPressed= true;
+
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -58,7 +54,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle SavedInstanceState) {
         super.onCreate(SavedInstanceState);
-        
+        initializeFields();
         registerBus();
     }
 
@@ -103,6 +99,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
     
     protected void initializeFields(){
+        
         setFragmentTitle(getString(R.string.toolbar_placeholder));
     }
 
@@ -375,6 +372,18 @@ Taken out filters for release one
         this.fragmentTitle = fragmentTitle;
     }
 
+
+    public ModelRetriever getRetriever() {
+        return getMitooActivity().getModelRetriever();
+    }
+
+    public boolean isAllowBackPressed() {
+        return allowBackPressed;
+    }
+
+    public void setAllowBackPressed(boolean allowBackPressed) {
+        this.allowBackPressed = allowBackPressed;
+    }
 }
 
 

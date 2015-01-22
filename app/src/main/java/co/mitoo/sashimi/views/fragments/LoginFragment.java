@@ -12,7 +12,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.AuthTokenExchangeRequestEvent;
@@ -28,7 +28,7 @@ import rx.observables.ConnectableObservable;
 public class LoginFragment extends MitooFragment{
 
     protected Subscription subscription;
-    private ConnectableObservable<UserSend> observable;
+    private ConnectableObservable<JsonLoginSend> observable;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();

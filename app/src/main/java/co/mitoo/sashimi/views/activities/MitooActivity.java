@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.activities;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
-
 import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -26,25 +23,30 @@ import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.IUserModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.MitooModel;
-import co.mitoo.sashimi.models.UserModel;
+import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentFactory;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.ModelRetriever;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
+import co.mitoo.sashimi.utils.events.SessionLoadedResponseEvent;
 import co.mitoo.sashimi.views.fragments.LoginFragment;
+import co.mitoo.sashimi.views.fragments.MitooFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MitooActivity extends Activity {
 
     private MitooLocationManager locationManager;
-    private Fragment topFragment;
+    private MitooFragment topFragment;
     private Handler handler;
     private Runnable runnable;
     private IUserModel model;
-    private Stack<Fragment> fragmentStack;
+    private Stack<MitooFragment> fragmentStack;
     private List<MitooModel> mitooModelList;
+    private ModelRetriever modelRetriever;
     protected Toolbar toolbar;
 
     @Override
@@ -55,14 +57,10 @@ public class MitooActivity extends Activity {
         locationManager = new MitooLocationManager(this);
         setContentView(R.layout.activity_mitoo);
         swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.NONE ,R.id.fragment_splash));
-        Handler h = new Handler();
-        h.postDelayed(new Runnable() {
-            public void run() {
-                getFragmentManager().popBackStackImmediate();
-                swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH ,R.id.fragment_landing));
-            }
-        }, 1000);
         setUpNewRelic();
+        setModelRetriever(new ModelRetriever(this));
+        setUpPersistenceData();
+
 
     }
 
@@ -111,9 +109,9 @@ public class MitooActivity extends Activity {
     }
     
     private void initializeFields(){
-        model = new UserModel(getResources());
-        fragmentStack= new Stack<Fragment>();
+        fragmentStack= new Stack<MitooFragment>();
         mitooModelList = new ArrayList<MitooModel>();
+        addModel(SessionModel.class);
     }
     
     @Subscribe
@@ -154,6 +152,26 @@ public class MitooActivity extends Activity {
     }
 
     @Subscribe
+    public void userLoadedResponse(SessionLoadedResponseEvent event) {
+
+        final SessionLoadedResponseEvent eventToPassIn = event;
+        Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            public void run() {
+                getFragmentManager().popBackStackImmediate();
+                if (eventToPassIn.getUserRecieve() != null) {
+                    swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_home));
+
+                } else {
+                    swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_landing));
+
+                }
+            }
+        }, 1000);
+
+    }
+
+    @Subscribe
     public void startIntent(Intent intent){
         startActivity(intent);
     }
@@ -170,7 +188,7 @@ public class MitooActivity extends Activity {
 
     private void pushFragment(FragmentChangeEvent event){
 
-        Fragment fragment = FragmentFactory.getInstance().buildFragment(event);
+        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         if(event.getBundle()!=null)
             fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -190,7 +208,7 @@ public class MitooActivity extends Activity {
 
     private void swapFragment(FragmentChangeEvent event){
 
-        Fragment fragment = FragmentFactory.getInstance().buildFragment(event);
+        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         if(event.getTransition() != MitooEnum.fragmentTransition.NONE){
             ft.setCustomAnimations(R.anim.enter, R.anim.exit);
@@ -231,7 +249,8 @@ public class MitooActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            popFragment();
+            if(this.fragmentStack.peek().isAllowBackPressed())
+                popFragment();
         }
     }
 
@@ -239,7 +258,9 @@ public class MitooActivity extends Activity {
         
         if (!containsModelType(modelClass)) {
             if (modelClass == LeagueModel.class) {
-                addModelToModelList(new LeagueModel(getResources()));
+                addModelToModelList(new LeagueModel(this));
+            } else if (modelClass == SessionModel.class) {
+                addModelToModelList(new SessionModel(this));
             }
         }
     }    
@@ -289,4 +310,21 @@ public class MitooActivity extends Activity {
         return result;
     }
 
+    public ModelRetriever getModelRetriever() {
+        return modelRetriever;
+    }
+
+    public void setModelRetriever(ModelRetriever modelRetriever) {
+        this.modelRetriever = modelRetriever;
+    }
+    
+    private void setUpPersistenceData(){
+        
+        if(MitooConstants.persistenceStorage){
+            getModelRetriever().getUserModel().loadUser();
+        }else{
+            getModelRetriever().getUserModel().deleteUser();
+        }
+
+    }
 }

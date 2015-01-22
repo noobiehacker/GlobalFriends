@@ -17,7 +17,7 @@
             android:layout_height="@dimen/circle_image_diameter"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/place_holder_profile"
+            android:src="@drawable/ic_account_circle_white"
             android:focusable="false"
             app:border_color="@color/black"
             app:border_width="2dp"

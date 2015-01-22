@@ -1,21 +1,20 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
-import retrofit.RetrofitError;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 
 /**
  * Created by david on 14-11-26.
  */
 public class UserRecieveResponseEvent {
 
-    public UserRecieveResponseEvent(UserRecieve token){
+    public UserRecieveResponseEvent(SessionRecieve token){
         this.user = token;
     }
 
-    public UserRecieve getUser() {
+    public SessionRecieve getUser() {
         return user;
     }
 
-    private UserRecieve user;
+    private SessionRecieve user;
 
 }

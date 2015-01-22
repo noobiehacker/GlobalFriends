@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.send.Login;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.StaticString;
 
 /**
@@ -16,8 +16,8 @@ import co.mitoo.sashimi.utils.StaticString;
 public class MockPojo {
 
 
-    public static Login getLogin(){
-        Login login = new Login("abc@mitoo.com" , "abc123");
+    public static JsonSignUpSend getLogin(){
+        JsonSignUpSend login = new JsonSignUpSend("abc@mitoo.com" , "abc123" ,"" ,"");
         return login;
     }
     public static Session getSession(){

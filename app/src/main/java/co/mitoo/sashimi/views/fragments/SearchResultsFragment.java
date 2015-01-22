@@ -31,7 +31,7 @@ import co.mitoo.sashimi.views.adapters.SportAdapter;
 /**
  * Created by david on 15-01-19.
  */
-public class SearchResultsFragment extends MitooLocationFragment implements AdapterView.OnItemClickListener {
+public class SearchResultsFragment extends MitooFragment implements AdapterView.OnItemClickListener {
 
     private ListView leagueList;
     private ListView sportsList;
@@ -150,9 +150,8 @@ public class SearchResultsFragment extends MitooLocationFragment implements Adap
 
     private void leagueListItemAction(League league){
 
-        Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(league.getObjectID()));
-        fireFragmentChangeAction(R.id.fragment_league , bundle);
+        getRetriever().getLeagueModel().setSelectedLeague(league);
+        fireFragmentChangeAction(R.id.fragment_league);
 
     }
 
@@ -172,16 +171,5 @@ public class SearchResultsFragment extends MitooLocationFragment implements Adap
 
         }
     }
-
-    private void search(String input){
-        BusProvider.post(new LeagueQueryRequestEvent(input));
-    }
-
-    @Subscribe
-    public void recieveLocation(LocationResponseEvent event){
-        setLocation(event.getLocation());
-    }
-
-
 
 }

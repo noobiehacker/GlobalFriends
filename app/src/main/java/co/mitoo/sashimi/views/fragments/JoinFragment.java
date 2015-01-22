@@ -1,7 +1,6 @@
 package co.mitoo.sashimi.views.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,9 @@ import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.IUserModel;
-import co.mitoo.sashimi.models.UserModel;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.JoinRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
@@ -21,6 +20,8 @@ import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
  */
 public class JoinFragment extends MitooFragment {
 
+    private League selectedLeague;
+    
     public static JoinFragment newInstance() {
         return new JoinFragment();
     }
@@ -57,6 +58,16 @@ public class JoinFragment extends MitooFragment {
     protected void initializeFields() {
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_join));
+    }
+    
+    @Override
+    protected void initializeViews(View view){
+        
+        super.initializeViews(view);
+        ViewHelper viewHelper = new ViewHelper(getActivity());
+        viewHelper.setUpLeagueImage(view, getSelectedLeague());
+        viewHelper.setUpLeageText(view , getSelectedLeague());
+        
     }
 
     @Override
@@ -123,5 +134,17 @@ public class JoinFragment extends MitooFragment {
     private String getPassword() {
         return this.getTextFromTextField(R.id.passwordInput);
     }
+
+    public League getSelectedLeague() {
+        if(selectedLeague==null){
+            setSelectedLeague(getRetriever().getLeagueModel().getSelectedLeague());
+        }
+        return selectedLeague;
+    }
+
+    public void setSelectedLeague(League selectedLeague) {
+        this.selectedLeague = selectedLeague;
+    }
+
 
 }

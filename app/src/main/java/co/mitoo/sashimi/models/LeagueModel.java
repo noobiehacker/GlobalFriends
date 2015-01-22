@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.models;
 
+import android.app.Activity;
 import android.content.res.Resources;
 
 import com.algolia.search.saas.APIClient;
@@ -24,6 +25,7 @@ import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueResultRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueResultResponseEvent;
 import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
+
 import android.os.Handler;
 import org.apache.commons.lang.SerializationUtils;
 /**
@@ -35,20 +37,18 @@ public class LeagueModel extends MitooModel {
     private Index index;
     private AlgoliaIndexListener aiListener;
     private List<League> leagues;
-    private Runnable parseRunnable;
-    private Runnable getResultsRunnable;
-    private Handler handler;
     private JSONObject results;
-    
-    public LeagueModel(Resources resources){
-        super(resources);
+    private League selectedLeague;
+
+    public LeagueModel(Activity activity) {
+        super(activity);
         setUpAlgolia();
     }
 
     private void setUpAlgolia(){
 
-        algoliaClient = new APIClient(getResources().getString(R.string.App_Id_algolia) , getResources().getString(R.string.API_key_algolia)) ;
-        index = algoliaClient.initIndex(getResources().getString(R.string.algolia_index));
+        algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
+        index = algoliaClient.initIndex(getActivity().getString(R.string.algolia_index));
         aiListener = new AlgoliaIndexListener();
 
     }
@@ -82,12 +82,12 @@ public class LeagueModel extends MitooModel {
         
         this.results=results;
         this.handler= new Handler();
-        this.parseRunnable =new Runnable() {
+        this.serializeRunnable =new Runnable() {
             @Override
             public void run() {
 
                 try {
-                    JSONArray hits = LeagueModel.this.results.getJSONArray(getResources().getString(R.string.algolia_result_param));
+                    JSONArray hits = LeagueModel.this.results.getJSONArray(getActivity().getString(R.string.algolia_result_param));
                     ObjectMapper objectMapper = new ObjectMapper();
                     LeagueModel.this.leagues = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
                 }
@@ -96,7 +96,7 @@ public class LeagueModel extends MitooModel {
             }
         };
 
-        Thread t = new Thread(this.parseRunnable);
+        Thread t = new Thread(this.serializeRunnable);
         t.start();
         
         this.getResultsRunnable = createGetResultsRunnable();
@@ -108,7 +108,8 @@ public class LeagueModel extends MitooModel {
         super.removeReferences();
     }
     
-    private void obtainResults(){
+    @Override
+    protected void obtainResults(){
         
         if(this.leagues!=null){
             BusProvider.post(new LeagueQueryResponseEvent(this.leagues));
@@ -118,21 +119,7 @@ public class LeagueModel extends MitooModel {
         }
         
     }
-    
-    private Runnable createGetResultsRunnable(){
-        return new Runnable() {
-            @Override
-            public void run() {
 
-                try {
-                    LeagueModel.this.obtainResults();
-                }
-                catch(Exception e){
-                }
-            }
-        };
-    }
-    
     private List<League> deepCopy(List<League> league){
         List<League> results = new ArrayList<League>();
         for(League item: league){
@@ -155,5 +142,13 @@ public class LeagueModel extends MitooModel {
         }
         return result;
 
+    }
+
+    public League getSelectedLeague() {
+        return selectedLeague;
+    }
+
+    public void setSelectedLeague(League selectedLeague) {
+        this.selectedLeague = selectedLeague;
     }
 }

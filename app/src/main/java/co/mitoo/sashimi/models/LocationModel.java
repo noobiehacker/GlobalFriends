@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.models;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.location.Location;
 
@@ -18,8 +19,8 @@ public class LocationModel extends MitooModel {
 
     private Location location;
 
-    public LocationModel(Resources resources) {
-        super(resources);
+    public LocationModel(Activity activity) {
+        super(activity);
     }
 
     @Subscribe

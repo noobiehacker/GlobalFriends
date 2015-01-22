@@ -20,8 +20,8 @@ public class FragmentFactory {
     private FragmentFactory(){
     }
 
-    public Fragment buildFragment(FragmentChangeEvent event) {
-        Fragment result = null;
+    public MitooFragment buildFragment(FragmentChangeEvent event) {
+        MitooFragment result = null;
         switch (event.getFragmentId()) {
             case R.id.fragment_landing:
                 result = LandingFragment.newInstance();

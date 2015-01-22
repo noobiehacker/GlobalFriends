@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_league"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,36 +12,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
-    
-    <include
-        android:id="@+id/league_image_holder"
-        layout="@layout/list_view_item_league"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/app_bar"/>
 
-    <include
-        android:id="@+id/league_top_details"
-        layout="@layout/partial_league_top_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/league_image_holder"
-        android:layout_marginTop="@dimen/spacing_normal"/>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/app_bar">
 
-    <include
-        android:id="@+id/league_bottom_details"
-        layout="@layout/partial_league_bottom_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/league_top_details"
-        android:layout_marginTop="@dimen/spacing_normal"/>
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <include
-        android:id="@+id/google_map_container"
-        layout="@layout/partial_google_map_holder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/league_bottom_details"
-        android:layout_marginTop="@dimen/spacing_normal"/>
+            <include
+                android:id="@+id/league_image_holder"
+                layout="@layout/list_view_item_league"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true" />
 
+            <include
+                android:id="@+id/league_top_details"
+                layout="@layout/partial_league_top_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/league_image_holder"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginRight="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal" />
+
+            <include
+                android:id="@+id/league_bottom_details"
+                layout="@layout/partial_league_bottom_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/league_top_details"
+                android:layout_marginTop="@dimen/spacing_normal" />
+
+            <include
+                android:id="@+id/google_map_container"
+                layout="@layout/partial_google_map_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/league_bottom_details"
+                android:layout_marginTop="@dimen/spacing_normal" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

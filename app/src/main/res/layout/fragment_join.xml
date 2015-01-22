@@ -1,9 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_join"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent">
 
     <include
         android:id="@+id/app_bar"
@@ -12,12 +10,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <include layout="@layout/partial_join_form"
-        android:id="@+id/joinForm"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/app_bar"
-        />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/leagueBackGround"
+        android:src="@drawable/bg_social_league"
+        android:layout_below="@id/app_bar"
+        android:scaleType="centerCrop"/>
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/app_bar">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/app_bar"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            
+            <include
+                android:id="@+id/joinForm"
+                layout="@layout/partial_join_form"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+        
+    </ScrollView>
 
 </RelativeLayout>
+

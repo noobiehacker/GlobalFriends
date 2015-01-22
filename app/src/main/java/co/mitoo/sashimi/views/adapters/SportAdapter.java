@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -21,10 +22,11 @@ public class SportAdapter extends ArrayAdapter<Sport> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        this.getItem(position);
         if (convertView == null) {
-            convertView = View.inflate(getContext(), R.layout.list_view_item_sport, null);
+            convertView = View.inflate(getContext(), R.layout.list_view_item_text, null);
         }
+        TextView sportsText = (TextView) convertView.findViewById(R.id.itemText);
+        sportsText.setText(getItem(position).getName());
         return convertView;
 
     }

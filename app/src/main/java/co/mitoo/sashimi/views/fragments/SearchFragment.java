@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -86,7 +89,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         setFragmentTitle(getString(R.string.tool_bar_near_you));
         leagueData = new ArrayList<League>();
         sportData= new ArrayList<Sport>();
-        sportData.addAll(MockPojo.getSportList());
+        sportData.addAll(getSports());
         getMitooActivity().addModel(LeagueModel.class);
         
     }
@@ -109,21 +112,18 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         super.initializeViews(view);
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setUpSearchView(view);
-        sportsDataAdapter = new SportAdapter(getActivity(),R.id.sportsListView, sportData);
-        sportsList = (ListView) view.findViewById(R.id.sportsListView);
-        sportsList.setOnItemClickListener(this);
-        sportsList.setAdapter(sportsDataAdapter);
-        sportsDataAdapter.notifyDataSetChanged();
-
+        setUpSportsList(view);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         view.setSelected(true);
-        if(parent.getId() == sportsList.getId())
-        {
-            Sport item = (Sport)sportsList.getItemAtPosition(position);
-            search(item.getName());
+        if(parent.getId() == sportsList.getId()) {
+            if (position != 0) {
+                Sport item = (Sport) sportsList.getItemAtPosition(position);
+                searchFieldAction(item.getName());
+
+            }
         }
     }
 
@@ -176,7 +176,9 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     }
 
     private void sportSelectionAction(){
-        sportData.addAll(MockPojo.getSportList());
+
+        /*
+        sportData.addAll(getSports());
         sportsDataAdapter.notifyDataSetChanged();
      
         View generalFilter = getActivity().findViewById(R.id.viewGeneralFilter);
@@ -184,6 +186,19 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         
         generalFilter.setVisibility(View.GONE);
         sportFilter.setVisibility(View.VISIBLE);
+        */
+    }
+    
+    private List<Sport> getSports(){
+        
+        ArrayList<Sport> returnList = new ArrayList<Sport>();
+        String[] sportsArray = getResources().getStringArray(R.array.sports_array);
+        Arrays.sort(sportsArray);
+        for(String item : sportsArray){
+            returnList.add(new Sport(item));
+        }
+        return returnList;
+
     }
 
     /*
@@ -212,9 +227,6 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         BusProvider.post(new LeagueQueryRequestEvent(query));
     }
 
-    private void search(String input){
-
-    }
     
     private synchronized <T> void addToListList(List<T>container ,List<T> additionList){
         for(T item : additionList){
@@ -263,6 +275,25 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
                 return false;
             }
         });
+    }
+    
+    private void setUpSportsList(View view){
+       
+        sportsDataAdapter = new SportAdapter(getActivity(),R.id.sportsListView, sportData);
+        sportsList = (ListView) view.findViewById(R.id.sportsListView);
+        sportsList.addHeaderView(getSportsListHeader());
+        sportsList.setOnItemClickListener(this);
+        sportsList.setAdapter(sportsDataAdapter);
+        sportsDataAdapter.notifyDataSetChanged();
+        
+    }
+    
+    private View getSportsListHeader(){
+
+        View header = getActivity().getLayoutInflater().inflate(R.layout.list_view_header , null);
+        TextView suggestionTextView = (TextView) header.findViewById(R.id.itemText);
+        suggestionTextView.setText(getString(R.string.search_page_text_2));
+        return header;
     }
 
 }

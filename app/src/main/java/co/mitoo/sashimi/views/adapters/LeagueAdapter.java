@@ -32,6 +32,7 @@ public class LeagueAdapter extends ArrayAdapter<League> {
             ViewHelper helper = new ViewHelper(getContext());
             helper.setUpLeagueImage(convertView, league);
             helper.setUpLeageText(convertView, league);
+            helper.setLineColor(convertView, league);
         }
         return convertView;
     }

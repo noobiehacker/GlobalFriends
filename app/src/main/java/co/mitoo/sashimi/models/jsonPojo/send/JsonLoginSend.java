@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 /**
  * Created by david on 14-11-13.
  */
-@JsonRootName(value = "")
-public class UserSend
+
+public class JsonLoginSend
 {
 
-    public UserSend(String email, String password){
+    public JsonLoginSend(String email, String password){
         this.email = email;
         this.password = password;
     }

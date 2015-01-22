@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -7,13 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 /**
  * Created by david on 15-01-19.
  */
 public class ConfirmFragment extends MitooFragment {
 
-
+    private League selectedLeague;
+    
     public static ConfirmFragment newInstance() {
 
         return new ConfirmFragment();
@@ -23,7 +25,7 @@ public class ConfirmFragment extends MitooFragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        setAllowBackPressed(false);
     }
 
     @Override
@@ -32,28 +34,12 @@ public class ConfirmFragment extends MitooFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_confirm,
                 container, false);
         initializeOnClickListeners(view);
-        initializeFields(savedInstanceStaste);
         initializeViews(view);
-        initializeOnClickListeners(view);
         return view;
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }
-
-    private void initializeFields(Bundle savedInstanceState){
+    protected void initializeFields(){
 
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_confirmation));
@@ -63,8 +49,9 @@ public class ConfirmFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        
+        ViewHelper viewHelper = new ViewHelper(getActivity());
+        viewHelper.setUpLeagueImage(view, getSelectedLeague());
+        viewHelper.setUpLeageText(view , getSelectedLeague());
     }
 
     private void initializeOnClickListeners(View view){
@@ -101,6 +88,17 @@ public class ConfirmFragment extends MitooFragment {
             toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         }
+    }
+
+    public League getSelectedLeague() {
+        if(selectedLeague==null){
+            setSelectedLeague(getRetriever().getLeagueModel().getSelectedLeague());
+        }
+        return selectedLeague;
+    }
+
+    public void setSelectedLeague(League selectedLeague) {
+        this.selectedLeague = selectedLeague;
     }
 
 }

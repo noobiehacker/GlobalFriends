@@ -20,7 +20,7 @@
     <string name="landing_page_slider_text7">Stay fit and have fun in your new league</string>
     <string name="landing_page_slider_text8">We keep you inform of any update on</string>
     <string name="landing_page_slider_text9">the competition you joined</string>
-    <string name="landing_page_text10">FIND A TEAM SPORT NEAR ME</string>
+    <string name="landing_page_text10">Find a team sport near me</string>
     <string name="landing_page_text11">Already have an account? Login</string>
 
     <!--Login Page-->
@@ -84,6 +84,9 @@
     <string name="distance_bar_left">0</string>
     <string name="distance_bar_right">100</string>
 
+    <!--Search Page -->
+    <string name="search_page_text_1">Search Mitoo for:</string>
+    <string name="search_page_text_2">Suggested searches</string>
     <!--User Profile Page -->
     <string name="settings_page_text_1">Help and feedback</string>
     <string name="settings_page_text_2">Logout</string>
@@ -127,13 +130,32 @@
     <string name="error_no_internet">Sorry you do not have internet access at the moment</string>
     <string name="error_incorrect_user">Sorry, we can not match any user with your input</string>
 
-    <string-array name="spinner_sports_array">
-        <item>All</item>
-        <item>Baseball</item>
+    <string-array name="sports_array">
+        <item>Soccer</item>
+        <item>Softball</item>
+        <item>Kickball</item>
         <item>Basketball</item>
-        <item>Football</item>
-        <item>Ping Pong</item>
+        <item>Volleyball</item>
+        <item>Flag Football</item>
+        <item>Dodgeball</item>
+        <item>Bowling</item>
+        <item>Indoor Soccer</item>
+        <item>Tennis</item>
+        <item>Cornhole</item>
+        <item>Ultimate Frisbee</item>
+        <item>Lacrosse</item>
+        <item>Skeeball</item>
         <item>Hockey</item>
+        <item>Indoor Volleyball</item>
+        <item>Brocce</item>
+        <item>Sand Volleyball</item>
+        <item>Futsal</item>
+        <item>Broomball</item>
+        <item>Baseball</item>
+        <item>Inline Hockey</item>
+        <item>Golf</item>
+        <item>Bar Games</item>
+        <item>Floor Hockey</item>
     </string-array>
 
     <string-array name="levels_array">
@@ -308,4 +330,7 @@
     <string name="string_concat_dash"> - </string>
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>
+
+    <string name="shared_preference_user_key">User Key</string>
+    <string name="shared_preference_error">shared preference error</string>
 </resources>

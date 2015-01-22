@@ -10,9 +10,9 @@ import org.junit.Before;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
-import co.mitoo.sashimi.models.jsonPojo.send.EmailSend;
-import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
-import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.network.mockNetwork.MockSteakApiService;
@@ -87,9 +87,9 @@ public class SteakApiServiceTest extends TestCase {
 
         SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                                            .create(SteakApi.class);
-        Observable<UserRecieve> recieve = api.deleteSession();
-        recieve.subscribe(new Action1<UserRecieve>() {
-            public void call(UserRecieve s) {
+        Observable<SessionRecieve> recieve = api.deleteSession();
+        recieve.subscribe(new Action1<SessionRecieve>() {
+            public void call(SessionRecieve s) {
                 assertNotNull(s);
             }
         });
@@ -100,10 +100,10 @@ public class SteakApiServiceTest extends TestCase {
 
         SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
-        UserSend sendingObject = new UserSend(userID, StaticString.testPassword);
-        Observable<UserRecieve> observable = api.createRegistration(StaticString.apiConstantRegister
+        JsonLoginSend sendingObject = new JsonLoginSend(userID, StaticString.testPassword);
+        Observable<SessionRecieve> observable = api.createRegistration(StaticString.apiConstantRegister
                 ,sendingObject);
-        testApiMethod(observable,UserRecieve.class);
+        testApiMethod(observable,SessionRecieve.class);
         assertNotNull(getItemToCheck());
         setItemToCheck(null);
 
@@ -113,9 +113,9 @@ public class SteakApiServiceTest extends TestCase {
 
         SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
-        UserSend loginObject = new UserSend(userID, StaticString.testPassword);
-        Observable<UserRecieve> observable = api.createSession(loginObject);
-        testApiMethod(observable, UserRecieve.class);
+        JsonLoginSend loginObject = new JsonLoginSend(userID, StaticString.testPassword);
+        Observable<SessionRecieve> observable = api.createSession(loginObject);
+        testApiMethod(observable, SessionRecieve.class);
         assertNotNull(getItemToCheck());
         setItemToCheck(null);
 
@@ -125,7 +125,7 @@ public class SteakApiServiceTest extends TestCase {
 
         SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
-        Observable<Response> observable = api.resetPassword(new EmailSend(userID));
+        Observable<Response> observable = api.resetPassword(new JsonResetPasswordSend(userID));
         testApiMethod(observable , Response.class);
         assertNotNull(getItemToCheck());
         setItemToCheck(null);

@@ -12,8 +12,11 @@ import co.mitoo.sashimi.utils.listener.FragmentChangeListener;
 /**
  * Created by david on 14-11-05.
  */
-public class SplashScreenFragment extends Fragment {
+public class SplashScreenFragment extends MitooFragment {
+    @Override
+    public void onClick(View v) {
 
+    }
 
     public static SplashScreenFragment newInstance() {
         SplashScreenFragment fragment = new SplashScreenFragment();

@@ -2,9 +2,11 @@ package co.mitoo.sashimi.network.mockNetwork;
 
 import java.util.Collections;
 
-import co.mitoo.sashimi.models.jsonPojo.send.EmailSend;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
-import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.utils.BusProvider;
 import retrofit.RetrofitError;
@@ -12,6 +14,7 @@ import retrofit.client.Header;
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.POST;
+import retrofit.http.Path;
 import retrofit.http.Query;
 import rx.Observable;
 
@@ -28,24 +31,34 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<UserRecieve> createRegistration(@Query("save_type") String param1,@Body UserSend user) {
-        return createMockRespoonse(new UserRecieve());
+    public Observable<SessionRecieve> createRegistration(@Query("save_type") String param1,@Body JsonLoginSend user) {
+        return createMockRespoonse(new SessionRecieve());
     }
 
     @Override
     @POST("/sessions")
-    public Observable<UserRecieve> createSession(@Body UserSend userSend) {
-        return createMockRespoonse(new UserRecieve());
+    public Observable<SessionRecieve> createSession(@Body JsonLoginSend userSend) {
+        return createMockRespoonse(new SessionRecieve());
     }
 
     @Override
-    public Observable<Response> resetPassword(@Body EmailSend jsonObject) {
+    public Observable<Response> resetPassword(@Body JsonResetPasswordSend jsonObject) {
         return createMockRespoonse(createResponse());
 }
 
     @Override
-    public Observable<UserRecieve> deleteSession() {
-        return createMockRespoonse(new UserRecieve());
+    public Observable<SessionRecieve> deleteSession() {
+        return createMockRespoonse(new SessionRecieve());
+    }
+
+    @Override
+    public Observable<Response> createLeagueEnquiries(@Path("id") int id, @Body JsonLeagueEnquireSend jsonObject) {
+        return null;
+    }
+
+    @Override
+    public Observable<UserRecieve> getUser(@Path("id") int id) {
+        return null;
     }
 
     private <T> Observable<T> createMockRespoonse(T item){

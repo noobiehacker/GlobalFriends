@@ -16,7 +16,7 @@
         layout="@layout/view_user_profile_image_holder"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_view_league_image_height"
-        android:layout_alignParentTop="true" />
+        android:layout_below="@+id/app_bar" />
 
     <include
         android:id="@+id/user_profile_details"

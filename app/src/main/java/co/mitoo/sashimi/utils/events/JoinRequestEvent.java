@@ -1,19 +1,19 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.models.jsonPojo.send.UserSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 
 /**
  * Created by david on 14-12-16.
  */
 public class JoinRequestEvent  extends TokenRequestEvent {
 
-    private UserSend credentials;
+    private JsonLoginSend credentials;
 
     public JoinRequestEvent(String email, String password){
-        this.credentials = new UserSend(email,password);
+        this.credentials = new JsonLoginSend(email,password);
     }
 
-    public UserSend getCredentials() {
+    public JsonLoginSend getCredentials() {
         return credentials;
     }
 }

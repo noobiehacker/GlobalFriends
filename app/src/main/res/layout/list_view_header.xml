@@ -3,9 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:background="@color/white"
-    android:paddingLeft="@dimen/spacing_normal"
-    android:paddingRight="@dimen/spacing_normal"
+    android:background="@color/gray_light_one"
     >
 
     <TextView
@@ -21,11 +19,6 @@
         android:textIsSelectable="false"
         style="@style/grayDarkBigText"
         />
-    
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_four"
-        android:layout_below="@+id/itemText"></View>
+
 
 </RelativeLayout>

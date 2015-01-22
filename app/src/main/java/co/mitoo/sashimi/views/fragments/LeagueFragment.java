@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.otto.Subscribe;
@@ -24,10 +26,9 @@ import co.mitoo.sashimi.utils.events.LocationResponseEvent;
  * Created by david on 14-12-19.
  */
 
-public class LeagueFragment extends MitooLocationFragment {
+public class LeagueFragment extends MitooFragment {
 
     private String leagueTitle;
-    private LeagueModel leagueModel;
     private League selectedLeague;
     
     public static LeagueFragment newInstance() {
@@ -40,7 +41,6 @@ public class LeagueFragment extends MitooLocationFragment {
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_league,
                         container, false);
-        initializeViewElements(view);
         initializeFields();
         initializeViews(view);
         return view;
@@ -70,24 +70,32 @@ public class LeagueFragment extends MitooLocationFragment {
             getFragmentManager().beginTransaction().remove(f).commit();
     }
 
-    private void joinAction(){
-        fireFragmentChangeAction(R.id.fragment_join);
+    private void joinButtonAction(){
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getObjectID()));
+        fireFragmentChangeAction(R.id.fragment_join , bundle);
     }
 
     @Override
     protected void initializeFields(){
-        
-        setUpMap();
+
+        super.initializeFields();
         setFragmentTitle(getSelectedLeague().getName());
     }
 
-    private void initializeViewElements(View view){
-        //Work around for the animation to display a gray background during load
+    @Override
+    protected void initializeViews(View view){
+        
+        super.initializeViews(view);
         initializeOnClickListeners(view);
+        setUpMap();
         ViewHelper viewHelper = new ViewHelper(getActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague());
-        viewHelper.setUpLeageText(view , getSelectedLeague());
-        setUpText(view , getSelectedLeague());
+        viewHelper.setUpLeageText(view, getSelectedLeague());
+        viewHelper.setLineColor(view, getSelectedLeague());
+        viewHelper.setJoinBottonColor(view, getSelectedLeague().getColor_1());
+        setUpText(view, getSelectedLeague());
     }
 
     private void initializeOnClickListeners(View view){
@@ -98,7 +106,7 @@ public class LeagueFragment extends MitooLocationFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.interestedButton:
-                 joinAction();
+                 joinButtonAction();
                 break;
         }
     }
@@ -108,17 +116,15 @@ public class LeagueFragment extends MitooLocationFragment {
         LatLng latLng =new LatLng(getLoc.getLat(), getLoc.getLng());
         GoogleMap map = ((MapFragment) getFragmentManager()
                 .findFragmentById(R.id.googleMapFragment)).getMap();
+        MarkerOptions option = new MarkerOptions().position(latLng)
+                                                  .snippet(getSelectedLeague().getName())
+                                                  .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                                                  .flat(true);
         map.animateCamera(CameraUpdateFactory.zoomIn());
-        map.addMarker(new MarkerOptions().position(latLng)).showInfoWindow();
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
+        map.addMarker(option).showInfoWindow();
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
 
     }
-
-    @Subscribe
-    public void recieveLocation(LocationResponseEvent event){
-        setLocation(event.getLocation());
-    }
-
 
     public String getLeagueTitle() {
         return leagueTitle;
@@ -134,27 +140,10 @@ public class LeagueFragment extends MitooLocationFragment {
         leagueInfoTextView.setText(league.getAbout());
 
     }
-
-    public LeagueModel getLeagueModel() {
-        if(leagueModel==null){
-            MitooModel model = getMitooActivity().getModel(LeagueModel.class);
-            if(model!=null){
-                leagueModel = (LeagueModel) model;
-            }
-        }
-        return leagueModel;
-    }
-
-    public void setLeagueModel(LeagueModel leagueModel) {
-        this.leagueModel = leagueModel;
-    }
-
+    
     public League getSelectedLeague() {
         if(selectedLeague==null){
-            Bundle arguments = getArguments();
-            String value = arguments.get(getString(R.string.bundle_key_league_object_id)).toString();
-            int objectID = Integer.parseInt(value);
-            setSelectedLeague(getLeagueModel().getLeagueByObjectID(objectID));
+            setSelectedLeague(getRetriever().getLeagueModel().getSelectedLeague());
         }
         return selectedLeague;
     }

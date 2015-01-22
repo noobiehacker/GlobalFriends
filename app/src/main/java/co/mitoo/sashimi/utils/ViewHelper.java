@@ -1,7 +1,11 @@
 package co.mitoo.sashimi.utils;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -49,11 +53,68 @@ public class ViewHelper {
 
     }
 
+    public void setLineColor(View view , League league){
+        View bottomLine = (View) view.findViewById(R.id.bottomLine);
+        int colorID = getColor(league.getColor_1());
+        if(colorID!=MitooConstants.invalidColor)
+            bottomLine.setBackgroundColor(colorID);
+    }
+
+    public void setJoinBottonColor(View view , String leagueColor){
+        Button joinButton = (Button) view.findViewById(R.id.interestedButton);
+        int colorID = getColor(leagueColor);
+        if(colorID!=MitooConstants.invalidColor){
+            Drawable drawable =joinButton.getBackground();
+            drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
+        }
+    }
+
+    public void setJoinBottonColor(View view , int colorID){
+        Button joinButton = (Button) view.findViewById(R.id.interestedButton);
+        if(colorID!=MitooConstants.invalidColor){
+            Drawable drawable =joinButton.getBackground();
+            drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
+        }
+    }
+
     private int getCornerRadius(){
         return getContext().getResources().getDimensionPixelSize(R.dimen.corner_radius_small);
     }
 
     private int getBorder(){
         return getContext().getResources().getDimensionPixelSize(R.dimen.image_border);
+    }
+    
+    private int getColor(String leagueColorInput){
+
+        int colorID = MitooConstants.invalidColor;
+        if(validColorInput(leagueColorInput)){
+            String colorWithHash = "#"+ leagueColorInput;
+            colorID= Color.parseColor(colorWithHash);
+        }
+        return colorID;
+        
+    }
+    
+    private boolean validColorInput(String input){
+        boolean result = true;
+        if(input .length()==6){
+            loop:
+            for(int i = 0 ; i<input.length() ; i++){
+                if(!validHex(input.charAt(i)))
+                    result=false;
+                if(!result)
+                    break loop;
+            }
+        }
+        return result;
+        
+    }
+    
+    private boolean validHex(Character c){
+        if(( c>='0' && c<='9' ) || ( c>= 'a' && c<= 'f') || (c>= 'A' && c<='F')){
+            return true;
+        }
+        return false;
     }
 }
