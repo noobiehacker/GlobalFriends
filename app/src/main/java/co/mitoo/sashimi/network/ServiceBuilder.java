@@ -2,6 +2,8 @@ package co.mitoo.sashimi.network;
 
 import com.squareup.okhttp.OkHttpClient;
 
+import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.utils.StaticString;
 import retrofit.MockRestAdapter;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
@@ -13,10 +15,20 @@ public class ServiceBuilder {
     private InterceptorBuilder interceptorBuilder;
     private MockRestAdapter mockRestAdapter;
     private RestAdapter restAdapter;
-
-    public ServiceBuilder() {
+    private SteakApi steakApiService;
+    private static ServiceBuilder singleTonInstance;
+    
+    private ServiceBuilder(){
+        initializeFields();
     }
 
+    public static ServiceBuilder getSingleTonInstance(){
+        if(ServiceBuilder.singleTonInstance==null){
+            ServiceBuilder.singleTonInstance= new ServiceBuilder();
+        }
+        return ServiceBuilder.singleTonInstance;
+    }
+    
     public ServiceBuilder setEndPoint(String end_point) {
         this.end_point = end_point;
         return this;
@@ -26,7 +38,6 @@ public class ServiceBuilder {
         getInterceptorBuilder().addXAuthToken(token);
         return this;
     }
-
 
     public <T> T create(Class<T> service) {
         checkSettingsForErrors(service);
@@ -76,12 +87,30 @@ public class ServiceBuilder {
         this.mockRestAdapter = mockRestAdapter;
     }
 
-    public RestAdapter getRestAdapter() {
-        return restAdapter;
+    public SteakApi getSteakApiService() {
+        if(steakApiService==null)
+            steakApiService = this.create(SteakApi.class);
+        return steakApiService;
+    }
+    
+    public void setSteakApiService(SteakApi steakApiService) {
+        this.steakApiService = steakApiService;
     }
 
-    private void setRestAdapter(RestAdapter restAdapter) {
-        this.restAdapter = restAdapter;
+    public void rebuildService(){
+        
+        setSteakApiService(this.create(SteakApi.class));
+
+    }
+    
+    private void initializeFields(){
+
+        if(MitooConstants.userApiary == true){
+            this.setEndPoint(StaticString.steakApiaryEndPoint);
+        }else{
+            this.setEndPoint(StaticString.steakStagingEndPoint);
+        }
+
     }
 }
 

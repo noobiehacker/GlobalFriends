@@ -9,21 +9,25 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
-import co.mitoo.sashimi.utils.events.JoinRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
+import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
+import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 
 /**
  * Created by david on 14-11-19.
  */
-public class JoinFragment extends MitooFragment {
+public class SignUpFragment extends MitooFragment {
 
     private League selectedLeague;
     
-    public static JoinFragment newInstance() {
-        return new JoinFragment();
+    public static SignUpFragment newInstance() {
+        return new SignUpFragment();
     }
 
     @Override
@@ -35,7 +39,7 @@ public class JoinFragment extends MitooFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_join,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_sign_up,
                 container, false);
         initializeOnClickListeners(view);
         initializeFields();
@@ -100,10 +104,19 @@ public class JoinFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onJoinResponse(UserRecieveResponseEvent event) {
-        fireFragmentChangeAction(R.id.fragment_confirm);
+    public void onJoinResponse(SessionModelResponseEvent event) {
+        
+        BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE));
+        
     }
 
+    @Subscribe
+    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
+        
+        fireFragmentChangeAction(R.id.fragment_confirm);
+        
+    }
+    
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error) {
 
@@ -116,7 +129,8 @@ public class JoinFragment extends MitooFragment {
     }
 
     private void join(String username, String email, String phone, String password) {
-        BusProvider.post(new JoinRequestEvent(email, password));
+        JsonSignUpSend signUpSend = new JsonSignUpSend(email , password ,username, phone);
+        BusProvider.post(new SessionModelRequestEvent(MitooEnum.SessionRequestType.SIGNUP, signUpSend)) ;
     }
 
     private String getUsername() {

@@ -21,7 +21,7 @@ public class UserProfileDetailsAdapter extends ArrayAdapter<String> {
     
     public UserProfileDetailsAdapter(Context context, int resourceId, List<String> objects) {
         super(context, resourceId, objects);
-        leftStringList = buildStringList(R.id.user_profile_details , context.getResources());
+        leftStringList = buildStringList(R.id.settings_list_details, context.getResources());
     }
 
     @Override

@@ -46,7 +46,7 @@ public class ViewHelper {
 
     public void setUpLeageText(View view , League league){
         
-        TextView leagueNameTextView =  (TextView) view.findViewById(R.id.leagueName);
+        TextView leagueNameTextView =  (TextView) view.findViewById(R.id.user_name);
         TextView leagueSportsTextView =  (TextView) view.findViewById(R.id.leagueInfo);
         leagueNameTextView.setText(league.getName());
         leagueSportsTextView.setText(league.getLeagueSports());
@@ -56,14 +56,14 @@ public class ViewHelper {
     public void setLineColor(View view , League league){
         View bottomLine = (View) view.findViewById(R.id.bottomLine);
         int colorID = getColor(league.getColor_1());
-        if(colorID!=MitooConstants.invalidColor)
+        if(colorID!=MitooConstants.invalidConstant)
             bottomLine.setBackgroundColor(colorID);
     }
 
     public void setJoinBottonColor(View view , String leagueColor){
         Button joinButton = (Button) view.findViewById(R.id.interestedButton);
         int colorID = getColor(leagueColor);
-        if(colorID!=MitooConstants.invalidColor){
+        if(colorID!=MitooConstants.invalidConstant){
             Drawable drawable =joinButton.getBackground();
             drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
         }
@@ -71,7 +71,7 @@ public class ViewHelper {
 
     public void setJoinBottonColor(View view , int colorID){
         Button joinButton = (Button) view.findViewById(R.id.interestedButton);
-        if(colorID!=MitooConstants.invalidColor){
+        if(colorID!=MitooConstants.invalidConstant){
             Drawable drawable =joinButton.getBackground();
             drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
         }
@@ -87,7 +87,7 @@ public class ViewHelper {
     
     private int getColor(String leagueColorInput){
 
-        int colorID = MitooConstants.invalidColor;
+        int colorID = MitooConstants.invalidConstant;
         if(validColorInput(leagueColorInput)){
             String colorWithHash = "#"+ leagueColorInput;
             colorID= Color.parseColor(colorWithHash);

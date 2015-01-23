@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.utils;
 
-import android.app.Fragment;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.fragments.*;
@@ -29,8 +28,8 @@ public class FragmentFactory {
             case R.id.fragment_splash:
                 result = SplashScreenFragment.newInstance();
                 break;
-            case R.id.fragment_join:
-                result = JoinFragment.newInstance();
+            case R.id.fragment_sign_up:
+                result = SignUpFragment.newInstance();
                 break;
             case R.id.fragment_login:
                 result = LoginFragment.newInstance();

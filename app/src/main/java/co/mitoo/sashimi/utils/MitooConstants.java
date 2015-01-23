@@ -5,7 +5,8 @@ package co.mitoo.sashimi.utils;
  */
 public class MitooConstants {
     
-    public static int invalidColor = -1;
-    
-    public static boolean persistenceStorage = false;
+    public static int invalidConstant = -1;
+    public static boolean persistenceStorage = true;
+    public static boolean userApiary = true;
+
 }

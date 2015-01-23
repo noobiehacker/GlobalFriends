@@ -6,7 +6,8 @@
     <string name="action_register">Register</string>
 
     <!--API related-->
-    <string name="steak_apiary_end_point">http://private-87f66-steak.apiary-mock.com/auth/v1</string>
+    <string name="steak_apiary_end_point">http://private-87f66-steak.apiary-mock.com/</string>
+    <string name="steak_api_const_filter_enquiries">enquiries</string>
 
     <!--View Strings-->
 
@@ -102,10 +103,13 @@
     <!--Home Page -->
     <string name="home_page_text_1">ENQUIRED</string>
 
+    <!--Settings Page -->
+    <string name="settings_page_bottom_text_1">Logout</string>
+    <string name="settings_page_top_text_1">Get help</string>
+    <string name="settings_page_top_text_2">Feedback</string>
+    <string name="settings_page_top_text_3">FAQ</string>
+    <string name="settings_page_top_text_4">About Mitoo</string>
     
-    <string-array name="settings_bottom_menu_list">
-        <item>Logout</item>
-    </string-array>
 
     <string-array name="settings_top_menu_list">
         <item>Get help</item>
@@ -248,7 +252,6 @@
     </string-array>
 
     <string-array name="prompt_about_mitoo_array">
-        <item>What\'s New></item>
         <item>Terms</item>
         <item>Privacy Policy</item>
     </string-array>
@@ -309,7 +312,10 @@
     <string name="mitoo_copyright_terms">TERMS AND PRIVACY TEXT</string>
     <string name="font_bold">bold</string>
     <string name="font_italic">italic</string>
-    
+    <string name="mitoo_support_email_address">talktous@mitoo.co</string>
+    <string name="mitoo_support_email_subject">Mitoo</string>
+    <string name="mitoo_support_email_body">talktous@mitoo.co</string>
+
     <!--API Key-->
     <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
     <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0"</string>
@@ -331,6 +337,8 @@
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>
 
-    <string name="shared_preference_user_key">User Key</string>
+    <string name="shared_preference_session_key">Session Key</string>
+    <string name="shared_preference_user_info_key">User Info Key</string>
+    <string name="shared_preference_league_enquired_key">League enquired Key</string>
     <string name="shared_preference_error">shared preference error</string>
 </resources>

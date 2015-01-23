@@ -17,7 +17,7 @@
         android:background="@drawable/rounded"/>
 
     <TextView
-        android:id="@+id/leagueName"
+        android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/leagueImage"
@@ -31,7 +31,7 @@
         android:id="@+id/leagueInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/leagueName"
+        android:layout_below="@id/user_name"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:text="@string/place_holder_league_info"
         android:textIsSelectable="false"

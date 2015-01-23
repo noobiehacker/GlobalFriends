@@ -21,9 +21,12 @@ import com.squareup.otto.Bus;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ModelRetriever;
+import co.mitoo.sashimi.utils.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
@@ -166,41 +169,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    //Animation
-    
-/*    
-Taken out filters for release one
-    protected void slideUpView(int id) {
-        View view = getContext().findViewById(id);
-        view.setVisibility(View.VISIBLE);
-        YoYo.with(Techniques.SlideInUp)
-                .duration(700)
-                .playOn(view);
-    }
 
-    protected void slidDownView(int id) {
-        View view = getContext().findViewById(id);
-        YoYo.with(Techniques.SlideOutDown)
-                .duration(700)
-                .playOn(view);
-    }
-
-    protected void fadeOutView(int id) {
-        View view = getContext().findViewById(id);
-        view.setVisibility(View.GONE);
-        YoYo.with(Techniques.FadeOut)
-                .duration(700)
-                .playOn(view);
-    }
-
-    protected void fadeInView(int id) {
-        View view = getContext().findViewById(id);
-        view.setVisibility(View.VISIBLE);
-        YoYo.with(Techniques.FadeIn)
-                .duration(700)
-                .playOn(view);
-        view.setVisibility(View.VISIBLE);
-    }*/
 
     protected void fireFragmentChangeAction(int fragmentId) {
         FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH , fragmentId );
@@ -330,21 +299,6 @@ Taken out filters for release one
         }
     }
 
-    private void hideToolBar(){
-
-        if(this.toolbar !=null){
-            this.toolbar.setVisibility(View.GONE);
-        }
-
-    }
-
-    private void showToolBar(){
-
-        if(this.toolbar !=null){
-            this.toolbar.setVisibility(View.VISIBLE);
-        }
-    }
-
     protected void setUpToolBar(View view) {
 
         toolbar = (Toolbar)view.findViewById(R.id.app_bar);
@@ -373,8 +327,8 @@ Taken out filters for release one
     }
 
 
-    public ModelRetriever getRetriever() {
-        return getMitooActivity().getModelRetriever();
+    public ModelManager getRetriever() {
+        return getMitooActivity().getModelManager();
     }
 
     public boolean isAllowBackPressed() {
@@ -383,6 +337,18 @@ Taken out filters for release one
 
     public void setAllowBackPressed(boolean allowBackPressed) {
         this.allowBackPressed = allowBackPressed;
+    }
+    
+    protected UserInfoModel getUserInfoModel(){
+        return getMitooActivity().getModelManager().getUserInfoModel();
+    }
+
+    protected LeagueModel getLeagueModel(){
+        return getMitooActivity().getModelManager().getLeagueModel();
+    }
+
+    protected SessionModel getSessionModel(){
+        return getMitooActivity().getModelManager().getSessionModel();
     }
 }
 

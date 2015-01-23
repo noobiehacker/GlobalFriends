@@ -8,19 +8,14 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo._geoLoc;
 import co.mitoo.sashimi.utils.ViewHelper;
-import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 
 /**
  * Created by david on 14-12-19.
@@ -73,8 +68,8 @@ public class LeagueFragment extends MitooFragment {
     private void joinButtonAction(){
 
         Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getObjectID()));
-        fireFragmentChangeAction(R.id.fragment_join , bundle);
+        bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getId()));
+        fireFragmentChangeAction(R.id.fragment_sign_up, bundle);
     }
 
     @Override

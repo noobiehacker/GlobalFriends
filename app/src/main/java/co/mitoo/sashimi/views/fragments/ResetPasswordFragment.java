@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
@@ -13,7 +12,6 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
-import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
 import retrofit.RetrofitError;
 
 /**

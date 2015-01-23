@@ -2,6 +2,7 @@ package co.mitoo.sashimi.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -10,15 +11,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.utils.ModelManager;
+import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 
 /**
  * Created by david on 15-01-12.
  */
 public class HomeFragment extends MitooFragment {
+    
+    private League[] enquiredLeague;
+    
     @Override
     public void onClick(View v) {
 
+        switch(v.getId()){
+            case R.id.search_bar:
+            case R.id.search_view:
+                fireFragmentChangeAction(R.id.fragment_search);
+                break;
+        }
     }
 
     public static HomeFragment newInstance() {
@@ -34,8 +51,6 @@ public class HomeFragment extends MitooFragment {
         initializeOnClickListeners(view);
         initializeFields();
         initializeViews(view);
-        FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
-        dialog.buildPrompt().show();
         return view;
     }
 
@@ -43,7 +58,8 @@ public class HomeFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
-
+        setEnquiredLeague(getMitooActivity().getModelManager().getLeagueModel().getLeagueEnquired());
+        BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
     }
 
     @Override
@@ -51,12 +67,16 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeViews(view);
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ImageView checkBoxImage = (ImageView)view.findViewById(R.id.checkBoxImage);
-        checkBoxImage.setVisibility(View.VISIBLE);
+        setCheckBoxVisible(view);
+        setUpEnquireLeagues(view);
     }
 
     private void initializeOnClickListeners(View view){
-
+        
+        view.findViewById(R.id.search_bar).setOnClickListener(this);
+        SearchView searchView = (SearchView) view.findViewById(R.id.search_view);
+        searchView.setOnSearchClickListener(this);
+    
     }
 
     @Override
@@ -74,7 +94,8 @@ public class HomeFragment extends MitooFragment {
 
                     switch (menuItem.getItemId()){
                         case R.id.menu_feedback:
-
+                            FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
+                            dialog.buildPrompt().show();
                             break;
                         case R.id.menu_settings:
                             fireFragmentChangeAction(R.id.fragment_settings);
@@ -84,11 +105,42 @@ public class HomeFragment extends MitooFragment {
                 }
             });
         }
-        /*
-        ActionBarActivity activity = (ActionBarActivity)getContext();
-        activity.setSupportActionBar(toolbar);
-        */
 
+    }
+
+    public League[] getEnquiredLeague() {
+        return enquiredLeague;
+    }
+
+    public void setEnquiredLeague(League[] enquiredLeague) {
+        this.enquiredLeague = enquiredLeague;
+    }
+    
+    
+    private void setCheckBoxVisible(View view){
+        ImageView checkBoxImage = (ImageView)view.findViewById(R.id.checkBoxImage);
+        checkBoxImage.setVisibility(View.VISIBLE);
+        
+    }
+    
+    private void setUpEnquireLeagues(View view){
+
+        ViewHelper viewHelper = new ViewHelper(getActivity());
+        viewHelper.setUpLeagueImage(view, getEnquiredLeague()[0]);
+        viewHelper.setUpLeageText(view, getEnquiredLeague()[0]);
+        viewHelper.setLineColor(view, getEnquiredLeague()[0]);
+        
+    }
+    
+    private int getUserId(){
+        
+        ModelManager manager = getMitooActivity().getModelManager();
+        if(manager!=null){
+            SessionRecieve session = manager.getSessionModel().getSession();
+            if(session!=null)
+                return session.id;
+        }
+        return MitooConstants.invalidConstant;
     }
 }
 

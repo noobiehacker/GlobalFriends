@@ -46,4 +46,5 @@ public class LocationModel extends MitooModel {
         setLocation(event.getLocation());
         BusProvider.post(new LocationResponseEvent(location));
     }
+
 }

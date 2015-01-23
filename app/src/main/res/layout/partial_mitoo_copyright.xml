@@ -31,6 +31,7 @@
         android:layout_below="@+id/mitooLocation"
         android:paddingTop = "@dimen/spacing_tiny"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/spacing_normal"
         style="@style/grayDarkMediumText"/>
 
 </RelativeLayout>

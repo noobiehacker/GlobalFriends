@@ -13,4 +13,16 @@ public class MitooEnum {
     public enum feedBackOption{
         HAPPY, CONFUSED, UNHAPPY
     }
+
+    public enum crud{
+        CREATE, READ, UPDATE,DELETE
+    }
+
+    public enum SessionRequestType{
+        LOGIN , SIGNUP
+    }
+    
+    public enum ModelResponse{
+        PREFERENCE, API
+    }
 }

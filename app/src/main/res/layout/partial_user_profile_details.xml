@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/accountText"
+        style="@style/blackBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settings_page_text_1"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small"
-        android:textStyle="bold"
-        style="@style/blackBigText"/>
+        android:text="@string/settings_page_text_1"
+        android:textStyle="bold" />
 
-    <ListView
+
+    <include
         android:id="@+id/userProfileTopList"
+        layout="@layout/partial_settings_top_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/white"
-        android:divider="@color/gray_light_four"/>
+        android:layout_below="@+id/accountText"></include>
 
     <TextView
         android:id="@+id/helpAndFeedBackText"
+        style="@style/blackBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settings_page_text_2"
+        android:layout_marginBottom="@dimen/spacing_small"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small"
-        android:textStyle="bold"
-        style="@style/blackBigText"/>
+        android:text="@string/settings_page_text_2"
+        android:layout_below="@+id/userProfileTopList"
+        android:textStyle="bold" />
 
-    <ListView
+    <include
         android:id="@+id/userProfileBottomList"
+        layout="@layout/partial_settings_bottom_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" 
-        android:background="@color/white"
-        android:divider="@color/gray_light_four"/>
+        android:layout_below="@+id/helpAndFeedBackText"></include>
 
-</LinearLayout>
+</RelativeLayout>

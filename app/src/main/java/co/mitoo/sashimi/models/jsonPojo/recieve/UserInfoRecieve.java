@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * Created by david on 15-01-21.
  */
 @JsonRootName(value = "")
-public class UserRecieve {
+public class UserInfoRecieve {
     
     public int id;
     public String email;

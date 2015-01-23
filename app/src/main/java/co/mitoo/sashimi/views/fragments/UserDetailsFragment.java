@@ -47,7 +47,7 @@ public class UserDetailsFragment extends MitooFragment {
     @Override
     protected void initializeFields(){
 
-        detailsListData = buiildStringList(R.array.settings_bottom_menu_list);
+        detailsListData = buiildStringList(R.array.settings_top_menu_list);
 
     }
 
@@ -56,9 +56,9 @@ public class UserDetailsFragment extends MitooFragment {
 
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        detailsList = (ListView)view.findViewById(R.id.user_profile_details);
+        detailsList = (ListView)view.findViewById(R.id.settings_list_details);
         detailsListOnItemClickListner = new ListViewOnClickLIstener(detailsList.getId());
-        detailsListAdapter = new StringListAdapter(getActivity(),R.id.user_profile_details ,detailsListData);
+        detailsListAdapter = new StringListAdapter(getActivity(),R.id.settings_list_details,detailsListData);
         setUpListView(detailsListAdapter, detailsList, detailsListOnItemClickListner );
 
     }

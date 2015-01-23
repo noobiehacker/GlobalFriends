@@ -1,4 +1,6 @@
 package co.mitoo.sashimi.views.fragments;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ public class FeedBackFragment extends MitooFragment {
                 container, false);
         initializeFields();
         initializeViews(view);
+        initalizeOnClickListner(view);
         return view;
     }
 
@@ -36,6 +39,11 @@ public class FeedBackFragment extends MitooFragment {
     @Override
     public void onClick(View v) {
 
+        switch(v.getId()){
+            case R.id.feedback_contact_mitoo_container:
+                contactMitooAction();
+                break;
+        }
     }
 
     @Override
@@ -48,11 +56,15 @@ public class FeedBackFragment extends MitooFragment {
     @Override
     protected void initializeViews(View view){
         super.initializeViews(view);
-
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.feedback_partial_container);
         container.addView(getLayoutPartial());
-
         setUpContactMitooView(view);
+    }
+    
+    private void initalizeOnClickListner(View view){
+        
+        view.findViewById(R.id.feedback_contact_mitoo_container).setOnClickListener(this);
+        
     }
 
     public String[] getFeedBackString() {
@@ -141,6 +153,12 @@ public class FeedBackFragment extends MitooFragment {
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.faq_container);
         TextView contactMitooTextView = (TextView) container.findViewById(R.id.itemText);
         contactMitooTextView.setText(getString(R.string.confused_page_text2));
+
+    }
+    
+    private void contactMitooAction(){
+
+        getMitooActivity().contactMitoo();
 
     }
 }

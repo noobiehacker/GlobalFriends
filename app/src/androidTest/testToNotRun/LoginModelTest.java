@@ -12,8 +12,8 @@ import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.network.mockNetwork.MockSteakApiService;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.LoginRequestEvent;
-import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
+import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
+import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 
@@ -21,7 +21,7 @@ public class LoginModelTest extends MitooPojoTest{
 
     private SessionModel model;
     private SteakApi mockApi;
-    private UserRecieveResponseEvent event;
+    private SessionModelResponseEvent event;
     public LoginModelTest() {
 
     }
@@ -44,7 +44,7 @@ public class LoginModelTest extends MitooPojoTest{
         mockApi = new ServiceBuilder().setEndPoint("http://www.mockendpoint.com")
                                       .create(SteakApi.class , new MockSteakApiService(200));
         model.setSteakApiService(mockApi);
-        model.onLoginRequest(new LoginRequestEvent("tim@mitoo.com", "password"));
+        model.onSessioonRequest(new SessionModelRequestEvent("tim@mitoo.com", "password"));
         signal.await();
         assertNotNull(model.getUser());
         assertNotNull(this.event);
@@ -65,7 +65,7 @@ public class LoginModelTest extends MitooPojoTest{
         signal = new CountDownLatch(1);
         mockApi = new ServiceBuilder().create(SteakApi.class , new MockSteakApiService(200));
         model.setSteakApiService(mockApi);
-        model.onLoginRequest(new LoginRequestEvent("tim@mitoo.com", "password"));
+        model.onSessioonRequest(new SessionModelRequestEvent("tim@mitoo.com", "password"));
         try{
             signal.await();
         }catch(Exception e){
@@ -75,7 +75,7 @@ public class LoginModelTest extends MitooPojoTest{
     }
 
     @Subscribe
-    public void onLoginResponse(UserRecieveResponseEvent event){
+    public void onLoginResponse(SessionModelResponseEvent event){
         this.event=event;
         signal.countDown();
     }

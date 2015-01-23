@@ -1,10 +1,8 @@
 package co.mitoo.sashimi.models.jsonPojo;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
-
-import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.location;
 
 /**
  * Created by david on 14-11-21.
@@ -20,8 +18,9 @@ public class League implements Serializable {
     private String color_1;
     private String color_2;
     private String[] sports;
-    private int objectID;
+    private int id;
     private _geoLoc _geoloc;
+    private location loc;
 
     public boolean isClaimed() {
         return claimed;
@@ -95,12 +94,12 @@ public class League implements Serializable {
         this.sports = sports;
     }
 
-    public int getObjectID() {
-        return objectID;
+    public int getId() {
+        return id;
     }
 
-    public void setObjectID(int objectID) {
-        this.objectID = objectID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public _geoLoc get_geoloc() {
@@ -111,8 +110,28 @@ public class League implements Serializable {
         this._geoloc = _geoloc;
     }
 
+    public location getLoc() {
+        return loc;
+    }
+
+    public void setLoc(location loc) {
+        this.loc = loc;
+    }
+
+    public LatLng getLatLng(){
+
+        LatLng result = null;
+        if(get_geoloc()!=null){
+            result = new LatLng(get_geoloc().getLat(), get_geoloc().getLng());
+        }else if(getLoc()!=null){
+            result = new LatLng( getLoc().getLat(), getLoc().getLat());
+        }
+        return result;
+    }
+
+
     public String getLeagueSports(){
-        
+
         String result= "";
         String[] sports = getSports();
         for(int i = 0 ; i< sports.length ;i++){
@@ -120,7 +139,8 @@ public class League implements Serializable {
                 result+= " - ";
             result+= sports[i];
         }
-        
+
         return result;
     }
+
 }

@@ -2,11 +2,13 @@ package co.mitoo.sashimi.network.mockNetwork;
 
 import java.util.Collections;
 
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
-import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.utils.BusProvider;
 import retrofit.RetrofitError;
@@ -31,7 +33,7 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<SessionRecieve> createRegistration(@Query("save_type") String param1,@Body JsonLoginSend user) {
+    public Observable<SessionRecieve> createRegistration(@Query("save_type") String param1,@Body JsonSignUpSend user) {
         return createMockRespoonse(new SessionRecieve());
     }
 
@@ -57,7 +59,12 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<UserRecieve> getUser(@Path("id") int id) {
+    public Observable<League[]> getLeagueEnquiries(@Query("filter") String filter, @Query("user_id") int user_id) {
+        return null;
+    }
+
+    @Override
+    public Observable<UserInfoRecieve> getUser(@Path("id") int id) {
         return null;
     }
 

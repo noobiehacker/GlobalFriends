@@ -15,11 +15,12 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.AuthTokenExchangeRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.utils.events.LoginRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.UserRecieveResponseEvent;
+import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 import rx.Subscription;
 import rx.observables.ConnectableObservable;
 /**
@@ -95,10 +96,17 @@ public class LoginFragment extends MitooFragment{
     }
 
     @Subscribe
-    public void onLoginResponse(UserRecieveResponseEvent event){
+    public void onLoginResponse(SessionModelResponseEvent event){
         displayText(getString(R.string.toast_login_success));
-        FragmentChangeEvent fragmentChangeEvent = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.CHANGE, R.id.fragment_home);
-        BusProvider.post(fragmentChangeEvent);
+        BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.READ));
+
+}
+
+    @Subscribe
+    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
+
+        fireFragmentChangeAction(R.id.fragment_home);
+
     }
 
     private void facebookLoginButtonAction(){
@@ -114,7 +122,7 @@ public class LoginFragment extends MitooFragment{
     }
 
     private void login(String username, String password){
-        BusProvider.post(new LoginRequestEvent(username, password));
+        BusProvider.post(new SessionModelRequestEvent(MitooEnum.SessionRequestType.LOGIN , new JsonLoginSend(username, password)));
     }
 
     private String getUsername(){
@@ -147,7 +155,7 @@ public class LoginFragment extends MitooFragment{
     
     private void requestAuthToken(String faceBookToken){
         
-        BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
+  //      BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
     }
 
 }

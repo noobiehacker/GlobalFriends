@@ -1,23 +1,23 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 
 /**
  * Created by david on 15-01-21.
  */
 public class UserInfoRecieveEvent {
     
-    private UserRecieve info;
+    private UserInfoRecieve info;
 
-    public UserInfoRecieveEvent(UserRecieve info) {
+    public UserInfoRecieveEvent(UserInfoRecieve info) {
         this.info = info;
     }
 
-    public UserRecieve getInfo() {
+    public UserInfoRecieve getInfo() {
         return info;
     }
 
-    public void setInfo(UserRecieve info) {
+    public void setInfo(UserInfoRecieve info) {
         this.info = info;
     }
 }

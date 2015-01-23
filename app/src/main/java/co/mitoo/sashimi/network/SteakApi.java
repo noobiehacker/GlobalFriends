@@ -1,10 +1,14 @@
 package co.mitoo.sashimi.network;
 
+import java.util.List;
+
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
-import co.mitoo.sashimi.models.jsonPojo.recieve.UserRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -19,22 +23,26 @@ import rx.Observable;
  */
 public interface SteakApi {
 
-    @POST("/registrations")
-    Observable<SessionRecieve>  createRegistration(@Query("save_type") String param1, @Body JsonLoginSend jsonObject);
+    @POST("/auth/v1/registrations")
+    Observable<SessionRecieve>  createRegistration(@Query("save_type") String param1, @Body JsonSignUpSend jsonObject);
 
-    @POST("/sessions")
+    @POST("/auth/v1/sessions")
     Observable<SessionRecieve>  createSession(@Body JsonLoginSend jsonObject);
 
-    @POST("/leagues/{id}/league_enquiries")
-    Observable<Response>  createLeagueEnquiries(@Path("id") int id , @Body JsonLeagueEnquireSend jsonObject);
-
-    @POST("/passwords/reset")
+    @POST("/auth/v1/passwords/reset")
     Observable<Response>  resetPassword(@Body JsonResetPasswordSend jsonObject);
 
-    @GET("/users/{id}")
-    Observable<UserRecieve>  getUser(@Path("id") int id);
-    
-    @DELETE("/sessions")
+    @DELETE("/auth/v1/sessions")
     Observable<SessionRecieve> deleteSession();
+
+    @POST("/leagues/v1/leagues/{id}/league_enquiries")
+    Observable<Response>  createLeagueEnquiries(@Path("id") int id , @Body JsonLeagueEnquireSend jsonObject);
+
+    @GET("/leagues/v1/leagues")
+    Observable<League[]>  getLeagueEnquiries(@Query("filter") String filter , @Query("user_id") int user_id);
+
+    @GET("/users/v1/users/{id}")
+    Observable<UserInfoRecieve>  getUser(@Path("id") int id);
+
 
 }

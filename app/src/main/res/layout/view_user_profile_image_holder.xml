@@ -12,7 +12,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/userProfileImage"
+            android:id="@+id/user_profileImage"
             android:layout_width="@dimen/circle_image_diameter"
             android:layout_height="@dimen/circle_image_diameter"
             android:layout_alignParentTop="true"
@@ -24,10 +24,10 @@
             />
 
         <TextView
-            android:id="@+id/leagueName"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/userProfileImage"
+            android:layout_below="@id/user_profileImage"
             android:layout_marginTop="@dimen/spacing_smallest"
             android:text="@string/place_holder_player_name"
             android:textIsSelectable="false"

@@ -1,18 +1,14 @@
 package co.mitoo.sashimi.models;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.os.Handler;
 
-import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.StaticString;
-import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by david on 14-11-12.
@@ -21,10 +17,7 @@ public abstract class MitooModel
 {
 
     protected Activity activity;
-    protected Runnable serializeRunnable;
-    protected Runnable getResultsRunnable;
-    protected Handler handler;
-    private String sharedPreferenceKey;
+    private DataPersistanceService persistanceService;
 
     public void setResources(Activity activity) {
         setActivity(activity);
@@ -34,14 +27,12 @@ public abstract class MitooModel
 
     public MitooModel(Activity activity) {
         setActivity(activity);
+        setUpPersistanceService();
         BusProvider.register(this);
     }
     
     public SteakApi getSteakApiService() {
-        if(steakApiService==null)
-            steakApiService = new ServiceBuilder().setEndPoint(StaticString.steakStagingEndPoint)
-                                                  .create(SteakApi.class);
-        return steakApiService;
+        return ServiceBuilder.getSingleTonInstance().getSteakApiService();
     }
 
     public void setSteakApiService(SteakApi steakApiService) {
@@ -56,10 +47,54 @@ public abstract class MitooModel
         return MitooConstants.persistenceStorage;
     }
 
-    protected void obtainResults(){
 
+    public Activity getActivity() {
+        return activity;
     }
 
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public DataPersistanceService getPersistanceService() {
+        return persistanceService;
+    }
+
+    public void setPersistanceService(DataPersistanceService persistanceService) {
+        this.persistanceService = persistanceService;
+    }
+    
+    private void setUpPersistanceService(){
+        setPersistanceService(new DataPersistanceService(getActivity()));
+        
+    }
+
+    protected <T> void handleObservable(Observable<T> observable, Class<T> classType) {
+        observable.subscribe(createSubscriber(classType));
+    }
+
+    protected <T> Subscriber<T> createSubscriber(Class<T> objectRecieve) {
+        return new Subscriber<T>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onNext(T objectRecieve) {
+
+                handleSubscriberResponse(objectRecieve);
+            }
+        };
+    }
+
+    protected void handleSubscriberResponse(Object objectRecieve) {
+
+    }
     protected Runnable createGetResultsRunnable(){
         return new Runnable() {
             @Override
@@ -74,48 +109,6 @@ public abstract class MitooModel
         };
     }
 
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
-
-    protected String getSavedObjectData(String key ,String defaultValue){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        return sharedPref.getString(key, defaultValue);
-    }
-
-    protected void saveStringToPreference(String key, String value){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(key, value);
-        editor.commit();
-    }
-
-    protected void deleteStringFromPreference(String key){
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(key);
-        editor.commit();
-    }
-
-    protected void clearPreference() {
-        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear().commit();
-    }
-    
-    protected String getSharedPreferenceErrorValue(){
-        return getActivity().getString(R.string.shared_preference_error);
-    }
-
-    public String getSharedPreferenceKey() {
-        return sharedPreferenceKey;
-    }
-
-    public void setSharedPreferenceKey(String sharedPreferenceKey) {
-        this.sharedPreferenceKey = sharedPreferenceKey;
+    protected void obtainResults() {
     }
 }

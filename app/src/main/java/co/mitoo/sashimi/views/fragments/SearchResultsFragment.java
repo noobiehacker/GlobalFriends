@@ -87,7 +87,6 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
         Bundle arguments = getArguments();
         setFragmentTitle(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
         setUpLeagueData();
-        getMitooActivity().addModel(LeagueModel.class);
         BusProvider.post(new LeagueResultRequestEvent());
     }
 

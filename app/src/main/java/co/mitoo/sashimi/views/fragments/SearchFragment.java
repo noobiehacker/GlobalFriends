@@ -34,14 +34,10 @@ import co.mitoo.sashimi.views.adapters.SportAdapter;
  */
 public class SearchFragment extends MitooLocationFragment implements AdapterView.OnItemClickListener {
 
-    private ListView leagueList;
     private ListView sportsList;
-    private LeagueAdapter leagueDataAdapter;
     private SportAdapter sportsDataAdapter;
-    private List<League> leagueData ;
     private List<Sport> sportData ;
-    private boolean filterOn = false;
-    private boolean sportSelectionOn = false;
+
     private String queryText;
 
     public static SearchFragment newInstance() {
@@ -74,7 +70,6 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     @Override
     public void onStop(){
         super.onStop();
-
     }
 
     @Override
@@ -87,11 +82,9 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     protected void initializeFields(){
 
         setFragmentTitle(getString(R.string.tool_bar_near_you));
-        leagueData = new ArrayList<League>();
         sportData= new ArrayList<Sport>();
         sportData.addAll(getSports());
-        getMitooActivity().addModel(LeagueModel.class);
-        
+
     }
     
     @Subscribe
@@ -129,44 +122,20 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
 
     private void initializeOnClickListeners(View view){
 
-        /** Taking out filters for version 1
-         * 
-         * 
-         *  
-         view.findViewById(R.id.micButton).setOnClickListener(this);
-         view.findViewById(R.id.sportFilterButton).setOnClickListener(this);
-         view.findViewById(R.id.filterButtonTop).setOnClickListener(this);
-         view.findViewById(R.id.filterButtonBottom).setOnClickListener(this);
-         *
-         * 
-         * 
-         **/
+        view.findViewById(R.id.search_bar).setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-
-                /** Taking out filters for version 1
-                 *
-                 *
-                 *
-                 case R.id.filterButtonTop:
-                 case R.id.filterButtonBottom:
-                 filterButtonAction();
-                 break;
-                 *
-                 *
-                 *
-                 *             case R.id.leagueListView:
-                 leagueListItemAction();
-                 break;
-                 case R.id.sportFilterButton:
-                 sportSelectionAction();
-                 break;*
-                 **/
-
-
+        
+        switch(v.getId()){
+            case R.id.search_bar:
+                SearchView searchView = (SearchView) v.findViewById(R.id.search_view);
+                searchView.setFocusable(true);
+                searchView.setIconified(false);
+                searchView.requestFocusFromTouch();
+                break;
         }
     }
 
@@ -174,52 +143,17 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     public void onError(MitooActivitiesErrorEvent error){
         handleAndDisplayError(error);
     }
-
-    private void sportSelectionAction(){
-
-        /*
-        sportData.addAll(getSports());
-        sportsDataAdapter.notifyDataSetChanged();
-     
-        View generalFilter = getActivity().findViewById(R.id.viewGeneralFilter);
-        View sportFilter = getActivity().findViewById(R.id.viewSportFilter);
-        
-        generalFilter.setVisibility(View.GONE);
-        sportFilter.setVisibility(View.VISIBLE);
-        */
-    }
     
     private List<Sport> getSports(){
         
         ArrayList<Sport> returnList = new ArrayList<Sport>();
         String[] sportsArray = getResources().getStringArray(R.array.sports_array);
-        Arrays.sort(sportsArray);
         for(String item : sportsArray){
             returnList.add(new Sport(item));
         }
         return returnList;
 
     }
-
-    /*
-    *
-    * 
-    *
-        private void filterButtonAction(){
-        if(filterOn){
-            slidDownView(R.id.filterSelectionContainer);
-            fadeInView(R.id.filterButtonBottom);
-        }
-        else{
-            slideUpView(R.id.filterSelectionContainer);
-            fadeOutView(R.id.filterButtonBottom);
-        }
-        filterOn = !filterOn;
-    }
-    *
-    *
-    *
-    */
 
     private void searchFieldAction(String query){
 
@@ -243,7 +177,6 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
 
         }
     }
-
 
 
     @Subscribe
