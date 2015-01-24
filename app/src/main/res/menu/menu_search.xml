@@ -5,6 +5,7 @@
     <item android:id="@+id/action_search"
         android:title="@string/menu_search"
         android:icon="@drawable/icon_search_android"
+        yourapp:queryHint="@string/location_search_page_text_1"
         yourapp:showAsAction="always"
         android:actionViewClass="android.widget.SearchView"/>
     

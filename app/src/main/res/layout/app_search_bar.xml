@@ -6,5 +6,11 @@
     android:textColorPrimary="@color/white"
     android:textColorSecondary="@color/white">
 
-
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_search"
+        android:layout_centerVertical="true"
+        style="@style/searchView"/>
 </android.support.v7.widget.Toolbar>

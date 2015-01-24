@@ -90,6 +90,9 @@
     <string name="search_page_text_2">Suggested searches</string>
     <string name="search_page_text_3">Search for a league name or sport</string>
 
+    <!--Location Search Page -->
+    <string name="location_search_page_text_1">Enter any location</string>
+    
     <!--User Profile Page -->
     <string name="settings_page_text_1">Help and feedback</string>
     <string name="settings_page_text_2">Logout</string>
@@ -310,6 +313,7 @@ w
     <string name="tool_bar_terms">Terms</string>
     <string name="tool_bar_near_you">Near You</string>
     <string name="tool_bar_settings">Settings</string>
+    <string name="tool_bar_location_search">Enter any location</string>
     <string name="toolbar_placeholder">Mitoo Fragment</string>
 
     <!--Misc -->

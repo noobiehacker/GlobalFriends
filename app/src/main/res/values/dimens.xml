@@ -1,9 +1,10 @@
 <resources>
 
     <!-- font sizes -->
-    <dimen name="font_larger">70sp</dimen>
-    <dimen name="font_large">26sp</dimen>
-    <dimen name="font_big">16dp</dimen>
+    <dimen name="font_largest">70sp</dimen>
+    <dimen name="font_larger">26sp</dimen>
+    <dimen name="font_large">20sp</dimen>
+    <dimen name="font_big">16sp</dimen>
     <dimen name="font_normal">13sp</dimen>
     <dimen name="font_small">10sp</dimen>
     <dimen name="font_smaller">7sp</dimen>

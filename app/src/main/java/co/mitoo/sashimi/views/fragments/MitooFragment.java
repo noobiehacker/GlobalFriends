@@ -38,8 +38,6 @@ import retrofit.RetrofitError;
  */
 public abstract class MitooFragment extends Fragment implements View.OnClickListener {
 
-    protected Bus bus;
-    private ArrayList<Toast> toasts;
     private Toast currentToast;
     private Handler handler;
     private Runnable runnable;
@@ -47,7 +45,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected Toolbar toolbar;
     protected String fragmentTitle = "";
     private boolean allowBackPressed= true;
-
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -290,7 +287,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
     }
     
     public void tearDownReferences(){
@@ -323,6 +319,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                     MitooFragment.this.getMitooActivity().onBackPressed();
                 }
             });
+
 
         }
 

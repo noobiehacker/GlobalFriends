@@ -2,6 +2,7 @@ package co.mitoo.sashimi.views.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +14,15 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.models.jsonPojo.MockPojo;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.LeagueQueryRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.adapters.SportAdapter;
 
 /**
@@ -192,10 +187,20 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     @Override
     protected void setUpToolBar(View view) {
 
-        super.setUpToolBar(view);
+        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
+        if(toolbar!=null) {
 
-
-    }
+            toolbar.setNavigationIcon(R.drawable.header_back_icon);
+            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            toolbar.addView(createClickableTitleView());
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getMitooActivity().onBackPressed();
+                }
+            });
+        }
+     }
     
     private void setUpSearchView(View view){
         
@@ -248,5 +253,19 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     private void hideSearchPlaceHolder(){
         getSearchPlaceHolder().setVisibility(View.GONE);
 
+    }
+    
+    private TextView createClickableTitleView(){
+
+        TextView textViewToAdd = new TextView(getActivity());
+        textViewToAdd.setText(getFragmentTitle());
+        textViewToAdd.setTextAppearance(getActivity(), R.style.whiteLargeText);
+        textViewToAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fireFragmentChangeAction(R.id.fragment_location_search);
+            }
+        });
+        return textViewToAdd;
     }
 }

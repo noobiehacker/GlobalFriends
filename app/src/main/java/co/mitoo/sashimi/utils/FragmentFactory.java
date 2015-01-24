@@ -40,15 +40,19 @@ public class FragmentFactory {
             case R.id.fragment_search:
                 result = SearchFragment.newInstance();
                 break;
+            case R.id.fragment_location_search:
+                result = LocationSearchFragment.newInstance();
+                break;
+            case R.id.fragment_search_results:
+                result = SearchResultsFragment.newInstance();
+                break;
             case R.id.fragment_league:
                 result = LeagueFragment.newInstance();
                 break;
             case R.id.fragment_settings:
                 result = SettingsFragment.newInstance();
                 break;
-            case R.id.fragment_search_results:
-                result = SearchResultsFragment.newInstance();
-                break;
+
             case R.id.fragment_confirm:
                 result = ConfirmFragment.newInstance();
                 break;
