@@ -25,6 +25,7 @@
         android:text="@string/place_holder_league_name"
         android:textIsSelectable="false"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         style="@style/whiteBigText"/>
 
     <TextView
@@ -36,6 +37,7 @@
         android:text="@string/place_holder_league_info"
         android:textIsSelectable="false"
         android:layout_centerHorizontal="true"
+        android:textStyle="bold"
         style="@style/whiteMediumText"/>
 
 </RelativeLayout>

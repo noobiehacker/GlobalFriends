@@ -14,7 +14,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
@@ -80,10 +79,14 @@ public class LeagueModel extends MitooModel{
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof League[]) {
-            setLeagueEnquired((League[])objectRecieve);
+            addLeagueEnquired((League[]) objectRecieve);
+            setSelectedLeague(getFirstLeague());
             BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeagueEnquired()));
 
         } else if (objectRecieve instanceof Response) {
+            League[] enquired = new League[1];
+            enquired[0] = getSelectedLeague();
+            addLeagueEnquired(enquired);
             BusProvider.post(new LeagueModelEnquiresResponseEvent((Response)objectRecieve));
         }
     }
@@ -188,8 +191,54 @@ public class LeagueModel extends MitooModel{
         return leagueEnquired;
     }
 
-    public void setLeagueEnquired(League[] leagueEnquired) {
-        this.leagueEnquired = leagueEnquired;
+    public void addLeagueEnquired(League[] leagueEnquired) {
+        if(this.leagueEnquired==null){
+            this.leagueEnquired = leagueEnquired;
+        }
+        else{
+            //HORRABLE ARRAY, REFRACTOR LATER
+            League[] newLeagueArray =  new League[this.leagueEnquired.length+leagueEnquired.length];
+            for(int i = 0 ; i< leagueEnquired.length ; i++){
+                newLeagueArray[i] = leagueEnquired[i];
+            }
+            for(int i = newLeagueArray.length-1 ; i>= newLeagueArray.length- this.leagueEnquired.length ; i--){
+                newLeagueArray[i] = this.leagueEnquired[i];
+            }
+            this.leagueEnquired=newLeagueArray;
+        }
+            
     }
 
+    private League getFirstLeague(){
+        if(getLeagueEnquired() !=null && getLeagueEnquired().length>0)
+            return getLeagueEnquired()[0];
+        return null;
+    }
+    
+    public boolean selectedLeagueIsJoinable(){
+        
+        if(getLeagueEnquired() ==null)
+            return true;
+        else{
+            //can only join we our enquired leagues not have this league
+            return !enquiredLeagueContains(getSelectedLeague());
+        }
+        
+    }
+    
+    private boolean enquiredLeagueContains(League league){
+        
+        boolean containsLeague = false;
+        if(league!=null){
+            loop:
+            for(League item : getLeagueEnquired()){
+                if(item.equals(league))
+                    containsLeague= true;
+                if(containsLeague)
+                    break loop;
+            }
+        }
+        return containsLeague;
+        
+    }
 }

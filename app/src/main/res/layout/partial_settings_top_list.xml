@@ -5,53 +5,53 @@
 
     <TextView
         android:id="@+id/get_help_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_1"
-
         android:layout_marginLeft="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
+        style="@style/grayLightBigText"
         />
 
     <TextView
         android:id="@+id/feedback_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_2"
         android:layout_marginLeft="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:layout_below="@id/get_help_text_view"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
+        style="@style/grayLightBigText"
+
         />
 
     <TextView
         android:id="@+id/faq_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_3"
         android:layout_marginLeft="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:layout_below="@id/feedback_text_view"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
+        style="@style/grayLightBigText"
         />
 
     <TextView
         android:id="@+id/about_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_4"
         android:layout_marginLeft="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:layout_below="@id/faq_text_view"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
+        style="@style/grayLightBigText"
         />
 </RelativeLayout>

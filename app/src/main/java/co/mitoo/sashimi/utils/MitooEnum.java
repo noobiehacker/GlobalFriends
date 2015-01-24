@@ -14,6 +14,10 @@ public class MitooEnum {
         HAPPY, CONFUSED, UNHAPPY
     }
 
+    public enum aboutMitooOption{
+        TERMS, PRIVACYPOLICY
+    }
+
     public enum crud{
         CREATE, READ, UPDATE,DELETE
     }

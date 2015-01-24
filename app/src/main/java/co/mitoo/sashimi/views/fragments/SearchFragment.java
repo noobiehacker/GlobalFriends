@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -32,12 +33,12 @@ import co.mitoo.sashimi.views.adapters.SportAdapter;
 /**
  * Created by david on 14-11-05.
  */
-public class SearchFragment extends MitooLocationFragment implements AdapterView.OnItemClickListener {
+public class SearchFragment extends MitooLocationFragment implements AdapterView.OnItemClickListener  {
 
     private ListView sportsList;
     private SportAdapter sportsDataAdapter;
     private List<Sport> sportData ;
-
+    private RelativeLayout searchPlaceHolder;
     private String queryText;
 
     public static SearchFragment newInstance() {
@@ -106,6 +107,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setUpSearchView(view);
         setUpSportsList(view);
+        setUpSearchPlaceHolder(view);
     }
 
     @Override
@@ -135,6 +137,8 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
                 searchView.setFocusable(true);
                 searchView.setIconified(false);
                 searchView.requestFocusFromTouch();
+            case R.id.search_view:
+                hideSearchPlaceHolder();
                 break;
         }
     }
@@ -196,6 +200,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     private void setUpSearchView(View view){
         
         final SearchView searchView = (SearchView)view.findViewById(R.id.search_view);
+        searchView.setOnSearchClickListener(this);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -229,4 +234,19 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         return header;
     }
 
+
+    public RelativeLayout getSearchPlaceHolder() {
+        return searchPlaceHolder;
+    }
+
+    public void setUpSearchPlaceHolder(View view) {
+        this.searchPlaceHolder =(RelativeLayout) view.findViewById(R.id.search_view_placeholder_container);
+        TextView searchTextPlaceHolder = (TextView) view.findViewById(R.id.search_view_text_view_placeholder);
+        searchTextPlaceHolder.setText(getString(R.string.search_page_text_3));
+    }
+
+    private void hideSearchPlaceHolder(){
+        getSearchPlaceHolder().setVisibility(View.GONE);
+
+    }
 }

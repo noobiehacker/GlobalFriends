@@ -8,6 +8,8 @@ import com.squareup.picasso.Picasso;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.views.Dialog.AboutMitooDialogBuilder;
+import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
+import co.mitoo.sashimi.views.Dialog.LogOutDialogBuilder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -47,6 +49,9 @@ public class SettingsFragment extends MitooFragment {
             case R.id.feedback_text_view:
                 feedBackAction();
                 break;
+            case R.id.get_help_text_view:
+                getHelpAction();
+                break;
         }
     }
                 
@@ -71,6 +76,7 @@ public class SettingsFragment extends MitooFragment {
         view.findViewById(R.id.about_text_view).setOnClickListener(this);
         view.findViewById(R.id.log_out_text_view).setOnClickListener(this);
         view.findViewById(R.id.feedback_text_view).setOnClickListener(this);
+        view.findViewById(R.id.get_help_text_view).setOnClickListener(this);
 
     }
 
@@ -94,8 +100,9 @@ public class SettingsFragment extends MitooFragment {
     }
     
     private void logtOutAction(){
-        
-        getMitooActivity().logOut();
+
+        LogOutDialogBuilder dialog = new LogOutDialogBuilder(getActivity());
+        dialog.buildPrompt().show();
         
     }
 
@@ -107,6 +114,13 @@ public class SettingsFragment extends MitooFragment {
     }
     
     private void feedBackAction(){
+
+        FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
+        dialog.buildPrompt().show();
+
+    }
+
+    private void getHelpAction(){
 
         getMitooActivity().contactMitoo();
 

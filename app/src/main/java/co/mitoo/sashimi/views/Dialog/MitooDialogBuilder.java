@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.ContextThemeWrapper;
 
+import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.listener.MitooOptionsDialogOnClickListner;
 
 /**
@@ -18,12 +19,11 @@ public abstract class MitooDialogBuilder {
     private Context context;
     private String positiveMessage;
     private String negativeMessage;
-    private CharSequence[] option;
     private String title;
-    private MitooOptionsDialogOnClickListner positiveListner;
+    private String message;
+    private DialogInterface.OnClickListener positiveListner;
     private DialogInterface.OnClickListener negativeListner;
-    private DialogInterface.OnClickListener optionsListner;
-    
+
     public Context getContext() {
         return context;
     }
@@ -34,11 +34,11 @@ public abstract class MitooDialogBuilder {
 
     public AlertDialog buildPrompt() {
 
-        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(),
-                android.R.style.Theme_Material_Settings);
-        AlertDialog.Builder builder = new AlertDialog.Builder(contextThemeWrapper);
+       /* ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(),
+                android.R.style.Theme_Material_Settings);*/
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getTitle())
-                .setSingleChoiceItems(getOption(), 0, getOptionsListner())
+                .setMessage(getMessage())
                 .setNegativeButton(getNegativeMessage(), getNegativeListner())
                 .setPositiveButton(getPositiveMessage(), getPositiveListner());
         return builder.create();
@@ -60,14 +60,6 @@ public abstract class MitooDialogBuilder {
         this.negativeMessage = negativeMessage;
     }
 
-    public CharSequence[] getOption() {
-        return option;
-    }
-
-    public void setOption(CharSequence[] option) {
-        this.option = option;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -76,11 +68,11 @@ public abstract class MitooDialogBuilder {
         this.title = title;
     }
 
-    public MitooOptionsDialogOnClickListner getPositiveListner() {
+    public DialogInterface.OnClickListener getPositiveListner() {
         return positiveListner;
     }
 
-    public void setPositiveListner(MitooOptionsDialogOnClickListner positiveListner) {
+    public void setPositiveListner(DialogInterface.OnClickListener positiveListner) {
         this.positiveListner = positiveListner;
     }
 
@@ -92,11 +84,13 @@ public abstract class MitooDialogBuilder {
         this.negativeListner = negativeListner;
     }
 
-    public DialogInterface.OnClickListener getOptionsListner() {
-        return optionsListner;
+    public String getMessage() {
+        if(this.message==null)
+            setMessage(getContext().getString(R.string.alert_default_message));
+        return message;
     }
 
-    public void setOptionsListner(DialogInterface.OnClickListener optionsListner) {
-        this.optionsListner = optionsListner;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

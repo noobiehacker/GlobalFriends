@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/accountText"
+        android:id="@+id/top_list_header"
         style="@style/blackBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,10 +21,10 @@
         layout="@layout/partial_settings_top_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/accountText"></include>
+        android:layout_below="@+id/top_list_header"></include>
 
     <TextView
-        android:id="@+id/helpAndFeedBackText"
+        android:id="@+id/bottom_list_header"
         style="@style/blackBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,6 +40,6 @@
         layout="@layout/partial_settings_bottom_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/helpAndFeedBackText"></include>
+        android:layout_below="@+id/bottom_list_header"></include>
 
 </RelativeLayout>

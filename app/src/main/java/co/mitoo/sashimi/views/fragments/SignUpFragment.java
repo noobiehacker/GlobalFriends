@@ -55,7 +55,8 @@ public class SignUpFragment extends MitooFragment {
 
     private void initializeOnClickListeners(View view) {
         view.findViewById(R.id.joinButton).setOnClickListener(this);
-        view.findViewById(R.id.facebookJoinButton).setOnClickListener(this);
+        /*Take out for V1
+        view.findViewById(R.id.facebookJoinButton).setOnClickListener(this);*/
     }
 
     @Override
@@ -80,9 +81,10 @@ public class SignUpFragment extends MitooFragment {
             case R.id.joinButton:
                 joinButtonAction();
                 break;
+            /* Take Out For V1
             case R.id.facebookJoinButton:
                 facebookJoinButtonAction();
-                break;
+                break;*/
         }
     }
 

@@ -15,5 +15,11 @@
         android:title="@string/action_settings"
         yourapp:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_logout"
+        android:orderInCategory="100"
+        android:title="@string/menu_logout"
+        yourapp:showAsAction="never" />
+
 
 </menu>

@@ -58,6 +58,9 @@ public class FragmentFactory {
             case R.id.fragment_feed_back:
                 result = FeedBackFragment.newInstance();
                 break;
+            case R.id.fragment_about_mitoo:
+                result = AboutMitooFragment.newInstance();
+                break;
             default:
                 result = SplashScreenFragment.newInstance();
         }

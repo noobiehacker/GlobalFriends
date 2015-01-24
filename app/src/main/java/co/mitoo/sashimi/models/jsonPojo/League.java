@@ -2,6 +2,7 @@ package co.mitoo.sashimi.models.jsonPojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
+
 import co.mitoo.sashimi.models.location;
 
 /**
@@ -20,7 +21,8 @@ public class League implements Serializable {
     private String[] sports;
     private int id;
     private _geoLoc _geoloc;
-    private location loc;
+    private location location;
+    private String city;
 
     public boolean isClaimed() {
         return claimed;
@@ -110,12 +112,20 @@ public class League implements Serializable {
         this._geoloc = _geoloc;
     }
 
-    public location getLoc() {
-        return loc;
+    public location getLocation() {
+        return location;
     }
 
-    public void setLoc(location loc) {
-        this.loc = loc;
+    public void setLocation(location location) {
+        this.location = location;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public LatLng getLatLng(){
@@ -123,12 +133,11 @@ public class League implements Serializable {
         LatLng result = null;
         if(get_geoloc()!=null){
             result = new LatLng(get_geoloc().getLat(), get_geoloc().getLng());
-        }else if(getLoc()!=null){
-            result = new LatLng( getLoc().getLat(), getLoc().getLat());
+        }else if(getLocation()!=null){
+            result = new LatLng( getLocation().getLat(), getLocation().getLat());
         }
         return result;
     }
-
 
     public String getLeagueSports(){
 
@@ -143,4 +152,15 @@ public class League implements Serializable {
         return result;
     }
 
+    public String getFirstSports(){
+        if(getSports()!= null && getSports().length>0)
+            return getSports()[0];
+        return null;
+    }
+    
+    @Override
+    public boolean equals(Object league){
+        League compareLeague= (League) league;
+        return this.getId()== compareLeague.getId();
+    }
 }

@@ -56,8 +56,9 @@ public class LoginFragment extends MitooFragment{
     private void initializeOnClickListeners(View view){
 
         view.findViewById(R.id.loginButton).setOnClickListener(this);
-        view.findViewById(R.id.facebookLoginButton).setOnClickListener(this);
         view.findViewById(R.id.forgetPasswordButton).setOnClickListener(this);
+        /*Take out for v1
+        view.findViewById(R.id.facebookLoginButton).setOnClickListener(this);*/
 
     }
 
@@ -67,12 +68,13 @@ public class LoginFragment extends MitooFragment{
             case R.id.loginButton:
                 loginButtonAction();
                 break;
-            case R.id.facebookLoginButton:
-                facebookLoginButtonAction();
-                break;
             case R.id.forgetPasswordButton:
                 forgetPasswordAction();
                 break;
+            /*Take Out for V1
+            case R.id.facebookLoginButton:
+                facebookLoginButtonAction();
+                break;*/
         }
     }
 
@@ -97,7 +99,6 @@ public class LoginFragment extends MitooFragment{
 
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event){
-        displayText(getString(R.string.toast_login_success));
         BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.READ));
 
 }

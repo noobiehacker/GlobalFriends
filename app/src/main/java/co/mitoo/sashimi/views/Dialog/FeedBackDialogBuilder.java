@@ -3,6 +3,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.listener.FeedBackPromptOnClickListener;
+import co.mitoo.sashimi.utils.listener.MitooOptionsDialogOnClickListner;
 
 /**
  * Created by david on 15-01-20.
@@ -18,13 +19,6 @@ public class FeedBackDialogBuilder extends MitooOptionsDialogBuilder implements 
         setPositiveListner(new FeedBackPromptOnClickListener(true, getContext()));
         setNegativeListner(new FeedBackPromptOnClickListener(false, getContext()));
         setOptionsListner(this);
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-
-        setSelectedOption(which);
-        getPositiveListner().setSelectedOption(which);
     }
 
 }

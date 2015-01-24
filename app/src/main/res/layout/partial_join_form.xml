@@ -19,6 +19,8 @@
             android:layout_centerHorizontal="true"
             />
 
+        <!-- Take Out Facebook For V1 -->
+        <!--
         <Button
             android:id="@+id/facebookJoinButton"
             android:layout_width="@dimen/gray_button_width"
@@ -27,7 +29,6 @@
             android:layout_below="@+id/leagueInfoContainter"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:onClick="facebookButtonJoinAction"
             style="@style/navyBlueButton"
             />
 
@@ -38,13 +39,13 @@
             android:layout_width="@dimen/gray_button_width"
             android:layout_height="@dimen/gray_button_height"
             android:layout_marginTop="@dimen/spacing_smallest"/>
-
+        -->
         <EditText
             android:id="@+id/nameInput"
             android:layout_width="@dimen/gray_button_width"
             android:layout_height="@dimen/gray_button_height"
             android:hint="@string/join_page_text2"
-            android:layout_below="@+id/orLine"
+            android:layout_below="@+id/leagueInfoContainter"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/spacing_smallest"
             style="@style/whiteEditText"

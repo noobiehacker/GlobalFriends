@@ -28,6 +28,7 @@ import co.mitoo.sashimi.utils.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
+import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.views.fragments.LoginFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -267,7 +268,8 @@ public class MitooActivity extends Activity {
         
     }
     
-    public void logOut(){
+    @Subscribe
+    public void logOut(LogOutEvent event){
 
         getModelManager().deleteAllPersistedData();
         popAllFragments();
@@ -279,9 +281,10 @@ public class MitooActivity extends Activity {
         
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL , new String[]{getString(R.string.mitoo_support_email_address)});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
         intent.putExtra(Intent.EXTRA_SUBJECT , getString(R.string.mitoo_support_email_subject));
-        startActivity(Intent.createChooser(intent , "Send email..."));
+        intent.putExtra(Intent.EXTRA_TEXT , getModelManager().getUserInfoModel().getUserInfoRecieve().email);
+        startActivity(Intent.createChooser(intent, "Send email..."));
         
     }
 

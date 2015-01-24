@@ -49,7 +49,6 @@ public class ResetPasswordFragment extends MitooFragment{
 
     @Subscribe
     public void onResetPasswordResponse(ResetPasswordResponseEvent event){
-        this.displayText(getString(R.string.toast_password_reset));
         popFragmentAction();
     }
 
