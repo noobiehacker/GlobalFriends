@@ -7,29 +7,28 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
-import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
-import com.newrelic.agent.android.NewRelic;
+//import com.newrelic.agent.android.NewRelic;
 import com.squareup.otto.Subscribe;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
+import co.mitoo.sashimi.managers.UserDataManager;
+import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ModelManager;
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
-import co.mitoo.sashimi.views.fragments.LoginFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -39,6 +38,7 @@ public class MitooActivity extends Activity {
     private Handler handler;
     private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
+    private UserDataManager userDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,16 @@ public class MitooActivity extends Activity {
         setContentView(R.layout.activity_mitoo);
         setUpPersistenceData();
 
+        /*
+        LocationModel model = new LocationModel(this);
+        model.searchForPlace("San Francisco");
+        model.searchForPlace("New york");
+        model.searchForPlace("Chicago");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+            }
+        }, 10000);*/
     }
 
     @Override
@@ -206,9 +216,9 @@ public class MitooActivity extends Activity {
     
     private void setUpNewRelic(){
         
-        NewRelic.withApplicationToken(getString(R.string.API_key_new_relic)
+      /*  NewRelic.withApplicationToken(getString(R.string.API_key_new_relic)
         ).start(this.getApplication());
-        
+        */
     }
 
     @Override
@@ -224,12 +234,13 @@ public class MitooActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        /*
         if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
             if(fragmentStack.peek() instanceof LoginFragment){
                 LoginFragment loginFragment = (LoginFragment)fragmentStack.peek();
                 loginFragment.onActivityResult(requestCode, resultCode, data);
             }
-        }
+        }*/
     }
 
     public ModelManager getModelManager() {
@@ -287,5 +298,14 @@ public class MitooActivity extends Activity {
         startActivity(Intent.createChooser(intent, "Send email..."));
         
     }
+
+    public UserDataManager getUserDataManager() {
+        return userDataManager;
+    }
+
+    public void setUserDataManager(UserDataManager userDataManager) {
+        this.userDataManager = userDataManager;
+    }
+
 
 }

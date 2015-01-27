@@ -69,25 +69,25 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     //*****Views*****//
 
+    //Mocking
+    compile ('org.mockito:mockito-core:1.9.5+'){
+        exclude module : 'hamcrest'
+        exclude module : 'hamcrest-core'
+    }
+    
     //ViewAnimation
-    compile 'org.mockito:mockito-core:1.9.5+'
+
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     //Picasso Image Loader
     compile 'com.squareup.picasso:picasso:2.4.0'
-    //progress dialog for fragments
-    compile 'com.github.johnkil.android-progressfragment:progressfragment-native:1.4.+'
     //AndroidImageSl
     compile 'com.daimajia.slider:library:1.1.0@aar'
-    //Material design circle button
-    compile 'com.github.markushi:circlebutton:1.1'
     //Calligraphy
     compile 'uk.co.chrisjenx:calligraphy:1.2.0'
     //Circle Profile Image
     compile 'de.hdodenhof:circleimageview:1.2.1'
-    //Fading Action Bar
-    compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
     //*****Model*****//
 
     //Network Connection
@@ -106,13 +106,10 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.0-rc.10'
     compile 'io.reactivex:rxandroid:0.23.0'
     compile 'pl.charmas.android:android-reactive-location:0.2@aar'
-    //Mocking
-    compile 'org.mockito:mockito-core:1.+'
+
     //Networking
     compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
     //Facebook
-    //compile 'com.facebook.android:facebook-android-sdk:3.22.0'
-    compile 'com.greenhalolabs:facebooklogin:1.0'
     //*****Others*****//
     compile 'com.android.support:support-v4:+'
     compile 'com.android.support:appcompat-v7:21.+'
@@ -120,24 +117,28 @@ dependencies {
     //New relic
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
     compile files('libs/algoliasearch-client-android-1.5.9.jar')
-    compile files('libs/facebook-android-sdk-3.22.0-sources.jar')
+    compile files('libs/original-google-places-api-java.jar')
     //Cloning Libray
     compile 'commons-lang:commons-lang:2.6'
     //Library for future
     //View Injection
     //compile 'com.jakewharton:butterknife:6.0.0'
-    
+
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')
     androidTestCompile files('lib/testrunner-runtime-1.1.jar')
-    androidTestCompile 'com.google.guava:guava:14.0.1'
-    androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
-    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-    androidTestCompile('junit:junit:4.11') {
-        exclude module: 'hamcrest-core'
+    androidTestCompile ('com.google.guava:guava:14.0.1'){
+        exclude module : 'hamcrest'
+        exclude module : 'hamcrest-core'
+    }
+    androidTestCompile ('com.squareup.dagger:dagger:1.1.0'){
+        exclude module : 'hamcrest'
+        exclude module : 'hamcrest-core'
+    }
+    androidTestCompile ('junit:junit-dep:4.8.+') {
+        exclude module : 'hamcrest'
+        exclude module : 'hamcrest-core'
     }
     androidTestCompile('org.robolectric:robolectric:2.4') {
         exclude module: 'classworlds'
@@ -156,7 +157,10 @@ dependencies {
         exclude module: 'wagon-http-lightweight'
         exclude module: 'wagon-provider-api'
     }
-    androidTestCompile 'com.squareup:fest-android:1.0.+'
+    androidTestCompile ('com.squareup:fest-android:1.0.+'){
+        exclude module : 'hamcrest'
+        exclude module : 'hamcrest-core'
+    }
 }
 
 

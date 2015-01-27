@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.greenhalolabs.facebooklogin.FacebookLoginActivity;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -87,7 +86,6 @@ public class LoginFragment extends MitooFragment{
             displayText(getString(R.string.toast_password_empty));
         }
         else{
-            displayText(getString(R.string.toast_logging_in));
             login(getUsername(), getPassword());
         }
     }
@@ -111,10 +109,11 @@ public class LoginFragment extends MitooFragment{
     }
 
     private void facebookLoginButtonAction(){
+        /*
         String applicationId =  getResources().getString(R.string.API_key_facebook);
         ArrayList<String> permissions = new ArrayList<String>();
         permissions.add("public_profile");
-        FacebookLoginActivity.launch(getActivity(), applicationId, permissions);
+        FacebookLoginActivity.launch(getActivity(), applicationId, permissions);*/
     }
 
     private void forgetPasswordAction(){
@@ -140,8 +139,10 @@ public class LoginFragment extends MitooFragment{
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
+        
       super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
+        /*if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
 
             if (resultCode == Activity.RESULT_OK) {
                 String faceBookToken = data.getStringExtra(FacebookLoginActivity.EXTRA_FACEBOOK_ACCESS_TOKEN);
@@ -151,7 +152,7 @@ public class LoginFragment extends MitooFragment{
                 String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
                 displayText(errorMessage);
             }
-        }
+        }*/
     }
     
     private void requestAuthToken(String faceBookToken){

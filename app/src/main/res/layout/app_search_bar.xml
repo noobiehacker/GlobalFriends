@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/gray_dark_four"
     android:textColorPrimary="@color/white"
-    android:textColorSecondary="@color/white">
+    android:textColorSecondary="@color/white"
+>
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_search"
-        android:layout_centerVertical="true"
-        style="@style/searchView"/>
+
 </android.support.v7.widget.Toolbar>

@@ -2,6 +2,7 @@ package co.mitoo.sashimi.views.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,7 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.squareup.otto.Bus;
+
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -26,7 +27,7 @@ import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ModelManager;
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
@@ -45,6 +46,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected Toolbar toolbar;
     protected String fragmentTitle = "";
     private boolean allowBackPressed= true;
+    private boolean loading = false;
+    private ProgressDialog progressDialog;
+
+
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -97,6 +102,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             busRegistered =false;
         }
     }
+
     
     protected void initializeFields(){
         
@@ -357,6 +363,49 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected SessionModel getSessionModel(){
         return getMitooActivity().getModelManager().getSessionModel();
     }
+
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        if(this.loading){
+            displayProgressDialog();
+        }else{
+            cancelProgressDialog();
+        }
+    }
+    
+    private void displayProgressDialog(){
+        
+        ProgressDialog dialog = getProgressDialog();
+        if(!dialog.isShowing())
+            dialog.show();
+    
+    }
+
+    private void cancelProgressDialog(){
+
+        ProgressDialog dialog = getProgressDialog();
+        if(dialog.isShowing())
+            dialog.dismiss();
+        
+    }
+    
+    private void iniializeDialog(){
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+    }
+
+    public ProgressDialog getProgressDialog() {
+        if(this.progressDialog=- null)
+            iniializeDialog();
+        return progressDialog;
+    }
+
 }
 
 

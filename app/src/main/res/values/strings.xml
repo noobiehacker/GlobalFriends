@@ -15,13 +15,13 @@
     <string name="landing_page_slider_text1">Search for your local sports\nleagues</string>
     <string name="landing_page_slider_text2">Quickly find competition around you</string>
     <string name="landing_page_slider_text3">using our powerful search engine</string>
-    <string name="landing_page_slider_text4">Join a sports league that suits you</string>
+    <string name="landing_page_slider_text4">Join a sports league that\nsuits you</string>
     <string name="landing_page_slider_text5">As soon as you are joined, the admin will be</string>
     <string name="landing_page_slider_text6">notified and will respond quickly</string>
-    <string name="landing_page_slider_text7">Stay fit and have fun in your new league</string>
+    <string name="landing_page_slider_text7">Stay fit and have fun in your\nnew league</string>
     <string name="landing_page_slider_text8">We keep you inform of any update on</string>
     <string name="landing_page_slider_text9">the competition you joined</string>
-    <string name="landing_page_text10">Find a team sport near me</string>
+    <string name="landing_page_text10">FIND A TEAM SPORT NEAR ME</string>
     <string name="landing_page_text11">Already have an account? Login</string>
 
     <!--Login Page-->

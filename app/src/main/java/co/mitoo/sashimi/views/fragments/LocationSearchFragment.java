@@ -1,10 +1,10 @@
 package co.mitoo.sashimi.views.fragments;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import co.mitoo.sashimi.R;
 
 /**
@@ -53,11 +53,11 @@ public class LocationSearchFragment extends MitooFragment {
     @Override
     protected void setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_search_bar);
+        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
         if(toolbar!=null) {
 
             toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            toolbar.addView(createSearchView(view));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -70,6 +70,19 @@ public class LocationSearchFragment extends MitooFragment {
     private void initializeOnClickListeners(View view){
 
 
+    }
+
+    private SearchView createSearchView(View view){
+
+        SearchView searchView = new SearchView(getActivity());
+        searchView.setQueryHint(getString(R.string.location_search_page_text_1));
+        searchView.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        searchView.setIconified(false);
+        searchView.requestFocusFromTouch();
+        //searchView.setSuggestionsAdapter();
+        return searchView;
     }
 
 }

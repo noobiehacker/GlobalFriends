@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.utils;
+package co.mitoo.sashimi.managers;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,6 +6,7 @@ import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
+import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**

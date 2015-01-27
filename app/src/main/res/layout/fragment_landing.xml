@@ -40,7 +40,6 @@
         android:layout_height="@dimen/gray_button_height"
         android:layout_above="@+id/signupButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/spacing_small"
         android:text="@string/landing_page_text10"
         style="@style/darkGrayButton"
         />
@@ -51,9 +50,8 @@
         android:layout_height="@dimen/gray_button_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_smallest"
         android:text="@string/landing_page_text11"
-
         style="@style/noBackgroundButton"
         />
 

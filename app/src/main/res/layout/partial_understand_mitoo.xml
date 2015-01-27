@@ -5,38 +5,7 @@ android:layout_centerInParent="true"
 android:layout_height="wrap_content"
 android:layout_width="wrap_content"
 android:layout_centerVertical="true"
-android:orientation="vertical"
-android:gravity="center">
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/icon"
-        android:paddingTop = "@dimen/spacing_normal"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        style="@style/whiteBigText"/>
-   <!-- <TextView
-        android:id="@+id/descriptionOne"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_normal"
-        android:layout_below="@+id/title"
-        android:paddingTop = "@dimen/spacing_smallest"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:id="@+id/descriptionTwo"
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/font_normal"
-        android:layout_below="@+id/descriptionOne"
-        android:paddingTop = "@dimen/spacing_tiny"
-        android:layout_centerHorizontal="true"/>-->
+android:orientation="vertical">
+    
+
 </RelativeLayout>

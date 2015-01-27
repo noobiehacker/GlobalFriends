@@ -11,8 +11,9 @@
             android:name=".views.activities.MitooActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait">
+            android:windowSoftInputMode="adjustPan">
+            <!-- Put in for release
+            android:screenOrientation="portrait"> -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

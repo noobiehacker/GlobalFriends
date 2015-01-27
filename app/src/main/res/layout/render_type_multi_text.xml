@@ -7,19 +7,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <include layout="@layout/partial_understand_mitoo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="230dp"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:id="@+id/description_layout"
-        android:layout_centerInParent="true"
-        android:minHeight="50dp"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/spacing_huge"
+        android:layout_centerHorizontal="true"
+        android:minLines="2"
+        android:lineSpacingMultiplier="1.2"
+        android:gravity="center"
+        style="@style/whiteBigText"/>
 
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/title"/>
+    
 </RelativeLayout>

@@ -81,6 +81,7 @@
     
     <style name="searchView">
         <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:editTextColor">@color/gray_dark_three</item>
         <item name="android:textColorHint">@color/gray_light_three</item>
         <item name="android:textSize">@dimen/font_normal</item>
         <item name="android:singleLine">true</item>

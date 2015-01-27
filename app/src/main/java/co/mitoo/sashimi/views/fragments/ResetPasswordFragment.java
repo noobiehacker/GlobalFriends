@@ -61,7 +61,7 @@ public class ResetPasswordFragment extends MitooFragment{
     @Override
     protected void initializeFields() {
         super.initializeFields();
-        setFragmentTitle(getString(R.string.tool_bar_join));
+        setFragmentTitle(getString(R.string.forgot_page_title));
     }
 
     @Override
@@ -92,7 +92,6 @@ public class ResetPasswordFragment extends MitooFragment{
             displayText(getString(R.string.toast_password_empty));
         }
         else{
-            this.displayText(getString(R.string.toast_loading));
             reset(getEmail());
         }
     }

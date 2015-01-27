@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import com.devspark.progressfragment.ProgressFragment;
 
 import co.mitoo.sashimi.R;
 
 /**
  * Created by david on 14-11-13.
  */
-public abstract class MitooProgessFragment extends ProgressFragment {
+public abstract class MitooProgessFragment{//} extends ProgressFragment {
     protected View contentView;
-
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,5 +44,5 @@ public abstract class MitooProgessFragment extends ProgressFragment {
                     setContentShown(true);
             }
         }, loadingTime);
-    }
+    }*/
 }

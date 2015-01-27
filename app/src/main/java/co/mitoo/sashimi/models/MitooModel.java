@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.models;
 
 import android.app.Activity;
+import android.os.Handler;
 
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
@@ -17,7 +18,10 @@ public abstract class MitooModel
 {
 
     protected Activity activity;
-    private DataPersistanceService persistanceService;
+    protected DataPersistanceService persistanceService;
+    protected Handler handler;
+    protected Runnable backgroundRunnable;
+    protected Runnable getResultsRunnable;
 
     public void setResources(Activity activity) {
         setActivity(activity);
@@ -101,7 +105,7 @@ public abstract class MitooModel
             public void run() {
 
                 try {
-                    MitooModel.this.obtainResults();
+                    obtainResults();
                 }
                 catch(Exception e){
                 }

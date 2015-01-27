@@ -163,8 +163,6 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         for(sliderContent content : contents){
             MultiTextSliderView textSliderView = new MultiTextSliderView(getActivity());
             textSliderView
-                    .descriptionOne(getResources().getString(content.descriptionOne))
-                    .descriptionTwo(getResources().getString(content.descriptionTwo))
                     .title(getResources().getString(content.title))
                     .icon(content.imageIconId)
                     .image(content.imageBackgroundId)

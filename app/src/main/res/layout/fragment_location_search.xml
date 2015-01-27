@@ -6,10 +6,11 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/app_search_bar"
+        android:id="@+id/app_bar"
         layout="@layout/app_search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
+
 
 </RelativeLayout>

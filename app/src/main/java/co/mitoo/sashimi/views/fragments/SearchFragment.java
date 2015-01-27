@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -218,6 +219,9 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
                 return false;
             }
         });
+
+        EditText txtSearch = ((EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
+        txtSearch.setTextColor(getResources().getColor(R.color.gray_dark_three));
     }
     
     private void setUpSportsList(View view){
@@ -254,6 +258,8 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         getSearchPlaceHolder().setVisibility(View.GONE);
 
     }
+    
+    
     
     private TextView createClickableTitleView(){
 

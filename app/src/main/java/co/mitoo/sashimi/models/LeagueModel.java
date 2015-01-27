@@ -38,9 +38,7 @@ public class LeagueModel extends MitooModel{
     private League[] leagueEnquired;
     private JSONObject results;
     private League selectedLeague;
-    private Handler handler;
-    private Runnable serializeRunnable;
-    private Runnable getResultsRunnable;
+
 
     public LeagueModel(Activity activity) {
         super(activity);
@@ -113,7 +111,7 @@ public class LeagueModel extends MitooModel{
         
         this.results=results;
         this.handler= new Handler();
-        this.serializeRunnable =new Runnable() {
+        this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
 
@@ -127,7 +125,7 @@ public class LeagueModel extends MitooModel{
             }
         };
 
-        Thread t = new Thread(this.serializeRunnable);
+        Thread t = new Thread(this.backgroundRunnable);
         t.start();
         
         this.getResultsRunnable = createGetResultsRunnable();
