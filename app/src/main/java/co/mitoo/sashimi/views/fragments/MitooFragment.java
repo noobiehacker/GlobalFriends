@@ -49,8 +49,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean loading = false;
     private ProgressDialog progressDialog;
 
-
-
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
         return textField.getText().toString();
@@ -102,7 +100,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             busRegistered =false;
         }
     }
-
     
     protected void initializeFields(){
         
@@ -401,7 +398,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     public ProgressDialog getProgressDialog() {
-        if(this.progressDialog=- null)
+        if(this.progressDialog== null)
             iniializeDialog();
         return progressDialog;
     }
