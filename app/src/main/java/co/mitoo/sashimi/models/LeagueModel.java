@@ -66,7 +66,7 @@ public class LeagueModel extends MitooModel{
         if(event.getRequestType()== MitooEnum.crud.CREATE) {
             if (getSelectedLeague() != null) {
                 JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getSports()[0]);
-                handleObservable(getSteakApiService().createLeagueEnquiries(event.getUserID(), sendData), Response.class);
+                handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
             }
         } else if (event.getRequestType() == MitooEnum.crud.READ) {
             handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant() ,event.getUserID()), League[].class);

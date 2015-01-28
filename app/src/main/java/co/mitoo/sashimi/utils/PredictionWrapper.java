@@ -46,7 +46,8 @@ public class PredictionWrapper extends Prediction implements IsSearchable {
     private String getCityName(){
         String description = getPrediciton().getDescription();
         int firstComma = description.indexOf(",");
-        return description.substring( 0 , firstComma);
-
+        if(firstComma!=-1)
+            return description.substring( 0 , firstComma);
+        return description;
     }
 }

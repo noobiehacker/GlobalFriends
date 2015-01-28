@@ -57,19 +57,10 @@ public class DataPersistanceService {
         this.activity = activity;
     }
 
-    public void readFromPreference(String key , final Class<?> classType){
+    public void readFromPreference(String key , final Class<?> classType) {
 
-        final String keyToPassIn  = key;
-        this.serializeRunnable =new Runnable() {
-            @Override
-            public void run() {
-
-                    String savedUserSerialized = getSavedObjectData(keyToPassIn, getSharedPreferenceErrorValue());
-                    BusProvider.post(new SessionPersistanceResponseEvent(deserializeObject(savedUserSerialized, classType)));
-
-            }
-        };
-        runRunnableOnNewThread(this.serializeRunnable);
+        String savedUserSerialized = getSavedObjectData(key, getSharedPreferenceErrorValue());
+        BusProvider.post(new SessionPersistanceResponseEvent(deserializeObject(savedUserSerialized, classType)));
 
     }
 

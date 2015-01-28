@@ -135,8 +135,6 @@ public class MitooActivity extends Activity {
 
     }
 
-
-
     @Subscribe
     public void startIntent(Intent intent){
         startActivity(intent);
@@ -147,6 +145,7 @@ public class MitooActivity extends Activity {
         super.onConfigurationChanged(newConfig);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
+    
     public boolean LocationServicesIsOn(){
         return locationManager.LocationServicesIsOn();
     }
@@ -275,7 +274,6 @@ public class MitooActivity extends Activity {
         getModelManager().deleteAllPersistedData();
         popAllFragments();
         startApp();
-        setUpPersistenceData();
     }
     
     public void contactMitoo(){

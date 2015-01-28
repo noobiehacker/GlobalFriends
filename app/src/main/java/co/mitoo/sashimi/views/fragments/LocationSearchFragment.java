@@ -84,6 +84,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         dynamicText.setText(getString(R.string.location_search_page_text_2));
         
     }
+    
     private void initializeOnClickListeners(View view){
 
         view.findViewById(R.id.current_location).setOnClickListener(this);
@@ -211,6 +212,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
                 break;
         }
     }
-    
+
     
 }

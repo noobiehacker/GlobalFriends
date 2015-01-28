@@ -1,13 +1,16 @@
 package co.mitoo.sashimi.managers;
 import java.util.ArrayList;
 import java.util.List;
-
+import android.os.Handler;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsPersistable;
+import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
+import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
@@ -18,6 +21,7 @@ public class ModelManager {
     private MitooActivity activity;
     private List<MitooModel> mitooModelList;
     private List<IsPersistable> persistableList;
+    protected Runnable currentRunnable;
 
     public ModelManager(MitooActivity activity) {
         setActivity(activity);
@@ -156,15 +160,49 @@ public class ModelManager {
 
     public void readAllPersistedData(){
 
-        for(IsPersistable item  : getPersistableList()){
-            item.readData();
-        }
+        Runnable runnable =new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    for(IsPersistable item  : getPersistableList()){
+                        item.readData();
+                    }
+                    BusProvider.post(new ModelPersistedDataLoadedEvent());
+                }
+                catch(Exception e){
+                }
+            }
+        };
+        runRunnableInBackground(runnable);
+
     }
 
     public void deleteAllPersistedData(){
 
-        for(IsPersistable item  : getPersistableList()){
-            item.deleteData();
-        }
+        Runnable runnable =new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    for(IsPersistable item  : getPersistableList()){
+                        item.deleteData();
+                    }
+                    BusProvider.post(new ModelPersistedDataDeletedEvent());
+                }
+                catch(Exception e){
+                }
+            }
+        };
+
+        runRunnableInBackground(runnable);
+    }
+    
+    private void runRunnableInBackground(Runnable runnable){
+        
+        this.currentRunnable= runnable;
+        Thread t = new Thread(currentRunnable);
+        t.start();
+        
     }
 }

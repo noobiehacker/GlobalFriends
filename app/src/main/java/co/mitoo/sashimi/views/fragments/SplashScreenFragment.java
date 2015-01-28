@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
@@ -10,14 +9,14 @@ import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
-import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
-import co.mitoo.sashimi.utils.listener.FragmentChangeListener;
+import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
+import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
 
 /**
  * Created by david on 14-11-05.
@@ -42,15 +41,34 @@ public class SplashScreenFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void sessionModeldResponse(SessionModelResponseEvent event) {
+    public void onModelPersistedDataLoaded(ModelPersistedDataLoadedEvent event) {
+        
+        loadFirstFragment();
 
-        final SessionModelResponseEvent eventToPassIn = event;
+    }
+
+    @Subscribe
+    public void onModelPersistedDataDeleted(ModelPersistedDataDeletedEvent event) {
+
+        loadFirstFragment();
+
+    }
+    
+    @Subscribe
+    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
+
+        fireFragmentChangeAction(R.id.fragment_home);
+
+    }
+
+    private void loadFirstFragment(){
         Handler h = new Handler();
         h.postDelayed(new Runnable() {
             public void run() {
-                if (eventToPassIn.getSession() != null) {
-                    getMitooActivity().updateAuthToken(eventToPassIn.getSession());
-                    BusProvider.post(new LeagueModelEnquireRequestEvent(eventToPassIn.getSession().id, MitooEnum.crud.READ));
+                SessionRecieve session = getSessionModel().getSession();
+                if (session != null) {
+                    getMitooActivity().updateAuthToken(session);
+                    BusProvider.post(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
 
                 } else {
                     fireFragmentChangeAction(R.id.fragment_landing);
@@ -58,14 +76,12 @@ public class SplashScreenFragment extends MitooFragment {
                 }
             }
         }, 1000);
-
+        
     }
 
-    @Subscribe
-    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
+    private SessionModel getSessionModel(){
 
-        fireFragmentChangeAction(R.id.fragment_home);
-
+        return (SessionModel) getMitooModel(SessionModel.class);
     }
 
 }

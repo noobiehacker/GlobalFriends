@@ -340,7 +340,7 @@ w
     <string name="API_key_facebook">1524244734496711</string>
 
     <string name="App_Id_algolia">1ESI9QYTPJ</string>
-    <string name="algolia_index">proto_league_search</string>
+    <string name="algolia_index">steak-league-staging</string>
     <string name="algolia_result_param">hits</string>
     
     <!--Bundle Map Key -->

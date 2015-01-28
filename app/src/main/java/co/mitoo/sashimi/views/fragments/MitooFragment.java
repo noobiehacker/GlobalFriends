@@ -137,6 +137,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         } else {
             displayText(error.getErrorMessage());
         }
+        
+        setLoading(false);
     }
 
     protected void handleNetworkError() {
@@ -414,13 +416,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public ListHelper getListHelper() {
         if(listHelper==null)
-            setListHelper(new ListHelper());
+            setListHelper(new ListHelper(getActivity()));
         return listHelper;
     }
 
     public void setListHelper(ListHelper listHelper) {
         this.listHelper = listHelper;
     }
+    
+
 }
 
 

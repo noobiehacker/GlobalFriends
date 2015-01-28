@@ -36,6 +36,7 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     private SearchableAdapter sportsDataAdapter;
     private List<IsSearchable> sportData;
     private RelativeLayout searchPlaceHolder;
+    private TextView searchMitooText;
     private String queryText;
     private boolean onStartUp = true;
 
@@ -65,35 +66,27 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     @Override
     public void onResume() {
         super.onResume();
+        onStartUp = false;
     }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 
     @Override
     protected void initializeFields() {
 
         updateFragmentTitle();
         sportData = new ArrayList<IsSearchable>();
-        sportData.addAll(getSports());
-        onStartUp = false;
+        sportData.addAll(getListHelper().getSports());
+
     }
 
     @Subscribe
     public void recieveLeagueResult(LeagueQueryResponseEvent event) {
 
+        setLoading(false);
         if (event.getResults() != null) {
 
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.bundle_key_tool_bar_title), queryText);
+            setLoading(false);
             fireFragmentChangeAction(R.id.fragment_search_results, bundle);
 
         }
@@ -107,6 +100,13 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         setUpSearchView(view);
         setUpSportsList(view);
         setUpSearchPlaceHolder(view);
+        setUpDynamicText(view);
+    }
+
+    private void initializeOnClickListeners(View view) {
+
+        view.findViewById(R.id.search_bar).setOnClickListener(this);
+        view.findViewById(R.id.search_mitoo_for).setOnClickListener(this);
     }
 
     @Override
@@ -119,12 +119,6 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
 
             }
         }
-    }
-
-    private void initializeOnClickListeners(View view) {
-
-        view.findViewById(R.id.search_bar).setOnClickListener(this);
-
     }
 
     @Override
@@ -147,34 +141,6 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         handleAndDisplayError(error);
     }
 
-    private List<IsSearchable> getSports() {
-
-        ArrayList<IsSearchable> returnList = new ArrayList<IsSearchable>();
-        String[] sportsArray = getResources().getStringArray(R.array.sports_array);
-        for (String item : sportsArray) {
-            returnList.add(new Sport(item));
-        }
-        return returnList;
-
-    }
-
-    private List<IsSearchable> getSports(String prefix) {
-
-        ArrayList<IsSearchable> returnList = new ArrayList<IsSearchable>();
-        String[] sportsArray = getResources().getStringArray(R.array.sports_array);
-        for (String item : sportsArray) {
-            if (item.toLowerCase().startsWith(prefix))
-                returnList.add(new Sport(item));
-        }
-        return returnList;
-
-    }
-
-    private void searchFieldAction(String query) {
-
-        this.queryText = query;
-        BusProvider.post(new LeagueQueryRequestEvent(query));
-    }
 
     @Subscribe
     public void recieveLocation(LocationResponseEvent event) {
@@ -292,9 +258,17 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
         return (LocationModel) getMitooModel(LocationModel.class);
     }
 
+    private void searchFieldAction(String query) {
+
+        this.queryText = query;
+        BusProvider.post(new LeagueQueryRequestEvent(query));
+        //setLoading(true);
+    }
+
     private void queryRefineAction(String query) {
 
-        List<IsSearchable> updatedList = getSports(query);
+        setQueryText(query);
+        List<IsSearchable> updatedList = getListHelper().getSports(query);
         getListHelper().clearList(getSportData());
         getListHelper().addToListList(getSportData(), updatedList);
         sportsDataAdapter.notifyDataSetChanged();
@@ -307,7 +281,38 @@ public class SearchFragment extends MitooLocationFragment implements AdapterView
     public void setSportData(List<IsSearchable> sportData) {
         this.sportData = sportData;
     }
-    
 
+    public String getQueryText() {
+        return queryText;
+    }
+
+    public void setQueryText(String queryText) {
+        this.queryText = queryText;
+        updateSearchMitooText(queryText);
+    }
+
+    private void updateSearchMitooText(String query){
+        
+        if(getSearchMitooText()!=null){
+            getSearchMitooText().setText(getString(R.string.search_page_text_1) + " " + query);
+        }
+            
+    }
+
+    public TextView getSearchMitooText() {
+        return searchMitooText;
+    }
+
+    public void setSearchMitooText(TextView searchMitooText) {
+        this.searchMitooText = searchMitooText;
+    }
+
+    private void setUpDynamicText(View view){
+
+        TextView dynamicText = (TextView) view.findViewById(R.id.dynamicText);
+        dynamicText.setText(getString(R.string.search_page_text_1));
+        setSearchMitooText(dynamicText);
+
+    }
 }
 

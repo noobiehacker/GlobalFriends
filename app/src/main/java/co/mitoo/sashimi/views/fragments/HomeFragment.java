@@ -139,7 +139,7 @@ public class HomeFragment extends MitooFragment {
     
     private void setUpEnquireLeagues(View view){
 
-        if(getEnquiredLeague()!=null){
+        if(getEnquiredLeague()!=null && getEnquiredLeague().length>0){
             ViewHelper viewHelper = new ViewHelper(getActivity());
             viewHelper.setUpLeagueImage(view, getEnquiredLeague()[0]);
             viewHelper.setUpLeageText(view, getEnquiredLeague()[0]);

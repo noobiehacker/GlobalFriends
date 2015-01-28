@@ -90,6 +90,7 @@ public class SignUpFragment extends MitooFragment {
 
     private void joinButtonAction() {
 
+
         if (getUsername().equals("")) {
             this.displayText(getString(R.string.toast_username_empty));
         } else if (getEmail().equals("")) {
@@ -103,18 +104,21 @@ public class SignUpFragment extends MitooFragment {
             join(getUsername(), getEmail(), getPhone(), getPassword());
         }
 
+       // join("1234" , "11@22.4" ,  "1234" , "1234");
+
+
     }
 
     @Subscribe
     public void onJoinResponse(SessionModelResponseEvent event) {
         
         BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE));
-        setLoading(false);
     }
 
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
-        
+
+        setLoading(false);
         fireFragmentChangeAction(R.id.fragment_confirm);
         
     }

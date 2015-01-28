@@ -5,7 +5,11 @@
     android:background="@color/gray_light_two"
     android:orientation="vertical">
 
-    <include android:id="@+id/app_bar" layout="@layout/app_tool_bar" />
+    <include android:id="@+id/app_bar" 
+        layout="@layout/app_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"/>
 
     <include
         layout="@layout/view_search_field"
@@ -14,11 +18,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/app_bar"/>
 
+    <include
+        android:id="@+id/search_mitoo_for"
+        layout="@layout/list_view_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar"
+        />
+
     <ListView
         android:id="@+id/sportsListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/search_bar"
+        android:layout_below="@+id/search_mitoo_for"
         android:background="@color/white"
         android:descendantFocusability="blocksDescendants" />
 

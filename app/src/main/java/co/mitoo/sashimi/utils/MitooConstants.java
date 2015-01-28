@@ -7,6 +7,6 @@ public class MitooConstants {
     
     public static int invalidConstant = -1;
     public static boolean persistenceStorage = true;
-    public static boolean userApiary = true;
+    public static boolean userApiary = false;
 
 }
