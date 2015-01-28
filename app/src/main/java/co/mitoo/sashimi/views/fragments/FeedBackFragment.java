@@ -1,6 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,7 +141,7 @@ public class FeedBackFragment extends MitooFragment {
     public void setUpContactMitooView(View view){
         
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.feedback_contact_mitoo_container);
-        TextView contactMitooTextView = (TextView) container.findViewById(R.id.itemText);
+        TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
         contactMitooTextView.setText(getString(R.string.feedback_page_text1));
         
     }
@@ -151,7 +149,7 @@ public class FeedBackFragment extends MitooFragment {
     public void setUpFAQView(View view){
 
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.faq_container);
-        TextView contactMitooTextView = (TextView) container.findViewById(R.id.itemText);
+        TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
         contactMitooTextView.setText(getString(R.string.confused_page_text2));
 
     }

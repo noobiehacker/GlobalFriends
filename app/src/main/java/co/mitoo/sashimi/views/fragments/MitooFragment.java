@@ -23,9 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.ListHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -48,6 +51,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean allowBackPressed= true;
     private boolean loading = false;
     private ProgressDialog progressDialog;
+    private ListHelper listHelper;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -191,6 +195,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         BusProvider.post(event);
     }
     
+    //Buggy don't use
     protected void popFragmentAction(){
 
         unregisterBus();
@@ -297,6 +302,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         handleCallBacks();
         removeToast();
         unregisterBus();
+        setLoading(false);
     }
 
     @Override
@@ -323,7 +329,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 }
             });
 
-
         }
 
     }
@@ -349,18 +354,19 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.allowBackPressed = allowBackPressed;
     }
     
-    protected UserInfoModel getUserInfoModel(){
-        return getMitooActivity().getModelManager().getUserInfoModel();
+    protected MitooModel getMitooModel(Class<?> classType){
+        
+        if(classType == UserInfoModel.class)
+            return getMitooActivity().getModelManager().getUserInfoModel();
+        else if(classType == LeagueModel.class)
+            return getMitooActivity().getModelManager().getLeagueModel();
+        else if(classType == SessionModel.class)
+            return getMitooActivity().getModelManager().getSessionModel();
+        else if(classType == LocationModel.class)
+            return getMitooActivity().getModelManager().getLocationModel();
+        else
+            return null;
     }
-
-    protected LeagueModel getLeagueModel(){
-        return getMitooActivity().getModelManager().getLeagueModel();
-    }
-
-    protected SessionModel getSessionModel(){
-        return getMitooActivity().getModelManager().getSessionModel();
-    }
-
 
     public boolean isLoading() {
         return loading;
@@ -393,6 +399,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     
     private void iniializeDialog(){
         progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle(getString(R.string.dialog_loading_title));
+        progressDialog.setMessage(getString(R.string.dialog_loading_message));
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
     }
@@ -403,6 +411,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return progressDialog;
     }
 
+
+    public ListHelper getListHelper() {
+        if(listHelper==null)
+            setListHelper(new ListHelper());
+        return listHelper;
+    }
+
+    public void setListHelper(ListHelper listHelper) {
+        this.listHelper = listHelper;
+    }
 }
 
 

@@ -9,13 +9,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.utils.IsSearchable;
 
 /**
  * Created by david on 14-11-25.
  */
-public class SportAdapter extends ArrayAdapter<Sport> {
-    public SportAdapter(Context context, int resourceId, List<Sport> objects) {
+public class SearchableAdapter extends ArrayAdapter<IsSearchable> {
+    public SearchableAdapter(Context context, int resourceId, List<IsSearchable> objects) {
         super(context, resourceId, objects);
     }
 
@@ -25,8 +25,9 @@ public class SportAdapter extends ArrayAdapter<Sport> {
         if (convertView == null) {
             convertView = View.inflate(getContext(), R.layout.list_view_item_text, null);
         }
-        TextView sportsText = (TextView) convertView.findViewById(R.id.itemText);
-        sportsText.setText(getItem(position).getName());
+        TextView itemText = (TextView) convertView.findViewById(R.id.dynamicText);
+        String text = getItem(position).getName();
+        itemText.setText(getItem(position).getName());
         return convertView;
 
     }

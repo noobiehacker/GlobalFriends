@@ -1,28 +1,21 @@
 package co.mitoo.sashimi.models;
-
 import android.app.Activity;
 import android.location.Location;
 import android.os.Handler;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.otto.Subscribe;
-
-import org.json.JSONArray;
-
+import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.GpsResponseEvent;
-import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
 import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import co.mitoo.sashimi.utils.events.LocationResponseEvent;
 import se.walkercrou.places.GooglePlaces;
-import se.walkercrou.places.Place;
+import se.walkercrou.places.Prediction;
 
 /**
  * Created by david on 15-01-09.
@@ -30,11 +23,14 @@ import se.walkercrou.places.Place;
 public class LocationModel extends MitooModel {
 
     private Location currentLocation;
-    protected List<Place> queryResult;
+    private List<Prediction> queryResult;
     private GooglePlaces client;
+    private PredictionWrapper selectedPrediction;
+    private boolean usingCurrentLocation;
     public LocationModel(Activity activity) {
         super(activity);
-        client = new GooglePlaces(getActivity().getString(R.string.API_key_google_map));
+        setUsingCurrentLocation(true);
+        client = new GooglePlaces(getActivity().getString(R.string.API_key_google_places));
     }
 
     @Subscribe
@@ -69,13 +65,12 @@ public class LocationModel extends MitooModel {
             public void run() {
 
                 try {
-               
-                    List<Place> result = getClient().getPlacesByQuery(query,GooglePlaces.MAXIMUM_PAGE_RESULTS);
-                    queryResult =result;
+
+                    List<Prediction> queryPrediction = getClient().getQueryPredictions(query , GooglePlaces.Param.name("types").value("geocode"));
+                    queryResult = queryPrediction;
                 }
                 catch(Exception e){
-                    String temp = e.toString();
-                    String temp2= temp + "HAH";
+
                 }
             }
         };
@@ -88,12 +83,12 @@ public class LocationModel extends MitooModel {
 
     }
 
-
     @Override
     protected void obtainResults(){
 
         if(this.queryResult !=null){
-            BusProvider.post(new LocationModelQueryResultEvent(queryResult));
+            
+            BusProvider.post(new LocationModelQueryResultEvent(transFormList(queryResult)));
             setQueryResult(null);
             
         }else
@@ -111,11 +106,45 @@ public class LocationModel extends MitooModel {
         this.client = client;
     }
 
-    public List<Place> getQueryResult() {
+    public List<Prediction> getQueryResult() {
         return queryResult;
     }
 
-    public void setQueryResult(List<Place> queryResult) {
+    public void setQueryResult(List<Prediction> queryResult) {
         this.queryResult = queryResult;
+    }
+
+    private List<IsSearchable> transFormList(List<Prediction> inputList){
+        List<IsSearchable> returnList =  new ArrayList<IsSearchable>();
+        for(Prediction item :inputList){
+            returnList.add(new PredictionWrapper(item));
+        }
+        return returnList;
+
+    }
+
+    public PredictionWrapper getSelectedPredictionWrapper() {
+        return selectedPrediction;
+    }
+
+    public void setSelectedPredictionWrapper(PredictionWrapper selectedPrediction) {
+        this.selectedPrediction = selectedPrediction;
+        setUsingCurrentLocation(false);
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    public boolean isUsingCurrentLocation() {
+        return usingCurrentLocation;
+    }
+
+    public void setUsingCurrentLocation(boolean usingCurrentLocation) {
+        this.usingCurrentLocation = usingCurrentLocation;
     }
 }

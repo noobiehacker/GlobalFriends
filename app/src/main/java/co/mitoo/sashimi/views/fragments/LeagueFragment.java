@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.ViewHelper;
 
@@ -130,7 +132,6 @@ public class LeagueFragment extends MitooFragment {
     
     private void setUpInterestedButton(View view , ViewHelper viewHelper){
         
-
         if(!getLeagueModel().selectedLeagueIsJoinable()){
             Button interrestedButton = (Button) view.findViewById(R.id.interestedButton);
             interrestedButton.setClickable(false);
@@ -167,5 +168,10 @@ public class LeagueFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
+
+    private LeagueModel getLeagueModel(){
+
+        return (LeagueModel) getMitooModel(LeagueModel.class);
+    }
 
 }

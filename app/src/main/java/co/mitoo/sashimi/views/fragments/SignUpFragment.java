@@ -99,7 +99,7 @@ public class SignUpFragment extends MitooFragment {
         } else if (getPhone().equals("")) {
             this.displayText(getString(R.string.toast_phone_empty));
         } else {
-            this.displayText(getString(R.string.toast_signing_up));
+            setLoading(true);
             join(getUsername(), getEmail(), getPhone(), getPassword());
         }
 
@@ -109,7 +109,7 @@ public class SignUpFragment extends MitooFragment {
     public void onJoinResponse(SessionModelResponseEvent event) {
         
         BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE));
-        
+        setLoading(false);
     }
 
     @Subscribe

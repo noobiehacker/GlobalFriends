@@ -12,5 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
+    <include
+        android:id="@+id/current_location"
+        layout="@layout/list_view_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        />
+    
+    <ListView
+        android:id="@+id/placesListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_location"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants" />
 
 </RelativeLayout>

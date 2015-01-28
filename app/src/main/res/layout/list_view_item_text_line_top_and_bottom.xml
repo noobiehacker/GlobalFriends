@@ -14,7 +14,7 @@
         android:background="@color/gray_light_four"></View>
 
     <TextView
-        android:id="@+id/itemText"
+        android:id="@+id/dynamicText"
         style="@style/grayDarkBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:id="@+id/bottom_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:layout_below="@+id/itemText"
+        android:layout_below="@+id/dynamicText"
         android:background="@color/gray_light_four"></View>
 
 </RelativeLayout>

@@ -49,16 +49,6 @@ public class MitooActivity extends Activity {
         setContentView(R.layout.activity_mitoo);
         setUpPersistenceData();
 
-        /*
-        LocationModel model = new LocationModel(this);
-        model.searchForPlace("San Francisco");
-        model.searchForPlace("New york");
-        model.searchForPlace("Chicago");
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-            }
-        }, 10000);*/
     }
 
     @Override

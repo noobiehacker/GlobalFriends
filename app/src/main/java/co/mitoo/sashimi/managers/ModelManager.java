@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
@@ -70,6 +71,19 @@ public class ModelManager {
             addModel(userInfoModel);
         }
         return userInfoModel;
+    }
+
+    public LocationModel getLocationModel() {
+
+        LocationModel locationModel = null;
+        MitooModel model = getModel(LocationModel.class);
+        if (model != null) {
+            locationModel = (LocationModel) model;
+        } else {
+            locationModel = new LocationModel(getMitooActivity());
+            addModel(locationModel);
+        }
+        return locationModel;
     }
 
     public List<IsPersistable> getPersistableList() {

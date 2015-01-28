@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.views.Dialog.AboutMitooDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
@@ -124,5 +126,10 @@ public class SettingsFragment extends MitooFragment {
 
         getMitooActivity().contactMitoo();
 
+    }
+
+    private UserInfoModel getUserInfoModel(){
+
+        return (UserInfoModel) getMitooModel(UserInfoModel.class);
     }
 }

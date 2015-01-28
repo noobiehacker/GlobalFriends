@@ -57,6 +57,14 @@ android {
     }
     productFlavors {
     }
+
+    defaultConfig {
+        multiDexEnabled = true
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 robolectric {
     include '**/*Test.class'
@@ -117,9 +125,10 @@ dependencies {
     //New relic
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
     compile files('libs/algoliasearch-client-android-1.5.9.jar')
-    compile files('libs/original-google-places-api-java.jar')
+    compile files('libs/google-places-api-java-1.2.4.jar')
     //Cloning Libray
     compile 'commons-lang:commons-lang:2.6'
+    compile 'com.android.support:multidex:1.0.0'
     //Library for future
     //View Injection
     //compile 'com.jakewharton:butterknife:6.0.0'

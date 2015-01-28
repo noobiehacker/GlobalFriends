@@ -7,7 +7,7 @@
     >
 
     <TextView
-        android:id="@+id/itemText"
+        android:id="@+id/dynamicText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/place_holder_dummie_text"

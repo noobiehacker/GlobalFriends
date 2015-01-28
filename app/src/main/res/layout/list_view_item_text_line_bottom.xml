@@ -9,7 +9,7 @@
     >
 
     <TextView
-        android:id="@+id/itemText"
+        android:id="@+id/dynamicText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/place_holder_dummie_text"
@@ -26,6 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
         android:background="@color/gray_light_four"
-        android:layout_below="@+id/itemText"></View>
+        android:layout_below="@+id/dynamicText"></View>
 
 </RelativeLayout>

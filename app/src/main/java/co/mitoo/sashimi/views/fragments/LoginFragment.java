@@ -86,6 +86,7 @@ public class LoginFragment extends MitooFragment{
             displayText(getString(R.string.toast_password_empty));
         }
         else{
+            setLoading(true);
             login(getUsername(), getPassword());
         }
     }
@@ -105,7 +106,7 @@ public class LoginFragment extends MitooFragment{
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         fireFragmentChangeAction(R.id.fragment_home);
-
+        setLoading(false);
     }
 
     private void facebookLoginButtonAction(){
