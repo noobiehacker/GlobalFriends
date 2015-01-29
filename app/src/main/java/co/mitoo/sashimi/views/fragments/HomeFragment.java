@@ -179,10 +179,6 @@ public class HomeFragment extends MitooFragment {
         
     }
 
-    private LeagueModel getLeagueModel(){
-
-        return (LeagueModel) getMitooModel(LeagueModel.class);
-    }
     
     private League getFirstEnquriredLeague(){
         if(getEnquiredLeague()!= null && getEnquiredLeague().length>0)

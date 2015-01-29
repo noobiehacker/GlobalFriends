@@ -96,6 +96,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void onError(MitooActivitiesErrorEvent error) {
 
         setLoading(false);
+        handleAndDisplayError(error);
 
     }
     
@@ -438,8 +439,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void setDataHelper(DataHelper dataHelper) {
         this.dataHelper = dataHelper;
     }
-    
 
+    protected SessionModel getSessionModel(){
+
+        return (SessionModel) getMitooModel(SessionModel.class);
+    }
+
+    protected LeagueModel getLeagueModel(){
+
+        return (LeagueModel) getMitooModel(LeagueModel.class);
+    }
 }
 
 

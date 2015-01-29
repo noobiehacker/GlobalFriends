@@ -21,13 +21,11 @@ import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.AlgoliaResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
-import co.mitoo.sashimi.utils.events.LeagueResultRequestEvent;
-import co.mitoo.sashimi.utils.events.LeagueResultResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.client.Response;
-import android.os.Handler;
+
 import org.apache.commons.lang.SerializationUtils;
 /**
  * Created by david on 14-12-08.
@@ -37,7 +35,7 @@ public class LeagueModel extends MitooModel{
     private APIClient algoliaClient;
     private Index index;
     private AlgoliaIndexListener aiListener;
-    private List<League> leagueResults;
+    private List<League> leagueSearchResults;
     private League[] leagueEnquired;
     private JSONObject results;
     private League selectedLeague;
@@ -114,8 +112,8 @@ public class LeagueModel extends MitooModel{
                 try {
                     JSONArray hits = LeagueModel.this.results.getJSONArray(getActivity().getString(R.string.algolia_result_param));
                     ObjectMapper objectMapper = new ObjectMapper();
-                    LeagueModel.this.leagueResults = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
-                    BusProvider.post(new LeagueQueryResponseEvent(LeagueModel.this.leagueResults));
+                    LeagueModel.this.leagueSearchResults = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
+                    BusProvider.post(new LeagueQueryResponseEvent(LeagueModel.this.leagueSearchResults));
                 }
                 catch(Exception e){
                     BusProvider.post(new MitooActivitiesErrorEvent(MitooEnum.ErrorType.APP , e.toString()));
@@ -140,7 +138,7 @@ public class LeagueModel extends MitooModel{
 
         League result = null;
         forloop:
-        for(League item : this.leagueResults){
+        for(League item : this.leagueSearchResults){
             if(result!=null)
                 break forloop;
             else if(item.getId() == ObjectID)
@@ -168,22 +166,29 @@ public class LeagueModel extends MitooModel{
         return leagueEnquired;
     }
 
-    public void addLeagueEnquired(League[] leagueEnquired) {
+    public void addLeagueEnquired(League[] newleaguesEnquired) {
+        
         if(this.leagueEnquired==null){
-            this.leagueEnquired = leagueEnquired;
+            this.leagueEnquired = newleaguesEnquired;
         }
         else{
-            //HORRABLE ARRAY, REFRACTOR LATER
-            League[] newLeagueArray =  new League[this.leagueEnquired.length+leagueEnquired.length];
-            for(int i = 0 ; i< leagueEnquired.length ; i++){
-                newLeagueArray[i] = leagueEnquired[i];
-            }
-            for(int i = newLeagueArray.length-1 ; i>= newLeagueArray.length- this.leagueEnquired.length ; i--){
-                newLeagueArray[i] = this.leagueEnquired[i];
-            }
-            this.leagueEnquired=newLeagueArray;
+            League[] combinedLeagueArray =  createCombinedEnquiredArray(getLeagueEnquired() , newleaguesEnquired);
+            setLeagueEnquired(combinedLeagueArray);
         }
             
+    }
+    
+    private League[] createCombinedEnquiredArray(League[] oldArray, League[] inputArray){
+        
+        League[] combinedLeagueArray =  new League[oldArray.length+inputArray.length];
+        for(int i = 0 ; i< combinedLeagueArray.length ; i++){
+            if(i<oldArray.length)
+                combinedLeagueArray[i] = oldArray[i];
+            else
+                combinedLeagueArray[i] = inputArray[i-oldArray.length];
+        }
+        return combinedLeagueArray;
+        
     }
 
     private League getFirstLeague(){
@@ -221,11 +226,15 @@ public class LeagueModel extends MitooModel{
         
     }
 
-    public List<League> getLeagueResults() {
-        return leagueResults;
+    public List<League> getLeagueSearchResults() {
+        return leagueSearchResults;
     }
 
-    public void setLeagueResults(List<League> leagueResults) {
-        this.leagueResults = leagueResults;
+    public void setLeagueSearchResults(List<League> leagueResults) {
+        this.leagueSearchResults = leagueResults;
+    }
+
+    public void setLeagueEnquired(League[] leagueEnquired) {
+        this.leagueEnquired = leagueEnquired;
     }
 }

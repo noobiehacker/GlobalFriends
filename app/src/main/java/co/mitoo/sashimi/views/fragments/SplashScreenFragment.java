@@ -79,9 +79,5 @@ public class SplashScreenFragment extends MitooFragment {
         
     }
 
-    private SessionModel getSessionModel(){
-
-        return (SessionModel) getMitooModel(SessionModel.class);
-    }
 
 }

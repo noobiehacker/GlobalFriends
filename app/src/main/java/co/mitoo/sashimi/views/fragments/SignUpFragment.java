@@ -11,8 +11,10 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
@@ -86,23 +88,17 @@ public class SignUpFragment extends MitooFragment {
 
     private void joinButtonAction() {
 
-
-      /*  if (getUsername().equals("")) {
-            this.displayText(getString(R.string.toast_username_empty));
-        } else if (getEmail().equals("")) {
-            this.displayText(getString(R.string.toast_email_empty));
-        } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_empty));
-        } else if (getPhone().equals("")) {
-            this.displayText(getString(R.string.toast_phone_empty));
-        } else {
-            */
+        if (allInputsAreValid()) {
             setLoading(true);
             JsonSignUpSend signUpSend = createSignUpJsonFromInput();
             SessionModelRequestEvent event = new SessionModelRequestEvent(MitooEnum.SessionRequestType.SIGNUP, signUpSend);
             getSessionModel().requestSession(event);
-    //    }
 
+        } else {
+            handleInvalidInputs();
+        }
+
+   
     }
 
     @Subscribe
@@ -133,9 +129,9 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private JsonSignUpSend createSignUpJsonFromInput() {
-          //return new JsonSignUpSend(getUsername(), getEmail(), getPhone(), getPassword());
-          return new JsonSignUpSend("ABC", "1@2.0", "1234567890", "abcd");
-        
+
+        return new JsonSignUpSend(getEmail(), getPassword(), getUsername(), getPhone());
+          //return new JsonSignUpSend("ABC", "1@2.0", "1234567890", "abcd");
     }
 
     private String getUsername() {
@@ -147,7 +143,8 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getPhone() {
-        return this.getTextFromTextField(R.id.phoneInput);
+        return "6048898937";
+        //return this.getTextFromTextField(R.id.phoneInput);
     }
 
     private String getPassword() {
@@ -165,13 +162,50 @@ public class SignUpFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
-    private SessionModel getSessionModel(){
 
-        return (SessionModel) getMitooModel(SessionModel.class);
+
+    private boolean allInputsAreValid(){
+
+        DataHelper dataHelper = getDataHelper();
+        return dataHelper.validPassword(getPassword()) && dataHelper.validEmail(getEmail())
+                && dataHelper.validName(getUsername()) && dataHelper.validPhone(getPhone());
+
     }
 
-    private LeagueModel getLeagueModel(){
+    private void handleInvalidInputs() {
 
-        return (LeagueModel) getMitooModel(LeagueModel.class);
+        if (!handledEmptyInput()) {
+            DataHelper dataHelper = getDataHelper();
+            if (!dataHelper.validEmail(getEmail())) {
+                displayText(getString(R.string.toast_invalid_email));
+            } else if (!dataHelper.validPassword(getPassword())) {
+                displayText(getString(R.string.toast_invalid_password));
+            } else if (!dataHelper.validName(getUsername())) {
+                displayText(getString(R.string.toast_invalid_username));
+            } else if (!dataHelper.validPhone(getPhone())) {
+                displayText(getString(R.string.toast_invalid_phone));
+            } else {
+                displayText(getString(R.string.toast_invalid_input));
+            }
+        }
+
     }
+    
+    private boolean handledEmptyInput(){
+
+        boolean result = true;
+        if (getUsername().equals("")) {
+            this.displayText(getString(R.string.toast_username_empty));
+        } else if (getEmail().equals("")) {
+            this.displayText(getString(R.string.toast_email_empty));
+        } else if (getPassword().equals("")) {
+            this.displayText(getString(R.string.toast_password_empty));
+        } else if (getPhone().equals("")) {
+            this.displayText(getString(R.string.toast_phone_empty));
+        } else {
+            result =false;
+        }
+        return result;
+    }
+    
 }

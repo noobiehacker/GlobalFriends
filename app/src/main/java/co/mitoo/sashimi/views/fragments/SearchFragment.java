@@ -322,9 +322,5 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         }
     }
 
-    private LeagueModel getLeagueModel(){
-
-        return (LeagueModel) getMitooModel(LeagueModel.class);
-    }
 }
 

@@ -99,7 +99,9 @@ public class LoginFragment extends MitooFragment {
 
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
-        BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id, MitooEnum.crud.READ));
+
+        LeagueModelEnquireRequestEvent leagueEnquireRequestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id, MitooEnum.crud.READ);
+        getLeagueModel().requestLeagueEnquire(leagueEnquireRequestEvent );
 
     }
 
@@ -183,11 +185,6 @@ public class LoginFragment extends MitooFragment {
     private void requestAuthToken(String faceBookToken){
         
   //      BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
-    }
-
-    private SessionModel getSessionModel(){
-
-        return (SessionModel) getMitooModel(SessionModel.class);
     }
 
 }

@@ -15,12 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
-import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.LeagueResultRequestEvent;
-import co.mitoo.sashimi.utils.events.LeagueResultResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
@@ -71,9 +67,9 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
 
     public void updateLeagueDataResult(){
 
-        if(getLeagueModel().getLeagueResults()!=null){
+        if(getLeagueModel().getLeagueSearchResults()!=null){
             clearList(leagueData);
-            addToListList(this.leagueData, getLeagueModel().getLeagueResults());
+            addToListList(this.leagueData, getLeagueModel().getLeagueSearchResults());
             this.leagueDataAdapter.notifyDataSetChanged();
         }
     }
@@ -118,7 +114,7 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
 
     private void leagueListItemAction(League league){
 
-        getRetriever().getLeagueModel().setSelectedLeague(league);
+        getLeagueModel().setSelectedLeague(league);
         fireFragmentChangeAction(R.id.fragment_league);
 
     }
@@ -140,11 +136,5 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
 
         }
     }
-
-    private LeagueModel getLeagueModel(){
-
-        return (LeagueModel) getMitooModel(LeagueModel.class);
-    }
-
 
 }

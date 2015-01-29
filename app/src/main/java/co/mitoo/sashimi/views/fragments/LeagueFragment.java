@@ -153,9 +153,5 @@ public class LeagueFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
-    private LeagueModel getLeagueModel(){
-
-        return (LeagueModel) getMitooModel(LeagueModel.class);
-    }
 
 }

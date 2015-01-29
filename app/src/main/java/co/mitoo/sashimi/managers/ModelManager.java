@@ -8,6 +8,7 @@ import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
@@ -196,6 +197,7 @@ public class ModelManager {
         };
 
         runRunnableInBackground(runnable);
+        removeModelReferences();
     }
     
     private void runRunnableInBackground(Runnable runnable){
@@ -203,6 +205,13 @@ public class ModelManager {
         this.currentRunnable= runnable;
         Thread t = new Thread(currentRunnable);
         t.start();
+        
+    }
+    
+    private void removeModelReferences(){
+        DataHelper dataHelper = new DataHelper(getMitooActivity());
+        dataHelper.clearList(this.getMitooModelList());
+        dataHelper.clearList(this.getPersistableList());
         
     }
 }
