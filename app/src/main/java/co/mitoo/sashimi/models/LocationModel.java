@@ -155,17 +155,18 @@ public class LocationModel extends MitooModel {
     }
 
     public void setToUseCurrentLocation(boolean enable) {
+
         this.currentLocationClicked = enable;
-        if(currentLocation==null)
-            GpsCurrentLocationRequest();
-        else{
-            
-            LatLng updatedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            setSelectedLocationLatLng(updatedLatLng);
-                        
+        if (enable) {
+            if (currentLocation == null)
+                GpsCurrentLocationRequest();
+            else {
+
+                LatLng updatedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                setSelectedLocationLatLng(updatedLatLng);
+                BusProvider.post(new LocationModelLocationsSelectedEvent());
+            }
         }
-        
-        BusProvider.post(new LocationModelLocationsSelectedEvent());
     }
 
 

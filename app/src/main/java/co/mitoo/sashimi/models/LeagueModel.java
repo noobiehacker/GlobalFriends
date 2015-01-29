@@ -14,6 +14,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
@@ -60,7 +61,7 @@ public class LeagueModel extends MitooModel{
         Query algoliaQuery = new Query(event.getQuery());
         if(event.getLatLng()!=null){
             LatLng center = event.getLatLng();
-            algoliaQuery.aroundLatitudeLongitude((float)center.latitude, (float)center.longitude, 25);
+            algoliaQuery.aroundLatitudeLongitude((float)center.latitude, (float)center.longitude, MitooConstants.searchRadius);
 
         }
         index.searchASync(algoliaQuery, this.aiListener);

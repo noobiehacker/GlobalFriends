@@ -14,6 +14,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
@@ -202,7 +203,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
         setLoading(false);
-        popFragmentAction();
+        fireFragmentChangeAction(MitooEnum.fragmentTransition.POP);
 
     }
 

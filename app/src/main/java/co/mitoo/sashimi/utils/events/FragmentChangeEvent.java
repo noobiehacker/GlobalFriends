@@ -33,8 +33,9 @@ public class FragmentChangeEvent extends EventObject{
         this.fragmentId = fragmentId;
     }
 
-    public FragmentChangeEvent(Object source) {
+    public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition) {
         super(source);
+        this.transition = transition;
     }
 
     public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition , int fragmentId) {

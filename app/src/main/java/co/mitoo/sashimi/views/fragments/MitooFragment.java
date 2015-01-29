@@ -207,7 +207,13 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , bundle);
         BusProvider.post(event);
     }
-    
+
+
+    protected void fireFragmentChangeAction(MitooEnum.fragmentTransition transition) {
+
+        FragmentChangeEvent event = new FragmentChangeEvent(this,transition);
+        BusProvider.post(event);
+    }
     //Buggy don't use
     protected void popFragmentAction(){
 
