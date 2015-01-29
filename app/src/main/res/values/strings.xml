@@ -98,11 +98,13 @@
     <string name="location_search_page_text_1">Enter any location</string>
     <string name="location_search_page_text_2">Current Location</string>
     
+    <!--Results Page -->
+    <string name="results_page_text_1">No Results Found</string>
+    
     <!--User Profile Page -->
     <string name="settings_page_text_1">Help and feedback</string>
     <string name="settings_page_text_2">Logout</string>
     
-
     <!--League Page -->
     <string name="league_page_subtitle_1">DETAILS</string>
     <string name="league_page_subtitle_2">WANT TO JOIN?</string>
@@ -140,6 +142,7 @@
     <!--Error Message -->
     <string name="error_401">Incorrect credentials, please try again</string>
     <string name="error_404">The information you try to find can not be found</string>
+    <string name="error_409">We found an account matching your credentials. Please Try logging in with those.</string>
     <string name="error_422">Something went wrong with the connection</string>
     <string name="error_500">Server is down for maintenance, please try again later</string>
     <string name="error_time_out">Connection timed out, please try again</string>
@@ -242,7 +245,9 @@
     <string name="toast_login_success">Log in success</string>
     <string name="toast_signing_up">Signing up</string>
     <string name="toast_sign_up_success">Sign up success</string>
-    <string name="toast_network_error">Network Unavailible</string>
+    <string name="toast_network_error">Network Error, Please check your network connection</string>
+    <string name="toast_server_error">Something Went Wrong. please let us know at help@mitoo.co</string>
+
     <string name="toast_password_reset">Password request successfully sent, please check your email</string>
     
     <!-- field checks -->
@@ -250,7 +255,13 @@
     <string name="toast_email_empty">Email can not be empty</string>
     <string name="toast_password_empty">Password can not be empty</string>
     <string name="toast_phone_empty">Phone Number can not be empty</string>
-w
+    <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
+    <string name="toast_invalid_email">Email format is invalid</string>
+    <string name="toast_invalid_password">Password is too long or short</string>
+    <string name="toast_invalid_username">Username is too short or long</string>
+    <string name="toast_invalid_phone">Phone number format is invalid</string>
+    <string name="toast_invalid_input">Input is invalid</string>
+
     <!-- Prompts -->
     <string name="prompt_location_services_title">Location Services</string>
     <string name="prompt_location_services_message">Please turn on location services</string>
@@ -340,7 +351,8 @@ w
     <string name="API_key_facebook">1524244734496711</string>
 
     <string name="App_Id_algolia">1ESI9QYTPJ</string>
-    <string name="algolia_index">steak-league-staging</string>
+    <string name="algolia_staging_index">steak-league-staging</string>
+    <string name="algolia_proto_index">proto_league_search</string>
     <string name="algolia_result_param">hits</string>
     
     <!--Bundle Map Key -->
@@ -350,7 +362,6 @@ w
     <string name="bundle_key_prompt">bundle_key_prompt</string>
     
     <!--String Helper -->
-    <string name="string_concat_dash"> - </string>
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>
 

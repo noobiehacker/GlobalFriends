@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.utils.events;
 
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.StaticString;
 import retrofit.RetrofitError;
 
@@ -9,6 +10,11 @@ import retrofit.RetrofitError;
 public class MitooActivitiesErrorEvent {
 
     private String errorMessage;
+    private MitooEnum.ErrorType errorType;
+
+    public MitooActivitiesErrorEvent(MitooEnum.ErrorType errorType) {
+        this.errorType = errorType;
+    }
 
     public MitooActivitiesErrorEvent(){
     }
@@ -20,6 +26,11 @@ public class MitooActivitiesErrorEvent {
     public MitooActivitiesErrorEvent(String errorMessage){
         this.errorMessage=errorMessage;
 
+    }
+
+    public MitooActivitiesErrorEvent(MitooEnum.ErrorType errorType, String errorMessage) {
+        this.errorType = errorType;
+        this.errorMessage = errorMessage;
     }
 
     public void setErrorMessage(String errorMessage) {
@@ -39,4 +50,11 @@ public class MitooActivitiesErrorEvent {
         return retrofitError;
     }
 
+    public MitooEnum.ErrorType getErrorType() {
+        return errorType;
+    }
+
+    public void setErrorType(MitooEnum.ErrorType errorType) {
+        this.errorType = errorType;
+    }
 }

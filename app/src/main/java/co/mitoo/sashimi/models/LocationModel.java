@@ -1,20 +1,22 @@
 package co.mitoo.sashimi.models;
-import android.app.Activity;
 import android.location.Location;
-import android.os.Handler;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.PredictionWrapper;
-import co.mitoo.sashimi.utils.events.GpsRequestEvent;
 import co.mitoo.sashimi.utils.events.GpsResponseEvent;
+import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
-import co.mitoo.sashimi.utils.events.LocationRequestEvent;
-import co.mitoo.sashimi.utils.events.LocationResponseEvent;
+import co.mitoo.sashimi.views.activities.MitooActivity;
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
+import rx.functions.Action1;
 import se.walkercrou.places.GooglePlaces;
+import se.walkercrou.places.Place;
 import se.walkercrou.places.Prediction;
 
 /**
@@ -25,41 +27,45 @@ public class LocationModel extends MitooModel {
     private Location currentLocation;
     private List<Prediction> queryResult;
     private GooglePlaces client;
-    private PredictionWrapper selectedPrediction;
-    private boolean usingCurrentLocation;
-    public LocationModel(Activity activity) {
+    private Place selectedPlace;
+    private LatLng selectedLocationLatLng;
+    private boolean currentLocationClicked = false;
+    
+    public LocationModel(MitooActivity activity) {
         super(activity);
-        setUsingCurrentLocation(true);
         client = new GooglePlaces(getActivity().getString(R.string.API_key_google_places));
-    }
-
-    @Subscribe
-    public void requestCurrentLocation(LocationRequestEvent event) {
-        if(currentLocation==null)
-            GpsRequest();
-        else{
-            BusProvider.post(new LocationResponseEvent(currentLocation));
-        }
     }
 
     public void setLocation(Location location) {
         this.currentLocation = location;
     }
 
-    private void GpsRequest(){
-        BusProvider.post(new GpsRequestEvent());
+    public void GpsCurrentLocationRequest(){
+        
+        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(this.activity);
+        locationProvider.getLastKnownLocation()
+                .subscribe(new Action1<Location>() {
+                    @Override
+                    public void call(Location location) {
+                        BusProvider.post(new GpsResponseEvent(location));
+                    }
+                });
+        
     }
 
     @Subscribe
     public void GpsResponse(GpsResponseEvent event){
         
-        setLocation(event.getLocation());
-        BusProvider.post(new LocationResponseEvent(currentLocation));
+        if(event.getLocation()!=null){
+            Location result = event.getLocation();
+            setLocation(result);
+            setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
+        }
+
     }
     
-    public void searchForPlace(final String query){
+    public void searchForPrediction(final String query){
 
-        this.handler= new Handler();
         this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
@@ -67,7 +73,11 @@ public class LocationModel extends MitooModel {
                 try {
 
                     List<Prediction> queryPrediction = getClient().getQueryPredictions(query , GooglePlaces.Param.name("types").value("geocode"));
+                    removeNonCity(queryPrediction);
                     queryResult = queryPrediction;
+                    BusProvider.post(new LocationModelQueryResultEvent(transFormList(queryResult)));
+                    setQueryResult(null);
+
                 }
                 catch(Exception e){
 
@@ -78,25 +88,34 @@ public class LocationModel extends MitooModel {
         Thread t = new Thread(this.backgroundRunnable);
         t.start();
 
-        this.getResultsRunnable = createGetResultsRunnable();
-        this.handler.postDelayed(this.getResultsRunnable, 1000);
+    }
+    
+    public void selectPlace(final PredictionWrapper selectedPrediction) {
+
+        this.backgroundRunnable =new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    Prediction prediction = selectedPrediction.getPrediciton();
+                    setSelectedPlace(getClient().getPlace(prediction.getPlaceReference()));
+                    setSelectedLocationLatLng(new LatLng(selectedPlace.getLatitude(),selectedPlace.getLongitude()));
+                    setToUseCurrentLocation(false);
+                    BusProvider.post(new LocationModelLocationsSelectedEvent());
+
+                }
+                catch(Exception e){
+
+                }
+            }
+        };
+
+        Thread t = new Thread(this.backgroundRunnable);
+        t.start();
 
     }
 
-    @Override
-    protected void obtainResults(){
-
-        if(this.queryResult !=null){
-            
-            BusProvider.post(new LocationModelQueryResultEvent(transFormList(queryResult)));
-            setQueryResult(null);
-            
-        }else
-        {
-            this.handler.postDelayed(this.getResultsRunnable,1000);
-        }
-
-    }
 
     public GooglePlaces getClient() {
         return client;
@@ -123,15 +142,6 @@ public class LocationModel extends MitooModel {
 
     }
 
-    public PredictionWrapper getSelectedPredictionWrapper() {
-        return selectedPrediction;
-    }
-
-    public void setSelectedPredictionWrapper(PredictionWrapper selectedPrediction) {
-        this.selectedPrediction = selectedPrediction;
-        setUsingCurrentLocation(false);
-    }
-
     public Location getCurrentLocation() {
         return currentLocation;
     }
@@ -141,10 +151,51 @@ public class LocationModel extends MitooModel {
     }
 
     public boolean isUsingCurrentLocation() {
-        return usingCurrentLocation;
+        return currentLocationClicked;
     }
 
-    public void setUsingCurrentLocation(boolean usingCurrentLocation) {
-        this.usingCurrentLocation = usingCurrentLocation;
+    public void setToUseCurrentLocation(boolean enable) {
+        this.currentLocationClicked = enable;
+        if(currentLocation==null)
+            GpsCurrentLocationRequest();
+        else{
+            
+            LatLng updatedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            setSelectedLocationLatLng(updatedLatLng);
+                        
+        }
+        
+        BusProvider.post(new LocationModelLocationsSelectedEvent());
     }
+
+
+    public Place getSelectedPlace() {
+        return selectedPlace;
+    }
+
+    public void setSelectedPlace(Place selectedPlace) {
+        this.selectedPlace = selectedPlace;
+    }
+    
+    public void requestSelectedLocationLatLng() {
+
+        if(selectedLocationLatLng!=null)
+            BusProvider.post(selectedLocationLatLng);
+        else
+            BusProvider.post(new LatLng(MitooConstants.invalidConstant, MitooConstants.invalidConstant));
+    }
+
+    public void setSelectedLocationLatLng(LatLng selectedLocationLatLng) {
+        this.selectedLocationLatLng = selectedLocationLatLng;
+    }
+
+    private void removeNonCity(List<Prediction> predictions){
+
+        /*
+        for(Prediction item : predictions){
+        }
+        */
+        //To implement
+    }
+
 }

@@ -12,7 +12,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -20,6 +23,7 @@ import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
+import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.LogOutDialogBuilder;
 
@@ -41,6 +45,7 @@ public class HomeFragment extends MitooFragment {
                 fireFragmentChangeAction(R.id.fragment_search);
                 break;
             case R.id.enquired_league:
+                getLeagueModel().setSelectedLeague(getFirstEnquriredLeague());
                 fireFragmentChangeAction(R.id.fragment_league);
                 break;
         }
@@ -67,7 +72,7 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeFields();        
         setEnquiredLeague(getMitooActivity().getModelManager().getLeagueModel().getLeagueEnquired());
-        BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+
     }
 
     @Override
@@ -109,7 +114,7 @@ public class HomeFragment extends MitooFragment {
                             dialog.buildPrompt().show();
                             break;
                         case R.id.menu_settings:
-                            fireFragmentChangeAction(R.id.fragment_settings);
+                            BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
                             break;
                         case R.id.menu_logout:
                             LogOutDialogBuilder builder = new LogOutDialogBuilder(getActivity());
@@ -173,7 +178,26 @@ public class HomeFragment extends MitooFragment {
         getSearchPlaceHolder().setVisibility(View.GONE);
         
     }
+
+    private LeagueModel getLeagueModel(){
+
+        return (LeagueModel) getMitooModel(LeagueModel.class);
+    }
+    
+    private League getFirstEnquriredLeague(){
+        if(getEnquiredLeague()!= null && getEnquiredLeague().length>0)
+            return getEnquiredLeague()[0];
+        return null;
         
+    }
+        
+    @Subscribe
+    public void onUserInfoReceieve(UserInfoModelResponseEvent event){
+
+        fireFragmentChangeAction(R.id.fragment_settings);
+
+    }
+
 }
 
 

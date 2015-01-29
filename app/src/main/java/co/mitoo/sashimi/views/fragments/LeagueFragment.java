@@ -45,21 +45,6 @@ public class LeagueFragment extends MitooFragment {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         MapFragment f = (MapFragment) getFragmentManager()

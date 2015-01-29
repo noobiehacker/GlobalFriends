@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -44,13 +45,6 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceStaste) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_search_results,
@@ -61,44 +55,29 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
         return view;
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        super.onError(error);
     }
 
-    @Override
-    public void onStop(){
-        super.onStop();
-
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-    }
-    
     private void initializeFields(Bundle savedInstanceState){
 
         super.initializeFields();
         Bundle arguments = getArguments();
         setFragmentTitle(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
         setUpLeagueData();
-        BusProvider.post(new LeagueResultRequestEvent());
+        updateLeagueDataResult();
     }
 
-    @Subscribe
-    public void recieveLeagueResult(LeagueResultResponseEvent event){
+    public void updateLeagueDataResult(){
 
-        if(event.getResult()!=null){
+        if(getLeagueModel().getLeagueResults()!=null){
             clearList(leagueData);
-            addToListList(this.leagueData, event.getResult());
+            addToListList(this.leagueData, getLeagueModel().getLeagueResults());
             this.leagueDataAdapter.notifyDataSetChanged();
-
         }
-
     }
 
-    
     private void setUpLeagueData(){
 
         if(leagueData==null){
@@ -137,19 +116,12 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
         }
     }
 
-    @Subscribe
-    public void onError(MitooActivitiesErrorEvent error){
-        handleAndDisplayError(error);
-    }
-
-
     private void leagueListItemAction(League league){
 
         getRetriever().getLeagueModel().setSelectedLeague(league);
         fireFragmentChangeAction(R.id.fragment_league);
 
     }
-
 
     private synchronized <T> void addToListList(List<T>container ,List<T> additionList){
         for(T item : additionList){
@@ -158,13 +130,21 @@ public class SearchResultsFragment extends MitooFragment implements AdapterView.
     }
 
     private synchronized <T> void clearList(List<T> result){
-        if(result!=null){
+        if(result!=null && result.size() >0){
+            
             Iterator<T> iterator = result.iterator();
             while(iterator.hasNext()){
+                iterator.next();
                 iterator.remove();
             }
 
         }
     }
+
+    private LeagueModel getLeagueModel(){
+
+        return (LeagueModel) getMitooModel(LeagueModel.class);
+    }
+
 
 }

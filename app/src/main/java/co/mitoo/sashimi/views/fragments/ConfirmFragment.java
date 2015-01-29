@@ -69,7 +69,7 @@ public class ConfirmFragment extends MitooFragment {
 
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
-        handleAndDisplayError(error);
+        super.onError(error);
     }
 
     private void viewMyLeagueButtonAction(){

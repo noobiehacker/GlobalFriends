@@ -49,6 +49,7 @@ public class ResetPasswordFragment extends MitooFragment{
 
     @Subscribe
     public void onResetPasswordResponse(ResetPasswordResponseEvent event){
+        setLoading(false);
         popFragmentAction();
     }
 
@@ -84,6 +85,8 @@ public class ResetPasswordFragment extends MitooFragment{
         } else {
             displayText(error.getErrorMessage());
         }
+
+        setLoading(false);
     }
 
     private void resetButtonAction(){
@@ -94,6 +97,7 @@ public class ResetPasswordFragment extends MitooFragment{
         else{
             BusProvider.post(new ResetPasswordRequestEvent(getEmail()));
         }
+        setLoading(true);
     }
 
     private String getEmail(){

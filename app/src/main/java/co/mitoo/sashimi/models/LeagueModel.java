@@ -1,10 +1,10 @@
 package co.mitoo.sashimi.models;
-import android.app.Activity;
 import com.algolia.search.saas.APIClient;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,14 +15,16 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
-import co.mitoo.sashimi.utils.events.LeagueQueryRequestEvent;
 import co.mitoo.sashimi.utils.events.AlgoliaResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueResultRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueResultResponseEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.client.Response;
 import android.os.Handler;
 import org.apache.commons.lang.SerializationUtils;
@@ -39,8 +41,7 @@ public class LeagueModel extends MitooModel{
     private JSONObject results;
     private League selectedLeague;
 
-
-    public LeagueModel(Activity activity) {
+    public LeagueModel(MitooActivity activity) {
         super(activity);
         setUpAlgolia();
     }
@@ -48,24 +49,29 @@ public class LeagueModel extends MitooModel{
     private void setUpAlgolia(){
 
         algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
-        index = algoliaClient.initIndex(getActivity().getString(R.string.algolia_index));
+        index = algoliaClient.initIndex(getActivity().getString(R.string.algolia_staging_index));
         aiListener = new AlgoliaIndexListener();
 
     }
 
     @Subscribe
-    public void algoLiaSearchRequest(LeagueQueryRequestEvent event){
+    public void requestAlgoLiaSearch(AlgoliaLeagueSearchEvent event){
 
-        algoliaSearch(event.getQuery());
+        Query algoliaQuery = new Query(event.getQuery());
+        if(event.getLatLng()!=null){
+            LatLng center = event.getLatLng();
+            algoliaQuery.aroundLatitudeLongitude((float)center.latitude, (float)center.longitude, 25);
+
+        }
+        index.searchASync(algoliaQuery, this.aiListener);
         
     }
 
-    @Subscribe
-    public void onLeagueEnquireRequest(LeagueModelEnquireRequestEvent event){
+    public void requestLeagueEnquire(LeagueModelEnquireRequestEvent event){
 
         if(event.getRequestType()== MitooEnum.crud.CREATE) {
             if (getSelectedLeague() != null) {
-                JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getSports()[0]);
+                JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
                 handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
             }
         } else if (event.getRequestType() == MitooEnum.crud.READ) {
@@ -88,29 +94,18 @@ public class LeagueModel extends MitooModel{
             BusProvider.post(new LeagueModelEnquiresResponseEvent((Response)objectRecieve));
         }
     }
-    
-    private void algoliaSearch(String query){
-        index.searchASync(new Query(query), this.aiListener);
-    }
+   
 
     @Subscribe
     public void algoLiaResponse(AlgoliaResponseEvent event){
 
         parseLeagueResult(event.getResult());
     }
-    
-    @Subscribe
-    public void onLeagueResultRequest(LeagueResultRequestEvent event){
-        
-        if(this.leagueResults !=null)
-            BusProvider.post(new LeagueResultResponseEvent(this.leagueResults));
-        
-    }
+
     
     private void parseLeagueResult(JSONObject results){
         
         this.results=results;
-        this.handler= new Handler();
         this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
@@ -119,33 +114,16 @@ public class LeagueModel extends MitooModel{
                     JSONArray hits = LeagueModel.this.results.getJSONArray(getActivity().getString(R.string.algolia_result_param));
                     ObjectMapper objectMapper = new ObjectMapper();
                     LeagueModel.this.leagueResults = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
+                    BusProvider.post(new LeagueQueryResponseEvent(LeagueModel.this.leagueResults));
                 }
                 catch(Exception e){
+                    BusProvider.post(new MitooActivitiesErrorEvent(MitooEnum.ErrorType.APP , e.toString()));
                 }
             }
         };
 
         Thread t = new Thread(this.backgroundRunnable);
         t.start();
-        
-        this.getResultsRunnable = createGetResultsRunnable();
-        this.handler.postDelayed(this.getResultsRunnable, 1000);
-
-    }
-    
-    public void removeReferences(){
-        super.removeReferences();
-    }
-    
-    @Override
-    protected void obtainResults(){
-        
-        if(this.leagueResults !=null){
-            BusProvider.post(new LeagueQueryResponseEvent(this.leagueResults));
-        }else
-        {
-            this.handler.postDelayed(this.getResultsRunnable,1000);
-        }
         
     }
 
@@ -215,10 +193,12 @@ public class LeagueModel extends MitooModel{
     
     public boolean selectedLeagueIsJoinable(){
         
+        //Case 1:User has not logged in thus no enquired leagues
         if(getLeagueEnquired() ==null)
             return true;
         else{
-            //can only join we our enquired leagues not have this league
+        //Case 2:User has logged in, return false if the current selected league
+        //       is in our enquired leagues
             return !enquiredLeagueContains(getSelectedLeague());
         }
         
@@ -238,5 +218,13 @@ public class LeagueModel extends MitooModel{
         }
         return containsLeague;
         
+    }
+
+    public List<League> getLeagueResults() {
+        return leagueResults;
+    }
+
+    public void setLeagueResults(List<League> leagueResults) {
+        this.leagueResults = leagueResults;
     }
 }

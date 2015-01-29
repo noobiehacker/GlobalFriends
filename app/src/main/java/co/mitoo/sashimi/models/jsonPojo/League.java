@@ -10,19 +10,25 @@ import co.mitoo.sashimi.models.location;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class League implements Serializable {
-    private boolean claimed;
+    private int id;
+    private int objectID;
     private String name;
-    private String logo;
-    private String cover;
     private String about;
-    private String website;
     private String color_1;
     private String color_2;
-    private String[] sports;
-    private int id;
+    private String website;
+    private boolean claimed;
+    private String created_at;
+    private String updated_at;
+    private String logo;
+    private String logo_large;
+    private String logo_medium;
+    private String logo_small;
+    private String logo_thumb;
+    private String cover;
     private _geoLoc _geoloc;
     private location location;
-    private String city;
+    private String[] sports;
 
     public boolean isClaimed() {
         return claimed;
@@ -88,14 +94,6 @@ public class League implements Serializable {
         this.color_2 = color_2;
     }
 
-    public String[] getSports() {
-        return sports;
-    }
-
-    public void setSports(String[] sports) {
-        this.sports = sports;
-    }
-
     public int getId() {
         return id;
     }
@@ -120,12 +118,60 @@ public class League implements Serializable {
         this.location = location;
     }
 
-    public String getCity() {
-        return city;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public String getLogo_large() {
+        return logo_large;
+    }
+
+    public void setLogo_large(String logo_large) {
+        this.logo_large = logo_large;
+    }
+
+    public String getLogo_medium() {
+        return logo_medium;
+    }
+
+    public void setLogo_medium(String logo_medium) {
+        this.logo_medium = logo_medium;
+    }
+
+    public String getLogo_small() {
+        return logo_small;
+    }
+
+    public void setLogo_small(String logo_small) {
+        this.logo_small = logo_small;
+    }
+
+    public String getLogo_thumb() {
+        return logo_thumb;
+    }
+
+    public void setLogo_thumb(String logo_thumb) {
+        this.logo_thumb = logo_thumb;
+    }
+
+    public int getObjectID() {
+        return objectID;
+    }
+
+    public void setObjectID(int objectID) {
+        this.objectID = objectID;
     }
 
     public LatLng getLatLng(){
@@ -137,6 +183,20 @@ public class League implements Serializable {
             result = new LatLng( getLocation().getLat(), getLocation().getLat());
         }
         return result;
+    }
+    
+    @Override
+    public boolean equals(Object league){
+        League compareLeague= (League) league;
+        return this.getId()== compareLeague.getId();
+    }
+    
+    public String[] getSports() {
+        return sports;
+    }
+
+    public void setSports(String[] sports) {
+        this.sports = sports;
     }
 
     public String getLeagueSports(){
@@ -158,9 +218,13 @@ public class League implements Serializable {
         return null;
     }
     
-    @Override
-    public boolean equals(Object league){
-        League compareLeague= (League) league;
-        return this.getId()== compareLeague.getId();
+    public String getCity(){
+        
+        String result = "";
+        if(getLocation()!=null){
+            result = getLocation().getCity();
+        }
+        return result;
     }
+
 }

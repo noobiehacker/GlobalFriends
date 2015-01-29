@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -28,7 +30,7 @@ import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.ListHelper;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -51,7 +53,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean allowBackPressed= true;
     private boolean loading = false;
     private ProgressDialog progressDialog;
-    private ListHelper listHelper;
+    private DataHelper dataHelper;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -88,6 +90,13 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void onStop () {
         super.onStop();
         tearDownReferences();
+    }
+
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error) {
+
+        setLoading(false);
+
     }
     
     public void registerBus(){
@@ -138,7 +147,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             displayText(error.getErrorMessage());
         }
         
-        setLoading(false);
     }
 
     protected void handleNetworkError() {
@@ -153,6 +161,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 break;
             case 404:
                 displayText(getString(R.string.error_404));
+                break;
+            case 409:
+                displayText(getString(R.string.error_409));
                 break;
             case 422:
                 displayText(getString(R.string.error_422));
@@ -200,9 +211,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     //Buggy don't use
     protected void popFragmentAction(){
 
-        unregisterBus();
-        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.POP , 0 );
-        BusProvider.post(event);
+        getMitooActivity().popFragment();
         
     }
 
@@ -414,14 +423,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
 
-    public ListHelper getListHelper() {
-        if(listHelper==null)
-            setListHelper(new ListHelper(getActivity()));
-        return listHelper;
+    public DataHelper getDataHelper() {
+        if(dataHelper ==null)
+            setDataHelper(new DataHelper(getActivity()));
+        return dataHelper;
     }
 
-    public void setListHelper(ListHelper listHelper) {
-        this.listHelper = listHelper;
+    public void setDataHelper(DataHelper dataHelper) {
+        this.dataHelper = dataHelper;
     }
     
 

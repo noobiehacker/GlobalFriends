@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -47,12 +49,6 @@ public class SignUpFragment extends MitooFragment {
         return view;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
     private void initializeOnClickListeners(View view) {
         view.findViewById(R.id.joinButton).setOnClickListener(this);
         /*Take out for V1
@@ -91,7 +87,7 @@ public class SignUpFragment extends MitooFragment {
     private void joinButtonAction() {
 
 
-        if (getUsername().equals("")) {
+      /*  if (getUsername().equals("")) {
             this.displayText(getString(R.string.toast_username_empty));
         } else if (getEmail().equals("")) {
             this.displayText(getString(R.string.toast_email_empty));
@@ -100,19 +96,21 @@ public class SignUpFragment extends MitooFragment {
         } else if (getPhone().equals("")) {
             this.displayText(getString(R.string.toast_phone_empty));
         } else {
+            */
             setLoading(true);
-            join(getUsername(), getEmail(), getPhone(), getPassword());
-        }
-
-       // join("1234" , "11@22.4" ,  "1234" , "1234");
-
+            JsonSignUpSend signUpSend = createSignUpJsonFromInput();
+            SessionModelRequestEvent event = new SessionModelRequestEvent(MitooEnum.SessionRequestType.SIGNUP, signUpSend);
+            getSessionModel().requestSession(event);
+    //    }
 
     }
 
     @Subscribe
     public void onJoinResponse(SessionModelResponseEvent event) {
-        
-        BusProvider.post(new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE));
+
+        setLoading(false);
+        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE);
+        getLeagueModel().requestLeagueEnquire(requestEvent);
     }
 
     @Subscribe
@@ -122,21 +120,22 @@ public class SignUpFragment extends MitooFragment {
         fireFragmentChangeAction(R.id.fragment_confirm);
         
     }
-    
-    @Subscribe
-    public void onError(MitooActivitiesErrorEvent error) {
 
-        handleAndDisplayError(error);
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        super.onError(error);
     }
+
 
     private void facebookJoinButtonAction() {
 
 
     }
 
-    private void join(String username, String email, String phone, String password) {
-        JsonSignUpSend signUpSend = new JsonSignUpSend(email , password ,username, phone);
-        BusProvider.post(new SessionModelRequestEvent(MitooEnum.SessionRequestType.SIGNUP, signUpSend)) ;
+    private JsonSignUpSend createSignUpJsonFromInput() {
+          //return new JsonSignUpSend(getUsername(), getEmail(), getPhone(), getPassword());
+          return new JsonSignUpSend("ABC", "1@2.0", "1234567890", "abcd");
+        
     }
 
     private String getUsername() {
@@ -166,5 +165,13 @@ public class SignUpFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
+    private SessionModel getSessionModel(){
 
+        return (SessionModel) getMitooModel(SessionModel.class);
+    }
+
+    private LeagueModel getLeagueModel(){
+
+        return (LeagueModel) getMitooModel(LeagueModel.class);
+    }
 }

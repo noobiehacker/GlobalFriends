@@ -16,6 +16,7 @@ import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -25,7 +26,7 @@ import retrofit.client.Response;
 
 public class SessionModel extends MitooModel implements IsPersistable {
 
-    public SessionModel(Activity activity) {
+    public SessionModel(MitooActivity activity) {
         super(activity);
     }
 
@@ -40,8 +41,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
         saveData();
     }
 
-    @Subscribe
-    public void onSessioonRequest(SessionModelRequestEvent event) {
+    public void requestSession(SessionModelRequestEvent event) {
 
         handleRequestEvent(event);
     }
@@ -94,6 +94,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
         if (objectRecieve instanceof SessionRecieve) {
             setSession((SessionRecieve) objectRecieve);
             postUserRecieveResponse();
+            updateToken();
 
         } else if (objectRecieve instanceof Response) {
             postResetPasswordResponse((Response) objectRecieve);
@@ -133,6 +134,11 @@ public class SessionModel extends MitooModel implements IsPersistable {
         setSession((SessionRecieve)event.getPersistedObject());
         postUserRecieveResponse();
 
+    }
+    
+    private void updateToken(){
+        if(getSession()!=null)
+            getActivity().updateAuthToken(this.session);
     }
 }
 

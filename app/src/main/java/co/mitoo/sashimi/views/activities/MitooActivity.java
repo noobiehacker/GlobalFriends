@@ -165,7 +165,7 @@ public class MitooActivity extends Activity {
 
     }
 
-    private void popFragment(){
+    public void popFragment(){
 
         if(fragmentStack.size()>0){
             getFragmentManager().popBackStack();

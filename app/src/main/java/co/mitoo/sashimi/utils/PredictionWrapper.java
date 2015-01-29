@@ -1,5 +1,7 @@
 package co.mitoo.sashimi.utils;
 import se.walkercrou.places.Prediction;
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * Created by david on 15-01-27.
@@ -24,7 +26,7 @@ public class PredictionWrapper extends Prediction implements IsSearchable {
     @Override
     public String getName() {
         
-        return getCityName();
+        return getCityFromAddress(getPrediciton().getDescription());
     }
     
     @Override
@@ -43,11 +45,31 @@ public class PredictionWrapper extends Prediction implements IsSearchable {
         return getPrediciton().getPlaceId();
     }
 
-    private String getCityName(){
-        String description = getPrediciton().getDescription();
-        int firstComma = description.indexOf(",");
-        if(firstComma!=-1)
-            return description.substring( 0 , firstComma);
-        return description;
+    private String getCityFromAddress(String address){
+        
+        int occurance = StringUtils.countMatches(address , ",");
+        
+        String cityName = address;
+        switch(occurance){
+            
+            case 0:
+                cityName = address;
+                break;
+            case 1:         
+                int firstComma = address.indexOf(",");
+                cityName = address.substring( 0 , firstComma);
+                break;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                int secondComma = StringUtils.ordinalIndexOf(address, ",", 2) ;
+                cityName = address.substring( 0 , secondComma);
+                break;
+            default: cityName = address;
+                
+        }
+        return cityName;
+        
     }
 }

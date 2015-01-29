@@ -29,4 +29,8 @@ public class MitooEnum {
     public enum ModelResponse{
         PREFERENCE, API
     }
+
+    public enum ErrorType{
+        APP ,API
+    }
 }

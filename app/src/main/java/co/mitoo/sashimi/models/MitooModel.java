@@ -8,6 +8,7 @@ import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -17,19 +18,16 @@ import rx.Subscriber;
 public abstract class MitooModel
 {
 
-    protected Activity activity;
+    protected MitooActivity activity;
     protected DataPersistanceService persistanceService;
     protected Handler handler;
     protected Runnable backgroundRunnable;
     protected Runnable getResultsRunnable;
 
-    public void setResources(Activity activity) {
-        setActivity(activity);
-    }
 
     private SteakApi steakApiService;
 
-    public MitooModel(Activity activity) {
+    public MitooModel(MitooActivity activity) {
         setActivity(activity);
         setUpPersistanceService();
         BusProvider.register(this);
@@ -52,11 +50,11 @@ public abstract class MitooModel
     }
 
 
-    public Activity getActivity() {
+    public MitooActivity getActivity() {
         return activity;
     }
 
-    public void setActivity(Activity activity) {
+    public void setActivity(MitooActivity activity) {
         this.activity = activity;
     }
 

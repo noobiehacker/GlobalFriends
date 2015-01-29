@@ -15,9 +15,9 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.PredictionWrapper;
+import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
-import se.walkercrou.places.Prediction;
 
 /**
  * Created by david on 15-01-23.
@@ -112,8 +112,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
                 return false;
             }
         });
-
-        //searchView.setSuggestionsAdapter();
         return searchView;
     }
     
@@ -139,8 +137,8 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     public void updatePredictions(List<IsSearchable> predictions) {
         
-        getListHelper().clearList(getPredictions());
-        getListHelper().addToListList(getPredictions(),predictions);
+        getDataHelper().clearList(getPredictions());
+        getDataHelper().addToListList(getPredictions(),predictions);
         placeListAdapter.notifyDataSetChanged();
     }
 
@@ -148,7 +146,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         
         LocationModel locationModel = getLocationModel();
         if(locationModel!=null){
-            locationModel.searchForPlace(query);
+            locationModel.searchForPrediction(query);
         }
     } 
     
@@ -173,8 +171,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         placeListAdapter.notifyDataSetChanged();
         
     }
-    
-
 
     private View getSuggestedSearchHeader(){
 
@@ -183,8 +179,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         suggestionTextView.setText(getString(R.string.search_page_text_2));
         return header;
     }
-
-
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -199,16 +193,24 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     
     private void placeSelectionAction(PredictionWrapper prediction){
         
-        getLocationModel().setSelectedPredictionWrapper(prediction);
-        getMitooActivity().onBackPressed();
+        setLoading(true);
+        getLocationModel().selectPlace(prediction);
         
+    }
+    
+    @Subscribe
+    public void onLocationSelected(LocationModelLocationsSelectedEvent event){
+
+        setLoading(false);
+        popFragmentAction();
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.current_location:
-                getLocationModel().setUsingCurrentLocation(true);
+                getLocationModel().setToUseCurrentLocation(true);
                 break;
         }
     }

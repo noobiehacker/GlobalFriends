@@ -6,6 +6,7 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
 
 
@@ -14,7 +15,7 @@ import retrofit.RetrofitError;
  */
 public class UserInfoModel extends MitooModel{
 
-    public UserInfoModel(Activity activity) {
+    public UserInfoModel(MitooActivity activity) {
         super(activity);
     }
 
