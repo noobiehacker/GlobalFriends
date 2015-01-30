@@ -7,6 +7,7 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
+import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.utils.StaticString;
@@ -46,8 +47,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
         handleRequestEvent(event);
     }
 
-    @Subscribe
-    public void onResetPasswordRequest(ResetPasswordRequestEvent event) {
+    public void requestPasswordRequest(ResetPasswordRequestEvent event) {
 
         handleObservable(getSteakApiService().resetPassword(new JsonResetPasswordSend(event.getEmail())),
                 Response.class);
@@ -70,7 +70,6 @@ public class SessionModel extends MitooModel implements IsPersistable {
 
     }
 
-
     private void handleRequestEvent(SessionModelRequestEvent event) {
 
         switch (event.getRequestType()){
@@ -87,7 +86,6 @@ public class SessionModel extends MitooModel implements IsPersistable {
         }
     }
 
-
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
 
@@ -101,11 +99,11 @@ public class SessionModel extends MitooModel implements IsPersistable {
         }
     }
 
-
     @Override
     public void readData() {
 
-        getPersistanceService().readFromPreference(getPreferenceKey() , SessionRecieve.class);
+        DataPersistanceService service = getPersistanceService();
+        setSession(service.readFromPreference(getPreferenceKey() , SessionRecieve.class));
 
     }
 
@@ -139,6 +137,12 @@ public class SessionModel extends MitooModel implements IsPersistable {
     private void updateToken(){
         if(getSession()!=null)
             getActivity().updateAuthToken(this.session);
+    }
+    
+    public boolean  userIsLoggedIn(){
+        
+        return getSession()!=null;
+        
     }
 }
 

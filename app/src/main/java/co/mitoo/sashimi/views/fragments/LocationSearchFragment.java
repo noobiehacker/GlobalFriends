@@ -194,7 +194,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     
     private void placeSelectionAction(PredictionWrapper prediction){
         
-        setLoading(true);
         getLocationModel().selectPlace(prediction);
         
     }
@@ -202,7 +201,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
-        setLoading(false);
         fireFragmentChangeAction(MitooEnum.fragmentTransition.POP);
 
     }

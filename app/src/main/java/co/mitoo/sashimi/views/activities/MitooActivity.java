@@ -11,13 +11,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
-//import com.newrelic.agent.android.NewRelic;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
 import com.squareup.otto.Subscribe;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.managers.UserDataManager;
-import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -42,7 +44,7 @@ public class MitooActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
+
         super.onCreate(savedInstanceState);
         startApp();
         initializeFields();
@@ -53,7 +55,7 @@ public class MitooActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -62,7 +64,7 @@ public class MitooActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        
+
         if (id == R.id.menu_settings) {
             return true;
         }
@@ -90,21 +92,21 @@ public class MitooActivity extends Activity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(new CalligraphyContextWrapper(newBase));
     }
-    
+
     private void initializeFields(){
         setModelManager(new ModelManager(this));
         setUpNewRelic();
         locationManager = new MitooLocationManager(this);
         BusProvider.register(this);
     }
-    
+
     @Subscribe
     public void onFragmentChange(FragmentChangeEvent event) {
 
-        if(event.getFragmentId()==R.id.fragment_home){
-               popAllFragments();
+        if (event.getFragmentId() == R.id.fragment_home) {
+            popAllFragments();
         }
-        switch(event.getTransition()) {
+        switch (event.getTransition()) {
             case PUSH:
                 pushFragment(event);
                 break;
@@ -145,7 +147,7 @@ public class MitooActivity extends Activity {
         super.onConfigurationChanged(newConfig);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
-    
+
     public boolean LocationServicesIsOn(){
         return locationManager.LocationServicesIsOn();
     }
@@ -187,22 +189,22 @@ public class MitooActivity extends Activity {
         fragmentStack.push(fragment);
 
     }
-    
+
     private void popAllFragments(){
-        
+
         while(fragmentStack.size()>0){
             popFragment();
         }
     }
 
     public boolean NetWorkConnectionIsOn() {
-        
+
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
-        
+
     }
-    
+
     private void setUpNewRelic(){
         
       /*  NewRelic.withApplicationToken(getString(R.string.API_key_new_relic)
@@ -219,7 +221,7 @@ public class MitooActivity extends Activity {
                 popFragment();
         }
     }
-    
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -239,9 +241,9 @@ public class MitooActivity extends Activity {
     public void setModelManager(ModelManager modelManager) {
         this.modelManager = modelManager;
     }
-    
+
     private void setUpPersistenceData(){
-        
+
         if(MitooConstants.persistenceStorage){
             getModelManager().readAllPersistedData();
         }else{
@@ -249,42 +251,43 @@ public class MitooActivity extends Activity {
         }
 
     }
-    
+
     public void updateAuthToken(SessionRecieve session){
-        
+
         if(session.auth_token!=null)
             ServiceBuilder.getSingleTonInstance().setXAuthToken(session.auth_token);
     }
-    
-    private boolean allDataLoaded(){
-        return false;
-        
+
+    public void resetAuthToken(){
+
+        ServiceBuilder.getSingleTonInstance().resetXAuthToken();
     }
-    
+
     public void startApp(){
 
         fragmentStack= new Stack<MitooFragment>();
         swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.NONE, R.id.fragment_splash));
-        
+
     }
-    
+
     @Subscribe
     public void logOut(LogOutEvent event){
 
         getModelManager().deleteAllPersistedData();
+        resetAuthToken();
         popAllFragments();
         startApp();
     }
-    
+
     public void contactMitoo(){
-        
+
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
         intent.putExtra(Intent.EXTRA_SUBJECT , getString(R.string.mitoo_support_email_subject));
         intent.putExtra(Intent.EXTRA_TEXT , getModelManager().getUserInfoModel().getUserInfoRecieve().email);
         startActivity(Intent.createChooser(intent, "Send email..."));
-        
+
     }
 
     public UserDataManager getUserDataManager() {
@@ -295,5 +298,10 @@ public class MitooActivity extends Activity {
         this.userDataManager = userDataManager;
     }
 
+    public void hideSoftKeyboard(View view) {
+        Activity activity = this;
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
 
 }

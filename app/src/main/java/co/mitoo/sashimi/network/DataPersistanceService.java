@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Session;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.SessionPersistanceResponseEvent;
@@ -57,10 +58,10 @@ public class DataPersistanceService {
         this.activity = activity;
     }
 
-    public void readFromPreference(String key , final Class<?> classType) {
-
+    public  <T> T readFromPreference(String key , final Class<T> classType) {
+        
         String savedUserSerialized = getSavedObjectData(key, getSharedPreferenceErrorValue());
-        BusProvider.post(new SessionPersistanceResponseEvent(deserializeObject(savedUserSerialized, classType)));
+        return (T) deserializeObject(savedUserSerialized, classType);
 
     }
 
@@ -88,20 +89,7 @@ public class DataPersistanceService {
 
     public void deleteFromPreference(String key){
 
-        final String keyToPassIn  = key;
-        this.serializeRunnable = new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    deleteStringFromPreference(keyToPassIn);
-                }
-                catch(Exception e){
-                }
-            }
-        };
-
-        runRunnableOnNewThread(this.serializeRunnable);
+        deleteStringFromPreference(key);
 
     }
 

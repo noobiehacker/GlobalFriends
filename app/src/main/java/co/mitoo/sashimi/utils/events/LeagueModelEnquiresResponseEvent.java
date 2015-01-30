@@ -1,4 +1,6 @@
 package co.mitoo.sashimi.utils.events;
+import java.util.List;
+
 import co.mitoo.sashimi.models.jsonPojo.League;
 import retrofit.client.Response;
 
@@ -8,14 +10,14 @@ import retrofit.client.Response;
 public class LeagueModelEnquiresResponseEvent {
     
     private Response response;
-    private League[] enquiredLeagues;
+    private List<League> enquiredLeagues;
     private League selectedLeague;
 
     public LeagueModelEnquiresResponseEvent(Response response) {
         this.response = response;
     }
 
-    public LeagueModelEnquiresResponseEvent(League[] enquiredLeagues) {
+    public LeagueModelEnquiresResponseEvent(List<League> enquiredLeagues) {
         this.enquiredLeagues = enquiredLeagues;
     }
 
@@ -27,11 +29,11 @@ public class LeagueModelEnquiresResponseEvent {
         this.response = response;
     }
 
-    public League[] getEnquiredLeagues() {
+    public List<League> getEnquiredLeagues() {
         return enquiredLeagues;
     }
 
-    public void setEnquiredLeagues(League[] enquiredLeagues) {
+    public void setEnquiredLeagues(List<League> enquiredLeagues) {
         this.enquiredLeagues = enquiredLeagues;
     }
 

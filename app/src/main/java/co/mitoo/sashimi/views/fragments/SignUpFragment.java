@@ -1,9 +1,11 @@
 package co.mitoo.sashimi.views.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.squareup.otto.Subscribe;
 
@@ -67,7 +69,7 @@ public class SignUpFragment extends MitooFragment {
     protected void initializeViews(View view){
         
         super.initializeViews(view);
-        ViewHelper viewHelper = new ViewHelper(getActivity());
+        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague());
         viewHelper.setUpLeageText(view , getSelectedLeague());
         
@@ -207,5 +209,7 @@ public class SignUpFragment extends MitooFragment {
         }
         return result;
     }
+
+
     
 }

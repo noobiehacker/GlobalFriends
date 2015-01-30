@@ -11,45 +11,48 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
  * Created by david on 15-01-20.
  */
 public class ViewHelper {
     
-    private Context context;
+    private MitooActivity activity;
 
-    public ViewHelper(Context context) {
-        this.context = context;
+    public ViewHelper(MitooActivity activity) {
+        this.activity = activity;
     }
 
-    public Context getContext() {
-        return context;
+    public MitooActivity getActivity() {
+        return activity;
     }
 
-    public void setContext(Activity context) {
-        this.context = context;
+    public void setActivity(MitooActivity activity) {
+        this.activity = activity;
     }
 
     public void setUpLeagueImage(View view, League league){
 
         ImageView leagueIconImageView = (ImageView) view.findViewById(R.id.leagueImage);
         ImageView leagueBackgroundImageView = (ImageView) view.findViewById(R.id.leagueBackGround);
-        Picasso.with(getContext())
+        Picasso.with(getActivity())
                 .load(league.getLogo())
                 .transform(new RoundedTransformation(getCornerRadius(),getBorder()))
                 .into(leagueIconImageView);
-        Picasso.with(getContext())
+        Picasso.with(getActivity())
                 .load(league.getCover())
                 .into(leagueBackgroundImageView);
     }
 
     public void setUpLeageText(View view , League league){
         
-        TextView leagueNameTextView =  (TextView) view.findViewById(R.id.user_name);
+        TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
         TextView leagueSportsTextView =  (TextView) view.findViewById(R.id.leagueInfo);
+        TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
         leagueNameTextView.setText(league.getName());
         leagueSportsTextView.setText(league.getLeagueSports());
+        cityNameTextView.setText(league.getCity());
 
     }
 
@@ -78,11 +81,11 @@ public class ViewHelper {
     }
 
     private int getCornerRadius(){
-        return getContext().getResources().getDimensionPixelSize(R.dimen.corner_radius_small);
+        return getActivity().getResources().getDimensionPixelSize(R.dimen.corner_radius_small);
     }
 
     private int getBorder(){
-        return getContext().getResources().getDimensionPixelSize(R.dimen.image_border);
+        return getActivity().getResources().getDimensionPixelSize(R.dimen.image_border);
     }
     
     private int getColor(String leagueColorInput){
@@ -116,5 +119,18 @@ public class ViewHelper {
             return true;
         }
         return false;
+    }
+    
+    public View.OnFocusChangeListener createOnFocusHideKeyboardListener(){
+        
+        return new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    getActivity().hideSoftKeyboard(v);
+                }
+            }
+        };
+        
     }
 }

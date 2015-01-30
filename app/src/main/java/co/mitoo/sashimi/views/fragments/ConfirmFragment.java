@@ -49,7 +49,7 @@ public class ConfirmFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        ViewHelper viewHelper = new ViewHelper(getActivity());
+        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague());
         viewHelper.setUpLeageText(view , getSelectedLeague());
     }

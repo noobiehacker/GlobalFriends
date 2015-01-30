@@ -58,7 +58,7 @@
     
     <!-- Slide Icon -->
     <dimen name="slide_icon_big_width">200dp</dimen>
-    <dimen name="slide_icon_big_height">130dp</dimen>
+    <dimen name="slide_icon_big_height">100dp</dimen>
 
     <dimen name="slide_icon_small_width">160dp</dimen>
     <dimen name="slide_icon_small_height">160dp</dimen>

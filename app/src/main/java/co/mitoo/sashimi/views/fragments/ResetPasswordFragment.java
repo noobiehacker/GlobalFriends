@@ -95,7 +95,8 @@ public class ResetPasswordFragment extends MitooFragment{
             displayText(getString(R.string.toast_password_empty));
         }
         else{
-            BusProvider.post(new ResetPasswordRequestEvent(getEmail()));
+            ResetPasswordRequestEvent event = new ResetPasswordRequestEvent(getEmail());
+            getSessionModel().requestPasswordRequest(event);
         }
         setLoading(true);
     }

@@ -40,11 +40,15 @@
         style="@style/grayLightBigText"
         />
 
-    <include
-        android:id="@+id/enquired_league"
-        layout="@layout/list_view_item_league"
+
+    <ListView
+        android:id="@+id/leagueListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/enquired_league_text"
-        android:layout_marginTop="@dimen/spacing_normal" />
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/spacing_small"
+        android:descendantFocusability="blocksDescendants" />
+
 </RelativeLayout>

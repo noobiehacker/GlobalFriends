@@ -68,7 +68,7 @@ public class SplashScreenFragment extends MitooFragment {
                 SessionRecieve session = getSessionModel().getSession();
                 if (session != null) {
                     getMitooActivity().updateAuthToken(session);
-                    BusProvider.post(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
+                    getLeagueModel().requestLeagueEnquire(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
 
                 } else {
                     fireFragmentChangeAction(R.id.fragment_landing);

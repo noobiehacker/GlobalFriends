@@ -39,6 +39,11 @@ public class ServiceBuilder {
         return this;
     }
 
+    public ServiceBuilder resetXAuthToken() {
+        getInterceptorBuilder().resetXAuthToken();
+        return this;
+    }
+    
     public <T> T create(Class<T> service) {
         checkSettingsForErrors(service);
         return this.buildAdapter().create(service);

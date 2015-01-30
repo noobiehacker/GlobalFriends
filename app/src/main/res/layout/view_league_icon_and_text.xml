@@ -17,7 +17,7 @@
         android:background="@drawable/rounded"/>
 
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/league_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/leagueImage"
@@ -25,18 +25,34 @@
         android:text="@string/place_holder_league_name"
         android:textIsSelectable="false"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:textStyle="bold"
         style="@style/whiteBigText"/>
 
+
+    <TextView
+        android:id="@+id/city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/league_name"
+        android:layout_marginTop="@dimen/spacing_tiny"
+        android:text="@string/place_holder_city_name"
+        android:textIsSelectable="false"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        style="@style/whiteBigText"/>
+    
     <TextView
         android:id="@+id/leagueInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_name"
+        android:layout_below="@id/city_name"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:text="@string/place_holder_league_info"
         android:textIsSelectable="false"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:textStyle="bold"
         style="@style/whiteMediumText"/>
 

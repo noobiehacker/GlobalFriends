@@ -39,6 +39,10 @@ public class InterceptorBuilder {
         addHeaderMapping( "X-AUTH-TOKEN" , token);
     }
 
+    public void resetXAuthToken(){
+        removeHeaderMapping( "X-AUTH-TOKEN" );
+    }
+    
     private void initalizeHeaderMapping(){
         headerMappings = new HashMap<String,String>();
         headerMappings.put("Content-Type" , "application/json");

@@ -36,7 +36,7 @@ public class LeagueModel extends MitooModel{
     private Index index;
     private AlgoliaIndexListener aiListener;
     private List<League> leagueSearchResults;
-    private League[] leagueEnquired;
+    private List<League> leagueEnquired;
     private JSONObject results;
     private League selectedLeague;
 
@@ -53,7 +53,6 @@ public class LeagueModel extends MitooModel{
 
     }
 
-    @Subscribe
     public void requestAlgoLiaSearch(AlgoliaLeagueSearchEvent event){
 
         Query algoliaQuery = new Query(event.getQuery());
@@ -84,7 +83,7 @@ public class LeagueModel extends MitooModel{
         if (objectRecieve instanceof League[]) {
             addLeagueEnquired((League[]) objectRecieve);
             setSelectedLeague(getFirstLeague());
-            BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeagueEnquired()));
+            BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeaguesEnquired()));
 
         } else if (objectRecieve instanceof Response) {
             League[] enquired = new League[1];
@@ -162,22 +161,20 @@ public class LeagueModel extends MitooModel{
         return getActivity().getString(R.string.steak_api_const_filter_enquiries);
     }
 
-    public League[] getLeagueEnquired() {
+    public List<League> getLeaguesEnquired() {
         return leagueEnquired;
     }
 
     public void addLeagueEnquired(League[] newleaguesEnquired) {
-        
-        if(this.leagueEnquired==null){
-            this.leagueEnquired = newleaguesEnquired;
+
+        if (this.leagueEnquired == null) {
+            this.leagueEnquired = new ArrayList<League>();
         }
-        else{
-            League[] combinedLeagueArray =  createCombinedEnquiredArray(getLeagueEnquired() , newleaguesEnquired);
-            setLeagueEnquired(combinedLeagueArray);
+        for (League item : newleaguesEnquired) {
+            this.leagueEnquired.add(item);
         }
-            
     }
-    
+
     private League[] createCombinedEnquiredArray(League[] oldArray, League[] inputArray){
         
         League[] combinedLeagueArray =  new League[oldArray.length+inputArray.length];
@@ -192,15 +189,15 @@ public class LeagueModel extends MitooModel{
     }
 
     private League getFirstLeague(){
-        if(getLeagueEnquired() !=null && getLeagueEnquired().length>0)
-            return getLeagueEnquired()[0];
+        if(getLeaguesEnquired() !=null && getLeaguesEnquired().size()>0)
+            return getLeaguesEnquired().get(0);
         return null;
     }
     
     public boolean selectedLeagueIsJoinable(){
         
         //Case 1:User has not logged in thus no enquired leagues
-        if(getLeagueEnquired() ==null)
+        if(getLeaguesEnquired() ==null)
             return true;
         else{
         //Case 2:User has logged in, return false if the current selected league
@@ -215,7 +212,7 @@ public class LeagueModel extends MitooModel{
         boolean containsLeague = false;
         if(league!=null){
             loop:
-            for(League item : getLeagueEnquired()){
+            for(League item : getLeaguesEnquired()){
                 if(item.equals(league))
                     containsLeague= true;
                 if(containsLeague)
@@ -234,7 +231,7 @@ public class LeagueModel extends MitooModel{
         this.leagueSearchResults = leagueResults;
     }
 
-    public void setLeagueEnquired(League[] leagueEnquired) {
+    public void setLeagueEnquired(List<League> leagueEnquired) {
         this.leagueEnquired = leagueEnquired;
     }
 }

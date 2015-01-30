@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.PredictionWrapper;
@@ -71,15 +72,17 @@ public class LocationModel extends MitooModel {
             public void run() {
 
                 try {
-
-                    List<Prediction> queryPrediction = getClient().getQueryPredictions(query , GooglePlaces.Param.name("types").value("geocode"));
-                    removeNonCity(queryPrediction);
+                    List<Prediction> queryPrediction = getClient().getQueryPredictions(query);
+                    List<Place> queryPlace =  getClient().getPlacesByQuery(query );
+                    DataHelper dataHelper = new DataHelper(getActivity());
+                    dataHelper.removeNonCity(queryPrediction);
                     queryResult = queryPrediction;
                     BusProvider.post(new LocationModelQueryResultEvent(transFormList(queryResult)));
                     setQueryResult(null);
 
                 }
                 catch(Exception e){
+                    String temp = e.toString();
 
                 }
             }
@@ -91,7 +94,6 @@ public class LocationModel extends MitooModel {
     }
     
     public void selectPlace(final PredictionWrapper selectedPrediction) {
-
         this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
@@ -99,8 +101,8 @@ public class LocationModel extends MitooModel {
                 try {
 
                     Prediction prediction = selectedPrediction.getPrediciton();
-                    setSelectedPlace(getClient().getPlace(prediction.getPlaceReference()));
-                    setSelectedLocationLatLng(new LatLng(selectedPlace.getLatitude(),selectedPlace.getLongitude()));
+                    setSelectedPlace(prediction);
+                    setSelectedLocationLatLng(getSelectedPlace());
                     setToUseCurrentLocation(false);
                     BusProvider.post(new LocationModelLocationsSelectedEvent());
 
@@ -174,8 +176,11 @@ public class LocationModel extends MitooModel {
         return selectedPlace;
     }
 
-    public void setSelectedPlace(Place selectedPlace) {
-        this.selectedPlace = selectedPlace;
+    public void setSelectedPlace(Prediction prediction) {
+
+        String reference = prediction.getPlaceReference();
+        if(reference!=null)
+            this.selectedPlace = getClient().getPlace(prediction.getPlaceReference());
     }
     
     public void requestSelectedLocationLatLng() {
@@ -187,16 +192,18 @@ public class LocationModel extends MitooModel {
     }
 
     public void setSelectedLocationLatLng(LatLng selectedLocationLatLng) {
+        
         this.selectedLocationLatLng = selectedLocationLatLng;
+    
     }
 
-    private void removeNonCity(List<Prediction> predictions){
-
-        /*
-        for(Prediction item : predictions){
+    public void setSelectedLocationLatLng(Place place) {
+        if(place!=null){
+            LatLng latLng =new LatLng(selectedPlace.getLatitude(),selectedPlace.getLongitude());
+            this.selectedLocationLatLng = latLng;
         }
-        */
-        //To implement
     }
+
+
 
 }

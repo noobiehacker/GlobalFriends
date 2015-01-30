@@ -14,6 +14,7 @@ import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
@@ -66,6 +67,16 @@ public class LoginFragment extends MitooFragment {
 
     }
 
+    @Override
+    protected void initializeViews(View view) {
+
+        super.initializeViews(view);
+        setUpToolBar(view);
+        //View.OnFocusChangeListener listener = getViewHelper().createOnFocusHideKeyboardListener();
+        //view.findViewById(R.id.emailInput).setOnFocusChangeListener(listener);
+
+    }
+    
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

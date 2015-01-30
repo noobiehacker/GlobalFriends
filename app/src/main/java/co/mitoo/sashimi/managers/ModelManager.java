@@ -189,6 +189,7 @@ public class ModelManager {
                     for(IsPersistable item  : getPersistableList()){
                         item.deleteData();
                     }
+                    removeModelReferences();
                     BusProvider.post(new ModelPersistedDataDeletedEvent());
                 }
                 catch(Exception e){
@@ -197,7 +198,6 @@ public class ModelManager {
         };
 
         runRunnableInBackground(runnable);
-        removeModelReferences();
     }
     
     private void runRunnableInBackground(Runnable runnable){

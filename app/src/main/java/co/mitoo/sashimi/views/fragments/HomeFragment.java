@@ -8,31 +8,37 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
-import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.LogOutDialogBuilder;
+import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 
 /**
  * Created by david on 15-01-12.
  */
 public class HomeFragment extends MitooFragment {
-    
-    private League[] enquiredLeague;
+
+    private ListView leagueList;
+    private LeagueAdapter leagueDataAdapter;
+    private List<League> leagueData ;
     private RelativeLayout searchPlaceHolder;
 
     @Override
@@ -44,11 +50,12 @@ public class HomeFragment extends MitooFragment {
                 hideSearchPlaceHolder();
                 fireFragmentChangeAction(R.id.fragment_search);
                 break;
-            case R.id.enquired_league:
-                getLeagueModel().setSelectedLeague(getFirstEnquriredLeague());
-                fireFragmentChangeAction(R.id.fragment_league);
-                break;
         }
+    }
+
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        super.onError(error);
     }
 
     public static HomeFragment newInstance() {
@@ -70,8 +77,9 @@ public class HomeFragment extends MitooFragment {
     @Override
     protected void initializeFields(){
 
-        super.initializeFields();        
-        setEnquiredLeague(getMitooActivity().getModelManager().getLeagueModel().getLeagueEnquired());
+        super.initializeFields();
+        setUpLeagueData();
+        updateEnquriedLeagueData();
 
     }
 
@@ -80,17 +88,23 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeViews(view);
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        setCheckBoxVisible(view);
-        setUpEnquireLeagues(view);
         setUpSearchPlaceHolder(view);
+        setUpListView(view);
     }
 
     private void initializeOnClickListeners(View view){
         
         view.findViewById(R.id.search_bar).setOnClickListener(this);
-        view.findViewById(R.id.enquired_league).setOnClickListener(this);
         SearchView searchView = (SearchView) view.findViewById(R.id.search_view);
         searchView.setOnSearchClickListener(this);
+        
+    }
+    
+    private void setUpListView(View view){
+        
+        leagueList = (ListView) view.findViewById(R.id.leagueListView);
+        leagueList.setAdapter(leagueDataAdapter);
+        leagueList.setOnItemClickListener(leagueDataAdapter);
         
     }
 
@@ -116,39 +130,10 @@ public class HomeFragment extends MitooFragment {
                         case R.id.menu_settings:
                             BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
                             break;
-                        case R.id.menu_logout:
-                            LogOutDialogBuilder builder = new LogOutDialogBuilder(getActivity());
-                            builder.buildPrompt().show();
-                            break;
                     }
                     return false;
                 }
             });
-        }
-
-    }
-
-    public League[] getEnquiredLeague() {
-        return enquiredLeague;
-    }
-
-    public void setEnquiredLeague(League[] enquiredLeague) {
-        this.enquiredLeague = enquiredLeague;
-    }
-    
-    private void setCheckBoxVisible(View view){
-        ImageView checkBoxImage = (ImageView)view.findViewById(R.id.checkBoxImage);
-        checkBoxImage.setVisibility(View.VISIBLE);
-        
-    }
-    
-    private void setUpEnquireLeagues(View view){
-
-        if(getEnquiredLeague()!=null && getEnquiredLeague().length>0){
-            ViewHelper viewHelper = new ViewHelper(getActivity());
-            viewHelper.setUpLeagueImage(view, getEnquiredLeague()[0]);
-            viewHelper.setUpLeageText(view, getEnquiredLeague()[0]);
-            viewHelper.setLineColor(view, getEnquiredLeague()[0]);
         }
 
     }
@@ -178,14 +163,6 @@ public class HomeFragment extends MitooFragment {
         getSearchPlaceHolder().setVisibility(View.GONE);
         
     }
-
-    
-    private League getFirstEnquriredLeague(){
-        if(getEnquiredLeague()!= null && getEnquiredLeague().length>0)
-            return getEnquiredLeague()[0];
-        return null;
-        
-    }
         
     @Subscribe
     public void onUserInfoReceieve(UserInfoModelResponseEvent event){
@@ -193,6 +170,26 @@ public class HomeFragment extends MitooFragment {
         fireFragmentChangeAction(R.id.fragment_settings);
 
     }
+
+    private void setUpLeagueData(){
+
+        if(leagueData==null){
+            leagueData = new ArrayList<League>();
+            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this);
+        }
+
+    }
+
+    public void updateEnquriedLeagueData(){
+
+        if(getLeagueModel().getLeaguesEnquired()!=null){
+            DataHelper dataHelper = new DataHelper(getMitooActivity());
+            dataHelper.clearList(leagueData);
+            dataHelper.addToListList(this.leagueData, getLeagueModel().getLeaguesEnquired());
+            this.leagueDataAdapter.notifyDataSetChanged();
+        }
+    }
+
 
 }
 

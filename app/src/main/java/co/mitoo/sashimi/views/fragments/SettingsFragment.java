@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.views.Dialog.AboutMitooDialogBuilder;
@@ -97,7 +96,7 @@ public class SettingsFragment extends MitooFragment {
                 .load(getUserInfoRecieve().picture_thumb)
                 .into(imageView);
         
-        TextView nameTextView= (TextView) view.findViewById(R.id.user_name);
+        TextView nameTextView= (TextView) view.findViewById(R.id.league_name);
         nameTextView.setText(getUserInfoRecieve().name);
     }
     

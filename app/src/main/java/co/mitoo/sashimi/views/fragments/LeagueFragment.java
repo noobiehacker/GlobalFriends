@@ -12,12 +12,17 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 
 /**
  * Created by david on 14-12-19.
@@ -55,9 +60,25 @@ public class LeagueFragment extends MitooFragment {
 
     private void joinButtonAction(){
 
-        Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getId()));
-        fireFragmentChangeAction(R.id.fragment_sign_up, bundle);
+        SessionModel sessionModel =getSessionModel();
+        if(sessionModel.userIsLoggedIn()){
+            int UserID = sessionModel.getSession().id;
+            LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(UserID, MitooEnum.crud.CREATE);
+            getLeagueModel().requestLeagueEnquire(requestEvent);
+        }
+        else{
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getId()));
+            fireFragmentChangeAction(R.id.fragment_sign_up, bundle);
+        }
+    }
+
+    @Subscribe
+    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
+
+        setLoading(false);
+        fireFragmentChangeAction(R.id.fragment_confirm);
+
     }
 
     @Override
@@ -80,7 +101,7 @@ public class LeagueFragment extends MitooFragment {
     
     private void setUpLeagueView(View view){
         
-        ViewHelper viewHelper = new ViewHelper(getActivity());
+        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague());
         viewHelper.setUpLeageText(view, getSelectedLeague());
         viewHelper.setLineColor(view, getSelectedLeague());

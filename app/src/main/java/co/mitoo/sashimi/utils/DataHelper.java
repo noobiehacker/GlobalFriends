@@ -10,6 +10,7 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import se.walkercrou.places.Prediction;
 
 /**
  * Created by david on 15-01-27.
@@ -118,6 +119,45 @@ public class DataHelper {
         
         return input.length() >=lowerEnd && input.length() <= higherEnd;
         
+    }
+
+    public void removeNonCity(List<Prediction> predictions){
+
+        Iterator<Prediction> itr = predictions.iterator();
+        while(itr.hasNext()){
+            Prediction item = itr.next();
+            if(!predictionIsPlace(item))
+                itr.remove();
+        }
+    }
+    
+    private boolean predictionIsPlace(Prediction prediction) {
+
+        boolean result = false;
+        
+        List<String> types = prediction.getTypes();
+        if(types.size() >0){
+            int correctTerms = 0;
+            forloop:
+
+            for (String typeString : types) {
+                if (isGoogleGeoType(typeString))
+                    correctTerms++;
+                if (correctTerms == 3)
+                    result = true;
+                if (result)
+                    break forloop;
+            }
+        }
+
+        return result;
+
+    }
+    
+    private boolean isGoogleGeoType(String typeString){
+
+        return (typeString.equals("geocode") || typeString.equals("locality") || typeString.equals("political"));
+
     }
     
     public Context getContext() {

@@ -18,9 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -33,6 +31,7 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
+import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
@@ -54,6 +53,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean loading = false;
     private ProgressDialog progressDialog;
     private DataHelper dataHelper;
+    private ViewHelper viewHelper;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -76,20 +76,20 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onPause() {
-        super.onPause();
         tearDownReferences();
+        super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         tearDownReferences();
+        super.onDestroy();
     }
 
     @Override
     public void onStop () {
-        super.onStop();
         tearDownReferences();
+        super.onStop();
     }
 
     @Subscribe
@@ -126,7 +126,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         
     }
 
-    protected MitooActivity getMitooActivity() {
+    public MitooActivity getMitooActivity() {
         MitooActivity returnActivity = null;
         Activity activity = getActivity();
         if (activity instanceof MitooActivity) {
@@ -189,7 +189,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
 
 
-    protected void fireFragmentChangeAction(int fragmentId) {
+    public void fireFragmentChangeAction(int fragmentId) {
         
         MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
         if(fragmentId == R.id.fragment_home){
@@ -448,6 +448,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected LeagueModel getLeagueModel(){
 
         return (LeagueModel) getMitooModel(LeagueModel.class);
+    }
+
+    public ViewHelper getViewHelper() {
+        if(viewHelper==null)
+            viewHelper = new ViewHelper(getMitooActivity());
+        return viewHelper;
+    }
+
+    public void setViewHelper(ViewHelper viewHelper) {
+        this.viewHelper = viewHelper;
     }
 }
 
