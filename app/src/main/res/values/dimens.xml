@@ -17,9 +17,9 @@
     
     <dimen name="spacing_normal">18dp</dimen>
     <dimen name="spacing_small">14dp</dimen>
-    <dimen name="spacing_smallest">7dp</dimen>
+    <dimen name="spacing_smaller">7dp</dimen>
+    <dimen name="spacing_smallest">5dp</dimen>
     <dimen name="spacing_tiny">3dp</dimen>
-
 
     <!-- header / footer -->
     <dimen name="header">120dp</dimen>

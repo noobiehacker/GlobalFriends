@@ -62,7 +62,7 @@
             android:layout_height="@dimen/gray_button_height"
             android:layout_below="@+id/emailInput"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             />
 
 
@@ -75,7 +75,7 @@
             android:text="@string/login_page_text6"
             android:onClick="loginButtonAction"
             android:textColor="@color/white"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             style="@style/darkGrayButton"
             />
 

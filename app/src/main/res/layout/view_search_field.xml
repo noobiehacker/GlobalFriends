@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/spacing_smallest"
+    android:padding="@dimen/spacing_smaller"
     android:background="@color/gray_dark_four">
 
     <include android:id="@+id/search_bar_view" 

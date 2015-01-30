@@ -156,7 +156,10 @@ public class DataHelper {
     
     private boolean isGoogleGeoType(String typeString){
 
-        return (typeString.equals("geocode") || typeString.equals("locality") || typeString.equals("political"));
+        String geoCode = getContext().getString(R.string.google_place_api_geocode);
+        String locality = getContext().getString(R.string.google_place_api_locality);
+        String political = getContext().getString(R.string.google_place_api_political);
+        return (typeString.equals(geoCode) || typeString.equals(locality) || typeString.equals(political));
 
     }
     

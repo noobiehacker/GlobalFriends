@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -121,16 +124,24 @@ public class ViewHelper {
         return false;
     }
     
-    public View.OnFocusChangeListener createOnFocusHideKeyboardListener(){
-        
-        return new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+
+    public void setOnTouchCloseKeyboard(View view) {
+
+        if(!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
                     getActivity().hideSoftKeyboard(v);
+                    return false;
                 }
+            });
+        }
+
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setOnTouchCloseKeyboard(innerView);
             }
-        };
-        
+        }
     }
+
 }

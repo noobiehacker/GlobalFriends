@@ -47,7 +47,7 @@
             android:hint="@string/join_page_text2"
             android:layout_below="@+id/leagueInfoContainter"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             style="@style/whiteEditText"
             />
 
@@ -58,7 +58,7 @@
             android:hint="@string/join_page_text3"
             android:layout_below="@+id/nameInput"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             style="@style/whiteEditText"
             />
 
@@ -69,7 +69,7 @@
             android:layout_height="@dimen/gray_button_height"
             android:layout_below="@+id/emailInput"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smallest"/>
+            android:layout_marginTop="@dimen/spacing_smaller"/>
 
 
         <EditText
@@ -79,7 +79,7 @@
             android:hint="@string/join_page_text5"
             android:layout_below="@+id/phoneLayout"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             android:password="true"
             style="@style/whiteEditText"
             />
@@ -92,7 +92,7 @@
             android:layout_centerHorizontal="true"
             android:text="@string/join_page_button_2_text"
             android:onClick="joinButtonAction"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             style="@style/darkGrayButton"
             />
 

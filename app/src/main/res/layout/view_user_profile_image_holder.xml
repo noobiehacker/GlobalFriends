@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_profileImage"
-            android:layout_marginTop="@dimen/spacing_smallest"
+            android:layout_marginTop="@dimen/spacing_smaller"
             android:text="@string/place_holder_player_name"
             android:textIsSelectable="false"
             android:layout_centerHorizontal="true"

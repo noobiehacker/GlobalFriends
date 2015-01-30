@@ -86,7 +86,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.bundle_key_tool_bar_title), queryText);
-            setLoading(false);
             fireFragmentChangeAction(R.id.fragment_search_results, bundle);
 
         }
@@ -106,9 +105,10 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     protected void initializeOnClickListeners(View view) {
 
+        super.initializeOnClickListeners(view);
+        getViewHelper().setOnTouchCloseKeyboard(view);
         view.findViewById(R.id.search_bar).setOnClickListener(this);
         view.findViewById(R.id.search_mitoo_for).setOnClickListener(this);
-        super.initializeOnClickListeners(view);
     }
 
     @Override
@@ -118,6 +118,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
             if (position != 0) {
                 Sport item = (Sport) sportsList.getItemAtPosition(position);
                 searchFieldAction(item.getName());
+                parent.setFocusable(true);
+                parent.requestFocus();
 
             }
         }
@@ -220,9 +222,11 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     }
 
-    private TextView createClickableTitleView() {
+    private View createClickableTitleView() {
 
-        TextView textViewToAdd = new TextView(getActivity());
+        int layoutId = R.layout.view_search_title_with_triangle;
+        View view = getActivity().getLayoutInflater().inflate(layoutId ,null);
+        TextView textViewToAdd = (TextView) view.findViewById(R.id.tool_bar_title);
         textViewToAdd.setText(getFragmentTitle());
         textViewToAdd.setTextAppearance(getActivity(), R.style.whiteLargeText);
         textViewToAdd.setOnClickListener(new View.OnClickListener() {
@@ -231,7 +235,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 fireFragmentChangeAction(R.id.fragment_location_search);
             }
         });
-        return textViewToAdd;
+        return view;
     }
 
     public void updateFragmentTitle() {
@@ -260,7 +264,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         this.queryText = query;
         getLocationModel().requestSelectedLocationLatLng();
 
-        //setLoading(true);
     }
 
     private void queryRefineAction(String query) {

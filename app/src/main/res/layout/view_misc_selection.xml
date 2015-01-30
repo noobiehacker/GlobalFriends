@@ -27,14 +27,14 @@
         android:layout_height="wrap_content"
         android:text="@string/filter_text_2"
         style="@style/grayLightMediumText"
-        android:layout_marginTop="@dimen/spacing_smallest"/>
+        android:layout_marginTop="@dimen/spacing_smaller"/>
 
     <Spinner
         android:id="@+id/levelSpinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/levelLabel"
-        android:layout_marginTop="@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_smaller"
         android:entries="@array/levels_array"
         style="@style/blackMediumText"
         />
@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_smallest"/>
+        android:layout_marginTop="@dimen/spacing_smaller"/>
 
 <!--Distance-->
 
@@ -57,7 +57,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/filter_text_4"
-        android:layout_marginTop="@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_smaller"
         style="@style/grayLightMediumText"/>
 
     <include layout="@layout/partial_distance_seek_bar"
@@ -65,7 +65,7 @@
         android:layout_below="@+id/distance_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_smaller"
         />
 <!--Starting-within-->
 
@@ -75,7 +75,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/filter_text_5"
-        android:layout_marginTop="@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_smaller"
         style="@style/grayLightMediumText"/>
 
     <include layout="@layout/partial_starting_within_seek_bar"
@@ -83,7 +83,7 @@
         android:layout_below="@+id/starting_within_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_smaller"
         />
 
 <!--Gender-->
@@ -93,6 +93,6 @@
         android:layout_centerHorizontal="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_smallest"/>
+        android:layout_marginTop="@dimen/spacing_smaller"/>
 
 </RelativeLayout>

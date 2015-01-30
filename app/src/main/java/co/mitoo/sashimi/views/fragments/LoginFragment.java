@@ -75,8 +75,6 @@ public class LoginFragment extends MitooFragment {
 
         super.initializeViews(view);
         setUpToolBar(view);
-        View.OnFocusChangeListener listener = getViewHelper().createOnFocusHideKeyboardListener();
-        view.findViewById(R.id.emailInput).setOnFocusChangeListener(listener);
 
     }
     

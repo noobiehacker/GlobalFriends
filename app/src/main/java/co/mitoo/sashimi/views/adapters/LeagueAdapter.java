@@ -53,6 +53,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         view.setSelected(true);
         leagueListItemAction((League)getItem(position));
+        getFragment().getMitooActivity().hideSoftKeyboard(view);
 
     }
 

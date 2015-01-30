@@ -363,6 +363,10 @@
     <string name="bundle_key_prompt">bundle_key_prompt</string>
     
     <!--String Helper -->
+    <string name="google_place_api_geocode">geocode</string>
+    <string name="google_place_api_locality">locality</string>
+    <string name="google_place_api_political">political</string>
+
     <!--Error -->
     <string name="error_location_serivces">Location services is unavailible, please try again</string>
 

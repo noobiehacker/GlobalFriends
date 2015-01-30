@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/genderLabel"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/spacing_smallest">
+        android:layout_marginTop="@dimen/spacing_smaller">
 
         <ToggleButton
             android:id="@+id/coed_toggle"

@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/daysLabel"
-        android:layout_marginTop="@dimen/spacing_smallest"
+        android:layout_marginTop="@dimen/spacing_smaller"
         android:orientation="horizontal">
 
         <ToggleButton

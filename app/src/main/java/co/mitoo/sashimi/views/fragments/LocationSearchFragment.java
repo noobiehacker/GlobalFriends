@@ -89,8 +89,8 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Override
     protected void initializeOnClickListeners(View view){
 
-        view.findViewById(R.id.current_location).setOnClickListener(this);
         super.initializeOnClickListeners(view);
+        view.findViewById(R.id.current_location).setOnClickListener(this);
     }
 
     private SearchView createSearchView(View view){
@@ -187,6 +187,9 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
         if(parent.getId() == placesList.getId()) {
             if (position != 0) {
+                parent.setFocusable(true);
+                parent.requestFocus();
+                getMitooActivity().hideSoftKeyboard(view);
                 PredictionWrapper wrapper = (PredictionWrapper) placesList.getItemAtPosition(position);
                 placeSelectionAction(wrapper);
             }
@@ -195,6 +198,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     
     private void placeSelectionAction(PredictionWrapper prediction){
         
+        setLoading(true);
         getLocationModel().selectPlace(prediction);
         
     }
@@ -202,15 +206,18 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
+        setLoading(false);
         fireFragmentChangeAction(MitooEnum.fragmentTransition.POP);
 
     }
 
     @Override
     public void onClick(View v) {
+        setLoading(true);
         switch (v.getId()){
             case R.id.current_location:
                 getLocationModel().setToUseCurrentLocation(true);
+                getMitooActivity().hideSoftKeyboard(v);
                 break;
         }
     }
