@@ -81,9 +81,9 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     private void initializeViewElements(View view){
         //Work around for the animation to display a gray background during load
         indicator = (PagerIndicator)view.findViewById(R.id.custom_indicator);
-        initializeOnClickListeners(view);
         initializeCallBacks();
         initializeSlider(view);
+        initializeOnClickListeners(view);
         setUpToolBar(view);
     }
 
@@ -96,7 +96,8 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         };
     }
 
-    private void initializeOnClickListeners(View view){
+    @Override
+    protected void initializeOnClickListeners(View view){
         view.findViewById(R.id.signupButton).setOnClickListener(this);
         view.findViewById(R.id.searchButton).setOnClickListener(this);
         view.findViewById(R.id.logo).setOnClickListener(this);

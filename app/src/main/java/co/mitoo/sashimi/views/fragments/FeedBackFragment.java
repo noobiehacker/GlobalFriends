@@ -29,7 +29,7 @@ public class FeedBackFragment extends MitooFragment {
                 container, false);
         initializeFields();
         initializeViews(view);
-        initalizeOnClickListner(view);
+        initializeOnClickListeners(view);
         return view;
     }
 
@@ -59,10 +59,11 @@ public class FeedBackFragment extends MitooFragment {
         setUpContactMitooView(view);
     }
     
-    private void initalizeOnClickListner(View view){
+    @Override
+    protected void initializeOnClickListeners(View view){
         
         view.findViewById(R.id.feedback_contact_mitoo_container).setOnClickListener(this);
-        
+        super.initializeOnClickListeners(view);
     }
 
     public String[] getFeedBackString() {

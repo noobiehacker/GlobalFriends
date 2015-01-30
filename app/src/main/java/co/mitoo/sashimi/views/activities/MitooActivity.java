@@ -11,10 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
 import com.squareup.otto.Subscribe;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
@@ -301,7 +299,7 @@ public class MitooActivity extends Activity {
     public void hideSoftKeyboard(View view) {
         Activity activity = this;
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }

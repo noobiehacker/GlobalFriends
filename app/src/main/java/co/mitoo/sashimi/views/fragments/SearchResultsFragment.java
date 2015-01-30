@@ -90,8 +90,9 @@ public class SearchResultsFragment extends MitooFragment  {
 
     }
 
-    private void initializeOnClickListeners(View view){
-
+    @Override
+    protected void initializeOnClickListeners(View view){
+        super.initializeOnClickListeners(view);
     }
 
     @Override

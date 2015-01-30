@@ -72,7 +72,8 @@ public class SettingsFragment extends MitooFragment {
 
     }
 
-    private void initializeOnClickListeners(View view){
+    @Override
+    protected void initializeOnClickListeners(View view){
 
         view.findViewById(R.id.about_text_view).setOnClickListener(this);
         view.findViewById(R.id.log_out_text_view).setOnClickListener(this);

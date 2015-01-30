@@ -53,8 +53,10 @@ public class SignUpFragment extends MitooFragment {
         return view;
     }
 
-    private void initializeOnClickListeners(View view) {
+    @Override
+    protected void initializeOnClickListeners(View view) {
         view.findViewById(R.id.joinButton).setOnClickListener(this);
+        super.initializeOnClickListeners(view);
         /*Take out for V1
         view.findViewById(R.id.facebookJoinButton).setOnClickListener(this);*/
     }

@@ -3,6 +3,7 @@ package co.mitoo.sashimi.views.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
@@ -58,10 +59,12 @@ public class LoginFragment extends MitooFragment {
         super.onError(error);
     }
 
-    private void initializeOnClickListeners(View view) {
+    @Override
+    protected void initializeOnClickListeners(View view) {
 
         view.findViewById(R.id.loginButton).setOnClickListener(this);
         view.findViewById(R.id.forgetPasswordButton).setOnClickListener(this);
+        super.initializeOnClickListeners(view);
         /*Take out for v1
         view.findViewById(R.id.facebookLoginButton).setOnClickListener(this);*/
 
@@ -72,8 +75,8 @@ public class LoginFragment extends MitooFragment {
 
         super.initializeViews(view);
         setUpToolBar(view);
-        //View.OnFocusChangeListener listener = getViewHelper().createOnFocusHideKeyboardListener();
-        //view.findViewById(R.id.emailInput).setOnFocusChangeListener(listener);
+        View.OnFocusChangeListener listener = getViewHelper().createOnFocusHideKeyboardListener();
+        view.findViewById(R.id.emailInput).setOnFocusChangeListener(listener);
 
     }
     

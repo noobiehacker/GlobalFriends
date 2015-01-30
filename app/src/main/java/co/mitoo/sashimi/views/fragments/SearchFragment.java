@@ -58,8 +58,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_search,
                 container, false);
         initializeFields();
-        initializeOnClickListeners(view);
         initializeViews(view);
+        initializeOnClickListeners(view);
         return view;
     }
 
@@ -103,10 +103,12 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setUpDynamicText(view);
     }
 
-    private void initializeOnClickListeners(View view) {
+    @Override
+    protected void initializeOnClickListeners(View view) {
 
         view.findViewById(R.id.search_bar).setOnClickListener(this);
         view.findViewById(R.id.search_mitoo_for).setOnClickListener(this);
+        super.initializeOnClickListeners(view);
     }
 
     @Override

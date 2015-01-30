@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -124,6 +125,18 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
        setUpToolBar(view);
         
+    }
+
+    protected void initializeOnClickListeners(View view) {
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                getMitooActivity().hideSoftKeyboard(v);
+                return false;
+            }
+        });
+
     }
 
     public MitooActivity getMitooActivity() {

@@ -86,10 +86,11 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         
     }
     
-    private void initializeOnClickListeners(View view){
+    @Override
+    protected void initializeOnClickListeners(View view){
 
         view.findViewById(R.id.current_location).setOnClickListener(this);
-
+        super.initializeOnClickListeners(view);
     }
 
     private SearchView createSearchView(View view){

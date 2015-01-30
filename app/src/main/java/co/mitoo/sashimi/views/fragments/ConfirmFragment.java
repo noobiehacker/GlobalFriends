@@ -54,7 +54,8 @@ public class ConfirmFragment extends MitooFragment {
         viewHelper.setUpLeageText(view , getSelectedLeague());
     }
 
-    private void initializeOnClickListeners(View view){
+    @Override
+    protected void initializeOnClickListeners(View view){
         view.findViewById(R.id.viewMyLeaguesButton).setOnClickListener(this);
     }
 

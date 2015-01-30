@@ -108,8 +108,11 @@ public class LeagueFragment extends MitooFragment {
         setUpInterestedButton(view , viewHelper);
 
     }
-    private void initializeOnClickListeners(View view){
+    
+    @Override
+    protected void initializeOnClickListeners(View view){
         view.findViewById(R.id.interestedButton).setOnClickListener(this);
+        super.initializeOnClickListeners(view);
     }
 
     @Override

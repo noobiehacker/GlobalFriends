@@ -28,7 +28,7 @@ public class AboutMitooFragment extends MitooFragment {
                 container, false);
         initializeFields();
         initializeViews(view);
-        initalizeOnClickListner(view);
+        initializeOnClickListeners(view);
         return view;
     }
 
@@ -50,11 +50,6 @@ public class AboutMitooFragment extends MitooFragment {
     protected void initializeViews(View view){
         super.initializeViews(view);
         setUpWebView(view);
-    }
-
-    private void initalizeOnClickListner(View view){
-
-
     }
     
     private void setUpWebView(View view){

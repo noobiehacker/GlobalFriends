@@ -6,6 +6,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -68,9 +69,9 @@ public class HomeFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view =  getActivity().getLayoutInflater().inflate(R.layout.fragment_home,
                 container, false);
-        initializeOnClickListeners(view);
         initializeFields();
         initializeViews(view);
+        initializeOnClickListeners(view);
         return view;
     }
 
@@ -92,11 +93,15 @@ public class HomeFragment extends MitooFragment {
         setUpListView(view);
     }
 
-    private void initializeOnClickListeners(View view){
+
+
+    @Override
+    protected void initializeOnClickListeners(View view) {
         
         view.findViewById(R.id.search_bar).setOnClickListener(this);
         SearchView searchView = (SearchView) view.findViewById(R.id.search_view);
         searchView.setOnSearchClickListener(this);
+        super.initializeOnClickListeners(view);
         
     }
     
