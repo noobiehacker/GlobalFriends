@@ -22,12 +22,11 @@ public class StringListAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        this.getItem(position);
         if (convertView == null) {
             convertView = View.inflate(getContext(), R.layout.list_view_item_text, null);
-            TextView textView = (TextView) convertView.findViewById(R.id.dynamicText);
-            textView.setText(getItem(position));
         }
+        TextView textView = (TextView) convertView.findViewById(R.id.dynamicText);
+        textView.setText(getItem(position));
         return convertView;
 
     }

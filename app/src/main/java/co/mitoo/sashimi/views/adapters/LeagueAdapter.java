@@ -37,16 +37,15 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        this.getItem(position);
-        if (convertView == null) {
+
             convertView = View.inflate(getContext(), R.layout.list_view_item_league, null);
-            League league = this.getItem(position);
-            ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
-            helper.setUpLeagueImage(convertView, league);
-            helper.setUpLeageText(convertView, league);
-            helper.setUpCheckBox(convertView , league);
-            helper.setLineColor(convertView, league);
-        }
+
+        League league = this.getItem(position);
+        ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
+        helper.setUpLeagueImage(convertView, league);
+        helper.setUpLeageText(convertView, league);
+        helper.setUpCheckBox(convertView , league);
+        helper.setLineColor(convertView, league);
         return convertView;
     }
 

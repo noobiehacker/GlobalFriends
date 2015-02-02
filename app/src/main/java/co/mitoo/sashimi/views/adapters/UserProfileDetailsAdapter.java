@@ -28,14 +28,12 @@ public class UserProfileDetailsAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-
             convertView = View.inflate(getContext(), R.layout.list_view_item_text_text, null);
-            TextView rightText = (TextView)convertView.findViewById(R.id.rightText);
-            TextView leftText = (TextView)convertView.findViewById(R.id.leftText);
-            rightText.setText(getItem(position));
-            leftText.setText(leftStringList.get(position));
-
         }
+        TextView rightText = (TextView)convertView.findViewById(R.id.rightText);
+        TextView leftText = (TextView)convertView.findViewById(R.id.leftText);
+        rightText.setText(getItem(position));
+        leftText.setText(leftStringList.get(position));
         return convertView;
 
     }

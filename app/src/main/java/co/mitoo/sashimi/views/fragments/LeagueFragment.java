@@ -105,6 +105,7 @@ public class LeagueFragment extends MitooFragment {
         viewHelper.setUpLeagueImage(view, getSelectedLeague());
         viewHelper.setUpLeageText(view, getSelectedLeague());
         viewHelper.setLineColor(view, getSelectedLeague());
+        viewHelper.setUpCheckBox(view, getSelectedLeague());
         setUpInterestedButton(view , viewHelper);
 
     }
