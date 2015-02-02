@@ -27,6 +27,7 @@
         android:layout_marginTop="@dimen/spacing_small"
         android:gravity="center"
         android:layout_centerHorizontal="true"
+        android:background="@color/white"
         style="@style/grayDarkMediumText"/>
     
 </RelativeLayout>
