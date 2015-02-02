@@ -36,6 +36,7 @@ public class ResetPasswordFragment extends MitooFragment{
 
     @Override
     protected void initializeOnClickListeners(View view){
+        super.initializeOnClickListeners(view);
         view.findViewById(R.id.resetButton).setOnClickListener(this);
     }
 

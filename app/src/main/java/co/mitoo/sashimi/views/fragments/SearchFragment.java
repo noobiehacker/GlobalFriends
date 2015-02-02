@@ -17,7 +17,6 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.IsSearchable;
@@ -117,7 +116,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         if (parent.getId() == sportsList.getId()) {
             if (position != 0) {
                 Sport item = (Sport) sportsList.getItemAtPosition(position);
-                searchFieldAction(item.getName());
+                setQueryText(item.getName());
+                searchFieldAction();
                 parent.setFocusable(true);
                 parent.requestFocus();
 
@@ -136,6 +136,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 searchView.requestFocusFromTouch();
             case R.id.search_view:
                 hideSearchPlaceHolder();
+                break;
+            case R.id.search_mitoo_for:
+                searchFieldAction();
                 break;
         }
     }
@@ -171,7 +174,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                searchFieldAction(s);
+                searchFieldAction();
                 return false;
             }
 
@@ -229,7 +232,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         TextView textViewToAdd = (TextView) view.findViewById(R.id.tool_bar_title);
         textViewToAdd.setText(getFragmentTitle());
         textViewToAdd.setTextAppearance(getActivity(), R.style.whiteLargeText);
-        textViewToAdd.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fireFragmentChangeAction(R.id.fragment_location_search);
@@ -258,10 +261,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         return (LocationModel) getMitooModel(LocationModel.class);
     }
 
-    private void searchFieldAction(String query) {
+    private void searchFieldAction() {
 
         setLoading(true);
-        this.queryText = query;
         getLocationModel().requestSelectedLocationLatLng();
 
     }

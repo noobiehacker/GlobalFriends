@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.Session;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
-import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.SessionPersistanceResponseEvent;
+
 
 /**
  * Created by david on 15-01-22.

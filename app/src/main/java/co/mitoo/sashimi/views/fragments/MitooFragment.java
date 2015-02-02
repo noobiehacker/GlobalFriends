@@ -30,6 +30,7 @@ import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -200,6 +201,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
+    public void fireFragmentChangeAction(int fragmentId , MitooEnum.fragmentTransition transition) {
+
+        if(fragmentId == R.id.fragment_home){
+            transition = MitooEnum.fragmentTransition.CHANGE;
+        }
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition , fragmentId );
+        BusProvider.post(event);
+    }
 
 
     public void fireFragmentChangeAction(int fragmentId) {
@@ -471,6 +480,33 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void setViewHelper(ViewHelper viewHelper) {
         this.viewHelper = viewHelper;
+    }
+
+    public Runnable getRunnable() {
+        return runnable;
+    }
+
+    public void setRunnable(Runnable runnable) {
+        this.runnable = runnable;
+    }
+
+    public Handler getHandler() {
+        if(handler==null)
+            handler =new Handler();
+        return handler;
+    }
+    
+    protected Bundle createBundleForNextFragment(int keyStringID, int valueStringID){
+
+        Bundle bundle = new Bundle();
+        String key = getMitooActivity().getString(keyStringID);
+        String value = getMitooActivity().getString(valueStringID);
+        bundle.putString(key, value);
+        return bundle;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
     }
 }
 

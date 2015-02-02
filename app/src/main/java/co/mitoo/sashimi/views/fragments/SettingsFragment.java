@@ -8,6 +8,10 @@ import com.squareup.picasso.Picasso;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
+import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.Dialog.AboutMitooDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.LogOutDialogBuilder;
@@ -53,6 +57,9 @@ public class SettingsFragment extends MitooFragment {
             case R.id.get_help_text_view:
                 getHelpAction();
                 break;
+            case R.id.faq_text_view:
+                faqAction();
+
         }
     }
                 
@@ -75,10 +82,12 @@ public class SettingsFragment extends MitooFragment {
     @Override
     protected void initializeOnClickListeners(View view){
 
+        super.initializeOnClickListeners(view);
         view.findViewById(R.id.about_text_view).setOnClickListener(this);
         view.findViewById(R.id.log_out_text_view).setOnClickListener(this);
         view.findViewById(R.id.feedback_text_view).setOnClickListener(this);
         view.findViewById(R.id.get_help_text_view).setOnClickListener(this);
+        view.findViewById(R.id.faq_text_view).setOnClickListener(this);
 
     }
 
@@ -126,6 +135,14 @@ public class SettingsFragment extends MitooFragment {
 
         getMitooActivity().contactMitoo();
 
+    }
+    
+    private void faqAction(){
+        Bundle bundle = new Bundle();
+        bundle.putString(getMitooActivity().getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.faqOption));
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
+        BusProvider.post(event);
+        
     }
 
     private UserInfoModel getUserInfoModel(){

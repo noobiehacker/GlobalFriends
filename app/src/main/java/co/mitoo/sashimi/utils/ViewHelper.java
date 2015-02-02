@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.utils;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -37,15 +40,17 @@ public class ViewHelper {
 
     public void setUpLeagueImage(View view, League league){
 
-        ImageView leagueIconImageView = (ImageView) view.findViewById(R.id.leagueImage);
+        final ImageView leagueIconImageView = (ImageView) view.findViewById(R.id.leagueImage);
         ImageView leagueBackgroundImageView = (ImageView) view.findViewById(R.id.leagueBackGround);
         Picasso.with(getActivity())
-                .load(league.getLogo())
-                .transform(new RoundedTransformation(getCornerRadius(),getBorder()))
+                .load(league.getLogo_large())
+                .transform(new LogoTransform(0,getPixelFromDimenID(R.dimen.league_icon_height)))
+                .transform(new RoundedTransformation(getPixelFromDimenID(R.dimen.image_border) , getPixelFromDimenID(R.dimen.corner_radius_small)))
                 .into(leagueIconImageView);
         Picasso.with(getActivity())
                 .load(league.getCover())
                 .into(leagueBackgroundImageView);
+
     }
 
     public void setUpLeageText(View view , League league){
@@ -57,6 +62,15 @@ public class ViewHelper {
         leagueSportsTextView.setText(league.getLeagueSports());
         cityNameTextView.setText(league.getCity());
 
+    }
+    
+    public void setUpCheckBox(View view , League league){
+        
+        ImageView checkBoxImageView = (ImageView) view.findViewById(R.id.checkBoxImage);
+        Boolean joinedLeague =  ! (getActivity().getModelManager().getLeagueModel().leagueIsJoinable(league));
+        if(joinedLeague)
+            checkBoxImageView.setVisibility(View.VISIBLE);
+        
     }
 
     public void setLineColor(View view , League league){
@@ -88,7 +102,7 @@ public class ViewHelper {
     }
 
     private int getBorder(){
-        return getActivity().getResources().getDimensionPixelSize(R.dimen.image_border);
+        return getPixelFromDimenID(R.dimen.image_border);
     }
     
     private int getColor(String leagueColorInput){
@@ -143,5 +157,11 @@ public class ViewHelper {
             }
         }
     }
+    
+    private int getPixelFromDimenID(int id){
+
+        return getActivity().getResources().getDimensionPixelSize(id);
+    }
+    
 
 }

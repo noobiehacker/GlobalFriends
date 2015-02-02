@@ -13,36 +13,42 @@
         android:layout_alignParentTop="true" />
 
     <ImageView
+        android:id="@+id/leagueBackGround"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/leagueBackGround"
-        android:src="@drawable/bg_social_league"
         android:layout_below="@id/app_bar"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_social_league" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_below="@id/app_bar"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar">
 
-        <include
-            android:id="@+id/leagueInfoContainter"
-            layout="@layout/view_league_icon_and_text"
-            android:layout_width="wrap_content"
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/leagueResultContainer"
-            layout="@layout/partial_confirm_results"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/leagueInfoContainter"
-            android:layout_marginTop="@dimen/spacing_large"
-            android:layout_centerHorizontal="true" />
+            <include
+                android:id="@+id/leagueInfoContainter"
+                layout="@layout/view_league_icon_and_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
 
+            <include
+                android:id="@+id/leagueResultContainer"
+                layout="@layout/partial_confirm_results"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/leagueInfoContainter"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_large" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -44,6 +44,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
             ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
             helper.setUpLeagueImage(convertView, league);
             helper.setUpLeageText(convertView, league);
+            helper.setUpCheckBox(convertView , league);
             helper.setLineColor(convertView, league);
         }
         return convertView;
@@ -59,7 +60,6 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     private void leagueListItemAction(League league){
 
-        Context context = getContext();
         MitooActivity activity = getFragment().getMitooActivity();
         LeagueModel model = activity.getModelManager().getLeagueModel();
         model.setSelectedLeague(league);

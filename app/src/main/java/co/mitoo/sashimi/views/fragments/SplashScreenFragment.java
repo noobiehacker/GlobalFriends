@@ -57,7 +57,7 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
-        fireFragmentChangeAction(R.id.fragment_home);
+        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.fragmentTransition.CHANGE);
 
     }
 
@@ -71,7 +71,7 @@ public class SplashScreenFragment extends MitooFragment {
                     getLeagueModel().requestLeagueEnquire(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
 
                 } else {
-                    fireFragmentChangeAction(R.id.fragment_landing);
+                    fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.fragmentTransition.CHANGE);
 
                 }
             }

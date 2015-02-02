@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -83,11 +84,10 @@ public class SearchResultsFragment extends MitooFragment  {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        leagueList = (ListView) view.findViewById(R.id.leagueListView);
-        leagueList.setAdapter(leagueDataAdapter);
-        leagueList.setOnItemClickListener(leagueDataAdapter);
-
+        if(leagueData.size() >0)
+            setUpListView(view);
+        else
+            setUpNoResultsTextView(view);
     }
 
     @Override
@@ -100,6 +100,29 @@ public class SearchResultsFragment extends MitooFragment  {
         switch (v.getId()) {
         }
     }
+    
+    private void setUpNoResultsTextView(View view){
+        
+        TextView noResultsView = (TextView) view.findViewById(R.id.noResultsTextView);
+        String noReultsText = createNoResultsString();
+        noResultsView.setText(noReultsText);
+        noResultsView.setVisibility(View.VISIBLE);
+    }
+    
+    
+    private void setUpListView(View view){
+        
+        leagueList = (ListView) view.findViewById(R.id.leagueListView);
+        leagueList.setAdapter(leagueDataAdapter);
+        leagueList.setOnItemClickListener(leagueDataAdapter);
 
+    }
+    
+    private String createNoResultsString(){
+        
+        return getString(R.string.results_page_text_1) + " " +
+               getFragmentTitle() + " " +
+               getString(R.string.results_page_text_2);
+    }
 
 }

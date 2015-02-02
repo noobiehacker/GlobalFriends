@@ -15,7 +15,7 @@ public class MitooEnum {
     }
 
     public enum aboutMitooOption{
-        TERMS, PRIVACYPOLICY
+        TERMS, PRIVACYPOLICY ,FAQ
     }
 
     public enum crud{

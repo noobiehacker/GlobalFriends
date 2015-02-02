@@ -17,8 +17,10 @@ import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -31,7 +33,7 @@ import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 public class SignUpFragment extends MitooFragment {
 
     private League selectedLeague;
-    
+    private boolean loggedIn;
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
     }
@@ -47,9 +49,10 @@ public class SignUpFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_sign_up,
                 container, false);
-        initializeOnClickListeners(view);
         initializeFields();
         initializeViews(view);
+        initializeOnClickListeners(view);
+
         return view;
     }
 
@@ -65,6 +68,7 @@ public class SignUpFragment extends MitooFragment {
     protected void initializeFields() {
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_join));
+        setLoggedIn(getSessionModel().userIsLoggedIn());
     }
     
     @Override
@@ -117,8 +121,13 @@ public class SignUpFragment extends MitooFragment {
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         setLoading(false);
-        fireFragmentChangeAction(R.id.fragment_confirm);
-        
+        int keyID = R.string.bundle_key_first_time;
+        int valueID = R.string.bundle_value_true;
+        if(loggedIn)
+            valueID = R.string.bundle_value_false;
+        Bundle bundle = createBundleForNextFragment(keyID, valueID);
+        fireFragmentChangeAction(R.id.fragment_confirm , bundle);
+
     }
 
     @Subscribe
@@ -147,8 +156,8 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getPhone() {
-        return "6048898937";
-        //return this.getTextFromTextField(R.id.phoneInput);
+        //return "0123456789";
+        return this.getTextFromTextField(R.id.phoneInput);
     }
 
     private String getPassword() {
@@ -212,6 +221,11 @@ public class SignUpFragment extends MitooFragment {
         return result;
     }
 
+    public boolean isLoggedIn() {
+        return loggedIn;
+    }
 
-    
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
 }

@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
+import android.os.Handler;
 /**
  * Created by david on 15-01-19.
  */
@@ -52,6 +55,7 @@ public class ConfirmFragment extends MitooFragment {
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague());
         viewHelper.setUpLeageText(view , getSelectedLeague());
+        setUpPopUpTask();
     }
 
     @Override
@@ -102,4 +106,35 @@ public class ConfirmFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
+    
+    private void setUpPopUpTask(){
+        
+        if(firstTimeUser()){
+            Handler handler = getHandler();
+            setRunnable( new Runnable() {
+                @Override
+                public void run() {
+                    FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
+                    dialog.buildPrompt().show();
+                }
+            });
+            handler.postDelayed(getRunnable(), 3000);
+
+        }
+        
+    }
+    
+    private boolean firstTimeUser(){
+
+        Boolean result= false;
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            String value = (String) arguments.get(getString(R.string.bundle_key_first_time));
+            if(value.equals(getString(R.string.bundle_value_true)))
+                result=true;
+            else
+                result =false;
+        }
+        return result;
+    }
 }

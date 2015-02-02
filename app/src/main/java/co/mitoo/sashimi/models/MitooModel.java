@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.models;
 
-import android.app.Activity;
 import android.os.Handler;
 
 import co.mitoo.sashimi.network.DataPersistanceService;

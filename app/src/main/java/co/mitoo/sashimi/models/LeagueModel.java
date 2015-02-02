@@ -162,6 +162,8 @@ public class LeagueModel extends MitooModel{
     }
 
     public List<League> getLeaguesEnquired() {
+        if(leagueEnquired==null)
+            leagueEnquired = new ArrayList<League>();
         return leagueEnquired;
     }
 
@@ -196,18 +198,22 @@ public class LeagueModel extends MitooModel{
     
     public boolean selectedLeagueIsJoinable(){
         
-        //Case 1:User has not logged in thus no enquired leagues
-        if(getLeaguesEnquired() ==null)
-            return true;
-        else{
-        //Case 2:User has logged in, return false if the current selected league
-        //       is in our enquired leagues
-            return !enquiredLeagueContains(getSelectedLeague());
-        }
+        return leagueIsJoinable(getSelectedLeague());
         
     }
     
+    public boolean leagueIsJoinable(League league){
+
+        if(league ==null)
+            return true;
+        else{
+            return !enquiredLeagueContains(league);
+        }
+
+    }
+    
     private boolean enquiredLeagueContains(League league){
+        
         
         boolean containsLeague = false;
         if(league!=null){

@@ -80,7 +80,7 @@
 # Ignore invalid constant ref.  See
 # https://groups.google.com/d/topic/guava-discuss/YCZzeCiIVoI/discussion
 -dontwarn com.google.common.collect.MinMaxPriorityQueue
-
-
-
-
+-keep class android.support.v7.widget.SearchView { *; }
+-keep class org.apache.http.** { *; }
+-dontskipnonpubliclibraryclasses
+-dontwarn org.apache.http.**

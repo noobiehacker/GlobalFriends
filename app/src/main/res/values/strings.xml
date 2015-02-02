@@ -90,7 +90,7 @@
 
     <!--Search Page -->
     <string name="search_page_text_1">Search Mitoo for:</string>
-    <string name="search_page_text_2">Suggested searches</string>
+    <string name="search_page_text_2">SUGGESTIONS</string>
     <string name="search_page_text_3">Search for a league name or sport</string>
     <string name="search_page_text_4">Current Location</string>
 
@@ -99,8 +99,8 @@
     <string name="location_search_page_text_2">Current Location</string>
     
     <!--Results Page -->
-    <string name="results_page_text_1">No Results Found</string>
-    
+    <string name="results_page_text_1">Sorry we don\'t have any results \nwith soccer</string>
+    <string name="results_page_text_2">in your area yet</string>
     <!--User Profile Page -->
     <string name="settings_page_text_1">Help and feedback</string>
     <string name="settings_page_text_2">Logout</string>
@@ -343,6 +343,7 @@
     <string name="mitoo_support_email_subject">Mitoo</string>
     <string name="mitoo_support_email_body">talktous@mitoo.co</string>
     <string name="mitoo_privacy_url"> http://more.mitoo.co/terms-privacy-cookies/</string>
+    <string name="mitoo_faq_url"> http://help.mitoo.co/?b_id=6464/</string>
 
     <!--API Key-->
     <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
@@ -361,7 +362,10 @@
     <string name="bundle_key_league_array_list">bundle_ley_league_array_list</string>
     <string name="bundle_key_league_object_id">bundle_ley_league_object_id</string>
     <string name="bundle_key_prompt">bundle_key_prompt</string>
-    
+    <string name="bundle_key_first_time">bundle_key_boolean</string>
+    <string name="bundle_value_true">bundle_value_true</string>
+    <string name="bundle_value_false">bundle_value_false</string>
+
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>
     <string name="google_place_api_locality">locality</string>

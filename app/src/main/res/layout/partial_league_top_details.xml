@@ -9,7 +9,6 @@
 
     <TextView
         android:id="@+id/league_join_title"
-        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_normal"
@@ -21,7 +20,6 @@
     <TextView
         android:id="@+id/league_join_details"
         android:layout_below="@+id/league_join_title"
-        android:textColor="@color/gray_dark_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_normal"

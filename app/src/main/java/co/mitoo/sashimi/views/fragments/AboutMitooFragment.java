@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +7,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 
 /**
@@ -24,7 +26,7 @@ public class AboutMitooFragment extends MitooFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  getActivity().getLayoutInflater().inflate(R.layout.fragment_about_mitoo,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_about_mitoo,
                 container, false);
         initializeFields();
         initializeViews(view);
@@ -40,27 +42,40 @@ public class AboutMitooFragment extends MitooFragment {
     }
 
     @Override
-    protected void initializeFields(){
+    protected void initializeFields() {
         super.initializeFields();
         setFragmentTitle();
 
     }
 
     @Override
-    protected void initializeViews(View view){
+    protected void initializeViews(View view) {
         super.initializeViews(view);
         setUpWebView(view);
     }
-    
-    private void setUpWebView(View view){
-        
+
+    private void setUpWebView(View view) {
+
         WebView webView = (WebView) view.findViewById(R.id.terms_web_view);
         webView.loadUrl(getString(R.string.mitoo_privacy_url));
-    
+
+        switch (getAboutMitooOptions()) {
+            case TERMS:
+            case PRIVACYPOLICY:
+                webView.loadUrl(getString(R.string.mitoo_privacy_url));
+                break;
+            case FAQ:
+                webView.loadUrl(getString(R.string.mitoo_faq_url));
+                break;
+            default:
+                webView.loadUrl(getString(R.string.mitoo_faq_url));
+                break;
+        }
+
     }
 
     public String[] getOptionsString() {
-        if(optionsString ==null){
+        if (optionsString == null) {
             setOptionsString(getResources().getStringArray(R.array.prompt_about_mitoo_array));
         }
         return optionsString;
@@ -70,13 +85,16 @@ public class AboutMitooFragment extends MitooFragment {
         this.optionsString = optionsString;
     }
 
-    public void setFragmentTitle(){
-        switch(getAboutMitooOptions()){
+    public void setFragmentTitle() {
+        switch (getAboutMitooOptions()) {
             case TERMS:
                 setFragmentTitle(getOptionsString()[0]);
                 break;
             case PRIVACYPOLICY:
                 setFragmentTitle(getOptionsString()[1]);
+                break;
+            case FAQ:
+                setFragmentTitle(getString(R.string.settings_page_top_text_3));
                 break;
             default:
                 setFragmentTitle(getOptionsString()[0]);
@@ -85,19 +103,27 @@ public class AboutMitooFragment extends MitooFragment {
     }
 
     public MitooEnum.aboutMitooOption getAboutMitooOptions() {
-        if(this.aboutMitooOptions == null){
+
+        if (this.aboutMitooOptions == null) {
             Bundle arguments = getArguments();
             if (arguments != null) {
                 String value = (String) arguments.get(getString(R.string.bundle_key_prompt));
-                switch(Integer.parseInt(value)){
+                int integerValue = Integer.parseInt(value);
+
+
+                switch (integerValue) {
                     case 0:
                         setAboutMitooOptions(MitooEnum.aboutMitooOption.TERMS);
                         break;
                     case 1:
                         setAboutMitooOptions(MitooEnum.aboutMitooOption.PRIVACYPOLICY);
                         break;
+                    case MitooConstants.faqOption:
+                        setAboutMitooOptions(MitooEnum.aboutMitooOption.FAQ);
+                        break;
                     default:
                         setAboutMitooOptions(MitooEnum.aboutMitooOption.TERMS);
+
                 }
             }
         }
@@ -108,4 +134,9 @@ public class AboutMitooFragment extends MitooFragment {
         this.aboutMitooOptions = aboutMitooOptions;
     }
 
+    private static int getFaqConstant() {
+
+        return MitooConstants.faqOption;
+
+    }
 }

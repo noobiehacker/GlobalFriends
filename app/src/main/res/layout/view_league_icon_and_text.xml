@@ -3,57 +3,65 @@
     android:id="@+id/container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/spacing_normal"
+    android:layout_marginRight="@dimen/spacing_normal"
     android:layout_centerInParent="true">
 
-    <ImageView
-        android:id="@+id/leagueImage"
-        android:layout_width="@dimen/league_icon_width"
-        android:layout_height="@dimen/league_icon_height"
+    <RelativeLayout
+        android:id="@+id/leagueImageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:focusable="false"
-        android:src="@drawable/place_holder_league"
-        android:scaleType="centerCrop"
-        android:background="@drawable/rounded"/>
+        android:background="@drawable/rounded">
+
+        <ImageView
+            android:id="@+id/leagueImage"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/league_icon_height"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true"
+            android:src="@drawable/place_holder_league" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/league_name"
+        style="@style/whiteBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/leagueImage"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:text="@string/place_holder_league_name"
-        android:textIsSelectable="false"
+        android:layout_below="@id/leagueImageContainer"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_small"
         android:gravity="center"
-        android:textStyle="bold"
-        style="@style/whiteBigText"/>
+        android:text="@string/place_holder_league_name"
+        android:textIsSelectable="false" />
 
 
     <TextView
         android:id="@+id/city_name"
+        style="@style/whiteMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/league_name"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/place_holder_city_name"
-        android:textIsSelectable="false"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_tiny"
         android:gravity="center"
-        android:textStyle="bold"
-        style="@style/whiteBigText"/>
-    
+        android:text="@string/place_holder_city_name"
+        android:textIsSelectable="false" />
+
     <TextView
         android:id="@+id/leagueInfo"
+        style="@style/whiteSmallText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/city_name"
-        android:layout_marginTop="@dimen/spacing_tiny"
-        android:text="@string/place_holder_league_info"
-        android:textIsSelectable="false"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_tiny"
         android:gravity="center"
-        android:textStyle="bold"
-        style="@style/whiteMediumText"/>
+        android:text="@string/place_holder_league_info"
+        android:textIsSelectable="false" />
 
 </RelativeLayout>
