@@ -36,6 +36,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private List<IsSearchable> sportData;
     private RelativeLayout searchPlaceHolder;
     private TextView searchMitooText;
+    private View searchMitooForView;
     private String queryText;
 
     public static SearchFragment newInstance() {
@@ -98,7 +99,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setUpSearchView(view);
         setUpSportsList(view);
         setUpSearchPlaceHolder(view);
-        setUpDynamicText(view);
+        setUpSearchMitooForView(view);
     }
 
     @Override
@@ -193,10 +194,10 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private void setUpSportsList(View view) {
 
         sportsDataAdapter = new SearchableAdapter(getActivity(), R.id.sportsListView, sportData);
-        sportsList = (ListView) view.findViewById(R.id.sportsListView);
-        sportsList.addHeaderView(getSuggestedSearchHeader());
-        sportsList.setOnItemClickListener(this);
-        sportsList.setAdapter(sportsDataAdapter);
+        setSportsList((ListView) view.findViewById(R.id.sportsListView));
+        getSportsList().addHeaderView(getSuggestedSearchHeader());
+        getSportsList().setOnItemClickListener(this);
+        getSportsList().setAdapter(sportsDataAdapter);
         sportsDataAdapter.notifyDataSetChanged();
 
     }
@@ -272,10 +273,14 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         setQueryText(query);
         List<IsSearchable> updatedList = getDataHelper().getSports(query);
+        handleViewVisibility(getSearchMitooForView(), getQueryText().length()>0);
+        handleViewVisibility(getSportsList(), updatedList.size()>0);
         getDataHelper().clearList(getSportData());
         getDataHelper().addToListList(getSportData(), updatedList);
         sportsDataAdapter.notifyDataSetChanged();
     }
+
+
 
     public List<IsSearchable> getSportData() {
         return sportData;
@@ -317,7 +322,15 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setSearchMitooText(dynamicText);
 
     }
-    
+
+    private void setUpSearchMitooForView(View view){
+
+        View searchMitooFor = (View) view.findViewById(R.id.search_mitoo_for);
+        setSearchMitooForView(searchMitooFor);
+        setUpDynamicText(searchMitooFor);
+    }
+
+
     @Subscribe
     public void onLatLngRecieved(LatLng latLng){
 
@@ -328,6 +341,21 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
             getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getQueryText()));
         }
     }
+    
+    public ListView getSportsList() {
+        return sportsList;
+    }
 
+    public void setSportsList(ListView sportsList) {
+        this.sportsList = sportsList;
+    }
+
+    public View getSearchMitooForView() {
+        return searchMitooForView;
+    }
+
+    public void setSearchMitooForView(View searchMitooForView) {
+        this.searchMitooForView = searchMitooForView;
+    }
 }
 

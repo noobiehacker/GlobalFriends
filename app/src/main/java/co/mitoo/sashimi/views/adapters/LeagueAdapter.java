@@ -38,8 +38,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     public View getView(int position, View convertView, ViewGroup parent) {
 
 
-            convertView = View.inflate(getContext(), R.layout.list_view_item_league, null);
-
+        convertView = View.inflate(getContext(), R.layout.list_view_item_league, null);
         League league = this.getItem(position);
         ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
         helper.setUpLeagueImage(convertView, league);

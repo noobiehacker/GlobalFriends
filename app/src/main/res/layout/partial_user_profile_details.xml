@@ -2,16 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_medium">
 
     <TextView
         android:id="@+id/top_list_header"
-        style="@style/blackBigText"
+        style="@style/blackSmallText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:layout_marginLeft="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_small"
         android:text="@string/settings_page_text_1"
         android:textStyle="bold" />
 
@@ -25,11 +24,10 @@
 
     <TextView
         android:id="@+id/bottom_list_header"
-        style="@style/blackBigText"
+        style="@style/blackSmallText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_small"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
         android:text="@string/settings_page_text_2"
         android:layout_below="@+id/userProfileTopList"

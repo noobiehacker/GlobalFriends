@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
@@ -31,6 +33,7 @@ public class LoginFragment extends MitooFragment {
 
     protected Subscription subscription;
     private ConnectableObservable<JsonLoginSend> observable;
+    private EditText passWordInput;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -63,6 +66,7 @@ public class LoginFragment extends MitooFragment {
     protected void initializeOnClickListeners(View view) {
 
         view.findViewById(R.id.loginButton).setOnClickListener(this);
+        view.findViewById(R.id.loginPasswordInput).setOnClickListener(this);
         view.findViewById(R.id.forgetPasswordButton).setOnClickListener(this);
         super.initializeOnClickListeners(view);
         /*Take out for v1
@@ -74,6 +78,7 @@ public class LoginFragment extends MitooFragment {
     protected void initializeViews(View view) {
 
         super.initializeViews(view);
+        setPassWordInput ((EditText) view.findViewById(R.id.passwordInput));
         setUpToolBar(view);
 
     }
@@ -86,6 +91,9 @@ public class LoginFragment extends MitooFragment {
                 break;
             case R.id.forgetPasswordButton:
                 forgetPasswordAction();
+                break;
+            case R.id.loginPasswordInput:
+                passwordInputRequestFocusAction();
                 break;
             /*Take Out for V1
             case R.id.facebookLoginButton:
@@ -199,4 +207,16 @@ public class LoginFragment extends MitooFragment {
   //      BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
     }
 
+    public EditText getPassWordInput() {
+        return passWordInput;
+    }
+
+    public void setPassWordInput(EditText passWordInput) {
+        this.passWordInput = passWordInput;
+    }
+    
+    private void passwordInputRequestFocusAction(){
+        if(getPassWordInput()!=null)
+            getPassWordInput().requestFocus();
+    }
 }

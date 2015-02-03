@@ -14,7 +14,8 @@
     <dimen name="spacing_large">35dp</dimen>
     <dimen name="spacing_larger">40dp</dimen>
     <dimen name="spacing_big">52dp</dimen>
-    
+    <dimen name="spacing_bigger">60dp</dimen>
+    <dimen name="spacing_medium">25dp</dimen>
     <dimen name="spacing_normal">18dp</dimen>
     <dimen name="spacing_small">14dp</dimen>
     <dimen name="spacing_smallish">10dp</dimen>
@@ -29,7 +30,7 @@
     <!-- typical sizes of views -->
     <dimen name="gray_button_height">45dp</dimen>
     <dimen name="gray_button_width">324dp</dimen>
-    <dimen name="search_bar_height">40dp</dimen>
+    <dimen name="search_bar_height">36dp</dimen>
 
     <dimen name="yellow_button_height">45dp</dimen>
     <dimen name="yellow_button_width">162dp</dimen>

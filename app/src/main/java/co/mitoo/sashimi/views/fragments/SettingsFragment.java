@@ -103,7 +103,7 @@ public class SettingsFragment extends MitooFragment {
         
         CircleImageView imageView = (CircleImageView) view.findViewById(R.id.user_profileImage);
         Picasso.with(getActivity())
-                .load(getUserInfoRecieve().picture_thumb)
+                .load(getUserInfoRecieve().picture_medium)
                 .into(imageView);
         
         TextView nameTextView= (TextView) view.findViewById(R.id.league_name);

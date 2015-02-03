@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
+import android.gesture.Prediction;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,7 @@ import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
+import se.walkercrou.places.Place;
 
 /**
  * Created by david on 15-01-23.
@@ -142,15 +144,21 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         getDataHelper().clearList(getPredictions());
         getDataHelper().addToListList(getPredictions(),predictions);
         placeListAdapter.notifyDataSetChanged();
+        handleViewVisibility(getPlacesList(),predictions.size()>0 );
+
     }
 
     private void querySearchAction(String query){
         
-        LocationModel locationModel = getLocationModel();
-        if(locationModel!=null){
-            locationModel.searchForPrediction(query);
+        if(query.equals("")){
+            updatePredictions(new ArrayList<IsSearchable>());
+        }else{
+            LocationModel locationModel = getLocationModel();
+            if(locationModel!=null){
+                locationModel.searchForPrediction(query);
+            }
         }
-    } 
+    }
     
     private LocationModel getLocationModel(){
         
@@ -160,16 +168,16 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     private void setUpPlacesList(View view){
 
-        placesList = (ListView) view.findViewById(R.id.placesListView);
-        placesList.addHeaderView(getSuggestedSearchHeader());
-        placesList.setOnItemClickListener(this);
+        setPlacesList((ListView) view.findViewById(R.id.placesListView));
+        getPlacesList().addHeaderView(getSuggestedSearchHeader());
+        getPlacesList().setOnItemClickListener(this);
         setUpAdapter();
 
     }
     
     private void setUpAdapter(){
         placeListAdapter = new SearchableAdapter(getActivity(),R.id.sportsListView, getPredictions());
-        placesList.setAdapter(placeListAdapter);
+        getPlacesList().setAdapter(placeListAdapter);
         placeListAdapter.notifyDataSetChanged();
         
     }
@@ -206,7 +214,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
-        setLoading(false);
         fireFragmentChangeAction(MitooEnum.fragmentTransition.POP);
 
     }
@@ -222,5 +229,12 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         }
     }
 
-    
+
+    public ListView getPlacesList() {
+        return placesList;
+    }
+
+    public void setPlacesList(ListView placesList) {
+        this.placesList = placesList;
+    }
 }

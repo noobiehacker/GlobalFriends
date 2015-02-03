@@ -96,11 +96,15 @@ public class ResetPasswordFragment extends MitooFragment{
         if(getEmail().equals("")){
             displayText(getString(R.string.toast_password_empty));
         }
+        else if(!getDataHelper().validEmail(getEmail())){
+            displayText(getString(R.string.toast_invalid_email));
+        }
         else{
             ResetPasswordRequestEvent event = new ResetPasswordRequestEvent(getEmail());
             getSessionModel().requestPasswordRequest(event);
+            setLoading(true);
+
         }
-        setLoading(true);
     }
 
     private String getEmail(){

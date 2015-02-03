@@ -14,7 +14,7 @@
 
     <include
         android:id="@+id/current_location"
-        layout="@layout/list_view_header"
+        layout="@layout/view_dynamic_search_query"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
@@ -25,7 +25,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/current_location"
-        android:background="@color/white"
-        android:descendantFocusability="blocksDescendants" />
+        android:background="@color/gray_light_zero"
+        android:divider="@color/gray_light_half"
+        android:descendantFocusability="blocksDescendants" 
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -162,6 +162,18 @@ public class ViewHelper {
 
         return getActivity().getResources().getDimensionPixelSize(id);
     }
+
+    public void setViewVisibility(View view, boolean visible){
+
+        if(view!=null)
+        {
+            if(visible)
+                view.setVisibility(View.VISIBLE);
+            else
+                view.setVisibility(View.GONE);
+        }
+
+    }
     
 
 }

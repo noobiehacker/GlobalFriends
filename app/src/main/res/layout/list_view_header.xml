@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_light_zero"
     android:descendantFocusability="blocksDescendants"
-    android:background="@color/gray_light_one"
-    >
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/background_shadow"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_divider_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/gray_light_half" />
 
     <TextView
         android:id="@+id/dynamicText"
+        style="@style/grayLightMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/place_holder_dummie_text"
-        android:layout_marginLeft="@dimen/spacing_normal"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:layout_below="@id/background_shadow"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:textIsSelectable="false"
-        style="@style/grayDarkBigText"
-        />
-
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_small"
+        android:paddingTop="@dimen/spacing_large"
+        android:text="@string/place_holder_dummie_text"
+        android:textIsSelectable="false" />
 
 </RelativeLayout>

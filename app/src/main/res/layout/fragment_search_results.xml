@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/app_bar"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingBottom="@dimen/spacing_normal"
         android:divider="@color/transparent"
         android:dividerHeight="@dimen/spacing_small"
         android:descendantFocusability="blocksDescendants" />

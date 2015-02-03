@@ -90,7 +90,7 @@
 
     <!--Search Page -->
     <string name="search_page_text_1">Search Mitoo for:</string>
-    <string name="search_page_text_2">SUGGESTIONS</string>
+    <string name="search_page_text_2">SUGGESTION</string>
     <string name="search_page_text_3">Search for a league name or sport</string>
     <string name="search_page_text_4">Current Location</string>
 

@@ -1,57 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"         android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <TextView
         android:id="@+id/get_help_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_1"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:paddingTop="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
         android:layout_alignParentLeft="true"
-        style="@style/grayLightBigText"
+        style="@style/grayDarkBigText"
         />
 
+    <View
+        android:id="@+id/dark_line_one"
+        android:layout_below="@id/get_help_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider_height"
+        android:background="@color/gray_light_half"></View>
+    
     <TextView
         android:id="@+id/feedback_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_2"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:paddingTop="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
-        android:layout_below="@id/get_help_text_view"
-        android:layout_alignParentLeft="true"
-        style="@style/grayLightBigText"
-
+        android:layout_below="@id/dark_line_one"
+        style="@style/grayDarkBigText"
         />
+
+    <View
+        android:id="@+id/dark_line_two"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider_height"
+        android:background="@color/gray_light_half"
+        android:layout_below="@id/feedback_text_view"></View>
 
     <TextView
         android:id="@+id/faq_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_3"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:paddingTop="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
-        android:layout_below="@id/feedback_text_view"
-        android:layout_alignParentLeft="true"
-        style="@style/grayLightBigText"
+        android:layout_below="@id/dark_line_two"
+        style="@style/grayDarkBigText"
         />
+
+    <View
+        android:id="@+id/dark_line_three"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider_height"
+        android:background="@color/gray_light_half"
+        android:layout_below="@id/faq_text_view"></View>
 
     <TextView
         android:id="@+id/about_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_4"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:paddingTop="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
-        android:layout_below="@id/faq_text_view"
-        android:layout_alignParentLeft="true"
-        style="@style/grayLightBigText"
+        android:layout_below="@id/dark_line_three"
+        style="@style/grayDarkBigText"
         />
 </RelativeLayout>

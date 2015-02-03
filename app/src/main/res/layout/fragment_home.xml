@@ -4,7 +4,7 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray_light_zero"
     android:orientation="vertical">
 
     <include
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/app_bar"
-        android:layout_margin="@dimen/spacing_smallish">
+        android:layout_margin="@dimen/spacing_smallest">
 
         <include
             android:id="@+id/search_bar"
@@ -35,9 +35,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_bar_background"
-        android:layout_marginLeft="@dimen/spacing_normal"
+        android:layout_marginLeft="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/home_page_text_1"
-        style="@style/grayLightBigText"
+        style="@style/grayDarkSmallText"
         />
 
 
@@ -46,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/enquired_league_text"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_smaller"
         android:divider="@color/transparent"
         android:dividerHeight="@dimen/spacing_small"
         android:descendantFocusability="blocksDescendants" />

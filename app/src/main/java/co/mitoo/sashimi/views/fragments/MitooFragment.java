@@ -505,6 +505,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return bundle;
     }
 
+    protected void handleViewVisibility(View view, boolean show) {
+        getViewHelper().setViewVisibility(view, show);
+    }
+    
     public void setHandler(Handler handler) {
         this.handler = handler;
     }

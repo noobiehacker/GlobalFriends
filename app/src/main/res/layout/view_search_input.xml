@@ -11,7 +11,7 @@
     <android.support.v7.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/search_bar_height"
         android:hint="@string/hint_search"
         android:layout_centerVertical="true"
         style="@style/searchView"/>

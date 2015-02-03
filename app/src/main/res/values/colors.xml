@@ -2,7 +2,9 @@
 
     <!-- White <-> Black palette -->
 
-    <color name="white">#FEFEFE</color>
+    <color name="white">#FEFEFE</color>    
+    <color name="gray_light_zero">#FAFAFA</color>
+    <color name="gray_light_half">#F2F2F2</color>
     <color name="gray_light_one">#E4E4E4</color>
     <color name="gray_light_two">#CACACA</color>
     <color name="gray_light_three">#AFAFAF</color>

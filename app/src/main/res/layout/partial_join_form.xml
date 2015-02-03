@@ -47,7 +47,7 @@
             android:hint="@string/join_page_text2"
             android:layout_below="@+id/leagueInfoContainter"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smaller"
+            android:layout_marginTop="@dimen/spacing_normal"
             style="@style/whiteEditText"
             />
 

@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:text="@string/settings_page_bottom_text_1"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/spacing_normal"
         android:paddingTop="@dimen/spacing_normal"
         android:paddingBottom="@dimen/spacing_normal"
         android:layout_alignParentLeft="true"
