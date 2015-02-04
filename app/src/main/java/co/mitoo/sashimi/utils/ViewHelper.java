@@ -1,6 +1,4 @@
 package co.mitoo.sashimi.utils;
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -8,12 +6,19 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
@@ -38,22 +43,59 @@ public class ViewHelper {
         this.activity = activity;
     }
 
-    public void setUpLeagueImage(View view, League league){
+    public void setUpLeagueImage(View view, League league , MitooEnum.ViewType viewType){
+        
+        setUpIconImage(view, league, viewType);
+        setUpLeagueBackground(view ,league);
 
-        final ImageView leagueIconImageView = (ImageView) view.findViewById(R.id.leagueImage);
+    }
+    
+    private int getIconDimen(MitooEnum.ViewType viewType){
+
+        int iconDimen = MitooConstants.invalidConstant;
+        if(viewType == MitooEnum.ViewType.FRAGMENT)
+            iconDimen = R.dimen.league_page_icon_height;
+        else
+            iconDimen = R.dimen.league_listview_icon_height;
+        return iconDimen;
+    }
+
+    private String getLogoUrl(MitooEnum.ViewType viewType , League league){
+
+        String logo = "";
+        if(viewType == MitooEnum.ViewType.FRAGMENT)
+            logo =  league.getLogo_medium();
+        else
+            logo =  league.getLogo_medium();
+        return logo;
+    }
+
+
+    
+    private void setUpLeagueBackground(View view, League league){
+        
         ImageView leagueBackgroundImageView = (ImageView) view.findViewById(R.id.leagueBackGround);
-        Picasso.with(getActivity())
-                .load(league.getLogo_large())
-                .transform(new LogoTransform(0,getPixelFromDimenID(R.dimen.league_icon_height)))
-                .transform(new RoundedTransformation(getPixelFromDimenID(R.dimen.image_border) , getPixelFromDimenID(R.dimen.corner_radius_small)))
-                .into(leagueIconImageView);
         Picasso.with(getActivity())
                 .load(league.getCover())
                 .into(leagueBackgroundImageView);
-
+        
+    }
+    
+    
+    private void setUpIconImage(View view, League league, MitooEnum.ViewType viewType){
+        int iconDimenID = getIconDimen(viewType);
+        String logo = getLogoUrl(viewType, league);
+        
+        ImageView leagueIconImageView = (ImageView) view.findViewById(R.id.leagueImage);
+        Picasso.with(getActivity())
+                .load(logo)
+                .transform(new LogoTransform(0, getPixelFromDimenID(iconDimenID)))
+                .transform(new RoundedTransformation(getPixelFromDimenID(R.dimen.image_border)
+                        , getPixelFromDimenID(R.dimen.corner_radius_small)))
+                .into(leagueIconImageView);
     }
 
-    public void setUpLeageText(View view , League league){
+    public void setUpLeageText(View view , League league , MitooEnum.ViewType viewType){
         
         TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
         TextView leagueSportsTextView =  (TextView) view.findViewById(R.id.leagueInfo);
@@ -61,6 +103,11 @@ public class ViewHelper {
         leagueNameTextView.setText(league.getName());
         leagueSportsTextView.setText(league.getLeagueSports());
         cityNameTextView.setText(league.getCity());
+        if(viewType == MitooEnum.ViewType.FRAGMENT){
+            leagueNameTextView.setTextAppearance(getActivity(), R.style.whiteBiggerText);
+            leagueSportsTextView.setTextAppearance(getActivity(), R.style.whiteBigText);
+            cityNameTextView.setTextAppearance(getActivity(), R.style.whiteBiggerText);
+        }
 
     }
     
@@ -80,23 +127,29 @@ public class ViewHelper {
             bottomLine.setBackgroundColor(colorID);
     }
 
-    public void setJoinBottonColor(View view , String leagueColor){
-        Button joinButton = (Button) view.findViewById(R.id.interestedButton);
-        int colorID = getColor(leagueColor);
+    public void setTextViewColor(TextView view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
-            Drawable drawable =joinButton.getBackground();
+            view.setTextColor(colorID);
+        }
+    }
+
+    public void setTextViewColor(TextView view, String color){
+        int colorID = getColor(color);
+        setTextViewColor(view, colorID);
+    }
+
+    public void setViewColor(View view, int colorID){
+        if(colorID!=MitooConstants.invalidConstant){
+            Drawable drawable =view.getBackground();
             drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
         }
     }
 
-    public void setJoinBottonColor(View view , int colorID){
-        Button joinButton = (Button) view.findViewById(R.id.interestedButton);
-        if(colorID!=MitooConstants.invalidConstant){
-            Drawable drawable =joinButton.getBackground();
-            drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
-        }
+    public void setViewColor(View view, String color){
+        int colorID = getColor(color);
+        setViewColor(view, colorID);
     }
-
+    
     private int getCornerRadius(){
         return getActivity().getResources().getDimensionPixelSize(R.dimen.corner_radius_small);
     }
@@ -175,5 +228,44 @@ public class ViewHelper {
 
     }
     
+    public View createListViewPadding(){
+        
+        View view = new View(getActivity());
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT,
+                0);
+        view.setLayoutParams(params);
+        return view;
+    }
 
+
+
+    public void setUpMap(League league , GoogleMap map){
+        if(league !=null & map !=null){
+            LatLng latLng = league.getLatLng();
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+            MarkerOptions option = createMarkerOption(latLng, league.getCity());
+            Marker marker = map.addMarker(option);
+            disableMapGestures(map);
+        }
+        
+    }
+    
+    private void disableMapGestures(GoogleMap map){
+
+        map.getUiSettings().setZoomControlsEnabled(false);
+        map.getUiSettings().setScrollGesturesEnabled(false);
+        map.getUiSettings().setAllGesturesEnabled(false);
+        
+    }
+    
+    private MarkerOptions createMarkerOption(LatLng latLng, String cityName){
+
+        IconGenerator generator = new IconGenerator(getActivity());
+        Bitmap markerIcon = generator.makeIcon(cityName);
+        MarkerOptions option = new MarkerOptions().position(latLng)
+                .icon(BitmapDescriptorFactory.fromBitmap(markerIcon));
+        return option;
+        
+    }
 }

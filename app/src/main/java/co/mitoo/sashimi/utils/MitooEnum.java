@@ -30,6 +30,9 @@ public class MitooEnum {
         PREFERENCE, API
     }
 
+    public enum ViewType{
+        LIST, FRAGMENT
+    }
     public enum ErrorType{
         APP ,API
     }

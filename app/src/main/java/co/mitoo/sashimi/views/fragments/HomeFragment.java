@@ -180,7 +180,7 @@ public class HomeFragment extends MitooFragment {
 
         if(leagueData==null){
             leagueData = new ArrayList<League>();
-            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this);
+            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this, false);
         }
 
     }

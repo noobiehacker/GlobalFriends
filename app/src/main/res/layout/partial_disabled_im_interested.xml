@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/disabledMockInterestedButton"
+        style="@style/transparentButton"
+        android:layout_width="@dimen/yellow_button_width"
+        android:layout_height="@dimen/yellow_button_height"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/league_page_button_text">
+
+        <ImageView
+            android:id="@+id/checkedIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/spacing_smaller"
+            android:src="@drawable/icon_round_check" />
+
+        <TextView
+            style="@style/whiteMediumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/spacing_smaller"
+            android:layout_toRightOf="@id/checkedIcon"
+            android:text="@string/league_page_button_text" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/league_join_confirm"
+        style="@style/grayLightSmallText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/disabledMockInterestedButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_smallish"
+        android:gravity="center"
+        android:text="@string/league_page_text_2" />
+
+</RelativeLayout>

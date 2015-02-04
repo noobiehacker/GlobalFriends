@@ -180,7 +180,7 @@ public class League implements Serializable {
         if(get_geoloc()!=null){
             result = new LatLng(get_geoloc().getLat(), get_geoloc().getLng());
         }else if(getLocation()!=null){
-            result = new LatLng( getLocation().getLat(), getLocation().getLat());
+            result = new LatLng( getLocation().getLat(), getLocation().getLng());
         }
         return result;
     }

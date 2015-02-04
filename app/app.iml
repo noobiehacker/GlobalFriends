@@ -110,6 +110,7 @@
     <orderEntry type="library" exported="" name="calligraphy-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="objenesis-1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="asm-util-5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="android-maps-utils-0.3.4" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="okhttp-urlconnection-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.4.5" level="project" />

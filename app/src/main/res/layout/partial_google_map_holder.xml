@@ -10,9 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/static_text_location"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_smaller"
         style="@style/blackMediumText"/>
 
     <fragment
@@ -21,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_centerHorizontal="true"
         android:layout_height="@dimen/google_map_place_holder"
-        android:layout_margin="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
         class="com.google.android.gms.maps.MapFragment" />
 </RelativeLayout>

@@ -1,27 +1,22 @@
 package co.mitoo.sashimi.views.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
-import co.mitoo.sashimi.views.adapters.SearchableAdapter;
 
 /**
  * Created by david on 15-01-19.
@@ -76,7 +71,7 @@ public class SearchResultsFragment extends MitooFragment  {
 
         if(leagueData==null){
             leagueData = new ArrayList<League>();
-            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this);
+            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this , true);
         }
 
     }
@@ -115,7 +110,8 @@ public class SearchResultsFragment extends MitooFragment  {
         leagueList = (ListView) view.findViewById(R.id.leagueListView);
         leagueList.setAdapter(leagueDataAdapter);
         leagueList.setOnItemClickListener(leagueDataAdapter);
-
+        leagueList.addHeaderView(getViewHelper().createListViewPadding());
+        leagueList.addFooterView(getViewHelper().createListViewPadding());
     }
     
     private String createNoResultsString(){

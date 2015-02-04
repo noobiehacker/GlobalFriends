@@ -14,7 +14,7 @@
             android:name=".views.activities.MitooActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
         <!-- Put in for release -->
             <intent-filter>
@@ -38,8 +38,8 @@
         <!--Release Google Map API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyC0HoV11QcFNnjCtbts1J1RPR0bq5g-2JM"/>
- --
+            android:value="AIzaSyCdwtL89lqAAEF478Cy_Br9BFY2s-bfxEU"/>
+
     </application>
 
     <!-- user permissions -->

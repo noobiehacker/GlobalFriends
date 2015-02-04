@@ -13,6 +13,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.RoundedTransformation;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -24,10 +25,12 @@ import co.mitoo.sashimi.views.fragments.MitooFragment;
 public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.OnItemClickListener {
     
     private MitooFragment fragment;
+    private boolean headerLayout;
 
-    public LeagueAdapter(Context context, int resourceId, List<League> objects , MitooFragment fragment) {
+    public LeagueAdapter(Context context, int resourceId, List<League> objects , MitooFragment fragment, boolean hasHeader) {
         super(context, resourceId, objects);
         setFragment(fragment);
+        setHeaderLayout(hasHeader);
     }
     
     public LeagueAdapter(Context context, int resourceId, List<League> objects) {
@@ -37,12 +40,11 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
         convertView = View.inflate(getContext(), R.layout.list_view_item_league, null);
         League league = this.getItem(position);
         ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
-        helper.setUpLeagueImage(convertView, league);
-        helper.setUpLeageText(convertView, league);
+        helper.setUpLeagueImage(convertView, league , getViewType());
+        helper.setUpLeageText(convertView, league, getViewType());
         helper.setUpCheckBox(convertView , league);
         helper.setLineColor(convertView, league);
         return convertView;
@@ -50,26 +52,46 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        view.setSelected(true);
-        leagueListItemAction((League)getItem(position));
-        getFragment().getMitooActivity().hideSoftKeyboard(view);
 
+        if (position != 0 || !isHeaderLayout()) {
+            League item = (League)parent.getItemAtPosition(position);
+            view.setSelected(true);
+            leagueListItemAction(item);
+            getFragment().getMitooActivity().hideSoftKeyboard(view);
+        }
+       
     }
 
     private void leagueListItemAction(League league){
 
+        getFragment().setLoading(true);
         MitooActivity activity = getFragment().getMitooActivity();
         LeagueModel model = activity.getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
         getFragment().fireFragmentChangeAction(R.id.fragment_league);
-
     }
 
     public MitooFragment getFragment() {
         return fragment;
     }
+    
+
 
     public void setFragment(MitooFragment fragment) {
         this.fragment = fragment;
+    }
+
+    public boolean isHeaderLayout() {
+        return headerLayout;
+    }
+
+    public void setHeaderLayout(boolean headerLayout) {
+        this.headerLayout = headerLayout;
+    }
+    
+    private MitooEnum.ViewType getViewType(){
+
+        return MitooEnum.ViewType.LIST;
+
     }
 }

@@ -76,8 +76,8 @@ public class SignUpFragment extends MitooFragment {
         
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpLeagueImage(view, getSelectedLeague());
-        viewHelper.setUpLeageText(view , getSelectedLeague());
+        viewHelper.setUpLeagueImage(view, getSelectedLeague() , getViewType());
+        viewHelper.setUpLeageText(view , getSelectedLeague() , getViewType());
         
     }
 
@@ -227,5 +227,11 @@ public class SignUpFragment extends MitooFragment {
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    private MitooEnum.ViewType getViewType(){
+
+        return MitooEnum.ViewType.FRAGMENT;
+
     }
 }

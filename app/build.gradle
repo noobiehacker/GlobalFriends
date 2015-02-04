@@ -129,6 +129,8 @@ dependencies {
     //Cloning Libray
     compile 'commons-lang:commons-lang:2.6'
     compile 'com.android.support:multidex:1.0.0'
+    //Google MAP
+    compile 'com.google.maps.android:android-maps-utils:0.3+'
     //Library for future
     //View Injection
     //compile 'com.jakewharton:butterknife:6.0.0'

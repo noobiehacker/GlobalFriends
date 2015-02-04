@@ -4,8 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:layout_marginLeft="@dimen/spacing_normal"
-    android:layout_marginRight="@dimen/spacing_normal">
+    android:paddingLeft="@dimen/spacing_medium_big"
+    android:paddingRight="@dimen/spacing_medium_big">
 
     <RelativeLayout
         android:id="@+id/leagueImageContainer"
@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/leagueImage"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/league_icon_height"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"

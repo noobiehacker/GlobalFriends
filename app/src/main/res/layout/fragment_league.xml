@@ -3,7 +3,7 @@
     android:id="@+id/fragment_league"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray_light_zero"
     android:orientation="vertical">
 
     <include
@@ -30,30 +30,42 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true" />
 
-            <include
-                android:id="@+id/league_top_details"
-                layout="@layout/partial_league_top_details"
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@+id/league_image_holder"
-                android:layout_marginLeft="@dimen/spacing_normal"
-                android:layout_marginRight="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal" />
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal">
 
-            <include
-                android:id="@+id/league_bottom_details"
-                layout="@layout/partial_league_bottom_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/league_top_details"
-                android:layout_marginTop="@dimen/spacing_normal" />
+                <include
+                    android:id="@+id/league_top_details"
+                    layout="@layout/partial_league_top_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal" />
 
-            <include
-                android:id="@+id/google_map_container"
-                layout="@layout/partial_google_map_holder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/league_bottom_details"/>
+                <include
+                    android:id="@+id/league_bottom_details"
+                    layout="@layout/partial_league_bottom_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/league_top_details"
+                    android:layout_marginTop="@dimen/spacing_normal" />
+
+                <include
+                    android:id="@+id/google_map_container"
+                    layout="@layout/partial_google_map_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/league_bottom_details"
+                    android:layout_marginTop="@dimen/spacing_normal" />
+                
+            </RelativeLayout>
+            
         </RelativeLayout>
+        
     </ScrollView>
+    
 </RelativeLayout>

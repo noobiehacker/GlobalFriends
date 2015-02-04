@@ -53,8 +53,8 @@ public class ConfirmFragment extends MitooFragment {
 
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpLeagueImage(view, getSelectedLeague());
-        viewHelper.setUpLeageText(view , getSelectedLeague());
+        viewHelper.setUpLeagueImage(view, getSelectedLeague() , getViewType());
+        viewHelper.setUpLeageText(view , getSelectedLeague() , getViewType());
         setUpPopUpTask();
     }
 
@@ -136,5 +136,11 @@ public class ConfirmFragment extends MitooFragment {
                 result =false;
         }
         return result;
+    }
+
+    private MitooEnum.ViewType getViewType(){
+
+        return MitooEnum.ViewType.FRAGMENT;
+
     }
 }
