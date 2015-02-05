@@ -170,6 +170,7 @@ public class MitooActivity extends Activity {
         if(fragmentStack.size()>0){
             getFragmentManager().popBackStack();
             fragmentStack.pop();
+            
         }
     }
 
@@ -218,6 +219,26 @@ public class MitooActivity extends Activity {
             if(this.fragmentStack.peek().isAllowBackPressed())
                 popFragment();
         }
+    }
+
+    public void onBackPressed(View v) {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.moveTaskToBack(true);
+        } else {
+            if(this.fragmentStack.peek().isAllowBackPressed())
+                hideSoftKeyboard(v);
+                Handler handler = new Handler();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        popFragment();
+
+                    }
+                };
+                handler.postDelayed(runnable,125);
+
+        }
+
     }
 
     @Override

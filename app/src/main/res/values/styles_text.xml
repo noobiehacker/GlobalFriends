@@ -38,8 +38,7 @@
 
     <style name="whiteBiggerText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/font_bigger</item>
-
+        <item name="android:textSize">@dimen/font_biggish</item>
     </style>
     
     <style name="whiteBigText">
@@ -51,7 +50,18 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_large</item>
     </style>
-    
+
+    <style name="grayDarkerBigText">
+        <item name="android:textColor">@color/gray_dark_four</item>
+        <item name="android:textSize">@dimen/font_big</item>
+    </style>
+
+    <style name="grayDarkerMediumText">
+        <item name="android:textColor">@color/gray_dark_four</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+
     <style name="grayDarkBigText">
         <item name="android:textColor">@color/gray_dark_one</item>
         <item name="android:textSize">@dimen/font_big</item>
@@ -59,7 +69,7 @@
 
     <style name="grayDarkBiggerText">
         <item name="android:textColor">@color/gray_dark_one</item>
-        <item name="android:textSize">@dimen/font_bigger</item>
+        <item name="android:textSize">@dimen/font_biggish</item>
     </style>
 
     <style name="grayDarkMediumText">
@@ -92,7 +102,7 @@
 
     <style name="grayLightBiggerText">
         <item name="android:textColor">@color/gray_light_four</item>
-        <item name="android:textSize">@dimen/font_bigger</item>
+        <item name="android:textSize">@dimen/font_biggish</item>
     </style>
     
     <style name="grayItalicText">
@@ -127,6 +137,17 @@
         <item name="android:textColor">@color/blue_sky_light</item>
         <item name="android:background">@drawable/rounded_blue_sky_light_holo</item>
         <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+    <style name="grayCityMapText">
+        <item name="android:textColor">@color/gray_dark_two</item>
+        <item name="android:textSize">@dimen/font_bigger</item>
+    </style>
+
+    <style name="graySectionTitle">
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">@dimen/font_small</item>
+
     </style>
 
 </resources>

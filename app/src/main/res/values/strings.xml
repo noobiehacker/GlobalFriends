@@ -112,7 +112,8 @@
     <string name="league_page_text_1">This competition is for any kind of player, \n we\'ll train and  evaluate you before sending you \n to a competition...</string>
     <string name="league_page_text_2">We\'ve sent your details to the league, they \nshould be in touch very soon</string>
     <string name="league_page_text_3">Read more</string>
-    <string name="league_page_button_text">I\'M INTERESTED</string>
+    <string name="league_page_button_text">I\'M INTERESTED</string>    
+    <string name="league_page_button_disabled_text">CONTACTED</string>
 
     <!--Home Page -->
     <string name="home_page_text_1">ENQUIRED</string>
@@ -349,7 +350,7 @@
     <!--API Key-->
     <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
     <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0</string>
-    <string name="API_key_google_places">AIzaSyCz0bg8sj09CbhlaiZZrxTnOKpynSR4QsQ</string>
+    <string name="API_key_google_places">AIzaSyCbsydXTG9a2-qCnZ91f_HS9k8fkBvVsVs</string>
     <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
     <string name="API_key_facebook">1524244734496711</string>
 

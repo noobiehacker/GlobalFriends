@@ -5,16 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.RoundedTransformation;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
@@ -44,7 +40,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         League league = this.getItem(position);
         ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
         helper.setUpLeagueImage(convertView, league , getViewType());
-        helper.setUpLeageText(convertView, league, getViewType());
+        helper.setUpFullLeagueText(convertView, league, getViewType());
         helper.setUpCheckBox(convertView , league);
         helper.setLineColor(convertView, league);
         return convertView;

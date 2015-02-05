@@ -14,7 +14,7 @@
             android:name=".views.activities.MitooActivity"
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:screenOrientation="portrait">
         <!-- Put in for release -->
             <intent-filter>

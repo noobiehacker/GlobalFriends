@@ -20,8 +20,8 @@
         android:textSize="@dimen/font_normal"
         android:layout_below="@+id/mitooLogo"
         android:layout_centerHorizontal="true"
-        android:paddingTop = "@dimen/spacing_tiny"
-        style="@style/grayDarkMediumText"/>
+        android:paddingTop = "@dimen/spacing_settings_center_water_mark_padding"
+        style="@style/settingsCityWaterMarkText"/>
 
     <TextView
         android:id="@+id/mitooVersion"
@@ -29,9 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mitooLocation"
-        android:paddingTop = "@dimen/spacing_tiny"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        style="@style/grayDarkMediumText"/>
+        style="@style/settingsVersionWaterMarkText"/>
 
 </RelativeLayout>

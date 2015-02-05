@@ -365,7 +365,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MitooFragment.this.getMitooActivity().onBackPressed();
+                    MitooFragment.this.getMitooActivity().onBackPressed(v);
                 }
             });
 

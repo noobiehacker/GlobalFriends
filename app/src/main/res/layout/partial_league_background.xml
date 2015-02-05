@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/leagueBackGround"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_social_league"/>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/blackOverLay"
+        android:src="@color/over_lay_black"
+        android:scaleType="centerCrop"/>
+    
+</RelativeLayout>

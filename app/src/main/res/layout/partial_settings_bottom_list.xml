@@ -9,10 +9,9 @@
         android:layout_height="wrap_content"
         android:text="@string/settings_page_bottom_text_1"
         android:layout_centerVertical="true"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
-        />
+        android:paddingTop="@dimen/spacing_settings_padding_item_top"
+        android:paddingBottom="@dimen/spacing_settings_padding_item_bottom"
+        style="@style/settingsItemText"/>
 
 </RelativeLayout>

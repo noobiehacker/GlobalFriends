@@ -4,22 +4,9 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/spacing_normal"
     android:layout_marginBottom="@dimen/spacing_normal"
->
+    >
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/leagueBackGround"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_social_league"/>
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/blackOverLay"
-        android:src="@color/over_lay_black"
-        android:scaleType="centerCrop"/>
-
+    <include layout="@layout/partial_league_background"/>
 
     <ImageView
         android:layout_width="wrap_content"

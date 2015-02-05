@@ -1,26 +1,18 @@
 package co.mitoo.sashimi.views.fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
-import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -77,7 +69,7 @@ public class SignUpFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague() , getViewType());
-        viewHelper.setUpLeageText(view , getSelectedLeague() , getViewType());
+        viewHelper.setUpLeagueNameText(view, getSelectedLeague(), getViewType());
         
     }
 

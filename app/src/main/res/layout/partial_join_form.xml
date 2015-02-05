@@ -12,12 +12,15 @@
         android:layout_centerVertical="true"
         android:gravity="center">
 
-        <include layout="@layout/view_league_icon_and_text"
+        <include
+            layout="@layout/partial_league_image_and_name"
             android:id="@+id/leagueInfoContainter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             />
+        
+        
 
         <!-- Take Out Facebook For V1 -->
         <!--

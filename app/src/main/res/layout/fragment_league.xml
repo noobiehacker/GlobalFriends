@@ -44,7 +44,7 @@
                     layout="@layout/partial_league_top_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal" />
+                     />
 
                 <include
                     android:id="@+id/league_bottom_details"
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/league_top_details"
-                    android:layout_marginTop="@dimen/spacing_normal" />
+                    />
 
                 <include
                     android:id="@+id/google_map_container"
@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/league_bottom_details"
-                    android:layout_marginTop="@dimen/spacing_normal" />
+                    />
                 
             </RelativeLayout>
             

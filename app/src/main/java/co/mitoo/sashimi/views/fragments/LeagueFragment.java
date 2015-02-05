@@ -25,6 +25,8 @@ public class LeagueFragment extends MitooFragment {
     private League selectedLeague;
     private TextView leagueDetailsTextView;
     private TextView readMoreTextView;
+    private Button interestedButton;
+    private View disabledButtonView;
     
     public static LeagueFragment newInstance() {
         LeagueFragment fragment = new LeagueFragment();
@@ -53,8 +55,9 @@ public class LeagueFragment extends MitooFragment {
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
+        getInterestedButton().setVisibility(View.VISIBLE);
+        getDisabledButtonView().setVisibility(View.GONE);
         setLoading(false);
-        fireFragmentChangeAction(R.id.fragment_confirm);
 
     }
 
@@ -80,7 +83,7 @@ public class LeagueFragment extends MitooFragment {
         
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague(), getViewType());
-        viewHelper.setUpLeageText(view, getSelectedLeague() , getViewType());
+        viewHelper.setUpFullLeagueText(view, getSelectedLeague(), getViewType());
         viewHelper.setLineColor(view, getSelectedLeague());
         viewHelper.setUpCheckBox(view, getSelectedLeague());
         setUpInterestedButton(view , viewHelper);
@@ -98,7 +101,8 @@ public class LeagueFragment extends MitooFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.interestedButton:
-                 joinButtonAction();
+                joinButtonAction();
+                break;
             case R.id.read_more_text_view:
                 readMoreAction();
                 break;
@@ -115,13 +119,14 @@ public class LeagueFragment extends MitooFragment {
     
     private void setUpInterestedButton(View view , ViewHelper viewHelper){
         
-        Button interestedButton = (Button) view.findViewById(R.id.interestedButton);
+        setInterestedButton((Button) view.findViewById(R.id.interestedButton));
+        setDisabledButtonView(view.findViewById(R.id.disabledInterestedView));
         if(getLeagueModel().selectedLeagueIsJoinable()){
-            viewHelper.setViewColor(interestedButton, getSelectedLeague().getColor_1());
+            viewHelper.setViewColor(getInterestedButton(), getSelectedLeague().getColor_1());
         }else{
-            interestedButton.setVisibility(View.GONE);
-            View disabledInterestView = view.findViewById(R.id.disabledInterestedView);
-            disabledInterestView.setVisibility(View.VISIBLE);
+            
+            getInterestedButton().setVisibility(View.GONE);
+            getDisabledButtonView().setVisibility(View.VISIBLE);
         }
 
     }
@@ -185,8 +190,10 @@ public class LeagueFragment extends MitooFragment {
 
     private void expandLeagueDetailsTextView(){
         
-        if(getLeagueDetailsTextView()!=null)
+        if(getLeagueDetailsTextView()!=null){
             getLeagueDetailsTextView().setText(getSelectedLeague().getAbout());
+            getViewHelper().updateLeagueDetailsPadding(getLeagueDetailsTextView());
+        }
         getViewHelper().setViewVisibility(getReadMoreTextView(),false);
         
     }
@@ -220,4 +227,19 @@ public class LeagueFragment extends MitooFragment {
 
     }
 
+    public View getDisabledButtonView() {
+        return disabledButtonView;
+    }
+
+    public void setDisabledButtonView(View disabledButtonView) {
+        this.disabledButtonView = disabledButtonView;
+    }
+
+    public Button getInterestedButton() {
+        return interestedButton;
+    }
+
+    public void setInterestedButton(Button interestedButton) {
+        this.interestedButton = interestedButton;
+    }
 }

@@ -3,12 +3,14 @@
     <!-- White <-> Black palette -->
 
     <color name="white">#FEFEFE</color>    
-    <color name="gray_light_zero">#FAFAFA</color>
+    <color name="gray_light_zero">#F5F5F5</color>
     <color name="gray_light_half">#F2F2F2</color>
     <color name="gray_light_one">#E4E4E4</color>
     <color name="gray_light_two">#CACACA</color>
     <color name="gray_light_three">#AFAFAF</color>
+    <color name="gray_light_three_half">#AAAAAA</color>
     <color name="gray_light_four">#959595</color>
+    <color name="gray_dark_zero">#8c8c8c</color>
     <color name="gray_dark_one">#7b7b7b</color>
     <color name="gray_dark_two">#616161</color>
     <color name="gray_dark_three">#464646</color>

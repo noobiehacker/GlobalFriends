@@ -95,18 +95,27 @@ public class ViewHelper {
                 .into(leagueIconImageView);
     }
 
-    public void setUpLeageText(View view , League league , MitooEnum.ViewType viewType){
+    public void setUpFullLeagueText(View view, League league, MitooEnum.ViewType viewType){
         
-        TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
         TextView leagueSportsTextView =  (TextView) view.findViewById(R.id.leagueInfo);
         TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
-        leagueNameTextView.setText(league.getName());
+        
         leagueSportsTextView.setText(league.getLeagueSports());
         cityNameTextView.setText(league.getCity());
+
         if(viewType == MitooEnum.ViewType.FRAGMENT){
-            leagueNameTextView.setTextAppearance(getActivity(), R.style.whiteBiggerText);
-            leagueSportsTextView.setTextAppearance(getActivity(), R.style.whiteBigText);
-            cityNameTextView.setTextAppearance(getActivity(), R.style.whiteBiggerText);
+            leagueSportsTextView.setTextAppearance(getActivity(), R.style.leagueBiggerSportText);
+            cityNameTextView.setTextAppearance(getActivity(), R.style.leagueBiggerCityText);
+        }
+        setUpLeagueNameText(view, league, viewType);
+    }
+
+    public void setUpLeagueNameText(View view, League league, MitooEnum.ViewType viewType){
+
+        TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
+        leagueNameTextView.setText(league.getName());
+        if(viewType == MitooEnum.ViewType.FRAGMENT){
+            leagueNameTextView.setTextAppearance(getActivity(), R.style.leagueBiggerNameText);
         }
 
     }
@@ -262,10 +271,26 @@ public class ViewHelper {
     private MarkerOptions createMarkerOption(LatLng latLng, String cityName){
 
         IconGenerator generator = new IconGenerator(getActivity());
+        generator.setTextAppearance(R.style.grayCityMapText);
+        generator.setContentPadding(
+                getPixelFromDimenID(R.dimen.spacing_map_text_width) ,
+                getPixelFromDimenID(R.dimen.spacing_map_text_height) ,
+                getPixelFromDimenID(R.dimen.spacing_map_text_width) ,
+                getPixelFromDimenID(R.dimen.spacing_map_text_height)
+                );
         Bitmap markerIcon = generator.makeIcon(cityName);
         MarkerOptions option = new MarkerOptions().position(latLng)
                 .icon(BitmapDescriptorFactory.fromBitmap(markerIcon));
         return option;
         
+    }
+    
+    public void updateLeagueDetailsPadding(View view){
+        
+        if(view!=null){
+            int normalSpacing =  getPixelFromDimenID(R.dimen.spacing_normal);
+            view.setPadding( normalSpacing,normalSpacing,normalSpacing,normalSpacing);
+        }
+
     }
 }

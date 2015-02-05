@@ -54,7 +54,7 @@ public class ConfirmFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpLeagueImage(view, getSelectedLeague() , getViewType());
-        viewHelper.setUpLeageText(view , getSelectedLeague() , getViewType());
+        viewHelper.setUpLeagueNameText(view, getSelectedLeague(), getViewType());
         setUpPopUpTask();
     }
 

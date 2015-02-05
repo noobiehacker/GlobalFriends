@@ -4,11 +4,14 @@
     <dimen name="font_largest">70sp</dimen>
     <dimen name="font_larger">26sp</dimen>
     <dimen name="font_large">20sp</dimen>
-    <dimen name="font_bigger">17sp</dimen>
+    <dimen name="font_biggish">17sp</dimen>
+    <dimen name="font_bigger">16sp</dimen>
     <dimen name="font_big">15sp</dimen>
     <dimen name="font_normal">13sp</dimen>
     <dimen name="font_small">12sp</dimen>
-    <dimen name="font_smaller">7sp</dimen>    
+    <dimen name="font_smaller">7sp</dimen>
+
+    <!-- font sizes custom -->
 
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">165dp</dimen>
@@ -25,7 +28,11 @@
     <dimen name="spacing_smallest">5dp</dimen>
     <dimen name="spacing_tiny">3dp</dimen>
 
+    <dimen name="spacing_section_title_top">19dp</dimen>
+    <dimen name="spacing_section_title_bottom">9dp</dimen>
 
+    <dimen name="spacing_map_text_width">17dp</dimen>
+    <dimen name="spacing_map_text_height">8dp</dimen>
     <!-- header / footer -->
     <dimen name="header">120dp</dimen>
     <dimen name="footer">120dp</dimen>
@@ -42,7 +49,7 @@
     <dimen name="toggle_height_gender">54dp</dimen>
 
     <dimen name="list_view_height">100dp</dimen>
-    <dimen name="list_view_league_image_height">200dp</dimen>
+    <dimen name="list_view_league_image_height">155dp</dimen>
     <dimen name="list_divider_height">1dp</dimen>
     <!-- stock android values -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -57,7 +64,7 @@
     <dimen name="line_length_location">120dp</dimen>
     <dimen name="circle_button_diameter">76dp</dimen>
     <dimen name="circle_button_radius">76dp</dimen>
-    <dimen name="circle_image_diameter">72dp</dimen>
+    <dimen name="circle_image_diameter">64dp</dimen>
     <dimen name="league_icon_container_width">126dp</dimen>
     <dimen name="league_icon_container_height">76dp</dimen>
     <dimen name="league_listview_icon_height">57dp</dimen>

@@ -7,56 +7,32 @@
     android:paddingLeft="@dimen/spacing_medium_big"
     android:paddingRight="@dimen/spacing_medium_big">
 
-    <RelativeLayout
-        android:id="@+id/leagueImageContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded">
 
-        <ImageView
-            android:id="@+id/leagueImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:focusable="false"
-            android:scaleType="fitStart"
-            android:src="@drawable/place_holder_league" />
-    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/league_name"
-        style="@style/whiteBigText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/leagueImageContainer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:gravity="center"
-        android:text="@string/place_holder_league_name"
-        android:textAllCaps="true"
-        android:textIsSelectable="false" />
-
+<include
+    android:id="@+id/league_icon_and_name_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    layout="@layout/partial_league_image_and_name"
+    />
 
     <TextView
         android:id="@+id/city_name"
-        style="@style/whiteMediumText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/league_name"
+        android:layout_below="@id/league_icon_and_name_container"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_tiny"
         android:gravity="center"
         android:text="@string/place_holder_city_name"
         android:textAllCaps="true"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"
+        style="@style/leagueCityText"
+        />
 
     <TextView
         android:id="@+id/leagueInfo"
-        style="@style/whiteSmallText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/city_name"
@@ -64,6 +40,8 @@
         android:layout_marginTop="@dimen/spacing_tiny"
         android:gravity="center"
         android:text="@string/place_holder_league_info"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"
+        style="@style/leagueSportText"
+        />
 
 </RelativeLayout>

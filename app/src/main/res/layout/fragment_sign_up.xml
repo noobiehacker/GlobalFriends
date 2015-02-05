@@ -1,3 +1,9 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true">
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_sign_up"
     android:layout_width="match_parent"
@@ -10,35 +16,33 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/leagueBackGround"
-        android:src="@drawable/bg_social_league"
-        android:layout_below="@id/app_bar"
-        android:scaleType="centerCrop"/>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/app_bar">
+
+
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/app_bar"
-            android:layout_gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_below="@id/app_bar">
 
-            
+
+            <include layout="@layout/partial_league_background"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"/>
+
             <include
                 android:id="@+id/joinForm"
                 layout="@layout/partial_join_form"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                />
+
         </RelativeLayout>
-        
-    </ScrollView>
 
 </RelativeLayout>
 
+    </ScrollView>

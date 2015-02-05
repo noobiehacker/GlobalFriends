@@ -1,84 +1,102 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/fragment_login"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg1" >
+    android:orientation="vertical">
 
-    <include android:id="@+id/app_bar" layout="@layout/app_tool_bar" />
-    
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_tool_bar" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar"
-        android:gravity="center">
+        android:fillViewport="true">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <!-- Take Out Facebook For V1 -->
-        <!--
-        <TextView
-            android:id="@+id/loginTitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_page_title"
-            android:layout_centerHorizontal="true"
-            android:textStyle="bold|italic"
-            style="@style/whiteBigText"
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg1"
             />
-
-        <Button
-            android:id="@+id/facebookLoginButton"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:text="@string/login_page_text1"
-            android:layout_below="@+id/loginTitleText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smallest"
-            android:onClick="facebookButtonLoginAction"
-            style="@style/navyBlueButton"
-            />
-
-        <include layout="@layout/line_or"
-            android:id="@+id/orLine"
-            android:layout_below="@+id/facebookLoginButton"
-            android:layout_centerHorizontal="true"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:layout_marginTop="@dimen/spacing_smallest"/>
-            -->
-        
-        
-        <EditText
-            android:id="@+id/emailInput"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:hint="@string/login_page_text3"
-            android:layout_centerHorizontal="true"
-            style="@style/whiteEditText"
-            />
-
-        <include layout="@layout/view_password_edit_text"
-            android:id="@+id/loginPasswordInput"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:layout_below="@+id/emailInput"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smaller"
-            />
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:layout_below="@+id/loginPasswordInput"
-            android:layout_centerHorizontal="true"
-            android:text="@string/login_page_text6"
-            android:onClick="loginButtonAction"
-            android:textColor="@color/white"
-            android:layout_marginTop="@dimen/spacing_smaller"
-            style="@style/darkGrayButton"
-            />
+            <!-- Take Out Facebook For V1 -->
+            <!--
+            <TextView
+                android:id="@+id/loginTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_page_title"
+                android:layout_centerHorizontal="true"
+                android:textStyle="bold|italic"
+                style="@style/whiteBigText"
+                />
+            <Button
+                android:id="@+id/facebookLoginButton"
+                android:layout_width="@dimen/gray_button_width"
+                android:layout_height="@dimen/gray_button_height"
+                android:text="@string/login_page_text1"
+                android:layout_below="@+id/loginTitleText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_smallest"
+                android:onClick="facebookButtonLoginAction"
+                style="@style/navyBlueButton"
+                />
+            <include layout="@layout/line_or"
+                android:id="@+id/orLine"
+                android:layout_below="@+id/facebookLoginButton"
+                android:layout_centerHorizontal="true"
+                android:layout_width="@dimen/gray_button_width"
+                android:layout_height="@dimen/gray_button_height"
+                android:layout_marginTop="@dimen/spacing_smallest"/>
+                -->
 
-    </RelativeLayout>
+
+            <EditText
+                android:id="@+id/emailInput"
+                style="@style/whiteEditText"
+                android:layout_width="@dimen/gray_button_width"
+                android:layout_height="@dimen/gray_button_height"
+                android:layout_centerHorizontal="true"
+                android:hint="@string/login_page_text3" />
+
+            <include
+                android:id="@+id/loginPasswordInput"
+                layout="@layout/view_password_edit_text"
+                android:layout_width="@dimen/gray_button_width"
+                android:layout_height="@dimen/gray_button_height"
+                android:layout_below="@+id/emailInput"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_smaller" />
+
+
+            <Button
+                android:id="@+id/loginButton"
+                style="@style/darkGrayButton"
+                android:layout_width="@dimen/gray_button_width"
+                android:layout_height="@dimen/gray_button_height"
+                android:layout_below="@+id/loginPasswordInput"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_smaller"
+                android:onClick="loginButtonAction"
+                android:text="@string/login_page_text6"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+
 
 </RelativeLayout>

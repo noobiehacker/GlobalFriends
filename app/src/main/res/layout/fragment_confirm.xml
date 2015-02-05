@@ -35,7 +35,7 @@
 
             <include
                 android:id="@+id/leagueInfoContainter"
-                layout="@layout/view_league_icon_and_text"
+                layout="@layout/partial_league_image_and_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true" />

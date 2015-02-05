@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/spacing_smaller"
             android:layout_toRightOf="@id/checkedIcon"
-            android:text="@string/league_page_button_text" />
+            android:text="@string/league_page_button_disabled_text" />
 
     </RelativeLayout>
 

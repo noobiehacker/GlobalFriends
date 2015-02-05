@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_1"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_settings_padding_item_top"
+        android:paddingBottom="@dimen/spacing_settings_padding_item_bottom"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
+        style="@style/settingsItemText"
         />
 
     <View
@@ -27,10 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_2"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_settings_padding_item_top"
+        android:paddingBottom="@dimen/spacing_settings_padding_item_bottom"
         android:layout_below="@id/dark_line_one"
-        style="@style/grayDarkBigText"
+        style="@style/settingsItemText"
         />
 
     <View
@@ -45,10 +45,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_3"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_settings_padding_item_top"
+        android:paddingBottom="@dimen/spacing_settings_padding_item_bottom"
         android:layout_below="@id/dark_line_two"
-        style="@style/grayDarkBigText"
+        style="@style/settingsItemText"
         />
 
     <View
@@ -63,9 +63,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/settings_page_top_text_4"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingBottom="@dimen/spacing_normal"
+        android:paddingTop="@dimen/spacing_settings_padding_item_top"
+        android:paddingBottom="@dimen/spacing_settings_padding_item_bottom"
         android:layout_below="@id/dark_line_three"
-        style="@style/grayDarkBigText"
+        style="@style/settingsItemText"
         />
 </RelativeLayout>
