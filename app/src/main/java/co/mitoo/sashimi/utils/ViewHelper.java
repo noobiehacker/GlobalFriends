@@ -6,9 +6,11 @@ import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,8 +20,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -30,7 +34,6 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 public class ViewHelper {
     
     private MitooActivity activity;
-
     public ViewHelper(MitooActivity activity) {
         this.activity = activity;
     }
@@ -46,8 +49,6 @@ public class ViewHelper {
     public void setUpLeagueImage(View view, League league , MitooEnum.ViewType viewType){
         
         setUpIconImage(view, league, viewType);
-        setUpLeagueBackground(view ,league);
-
     }
     
     private int getIconDimen(MitooEnum.ViewType viewType){
@@ -70,29 +71,53 @@ public class ViewHelper {
         return logo;
     }
 
-
-    
     private void setUpLeagueBackground(View view, League league){
-        
-        ImageView leagueBackgroundImageView = (ImageView) view.findViewById(R.id.leagueBackGround);
-        Picasso.with(getActivity())
-                .load(league.getCover())
-                .into(leagueBackgroundImageView);
-        
+       
+        if(view.getHeight()!=0){
+            String cover = league.getCover();
+            cover = "https://thepublicblogger.files.wordpress.com/2014/05/colors.jpg";
+            RelativeLayout viewLayout =(RelativeLayout)view.findViewById(R.id.league_image_holder);
+            RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(viewLayout.getWidth(),viewLayout.getHeight());
+
+            ImageView leagueOverLayImageView = (ImageView) viewLayout.findViewById(R.id.blackOverLay);
+            leagueOverLayImageView.setLayoutParams(layoutParam);
+
+            ImageView leagueBackgroundImageView = (ImageView) viewLayout.findViewById(R.id.leagueBackGround);
+            leagueBackgroundImageView.setLayoutParams(layoutParam);
+            Picasso.with(getActivity())
+                    .load(cover)
+                    .fit()
+                    .centerCrop()
+                    .into(leagueBackgroundImageView);
+        }
+
     }
-    
-    
-    private void setUpIconImage(View view, League league, MitooEnum.ViewType viewType){
+
+    private void setUpIconImage(final View view, final League league, MitooEnum.ViewType viewType){
         int iconDimenID = getIconDimen(viewType);
         String logo = getLogoUrl(viewType, league);
-        
+        logo = "http://upload.wikimedia.org/wikipedia/en/thumb/0/01/Golden_State_Warriors_logo.svg/838px-Golden_State_Warriors_logo.svg.png";
+
         ImageView leagueIconImageView = (ImageView) view.findViewById(R.id.leagueImage);
         Picasso.with(getActivity())
                 .load(logo)
-                .transform(new LogoTransform(0, getPixelFromDimenID(iconDimenID)))
+                .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
                 .transform(new RoundedTransformation(getPixelFromDimenID(R.dimen.image_border)
                         , getPixelFromDimenID(R.dimen.corner_radius_small)))
-                .into(leagueIconImageView);
+                .into(leagueIconImageView , new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        
+                        setUpHolderViewCallBack( view ,league, view);
+
+                        }
+
+                    @Override
+                    public void onError() {
+                       // setUpHolderViewCallBack( view ,league, view);
+
+                    }
+                });
     }
 
     public void setUpFullLeagueText(View view, League league, MitooEnum.ViewType viewType){
@@ -103,21 +128,15 @@ public class ViewHelper {
         leagueSportsTextView.setText(league.getLeagueSports());
         cityNameTextView.setText(league.getCity());
 
-        if(viewType == MitooEnum.ViewType.FRAGMENT){
-            leagueSportsTextView.setTextAppearance(getActivity(), R.style.leagueBiggerSportText);
-            cityNameTextView.setTextAppearance(getActivity(), R.style.leagueBiggerCityText);
-        }
         setUpLeagueNameText(view, league, viewType);
+
     }
 
     public void setUpLeagueNameText(View view, League league, MitooEnum.ViewType viewType){
 
         TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
         leagueNameTextView.setText(league.getName());
-        if(viewType == MitooEnum.ViewType.FRAGMENT){
-            leagueNameTextView.setTextAppearance(getActivity(), R.style.leagueBiggerNameText);
-        }
-
+        setUpHolderViewCallBack(leagueNameTextView,league, view);
     }
     
     public void setUpCheckBox(View view , League league){
@@ -284,13 +303,26 @@ public class ViewHelper {
         return option;
         
     }
-    
-    public void updateLeagueDetailsPadding(View view){
-        
+
+    public void setUpHolderViewCallBack(final View view ,final League league, final View holder){
+
         if(view!=null){
-            int normalSpacing =  getPixelFromDimenID(R.dimen.spacing_normal);
-            view.setPadding( normalSpacing,normalSpacing,normalSpacing,normalSpacing);
+            view.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            // Ensure you call it only once :
+                            view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            setUpLeagueBackground(holder, league);
+
+                        }
+                    });
         }
 
+    }
+    
+    public RelativeLayout createLeagueResult(League league){
+        
+        
     }
 }

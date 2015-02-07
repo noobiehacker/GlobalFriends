@@ -9,13 +9,13 @@
 
 
 
-<include
-    android:id="@+id/league_icon_and_name_container"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    layout="@layout/partial_league_image_and_name"
-    />
+    <include
+        android:id="@+id/league_icon_and_name_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        layout="@layout/partial_league_image_and_name_big"
+        />
 
     <TextView
         android:id="@+id/city_name"
@@ -23,12 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/league_icon_and_name_container"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_tiny"
         android:gravity="center"
         android:text="@string/place_holder_city_name"
         android:textAllCaps="true"
         android:textIsSelectable="false"
-        style="@style/leagueCityText"
+        style="@style/leagueBiggerCityText"
+
         />
 
     <TextView
@@ -41,7 +41,7 @@
         android:gravity="center"
         android:text="@string/place_holder_league_info"
         android:textIsSelectable="false"
-        style="@style/leagueSportText"
+        style="@style/leagueBiggerSportText"
         />
 
 </RelativeLayout>

@@ -1,108 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
     android:gravity="center"
-    >
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+
+    <include
+        android:id="@+id/leagueInfoContainter"
+        layout="@layout/partial_league_image_and_name_small"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:gravity="center">
-
-        <include
-            layout="@layout/partial_league_image_and_name"
-            android:id="@+id/leagueInfoContainter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            />
-        
-        
-
-        <!-- Take Out Facebook For V1 -->
-        <!--
-        <Button
-            android:id="@+id/facebookJoinButton"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:text="@string/join_page_button_1_text"
-            android:layout_below="@+id/leagueInfoContainter"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_normal"
-            style="@style/navyBlueButton"
-            />
-
-        <include layout="@layout/line_or"
-            android:id="@+id/orLine"
-            android:layout_below="@+id/facebookJoinButton"
-            android:layout_centerHorizontal="true"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:layout_marginTop="@dimen/spacing_smallest"/>
-        -->
-        <EditText
-            android:id="@+id/nameInput"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:hint="@string/join_page_text2"
-            android:layout_below="@+id/leagueInfoContainter"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_normal"
-            style="@style/whiteEditText"
-            />
-
-        <EditText
-            android:id="@+id/emailInput"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:hint="@string/join_page_text3"
-            android:layout_below="@+id/nameInput"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smaller"
-            style="@style/whiteEditText"
-            />
+        android:layout_centerHorizontal="true" />
 
 
-        <include layout="@layout/view_phone_edit_text"
-            android:id="@+id/phoneLayout"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:layout_below="@+id/emailInput"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smaller"/>
+    <!-- Take Out Facebook For V1 -->
+    <!--
+    <Button
+        android:id="@+id/facebookJoinButton"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:text="@string/join_page_button_1_text"
+        android:layout_below="@+id/leagueInfoContainter"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal"
+        style="@style/navyBlueButton"
+        />
+
+    <include layout="@layout/line_or"
+        android:id="@+id/orLine"
+        android:layout_below="@+id/facebookJoinButton"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_marginTop="@dimen/spacing_smallest"/>
+    -->
+    <EditText
+        android:id="@+id/nameInput"
+        style="@style/whiteEditText"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_below="@+id/leagueInfoContainter"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:hint="@string/join_page_text2" />
+
+    <EditText
+        android:id="@+id/emailInput"
+        style="@style/whiteEditText"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_below="@+id/nameInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_smaller"
+        android:hint="@string/join_page_text3" />
 
 
-        <EditText
-            android:id="@+id/passwordInput"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:hint="@string/join_page_text5"
-            android:layout_below="@+id/phoneLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_smaller"
-            android:password="true"
-            style="@style/whiteEditText"
-            />
-
-        <Button
-            android:id="@+id/joinButton"
-            android:layout_width="@dimen/gray_button_width"
-            android:layout_height="@dimen/gray_button_height"
-            android:layout_below="@+id/passwordInput"
-            android:layout_centerHorizontal="true"
-            android:text="@string/join_page_button_2_text"
-            android:onClick="joinButtonAction"
-            android:layout_marginTop="@dimen/spacing_smaller"
-            style="@style/darkGrayButton"
-            />
-
-    </RelativeLayout>
-    
+    <EditText
+        android:id="@+id/phoneInput"
+        style="@style/whiteEditText"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_below="@+id/emailInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_smaller"
+        android:hint="@string/hint_phone"
+        android:inputType="phone"
+        android:paddingLeft="@dimen/spacing_small" />
 
 
-  
-  
+    <EditText
+        android:id="@+id/passwordInput"
+        style="@style/whiteEditText"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_below="@+id/phoneInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_smaller"
+        android:hint="@string/join_page_text5"
+        android:password="true" />
+
+    <Button
+        android:id="@+id/joinButton"
+        style="@style/darkGrayButton"
+        android:layout_width="@dimen/gray_button_width"
+        android:layout_height="@dimen/gray_button_height"
+        android:layout_below="@+id/passwordInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_smaller"
+        android:onClick="joinButtonAction"
+        android:text="@string/join_page_button_2_text" />
+
+
 </RelativeLayout>

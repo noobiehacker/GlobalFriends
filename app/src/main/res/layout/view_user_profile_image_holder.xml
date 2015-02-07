@@ -20,7 +20,6 @@
             android:src="@drawable/ic_account_circle_white"
             android:focusable="false"
             app:border_color="@color/black"
-            app:border_width="2dp"
             />
 
         <TextView

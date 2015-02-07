@@ -7,51 +7,59 @@
 
     <TextView
         android:id="@+id/league_join_title"
+        style="@style/graySectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_section_title_top"
         android:layout_marginBottom="@dimen/spacing_section_title_bottom"
-        android:text="@string/league_page_subtitle_1"
-        style="@style/graySectionTitle"/>
+        android:layout_marginTop="@dimen/spacing_section_title_top"
+        android:text="@string/league_page_subtitle_1" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/gray_light_half"
-        android:padding="@dimen/list_divider_height"
+        android:layout_below="@+id/league_join_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_smaller"
-        android:layout_below="@+id/league_join_title">
+        android:background="@color/gray_light_half"
+        android:padding="@dimen/list_divider_height">
 
-        <TextView
-            android:id="@+id/league_join_details"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@color/gray_light_zero"
-            android:gravity="center"
-            android:paddingTop="@dimen/spacing_small"
-            android:paddingLeft="@dimen/spacing_larger"
-            android:paddingRight="@dimen/spacing_larger"
-            android:text="@string/league_page_text_1"
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            style="@style/grayLightSmallText"
-            />
-
-
-        <TextView
-            android:id="@+id/read_more_text_view"
-            android:layout_below="@+id/league_join_details"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@color/gray_light_zero"
-            android:gravity="center"
-            android:paddingBottom="@dimen/spacing_small"
-            android:text="@string/league_page_text_3"
-            android:layout_width="match_parent"
-            style="@style/grayDarkSmallText"
-            />
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_content_bottom"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:paddingLeft="@dimen/spacing_small"
+                android:paddingRight="@dimen/spacing_small">
+
+                <TextView
+                    android:id="@+id/league_join_details"
+                    style="@style/grayLightSmallText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/league_page_text_1" />
+
+
+                <TextView
+                    android:id="@+id/read_more_text_view"
+                    style="@style/grayDarkSmallText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/league_join_details"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/spacing_tiny"
+                    android:text="@string/league_page_text_3" />
+                
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
-
-
 </RelativeLayout>
+

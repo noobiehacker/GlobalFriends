@@ -49,7 +49,7 @@
     <dimen name="toggle_height_gender">54dp</dimen>
 
     <dimen name="list_view_height">100dp</dimen>
-    <dimen name="list_view_league_image_height">155dp</dimen>
+    <dimen name="list_view_league_image_height">100dp</dimen>
     <dimen name="list_divider_height">1dp</dimen>
     <!-- stock android values -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

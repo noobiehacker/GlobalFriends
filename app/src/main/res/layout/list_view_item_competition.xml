@@ -12,7 +12,7 @@
 
         <include
             android:id="@+id/league_image_holder"
-            layout="@layout/view_league_image_holder"
+            layout="@layout/view_league_image_holder_small"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_view_league_image_height"
             android:layout_alignParentTop="true" />

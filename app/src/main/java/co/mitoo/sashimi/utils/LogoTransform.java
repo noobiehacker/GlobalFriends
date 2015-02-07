@@ -11,19 +11,30 @@ public class LogoTransform implements Transformation {
 
     int maxWidth;
     int maxHeight;
-
-    public LogoTransform(int maxWidth, int maxHeight) {
-        this.maxWidth = maxWidth;
+    double idealRatio = 2.0;
+    public LogoTransform( int maxHeight) {
         this.maxHeight = maxHeight;
+        this.maxWidth = (int)(this.maxHeight * idealRatio);
     }
 
     @Override
     public Bitmap transform(Bitmap source) {
         int targetWidth, targetHeight;
         double aspectRatio;
+        //If aspect ratio is tall and thin, use MaxHeight allowed and scale width according to ratio
+        //If aspect ratio is short and fat, use MaxWidth allowed and scale width according to ratio
         targetHeight = maxHeight;
         aspectRatio = (double) source.getWidth() / (double) source.getHeight();
-        targetWidth = (int) (targetHeight * aspectRatio);
+        if(aspectRatio>=idealRatio){
+            targetWidth = maxWidth;
+            targetHeight = (int) (targetWidth/ aspectRatio);
+
+        }
+        else{
+            targetHeight =maxHeight;
+            targetWidth = (int) (targetHeight * aspectRatio);
+
+        }
         Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
         if (result != source) {
             source.recycle();

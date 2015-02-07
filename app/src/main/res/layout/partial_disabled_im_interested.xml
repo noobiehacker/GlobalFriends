@@ -5,12 +5,12 @@
 
     <RelativeLayout
         android:id="@+id/disabledMockInterestedButton"
-        style="@style/transparentButton"
-        android:layout_width="@dimen/yellow_button_width"
-        android:layout_height="@dimen/yellow_button_height"
+        style="@style/yellowButton"
+        android:layout_width="@dimen/button_width_interested"
+        android:layout_height="@dimen/button_height_interested"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/league_page_button_text">
+        android:background="@color/gray_light_two">
 
         <ImageView
             android:id="@+id/checkedIcon"

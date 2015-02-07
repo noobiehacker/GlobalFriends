@@ -14,8 +14,8 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/blackOverLay"
-        android:src="@color/over_lay_black"
+        android:id="@+id/blackGradient"
+        android:src="@drawable/gradient_full_page"
         android:scaleType="centerCrop"/>
-    
+
 </RelativeLayout>

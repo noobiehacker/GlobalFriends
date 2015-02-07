@@ -3,8 +3,10 @@ package co.mitoo.sashimi.views.adapters;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -38,11 +40,11 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
         convertView = View.inflate(getContext(), R.layout.list_view_item_league, null);
         League league = this.getItem(position);
-        ViewHelper helper = new ViewHelper(getFragment().getMitooActivity());
-        helper.setUpLeagueImage(convertView, league , getViewType());
+        ViewHelper helper = getFragment().getViewHelper();
         helper.setUpFullLeagueText(convertView, league, getViewType());
         helper.setUpCheckBox(convertView , league);
         helper.setLineColor(convertView, league);
+        helper.setUpLeagueImage(convertView,league,getViewType());
         return convertView;
     }
 
@@ -90,4 +92,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         return MitooEnum.ViewType.LIST;
 
     }
+
+
+
 }

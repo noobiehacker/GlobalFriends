@@ -15,6 +15,7 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
 
@@ -59,6 +60,12 @@ public class SplashScreenFragment extends MitooFragment {
 
         fireFragmentChangeAction(R.id.fragment_home, MitooEnum.fragmentTransition.CHANGE);
 
+    }
+
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        
+        super.onError(error);
     }
 
     private void loadFirstFragment(){

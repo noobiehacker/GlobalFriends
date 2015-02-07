@@ -17,8 +17,8 @@
     
     <Button
         android:id="@+id/interestedButton"
-        android:layout_width="@dimen/yellow_button_width"
-        android:layout_height="@dimen/yellow_button_height"
+        android:layout_width="@dimen/button_width_interested"
+        android:layout_height="@dimen/button_height_interested"
         android:layout_below="@+id/league_join_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_normal"

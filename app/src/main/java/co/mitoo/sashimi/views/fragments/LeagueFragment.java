@@ -1,9 +1,12 @@
 package co.mitoo.sashimi.views.fragments;
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -55,8 +58,8 @@ public class LeagueFragment extends MitooFragment {
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
-        getInterestedButton().setVisibility(View.VISIBLE);
-        getDisabledButtonView().setVisibility(View.GONE);
+        getInterestedButton().setVisibility(View.GONE);
+        getDisabledButtonView().setVisibility(View.VISIBLE);
         setLoading(false);
 
     }
@@ -77,16 +80,14 @@ public class LeagueFragment extends MitooFragment {
         setUpLeagueView(view);
         setUpLeagueDetailsText(view, getSelectedLeague());
     }
-
     
     private void setUpLeagueView(View view){
         
-        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpLeagueImage(view, getSelectedLeague(), getViewType());
-        viewHelper.setUpFullLeagueText(view, getSelectedLeague(), getViewType());
-        viewHelper.setLineColor(view, getSelectedLeague());
-        viewHelper.setUpCheckBox(view, getSelectedLeague());
-        setUpInterestedButton(view , viewHelper);
+        getViewHelper().setUpFullLeagueText(view, getSelectedLeague(), getViewType());
+        getViewHelper().setLineColor(view, getSelectedLeague());
+        getViewHelper().setUpCheckBox(view, getSelectedLeague());
+        getViewHelper().setUpLeagueImage(view,getSelectedLeague(),getViewType());
+        setUpInterestedButton(view , getViewHelper());
 
     }
     
@@ -168,6 +169,7 @@ public class LeagueFragment extends MitooFragment {
 
     private void joinButtonAction(){
 
+        setLoading(true);
         SessionModel sessionModel =getSessionModel();
         if(sessionModel.userIsLoggedIn()){
             int UserID = sessionModel.getSession().id;
@@ -192,7 +194,7 @@ public class LeagueFragment extends MitooFragment {
         
         if(getLeagueDetailsTextView()!=null){
             getLeagueDetailsTextView().setText(getSelectedLeague().getAbout());
-            getViewHelper().updateLeagueDetailsPadding(getLeagueDetailsTextView());
+          //  getViewHelper().updateLeagueDetailsPadding(getLeagueDetailsTextView());
         }
         getViewHelper().setViewVisibility(getReadMoreTextView(),false);
         

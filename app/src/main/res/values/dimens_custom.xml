@@ -16,4 +16,18 @@
     <dimen name="spacing_settings_margin_water_mark_bottom">35dp</dimen>
 
     <dimen name="spacing_settings_center_water_mark_padding">6dp</dimen>
+
+    <!-- League Page -->
+
+    <dimen name="button_width_interested">140dp</dimen>
+    <dimen name="button_height_interested">37dp</dimen>
+
+    <dimen name="league_logo_margin_top">31dp</dimen>
+    <dimen name="league_logo_margin_bottom">15dp</dimen>
+
+
+    <dimen name="league_logo_margin_top_small">27dp</dimen>
+    <dimen name="league_logo_margin_bottom_small">15dp</dimen>
+    <!-- All Pages -->
+    <dimen name="spacing_content_bottom">8dp</dimen>
 </resources>

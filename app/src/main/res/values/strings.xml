@@ -124,7 +124,7 @@
     <string name="settings_page_top_text_1">Get help</string>
     <string name="settings_page_top_text_2">Feedback</string>
     <string name="settings_page_top_text_3">FAQ</string>
-    <string name="settings_page_top_text_4">About Mitoo</string>
+    <string name="settings_page_top_text_4">About</string>
     
 
     <string-array name="settings_top_menu_list">
@@ -344,7 +344,8 @@
     <string name="mitoo_support_email_address">talktous@mitoo.co</string>
     <string name="mitoo_support_email_subject">Mitoo</string>
     <string name="mitoo_support_email_body">talktous@mitoo.co</string>
-    <string name="mitoo_privacy_url"> http://more.mitoo.co/terms-privacy-cookies/</string>
+    <string name="mitoo_privacy_url"> http://app.mitoo-staging.co/privacy-policy/</string>
+    <string name="mitoo_terms_url"> http://app.mitoo-staging.co/terms/</string>
     <string name="mitoo_faq_url"> http://help.mitoo.co/?b_id=6464/</string>
 
     <!--API Key-->

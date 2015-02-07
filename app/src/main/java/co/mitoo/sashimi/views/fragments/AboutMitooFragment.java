@@ -57,10 +57,11 @@ public class AboutMitooFragment extends MitooFragment {
     private void setUpWebView(View view) {
 
         WebView webView = (WebView) view.findViewById(R.id.terms_web_view);
-        webView.loadUrl(getString(R.string.mitoo_privacy_url));
 
         switch (getAboutMitooOptions()) {
             case TERMS:
+                webView.loadUrl(getString(R.string.mitoo_terms_url));
+                break;
             case PRIVACYPOLICY:
                 webView.loadUrl(getString(R.string.mitoo_privacy_url));
                 break;
