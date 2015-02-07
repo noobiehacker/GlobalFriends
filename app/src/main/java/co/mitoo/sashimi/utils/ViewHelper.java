@@ -323,6 +323,6 @@ public class ViewHelper {
     
     public RelativeLayout createLeagueResult(League league){
         
-        
+        return null;
     }
 }
