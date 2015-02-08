@@ -41,10 +41,10 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         convertView = View.inflate(getContext(), R.layout.list_view_item_league, null);
         League league = this.getItem(position);
         ViewHelper helper = getFragment().getViewHelper();
-        helper.setUpFullLeagueText(convertView, league, getViewType());
+        helper.setUpFullLeagueText(convertView, league);
         helper.setUpCheckBox(convertView , league);
         helper.setLineColor(convertView, league);
-        helper.setUpLeagueImage(convertView,league,getViewType());
+
         return convertView;
     }
 

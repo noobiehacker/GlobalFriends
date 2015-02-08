@@ -30,7 +30,6 @@ import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -48,14 +47,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private Toast currentToast;
     private Handler handler;
     private Runnable runnable;
-    private boolean busRegistered= false;
+    private boolean busRegistered = false;
     protected Toolbar toolbar;
     protected String fragmentTitle = "";
-    private boolean allowBackPressed= true;
+    private boolean allowBackPressed = true;
     private boolean loading = false;
     private ProgressDialog progressDialog;
     private DataHelper dataHelper;
     private ViewHelper viewHelper;
+    private ViewGroup rootView;
+
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -89,7 +90,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onStop () {
+    public void onStop() {
         tearDownReferences();
         super.onStop();
     }
@@ -101,31 +102,30 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         handleAndDisplayError(error);
 
     }
-    
-    public void registerBus(){
-        if(!busRegistered){
+
+    public void registerBus() {
+        if (!busRegistered) {
             BusProvider.register(this);
             busRegistered = true;
         }
     }
-    
-    public void unregisterBus(){
-        if(busRegistered)
-        {
+
+    public void unregisterBus() {
+        if (busRegistered) {
             BusProvider.unregister(this);
-            busRegistered =false;
+            busRegistered = false;
         }
     }
-    
-    protected void initializeFields(){
-        
+
+    protected void initializeFields() {
+
         setFragmentTitle(getString(R.string.toolbar_placeholder));
     }
 
-    protected void initializeViews(View view){
+    protected void initializeViews(View view) {
 
-       setUpToolBar(view);
-        
+        setUpToolBar(view);
+        setRootView((ViewGroup)view);
     }
 
     protected void initializeOnClickListeners(View view) {
@@ -161,7 +161,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         } else {
             displayText(error.getErrorMessage());
         }
-        
+
     }
 
     protected void handleNetworkError() {
@@ -201,73 +201,86 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fireFragmentChangeAction(int fragmentId , MitooEnum.fragmentTransition transition) {
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentTransition transition) {
 
-        if(fragmentId == R.id.fragment_home){
+        if (fragmentId == R.id.fragment_home) {
             transition = MitooEnum.fragmentTransition.CHANGE;
         }
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition , fragmentId );
-        BusProvider.post(event);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
+        postFragmentChangeEvent(event);
     }
 
 
     public void fireFragmentChangeAction(int fragmentId) {
-        
+
         MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
-        if(fragmentId == R.id.fragment_home){
+        if (fragmentId == R.id.fragment_home) {
             transition = MitooEnum.fragmentTransition.CHANGE;
         }
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition , fragmentId );
-        BusProvider.post(event);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
+        postFragmentChangeEvent(event);
     }
 
-    protected void fireFragmentChangeAction(int fragmentId , Bundle bundle) {
-        
+    protected void fireFragmentChangeAction(int fragmentId, Bundle bundle) {
+
         MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
-        if(fragmentId == R.id.fragment_home){
+        if (fragmentId == R.id.fragment_home) {
             transition = MitooEnum.fragmentTransition.CHANGE;
         }
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , bundle);
-        BusProvider.post(event);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, bundle);
+        postFragmentChangeEvent(event);
     }
-
 
     protected void fireFragmentChangeAction(MitooEnum.fragmentTransition transition) {
 
         FragmentChangeEvent event = new FragmentChangeEvent(this,transition);
-        BusProvider.post(event);
+        postFragmentChangeEvent(event);
     }
+    
+    private void postFragmentChangeEvent(final FragmentChangeEvent event){
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                BusProvider.post(event);
+
+            }
+        };
+        getHandler().postDelayed(runnable,250);
+        
+    }
+
     //Buggy don't use
-    protected void popFragmentAction(){
+    protected void popFragmentAction() {
 
         getMitooActivity().popFragment();
-        
+
     }
 
     protected void displayText(String text) {
 
         removeToast();
         View toastLayout = createToastView();
-        createTextForToast(toastLayout,text);
+        createTextForToast(toastLayout, text);
         Toast toast = new Toast(getActivity().getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
         toast.setView(toastLayout);
         toast.show();
-        currentToast=toast;
+        currentToast = toast;
     }
-    
-    private View createToastView(){
+
+    private View createToastView() {
 
         View layout = getActivity().getLayoutInflater().inflate(R.layout.view_toast,
                 (ViewGroup) getActivity().findViewById(R.id.toast_layout_root));
         return layout;
     }
-    
-    private void createTextForToast(View layout, String text){
+
+    private void createTextForToast(View layout, String text) {
 
         TextView textView = (TextView) layout.findViewById(R.id.text);
         textView.setText(text);
-        
+
     }
 
     protected void buildLocationServicePrompt() {
@@ -277,15 +290,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 getString(R.string.prompt_yes),
                 getString(R.string.prompt_no),
                 new LocationServicesPromptOnclickListener(true, getActivity()),
-                new LocationServicesPromptOnclickListener(false,getActivity()));
+                new LocationServicesPromptOnclickListener(false, getActivity()));
 
     }
 
     protected void buildPrompt(String title, String message, String positiveMessage,
-                             String negativeMessage, DialogInterface.OnClickListener positiveListener,
-                             DialogInterface.OnClickListener negativeListener) {
+                               String negativeMessage, DialogInterface.OnClickListener positiveListener,
+                               DialogInterface.OnClickListener negativeListener) {
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getActivity(),
-                                                    android.R.style.Theme_Holo_Dialog);
+                android.R.style.Theme_Holo_Dialog);
         AlertDialog.Builder builder = new AlertDialog.Builder(contextThemeWrapper);
         builder.setMessage(message)
                 .setTitle(title)
@@ -297,38 +310,37 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    private void handleCallBacks(){
-        if(handler!=null && runnable != null){
+    private void handleCallBacks() {
+        if (handler != null && runnable != null) {
             handler.removeCallbacks(runnable);
         }
-        
+
     }
 
-    public List<String> buiildStringList(int arrayID){
+    public List<String> buiildStringList(int arrayID) {
 
         List<String> returnList = new ArrayList<String>();
         String[] arrayOfString = getResources().getStringArray(arrayID);
-        for(String item : arrayOfString){
+        for (String item : arrayOfString) {
             returnList.add(item);
         }
         return returnList;
 
     }
-    
-    protected <T> void setUpListView(ArrayAdapter<T> adapter, ListView listView,AdapterView.OnItemClickListener listener){
-        
+
+    protected <T> void setUpListView(ArrayAdapter<T> adapter, ListView listView, AdapterView.OnItemClickListener listener) {
+
         listView.setOnItemClickListener(listener);
         listView.setAdapter(adapter);
-        
+
     }
-    
+
     public void removeToast() {
 
-        if(currentToast!=null)
-        {
+        if (currentToast != null) {
             currentToast.cancel();
         }
-        currentToast=null;
+        currentToast = null;
 
     }
 
@@ -336,8 +348,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-    
-    public void tearDownReferences(){
+
+    public void tearDownReferences() {
 
         handleCallBacks();
         removeToast();
@@ -348,16 +360,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser) {
+        if (isVisibleToUser) {
             Activity a = getActivity();
-            if(a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            if (a != null) a.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
     }
 
     protected void setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-        if(toolbar!=null){
+        toolbar = (Toolbar) view.findViewById(R.id.app_bar);
+        if (toolbar != null) {
 
             toolbar.setNavigationIcon(R.drawable.header_back_icon);
             toolbar.setTitle(getFragmentTitle());
@@ -393,16 +405,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void setAllowBackPressed(boolean allowBackPressed) {
         this.allowBackPressed = allowBackPressed;
     }
-    
-    protected MitooModel getMitooModel(Class<?> classType){
-        
-        if(classType == UserInfoModel.class)
+
+    protected MitooModel getMitooModel(Class<?> classType) {
+
+        if (classType == UserInfoModel.class)
             return getMitooActivity().getModelManager().getUserInfoModel();
-        else if(classType == LeagueModel.class)
+        else if (classType == LeagueModel.class)
             return getMitooActivity().getModelManager().getLeagueModel();
-        else if(classType == SessionModel.class)
+        else if (classType == SessionModel.class)
             return getMitooActivity().getModelManager().getSessionModel();
-        else if(classType == LocationModel.class)
+        else if (classType == LocationModel.class)
             return getMitooActivity().getModelManager().getLocationModel();
         else
             return null;
@@ -414,30 +426,30 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void setLoading(boolean loading) {
         this.loading = loading;
-        if(this.loading){
+        if (this.loading) {
             displayProgressDialog();
-        }else{
+        } else {
             cancelProgressDialog();
         }
     }
-    
-    private void displayProgressDialog(){
-        
+
+    private void displayProgressDialog() {
+
         ProgressDialog dialog = getProgressDialog();
-        if(!dialog.isShowing())
+        if (!dialog.isShowing())
             dialog.show();
-    
+
     }
 
-    private void cancelProgressDialog(){
+    private void cancelProgressDialog() {
 
         ProgressDialog dialog = getProgressDialog();
-        if(dialog.isShowing())
+        if (dialog.isShowing())
             dialog.dismiss();
-        
+
     }
-    
-    private void iniializeDialog(){
+
+    private void iniializeDialog() {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle(getString(R.string.dialog_loading_title));
         progressDialog.setMessage(getString(R.string.dialog_loading_message));
@@ -446,14 +458,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     public ProgressDialog getProgressDialog() {
-        if(this.progressDialog== null)
+        if (this.progressDialog == null)
             iniializeDialog();
         return progressDialog;
     }
 
 
     public DataHelper getDataHelper() {
-        if(dataHelper ==null)
+        if (dataHelper == null)
             setDataHelper(new DataHelper(getActivity()));
         return dataHelper;
     }
@@ -462,18 +474,18 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.dataHelper = dataHelper;
     }
 
-    protected SessionModel getSessionModel(){
+    protected SessionModel getSessionModel() {
 
         return (SessionModel) getMitooModel(SessionModel.class);
     }
 
-    protected LeagueModel getLeagueModel(){
+    protected LeagueModel getLeagueModel() {
 
         return (LeagueModel) getMitooModel(LeagueModel.class);
     }
 
     public ViewHelper getViewHelper() {
-        if(viewHelper==null)
+        if (viewHelper == null)
             viewHelper = new ViewHelper(getMitooActivity());
         return viewHelper;
     }
@@ -491,12 +503,12 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     public Handler getHandler() {
-        if(handler==null)
-            handler =new Handler();
+        if (handler == null)
+            handler = new Handler();
         return handler;
     }
-    
-    protected Bundle createBundleForNextFragment(int keyStringID, int valueStringID){
+
+    protected Bundle createBundleForNextFragment(int keyStringID, int valueStringID) {
 
         Bundle bundle = new Bundle();
         String key = getMitooActivity().getString(keyStringID);
@@ -508,11 +520,20 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected void handleViewVisibility(View view, boolean show) {
         getViewHelper().setViewVisibility(view, show);
     }
-    
+
     public void setHandler(Handler handler) {
         this.handler = handler;
     }
+
+    public ViewGroup getRootView() {
+        return rootView;
+    }
+
+    public void setRootView(ViewGroup rootView) {
+        this.rootView = rootView;
+    }
 }
+
 
 
 

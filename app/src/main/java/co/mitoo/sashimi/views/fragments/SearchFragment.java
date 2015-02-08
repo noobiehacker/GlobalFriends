@@ -330,7 +330,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setUpDynamicText(searchMitooFor);
     }
 
-
     @Subscribe
     public void onLatLngRecieved(LatLng latLng){
 

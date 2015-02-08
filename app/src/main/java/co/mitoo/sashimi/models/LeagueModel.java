@@ -39,6 +39,7 @@ public class LeagueModel extends MitooModel{
     private List<League> leagueEnquired;
     private JSONObject results;
     private League selectedLeague;
+    private boolean requestingAlgolia;
 
     public LeagueModel(MitooActivity activity) {
         super(activity);
@@ -61,6 +62,7 @@ public class LeagueModel extends MitooModel{
             algoliaQuery.aroundLatitudeLongitude((float)center.latitude, (float)center.longitude, MitooConstants.searchRadius);
 
         }
+        setRequestingAlgolia(true);
         index.searchASync(algoliaQuery, this.aiListener);
         
     }
@@ -97,7 +99,8 @@ public class LeagueModel extends MitooModel{
     @Subscribe
     public void algoLiaResponse(AlgoliaResponseEvent event){
 
-        parseLeagueResult(event.getResult());
+        if(isRequestingAlgolia())
+            parseLeagueResult(event.getResult());
     }
 
     
@@ -117,6 +120,8 @@ public class LeagueModel extends MitooModel{
                 catch(Exception e){
                     BusProvider.post(new MitooActivitiesErrorEvent(MitooEnum.ErrorType.APP , e.toString()));
                 }
+                
+                setRequestingAlgolia(false);
             }
         };
 
@@ -233,11 +238,11 @@ public class LeagueModel extends MitooModel{
         return leagueSearchResults;
     }
 
-    public void setLeagueSearchResults(List<League> leagueResults) {
-        this.leagueSearchResults = leagueResults;
+    public boolean isRequestingAlgolia() {
+        return requestingAlgolia;
     }
 
-    public void setLeagueEnquired(List<League> leagueEnquired) {
-        this.leagueEnquired = leagueEnquired;
+    public void setRequestingAlgolia(boolean requestingAlgolia) {
+        this.requestingAlgolia = requestingAlgolia;
     }
 }

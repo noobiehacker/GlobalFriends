@@ -1,16 +1,19 @@
 package co.mitoo.sashimi.views.fragments;
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
@@ -76,19 +79,18 @@ public class LeagueFragment extends MitooFragment {
         
         super.initializeViews(view);
         initializeOnClickListeners(view);
+        setUpLeagueHeaderView(view);
         setUpMap();
-        setUpLeagueView(view);
+        setUpInterestedButton(view , getViewHelper());
         setUpLeagueDetailsText(view, getSelectedLeague());
     }
     
-    private void setUpLeagueView(View view){
-        
-        getViewHelper().setUpFullLeagueText(view, getSelectedLeague(), getViewType());
-        getViewHelper().setLineColor(view, getSelectedLeague());
-        getViewHelper().setUpCheckBox(view, getSelectedLeague());
-        getViewHelper().setUpLeagueImage(view,getSelectedLeague(),getViewType());
-        setUpInterestedButton(view , getViewHelper());
+    private void setUpLeagueHeaderView(View view){
 
+        int leagueLayout = R.layout.partial_league_page_header;
+        RelativeLayout holder = (RelativeLayout)view.findViewById(R.id.league_image_holder);
+        RelativeLayout leagueView = getViewHelper().createLeagueResult(getSelectedLeague(), leagueLayout , holder);
+        holder.addView(leagueView);
     }
     
     @Override

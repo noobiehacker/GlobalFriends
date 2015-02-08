@@ -27,7 +27,7 @@
 
 
     <dimen name="league_logo_margin_top_small">27dp</dimen>
-    <dimen name="league_logo_margin_bottom_small">15dp</dimen>
+    <dimen name="league_logo_margin_bottom_small">13dp</dimen>
     <!-- All Pages -->
     <dimen name="spacing_content_bottom">8dp</dimen>
 </resources>

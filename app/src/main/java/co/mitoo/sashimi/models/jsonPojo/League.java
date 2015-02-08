@@ -26,6 +26,7 @@ public class League implements Serializable {
     private String logo_small;
     private String logo_thumb;
     private String cover;
+    private String cover_mobile;
     private _geoLoc _geoloc;
     private location location;
     private String[] sports;
@@ -172,6 +173,14 @@ public class League implements Serializable {
 
     public void setObjectID(int objectID) {
         this.objectID = objectID;
+    }
+
+    public String getCover_mobile() {
+        return cover_mobile;
+    }
+
+    public void setCover_mobile(String cover_mobile) {
+        this.cover_mobile = cover_mobile;
     }
 
     public LatLng getLatLng(){

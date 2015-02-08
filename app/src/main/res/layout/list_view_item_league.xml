@@ -8,7 +8,7 @@
         android:id="@+id/league_image_holder"
         layout="@layout/view_league_image_holder_small"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
     
     <View

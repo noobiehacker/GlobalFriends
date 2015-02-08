@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -16,15 +16,13 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 
 /**
  * Created by david on 15-01-19.
  */
 public class SearchResultsFragment extends MitooFragment  {
 
-    private ListView leagueList;
-    private LeagueAdapter leagueDataAdapter;
+    private LinearLayout leagueListHolder;
     private List<League> leagueData ;
 
     public static SearchResultsFragment newInstance() {
@@ -53,7 +51,7 @@ public class SearchResultsFragment extends MitooFragment  {
         super.initializeFields();
         Bundle arguments = getArguments();
         setFragmentTitle(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
-        setUpLeagueData();
+        setLeagueData(new ArrayList<League>());
         updateLeagueDataResult();
     }
 
@@ -63,18 +61,9 @@ public class SearchResultsFragment extends MitooFragment  {
             DataHelper dataHelper = new DataHelper(getMitooActivity());
             dataHelper.clearList(leagueData);
             dataHelper.addToListList(this.leagueData, getLeagueModel().getLeagueSearchResults());
-            this.leagueDataAdapter.notifyDataSetChanged();
         }
     }
 
-    private void setUpLeagueData(){
-
-        if(leagueData==null){
-            leagueData = new ArrayList<League>();
-            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this , true);
-        }
-
-    }
     @Override
     protected void initializeViews(View view){
 
@@ -103,17 +92,7 @@ public class SearchResultsFragment extends MitooFragment  {
         noResultsView.setText(noReultsText);
         noResultsView.setVisibility(View.VISIBLE);
     }
-    
-    
-    private void setUpListView(View view){
-        
-        leagueList = (ListView) view.findViewById(R.id.leagueListView);
-        leagueList.setAdapter(leagueDataAdapter);
-        leagueList.setOnItemClickListener(leagueDataAdapter);
-        leagueList.addHeaderView(getViewHelper().createListViewPadding());
-        leagueList.addFooterView(getViewHelper().createListViewPadding());
-    }
-    
+
     private String createNoResultsString(){
         
         return getString(R.string.results_page_text_1) + " " +
@@ -121,4 +100,40 @@ public class SearchResultsFragment extends MitooFragment  {
                getString(R.string.results_page_text_2);
     }
 
+    public List<League> getLeagueData() {
+        if (leagueData == null) {
+            setLeagueData(new ArrayList<League>());
+            updateLeagueDataResult();
+        }
+        return leagueData;
+    }
+
+    public void setLeagueData(List<League> leagueData) {
+        this.leagueData = leagueData;
+    }
+
+    private void setUpListView(View view){
+
+        int leagueLayout = R.layout.list_view_item_league;
+        setLeagueListHolder((LinearLayout) view.findViewById(R.id.league_image_holder));
+        getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getLeagueData());
+
+    }
+    
+
+    
+    @Override
+    public void tearDownReferences(){
+
+        getRootView().removeAllViews();
+        super.tearDownReferences();
+    }
+
+    public LinearLayout getLeagueListHolder() {
+        return leagueListHolder;
+    }
+
+    public void setLeagueListHolder(LinearLayout leagueListHolder) {
+        this.leagueListHolder = leagueListHolder;
+    }
 }
