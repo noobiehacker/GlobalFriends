@@ -68,9 +68,8 @@ public class SignUpFragment extends MitooFragment {
         
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpIconImage(view, getSelectedLeague() ,R.layout.partial_league_page_header, null);
-        viewHelper.setUpFullLeagueText(view, getSelectedLeague());
-        
+        viewHelper.setUpSignUpView(view, getSelectedLeague());
+
     }
 
     @Override
@@ -158,7 +157,7 @@ public class SignUpFragment extends MitooFragment {
 
     public League getSelectedLeague() {
         if(selectedLeague==null){
-            setSelectedLeague(getRetriever().getLeagueModel().getSelectedLeague());
+            setSelectedLeague(getLeagueModel().getSelectedLeague());
         }
         return selectedLeague;
     }
