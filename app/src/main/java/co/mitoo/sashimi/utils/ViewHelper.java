@@ -87,6 +87,7 @@ public class ViewHelper {
                     .load(cover)
                     .fit()
                     .centerCrop()
+                    .placeholder(R.color.over_lay_black)
                     .into(leagueBackgroundImageView, createBackgroundCallBack());
         }
     }
