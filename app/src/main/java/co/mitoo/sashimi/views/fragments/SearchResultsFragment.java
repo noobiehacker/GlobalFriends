@@ -120,8 +120,6 @@ public class SearchResultsFragment extends MitooFragment  {
 
     }
     
-
-    
     @Override
     public void tearDownReferences(){
 

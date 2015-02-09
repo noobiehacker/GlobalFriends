@@ -11,7 +11,7 @@ public class LogoTransform implements Transformation {
 
     int maxWidth;
     int maxHeight;
-    double idealRatio = 2.0;
+    double idealRatio = 2.1;
     public LogoTransform( int maxHeight) {
         this.maxHeight = maxHeight;
         this.maxWidth = (int)(this.maxHeight * idealRatio);

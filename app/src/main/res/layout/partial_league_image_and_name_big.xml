@@ -18,8 +18,9 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
+            android:padding="@dimen/image_container_border"
             android:focusable="false"
-            android:scaleType="fitStart"
+            android:scaleType="fitCenter"
             android:src="@drawable/place_holder_league" />
     </RelativeLayout>
 

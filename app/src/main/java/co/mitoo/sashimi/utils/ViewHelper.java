@@ -78,10 +78,9 @@ public class ViewHelper {
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             String cover = league.getCover_mobile();
-            RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getWidth(), leagueItemHolder.getHeight());
+            RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
 
             leagueOverLayImageView.setLayoutParams(layoutParam);
-
             leagueBackgroundImageView.setLayoutParams(layoutParam);
             Picasso.with(getActivity())
                     .load(cover)
@@ -89,6 +88,7 @@ public class ViewHelper {
                     .centerCrop()
                     .placeholder(R.color.over_lay_black)
                     .into(leagueBackgroundImageView, createBackgroundCallBack());
+
         }
     }
 
@@ -99,8 +99,7 @@ public class ViewHelper {
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             String cover = league.getCover_mobile();
-            RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,500);
+            RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
             leagueOverLayImageView.setLayoutParams(layoutParam);
             leagueBackgroundImageView.setLayoutParams(layoutParam);
             Picasso.with(getActivity())
@@ -137,9 +136,7 @@ public class ViewHelper {
         Picasso.with(getActivity())
                 .load(logo)
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
-                .transform(new RoundedTransformation(getPixelFromDimenID(R.dimen.image_border)
-                        , getPixelFromDimenID(R.dimen.corner_radius_small)))
-                .into(leagueIconImageView , createIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
+                .into(leagueIconImageView, createIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
     }
 
     public void setUpIconImage(final View leagueItemContainer, final League league, int layoutID){
@@ -149,9 +146,7 @@ public class ViewHelper {
         Picasso.with(getActivity())
                 .load(logo)
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
-                .transform(new RoundedTransformation(getPixelFromDimenID(R.dimen.image_border)
-                        , getPixelFromDimenID(R.dimen.corner_radius_small)))
-                .into(leagueIconImageView );
+                .into(leagueIconImageView);
     }
 
     public void setUpFullLeagueText(View view, League league){
@@ -215,7 +210,7 @@ public class ViewHelper {
     }
 
     private int getBorder(){
-        return getPixelFromDimenID(R.dimen.image_border);
+        return getPixelFromDimenID(R.dimen.image_container_border);
     }
     
     private int getColor(String leagueColorInput){
@@ -335,7 +330,8 @@ public class ViewHelper {
         if(leagues.size()>indexToStop){
 
             final List<League> leagueToLoadLater = leagues.subList(indexToStop , leagues.size());
-            setRunnable(createRecursiveLoadList(fragment, leagueLayout, holder, leagueToLoadLater));
+            fragment.setRunnable(createRecursiveLoadList(fragment, leagueLayout, holder, leagueToLoadLater));
+            setRunnable(fragment.getRunnable());
             leagues = leagues.subList(0,indexToStop);
 
         }
@@ -412,6 +408,7 @@ public class ViewHelper {
 
             @Override
             public void onError() {
+                
                 setUpDynamicLeagueBackground(leagueItemHolder, league);
             }
         };
