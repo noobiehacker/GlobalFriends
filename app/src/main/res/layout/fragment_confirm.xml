@@ -12,13 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <ImageView
-        android:id="@+id/leagueBackGround"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <include
+        android:id="@+id/signUpBackgroundConatiner"
+        layout="@layout/partial_league_static_background"
         android:layout_below="@id/app_bar"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_social_league" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

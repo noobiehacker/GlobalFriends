@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_landing"
-    android:background="@drawable/bg1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1">
 
 
-<com.daimajia.slider.library.SliderLayout
+    <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true" />
 
     //Top
 
@@ -28,31 +27,38 @@
         android:id="@+id/custom_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/searchButton"
+        android:layout_above="@+id/buttonContainer"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="@dimen/spacing_large"
-        />
+        android:paddingBottom="@dimen/spacing_large" />
 
     //Bottom
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="@dimen/gray_button_width"
-        android:layout_height="@dimen/gray_button_height"
-        android:layout_above="@+id/signupButton"
-        android:layout_centerHorizontal="true"
-        android:text="@string/landing_page_text10"
-        style="@style/darkGrayButton"
-        />
 
-    <Button
-        android:id="@+id/signupButton"
-        android:layout_width="@dimen/gray_button_width"
-        android:layout_height="@dimen/gray_button_height"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/spacing_smaller"
-        android:text="@string/landing_page_text11"
-        style="@style/noBackgroundButton"
-        />
+    <RelativeLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/spacing_sides"
+        android:paddingRight="@dimen/spacing_sides">
 
+
+        <Button
+            android:id="@+id/searchButton"
+            style="@style/darkGrayButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gray_button_height"
+            android:layout_above="@+id/signupButton"
+            android:layout_centerHorizontal="true"
+            android:text="@string/landing_page_text10" />
+
+        <Button
+            android:id="@+id/signupButton"
+            style="@style/noBackgroundButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gray_button_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_smaller"
+            android:text="@string/landing_page_text11" />
+
+    </RelativeLayout>
 </RelativeLayout>

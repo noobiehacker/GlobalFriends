@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <!-- App Wise -->
+    <dimen name="spacing_sides">19dp</dimen>
 
     <!-- Settings Page -->
 

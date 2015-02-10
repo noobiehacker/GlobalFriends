@@ -15,6 +15,7 @@ import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
+import rx.Subscriber;
 import rx.functions.Action1;
 import se.walkercrou.places.GooglePlaces;
 import se.walkercrou.places.Place;
@@ -41,18 +42,29 @@ public class LocationModel extends MitooModel {
         this.currentLocation = location;
     }
 
-    public void GpsCurrentLocationRequest(){
-        
+    public void GpsCurrentLocationRequest() {
         ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(this.activity);
         locationProvider.getLastKnownLocation()
-                .subscribe(new Action1<Location>() {
+                .subscribe(new Subscriber<Location>() {
+
                     @Override
-                    public void call(Location location) {
-                        BusProvider.post(new GpsResponseEvent(location));
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(Location objectRecieve) {
+                        BusProvider.post(objectRecieve);
+
                     }
                 });
-        
+
+
     }
+
 
     @Subscribe
     public void GpsResponse(GpsResponseEvent event){

@@ -20,9 +20,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Protocol;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
@@ -47,6 +51,7 @@ public class ViewHelper {
         return activity;
     }
     private int itemLoaded = 0;
+    private Picasso picasso;
 
     public void setActivity(MitooActivity activity) {
         this.activity = activity;
@@ -66,9 +71,9 @@ public class ViewHelper {
 
         String logo = "";
         if(layoutID == R.layout.partial_league_page_header)
-            logo =  league.getLogo_medium();
+            logo =  league.getLogo_large();
         else
-            logo =  league.getLogo_medium();
+            logo =  league.getLogo_large();
         return logo;
     }
 
@@ -79,39 +84,31 @@ public class ViewHelper {
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             String cover = league.getCover_mobile();
             RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
-
             leagueOverLayImageView.setLayoutParams(layoutParam);
             leagueBackgroundImageView.setLayoutParams(layoutParam);
-            Picasso.with(getActivity())
+            getPicasso().with(getActivity())
                     .load(cover)
                     .fit()
                     .centerCrop()
                     .placeholder(R.color.over_lay_black)
                     .into(leagueBackgroundImageView, createBackgroundCallBack());
-
         }
     }
 
 
-    private void setUpLeagueBackground(final View leagueItemHolder, League league) {
+    private void setUpStaticLeagueBackground(final View leagueItemHolder, League league) {
 
-        ImageView leagueOverLayImageView = (ImageView) leagueItemHolder.findViewById(R.id.blackOverLay);
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             String cover = league.getCover_mobile();
-            RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
-            leagueOverLayImageView.setLayoutParams(layoutParam);
-            leagueBackgroundImageView.setLayoutParams(layoutParam);
             Picasso.with(getActivity())
                     .load(cover)
                     .fit()
                     .centerCrop()
                     .into(leagueBackgroundImageView);
         }
-
     }
-    
-    
+
     private void leagueBackgroundLoadCompleteAction(){
 
         itemLoaded++;
@@ -123,9 +120,8 @@ public class ViewHelper {
     }
     
     public void setUpSignUpView(View fragmentView, League league){
-        
         setUpIconImage(fragmentView, league, R.layout.list_view_item_league);
-        setUpLeagueBackground(fragmentView,league);
+        setUpStaticLeagueBackground(fragmentView, league);
         setUpLeagueNameText(fragmentView,league);
     }
 
@@ -133,7 +129,7 @@ public class ViewHelper {
         int iconDimenID = getIconDimen(layoutID);
         String logo = getLogoUrl(layoutID, league);
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
-        Picasso.with(getActivity())
+        getPicasso().with(getActivity())
                 .load(logo)
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
                 .into(leagueIconImageView, createIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
@@ -143,7 +139,7 @@ public class ViewHelper {
         int iconDimenID = getIconDimen(layoutID);
         String logo = getLogoUrl(layoutID, league);
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
-        Picasso.with(getActivity())
+        getPicasso().with(getActivity())
                 .load(logo)
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
                 .into(leagueIconImageView);
@@ -420,11 +416,13 @@ public class ViewHelper {
         return new Callback() {
             @Override
             public void onSuccess() {
+                
                 leagueBackgroundLoadCompleteAction();
             }
 
             @Override
             public void onError() {
+                
                 leagueBackgroundLoadCompleteAction();
             }
         };
@@ -472,5 +470,21 @@ public class ViewHelper {
 
     public void setRunnable(Runnable runnable) {
         this.runnable = runnable;
+    }
+
+    public Picasso getPicasso() {
+        if (picasso == null) {
+            OkHttpClient client = new OkHttpClient();
+            client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
+            Picasso picasso = new Picasso.Builder(getActivity())
+                    .downloader(new OkHttpDownloader(client))
+                    .build();
+            setPicasso(picasso);
+        }
+        return picasso;
+    }
+
+    public void setPicasso(Picasso picasso) {
+        this.picasso = picasso;
     }
 }

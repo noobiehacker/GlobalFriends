@@ -89,7 +89,7 @@ dependencies {
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     //Picasso Image Loader
-    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.squareup.picasso:picasso:2.5.0'
     //AndroidImageSl
     compile 'com.daimajia.slider:library:1.1.0@aar'
     //Calligraphy
@@ -100,8 +100,8 @@ dependencies {
 
     //Network Connection
     compile 'com.squareup.retrofit:retrofit:1.7.1'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
     //Json/Xml Parser
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'

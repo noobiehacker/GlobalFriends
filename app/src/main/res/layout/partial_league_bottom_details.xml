@@ -21,7 +21,6 @@
         android:layout_height="@dimen/button_height_interested"
         android:layout_below="@+id/league_join_title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/league_page_button_text"
         style="@style/transparentButton"/>
 
