@@ -6,10 +6,9 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,17 +28,14 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
-import co.mitoo.sashimi.views.Dialog.LogOutDialogBuilder;
-import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 
 /**
  * Created by david on 15-01-12.
  */
 public class HomeFragment extends MitooFragment {
 
-    private ListView leagueList;
-    private LeagueAdapter leagueDataAdapter;
-    private List<League> leagueData ;
+    private LinearLayout leagueListHolder;
+    private List<League> enquiredLeagueData;
     private RelativeLayout searchPlaceHolder;
 
     @Override
@@ -79,8 +75,7 @@ public class HomeFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
-        setUpLeagueData();
-        updateEnquriedLeagueData();
+        setUpEnquriedLeagueData();
 
     }
 
@@ -104,14 +99,7 @@ public class HomeFragment extends MitooFragment {
         super.initializeOnClickListeners(view);
         
     }
-    
-    private void setUpListView(View view){
-        
-        leagueList = (ListView) view.findViewById(R.id.leagueListView);
-        leagueList.setAdapter(leagueDataAdapter);
-        leagueList.setOnItemClickListener(leagueDataAdapter);
-        
-    }
+
 
     @Override
     protected void setUpToolBar(View view) {
@@ -176,23 +164,48 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    private void setUpLeagueData(){
-
-        if(leagueData==null){
-            leagueData = new ArrayList<League>();
-            leagueDataAdapter = new LeagueAdapter(getActivity(),R.id.leagueListView,leagueData , this, false);
-        }
-
-    }
-
-    public void updateEnquriedLeagueData(){
+    public void setUpEnquriedLeagueData(){
 
         if(getLeagueModel().getLeaguesEnquired()!=null){
             DataHelper dataHelper = new DataHelper(getMitooActivity());
-            dataHelper.clearList(leagueData);
-            dataHelper.addToListList(this.leagueData, getLeagueModel().getLeaguesEnquired());
-            this.leagueDataAdapter.notifyDataSetChanged();
+            dataHelper.clearList(enquiredLeagueData);
+            dataHelper.addToListList(this.enquiredLeagueData, getLeagueModel().getLeaguesEnquired());
         }
+    }
+
+    public List<League> getLeagueData() {
+        if (enquiredLeagueData == null) {
+            setEnquiredLeagueData(new ArrayList<League>());
+            setUpEnquriedLeagueData();
+        }
+        return enquiredLeagueData;
+    }
+
+    public void setEnquiredLeagueData(List<League> leagueData) {
+        this.enquiredLeagueData = leagueData;
+    }
+
+    private void setUpListView(View view){
+
+        int leagueLayout = R.layout.list_view_item_league;
+        setLeagueListHolder((LinearLayout) view.findViewById(R.id.league_image_holder));
+        getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getLeagueData());
+
+    }
+
+    @Override
+    public void tearDownReferences(){
+
+        getRootView().removeAllViews();
+        super.tearDownReferences();
+    }
+
+    public LinearLayout getLeagueListHolder() {
+        return leagueListHolder;
+    }
+
+    public void setLeagueListHolder(LinearLayout leagueListHolder) {
+        this.leagueListHolder = leagueListHolder;
     }
 
 

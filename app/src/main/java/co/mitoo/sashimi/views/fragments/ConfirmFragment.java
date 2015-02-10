@@ -53,8 +53,7 @@ public class ConfirmFragment extends MitooFragment {
 
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpIconImageWithCallBack(view, getSelectedLeague(), R.layout.partial_league_page_header, null);
-        viewHelper.setUpLeagueNameText(view, getSelectedLeague());
+        viewHelper.setUpConfirmView(view, getSelectedLeague());
         setUpPopUpTask();
     }
 

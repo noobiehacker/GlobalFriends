@@ -120,11 +120,19 @@ public class ViewHelper {
     }
     
     public void setUpSignUpView(View fragmentView, League league){
+        setUpStaticLeagueInfoAndBackground(fragmentView, league);
+    }
+
+    public void setUpConfirmView(View fragmentView, League league){
+        setUpStaticLeagueInfoAndBackground(fragmentView, league);
+    }
+    
+    private void setUpStaticLeagueInfoAndBackground(View fragmentView, League league){
         setUpIconImage(fragmentView, league, R.layout.list_view_item_league);
         setUpStaticLeagueBackground(fragmentView, league);
         setUpLeagueNameText(fragmentView,league);
     }
-
+    
     public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, int layoutID, View leagueListHolder){
         int iconDimenID = getIconDimen(layoutID);
         String logo = getLogoUrl(layoutID, league);
