@@ -25,7 +25,7 @@
 
     <TextView
         android:id="@+id/bottom_list_header"
-        style="@style/settingsTitleText"
+        style="@style/settingsUserNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_settings_padding_title_top"

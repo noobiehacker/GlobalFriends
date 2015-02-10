@@ -102,10 +102,10 @@ public class SettingsFragment extends MitooFragment {
     private void setUpUserDetails(View view){
         
         CircleImageView imageView = (CircleImageView) view.findViewById(R.id.user_profileImage);
-        Picasso.with(getActivity())
+        getViewHelper().getPicasso().with(getActivity())
                 .load(getUserInfoRecieve().picture_medium)
                 .into(imageView);
-        
+
         TextView nameTextView= (TextView) view.findViewById(R.id.league_name);
         nameTextView.setText(getUserInfoRecieve().name);
     }

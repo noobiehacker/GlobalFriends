@@ -480,7 +480,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     protected LeagueModel getLeagueModel() {
-
         return (LeagueModel) getMitooModel(LeagueModel.class);
     }
 

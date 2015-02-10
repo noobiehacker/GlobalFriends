@@ -112,6 +112,7 @@ public class SignUpFragment extends MitooFragment {
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         setLoading(false);
+        getMitooActivity().hideSoftKeyboard();
         int keyID = R.string.bundle_key_first_time;
         int valueID = R.string.bundle_value_true;
         if(loggedIn)

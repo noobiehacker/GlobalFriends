@@ -7,7 +7,7 @@ public final class MitooConstants {
     
     public static final int invalidConstant = -1;
     public static final int searchRadius = 40233;
-    public static boolean persistenceStorage = false;
+    public static boolean persistenceStorage = true;
     public static boolean userApiary = false;
     public static final int faqOption = 1437;
 

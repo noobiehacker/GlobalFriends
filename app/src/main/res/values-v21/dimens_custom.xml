@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <!-- App Wise -->
-    <dimen name="spacing_sides">28dp</dimen>
-    <dimen name="height_app_bar">60dp</dimen>
+    <dimen name="spacing_sides">19dp</dimen>
 
     <!-- Settings Page -->
-    <dimen name="spacing_settings_profile_image_top">28dp</dimen>
-    <dimen name="spacing_settings_profile_image_bottom">28dp</dimen>
-    <dimen name="spacing_settings_profile_image_middle">15dp</dimen>
 
     <dimen name="spacing_settings_margin_outter">16dp</dimen>
     <dimen name="spacing_settings_padding_text_left">11dp</dimen>
-    
+
     <dimen name="spacing_settings_padding_title_top">8dp</dimen>
     <dimen name="spacing_settings_padding_title_bottom">3dp</dimen>
 
@@ -38,6 +34,7 @@
     
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
-    <dimen name="spacing_content_bottom">8dp</dimen>
-    <dimen name="spacing_between_text">3dp</dimen>
+    <dimen name="spacing_content_bottom">14dp</dimen>
+    <dimen name="spacing_between_text">6dp</dimen>
+
 </resources>

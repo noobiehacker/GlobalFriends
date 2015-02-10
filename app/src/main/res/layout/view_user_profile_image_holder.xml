@@ -8,6 +8,8 @@
         android:id="@+id/container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_settings_profile_image_top"
+        android:layout_marginBottom="@dimen/spacing_settings_profile_image_bottom"
         android:layout_centerInParent="true">
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -27,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/user_profileImage"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:paddingTop="@dimen/spacing_settings_profile_image_middle"
             android:text="@string/place_holder_player_name"
             android:textIsSelectable="false"
             android:layout_centerHorizontal="true"

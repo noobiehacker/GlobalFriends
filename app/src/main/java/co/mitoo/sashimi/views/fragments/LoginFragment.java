@@ -128,6 +128,7 @@ public class LoginFragment extends MitooFragment {
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
+        getMitooActivity().hideSoftKeyboard();
         fireFragmentChangeAction(R.id.fragment_home);
         setLoading(false);
     }

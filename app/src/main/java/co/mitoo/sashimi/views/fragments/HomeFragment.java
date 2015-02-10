@@ -168,28 +168,23 @@ public class HomeFragment extends MitooFragment {
 
         if(getLeagueModel().getLeaguesEnquired()!=null){
             DataHelper dataHelper = new DataHelper(getMitooActivity());
-            dataHelper.clearList(enquiredLeagueData);
-            dataHelper.addToListList(this.enquiredLeagueData, getLeagueModel().getLeaguesEnquired());
+            dataHelper.clearList(getEnquiredLeagueData());
+            dataHelper.addToListList(getEnquiredLeagueData(), getLeagueModel().getLeaguesEnquired());
         }
     }
 
-    public List<League> getLeagueData() {
+    public List<League> getEnquiredLeagueData() {
         if (enquiredLeagueData == null) {
-            setEnquiredLeagueData(new ArrayList<League>());
-            setUpEnquriedLeagueData();
+            enquiredLeagueData= new ArrayList<League>();
         }
         return enquiredLeagueData;
-    }
-
-    public void setEnquiredLeagueData(List<League> leagueData) {
-        this.enquiredLeagueData = leagueData;
     }
 
     private void setUpListView(View view){
 
         int leagueLayout = R.layout.list_view_item_league;
         setLeagueListHolder((LinearLayout) view.findViewById(R.id.league_image_holder));
-        getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getLeagueData());
+        getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getEnquiredLeagueData());
 
     }
 
