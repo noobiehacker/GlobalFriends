@@ -55,7 +55,7 @@
     <string name="join_page_text5">Password</string>
     <string name="join_page_button_2_text">I\'M INTERESTED</string>
     <string name="join_page_text6">SUCCESS</string>
-    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch with you very soon.</string>
+    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch very soon.</string>
     <string name="join_page_button_3_text">VIEW MY LEAGUES</string>
 
     <!--Forgot Page-->
