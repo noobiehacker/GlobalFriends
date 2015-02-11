@@ -5,35 +5,50 @@
     android:gravity="center">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/diameter_big_check"
+        android:layout_height="@dimen/diameter_big_check"
         android:id="@+id/checkBoxLargeImage"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/icon_round_check__big"/>
 
     <TextView
-        android:id="@+id/joinResultText"
-        android:layout_width="@dimen/gray_button_width"
-        android:layout_height="wrap_content"
+        android:id="@+id/successText"
         android:layout_below="@+id/checkBoxLargeImage"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_confirm_success_top"
         android:layout_centerHorizontal="true"
         android:lineSpacingMultiplier="1.3"
         android:gravity="center"
         android:text="@string/join_page_text6"
-        style="@style/whiteMediumText"
+        style="@style/confirmSuccessText"
+        />
+    
+    <TextView
+        android:id="@+id/joinResultText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/successText"
+        android:layout_marginTop="@dimen/spacing_confirm_details_top"
+        android:layout_centerHorizontal="true"
+        android:lineSpacingMultiplier="1.3"
+        android:gravity="center"
+        android:text="@string/join_page_text7"
+        style="@style/confirmDetailsText"
         />
 
     <Button
         android:id="@+id/viewMyLeaguesButton"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
         android:layout_below="@+id/joinResultText"
         android:layout_centerHorizontal="true"
         android:text="@string/join_page_button_3_text"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_confirm_button_top"
         style="@style/darkGrayButton"
         />
 
 </RelativeLayout>
+
+

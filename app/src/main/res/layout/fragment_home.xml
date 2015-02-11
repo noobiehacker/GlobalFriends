@@ -47,9 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/enquired_league_text"
         android:layout_marginTop="@dimen/spacing_smaller">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/league_image_holder"
@@ -58,7 +56,7 @@
                 android:layout_alignParentTop="true"
                 android:orientation="vertical" />
 
-        </RelativeLayout>
+
         </ScrollView>
 
 

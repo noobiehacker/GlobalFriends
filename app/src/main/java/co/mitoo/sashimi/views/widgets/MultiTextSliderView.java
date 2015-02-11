@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.widgets;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

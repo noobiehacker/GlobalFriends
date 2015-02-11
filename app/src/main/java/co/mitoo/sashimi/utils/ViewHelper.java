@@ -3,6 +3,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,26 +57,6 @@ public class ViewHelper {
     public void setActivity(MitooActivity activity) {
         this.activity = activity;
     }
-    
-    private int getIconDimen(int layoutID){
-
-        int iconDimen = MitooConstants.invalidConstant;
-        if(layoutID == R.layout.partial_league_page_header)
-            iconDimen = R.dimen.league_page_icon_height;
-        else
-            iconDimen = R.dimen.league_listview_icon_height;
-        return iconDimen;
-    }
-
-    private String getLogoUrl(int layoutID , League league){
-
-        String logo = "";
-        if(layoutID == R.layout.partial_league_page_header)
-            logo =  league.getLogo_large();
-        else
-            logo =  league.getLogo_large();
-        return logo;
-    }
 
     private void setUpDynamicLeagueBackground(final View leagueItemHolder, League league) {
 
@@ -128,14 +109,14 @@ public class ViewHelper {
     }
     
     private void setUpStaticLeagueInfoAndBackground(View fragmentView, League league){
-        setUpIconImage(fragmentView, league, R.layout.list_view_item_league);
+        setUpIconImage(fragmentView, league);
         setUpStaticLeagueBackground(fragmentView, league);
         setUpLeagueNameText(fragmentView,league);
     }
     
-    public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, int layoutID, View leagueListHolder){
-        int iconDimenID = getIconDimen(layoutID);
-        String logo = getLogoUrl(layoutID, league);
+    public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, View leagueListHolder){
+        int iconDimenID = R.dimen.league_listview_icon_height;
+        String logo = league.getLogo_large();
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
         getPicasso().with(getActivity())
                 .load(logo)
@@ -143,9 +124,9 @@ public class ViewHelper {
                 .into(leagueIconImageView, createIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
     }
 
-    public void setUpIconImage(final View leagueItemContainer, final League league, int layoutID){
-        int iconDimenID = getIconDimen(layoutID);
-        String logo = getLogoUrl(layoutID, league);
+    public void setUpIconImage(final View leagueItemContainer, final League league){
+        int iconDimenID = R.dimen.league_listview_icon_height;
+        String logo = league.getLogo_large();
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
         getPicasso().with(getActivity())
                 .load(logo)
@@ -156,13 +137,20 @@ public class ViewHelper {
     public void setUpFullLeagueText(View view, League league){
         
         TextView leagueSportsTextView =  (TextView) view.findViewById(R.id.leagueInfo);
-        TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
         leagueSportsTextView.setText(league.getLeagueSports());
-        cityNameTextView.setText(league.getCity());
         setUpLeagueNameText(view, league);
-
+        setUpCityNameText(view, league);
     }
 
+    public void setUpCityNameText(View view, League league){
+
+        TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
+        View cityContainer = (View ) view .findViewById(R.id.city_name_container);
+        cityNameTextView.setText(league.getCity());
+        setViewBackgroundDrawableColor(cityContainer, league.getColor_1());
+
+    }
+    
     public void setUpLeagueNameText(View view, League league){
 
         TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
@@ -185,36 +173,43 @@ public class ViewHelper {
         if(colorID!=MitooConstants.invalidConstant)
             bottomLine.setBackgroundColor(colorID);
     }
-
-    public void setTextViewColor(TextView view, int colorID){
+    public void setTextViewColor(TextView view, String color){
+        int colorID = getColor(color);
+        setTextViewTextColor(view, colorID);
+    }
+    
+    public void setTextViewTextColor(TextView view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             view.setTextColor(colorID);
         }
     }
 
-    public void setTextViewColor(TextView view, String color){
+    public void setViewColor(View view, String color){
         int colorID = getColor(color);
-        setTextViewColor(view, colorID);
+        setViewBackgroundDrawableColor(view, colorID);
     }
 
-    public void setViewColor(View view, int colorID){
+    public void setViewBackgroundDrawableColor(View view, String color){
+        int colorID = getColor(color);
+        setViewBackgroundDrawableColor(view, colorID);
+    }
+
+    public void setViewBackgroundDrawableColor(View view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             Drawable drawable =view.getBackground();
-            drawable.setColorFilter(colorID, PorterDuff.Mode.ADD);
+            drawable.setColorFilter(colorID, PorterDuff.Mode.SRC);
         }
     }
 
-    public void setViewColor(View view, String color){
+    public void setViewBackgroundColor(View view, String color){
         int colorID = getColor(color);
-        setViewColor(view, colorID);
+        setViewBackgroundColor(view, colorID);
     }
     
-    private int getCornerRadius(){
-        return getActivity().getResources().getDimensionPixelSize(R.dimen.corner_radius_small);
-    }
-
-    private int getBorder(){
-        return getPixelFromDimenID(R.dimen.image_container_border);
+    public void setViewBackgroundColor(View view, int colorID){
+        if(colorID!=MitooConstants.invalidConstant){
+            view.setBackgroundColor(colorID);
+        }
     }
     
     private int getColor(String leagueColorInput){
@@ -342,7 +337,7 @@ public class ViewHelper {
 
         for(League item : leagues){
 
-            RelativeLayout layout = createLeagueResult(item, leagueLayout, holder);
+            RelativeLayout layout = createLeagueResult(item, holder);
             layout.setOnClickListener(createLeagueItemClickedListner(fragment, item));
             holder.addView(layout);
         }
@@ -363,7 +358,8 @@ public class ViewHelper {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                leagueListItemAction(fragment,itemClicked);
+                if(!fragment.isLoading())
+                    leagueListItemAction(fragment,itemClicked);
             }
         };
     }
@@ -392,13 +388,15 @@ public class ViewHelper {
         }
     }
     
-    public RelativeLayout createLeagueResult(League league , int layOutID, View leagueListHolder){
+    public RelativeLayout createLeagueResult(League league , View leagueListHolder){
 
-        RelativeLayout leagueItemContainer = (RelativeLayout) getActivity().getLayoutInflater().inflate(layOutID, null);
+        int leagueLayout = R.layout.list_view_item_league;
+        LayoutInflater inflater =  getActivity().getLayoutInflater();
+        RelativeLayout leagueItemContainer = (RelativeLayout)inflater.inflate(leagueLayout, null);
         this.setUpFullLeagueText(leagueItemContainer, league);
         this.setUpCheckBox(leagueItemContainer, league);
         this.setLineColor(leagueItemContainer, league);
-        this.setUpIconImageWithCallBack(leagueItemContainer, league, layOutID, leagueListHolder);
+        this.setUpIconImageWithCallBack(leagueItemContainer, league, leagueListHolder);
         return leagueItemContainer;
     }
     
@@ -495,4 +493,6 @@ public class ViewHelper {
     public void setPicasso(Picasso picasso) {
         this.picasso = picasso;
     }
+    
+
 }

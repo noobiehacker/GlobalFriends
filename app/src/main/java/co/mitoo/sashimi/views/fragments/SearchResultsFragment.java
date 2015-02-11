@@ -63,7 +63,7 @@ public class SearchResultsFragment extends MitooFragment  {
             dataHelper.addToListList(this.leagueData, getLeagueModel().getLeagueSearchResults());
         }
     }
-
+    
     @Override
     protected void initializeViews(View view){
 
@@ -123,7 +123,6 @@ public class SearchResultsFragment extends MitooFragment  {
     @Override
     public void tearDownReferences(){
 
-        getRootView().removeAllViews();
         super.tearDownReferences();
     }
 
@@ -133,5 +132,11 @@ public class SearchResultsFragment extends MitooFragment  {
 
     public void setLeagueListHolder(LinearLayout leagueListHolder) {
         this.leagueListHolder = leagueListHolder;
+    }
+
+    @Override
+    protected void removeDynamicViews(){
+        getLeagueListHolder().removeAllViews();
+        super.removeDynamicViews();
     }
 }

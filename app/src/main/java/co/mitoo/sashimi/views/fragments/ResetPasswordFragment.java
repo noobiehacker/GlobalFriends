@@ -51,7 +51,6 @@ public class ResetPasswordFragment extends MitooFragment{
 
     @Subscribe
     public void onResetPasswordResponse(ResetPasswordResponseEvent event){
-        setLoading(false);
         getMitooActivity().hideSoftKeyboard();
         popFragmentAction();
     }

@@ -142,6 +142,7 @@ public class LoginFragment extends MitooFragment {
     }
 
     private void forgetPasswordAction(){
+        setLoading(true);
         FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_reset_password);
         BusProvider.post(event);
     }

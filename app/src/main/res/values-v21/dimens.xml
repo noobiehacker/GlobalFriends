@@ -68,7 +68,6 @@
     <dimen name="league_icon_container_width">126dp</dimen>
     <dimen name="league_icon_container_height">76dp</dimen>
     <dimen name="league_listview_icon_height">57dp</dimen>
-    <dimen name="league_page_icon_height">74dp</dimen>
     <dimen name="league_icon_radius">4dp</dimen>
     
     <!-- Slide Icon -->

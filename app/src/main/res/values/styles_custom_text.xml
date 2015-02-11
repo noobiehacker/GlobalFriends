@@ -4,35 +4,35 @@
     <!-- League Page -->
     <style name="leagueNameText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="leagueCityText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">@dimen/spacing_tiny</item>
+        <item name="android:paddingBottom">@dimen/spacing_tiny</item>
+        <item name="android:paddingLeft">@dimen/spacing_smallest</item>
+        <item name="android:paddingRight">@dimen/spacing_smallest</item>
     </style>
 
     <style name="leagueSportText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
-
-    <style name="leagueBiggerNameText">
+    <!-- League Page -->
+    <style name="confirmSuccessText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="leagueBiggerCityText">
+    <style name="confirmDetailsText">
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="leagueBiggerSportText">
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">11sp</item>
-    </style>
-    
     <!-- Settings Page -->
 
     <style name="settingsUserNameText">

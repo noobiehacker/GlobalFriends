@@ -19,6 +19,7 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
 import se.walkercrou.places.Place;
 
@@ -47,7 +48,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         return view;
     }
 
-
     @Override
     protected void initializeFields(){
 
@@ -63,6 +63,11 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         setUpDynamicText(view);
     }
 
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        super.onError(error);
+    }
+    
     @Override
     protected void setUpToolBar(View view) {
 
@@ -120,9 +125,9 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
     
     @Subscribe
-    public void onLocationModelQueryResult(LocationModelQueryResultEvent event){
+    public void onLocationModelQueryResult(LocationModelQueryResultEvent event) {
 
-            updatePredictions(event.getPlaces());
+        updatePredictions(event.getPlaces());
     }
 
     public SearchableAdapter getPlaceListAdapter() {
@@ -220,11 +225,12 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     @Override
     public void onClick(View v) {
-        setLoading(true);
+
         switch (v.getId()){
             case R.id.current_location:
                 getLocationModel().setToUseCurrentLocation(true);
                 getMitooActivity().hideSoftKeyboard(v);
+                setLoading(true);
                 break;
         }
     }

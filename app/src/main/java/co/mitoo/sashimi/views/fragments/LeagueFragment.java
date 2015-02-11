@@ -87,9 +87,8 @@ public class LeagueFragment extends MitooFragment {
     
     private void setUpLeagueHeaderView(View view){
 
-        int leagueLayout = R.layout.partial_league_page_header;
         RelativeLayout holder = (RelativeLayout)view.findViewById(R.id.league_image_holder);
-        RelativeLayout leagueView = getViewHelper().createLeagueResult(getSelectedLeague(), leagueLayout , holder);
+        RelativeLayout leagueView = getViewHelper().createLeagueResult(getSelectedLeague(), holder);
         holder.addView(leagueView);
     }
     

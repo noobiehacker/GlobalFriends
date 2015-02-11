@@ -19,7 +19,7 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
-import co.mitoo.sashimi.utils.events.AlgoliaResponseEvent;
+import co.mitoo.sashimi.utils.events.algoliaResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
@@ -97,7 +97,7 @@ public class LeagueModel extends MitooModel{
    
 
     @Subscribe
-    public void algoLiaResponse(AlgoliaResponseEvent event){
+    public void algoliaResponse(algoliaResponseEvent event){
 
         if(isRequestingAlgolia())
             parseLeagueResult(event.getResult());

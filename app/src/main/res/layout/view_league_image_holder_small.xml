@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
 >
 
+
     <include
         layout="@layout/partial_league_background_and_box"
         android:layout_width="wrap_content"
@@ -12,12 +13,13 @@
         android:layout_centerHorizontal="true" />
 
     <include
-        layout="@layout/view_league_icon_and_text_small"
+        layout="@layout/view_league_icon_and_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/league_logo_margin_top_small"
-        android:layout_marginBottom="@dimen/league_logo_margin_bottom_small"
- />
+        android:layout_marginTop="@dimen/league_logo_margin_top"
+        android:layout_marginBottom="@dimen/league_logo_margin_bottom"
+        />
+
 
 </RelativeLayout>

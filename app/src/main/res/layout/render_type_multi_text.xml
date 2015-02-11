@@ -9,27 +9,37 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+    <View
+        android:id="@+id/centerDummieView"
+        android:layout_width="@dimen/list_divider_height"
+        android:layout_height="@dimen/list_divider_height"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/title"
-        android:layout_marginBottom="@dimen/spacing_normal" />
+        android:layout_centerVertical="true" />
 
+    <View
+        android:id="@+id/belowDummieView"
+        android:layout_width="@dimen/list_divider_height"
+        android:layout_height="@dimen/list_divider_height"
+        android:layout_below="@id/centerDummieView"
+        android:layout_marginTop="@dimen/spacing_medium"
+         />
 
     <TextView
         android:id="@+id/title"
         style="@style/whiteBigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/spacing_huge"
+        android:layout_centerHorizontal="true"        
+        android:layout_below="@id/belowDummieView"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
         android:minLines="2" />
 
-
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@id/title"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

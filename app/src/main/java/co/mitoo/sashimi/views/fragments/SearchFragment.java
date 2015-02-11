@@ -81,7 +81,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Subscribe
     public void recieveLeagueResult(LeagueQueryResponseEvent event) {
 
-        setLoading(false);
         if (event.getResults() != null) {
 
             Bundle bundle = new Bundle();
@@ -106,7 +105,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     protected void initializeOnClickListeners(View view) {
 
         super.initializeOnClickListeners(view);
-        getViewHelper().setOnTouchCloseKeyboard(view);
         view.findViewById(R.id.search_bar).setOnClickListener(this);
         view.findViewById(R.id.search_mitoo_for).setOnClickListener(this);
     }
@@ -264,8 +262,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     private void searchFieldAction() {
 
-        setLoading(true);
         getLocationModel().requestSelectedLocationLatLng();
+        setLoading(true);
 
     }
 

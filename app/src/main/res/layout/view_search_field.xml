@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="@dimen/spacing_smaller"
-    android:background="@color/gray_dark_four">
+    android:background="@color/gray_dark_three">
 
     <include android:id="@+id/search_bar_view" 
         layout="@layout/view_search_input"

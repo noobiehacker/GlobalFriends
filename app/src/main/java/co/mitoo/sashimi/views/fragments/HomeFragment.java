@@ -88,8 +88,6 @@ public class HomeFragment extends MitooFragment {
         setUpListView(view);
     }
 
-
-
     @Override
     protected void initializeOnClickListeners(View view) {
         
@@ -191,7 +189,6 @@ public class HomeFragment extends MitooFragment {
     @Override
     public void tearDownReferences(){
 
-        getRootView().removeAllViews();
         super.tearDownReferences();
     }
 
@@ -202,8 +199,12 @@ public class HomeFragment extends MitooFragment {
     public void setLeagueListHolder(LinearLayout leagueListHolder) {
         this.leagueListHolder = leagueListHolder;
     }
-
-
+    
+    @Override
+    protected void removeDynamicViews(){
+        getLeagueListHolder().removeAllViews();
+        super.removeDynamicViews();
+    }
 }
 
 

@@ -46,21 +46,22 @@
     <string name="signup_page_text6">Password</string>
     <string name="signup_page_text7">Signup</string>
 
-    <!--Forgot Page-->
-    <string name="forgot_page_title">Reset Password</string>
-    <string name="forgot_page_text1">Enter your email</string>
-    <string name="forgot_page_text2">RESET</string>
-
-    <!--Join Page-->
+    <!--Sign Up Page Continue-->
     <string name="join_page_title">Join</string>
     <string name="join_page_button_1_text">CONNECT WITH FACEBOOK</string>
     <string name="join_page_text2">Name</string>
     <string name="join_page_text3">Email</string>
     <string name="join_page_text4">Phone</string>
     <string name="join_page_text5">Password</string>
-    <string name="join_page_button_2_text">IM INTERESTED</string>
-    <string name="join_page_text6">We\'ve sent your details to the league, they\nshould be in touch with you very shortly</string>
+    <string name="join_page_button_2_text">I\'M INTERESTED</string>
+    <string name="join_page_text6">SUCCESS</string>
+    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch with you very shortly</string>
     <string name="join_page_button_3_text">VIEW MY LEAGUES</string>
+
+    <!--Forgot Page-->
+    <string name="forgot_page_title">Reset Password</string>
+    <string name="forgot_page_text1">Enter your email</string>
+    <string name="forgot_page_text2">RESET</string>
 
     <!--Competition Page -->
     <string name="competition_page_text1">SELECT SPORT</string>
@@ -210,6 +211,7 @@
 
     <!--App -->
     <string name="empty"></string>
+    <string name="bullet">\u2022</string>
 
     <!--View-->
     <string name="northAmericaAreaCode">+1</string>
@@ -344,9 +346,9 @@
     <string name="mitoo_support_email_address">talktous@mitoo.co</string>
     <string name="mitoo_support_email_subject">Mitoo</string>
     <string name="mitoo_support_email_body">talktous@mitoo.co</string>
-    <string name="mitoo_privacy_url"> http://app.mitoo-staging.co/privacy-policy/</string>
-    <string name="mitoo_terms_url"> http://app.mitoo-staging.co/terms/</string>
-    <string name="mitoo_faq_url"> http://help.mitoo.co/?b_id=6464/</string>
+    <string name="mitoo_privacy_url">http://app.mitoo.co/privacy-policy/</string>
+    <string name="mitoo_terms_url">http://app.mitoo.co/terms/</string>
+    <string name="mitoo_faq_url">http://mitoo.wpengine.com/article-category/faq/</string>
 
     <!--API Key-->
     <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>

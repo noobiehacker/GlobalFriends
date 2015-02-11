@@ -117,7 +117,7 @@ public class ConfirmFragment extends MitooFragment {
                     dialog.buildPrompt().show();
                 }
             });
-            handler.postDelayed(getRunnable(), 3000);
+            handler.postDelayed(getRunnable(), 5000);
 
         }
         

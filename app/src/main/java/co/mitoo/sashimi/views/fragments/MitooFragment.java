@@ -130,13 +130,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void initializeOnClickListeners(View view) {
 
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                getMitooActivity().hideSoftKeyboard(v);
-                return false;
-            }
-        });
+        getViewHelper().setOnTouchCloseKeyboard(view);
 
     }
 
@@ -250,7 +244,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         
     }
 
-    //Buggy don't use
     protected void popFragmentAction() {
 
         getMitooActivity().popFragment();
@@ -530,6 +523,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void setRootView(ViewGroup rootView) {
         this.rootView = rootView;
+    }
+    
+    protected void removeDynamicViews(){
+        
+        
     }
 }
 

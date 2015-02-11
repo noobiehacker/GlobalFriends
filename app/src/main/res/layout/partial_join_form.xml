@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/leagueInfoContainter"
-        layout="@layout/partial_league_image_and_name_small"
+        layout="@layout/partial_league_image_and_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" />

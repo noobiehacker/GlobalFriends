@@ -162,6 +162,11 @@ public class DataHelper {
         return (typeString.equals(geoCode) || typeString.equals(locality) || typeString.equals(political));
 
     }
+
+    private String getBullet(){
+        return getContext().getString(R.string.bullet);
+
+    }
     
     public Context getContext() {
         return context;

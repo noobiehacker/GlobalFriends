@@ -13,6 +13,7 @@ import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.GpsResponseEvent;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Subscriber;
@@ -57,12 +58,10 @@ public class LocationModel extends MitooModel {
 
                     @Override
                     public void onNext(Location objectRecieve) {
-                        BusProvider.post(objectRecieve);
+                        BusProvider.post(new GpsResponseEvent(objectRecieve));
 
                     }
                 });
-
-
     }
 
 
@@ -73,6 +72,12 @@ public class LocationModel extends MitooModel {
             Location result = event.getLocation();
             setLocation(result);
             setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
+            BusProvider.post(new LocationModelLocationsSelectedEvent());
+        }else{
+            setToUseCurrentLocation(false);
+            String errorMesssage = getActivity().getString(R.string.error_location_serivces);
+            MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
+            BusProvider.post(errorEvent);
         }
 
     }
@@ -172,12 +177,10 @@ public class LocationModel extends MitooModel {
 
         this.currentLocationClicked = enable;
         if (enable) {
-            if (currentLocation == null)
+            if (getCurrentLocation() == null)
                 GpsCurrentLocationRequest();
             else {
-
-                LatLng updatedLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                setSelectedLocationLatLng(updatedLatLng);
+                setSelectedLocationLatLng(getCurrentLocation());
                 BusProvider.post(new LocationModelLocationsSelectedEvent());
             }
         }
@@ -203,6 +206,16 @@ public class LocationModel extends MitooModel {
             BusProvider.post(new LatLng(MitooConstants.invalidConstant, MitooConstants.invalidConstant));
     }
 
+    private LatLng getSelectedLocationLatLng(){
+        if(selectedLocationLatLng==null){
+            if(getCurrentLocation()!=null){
+                LatLng currentLatLng =new LatLng(getCurrentLocation().getLatitude(),getCurrentLocation().getLongitude());
+                setSelectedLocationLatLng(currentLatLng);
+            }
+        }
+        return selectedLocationLatLng;
+    }
+    
     public void setSelectedLocationLatLng(LatLng selectedLocationLatLng) {
         
         this.selectedLocationLatLng = selectedLocationLatLng;
@@ -211,11 +224,16 @@ public class LocationModel extends MitooModel {
 
     public void setSelectedLocationLatLng(Place place) {
         if(place!=null){
-            LatLng latLng =new LatLng(selectedPlace.getLatitude(),selectedPlace.getLongitude());
+            LatLng latLng =new LatLng(place.getLatitude(),place.getLongitude());
             this.selectedLocationLatLng = latLng;
         }
     }
 
-
+    public void setSelectedLocationLatLng(Location location) {
+        if(location!=null){
+            LatLng latLng =new LatLng(location.getLatitude(),location.getLongitude());
+            this.selectedLocationLatLng = latLng;
+        }
+    }
 
 }
