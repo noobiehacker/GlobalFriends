@@ -98,14 +98,14 @@
     <!--Location Search Page -->
     <string name="location_search_page_text_1">Enter any location</string>
     <string name="location_search_page_text_2">Current Location</string>
-    
+
     <!--Results Page -->
     <string name="results_page_text_1">Sorry we don\'t have any results \nwith soccer</string>
     <string name="results_page_text_2">in your area yet</string>
     <!--User Profile Page -->
     <string name="settings_page_text_1">Help and feedback</string>
     <string name="settings_page_text_2">Logout</string>
-    
+
     <!--League Page -->
     <string name="league_page_subtitle_1">DETAILS</string>
     <string name="league_page_subtitle_2">WANT TO JOIN?</string>
@@ -113,7 +113,7 @@
     <string name="league_page_text_1">This competition is for any kind of player, \n we\'ll train and  evaluate you before sending you \n to a competition...</string>
     <string name="league_page_text_2">We\'ve sent your details to the league, they \nshould be in touch very soon</string>
     <string name="league_page_text_3">Read more</string>
-    <string name="league_page_button_text">I\'M INTERESTED</string>    
+    <string name="league_page_button_text">I\'M INTERESTED</string>
     <string name="league_page_button_disabled_text">CONTACTED</string>
 
     <!--Home Page -->
@@ -126,7 +126,7 @@
     <string name="settings_page_top_text_2">Feedback</string>
     <string name="settings_page_top_text_3">FAQ</string>
     <string name="settings_page_top_text_4">About</string>
-    
+
 
     <string-array name="settings_top_menu_list">
         <item>Get help</item>
@@ -183,7 +183,7 @@
     <string-array name="levels_array">
         <item>All</item>
         <item>Beginner</item>
-        <item>Intermeditate</item>
+        <item>Intermediate</item>
         <item>Advanced</item>
     </string-array>
 
@@ -242,7 +242,7 @@
     <string name="place_holder_dummie_text">Dummie Text</string>
 
     <!-- Toast -->
-    <string name="toast_error">An error has occured</string>
+    <string name="toast_error">An error has occurred</string>
     <string name="toast_loading">Loading...</string>
     <string name="toast_finish_loading">Loading Complete</string>
     <string name="toast_authorization_token">Authorization Token Is</string>
@@ -254,7 +254,7 @@
     <string name="toast_server_error">Something Went Wrong. please let us know at help@mitoo.co</string>
 
     <string name="toast_password_reset">Password request successfully sent, please check your email</string>
-    
+
     <!-- field checks -->
     <string name="toast_username_empty">Username can not be empty</string>
     <string name="toast_email_empty">Email can not be empty</string>
@@ -361,7 +361,7 @@
     <string name="algolia_staging_index">steak-league-staging</string>
     <string name="algolia_proto_index">proto_league_search</string>
     <string name="algolia_result_param">hits</string>
-    
+
     <!--Bundle Map Key -->
     <string name="bundle_key_tool_bar_title">bundle_key_tool_bar_title</string>
     <string name="bundle_key_league_array_list">bundle_ley_league_array_list</string>
