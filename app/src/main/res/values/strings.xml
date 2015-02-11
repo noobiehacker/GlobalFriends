@@ -55,7 +55,7 @@
     <string name="join_page_text5">Password</string>
     <string name="join_page_button_2_text">I\'M INTERESTED</string>
     <string name="join_page_text6">SUCCESS</string>
-    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch with you very shortly</string>
+    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch with you very soon.</string>
     <string name="join_page_button_3_text">VIEW MY LEAGUES</string>
 
     <!--Forgot Page-->
@@ -100,7 +100,7 @@
     <string name="location_search_page_text_2">Current Location</string>
 
     <!--Results Page -->
-    <string name="results_page_text_1">Sorry we don\'t have any results \nwith soccer</string>
+    <string name="results_page_text_1">Sorry we don\'t have any results \nfor</string>
     <string name="results_page_text_2">in your area yet</string>
     <!--User Profile Page -->
     <string name="settings_page_text_1">Help and feedback</string>
@@ -235,8 +235,7 @@
     <string name="place_holder_city_name">Mitoo City</string>
     <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
     <string name="place_holder_player_name">Mitoo Valuable Player - MVP</string>
-    <string name="place_holder_league_bottom">This competition is a social sports league\n
-    ,we welcome players with any skill level</string>
+    <string name="place_holder_league_bottom">This competition is a social sports league,\nwe welcome players with any skill level</string>
     <string name="place_holder_price_two">$99.99</string>
     <string name="place_holder_sport">Football</string>
     <string name="place_holder_dummie_text">Dummie Text</string>
@@ -312,13 +311,13 @@
     <string name="unhappy_page_text1">Also if you have any request, questions, or would just like\nto find out more, please contact us.</string>
 
     <!--Confused Page -->
-    <string name="confused_page_text1">Thanks for the feedback.  Maybe our FAQ\'s might help you solve your problem?</string>
+    <string name="confused_page_text1">Thanks for the feedback. Maybe our FAQ\'s might help you solve your problem?</string>
     <string name="confused_page_text2">FAQ</string>
-    <string name="confused_page_text3">Perhaps we can assist you direction.  Tell us how we can help?</string>
+    <string name="confused_page_text3">Might we be able to assist you directly? Tell us how we can help.</string>
     <!--Happy Page -->
 
-    <string name="happy_page_text1">Thanks for the feedback.  We would love for yout to reivew\n us on the app store</string>
-    <string name="happy_page_text2">Write a review</string>
+    <string name="happy_page_text1">You being happy make us happy! Can you give us some stars?</string>
+    <string name="happy_page_text2">Give us 5!</string>
     <string name="happy_page_text3"></string>
 
     <!--Toolbar Title-->
@@ -377,7 +376,7 @@
     <string name="google_place_api_political">political</string>
 
     <!--Error -->
-    <string name="error_location_serivces">Location services is unavailible, please try again</string>
+    <string name="error_location_serivces">Location services unavailible, please try again</string>
 
     <string name="shared_preference_session_key">Session Key</string>
     <string name="shared_preference_user_info_key">User Info Key</string>
