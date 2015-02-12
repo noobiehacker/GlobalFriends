@@ -4,15 +4,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.SessionModel;
@@ -124,7 +120,7 @@ public class LeagueFragment extends MitooFragment {
         setInterestedButton((Button) view.findViewById(R.id.interestedButton));
         setDisabledButtonView(view.findViewById(R.id.disabledInterestedView));
         if(getLeagueModel().selectedLeagueIsJoinable()){
-            viewHelper.setViewColor(getInterestedButton(), getSelectedLeague().getColor_1());
+            viewHelper.setViewBackgroundDrawableColor(getInterestedButton(), getSelectedLeague().getColor_1());
         }else{
             
             getInterestedButton().setVisibility(View.GONE);
@@ -144,7 +140,7 @@ public class LeagueFragment extends MitooFragment {
     private void setUpLeagueDetailsText(View view, League league){
 
         setReadMoreTextView((TextView) view.findViewById(R.id.read_more_text_view));
-        getViewHelper().setTextViewColor(getReadMoreTextView(), league.getColor_1());
+        getViewHelper().setTextViewTextColor(getReadMoreTextView(), league.getColor_1());
         setLeagueDetailsTextView ((TextView)view.findViewById(R.id.league_join_details));
         getLeagueDetailsTextView().setText(getTruncatedAbout(league));
 

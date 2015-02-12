@@ -45,6 +45,9 @@
     <dimen name="spacing_confirm_bar_to_icon">38dp</dimen>
     <dimen name="diameter_big_check">49dp</dimen>
 
+    <!-- Search Page -->
+    <dimen name="search_icon_width">17dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>

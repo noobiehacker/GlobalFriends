@@ -104,7 +104,6 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     @Override
     public void onClick(View v) {
-        setLoading(true);
         switch (v.getId()) {
             case R.id.signupButton:
                 loginButtonAction();

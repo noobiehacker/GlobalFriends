@@ -1,13 +1,13 @@
 package co.mitoo.sashimi.views.fragments;
-import android.gesture.Prediction;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
@@ -16,12 +16,12 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
-import se.walkercrou.places.Place;
 
 /**
  * Created by david on 15-01-23.
@@ -31,6 +31,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     private List<IsSearchable> predictions;
     private ListView placesList;
     private SearchableAdapter placeListAdapter;
+    private SearchView searchView;
 
     public static LocationSearchFragment newInstance() {
         LocationSearchFragment fragment = new LocationSearchFragment();
@@ -60,7 +61,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
         setUpToolBar(view);
         setUpPlacesList(view);
-        setUpDynamicText(view);
+        setUpCurrentLocationText(view);
     }
 
     @Subscribe
@@ -75,7 +76,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         if(toolbar!=null) {
 
             toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.addView(createSearchView(view));
+            toolbar.addView(createSearchView());
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,8 +86,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         }
     }
 
-    
-    private void setUpDynamicText(View view){
+    private void setUpCurrentLocationText(View view){
         
         TextView dynamicText = (TextView) view.findViewById(R.id.dynamicText);
         dynamicText.setText(getString(R.string.location_search_page_text_2));
@@ -100,30 +100,16 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         view.findViewById(R.id.current_location).setOnClickListener(this);
     }
 
-    private SearchView createSearchView(View view){
 
-        SearchView searchView = new SearchView(getActivity());
-        searchView.setQueryHint(getString(R.string.location_search_page_text_1));
-        searchView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        searchView.setIconified(false);
-        searchView.requestFocusFromTouch();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
+    private SearchView createSearchView(){
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                querySearchAction(s);
-                return false;
-            }
-        });
-        return searchView;
+        setSearchView(new SearchView(getActivity()));
+        getViewHelper().customizeLocationSearch(getSearchView());
+        getSearchView().setOnQueryTextListener(createQueryTextChangeListner());
+        return getSearchView();
+
     }
-    
+
     @Subscribe
     public void onLocationModelQueryResult(LocationModelQueryResultEvent event) {
 
@@ -242,5 +228,34 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     public void setPlacesList(ListView placesList) {
         this.placesList = placesList;
+    }
+
+    public SearchView getSearchView() {
+        return searchView;
+    }
+
+    public void setSearchView(SearchView searchView) {
+        this.searchView = searchView;
+    }
+    
+    private SearchView.OnQueryTextListener createQueryTextChangeListner(){
+
+        return new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if(s.equals("")){
+                    MitooSearchViewStyle.on(getSearchView()).hideCloseButton();
+                }else{
+                    MitooSearchViewStyle.on(getSearchView()).showCloseButton();
+                }
+                querySearchAction(s);
+                return false;
+            }
+        };
     }
 }

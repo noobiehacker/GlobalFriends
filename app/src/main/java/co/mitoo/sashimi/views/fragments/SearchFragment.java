@@ -1,15 +1,13 @@
 package co.mitoo.sashimi.views.fragments;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -20,6 +18,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -34,10 +33,11 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private ListView sportsList;
     private SearchableAdapter sportsDataAdapter;
     private List<IsSearchable> sportData;
-    private RelativeLayout searchPlaceHolder;
     private TextView searchMitooText;
     private View searchMitooForView;
     private String queryText;
+    private SearchView searchView;
+
 
     public static SearchFragment newInstance() {
 
@@ -97,7 +97,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setUpSearchView(view);
         setUpSportsList(view);
-        setUpSearchPlaceHolder(view);
         setUpSearchMitooForView(view);
     }
 
@@ -129,12 +128,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         switch (v.getId()) {
             case R.id.search_bar:
-                SearchView searchView = (SearchView) v.findViewById(R.id.search_view);
-                searchView.setFocusable(true);
-                searchView.setIconified(false);
-                searchView.requestFocusFromTouch();
-            case R.id.search_view:
-                hideSearchPlaceHolder();
+                getSearchView().requestFocusFromTouch();
                 break;
             case R.id.search_mitoo_for:
                 searchFieldAction();
@@ -168,25 +162,19 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     private void setUpSearchView(View view) {
 
-        final SearchView searchView = (SearchView) view.findViewById(R.id.search_view);
-        searchView.setOnSearchClickListener(this);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                searchFieldAction();
-                return false;
-            }
+        ViewGroup searchContainer = (ViewGroup)view.findViewById(R.id.search_view_container);
+        SearchView searchView = createSearchView();
+        searchContainer.addView(searchView);
 
-            @Override
-            public boolean onQueryTextChange(String s) {
+    }
 
-                queryRefineAction(s);
-                return false;
-            }
-        });
+    private SearchView createSearchView(){
 
-        EditText txtSearch = ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
-        txtSearch.setTextColor(getResources().getColor(R.color.gray_dark_three));
+        setSearchView(new SearchView(getActivity()));
+        getViewHelper().customizeMainSearch(getSearchView());
+        getSearchView().setOnQueryTextListener(createQueryTextChangeListner());
+        return getSearchView();
+
     }
 
     private void setUpSportsList(View view) {
@@ -208,21 +196,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         return header;
     }
 
-
-    public RelativeLayout getSearchPlaceHolder() {
-        return searchPlaceHolder;
-    }
-
-    public void setUpSearchPlaceHolder(View view) {
-        this.searchPlaceHolder = (RelativeLayout) view.findViewById(R.id.search_view_placeholder_container);
-        TextView searchTextPlaceHolder = (TextView) view.findViewById(R.id.search_view_text_view_placeholder);
-        searchTextPlaceHolder.setText(getString(R.string.search_page_text_3));
-    }
-
-    private void hideSearchPlaceHolder() {
-        getSearchPlaceHolder().setVisibility(View.GONE);
-
-    }
 
     private View createClickableTitleView() {
 
@@ -277,8 +250,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         getDataHelper().addToListList(getSportData(), updatedList);
         sportsDataAdapter.notifyDataSetChanged();
     }
-
-
 
     public List<IsSearchable> getSportData() {
         return sportData;
@@ -353,6 +324,34 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     public void setSearchMitooForView(View searchMitooForView) {
         this.searchMitooForView = searchMitooForView;
+    }
+
+    public SearchView getSearchView() {
+        return searchView;
+    }
+
+    public void setSearchView(SearchView searchView) {
+        this.searchView = searchView;
+    }
+
+    private SearchView.OnQueryTextListener createQueryTextChangeListner(){
+
+        return new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if(s.equals("")){
+                    MitooSearchViewStyle.on(getSearchView()).hideCloseButton();
+                }else{
+                    MitooSearchViewStyle.on(getSearchView()).showCloseButton();
+                }
+                return false;
+            }
+        };
     }
 }
 

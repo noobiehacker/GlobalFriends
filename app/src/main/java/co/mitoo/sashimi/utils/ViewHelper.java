@@ -3,6 +3,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -147,7 +149,7 @@ public class ViewHelper {
         TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
         View cityContainer = (View ) view .findViewById(R.id.city_name_container);
         cityNameTextView.setText(league.getCity());
-        setViewBackgroundDrawableColor(cityContainer, league.getColor_1());
+        cityContainer.setBackgroundDrawable(createRoundLeftCorners(league.getColor_1()));
 
     }
     
@@ -167,34 +169,15 @@ public class ViewHelper {
         
     }
 
-    public void setLineColor(View view , League league){
-        View bottomLine = (View) view.findViewById(R.id.bottomLine);
-        int colorID = getColor(league.getColor_1());
-        if(colorID!=MitooConstants.invalidConstant)
-            bottomLine.setBackgroundColor(colorID);
-    }
-    public void setTextViewColor(TextView view, String color){
+    public void setTextViewTextColor(TextView view, String color){
         int colorID = getColor(color);
-        setTextViewTextColor(view, colorID);
-    }
-    
-    public void setTextViewTextColor(TextView view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             view.setTextColor(colorID);
         }
     }
 
-    public void setViewColor(View view, String color){
-        int colorID = getColor(color);
-        setViewBackgroundDrawableColor(view, colorID);
-    }
-
     public void setViewBackgroundDrawableColor(View view, String color){
         int colorID = getColor(color);
-        setViewBackgroundDrawableColor(view, colorID);
-    }
-
-    public void setViewBackgroundDrawableColor(View view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             Drawable drawable =view.getBackground();
             drawable.setColorFilter(colorID, PorterDuff.Mode.SRC);
@@ -203,13 +186,28 @@ public class ViewHelper {
 
     public void setViewBackgroundColor(View view, String color){
         int colorID = getColor(color);
-        setViewBackgroundColor(view, colorID);
-    }
-    
-    public void setViewBackgroundColor(View view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             view.setBackgroundColor(colorID);
         }
+    }
+
+    private Drawable createRoundLeftCorners(String color){
+        GradientDrawable drawable = new GradientDrawable();
+        int colorID = getColor(color);
+        drawable.setColor(colorID);
+        drawable.setCornerRadii(createLeftCornerRadii());
+        return drawable;
+    }
+
+    private float[] createLeftCornerRadii(){
+        
+        float[] radii = new float[8];
+        Arrays.fill(radii, 0);
+        radii[0] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        radii[1] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        radii[6] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        radii[7] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        return radii;
     }
     
     private int getColor(String leagueColorInput){
@@ -400,6 +398,13 @@ public class ViewHelper {
         return leagueItemContainer;
     }
     
+    public void setLineColor(View container, League league){
+        
+        View bottomLine = (View) container.findViewById(R.id.bottomLine);
+        setViewBackgroundDrawableColor(bottomLine, league.getColor_1());
+        
+    }
+    
     private Callback createIconCallBack(final View iconView, final League league, final View leagueItemHolder, final View leagueListHolder){
         
         return new Callback() {
@@ -494,5 +499,26 @@ public class ViewHelper {
         this.picasso = picasso;
     }
     
+    
+    public void customizeMainSearch(SearchView searchView){
+        MitooSearchViewStyle.on(searchView)
+                .setSearchHintDrawable(getActivity().getString(R.string.search_page_text_3))
+                .setSearchPlateColor(getActivity().getResources().getColor(R.color.white))
+                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_three))
+                .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.gray_dark_two))
+                .setUpRemaining();
+    }
+
+    public void customizeLocationSearch(SearchView searchView){
+
+        MitooSearchViewStyle.on(searchView)
+                .setSearchHintDrawable(getActivity().getString(R.string.location_search_page_text_1))
+                .setSearchPlateColor(getActivity().getResources().getColor(R.color.gray_dark_three))
+                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_two))
+                .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.white))
+                .setUpRemaining()
+                .setCursorColor(getActivity().getResources().getColor(R.color.white));
+                
+    }
 
 }

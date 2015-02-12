@@ -43,8 +43,6 @@ public class HomeFragment extends MitooFragment {
 
         switch(v.getId()){
             case R.id.search_bar:
-            case R.id.search_view:
-                hideSearchPlaceHolder();
                 fireFragmentChangeAction(R.id.fragment_search);
                 break;
         }
@@ -84,7 +82,6 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeViews(view);
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        setUpSearchPlaceHolder(view);
         setUpListView(view);
     }
 
@@ -92,8 +89,7 @@ public class HomeFragment extends MitooFragment {
     protected void initializeOnClickListeners(View view) {
         
         view.findViewById(R.id.search_bar).setOnClickListener(this);
-        SearchView searchView = (SearchView) view.findViewById(R.id.search_view);
-        searchView.setOnSearchClickListener(this);
+
         super.initializeOnClickListeners(view);
         
     }
@@ -138,21 +134,6 @@ public class HomeFragment extends MitooFragment {
                 return session.id;
         }
         return MitooConstants.invalidConstant;
-    }
-
-    public RelativeLayout getSearchPlaceHolder() {
-        return searchPlaceHolder;
-    }
-
-    public void setUpSearchPlaceHolder(View view) {
-        this.searchPlaceHolder =(RelativeLayout) view.findViewById(R.id.search_view_placeholder_container);
-        TextView searchTextPlaceHolder = (TextView) view.findViewById(R.id.search_view_text_view_placeholder);
-        searchTextPlaceHolder.setText(getString(R.string.home_page_text_2));
-    }
-    
-    private void hideSearchPlaceHolder(){
-        getSearchPlaceHolder().setVisibility(View.GONE);
-        
     }
         
     @Subscribe
