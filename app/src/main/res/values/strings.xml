@@ -121,7 +121,7 @@
     <string name="home_page_text_2">Find a new league</string>
 
     <!--Settings Page -->
-    <string name="settings_page_bottom_text_1">Logout</string>
+    <string name="settings_page_bottom_text_1">Sign out of Mitoo</string>
     <string name="settings_page_top_text_1">Get help</string>
     <string name="settings_page_top_text_2">Feedback</string>
     <string name="settings_page_top_text_3">FAQ</string>
