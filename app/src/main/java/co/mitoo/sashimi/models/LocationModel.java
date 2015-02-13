@@ -54,19 +54,18 @@ public class LocationModel extends MitooModel {
 
                     @Override
                     public void onError(Throwable e) {
+                        handleGpsResponse(new GpsResponseEvent(null));
                     }
 
                     @Override
                     public void onNext(Location objectRecieve) {
-                        BusProvider.post(new GpsResponseEvent(objectRecieve));
+                        handleGpsResponse(new GpsResponseEvent(objectRecieve));
 
                     }
                 });
     }
 
-
-    @Subscribe
-    public void GpsResponse(GpsResponseEvent event){
+    public void handleGpsResponse(GpsResponseEvent event){
         
         if(event.getLocation()!=null){
             Location result = event.getLocation();

@@ -3,7 +3,7 @@
     android:id="@+id/fragment_league"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light_zero"
+    android:background="@color/gray_light_one"
     android:orientation="vertical">
 
     <include

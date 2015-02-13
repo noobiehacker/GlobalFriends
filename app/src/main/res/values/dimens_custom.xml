@@ -10,7 +10,9 @@
     <dimen name="spacing_settings_profile_image_bottom">28dp</dimen>
     <dimen name="spacing_settings_profile_image_middle">15dp</dimen>
 
-    <dimen name="spacing_settings_margin_outter">16dp</dimen>
+    <dimen name="spacing_water_mark_layout_border_margin">16dp</dimen>
+    <dimen name="spacing_water_mark_layout_border_bottom">35dp</dimen>
+    
     <dimen name="spacing_settings_padding_text_left">11dp</dimen>
     
     <dimen name="spacing_settings_padding_title_top">8dp</dimen>
@@ -19,7 +21,7 @@
     <dimen name="spacing_settings_padding_item_top">17dp</dimen>
     <dimen name="spacing_settings_padding_item_bottom">15dp</dimen>
 
-    <dimen name="spacing_settings_margin_water_mark_top">12dp</dimen>
+    <dimen name="spacing_settings_margin_water_mark_top">38dp</dimen>
     <dimen name="spacing_settings_margin_water_mark_bottom">35dp</dimen>
 
     <dimen name="spacing_settings_center_water_mark_padding">6dp</dimen>
@@ -47,6 +49,8 @@
 
     <!-- Search Page -->
     <dimen name="search_icon_width">17dp</dimen>
+    <dimen name="search_edit_text_top_padding">7.5dp</dimen>
+    <dimen name="search_edit_text_left_padding">1dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

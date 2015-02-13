@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray_light_zero">
+    android:background="@color/gray_light_one">
 
     <include android:id="@+id/app_bar" 
         layout="@layout/app_tool_bar"
@@ -32,9 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_mitoo_for"
-        android:background="@color/gray_light_zero"
+        android:background="@color/gray_light_one"
         android:dividerHeight="@dimen/list_divider_height"
-        android:divider="@color/gray_light_half"
+        android:divider="@color/gray_light_two"
         android:descendantFocusability="blocksDescendants" />
 
 

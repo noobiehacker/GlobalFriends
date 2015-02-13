@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/spacing_settings_margin_outter">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/top_list_header"
@@ -14,7 +13,6 @@
         android:layout_marginBottom="@dimen/spacing_settings_padding_title_bottom"
         android:text="@string/settings_page_text_1"
         android:textStyle="bold" />
-
 
     <include
         android:id="@+id/userProfileTopList"

@@ -56,8 +56,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Widgets -->
-    <dimen name="corner_radius_small">1.5dp</dimen>
-    <dimen name="image_container_border">2dp</dimen>
+    <dimen name="corner_radius_small">3dp</dimen>
+    <dimen name="image_container_border">4dp</dimen>
     <dimen name="line_length_or">125dp</dimen>
     <dimen name="line_length_league_bottom">5dp</dimen>
     <dimen name="line_length_description">115dp</dimen>

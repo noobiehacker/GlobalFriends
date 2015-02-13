@@ -87,8 +87,6 @@ public class HomeFragment extends MitooFragment {
 
     @Override
     protected void initializeOnClickListeners(View view) {
-        
-        view.findViewById(R.id.search_bar).setOnClickListener(this);
 
         super.initializeOnClickListeners(view);
         

@@ -85,20 +85,22 @@ public class LoginFragment extends MitooFragment {
     
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loginButton:
-                loginButtonAction();
-                break;
-            case R.id.forgetPasswordButton:
-                forgetPasswordAction();
-                break;
-            case R.id.loginPasswordInput:
-                passwordInputRequestFocusAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.loginButton:
+                    loginButtonAction();
+                    break;
+                case R.id.forgetPasswordButton:
+                    forgetPasswordAction();
+                    break;
+                case R.id.loginPasswordInput:
+                    passwordInputRequestFocusAction();
+                    break;
             /*Take Out for V1
             case R.id.facebookLoginButton:
                 facebookLoginButtonAction();
                 break;*/
+            }
         }
     }
 

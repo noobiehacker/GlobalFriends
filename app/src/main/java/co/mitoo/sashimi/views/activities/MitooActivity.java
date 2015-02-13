@@ -7,17 +7,19 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import com.squareup.otto.Subscribe;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
-import co.mitoo.sashimi.managers.UserDataManager;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -38,7 +40,6 @@ public class MitooActivity extends Activity {
     private Handler handler;
     private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
-    private UserDataManager userDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,7 @@ public class MitooActivity extends Activity {
     }
 
     private void initializeFields(){
+        initializeStatusBarColor();
         setModelManager(new ModelManager(this));
         setUpNewRelic();
         locationManager = new MitooLocationManager(this);
@@ -309,13 +311,6 @@ public class MitooActivity extends Activity {
 
     }
 
-    public UserDataManager getUserDataManager() {
-        return userDataManager;
-    }
-
-    public void setUserDataManager(UserDataManager userDataManager) {
-        this.userDataManager = userDataManager;
-    }
 
     public void hideSoftKeyboard(View view) {
         Activity activity = this;
@@ -327,5 +322,17 @@ public class MitooActivity extends Activity {
         View view = this.getCurrentFocus();
         InputMethodManager inputMethodManager = (InputMethodManager)  this.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void initializeStatusBarColor(){
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
+        }
+
     }
 }

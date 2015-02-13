@@ -113,12 +113,7 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
-        int keyID = R.string.bundle_key_first_time;
-        int valueID = R.string.bundle_value_true;
-        if(loggedIn)
-            valueID = R.string.bundle_value_false;
-        Bundle bundle = createBundleForNextFragment(keyID, valueID);
-        fireFragmentChangeAction(R.id.fragment_confirm , bundle);
+        fireFragmentChangeAction(R.id.fragment_confirm);
 
     }
 

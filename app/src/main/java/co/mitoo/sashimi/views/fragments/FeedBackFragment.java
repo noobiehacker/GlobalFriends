@@ -7,7 +7,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 
 /**
  * Created by david on 15-01-13.
@@ -37,10 +40,18 @@ public class FeedBackFragment extends MitooFragment {
     @Override
     public void onClick(View v) {
 
-        switch(v.getId()){
-            case R.id.feedback_contact_mitoo_container:
-                contactMitooAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch(v.getId()){
+                case R.id.feedback_contact_mitoo_container:
+                    contactMitooAction();
+                    break;
+                case R.id.faq_container:
+                    faqAction();
+                    break;
+                case R.id.write_a_review_container:
+                    writeReviewAction();
+                    break;
+            }
         }
     }
 
@@ -98,6 +109,7 @@ public class FeedBackFragment extends MitooFragment {
             case HAPPY:
                 partialId= R.layout.partial_happy;
                 returnView = getActivity().getLayoutInflater().inflate(partialId, null);
+                setUpWriteReviewView(returnView);
                 break;
             case CONFUSED:
                 partialId= R.layout.partial_confused;
@@ -152,12 +164,36 @@ public class FeedBackFragment extends MitooFragment {
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.faq_container);
         TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
         contactMitooTextView.setText(getString(R.string.confused_page_text2));
+        container.setOnClickListener(this);
+
+    }
+
+    public void setUpWriteReviewView(View view){
+
+        RelativeLayout container = (RelativeLayout) view.findViewById(R.id.write_a_review_container);
+        TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
+        contactMitooTextView.setText(getString(R.string.happy_page_text2));
+        container.setOnClickListener(this);
 
     }
     
     private void contactMitooAction(){
 
         getMitooActivity().contactMitoo();
+
+    }
+
+    private void writeReviewAction(){
+
+
+    }
+
+    private void faqAction(){
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getMitooActivity().getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.faqOption));
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
+        BusProvider.post(event);
 
     }
 }

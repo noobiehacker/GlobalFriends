@@ -41,22 +41,40 @@
     </style>
     
     <style name="settingsTitleText">
-        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textColor">@color/gray_dark_five</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <style name="settingsItemText">
-        <item name="android:textColor">@color/gray_dark_zero</item>
+        <item name="android:textColor">@color/gray_dark_two</item>
         <item name="android:textSize">17sp</item>
     </style>
 
     <style name="settingsCityWaterMarkText">
-        <item name="android:textColor">@color/gray_dark_zero</item>
+        <item name="android:textColor">@color/gray_dark_two</item>
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="settingsVersionWaterMarkText">
-        <item name="android:textColor">@color/gray_light_three_half</item>
+        <item name="android:textColor">@color/gray_light_seven</item>
         <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="searchResultsNoResult">
+        <item name="android:textColor">@color/gray_dark_five</item>
+        <item name="android:textSize">@dimen/font_larger</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <!-- Feedback Page -->
+
+    <style name="feedbackMessageText">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">27sp</item>
+    </style>
+
+    <style name="feedbackItemText">
+        <item name="android:textColor">@color/gray_dark_two</item>
+        <item name="android:textSize">34sp</item>
     </style>
 </resources>

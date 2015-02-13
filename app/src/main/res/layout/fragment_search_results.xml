@@ -2,7 +2,7 @@
     android:id="@+id/fragment_search_results"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light_zero"
+    android:background="@color/gray_light_one"
     android:orientation="vertical">
 
     <include
@@ -27,9 +27,7 @@
 
         </RelativeLayout>
 
-
     </ScrollView>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,7 +39,7 @@
             android:id="@+id/noResultsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/grayDarkBigText"
+            style="@style/searchResultsNoResult"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"

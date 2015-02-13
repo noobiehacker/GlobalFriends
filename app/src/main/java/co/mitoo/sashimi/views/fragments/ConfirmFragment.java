@@ -108,7 +108,8 @@ public class ConfirmFragment extends MitooFragment {
     
     private void setUpPopUpTask(){
         
-        if(firstTimeUser()){
+        if(!getDataHelper().feedBackHasAppeared()){
+            getDataHelper().setConfirmFeedBackPopped(true);
             Handler handler = getHandler();
             setRunnable( new Runnable() {
                 @Override
@@ -118,28 +119,7 @@ public class ConfirmFragment extends MitooFragment {
                 }
             });
             handler.postDelayed(getRunnable(), 5000);
-
         }
-        
-    }
-    
-    private boolean firstTimeUser(){
-
-        Boolean result= false;
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            String value = (String) arguments.get(getString(R.string.bundle_key_first_time));
-            if(value.equals(getString(R.string.bundle_value_true)))
-                result=true;
-            else
-                result =false;
-        }
-        return result;
     }
 
-    private MitooEnum.ViewType getViewType(){
-
-        return MitooEnum.ViewType.FRAGMENT;
-
-    }
 }

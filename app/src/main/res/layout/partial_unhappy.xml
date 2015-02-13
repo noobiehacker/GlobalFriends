@@ -12,13 +12,22 @@
         android:layout_alignParentTop="true"></ImageView>
 
     <TextView
+        android:id="@+id/unhappy_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/message_icon"
         android:text="@string/unhappy_page_text1"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_below="@+id/message_icon"
         android:gravity="center"
-        style="@style/grayLightMediumText"
+        style="@style/feedbackMessageText"
+
         />
+
+    <include layout="@layout/list_view_item_text_line_top_and_bottom"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:id="@+id/feedback_contact_mitoo_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/unhappy_text_view"/>
 
 </RelativeLayout>

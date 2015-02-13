@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/league_join_title"
         android:layout_centerHorizontal="true"
-        android:background="@color/gray_light_half"
+        android:background="@color/gray_light_two"
         android:padding="@dimen/list_divider_height">
 
 

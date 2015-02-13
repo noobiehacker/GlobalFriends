@@ -309,7 +309,7 @@
     <string name="feedback_page_text1">Contact Mitoo</string>
 
     <!--Unhappy Page -->
-    <string name="unhappy_page_text1">Also if you have any request, questions, or would just like\nto find out more, please contact us.</string>
+    <string name="unhappy_page_text1">Also if you have any request, questions, or would just \nlike to find out more, please contact us.</string>
 
     <!--Confused Page -->
     <string name="confused_page_text1">Thanks for the feedback.  Maybe our FAQ\'s might help you solve your problem?</string>

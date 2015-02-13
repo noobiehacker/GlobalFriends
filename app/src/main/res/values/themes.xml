@@ -2,8 +2,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat">
-        <item name="colorPrimary">@color/gray_light_zero</item>
-        <item name="colorPrimaryDark">@color/gray_dark_four</item>
+        <item name="colorPrimary">@color/gray_light_one</item>
+        <item name="colorPrimaryDark">@color/gray_dark_six</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

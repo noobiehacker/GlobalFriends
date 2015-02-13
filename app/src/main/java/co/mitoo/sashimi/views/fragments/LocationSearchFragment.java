@@ -66,6 +66,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
+        
         super.onError(error);
     }
     

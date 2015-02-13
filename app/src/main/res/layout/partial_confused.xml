@@ -20,7 +20,7 @@
         android:layout_below="@+id/question_icon"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:gravity="center"
-        style="@style/grayLightMediumText"
+        style="@style/feedbackMessageText"
         />
 
     <include layout="@layout/list_view_item_text_line_top_and_bottom"
@@ -46,8 +46,15 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:layout_below="@+id/message_icon"
         android:gravity="center"
-        style="@style/grayLightMediumText"
+        style="@style/feedbackMessageText"
         />
+
+    <include layout="@layout/list_view_item_text_line_top_and_bottom"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:id="@+id/feedback_contact_mitoo_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/messagetext"/>
 
 
 </RelativeLayout>

@@ -3,13 +3,16 @@ package co.mitoo.sashimi.utils;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import java.lang.reflect.Method;
 
@@ -62,18 +65,13 @@ public class MitooSearchViewStyle extends SearchViewStyle{
         return this;
     }
 
-    public MitooSearchViewStyle removeAutoCompletePadding() {
-        final AutoCompleteTextView editText = getView(SEARCH_SRC_TEXT);
-        if (editText != null) {
-            editText.setPadding(0,0,0,0);
-        }
-        return this;
-    }
-
-    public MitooSearchViewStyle removeSearchPlatePadding() {
-        final View view = getView(SEARCH_PLATE);
+    public MitooSearchViewStyle setAutoCompletePadding(){
+        final TextView view = (TextView)getView(SEARCH_SRC_TEXT);
         if (view != null) {
-            view.setPadding(0,0,0,0);
+            int topPadding = getContext().getResources().getDimensionPixelSize(R.dimen.search_edit_text_top_padding);
+            int leftPadding = getContext().getResources().getDimensionPixelSize(R.dimen.search_edit_text_left_padding);
+            view.setPadding(leftPadding,topPadding,0,0);
+            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.font_big));
         }
         return this;
     }
@@ -95,17 +93,37 @@ public class MitooSearchViewStyle extends SearchViewStyle{
     }
 
     public MitooSearchViewStyle setUpRemaining(){
+
         getSearchView().requestFocusFromTouch();
         getSearchView().setIconified(false);
-        getSearchView().setLayoutParams(new LinearLayout.LayoutParams
-                (LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        removeAutoCompletePadding();
-        removeSearchPlatePadding();
+        getSearchView().setGravity(Gravity.CENTER_VERTICAL);
         hideCloseButton();
         return this;
     }
 
+    public MitooSearchViewStyle setUpMainRemaining(){
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.RIGHT_OF, R.id.search_view_image_icon);
+        getSearchView().setLayoutParams(params);
+        setAutoCompletePadding();
+        setUpRemaining();
+        return this;
+    }
+
+    public MitooSearchViewStyle setUpLocationRemaining(){
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        getSearchView().setLayoutParams(params);
+        getSearchView().setLayoutParams(params);
+        setUpRemaining();
+        return this;
+    }
+    
     public MitooSearchViewStyle setSearchHintDrawable(final String hint) {
         try {
             // android.widget.SearchView$SearchAutoComplete extends AutoCompleteTextView

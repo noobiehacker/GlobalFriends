@@ -13,6 +13,8 @@ import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -529,6 +531,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         
         
     }
+    
+
 }
 
 

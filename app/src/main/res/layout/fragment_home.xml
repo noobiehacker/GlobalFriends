@@ -4,7 +4,7 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light_zero"
+    android:background="@color/gray_light_one"
     android:orientation="vertical">
 
     <include
@@ -14,27 +14,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <RelativeLayout
-        android:id="@+id/search_bar_background"
-        android:background="@drawable/abc_menu_dropdown_panel_holo_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/app_bar"
-        android:layout_margin="@dimen/spacing_smallest">
-
-        <include
-            android:id="@+id/search_bar"
-            layout="@layout/view_search_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/enquired_league_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_bar_background"
+        android:layout_below="@id/app_bar"
         android:layout_marginLeft="@dimen/spacing_small"
         android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/home_page_text_1"

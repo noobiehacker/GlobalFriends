@@ -91,7 +91,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         changeBackgroundCallBack = new Runnable() {
             @Override
             public void run() {
-                changeBackground(R.color.gray_light_two);
+                changeBackground(R.color.gray_light_five);
             }
         };
     }
@@ -104,14 +104,17 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.signupButton:
-                loginButtonAction();
-                break;
-            case R.id.searchButton:
-                searchButtonAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.signupButton:
+                    loginButtonAction();
+                    break;
+                case R.id.searchButton:
+                    searchButtonAction();
+                    break;
+            }
         }
+
     }
 
     //Inner class for holding fields

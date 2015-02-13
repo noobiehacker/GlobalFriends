@@ -2,7 +2,7 @@
     android:id="@+id/fragment_location_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light_zero"
+    android:background="@color/gray_light_one"
     android:orientation="vertical">
 
     <include
@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/current_location"
-        android:background="@color/gray_light_zero"
-        android:divider="@color/gray_light_half"
+        android:background="@color/gray_light_one"
+        android:divider="@color/gray_light_two"
         android:descendantFocusability="blocksDescendants" 
         android:visibility="gone"/>
 

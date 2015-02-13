@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private View searchMitooForView;
     private String queryText;
     private SearchView searchView;
-
 
     public static SearchFragment newInstance() {
 
@@ -126,13 +124,15 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.search_bar:
-                getSearchView().requestFocusFromTouch();
-                break;
-            case R.id.search_mitoo_for:
-                searchFieldAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.search_bar:
+                    getSearchView().requestFocusFromTouch();
+                    break;
+                case R.id.search_mitoo_for:
+                    searchFieldAction();
+                    break;
+            }
         }
     }
 
@@ -165,6 +165,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         ViewGroup searchContainer = (ViewGroup)view.findViewById(R.id.search_view_container);
         SearchView searchView = createSearchView();
         searchContainer.addView(searchView);
+     //   getViewHelper().recursivelyCenterVertically(searchView);
 
     }
 
@@ -173,6 +174,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setSearchView(new SearchView(getActivity()));
         getViewHelper().customizeMainSearch(getSearchView());
         getSearchView().setOnQueryTextListener(createQueryTextChangeListner());
+        getViewHelper().recursivelyCenterVertically(getSearchView());
         return getSearchView();
 
     }
@@ -207,7 +209,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fireFragmentChangeAction(R.id.fragment_location_search);
+                if (getDataHelper().isClickable()) {
+                    fireFragmentChangeAction(R.id.fragment_location_search);
+                }
             }
         });
         return view;
@@ -349,6 +353,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 }else{
                     MitooSearchViewStyle.on(getSearchView()).showCloseButton();
                 }
+                queryRefineAction(s);
                 return false;
             }
         };

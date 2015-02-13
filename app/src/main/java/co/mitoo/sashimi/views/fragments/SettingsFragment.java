@@ -83,12 +83,17 @@ public class SettingsFragment extends MitooFragment {
     protected void initializeOnClickListeners(View view){
 
         super.initializeOnClickListeners(view);
+        setUpDetailsViewListeners(view);
+    }
+
+    private void setUpDetailsViewListeners(View view){
+
         view.findViewById(R.id.about_text_view).setOnClickListener(this);
         view.findViewById(R.id.log_out_text_view).setOnClickListener(this);
         view.findViewById(R.id.feedback_text_view).setOnClickListener(this);
         view.findViewById(R.id.get_help_text_view).setOnClickListener(this);
         view.findViewById(R.id.faq_text_view).setOnClickListener(this);
-
+        
     }
 
     public UserInfoRecieve getUserInfoRecieve() {
@@ -138,6 +143,7 @@ public class SettingsFragment extends MitooFragment {
     }
     
     private void faqAction(){
+        
         Bundle bundle = new Bundle();
         bundle.putString(getMitooActivity().getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.faqOption));
         FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);

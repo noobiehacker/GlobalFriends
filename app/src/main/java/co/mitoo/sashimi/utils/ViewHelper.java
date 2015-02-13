@@ -263,6 +263,17 @@ public class ViewHelper {
         }
     }
     
+    public void recursivelyCenterVertically(View view) {
+
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                recursivelyCenterVertically(innerView);
+            }
+        }
+
+    }
+
     private int getPixelFromDimenID(int id){
 
         return getActivity().getResources().getDimensionPixelSize(id);
@@ -504,20 +515,21 @@ public class ViewHelper {
         MitooSearchViewStyle.on(searchView)
                 .setSearchHintDrawable(getActivity().getString(R.string.search_page_text_3))
                 .setSearchPlateColor(getActivity().getResources().getColor(R.color.white))
-                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_three))
-                .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.gray_dark_two))
-                .setUpRemaining();
+                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_six))
+                .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.gray_dark_four))
+                .setUpMainRemaining()
+                .setCursorColor(getActivity().getResources().getColor(R.color.blue_sky_light));
     }
 
     public void customizeLocationSearch(SearchView searchView){
 
         MitooSearchViewStyle.on(searchView)
                 .setSearchHintDrawable(getActivity().getString(R.string.location_search_page_text_1))
-                .setSearchPlateColor(getActivity().getResources().getColor(R.color.gray_dark_three))
-                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_two))
+                .setSearchPlateColor(getActivity().getResources().getColor(R.color.gray_dark_five))
+                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_five))
                 .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.white))
-                .setUpRemaining()
-                .setCursorColor(getActivity().getResources().getColor(R.color.white));
+                .setUpLocationRemaining()
+                .setCursorColor(getActivity().getResources().getColor(R.color.blue_sky_light));
                 
     }
 

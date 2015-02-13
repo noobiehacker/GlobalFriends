@@ -14,6 +14,13 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         yourapp:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/header_search_icon"
+        android:orderInCategory="100"
+        android:title="@string/menu_search"
+        yourapp:showAsAction="always" />
 <!-- No Log Out Button
     <item
         android:id="@+id/menu_logout"

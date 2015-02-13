@@ -13,7 +13,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_half"
+        android:background="@color/gray_light_two"
         android:layout_below="@id/search_mitoo_text_container"></View>
 
             

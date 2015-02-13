@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.utils;
 
 import android.content.Context;
+import android.os.SystemClock;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -18,6 +19,8 @@ import se.walkercrou.places.Prediction;
 public class DataHelper {
     
     private Context context;
+    private long lastCLickTime=0;
+    private boolean confirmFeedBackPopped;
 
     public DataHelper(Context context) {
         this.context = context;
@@ -174,5 +177,31 @@ public class DataHelper {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public long getLastCLickTime() {
+        return lastCLickTime;
+    }
+
+    public void setLastCLickTime(long lastCLickTime) {
+        this.lastCLickTime = lastCLickTime;
+    }
+    
+    public boolean isClickable(){
+        //Only allow user to click if interval between two clicks is greater than 1 second
+        boolean result = false;
+        if(SystemClock.elapsedRealtime() > getLastCLickTime()+1000){
+            result = true;
+        }
+        setLastCLickTime(SystemClock.elapsedRealtime());
+        return result;
+    }
+
+    public boolean feedBackHasAppeared() {
+        return confirmFeedBackPopped;
+    }
+
+    public void setConfirmFeedBackPopped(boolean confirmFeedBackPopped) {
+        this.confirmFeedBackPopped = confirmFeedBackPopped;
     }
 }
