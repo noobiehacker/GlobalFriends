@@ -32,6 +32,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="@dimen/spacing_sides"
+        android:paddingRight="@dimen/spacing_sides"
         android:layout_below="@+id/app_bar"
         >
 

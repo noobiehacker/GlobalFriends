@@ -50,12 +50,13 @@ public class ViewHelper {
     }
     private Handler handler;
     private Runnable runnable;
-    public MitooActivity getActivity() {
-        return activity;
-    }
     private int itemLoaded = 0;
     private Picasso picasso;
 
+    public MitooActivity getActivity() {
+        return activity;
+    }
+    
     public void setActivity(MitooActivity activity) {
         this.activity = activity;
     }
@@ -65,19 +66,18 @@ public class ViewHelper {
         ImageView leagueOverLayImageView = (ImageView) leagueItemHolder.findViewById(R.id.blackOverLay);
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
-            String cover = league.getCover_mobile();
             RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
             leagueOverLayImageView.setLayoutParams(layoutParam);
             leagueBackgroundImageView.setLayoutParams(layoutParam);
             getPicasso().with(getActivity())
-                    .load(cover)
+                    .load(getCover(league))
                     .fit()
                     .centerCrop()
                     .placeholder(R.color.over_lay_black)
                     .into(leagueBackgroundImageView, createBackgroundCallBack());
         }
     }
-
+   
 
     private void setUpStaticLeagueBackground(final View leagueItemHolder, League league) {
 
@@ -85,7 +85,7 @@ public class ViewHelper {
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             String cover = league.getCover_mobile();
             Picasso.with(getActivity())
-                    .load(cover)
+                    .load(getCover(league))
                     .fit()
                     .centerCrop()
                     .into(leagueBackgroundImageView);
@@ -101,27 +101,23 @@ public class ViewHelper {
 
         }
     }
-    
+
     public void setUpSignUpView(View fragmentView, League league){
-        setUpStaticLeagueInfoAndBackground(fragmentView, league);
+        setUpStaticLeagueBackground(fragmentView, league);
+
     }
 
     public void setUpConfirmView(View fragmentView, League league){
-        setUpStaticLeagueInfoAndBackground(fragmentView, league);
-    }
-    
-    private void setUpStaticLeagueInfoAndBackground(View fragmentView, League league){
-        setUpIconImage(fragmentView, league);
         setUpStaticLeagueBackground(fragmentView, league);
-        setUpLeagueNameText(fragmentView,league);
+
     }
-    
+
     public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, View leagueListHolder){
         int iconDimenID = R.dimen.league_listview_icon_height;
         String logo = league.getLogo_large();
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
         getPicasso().with(getActivity())
-                .load(logo)
+                .load(getLogo(league))
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
                 .into(leagueIconImageView, createIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
     }
@@ -131,7 +127,7 @@ public class ViewHelper {
         String logo = league.getLogo_large();
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
         getPicasso().with(getActivity())
-                .load(logo)
+                .load(getLogo(league))
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
                 .into(leagueIconImageView);
     }
@@ -532,5 +528,32 @@ public class ViewHelper {
                 .setCursorColor(getActivity().getResources().getColor(R.color.blue_sky_light));
                 
     }
+    
+    public String getRetinaUrl(String url){
+
+        return getActivity().getDataHelper().getRetinaURL(url);
+
+    }
+
+    private String getCover(League league){
+        
+        String result = "";
+        if(league!=null){
+            result = getRetinaUrl(league.getCover_mobile());
+        }
+        return result;
+
+    }
+
+    private String getLogo(League league){
+        
+        String result = "";
+        if(league!=null){
+            result = getRetinaUrl(league.getLogo_large());
+        }
+        return result;
+
+    }
+
 
 }

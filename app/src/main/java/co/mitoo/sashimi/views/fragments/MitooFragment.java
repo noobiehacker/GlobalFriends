@@ -55,7 +55,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean allowBackPressed = true;
     private boolean loading = false;
     private ProgressDialog progressDialog;
-    private DataHelper dataHelper;
     private ViewHelper viewHelper;
     private ViewGroup rootView;
 
@@ -460,14 +459,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
 
     public DataHelper getDataHelper() {
-        if (dataHelper == null)
-            setDataHelper(new DataHelper(getActivity()));
-        return dataHelper;
+        return getMitooActivity().getDataHelper();
     }
 
-    public void setDataHelper(DataHelper dataHelper) {
-        this.dataHelper = dataHelper;
-    }
 
     protected SessionModel getSessionModel() {
 

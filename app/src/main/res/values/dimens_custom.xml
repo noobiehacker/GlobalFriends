@@ -51,6 +51,14 @@
     <dimen name="search_icon_width">17dp</dimen>
     <dimen name="search_edit_text_top_padding">7.5dp</dimen>
     <dimen name="search_edit_text_left_padding">1dp</dimen>
+    
+    <!-- Feedback Page -->
+    <dimen name="feedback_element_spacing">15dp</dimen>
+
+    <!-- Home Page -->
+    <dimen name="home_page_enquired_top">27dp</dimen>
+    <dimen name="home_page_enquired_bottom">6dp</dimen>
+    <dimen name="home_page_enquired_left">14dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

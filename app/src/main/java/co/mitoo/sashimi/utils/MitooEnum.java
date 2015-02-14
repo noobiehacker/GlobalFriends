@@ -5,7 +5,6 @@ package co.mitoo.sashimi.utils;
  */
 public class MitooEnum {
 
-
     public enum fragmentTransition{
         PUSH, POP, CHANGE,NONE
     }
@@ -36,4 +35,5 @@ public class MitooEnum {
     public enum ErrorType{
         APP ,API
     }
+
 }

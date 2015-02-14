@@ -8,6 +8,14 @@
         android:id="@+id/app_bar"
         layout="@layout/app_tool_bar" />
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop"
+        android:layout_below="@id/app_bar"
+        android:src="@drawable/bg1"
+        />
+    
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,12 +26,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg1"
-            />
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

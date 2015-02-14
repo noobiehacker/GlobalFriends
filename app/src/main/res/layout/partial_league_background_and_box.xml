@@ -15,9 +15,9 @@
         android:id="@+id/checkBoxImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/spacing_smaller"
+        android:layout_marginLeft="@dimen/spacing_smaller"
         android:layout_marginTop="@dimen/spacing_smaller"
         android:src="@drawable/round_check"
         android:visibility="gone" />

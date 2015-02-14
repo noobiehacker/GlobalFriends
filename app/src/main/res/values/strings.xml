@@ -119,6 +119,7 @@
     <!--Home Page -->
     <string name="home_page_text_1">ENQUIRED</string>
     <string name="home_page_text_2">Find a new league</string>
+    <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, use the search box at the top.</string>
 
     <!--Settings Page -->
     <string name="settings_page_bottom_text_1">Sign out of Mitoo</string>
@@ -178,35 +179,6 @@
         <item>Golf</item>
         <item>Bar Games</item>
         <item>Floor Hockey</item>
-    </string-array>
-
-    <string-array name="levels_array">
-        <item>All</item>
-        <item>Beginner</item>
-        <item>Intermediate</item>
-        <item>Advanced</item>
-    </string-array>
-
-    <string-array name="days_array">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-
-    <string-array name="distances_array">
-        <item>100 Miles</item>
-        <item>50 Miles</item>
-        <item>20 Miles</item>
-    </string-array>
-
-    <string-array name="starting_within_array">
-        <item>This Month</item>
-        <item>This Season</item>
-        <item>This Year</item>
     </string-array>
 
     <!--App -->
@@ -378,8 +350,10 @@
     <!--Error -->
     <string name="error_location_serivces">Location services unavailible, please try again</string>
 
+    <!--Shared Preference Hash Key -->
     <string name="shared_preference_session_key">Session Key</string>
     <string name="shared_preference_user_info_key">User Info Key</string>
     <string name="shared_preference_league_enquired_key">League enquired Key</string>
     <string name="shared_preference_error">shared preference error</string>
+    
 </resources>

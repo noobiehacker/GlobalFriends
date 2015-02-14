@@ -23,6 +23,7 @@ import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -40,6 +41,9 @@ public class MitooActivity extends Activity {
     private Handler handler;
     private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
+    private DataHelper dataHelper;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,11 +323,13 @@ public class MitooActivity extends Activity {
     }
 
     public void hideSoftKeyboard() {
-        View view = this.getCurrentFocus();
-        InputMethodManager inputMethodManager = (InputMethodManager)  this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+        if (this.getCurrentFocus() != null) {
+            View view = this.getCurrentFocus();
+            InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+        }
+    }
     private void initializeStatusBarColor(){
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -334,5 +340,15 @@ public class MitooActivity extends Activity {
             window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
         }
 
+    }
+
+    public DataHelper getDataHelper() {
+        if(dataHelper==null)
+            setDataHelper(new DataHelper(this));
+        return dataHelper;
+    }
+
+    public void setDataHelper(DataHelper dataHelper) {
+        this.dataHelper = dataHelper;
     }
 }

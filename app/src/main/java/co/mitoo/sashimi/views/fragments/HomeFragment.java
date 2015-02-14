@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +64,6 @@ public class HomeFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view =  getActivity().getLayoutInflater().inflate(R.layout.fragment_home,
                 container, false);
-        initializeFields();
         initializeViews(view);
         initializeOnClickListeners(view);
         return view;
@@ -74,7 +74,6 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeFields();
         setUpEnquriedLeagueData();
-
     }
 
     @Override
@@ -82,7 +81,10 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeViews(view);
         LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        setUpListView(view);
+        if(getEnquiredLeagueData().size()!=0)
+            setUpListView(view);
+        else
+            setUpNoResultsTextView(view);
     }
 
     @Override
@@ -91,7 +93,6 @@ public class HomeFragment extends MitooFragment {
         super.initializeOnClickListeners(view);
         
     }
-
 
     @Override
     protected void setUpToolBar(View view) {
@@ -107,20 +108,24 @@ public class HomeFragment extends MitooFragment {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                    switch (menuItem.getItemId()){
-                        case R.id.menu_feedback:
-                            FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
-                            dialog.buildPrompt().show();
-                            break;
-                        case R.id.menu_settings:
-                            BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
-                            break;
+                    if(getDataHelper().isClickable()){
+                        switch (menuItem.getItemId()){
+                            case R.id.menu_feedback:
+                                FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
+                                dialog.buildPrompt().show();
+                                break;
+                            case R.id.menu_settings:
+                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                break;
+                            case R.id.menu_search:
+                                fireFragmentChangeAction(R.id.fragment_search);
+                                break;
+                        }
                     }
                     return false;
                 }
             });
         }
-
     }
     
     private int getUserId(){
@@ -168,6 +173,7 @@ public class HomeFragment extends MitooFragment {
     @Override
     public void tearDownReferences(){
 
+        removeDynamicViews();
         super.tearDownReferences();
     }
 
@@ -184,8 +190,12 @@ public class HomeFragment extends MitooFragment {
         getLeagueListHolder().removeAllViews();
         super.removeDynamicViews();
     }
+
+
+    private void setUpNoResultsTextView(View view){
+
+        TextView noResultsView = (TextView) view.findViewById(R.id.noEnquiredTextView);
+        noResultsView.setVisibility(View.VISIBLE);
+    }
+
 }
-
-
-
-

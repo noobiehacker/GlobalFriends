@@ -124,7 +124,7 @@ public class LocationModel extends MitooModel {
 
                 }
                 catch(Exception e){
-
+                    BusProvider.post(new MitooActivitiesErrorEvent());
                 }
             }
         };

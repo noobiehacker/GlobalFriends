@@ -189,7 +189,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             if (position != 0) {
                 parent.setFocusable(true);
                 parent.requestFocus();
-                getMitooActivity().hideSoftKeyboard(view);
                 PredictionWrapper wrapper = (PredictionWrapper) placesList.getItemAtPosition(position);
                 placeSelectionAction(wrapper);
             }
@@ -197,7 +196,8 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
     
     private void placeSelectionAction(PredictionWrapper prediction){
-        
+
+        getMitooActivity().hideSoftKeyboard();
         setLoading(true);
         getLocationModel().selectPlace(prediction);
         
@@ -244,6 +244,10 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         return new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+
+                if(getPlacesList().getItemAtPosition(1)!=null){
+                    placeSelectionAction((PredictionWrapper)getPlacesList().getItemAtPosition(0));
+                }
                 return false;
             }
 

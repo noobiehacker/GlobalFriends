@@ -343,6 +343,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         return new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                searchFieldAction();
                 return false;
             }
 
