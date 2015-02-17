@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     
+    <!--CUSTOM SECTION FOR PAGE -->
+
     <!-- App Wise -->
     <dimen name="spacing_sides">28dp</dimen>
     <dimen name="height_app_bar">60dp</dimen>
@@ -12,9 +13,9 @@
 
     <dimen name="spacing_water_mark_layout_border_margin">16dp</dimen>
     <dimen name="spacing_water_mark_layout_border_bottom">35dp</dimen>
-    
+
     <dimen name="spacing_settings_padding_text_left">11dp</dimen>
-    
+
     <dimen name="spacing_settings_padding_title_top">8dp</dimen>
     <dimen name="spacing_settings_padding_title_bottom">3dp</dimen>
 
@@ -35,7 +36,7 @@
     <dimen name="league_logo_margin_middle_top">10dp</dimen>
     <dimen name="league_logo_margin_middle_bottom">5dp</dimen>
     <dimen name="league_logo_margin_bottom">38dp</dimen>
-    
+
     <dimen name="league_city_margin_top">13dp</dimen>
     <dimen name="league_item_min_height">185dp</dimen>
 
@@ -50,15 +51,27 @@
     <!-- Search Page -->
     <dimen name="search_icon_width">17dp</dimen>
     <dimen name="search_edit_text_top_padding">7.5dp</dimen>
-    <dimen name="search_edit_text_left_padding">1dp</dimen>
-    
+    <dimen name="search_edit_text_left_padding">3dp</dimen>
+
     <!-- Feedback Page -->
     <dimen name="feedback_element_spacing">15dp</dimen>
 
     <!-- Home Page -->
     <dimen name="home_page_enquired_top">27dp</dimen>
     <dimen name="home_page_enquired_bottom">6dp</dimen>
-    <dimen name="home_page_enquired_left">14dp</dimen>
+    <dimen name="home_page_enquired_left">16dp</dimen>
+
+    <!-- Home Page - Enquired List View -->
+    <dimen name="enquired_list_icon_left_padding">16dp</dimen>
+    <dimen name="enquired_list_icon_right_padding">12dp</dimen>
+    <dimen name="enquired_list_icon_length">31dp</dimen>
+    <dimen name="enquired_list_arrow_right_padding">16dp</dimen>
+    <dimen name="enquired_list_arrow_width">7dp</dimen>
+    <dimen name="enquired_list_arrow_height">12dp</dimen>
+    <dimen name="enquired_list_text_middle_margin">5dp</dimen>
+    <dimen name="enquired_list_text_top_padding">9dp</dimen>
+    <dimen name="enquired_list_text_bottom_padding">12dp</dimen>
+    <dimen name="enquired_list_text_left_padding">61dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

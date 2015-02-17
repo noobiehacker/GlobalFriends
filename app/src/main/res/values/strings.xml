@@ -121,6 +121,10 @@
     <string name="home_page_text_2">Find a new league</string>
     <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, use the search box at the top.</string>
 
+    <!--Home Page - Enquired List View-->
+    <string name="home_page_enquired_date_prefix">Enquired on </string>
+
+    
     <!--Settings Page -->
     <string name="settings_page_bottom_text_1">Sign out of Mitoo</string>
     <string name="settings_page_top_text_1">Get help</string>

@@ -5,7 +5,6 @@
     android:layout_height="wrap_content"
 >
 
-
     <include
         layout="@layout/partial_league_background_and_box"
         android:layout_width="wrap_content"

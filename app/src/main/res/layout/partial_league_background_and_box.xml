@@ -18,7 +18,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/spacing_smaller"
-        android:layout_marginTop="@dimen/spacing_smaller"
+        android:layout_marginTop="@dimen/league_city_margin_top"
         android:src="@drawable/round_check"
         android:visibility="gone" />
     

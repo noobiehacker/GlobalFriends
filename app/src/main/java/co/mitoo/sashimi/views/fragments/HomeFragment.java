@@ -2,14 +2,13 @@ package co.mitoo.sashimi.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,15 +28,16 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
+import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 
 /**
  * Created by david on 15-01-12.
  */
 public class HomeFragment extends MitooFragment {
 
-    private LinearLayout leagueListHolder;
     private List<League> enquiredLeagueData;
-    private RelativeLayout searchPlaceHolder;
+    private ListView leagueList;
+    private LeagueAdapter leagueDataAdapter;
 
     @Override
     public void onClick(View v) {
@@ -164,10 +164,10 @@ public class HomeFragment extends MitooFragment {
 
     private void setUpListView(View view){
 
-        int leagueLayout = R.layout.list_view_item_league;
-        setLeagueListHolder((LinearLayout) view.findViewById(R.id.league_image_holder));
-        getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getEnquiredLeagueData());
-
+        leagueList = (ListView) view.findViewById(R.id.leagueListView);
+        leagueList.setAdapter(getLeagueDataAdapter());
+        leagueList.setOnItemClickListener(getLeagueDataAdapter());
+        leagueList.addHeaderView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_text_view));
     }
 
     @Override
@@ -177,17 +177,9 @@ public class HomeFragment extends MitooFragment {
         super.tearDownReferences();
     }
 
-    public LinearLayout getLeagueListHolder() {
-        return leagueListHolder;
-    }
-
-    public void setLeagueListHolder(LinearLayout leagueListHolder) {
-        this.leagueListHolder = leagueListHolder;
-    }
     
     @Override
     protected void removeDynamicViews(){
-        getLeagueListHolder().removeAllViews();
         super.removeDynamicViews();
     }
 
@@ -196,6 +188,12 @@ public class HomeFragment extends MitooFragment {
 
         TextView noResultsView = (TextView) view.findViewById(R.id.noEnquiredTextView);
         noResultsView.setVisibility(View.VISIBLE);
+    }
+
+    public LeagueAdapter getLeagueDataAdapter() {
+        if(leagueDataAdapter==null)
+            leagueDataAdapter = new LeagueAdapter(getActivity(), R.id.leagueListView, getEnquiredLeagueData(), this, false);
+        return leagueDataAdapter;
     }
 
 }

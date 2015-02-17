@@ -80,8 +80,7 @@
     <!-- PlaceHolders -->
     <dimen name="google_map_place_holder">177dp</dimen>
 
-    
     <!--Float -->
     <item name="text_line_spacing" format="float" type="dimen">1.5</item>
-    
+
 </resources>

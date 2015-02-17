@@ -7,7 +7,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -65,13 +64,33 @@ public class MitooSearchViewStyle extends SearchViewStyle{
         return this;
     }
 
-    public MitooSearchViewStyle setAutoCompletePadding(){
+    public MitooSearchViewStyle setMainAutoCompletePadding(){
         final TextView view = (TextView)getView(SEARCH_SRC_TEXT);
         if (view != null) {
-            int topPadding = getContext().getResources().getDimensionPixelSize(R.dimen.search_edit_text_top_padding);
             int leftPadding = getContext().getResources().getDimensionPixelSize(R.dimen.search_edit_text_left_padding);
-            view.setPadding(leftPadding,topPadding,0,0);
+            view.setPadding(leftPadding,0,0,0);
             view.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.font_big));
+        }
+        return this;
+    }
+
+    public MitooSearchViewStyle setEditFrameMargin(){
+        final View view =  getView(SEARCH_EDIT_FRAME);
+        if (view != null) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 0, 0);
+            view.setLayoutParams(params);
+        }
+        return this;
+    }
+
+
+    public MitooSearchViewStyle setLocationAutoCompletePadding(){
+        final TextView view = (TextView)getView(SEARCH_SRC_TEXT);
+        if (view != null) {
+            view.setPadding(0, 0, 0, 0);
         }
         return this;
     }
@@ -97,9 +116,10 @@ public class MitooSearchViewStyle extends SearchViewStyle{
         getSearchView().requestFocusFromTouch();
         getSearchView().setIconified(false);
         getSearchView().setGravity(Gravity.CENTER_VERTICAL);
+        setEditFrameMargin();
         hideCloseButton();
         return this;
-    }
+    }   
 
     public MitooSearchViewStyle setUpMainRemaining(){
 
@@ -108,7 +128,7 @@ public class MitooSearchViewStyle extends SearchViewStyle{
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.RIGHT_OF, R.id.search_view_image_icon);
         getSearchView().setLayoutParams(params);
-        setAutoCompletePadding();
+        setMainAutoCompletePadding();
         setUpRemaining();
         return this;
     }
@@ -119,7 +139,7 @@ public class MitooSearchViewStyle extends SearchViewStyle{
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         getSearchView().setLayoutParams(params);
-        getSearchView().setLayoutParams(params);
+        setLocationAutoCompletePadding();
         setUpRemaining();
         return this;
     }

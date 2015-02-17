@@ -235,5 +235,14 @@ public class League implements Serializable {
         }
         return result;
     }
+    
+    public String getShortenName(){
+        
+        String leagueName = getName();
+        if(leagueName.length()>30){
+            leagueName = leagueName.substring(0,30) + "...";
+        }
+        return leagueName;
+    }
 
 }

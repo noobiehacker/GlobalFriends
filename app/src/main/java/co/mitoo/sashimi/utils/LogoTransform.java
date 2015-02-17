@@ -17,6 +17,12 @@ public class LogoTransform implements Transformation {
         this.maxWidth = (int)(this.maxHeight * idealRatio);
     }
 
+    public LogoTransform( int maxHeight , double ratio) {
+       this.idealRatio=ratio;
+       this.maxHeight = maxHeight;
+       this.maxWidth = (int)(this.maxHeight * idealRatio);
+    }
+
     @Override
     public Bitmap transform(Bitmap source) {
         int targetWidth, targetHeight;

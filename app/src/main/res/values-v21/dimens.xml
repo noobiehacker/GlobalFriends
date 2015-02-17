@@ -8,5 +8,6 @@
 
     <!-- Search Page -->
     <dimen name="search_edit_text_top_padding">7.5dp</dimen>
+    <dimen name="search_edit_text_left_padding">5dp</dimen>
 
 </resources>

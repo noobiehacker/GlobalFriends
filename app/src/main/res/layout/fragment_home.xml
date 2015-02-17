@@ -13,43 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
-
-
-
-    <ScrollView
+    
+    <ListView
+        android:id="@+id/leagueListView"
+        android:layout_below="@id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/app_bar">
-
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/league_image_holder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:orientation="vertical" 
-                >
-                <TextView
-                    android:id="@+id/enquired_league_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/home_page_enquired_left"
-                    android:layout_marginTop="@dimen/home_page_enquired_top"
-                    android:layout_marginBottom="@dimen/home_page_enquired_bottom"
-                    android:text="@string/home_page_text_1"
-                    style="@style/enquiredLeagueText"
-                    />
-                </LinearLayout>
-
-        </ScrollView>
+        android:divider="@color/transparent"
+        android:descendantFocusability="blocksDescendants" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/spacing_sides"
         android:paddingRight="@dimen/spacing_sides"
-        android:layout_below="@+id/app_bar"
-        
-        >
+        android:layout_below="@+id/app_bar">
 
         <TextView
             android:id="@+id/noEnquiredTextView"

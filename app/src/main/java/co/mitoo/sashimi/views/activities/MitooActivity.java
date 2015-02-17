@@ -16,7 +16,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Protocol;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
+
+import java.util.Arrays;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
@@ -42,8 +49,7 @@ public class MitooActivity extends Activity {
     private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
     private DataHelper dataHelper;
-
-
+    private Picasso picasso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,6 +346,22 @@ public class MitooActivity extends Activity {
             window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
         }
 
+    }
+
+    public Picasso getPicasso() {
+        if (picasso == null) {
+            OkHttpClient client = new OkHttpClient();
+            client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
+            Picasso picasso = new Picasso.Builder(this)
+                    .downloader(new OkHttpDownloader(client))
+                    .build();
+            setPicasso(picasso);
+        }
+        return picasso;
+    }
+
+    public void setPicasso(Picasso picasso) {
+        this.picasso = picasso;
     }
 
     public DataHelper getDataHelper() {

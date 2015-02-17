@@ -114,7 +114,7 @@ public class SearchResultsFragment extends MitooFragment  {
 
     private void setUpListView(View view){
 
-        int leagueLayout = R.layout.list_view_item_league;
+        int leagueLayout = R.layout.view_league_dynamic_header;
         setLeagueListHolder((LinearLayout) view.findViewById(R.id.league_image_holder));
         getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getLeagueData());
 

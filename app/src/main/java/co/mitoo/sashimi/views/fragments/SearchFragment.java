@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
@@ -92,7 +93,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     protected void initializeViews(View view) {
 
         super.initializeViews(view);
-        LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         setUpSearchView(view);
         setUpSportsList(view);
         setUpSearchMitooForView(view);
@@ -206,6 +206,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         TextView textViewToAdd = (TextView) view.findViewById(R.id.tool_bar_title);
         textViewToAdd.setText(getFragmentTitle());
         textViewToAdd.setTextAppearance(getActivity(), R.style.whiteLargeText);
+        view.setLayoutParams(getViewHelper().createCenterInVerticalParam());
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
