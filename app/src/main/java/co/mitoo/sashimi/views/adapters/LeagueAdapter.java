@@ -13,6 +13,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.LogoTransform;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -57,7 +58,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         TextView leagueDateText = (TextView) view.findViewById(R.id.leagueDateText);
         leagueNameText.setText(league.getShortenName());
         String date = league.getCreated_at();
-        leagueDateText.setText(getContext().getResources().getString(R.string.home_page_enquired_date_prefix) + " " +  date);
+        leagueDateText.setText(getContext().getResources().getString(R.string.home_page_enquired_date_prefix) + " " +  getLeagueFormatedDate(date));
     }
     
     @Override
@@ -101,6 +102,11 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
         return MitooEnum.ViewType.LIST;
 
+    }
+    
+    private String getLeagueFormatedDate(String date){
+        DataHelper helper= getFragment().getMitooActivity().getDataHelper();
+        return helper.parseDate(date);
     }
 
 }

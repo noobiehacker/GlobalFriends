@@ -36,8 +36,6 @@ import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.utils.events.GpsRequestEvent;
-import co.mitoo.sashimi.utils.events.LocationPromptEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -46,6 +44,7 @@ public class MitooActivity extends Activity {
 
     private MitooLocationManager locationManager;
     private Handler handler;
+    private Runnable runnable;
     private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
     private DataHelper dataHelper;
@@ -82,18 +81,24 @@ public class MitooActivity extends Activity {
 
     @Override
     public void onStart() {
-        locationManager.connect();
         super.onStart();
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
+    public void onPause() {
+        tearDownReferences();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        tearDownReferences();
+        super.onDestroy();
     }
 
     @Override
     public void onStop() {
-        locationManager.disconnect();
+        tearDownReferences();
         super.onStop();
     }
 
@@ -111,11 +116,22 @@ public class MitooActivity extends Activity {
     }
 
     @Subscribe
-    public void onFragmentChange(FragmentChangeEvent event) {
+    public void onFragmentChange(final FragmentChangeEvent event) {
 
         if (event.getFragmentId() == R.id.fragment_home) {
             popAllFragments();
         }
+        getHandler().post(new Runnable() {
+            public void run() {
+                MitooActivity.this.fragmentTransition(event);
+            }
+        });
+       
+    }
+    
+    private void fragmentTransition(FragmentChangeEvent event){
+
+        hideSoftKeyboard();
         switch (event.getTransition()) {
             case PUSH:
                 pushFragment(event);
@@ -125,26 +141,9 @@ public class MitooActivity extends Activity {
                 swapFragment(event);
                 break;
             case POP:
-                handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        MitooActivity.this.popFragment();
-                    }
-                }, 1000);
-                fragmentStack.pop();
+                popFragment();
                 break;
         }
-    }
-
-    @Subscribe
-    public void locationRequest(GpsRequestEvent event){
-
-        if(locationManager.LocationServicesIsOn()){
-            locationManager.locationRequest();
-        }else{
-            BusProvider.post(new LocationPromptEvent());
-        }
-
     }
 
     @Subscribe
@@ -169,7 +168,7 @@ public class MitooActivity extends Activity {
         if(event.getBundle()!=null)
             fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.enter, R.anim.exit);
+        ft.setCustomAnimations(R.anim.enter_right, R.anim.exit_right,R.anim.exit_left,R.anim.enter_left);
         ft.addToBackStack(null);
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
@@ -177,13 +176,13 @@ public class MitooActivity extends Activity {
 
     }
 
-    public void popFragment(){
+    public void popFragment() {
 
-        if(fragmentStack.size()>0){
-            getFragmentManager().popBackStack();
+        if (fragmentStack.size() > 0) {
             fragmentStack.pop();
-            
+            getFragmentManager().popBackStack();
         }
+
     }
 
     private void swapFragment(FragmentChangeEvent event){
@@ -191,7 +190,7 @@ public class MitooActivity extends Activity {
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         if(event.getTransition() != MitooEnum.fragmentTransition.NONE){
-            ft.setCustomAnimations(R.anim.enter, R.anim.exit);
+            ft.setCustomAnimations(R.anim.enter_right, R.anim.exit_right);
         }
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
@@ -206,6 +205,7 @@ public class MitooActivity extends Activity {
         while(fragmentStack.size()>0){
             popFragment();
         }
+
     }
 
     public boolean NetWorkConnectionIsOn() {
@@ -228,8 +228,18 @@ public class MitooActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            if(this.fragmentStack.peek().isAllowBackPressed())
-                popFragment();
+            if (this.fragmentStack.peek().isAllowBackPressed()) {
+                hideSoftKeyboard();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        popFragment();
+
+                    }
+                };
+                setRunnable(runnable);
+                getHandler().postDelayed(runnable, 75);
+            }
         }
     }
 
@@ -238,8 +248,7 @@ public class MitooActivity extends Activity {
             this.moveTaskToBack(true);
         } else {
             if(this.fragmentStack.peek().isAllowBackPressed())
-                hideSoftKeyboard(v);
-                Handler handler = new Handler();
+                hideSoftKeyboard();
                 Runnable runnable = new Runnable() {
                     @Override
                     public void run() {
@@ -247,8 +256,8 @@ public class MitooActivity extends Activity {
 
                     }
                 };
-                handler.postDelayed(runnable,125);
-
+                setRunnable(runnable);
+                getHandler().postDelayed(runnable, 125);
         }
 
     }
@@ -321,14 +330,27 @@ public class MitooActivity extends Activity {
 
     }
 
-
     public void hideSoftKeyboard(View view) {
         Activity activity = this;
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    
+    public void hideSoftKeyboard(int delayed){
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                MitooActivity.this.hideSoftKeyboard();
+            }
+        };
+        setRunnable(runnable);
+        getHandler().postDelayed(getRunnable(),delayed);
+        
+    }
     public void hideSoftKeyboard() {
+        
         if (this.getCurrentFocus() != null) {
             View view = this.getCurrentFocus();
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -373,4 +395,69 @@ public class MitooActivity extends Activity {
     public void setDataHelper(DataHelper dataHelper) {
         this.dataHelper = dataHelper;
     }
+    
+    public void showKeyboard(){
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                if (MitooActivity.this.getCurrentFocus() != null) {
+                    View view = MitooActivity.this.getCurrentFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+                }
+            }
+        };
+        setRunnable(runnable);
+        getHandler().postDelayed(getRunnable(),250);
+        
+    }
+
+    public void showKeyboard(int delayed){
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                MitooActivity.this.showKeyboard();
+            }
+        };
+        setRunnable(runnable);
+        getHandler().postDelayed(getRunnable(),delayed);
+
+    }
+
+    public Handler getHandler() {
+        if(handler == null)
+            handler = new Handler();
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public Runnable getRunnable() {
+        return runnable;
+    }
+
+    public void setRunnable(Runnable runnable) {
+        this.runnable = runnable;
+    }
+
+    private void handleCallBacks() {
+        
+        if (getHandler() != null && getRunnable() != null) {
+            getHandler().removeCallbacks(getRunnable());
+        }
+
+    }
+
+    public void tearDownReferences() {
+
+        handleCallBacks();
+
+    }
+
 }

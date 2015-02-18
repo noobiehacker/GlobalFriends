@@ -137,7 +137,8 @@ public class SearchResultsFragment extends MitooFragment  {
 
     @Override
     protected void removeDynamicViews(){
-        getLeagueListHolder().removeAllViews();
+        if(getLeagueListHolder()!=null)
+            getLeagueListHolder().removeAllViews();
         super.removeDynamicViews();
     }
 }

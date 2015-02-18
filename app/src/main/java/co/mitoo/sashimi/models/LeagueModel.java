@@ -8,12 +8,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
@@ -89,6 +93,7 @@ public class LeagueModel extends MitooModel{
 
         } else if (objectRecieve instanceof Response) {
             League[] enquired = new League[1];
+            setEnquiredDateAsNow(getSelectedLeague());
             enquired[0] = getSelectedLeague();
             addLeagueEnquired(enquired);
             BusProvider.post(new LeagueModelEnquiresResponseEvent((Response)objectRecieve));
@@ -219,7 +224,6 @@ public class LeagueModel extends MitooModel{
     
     private boolean enquiredLeagueContains(League league){
         
-        
         boolean containsLeague = false;
         if(league!=null){
             loop:
@@ -244,5 +248,13 @@ public class LeagueModel extends MitooModel{
 
     public void setRequestingAlgolia(boolean requestingAlgolia) {
         this.requestingAlgolia = requestingAlgolia;
+    }
+    
+    private void setEnquiredDateAsNow(League league){
+        
+        Date date = new Date();
+        DataHelper helper = getActivity().getDataHelper();
+        league.setCreated_at(helper.getDateString(date));
+        
     }
 }

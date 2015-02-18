@@ -18,31 +18,9 @@ import rx.functions.Action1;
 public class MitooLocationManager {
     
     private MitooActivity mitooActivity;
-    private LocationRequest locationRequest;
 
     public MitooLocationManager(MitooActivity activity) {
         this.mitooActivity = activity;
-        locationRequest = LocationRequest.create();
-        this.connect();
-
-    }
-
-    public void connect(){
-        getReactiveLastKnownLocation();
-
-    }
-
-    public void disconnect(){
-
-    }
-
-    public void locationRequest(){
-        getReactiveLastKnownLocation();
-    }
-
-    private void getReactiveLastKnownLocation(){
-
-        getMitooActivity().getModelManager().getLocationModel().GpsCurrentLocationRequest();
     }
 
     public Boolean LocationServicesIsOn() {
@@ -56,7 +34,4 @@ public class MitooLocationManager {
         return mitooActivity;
     }
 
-    public void setMitooActivity(MitooActivity mitooActivity) {
-        this.mitooActivity = mitooActivity;
-    }
 }

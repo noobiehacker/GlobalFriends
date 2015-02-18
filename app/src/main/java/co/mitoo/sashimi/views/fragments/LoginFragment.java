@@ -31,9 +31,8 @@ import rx.observables.ConnectableObservable;
  */
 public class LoginFragment extends MitooFragment {
 
-    protected Subscription subscription;
-    private ConnectableObservable<JsonLoginSend> observable;
     private EditText passWordInput;
+    private EditText topEditText;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -78,7 +77,8 @@ public class LoginFragment extends MitooFragment {
     protected void initializeViews(View view) {
 
         super.initializeViews(view);
-        setPassWordInput ((EditText) view.findViewById(R.id.passwordInput));
+        setPassWordInput((EditText) view.findViewById(R.id.passwordInput));
+        setTopEditText((EditText)view.findViewById(R.id.emailInput));
         setUpToolBar(view);
 
     }
@@ -104,6 +104,15 @@ public class LoginFragment extends MitooFragment {
         }
     }
 
+    
+    @Override
+    public void onResume(){
+        
+        super.onResume();
+        requestFocusForTopInput(getTopEditText());
+
+    }
+    
     private void loginButtonAction() {
 
         if (allInputsAreValid()) {
@@ -222,5 +231,13 @@ public class LoginFragment extends MitooFragment {
     private void passwordInputRequestFocusAction(){
         if(getPassWordInput()!=null)
             getPassWordInput().requestFocus();
+    }
+
+    public EditText getTopEditText() {
+        return topEditText;
+    }
+
+    public void setTopEditText(EditText topEditText) {
+        this.topEditText = topEditText;
     }
 }

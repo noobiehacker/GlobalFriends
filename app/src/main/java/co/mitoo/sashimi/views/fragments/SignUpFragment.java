@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.squareup.otto.Subscribe;
 
@@ -26,6 +27,7 @@ public class SignUpFragment extends MitooFragment {
 
     private League selectedLeague;
     private boolean loggedIn;
+    private EditText topEditText;
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
     }
@@ -44,7 +46,6 @@ public class SignUpFragment extends MitooFragment {
         initializeFields();
         initializeViews(view);
         initializeOnClickListeners(view);
-
         return view;
     }
 
@@ -69,6 +70,15 @@ public class SignUpFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpSignUpView(view, getSelectedLeague());
+        setTopEditText((EditText)view.findViewById(R.id.nameInput));
+
+    }
+
+    @Override
+    public void onStart(){
+
+        super.onResume();
+        requestFocusForTopInput(getTopEditText());
 
     }
 
@@ -220,5 +230,13 @@ public class SignUpFragment extends MitooFragment {
 
         return MitooEnum.ViewType.FRAGMENT;
 
+    }
+
+    public EditText getTopEditText() {
+        return topEditText;
+    }
+
+    public void setTopEditText(EditText topEditText) {
+        this.topEditText = topEditText;
     }
 }

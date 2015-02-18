@@ -127,6 +127,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         setUpToolBar(view);
         setRootView((ViewGroup)view);
+
     }
 
     protected void initializeOnClickListeners(View view) {
@@ -241,7 +242,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
             }
         };
-        getHandler().postDelayed(runnable,250);
+        getHandler().postDelayed(runnable,150);
         
     }
 
@@ -305,8 +306,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     private void handleCallBacks() {
-        if (handler != null && runnable != null) {
-            handler.removeCallbacks(runnable);
+
+        if (getHandler() != null && getRunnable() != null) {
+            getHandler().removeCallbacks(getRunnable());
         }
 
     }
@@ -348,6 +350,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         handleCallBacks();
         removeToast();
         unregisterBus();
+        getMitooActivity().hideSoftKeyboard();
         setLoading(false);
     }
 
@@ -523,9 +526,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     
     protected void removeDynamicViews(){
         
-        
     }
     
+    protected void requestFocusForTopInput(EditText editText){
+
+        if(editText!=null){
+            editText.requestFocusFromTouch();
+            getMitooActivity().showKeyboard(250);
+        }
+
+    }
 
 }
 

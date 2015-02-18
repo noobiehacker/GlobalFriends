@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -7,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
@@ -66,6 +64,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     public void onResume() {
         super.onResume();
         handleLocationServices();
+        if(!getDataHelper().fragmentIsTransiting()){
+            getSearchView().setIconified(false);
+        }
     }
 
     @Override
@@ -359,6 +360,13 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 return false;
             }
         };
+    }
+    
+    @Override 
+    public void tearDownReferences(){
+        super.tearDownReferences();
+        getSearchView().setIconified(true);
+        
     }
 }
 

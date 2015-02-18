@@ -210,8 +210,7 @@ public class ModelManager {
     
     private void removeModelReferences(){
         DataHelper dataHelper = new DataHelper(getMitooActivity());
-        dataHelper.clearList(this.getMitooModelList());
-        dataHelper.clearList(this.getPersistableList());
-        
+        //Refractor to remove model references
+        System.gc();
     }
 }

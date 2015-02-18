@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.squareup.otto.Subscribe;
 
@@ -19,6 +20,7 @@ import retrofit.RetrofitError;
  */
 public class ResetPasswordFragment extends MitooFragment{
 
+    private EditText topEditText;
     public static ResetPasswordFragment newInstance() {
         return new ResetPasswordFragment();
     }
@@ -49,6 +51,21 @@ public class ResetPasswordFragment extends MitooFragment{
                     break;
             }
         }
+    }
+
+    @Override
+    public void onResume(){
+
+        super.onResume();
+        requestFocusForTopInput(getTopEditText());
+
+    }
+    
+    @Override
+    public void initializeViews(View view){
+        super.initializeViews(view);
+        setTopEditText((EditText)view.findViewById(R.id.emailInput));
+
     }
 
     @Subscribe
@@ -113,4 +130,12 @@ public class ResetPasswordFragment extends MitooFragment{
         return this.getTextFromTextField(R.id.emailInput);
     }
 
+
+    public EditText getTopEditText() {
+        return topEditText;
+    }
+
+    public void setTopEditText(EditText topEditText) {
+        this.topEditText = topEditText;
+    }
 }

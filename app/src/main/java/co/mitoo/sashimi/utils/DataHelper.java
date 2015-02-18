@@ -6,7 +6,9 @@ import android.util.DisplayMetrics;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class DataHelper {
     private long lastCLickTime = 0;
     private boolean confirmFeedBackPopped;
     private DisplayMetrics metrics;
+    private boolean fragmentTransiting;
 
     public DataHelper(Context context) {
         this.context = context;
@@ -239,5 +242,45 @@ public class DataHelper {
         
         return result;
     }
+
+    public boolean isConfirmFeedBackPopped() {
+        return confirmFeedBackPopped;
+    }
+
+    public boolean fragmentIsTransiting() {
+        return fragmentTransiting;
+    }
+
+    public void setFragmentTransiting(boolean fragmentTransiting) {
+        this.fragmentTransiting = fragmentTransiting;
+    }
     
+    public String parseDate(String input) {
+
+        String result = input;
+        try {
+            if (result != null) {
+                Date date = getLongDateFormat().parse(input);
+                result = getShortDateFormat().format(date);
+            }
+        } catch (Exception e) {
+            String temp = e.toString();
+        }
+        return result;
+    }
+
+
+    public String getDateString(Date date) {
+
+        return getLongDateFormat().format(date);
+    }
+    
+    public SimpleDateFormat getLongDateFormat(){
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        
+    }
+
+    public SimpleDateFormat getShortDateFormat(){
+        return new SimpleDateFormat("MMM dd, yyyy");
+    }
 }

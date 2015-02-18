@@ -80,7 +80,6 @@ public class HomeFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(getEnquiredLeagueData().size()!=0)
             setUpListView(view);
         else
@@ -94,6 +93,12 @@ public class HomeFragment extends MitooFragment {
         
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        getMitooActivity().hideSoftKeyboard(2000);
+        
+    }
     @Override
     protected void setUpToolBar(View view) {
 
@@ -173,7 +178,6 @@ public class HomeFragment extends MitooFragment {
     @Override
     public void tearDownReferences(){
 
-        removeDynamicViews();
         super.tearDownReferences();
     }
 
