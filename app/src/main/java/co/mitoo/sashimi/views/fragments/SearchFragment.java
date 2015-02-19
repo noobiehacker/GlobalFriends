@@ -64,9 +64,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     public void onResume() {
         super.onResume();
         handleLocationServices();
-        if(!getDataHelper().fragmentIsTransiting()){
-            getSearchView().setIconified(false);
-        }
     }
 
     @Override
@@ -198,7 +195,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         suggestionTextView.setText(getString(R.string.search_page_text_2));
         return header;
     }
-
 
     private View createClickableTitleView() {
 

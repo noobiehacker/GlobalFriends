@@ -1,9 +1,5 @@
 package co.mitoo.sashimi.models;
-
-import android.app.Activity;
-
 import com.squareup.otto.Subscribe;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;

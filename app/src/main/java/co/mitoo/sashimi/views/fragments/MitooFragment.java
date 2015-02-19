@@ -25,6 +25,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -197,12 +198,24 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentTransition transition , MitooEnum.fragmentAnimation animation) {
+
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
+        postFragmentChangeEvent(event);
+    }
+
+
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentAnimation animation) {
+
+        MitooEnum.fragmentTransition  transition = MitooEnum.fragmentTransition.PUSH;
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
+        postFragmentChangeEvent(event);
+    }
+
     public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentTransition transition) {
 
-        if (fragmentId == R.id.fragment_home) {
-            transition = MitooEnum.fragmentTransition.CHANGE;
-        }
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
+        MitooEnum.fragmentAnimation  animation = MitooEnum.fragmentAnimation.HORIZONTAL;
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , animation);
         postFragmentChangeEvent(event);
     }
 
@@ -210,9 +223,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void fireFragmentChangeAction(int fragmentId) {
 
         MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
-        if (fragmentId == R.id.fragment_home) {
-            transition = MitooEnum.fragmentTransition.CHANGE;
-        }
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
         postFragmentChangeEvent(event);
     }
@@ -220,9 +230,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected void fireFragmentChangeAction(int fragmentId, Bundle bundle) {
 
         MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
-        if (fragmentId == R.id.fragment_home) {
-            transition = MitooEnum.fragmentTransition.CHANGE;
-        }
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, bundle);
         postFragmentChangeEvent(event);
     }
@@ -413,6 +420,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             return getMitooActivity().getModelManager().getSessionModel();
         else if (classType == LocationModel.class)
             return getMitooActivity().getModelManager().getLocationModel();
+        else if (classType == AppSettingsModel.class)
+            return getMitooActivity().getModelManager().getAppSettingsModel();
         else
             return null;
     }
@@ -474,6 +483,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected LeagueModel getLeagueModel() {
         return (LeagueModel) getMitooModel(LeagueModel.class);
     }
+
+    protected AppSettingsModel getAppSettingsModel() {
+        return (AppSettingsModel) getMitooModel(AppSettingsModel.class);
+    }
+
 
     public ViewHelper getViewHelper() {
         if (viewHelper == null)

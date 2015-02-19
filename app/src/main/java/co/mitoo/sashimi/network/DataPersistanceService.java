@@ -63,9 +63,9 @@ public class DataPersistanceService {
 
     }
 
-    public void saveToPreference(String key, Object session){
+    public <T> void saveToPreference(String key, T object){
 
-        final Object objectToPassIn= session;
+        final Object objectToPassIn= object;
         final String keyToPassIn  = key;
         this.serializeRunnable =new Runnable() {
             @Override
@@ -98,18 +98,16 @@ public class DataPersistanceService {
 
     }
     
-    private SessionRecieve deserializeObject(String savedUserSerialized  , Class<?> classType) {
-        SessionRecieve deserializedObject = null;
-        if (classType == SessionRecieve.class) {
+    private <T> T deserializeObject(String savedUserSerialized  , Class<T> classType) {
+        T deserializedObject = null;
 
-            try {
-                if (savedUserSerialized != getSharedPreferenceErrorValue()) {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    deserializedObject = objectMapper.readValue(savedUserSerialized, SessionRecieve.class);
-                }
-            } catch (Exception e) {
-
+        try {
+            if (savedUserSerialized != getSharedPreferenceErrorValue()) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                deserializedObject = objectMapper.readValue(savedUserSerialized, classType);
             }
+        } catch (Exception e) {
+
         }
         return deserializedObject;
 

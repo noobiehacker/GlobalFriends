@@ -1,19 +1,15 @@
 package co.mitoo.sashimi.utils;
-
-import android.content.Context;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import se.walkercrou.places.Prediction;
 
 /**
@@ -21,14 +17,13 @@ import se.walkercrou.places.Prediction;
  */
 public class DataHelper {
 
-    private Context context;
+    private MitooActivity activity;
     private long lastCLickTime = 0;
     private boolean confirmFeedBackPopped;
     private DisplayMetrics metrics;
-    private boolean fragmentTransiting;
 
-    public DataHelper(Context context) {
-        this.context = context;
+    public DataHelper(MitooActivity activity) {
+        this.activity = activity;
     }
 
     public <T> void addToListList(List<T> container, List<T> additionList) {
@@ -50,7 +45,7 @@ public class DataHelper {
     public List<IsSearchable> getSports() {
 
         ArrayList<IsSearchable> returnList = new ArrayList<IsSearchable>();
-        String[] sportsArray = getContext().getResources().getStringArray(R.array.sports_array);
+        String[] sportsArray = getActivity().getResources().getStringArray(R.array.sports_array);
         for (String item : sportsArray) {
             returnList.add(new Sport(item));
         }
@@ -61,7 +56,7 @@ public class DataHelper {
     public List<IsSearchable> getSports(String prefix) {
 
         ArrayList<IsSearchable> returnList = new ArrayList<IsSearchable>();
-        String[] sportsArray = getContext().getResources().getStringArray(R.array.sports_array);
+        String[] sportsArray = getActivity().getResources().getStringArray(R.array.sports_array);
         for (String item : sportsArray) {
             if (item.toLowerCase().startsWith(prefix.toLowerCase()))
                 returnList.add(new Sport(item));
@@ -164,24 +159,24 @@ public class DataHelper {
 
     private boolean isGoogleGeoType(String typeString) {
 
-        String geoCode = getContext().getString(R.string.google_place_api_geocode);
-        String locality = getContext().getString(R.string.google_place_api_locality);
-        String political = getContext().getString(R.string.google_place_api_political);
+        String geoCode = getActivity().getString(R.string.google_place_api_geocode);
+        String locality = getActivity().getString(R.string.google_place_api_locality);
+        String political = getActivity().getString(R.string.google_place_api_political);
         return (typeString.equals(geoCode) || typeString.equals(locality) || typeString.equals(political));
 
     }
 
     private String getBullet() {
-        return getContext().getString(R.string.bullet);
+        return getActivity().getString(R.string.bullet);
 
     }
 
-    public Context getContext() {
-        return context;
+    public MitooActivity getActivity() {
+        return activity;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setActivity(MitooActivity activity) {
+        this.activity = activity;
     }
 
     public long getLastCLickTime() {
@@ -212,7 +207,7 @@ public class DataHelper {
 
     public DisplayMetrics getMetrics() {
         if (metrics == null)
-            metrics = getContext().getResources().getDisplayMetrics();
+            metrics = getActivity().getResources().getDisplayMetrics();
         return metrics;
     }
 
@@ -246,14 +241,6 @@ public class DataHelper {
     public boolean isConfirmFeedBackPopped() {
         return confirmFeedBackPopped;
     }
-
-    public boolean fragmentIsTransiting() {
-        return fragmentTransiting;
-    }
-
-    public void setFragmentTransiting(boolean fragmentTransiting) {
-        this.fragmentTransiting = fragmentTransiting;
-    }
     
     public String parseDate(String input) {
 
@@ -283,4 +270,8 @@ public class DataHelper {
     public SimpleDateFormat getShortDateFormat(){
         return new SimpleDateFormat("MMM dd, yyyy");
     }
+
+
+
+        
 }

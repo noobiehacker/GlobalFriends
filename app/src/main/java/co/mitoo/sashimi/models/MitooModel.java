@@ -21,14 +21,11 @@ public abstract class MitooModel
     protected DataPersistanceService persistanceService;
     protected Handler handler;
     protected Runnable backgroundRunnable;
-    protected Runnable getResultsRunnable;
-
 
     private SteakApi steakApiService;
 
     public MitooModel(MitooActivity activity) {
         setActivity(activity);
-        setUpPersistanceService();
         BusProvider.register(this);
     }
     
@@ -58,16 +55,9 @@ public abstract class MitooModel
     }
 
     public DataPersistanceService getPersistanceService() {
+        if(persistanceService==null)
+            persistanceService=getActivity().getPersistanceService();
         return persistanceService;
-    }
-
-    public void setPersistanceService(DataPersistanceService persistanceService) {
-        this.persistanceService = persistanceService;
-    }
-    
-    private void setUpPersistanceService(){
-        setPersistanceService(new DataPersistanceService(getActivity()));
-        
     }
 
     protected <T> void handleObservable(Observable<T> observable, Class<T> classType) {

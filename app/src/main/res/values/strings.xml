@@ -120,6 +120,7 @@
     <string name="home_page_text_1">ENQUIRED</string>
     <string name="home_page_text_2">Find a new league</string>
     <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, use the search box at the top.</string>
+    <string name="home_page_text_4">Hey, Here\'s where we put\nthe league you\'ve contacted</string>
 
     <!--Home Page - Enquired List View-->
     <string name="home_page_enquired_date_prefix">Enquired on </string>
@@ -284,7 +285,7 @@
     <string name="feedback_page_text1">Contact Mitoo</string>
 
     <!--Unhappy Page -->
-    <string name="unhappy_page_text1">Also if you have any request, questions, or would just \nlike to find out more, please contact us.</string>
+    <string name="unhappy_page_text1">Thanks for the feedback. We are really sorry that we have\n not met your expectations. How can we do better?</string>
 
     <!--Confused Page -->
     <string name="confused_page_text1">Thanks for the feedback. Maybe our FAQ\'s might help you solve your problem?</string>
@@ -294,7 +295,7 @@
 
     <string name="happy_page_text1">You being happy make us happy! Can you give us some stars?</string>
     <string name="happy_page_text2">Give us 5!</string>
-    <string name="happy_page_text3"></string>
+    <string name="happy_page_text3">Also if you have any requests, questions, or would just like\n to find out more, do contact us.</string>
 
     <!--Toolbar Title-->
     <string name="tool_bar_happy">HAPPY</string>
@@ -359,5 +360,7 @@
     <string name="shared_preference_user_info_key">User Info Key</string>
     <string name="shared_preference_league_enquired_key">League enquired Key</string>
     <string name="shared_preference_error">shared preference error</string>
+    
+    <string name="shared_preference_user_has_used_app">Not First Time User</string>
     
 </resources>

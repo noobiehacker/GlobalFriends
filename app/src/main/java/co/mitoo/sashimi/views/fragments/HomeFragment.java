@@ -1,22 +1,16 @@
 package co.mitoo.sashimi.views.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
@@ -38,6 +32,7 @@ public class HomeFragment extends MitooFragment {
     private List<League> enquiredLeagueData;
     private ListView leagueList;
     private LeagueAdapter leagueDataAdapter;
+    private boolean userHasUsedApp;
 
     @Override
     public void onClick(View v) {
@@ -73,6 +68,8 @@ public class HomeFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setUpUserHasUsedAppBoolean();
+        saveUserAsSecondTimeUser();
         setUpEnquriedLeagueData();
     }
 
@@ -80,11 +77,17 @@ public class HomeFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
+        setUpEnquireLeagueView(view);
+    }
+    
+    private void setUpEnquireLeagueView(View view){
+
         if(getEnquiredLeagueData().size()!=0)
             setUpListView(view);
         else
             setUpNoResultsTextView(view);
     }
+    
 
     @Override
     protected void initializeOnClickListeners(View view) {
@@ -95,10 +98,11 @@ public class HomeFragment extends MitooFragment {
 
     @Override
     public void onResume(){
+    
         super.onResume();
-        getMitooActivity().hideSoftKeyboard(2000);
-        
+
     }
+    
     @Override
     protected void setUpToolBar(View view) {
 
@@ -169,10 +173,13 @@ public class HomeFragment extends MitooFragment {
 
     private void setUpListView(View view){
 
-        leagueList = (ListView) view.findViewById(R.id.leagueListView);
-        leagueList.setAdapter(getLeagueDataAdapter());
-        leagueList.setOnItemClickListener(getLeagueDataAdapter());
-        leagueList.addHeaderView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_text_view));
+        setLeagueList((ListView) view.findViewById(R.id.leagueListView));
+        getLeagueList().setAdapter(getLeagueDataAdapter());
+        getLeagueList().setOnItemClickListener(getLeagueDataAdapter());
+        getLeagueList().addHeaderView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_text_view));
+        if(!getUserHasUsedApp())
+            getLeagueList().addFooterView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_footer));
+
     }
 
     @Override
@@ -200,4 +207,29 @@ public class HomeFragment extends MitooFragment {
         return leagueDataAdapter;
     }
 
+    public boolean getUserHasUsedApp() {
+        return userHasUsedApp;
+    }
+
+    private void setUpUserHasUsedAppBoolean(){
+
+        if(getAppSettingsModel().getUserHasUsedApp() == null)
+            userHasUsedApp = false;
+        else
+            userHasUsedApp = getAppSettingsModel().getUserHasUsedApp().booleanValue();
+        
+    }
+    public void saveUserAsSecondTimeUser(){
+        
+        getAppSettingsModel().saveUsedAppBoolean();
+        
+    }
+
+    public ListView getLeagueList() {
+        return leagueList;
+    }
+
+    public void setLeagueList(ListView leagueList) {
+        this.leagueList = leagueList;
+    }
 }

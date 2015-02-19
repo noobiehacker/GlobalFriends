@@ -28,6 +28,7 @@ import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -49,12 +50,13 @@ public class MitooActivity extends Activity {
     private ModelManager modelManager;
     private DataHelper dataHelper;
     private Picasso picasso;
+    protected DataPersistanceService persistanceService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        startApp();
+        startApp(true);
         initializeFields();
         setContentView(R.layout.activity_mitoo);
         setUpPersistenceData();
@@ -119,7 +121,7 @@ public class MitooActivity extends Activity {
     public void onFragmentChange(final FragmentChangeEvent event) {
 
         if (event.getFragmentId() == R.id.fragment_home) {
-            popAllFragments();
+            popAllSurfaceFragments();
         }
         getHandler().post(new Runnable() {
             public void run() {
@@ -168,14 +170,43 @@ public class MitooActivity extends Activity {
         if(event.getBundle()!=null)
             fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.enter_right, R.anim.exit_right,R.anim.exit_left,R.anim.enter_left);
+        setFragmentAnimation(ft, event.getAnimation());
         ft.addToBackStack(null);
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
         fragmentStack.push(fragment);
 
     }
+    
+    private void setFragmentAnimation(FragmentTransaction transction , MitooEnum.fragmentAnimation animation){
+        
+        if(animation == MitooEnum.fragmentAnimation.HORIZONTAL)
+            setLeftToRightAnimation(transction);
+        else if(animation == MitooEnum.fragmentAnimation.VERTICAL)
+            setBottomToTopAnimation(transction);
+        else if(animation == MitooEnum.fragmentAnimation.DOWNLEFT)
+            setDownLeftAnimation(transction);
+    }
+    
+    private void setBottomToTopAnimation(FragmentTransaction transaction){
 
+        transaction.setCustomAnimations(R.anim.enter_top, R.anim.exit_top,
+                R.anim.exit_bottom,R.anim.enter_bottom);
+
+    }
+
+    private void setLeftToRightAnimation(FragmentTransaction transaction){
+
+        transaction.setCustomAnimations(R.anim.enter_right, R.anim.exit_right,
+                R.anim.exit_left,R.anim.enter_left);
+    }
+
+    private void setDownLeftAnimation(FragmentTransaction transaction){
+
+        transaction.setCustomAnimations( R.anim.exit_top, R.anim.exit_left,
+                R.anim.enter_bottom,R.anim.enter_right);
+    }
+    
     public void popFragment() {
 
         if (fragmentStack.size() > 0) {
@@ -189,8 +220,8 @@ public class MitooActivity extends Activity {
 
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(event.getTransition() != MitooEnum.fragmentTransition.NONE){
-            ft.setCustomAnimations(R.anim.enter_right, R.anim.exit_right);
+        if(event.getAnimation() == MitooEnum.fragmentAnimation.DOWNLEFT){
+            setFragmentAnimation(ft, event.getAnimation());
         }
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
@@ -208,6 +239,14 @@ public class MitooActivity extends Activity {
 
     }
 
+    private void popAllSurfaceFragments(){
+
+        while(fragmentStack.size()>1){
+            popFragment();
+        }
+
+    }
+    
     public boolean NetWorkConnectionIsOn() {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -303,11 +342,13 @@ public class MitooActivity extends Activity {
         ServiceBuilder.getSingleTonInstance().resetXAuthToken();
     }
 
-    public void startApp(){
+    public void startApp(boolean firstTime){
 
         fragmentStack= new Stack<MitooFragment>();
-        swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.NONE, R.id.fragment_splash));
-
+        if(firstTime)
+            swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.NONE, R.id.fragment_splash));
+        else
+            swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.CHANGE, R.id.fragment_splash , MitooEnum.fragmentAnimation.DOWNLEFT));
     }
 
     @Subscribe
@@ -316,7 +357,9 @@ public class MitooActivity extends Activity {
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
         popAllFragments();
-        startApp();
+        startApp(false);
+        
+
     }
 
     public void contactMitoo(){
@@ -398,19 +441,11 @@ public class MitooActivity extends Activity {
     
     public void showKeyboard(){
 
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                if (MitooActivity.this.getCurrentFocus() != null) {
-                    View view = MitooActivity.this.getCurrentFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-                }
-            }
-        };
-        setRunnable(runnable);
-        getHandler().postDelayed(getRunnable(),250);
+        if (MitooActivity.this.getCurrentFocus() != null) {
+            View view = MitooActivity.this.getCurrentFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
         
     }
 
@@ -458,6 +493,12 @@ public class MitooActivity extends Activity {
 
         handleCallBacks();
 
+    }
+
+    public DataPersistanceService getPersistanceService() {
+        if(persistanceService==null)
+            persistanceService = new DataPersistanceService(this);
+        return persistanceService;
     }
 
 }

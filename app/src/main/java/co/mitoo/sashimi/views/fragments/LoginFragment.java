@@ -126,8 +126,6 @@ public class LoginFragment extends MitooFragment {
         }
     }
 
-
-
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
 
@@ -140,7 +138,7 @@ public class LoginFragment extends MitooFragment {
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_home);
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.fragmentTransition.CHANGE , MitooEnum.fragmentAnimation.VERTICAL);
         setLoading(false);
     }
 
@@ -153,9 +151,7 @@ public class LoginFragment extends MitooFragment {
     }
 
     private void forgetPasswordAction(){
-        setLoading(true);
-        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_reset_password);
-        BusProvider.post(event);
+        fireFragmentChangeAction(R.id.fragment_reset_password , MitooEnum.fragmentTransition.PUSH , MitooEnum.fragmentAnimation.HORIZONTAL);
     }
 
     private String getEmail(){

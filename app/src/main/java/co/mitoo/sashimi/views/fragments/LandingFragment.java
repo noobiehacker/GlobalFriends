@@ -9,6 +9,7 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.views.widgets.MultiTextSliderView;
 
 /**
@@ -66,7 +67,8 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     }
 
     private void searchButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_search);
+        fireFragmentChangeAction(R.id.fragment_search , MitooEnum.fragmentTransition.PUSH , MitooEnum.fragmentAnimation.VERTICAL);
+        
     }
 
     private void loginButtonAction(){

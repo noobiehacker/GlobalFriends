@@ -36,4 +36,8 @@ public class MitooEnum {
         APP ,API
     }
 
+    public enum fragmentAnimation {
+        HORIZONTAL, VERTICAL , DOWNLEFT
+    }
+
 }

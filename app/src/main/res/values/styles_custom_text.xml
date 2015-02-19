@@ -83,6 +83,11 @@
         <item name="android:textColor">@color/gray_light_six</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="youHaveEnquiredText">
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">16sp</item>
+    </style>
     <!-- Feedback Page -->
 
     <style name="feedbackMessageText">

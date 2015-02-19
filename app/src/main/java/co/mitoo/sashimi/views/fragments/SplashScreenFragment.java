@@ -72,15 +72,17 @@ public class SplashScreenFragment extends MitooFragment {
         Handler h = new Handler();
         h.postDelayed(new Runnable() {
             public void run() {
-                SessionRecieve session = getSessionModel().getSession();
-                if (session != null) {
-                    getMitooActivity().updateAuthToken(session);
-                    getLeagueModel().requestLeagueEnquire(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
+                
+                    SessionRecieve session = getSessionModel().getSession();
+                    if (session != null) {
+                        getMitooActivity().updateAuthToken(session);
+                        getLeagueModel().requestLeagueEnquire(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
 
-                } else {
-                    fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.fragmentTransition.CHANGE);
+                    } else {
+                        fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.fragmentTransition.CHANGE);
 
-                }
+                    }
+
             }
         }, 1000);
         

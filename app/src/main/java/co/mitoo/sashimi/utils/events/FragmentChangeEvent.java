@@ -11,6 +11,7 @@ public class FragmentChangeEvent extends EventObject{
 
     private int fragmentId;
     private MitooEnum.fragmentTransition transition;
+    private MitooEnum.fragmentAnimation animation = MitooEnum.fragmentAnimation.HORIZONTAL;
     private Bundle bundle;
 
     public Bundle getBundle() {
@@ -44,6 +45,13 @@ public class FragmentChangeEvent extends EventObject{
         this.fragmentId= fragmentId;
     }
 
+    public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition , int fragmentId , MitooEnum.fragmentAnimation animation) {
+        super(source);
+        this.transition = transition;
+        this.fragmentId= fragmentId;
+        this.animation = animation;
+    }
+
     public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition,int fragmentId,  Bundle bundle) {
         super(source);
         this.fragmentId = fragmentId;
@@ -55,4 +63,11 @@ public class FragmentChangeEvent extends EventObject{
         return fragmentId;
     }
 
+    public MitooEnum.fragmentAnimation getAnimation() {
+        return animation;
+    }
+
+    public void setAnimation(MitooEnum.fragmentAnimation animation) {
+        this.animation = animation;
+    }
 }

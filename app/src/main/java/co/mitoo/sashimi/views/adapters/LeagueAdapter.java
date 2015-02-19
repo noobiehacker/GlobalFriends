@@ -26,12 +26,10 @@ import co.mitoo.sashimi.views.fragments.MitooFragment;
 public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.OnItemClickListener {
     
     private MitooFragment fragment;
-    private boolean headerLayout;
 
     public LeagueAdapter(Context context, int resourceId, List<League> objects , MitooFragment fragment, boolean hasHeader) {
         super(context, resourceId, objects);
         setFragment(fragment);
-        setHeaderLayout(hasHeader);
     }
     
     public LeagueAdapter(Context context, int resourceId, List<League> objects) {
@@ -64,7 +62,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (position != 0 || !isHeaderLayout()) {
+        if (id!= -1 ) {
             League item = (League)parent.getItemAtPosition(position);
             view.setSelected(true);
             leagueListItemAction(item);
@@ -90,14 +88,6 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         this.fragment = fragment;
     }
 
-    public boolean isHeaderLayout() {
-        return headerLayout;
-    }
-
-    public void setHeaderLayout(boolean headerLayout) {
-        this.headerLayout = headerLayout;
-    }
-    
     private MitooEnum.ViewType getViewType(){
 
         return MitooEnum.ViewType.LIST;

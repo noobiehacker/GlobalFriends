@@ -60,6 +60,13 @@
     <dimen name="home_page_enquired_top">27dp</dimen>
     <dimen name="home_page_enquired_bottom">6dp</dimen>
     <dimen name="home_page_enquired_left">16dp</dimen>
+    <dimen name="home_page_contacted_text_container">44dp</dimen>
+
+    <dimen name="home_page_contacted_container_right_padding">20dp</dimen>
+    <dimen name="home_page_contacted_container_top_padding">11dp</dimen>
+    <dimen name="home_page_contacted_container_bottom_padding">20dp</dimen>
+    <dimen name="home_page_contacted_container_left_padding">19dp</dimen>
+    <dimen name="home_page_contacted_text_top_padding">5dp</dimen>
 
     <!-- Home Page - Enquired List View -->
     <dimen name="enquired_list_icon_left_padding">16dp</dimen>
@@ -72,6 +79,8 @@
     <dimen name="enquired_list_text_top_padding">9dp</dimen>
     <dimen name="enquired_list_text_bottom_padding">12dp</dimen>
     <dimen name="enquired_list_text_left_padding">61dp</dimen>
+    
+    <dimen name="enquired_list_bottom_padding">20dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
