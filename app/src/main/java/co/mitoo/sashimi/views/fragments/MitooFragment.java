@@ -52,7 +52,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected Toolbar toolbar;
     protected String fragmentTitle = "";
     private boolean allowBackPressed = true;
-    private boolean loading = false;
+    protected boolean loading = false;
     private ProgressDialog progressDialog;
     private ViewHelper viewHelper;
     private ViewGroup rootView;

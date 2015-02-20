@@ -25,7 +25,7 @@ import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
-
+import com.github.androidprogresslayout.ProgressLayout;
 /**
  * Created by david on 15-01-12.
  */
@@ -34,6 +34,8 @@ public class HomeFragment extends MitooFragment {
     private List<League> enquiredLeagueData;
     private ListView leagueList;
     private LeagueAdapter leagueDataAdapter;
+    private ProgressLayout progressLayout;
+    private TextView noResultsView ;
     private boolean userHasUsedApp;
 
     @Override
@@ -75,19 +77,15 @@ public class HomeFragment extends MitooFragment {
         updateEnquriedLeagueData();
     }
 
+
     @Override
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        setUpEnquireLeagueView(view);
-    }
-    
-    private void setUpEnquireLeagueView(View view){
+        setProgressLayout((ProgressLayout)view.findViewById(R.id.progressLayout));
+        setUpListView(view);
+        setUpNoResultsTextView(view);
 
-        if(getEnquiredLeagueData().size()!=0)
-            setUpListView(view);
-        else
-            setUpNoResultsTextView(view);
     }
     
     @Override
@@ -99,9 +97,8 @@ public class HomeFragment extends MitooFragment {
 
     @Override
     public void onResume(){
-    
-        if(!isPageFirstLoad())
-            requestLeagueData();
+
+        requestLeagueData();
         super.onResume();
 
     }
@@ -165,17 +162,25 @@ public class HomeFragment extends MitooFragment {
 
         setLoading(false);
         updateEnquriedLeagueData();
-        getLeagueDataAdapter().notifyDataSetChanged();
-
+        if(getEnquiredLeagueData().size()!=0)
+            getLeagueDataAdapter().notifyDataSetChanged();
+        else
+            getNoResultsView().setVisibility(View.VISIBLE);
     }
-    
-        
+
     @Subscribe
     public void onUserInfoReceieve(UserInfoModelResponseEvent event){
 
         fireFragmentChangeAction(R.id.fragment_settings);
 
     }
+
+    @Override
+    protected void handleAndDisplayError(MitooActivitiesErrorEvent error) {
+        getProgressLayout().showErrorText("");
+        super.handleAndDisplayError(error);
+    }
+    
 
     public void updateEnquriedLeagueData(){
 
@@ -216,8 +221,8 @@ public class HomeFragment extends MitooFragment {
 
     private void setUpNoResultsTextView(View view){
 
-        TextView noResultsView = (TextView) view.findViewById(R.id.noEnquiredTextView);
-        noResultsView.setVisibility(View.VISIBLE);
+        setNoResultsView((TextView)view.findViewById(R.id.noEnquiredTextView));
+
     }
 
     public LeagueAdapter getLeagueDataAdapter() {
@@ -252,5 +257,30 @@ public class HomeFragment extends MitooFragment {
     public void setLeagueList(ListView leagueList) {
         this.leagueList = leagueList;
     }
-    
+
+    public ProgressLayout getProgressLayout() {
+        return progressLayout;
+    }
+
+    public void setProgressLayout(ProgressLayout progressLayout) {
+        this.progressLayout = progressLayout;
+    }
+
+    @Override
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        if (this.loading) {
+            getProgressLayout().showProgress();
+        } else {
+            getProgressLayout().showContent();
+        }
+    }
+
+    public TextView getNoResultsView() {
+        return noResultsView;
+    }
+
+    public void setNoResultsView(TextView noResultsView) {
+        this.noResultsView = noResultsView;
+    }
 }

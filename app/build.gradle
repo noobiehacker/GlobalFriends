@@ -132,6 +132,10 @@ dependencies {
     //Google MAP
     compile 'com.google.maps.android:android-maps-utils:0.3+'
     //Library for future
+
+    //Progress loader
+    compile 'com.github.androidprogresslayout:library:2.0.2@aar'
+    
     //View Injection
     //compile 'com.jakewharton:butterknife:6.0.0'
 

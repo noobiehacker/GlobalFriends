@@ -27,6 +27,7 @@ public class League implements Serializable {
     private String logo_thumb;
     private String cover;
     private String cover_mobile;
+    private String cover_mobile_tall;
     private _geoLoc _geoloc;
     private location location;
     private String[] sports;
@@ -61,6 +62,14 @@ public class League implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getCover_mobile_tall() {
+        return cover_mobile_tall;
+    }
+
+    public void setCover_mobile_tall(String cover_mobile_tall) {
+        this.cover_mobile_tall = cover_mobile_tall;
     }
 
     public String getAbout() {

@@ -81,9 +81,8 @@ public class ViewHelper {
 
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
-            String cover = league.getCover_mobile();
             getPicasso().with(getActivity())
-                    .load(getCover(league))
+                    .load(getCoverTall(league))
                     .fit()
                     .centerCrop()
                     .into(leagueBackgroundImageView);
@@ -560,6 +559,15 @@ public class ViewHelper {
 
     }
 
+    private String getCoverTall(League league){
+
+        String result = "";
+        if(league!=null){
+            result = getRetinaUrl(league.getCover_mobile_tall());
+        }
+        return result;
+
+    }
     private String getLogo(League league) {
 
         String result = "";

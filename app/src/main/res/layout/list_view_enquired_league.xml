@@ -10,10 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:paddingLeft="@dimen/enquired_list_icon_left_padding"
-        android:paddingRight="@dimen/enquired_list_icon_right_padding"
+        android:layout_marginLeft="@dimen/enquired_list_icon_left_padding"
+        android:layout_marginRight="@dimen/enquired_list_icon_right_padding"
         android:layout_alignParentLeft="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/rounded">
 
         <ImageView
             android:id="@+id/enquired_list_icon"

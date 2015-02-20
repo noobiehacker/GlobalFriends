@@ -34,11 +34,11 @@ public class SplashScreenFragment extends MitooFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  getActivity().getLayoutInflater().inflate(R.layout.fragment_splash,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_splash,
                 container, false);
         return view;
     }
-
+    
     @Subscribe
     public void onModelPersistedDataLoaded(ModelPersistedDataLoadedEvent event) {
         
@@ -50,13 +50,6 @@ public class SplashScreenFragment extends MitooFragment {
     public void onModelPersistedDataDeleted(ModelPersistedDataDeletedEvent event) {
 
         loadFirstFragment();
-
-    }
-    
-    @Subscribe
-    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
-
-        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE);
 
     }
 
@@ -74,7 +67,7 @@ public class SplashScreenFragment extends MitooFragment {
                     SessionRecieve session = getSessionModel().getSession();
                     if (session != null) {
                         getMitooActivity().updateAuthToken(session);
-                        getLeagueModel().requestEnquiredLeagues(new LeagueModelEnquireRequestEvent(session.id));
+                        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE);
 
                     } else {
                         fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE);
