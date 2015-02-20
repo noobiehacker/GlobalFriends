@@ -10,11 +10,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -33,6 +30,7 @@ import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -58,7 +56,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private ProgressDialog progressDialog;
     private ViewHelper viewHelper;
     private ViewGroup rootView;
-
+    private FormHelper formHelper;
+    private boolean pageFirstLoad= true;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -77,6 +76,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         super.onResume();
         handleNetwork();
         registerBus();
+        setPageFirstLoad(false);
     }
 
     @Override
@@ -188,7 +188,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     private void handleNetwork() {
         if (!getMitooActivity().NetWorkConnectionIsOn())
-            displayText(getString(R.string.toast_network_error));
+            displayText(getString(R.string.error_no_internet));
 
     }
 
@@ -198,23 +198,23 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentTransition transition , MitooEnum.fragmentAnimation animation) {
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation) {
 
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
         postFragmentChangeEvent(event);
     }
 
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentAnimation animation) {
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentAnimation animation) {
 
-        MitooEnum.fragmentTransition  transition = MitooEnum.fragmentTransition.PUSH;
+        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
         postFragmentChangeEvent(event);
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentTransition transition) {
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition) {
 
-        MitooEnum.fragmentAnimation  animation = MitooEnum.fragmentAnimation.HORIZONTAL;
+        MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , animation);
         postFragmentChangeEvent(event);
     }
@@ -222,19 +222,19 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void fireFragmentChangeAction(int fragmentId) {
 
-        MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
+        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
         postFragmentChangeEvent(event);
     }
 
     protected void fireFragmentChangeAction(int fragmentId, Bundle bundle) {
 
-        MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
+        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, bundle);
         postFragmentChangeEvent(event);
     }
 
-    protected void fireFragmentChangeAction(MitooEnum.fragmentTransition transition) {
+    protected void fireFragmentChangeAction(MitooEnum.FragmentTransition transition) {
 
         FragmentChangeEvent event = new FragmentChangeEvent(this,transition);
         postFragmentChangeEvent(event);
@@ -259,7 +259,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    protected void displayText(String text) {
+    public void displayText(String text) {
 
         removeToast();
         View toastLayout = createToastView();
@@ -551,6 +551,19 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
+    public FormHelper getFormHelper() {
+        if(formHelper==null)
+            formHelper = new FormHelper(this);
+        return formHelper;
+    }
+
+    public boolean isPageFirstLoad() {
+        return pageFirstLoad;
+    }
+
+    public void setPageFirstLoad(boolean pageFirstLoad) {
+        this.pageFirstLoad = pageFirstLoad;
+    }
 }
 
 

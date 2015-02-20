@@ -8,11 +8,24 @@ import co.mitoo.sashimi.utils.MitooEnum;
 public class LeagueModelEnquireRequestEvent {
     
     private int userID;
-    private MitooEnum.crud requestType;
+    private MitooEnum.APIRequest apiRequestType = MitooEnum.APIRequest.REQUEST;
 
-    public LeagueModelEnquireRequestEvent(int userID, MitooEnum.crud requestType) {
+    public LeagueModelEnquireRequestEvent(int userID){
+
         this.userID = userID;
-        this.requestType = requestType;
+    }
+
+    public LeagueModelEnquireRequestEvent(int userID, MitooEnum.APIRequest apiRequestType) {
+        this.userID = userID;
+        this.apiRequestType = apiRequestType;
+    }
+
+    public MitooEnum.APIRequest getApiRequestType() {
+        return apiRequestType;
+    }
+
+    public void setApiRequestType(MitooEnum.APIRequest apiRequestType) {
+        this.apiRequestType = apiRequestType;
     }
 
     public int getUserID() {
@@ -23,11 +36,4 @@ public class LeagueModelEnquireRequestEvent {
         this.userID = userID;
     }
 
-    public MitooEnum.crud getRequestType() {
-        return requestType;
-    }
-
-    public void setRequestType(MitooEnum.crud requestType) {
-        this.requestType = requestType;
-    }
 }

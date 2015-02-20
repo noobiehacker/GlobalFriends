@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -206,7 +205,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
-        fireFragmentChangeAction(MitooEnum.fragmentTransition.POP);
+        fireFragmentChangeAction(MitooEnum.FragmentTransition.POP);
 
     }
 

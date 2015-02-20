@@ -67,7 +67,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     }
 
     private void searchButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_search , MitooEnum.fragmentTransition.PUSH , MitooEnum.fragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_search , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.VERTICAL);
         
     }
 

@@ -9,9 +9,7 @@ import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
-import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
@@ -58,7 +56,7 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
-        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.fragmentTransition.CHANGE);
+        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE);
 
     }
 
@@ -76,15 +74,15 @@ public class SplashScreenFragment extends MitooFragment {
                     SessionRecieve session = getSessionModel().getSession();
                     if (session != null) {
                         getMitooActivity().updateAuthToken(session);
-                        getLeagueModel().requestLeagueEnquire(new LeagueModelEnquireRequestEvent(session.id, MitooEnum.crud.READ));
+                        getLeagueModel().requestEnquiredLeagues(new LeagueModelEnquireRequestEvent(session.id));
 
                     } else {
-                        fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.fragmentTransition.CHANGE);
+                        fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE);
 
                     }
 
             }
-        }, 1000);
+        }, 250);
         
     }
 

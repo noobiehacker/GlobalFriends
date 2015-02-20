@@ -15,7 +15,7 @@ import co.mitoo.sashimi.utils.MitooEnum;
  */
 public class AboutMitooFragment extends MitooFragment {
 
-    private MitooEnum.aboutMitooOption aboutMitooOptions;
+    private MitooEnum.AboutMitooOption aboutMitooOptions;
     private String[] optionsString;
 
     public static AboutMitooFragment newInstance() {
@@ -103,7 +103,7 @@ public class AboutMitooFragment extends MitooFragment {
         }
     }
 
-    public MitooEnum.aboutMitooOption getAboutMitooOptions() {
+    public MitooEnum.AboutMitooOption getAboutMitooOptions() {
 
         if (this.aboutMitooOptions == null) {
             Bundle arguments = getArguments();
@@ -114,16 +114,16 @@ public class AboutMitooFragment extends MitooFragment {
 
                 switch (integerValue) {
                     case 0:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.TERMS);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.TERMS);
                         break;
                     case 1:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.PRIVACYPOLICY);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.PRIVACYPOLICY);
                         break;
                     case MitooConstants.faqOption:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.FAQ);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.FAQ);
                         break;
                     default:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.TERMS);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.TERMS);
 
                 }
             }
@@ -131,7 +131,7 @@ public class AboutMitooFragment extends MitooFragment {
         return aboutMitooOptions;
     }
 
-    public void setAboutMitooOptions(MitooEnum.aboutMitooOption aboutMitooOptions) {
+    public void setAboutMitooOptions(MitooEnum.AboutMitooOption aboutMitooOptions) {
         this.aboutMitooOptions = aboutMitooOptions;
     }
 

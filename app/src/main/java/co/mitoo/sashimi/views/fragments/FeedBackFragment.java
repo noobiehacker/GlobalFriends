@@ -17,7 +17,7 @@ import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
  */
 public class FeedBackFragment extends MitooFragment {
 
-    private MitooEnum.feedBackOption feedBack = null;
+    private MitooEnum.FeedBackOption feedBack = null;
     private String[] feedBackString;
 
     public static FeedBackFragment newInstance() {
@@ -124,7 +124,7 @@ public class FeedBackFragment extends MitooFragment {
         return returnView;
     }
 
-    public MitooEnum.feedBackOption getFeedBack() {
+    public MitooEnum.FeedBackOption getFeedBack() {
         
         if (this.feedBack == null) {
             Bundle arguments = getArguments();
@@ -132,13 +132,13 @@ public class FeedBackFragment extends MitooFragment {
                 String value = (String) arguments.get(getString(R.string.bundle_key_prompt));
                 switch(Integer.parseInt(value)){
                     case 0:
-                        setFeedback(MitooEnum.feedBackOption.HAPPY);
+                        setFeedback(MitooEnum.FeedBackOption.HAPPY);
                         break;
                     case 1:
-                        setFeedback(MitooEnum.feedBackOption.CONFUSED);
+                        setFeedback(MitooEnum.FeedBackOption.CONFUSED);
                         break;
                     case 2:
-                        setFeedback(MitooEnum.feedBackOption.UNHAPPY);
+                        setFeedback(MitooEnum.FeedBackOption.UNHAPPY);
                         break;
                 }
             }
@@ -147,7 +147,7 @@ public class FeedBackFragment extends MitooFragment {
 
     }
 
-    public void setFeedback(MitooEnum.feedBackOption feedback) {
+    public void setFeedback(MitooEnum.FeedBackOption feedback) {
         this.feedBack = feedback;
     }
     
@@ -192,7 +192,7 @@ public class FeedBackFragment extends MitooFragment {
 
         Bundle bundle = new Bundle();
         bundle.putString(getMitooActivity().getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.faqOption));
-        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.FragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
         BusProvider.post(event);
 
     }

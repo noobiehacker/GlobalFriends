@@ -72,58 +72,6 @@ public class DataHelper {
 
     }
 
-    public boolean validName(String input) {
-        boolean result = false;
-        result = stringLengthBetween(input, 3, 100);
-        return result;
-    }
-
-    public boolean validEmail(String input) {
-        boolean result = false;
-        result = stringLengthBetween(input, 5, 100) && validEmailString(input);
-        return result;
-    }
-
-    public boolean validPhone(String input) {
-        boolean result = false;
-        result = stringLengthBetween(input, 10, 11) && hasNumOfDigits(input, 10);
-        return result;
-    }
-
-    public boolean validPassword(String input) {
-        boolean result = false;
-        result = stringLengthBetween(input, 8, 100);
-        return result;
-    }
-
-    private boolean validEmailString(String input) {
-
-        boolean result = false;
-        if (input.contains("@") && input.contains(".")) {
-            result = input.indexOf("@") < input.indexOf(".");
-        }
-        return result;
-
-    }
-
-    private boolean hasNumOfDigits(String input, int digitNum) {
-
-        int count = 0;
-        for (int i = 0; i < input.length(); i++) {
-            char value = input.charAt(i);
-            if (value >= '0' && value <= '9')
-                count++;
-        }
-        return count >= digitNum;
-
-    }
-
-    private boolean stringLengthBetween(String input, int lowerEnd, int higherEnd) {
-
-        return input.length() >= lowerEnd && input.length() <= higherEnd;
-
-    }
-
     public void removeNonCity(List<Prediction> predictions) {
 
         Iterator<Prediction> itr = predictions.iterator();
@@ -271,6 +219,13 @@ public class DataHelper {
         return new SimpleDateFormat("MMM dd, yyyy");
     }
 
+    public String getResetPageBadEmailMessage(String email){
+        
+        String prefix= getActivity().getString(R.string.error_bad_email_prefix);
+        String suffix= getActivity().getString(R.string.error_bad_email_suffix);        
+        return prefix + " " + email + " " + suffix;
+
+    }
 
 
         

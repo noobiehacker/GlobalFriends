@@ -11,7 +11,7 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
-import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
@@ -84,14 +84,16 @@ public class SignUpFragment extends MitooFragment {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.joinButton:
-                joinButtonAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.joinButton:
+                    joinButtonAction();
+                    break;
             /* Take Out For V1
             case R.id.facebookJoinButton:
                 facebookJoinButtonAction();
                 break;*/
+            }
         }
     }
 
@@ -114,8 +116,8 @@ public class SignUpFragment extends MitooFragment {
     public void onJoinResponse(SessionModelResponseEvent event) {
 
         setLoading(false);
-        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE);
-        getLeagueModel().requestLeagueEnquire(requestEvent);
+        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id);
+        getLeagueModel().requestToEnquireLeague(requestEvent);
     }
 
     @Subscribe
@@ -123,7 +125,7 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_confirm , MitooEnum.fragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_confirm , MitooEnum.FragmentAnimation.VERTICAL);
 
     }
 
@@ -131,7 +133,6 @@ public class SignUpFragment extends MitooFragment {
     public void onError(MitooActivitiesErrorEvent error){
         super.onError(error);
     }
-
 
     private void facebookJoinButtonAction() {
 
@@ -176,29 +177,35 @@ public class SignUpFragment extends MitooFragment {
 
     private boolean allInputsAreValid(){
 
-        DataHelper dataHelper = getDataHelper();
-        return dataHelper.validPassword(getPassword()) && dataHelper.validEmail(getEmail())
-                && dataHelper.validName(getUsername()) && dataHelper.validPhone(getPhone());
+        FormHelper formHelper = getFormHelper();
+        return formHelper.validPassword(getPassword()) && formHelper.validEmail(getEmail())
+                && formHelper.validName(getUsername()) && formHelper.validPhone(getPhone());
 
     }
 
     private void handleInvalidInputs() {
 
         if (!handledEmptyInput()) {
-            DataHelper dataHelper = getDataHelper();
-            if (!dataHelper.validEmail(getEmail())) {
-                displayText(getString(R.string.toast_invalid_email));
-            } else if (!dataHelper.validPassword(getPassword())) {
-                displayText(getString(R.string.toast_invalid_password));
-            } else if (!dataHelper.validName(getUsername())) {
-                displayText(getString(R.string.toast_invalid_username));
-            } else if (!dataHelper.validPhone(getPhone())) {
-                displayText(getString(R.string.toast_invalid_phone));
+            if (!getFormHelper().validEmail(getEmail())) {
+                
+                getFormHelper().handleInvalidEmail(getEmail());
+                
+            } else if (!getFormHelper().validPassword(getPassword())) {
+                
+                getFormHelper().handleInvalidPassword(getPassword());
+                
+            } else if (!getFormHelper().validName(getUsername())) {
+                
+                getFormHelper().handleInvalidUserName(getUsername());
+                
+            } else if (!getFormHelper().validPhone(getPhone())) {
+                
+                getFormHelper().handleInvalidPhone(getPhone());
+                
             } else {
                 displayText(getString(R.string.toast_invalid_input));
             }
         }
-
     }
     
     private boolean handledEmptyInput(){

@@ -3,7 +3,6 @@ package co.mitoo.sashimi.views.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -11,21 +10,15 @@ import android.widget.EditText;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
-import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ViewHelper;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
-import rx.Subscription;
-import rx.observables.ConnectableObservable;
+
 /**
  * Created by david on 14-11-05.
  */
@@ -129,8 +122,8 @@ public class LoginFragment extends MitooFragment {
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
 
-        LeagueModelEnquireRequestEvent leagueEnquireRequestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id, MitooEnum.crud.READ);
-        getLeagueModel().requestLeagueEnquire(leagueEnquireRequestEvent );
+        LeagueModelEnquireRequestEvent leagueEnquireRequestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id);
+        getLeagueModel().requestEnquiredLeagues(leagueEnquireRequestEvent );
 
     }
 
@@ -138,7 +131,7 @@ public class LoginFragment extends MitooFragment {
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.fragmentTransition.CHANGE , MitooEnum.fragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL);
         setLoading(false);
     }
 
@@ -151,7 +144,7 @@ public class LoginFragment extends MitooFragment {
     }
 
     private void forgetPasswordAction(){
-        fireFragmentChangeAction(R.id.fragment_reset_password , MitooEnum.fragmentTransition.PUSH , MitooEnum.fragmentAnimation.HORIZONTAL);
+        fireFragmentChangeAction(R.id.fragment_reset_password , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
     }
 
     private String getEmail(){
@@ -167,32 +160,38 @@ public class LoginFragment extends MitooFragment {
 
     private boolean allInputsAreValid(){
 
-        DataHelper dataHelper = getDataHelper();
-        return dataHelper.validPassword(getPassword()) && dataHelper.validEmail(getEmail());
-        
+        FormHelper formHelper = getFormHelper();
+        return formHelper.validPassword(getPassword()) && formHelper.validEmail(getEmail());
+
     }
-    
-    private void handleInvalidInputs(){
 
-        if(getEmail().equals("")){
-            displayText(getString(R.string.toast_email_empty));
-        }
-        else if(getPassword().equals("")){
-            displayText(getString(R.string.toast_password_empty));
-        }
-        else {
+    private void handleInvalidInputs() {
 
-            DataHelper dataHelper =getDataHelper();
-            if(!dataHelper.validEmail(getEmail())){
-                displayText(getString(R.string.toast_invalid_email));
-            } else if(!dataHelper.validPassword(getPassword())){
-                displayText(getString(R.string.toast_invalid_password));
-            }else{
+        if (!handledEmptyInput()) {
+            if (!getFormHelper().validEmail(getEmail())) {
+                getFormHelper().handleInvalidEmail(getEmail());
+            } else if (!getFormHelper().validPassword(getPassword())) {
+                getFormHelper().handleInvalidPassword(getPassword());
+            } else {
                 displayText(getString(R.string.toast_invalid_input));
             }
         }
 
     }
+
+    private boolean handledEmptyInput(){
+
+        boolean result = true;
+        if (getEmail().equals("")) {
+            this.displayText(getString(R.string.toast_email_empty));
+        } else if (getPassword().equals("")) {
+            this.displayText(getString(R.string.toast_password_empty));
+        } else {
+            result =false;
+        }
+        return result;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         
@@ -235,5 +234,13 @@ public class LoginFragment extends MitooFragment {
 
     public void setTopEditText(EditText topEditText) {
         this.topEditText = topEditText;
+    }
+
+    @Override
+    protected void handleHttpErrors(int statusCode) {
+        if (statusCode == 401)
+            displayText(getString(R.string.error_incorrect_email_password_combo));
+        else
+            super.handleHttpErrors(statusCode);
     }
 }

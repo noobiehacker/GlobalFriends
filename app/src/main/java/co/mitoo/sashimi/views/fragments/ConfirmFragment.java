@@ -78,7 +78,7 @@ public class ConfirmFragment extends MitooFragment {
 
     private void viewMyLeagueButtonAction(){
 
-        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.fragmentTransition.CHANGE , MitooEnum.fragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL);
         
     }
     

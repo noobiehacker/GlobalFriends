@@ -170,8 +170,8 @@ public class LeagueFragment extends MitooFragment {
         SessionModel sessionModel =getSessionModel();
         if(sessionModel.userIsLoggedIn()){
             int UserID = sessionModel.getSession().id;
-            LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(UserID, MitooEnum.crud.CREATE);
-            getLeagueModel().requestLeagueEnquire(requestEvent);
+            LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(UserID);
+            getLeagueModel().requestEnquiredLeagues(requestEvent);
         }
         else{
             Bundle bundle = new Bundle();

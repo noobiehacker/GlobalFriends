@@ -178,13 +178,13 @@ public class MitooActivity extends Activity {
 
     }
     
-    private void setFragmentAnimation(FragmentTransaction transction , MitooEnum.fragmentAnimation animation){
+    private void setFragmentAnimation(FragmentTransaction transction , MitooEnum.FragmentAnimation animation){
         
-        if(animation == MitooEnum.fragmentAnimation.HORIZONTAL)
+        if(animation == MitooEnum.FragmentAnimation.HORIZONTAL)
             setLeftToRightAnimation(transction);
-        else if(animation == MitooEnum.fragmentAnimation.VERTICAL)
+        else if(animation == MitooEnum.FragmentAnimation.VERTICAL)
             setBottomToTopAnimation(transction);
-        else if(animation == MitooEnum.fragmentAnimation.DOWNLEFT)
+        else if(animation == MitooEnum.FragmentAnimation.DOWNLEFT)
             setDownLeftAnimation(transction);
     }
     
@@ -203,8 +203,7 @@ public class MitooActivity extends Activity {
 
     private void setDownLeftAnimation(FragmentTransaction transaction){
 
-        transaction.setCustomAnimations( R.anim.exit_top, R.anim.exit_left,
-                R.anim.enter_bottom,R.anim.enter_right);
+        transaction.setCustomAnimations(R.anim.exit_bottom, R.anim.enter_top);
     }
     
     public void popFragment() {
@@ -220,7 +219,7 @@ public class MitooActivity extends Activity {
 
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(event.getAnimation() == MitooEnum.fragmentAnimation.DOWNLEFT){
+        if(event.getAnimation() == MitooEnum.FragmentAnimation.DOWNLEFT){
             setFragmentAnimation(ft, event.getAnimation());
         }
         ft.replace(R.id.content_frame, fragment);
@@ -346,9 +345,9 @@ public class MitooActivity extends Activity {
 
         fragmentStack= new Stack<MitooFragment>();
         if(firstTime)
-            swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.NONE, R.id.fragment_splash));
+            swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_splash));
         else
-            swapFragment(new FragmentChangeEvent(this, MitooEnum.fragmentTransition.CHANGE, R.id.fragment_splash , MitooEnum.fragmentAnimation.DOWNLEFT));
+            swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.CHANGE, R.id.fragment_splash , MitooEnum.FragmentAnimation.DOWNLEFT));
     }
 
     @Subscribe
@@ -356,7 +355,7 @@ public class MitooActivity extends Activity {
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
-        popAllFragments();
+        popAllSurfaceFragments(); 
         startApp(false);
         
 

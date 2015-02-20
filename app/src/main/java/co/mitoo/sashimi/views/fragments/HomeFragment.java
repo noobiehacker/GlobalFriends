@@ -15,9 +15,11 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
+import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
+import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
@@ -70,7 +72,7 @@ public class HomeFragment extends MitooFragment {
         super.initializeFields();
         setUpUserHasUsedAppBoolean();
         saveUserAsSecondTimeUser();
-        setUpEnquriedLeagueData();
+        updateEnquriedLeagueData();
     }
 
     @Override
@@ -88,7 +90,6 @@ public class HomeFragment extends MitooFragment {
             setUpNoResultsTextView(view);
     }
     
-
     @Override
     protected void initializeOnClickListeners(View view) {
 
@@ -99,6 +100,8 @@ public class HomeFragment extends MitooFragment {
     @Override
     public void onResume(){
     
+        if(!isPageFirstLoad())
+            requestLeagueData();
         super.onResume();
 
     }
@@ -147,6 +150,25 @@ public class HomeFragment extends MitooFragment {
         }
         return MitooConstants.invalidConstant;
     }
+    
+    private void requestLeagueData(){
+        
+        setLoading(true);
+        LeagueModelEnquireRequestEvent event = new LeagueModelEnquireRequestEvent(
+                getUserId(), MitooEnum.APIRequest.UPDATE);
+        getLeagueModel().requestEnquiredLeagues(event);
+
+    }
+
+    @Subscribe
+    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
+
+        setLoading(false);
+        updateEnquriedLeagueData();
+        getLeagueDataAdapter().notifyDataSetChanged();
+
+    }
+    
         
     @Subscribe
     public void onUserInfoReceieve(UserInfoModelResponseEvent event){
@@ -155,12 +177,11 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    public void setUpEnquriedLeagueData(){
+    public void updateEnquriedLeagueData(){
 
         if(getLeagueModel().getLeaguesEnquired()!=null){
-            DataHelper dataHelper = new DataHelper(getMitooActivity());
-            dataHelper.clearList(getEnquiredLeagueData());
-            dataHelper.addToListList(getEnquiredLeagueData(), getLeagueModel().getLeaguesEnquired());
+            getDataHelper().clearList(getEnquiredLeagueData());
+            getDataHelper().addToListList(getEnquiredLeagueData(), getLeagueModel().getLeaguesEnquired());
         }
     }
 
@@ -188,12 +209,10 @@ public class HomeFragment extends MitooFragment {
         super.tearDownReferences();
     }
 
-    
     @Override
     protected void removeDynamicViews(){
         super.removeDynamicViews();
     }
-
 
     private void setUpNoResultsTextView(View view){
 
@@ -219,6 +238,7 @@ public class HomeFragment extends MitooFragment {
             userHasUsedApp = getAppSettingsModel().getUserHasUsedApp().booleanValue();
         
     }
+    
     public void saveUserAsSecondTimeUser(){
         
         getAppSettingsModel().saveUsedAppBoolean();
@@ -232,4 +252,5 @@ public class HomeFragment extends MitooFragment {
     public void setLeagueList(ListView leagueList) {
         this.leagueList = leagueList;
     }
+    
 }

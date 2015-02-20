@@ -9,7 +9,6 @@ import com.squareup.otto.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,16 +70,21 @@ public class LeagueModel extends MitooModel{
         
     }
 
-    public void requestLeagueEnquire(LeagueModelEnquireRequestEvent event){
+    public void requestEnquiredLeagues(LeagueModelEnquireRequestEvent event) {
 
-        if(event.getRequestType()== MitooEnum.crud.CREATE) {
-            if (getSelectedLeague() != null) {
-                JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
-                handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
-            }
-        } else if (event.getRequestType() == MitooEnum.crud.READ) {
-            handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant() ,event.getUserID()), League[].class);
+        if(event.getApiRequestType()== MitooEnum.APIRequest.REQUEST && getLeaguesEnquired().size()!=0)
+            BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeaguesEnquired()));
+        else
+            handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant(), event.getUserID()), League[].class);
+    }
+
+    public void requestToEnquireLeague(LeagueModelEnquireRequestEvent event) {
+
+        if (getSelectedLeague() != null) {
+            JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
+            handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
         }
+
     }
 
     @Override

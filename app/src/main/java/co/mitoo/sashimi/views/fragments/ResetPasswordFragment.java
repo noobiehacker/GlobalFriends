@@ -77,7 +77,7 @@ public class ResetPasswordFragment extends MitooFragment{
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
 
-        handleAndDisplayError(error);
+        super.onError(error);
     }
 
     @Override
@@ -86,28 +86,15 @@ public class ResetPasswordFragment extends MitooFragment{
         setFragmentTitle(getString(R.string.forgot_page_title));
     }
 
-    @Override
-    protected void handleAndDisplayError(MitooActivitiesErrorEvent error) {
-
-        if (error.getRetrofitError() != null) {
-            RetrofitError retrofitError = error.getRetrofitError();
-            if (retrofitError.getKind() == RetrofitError.Kind.NETWORK) {
-                handleNetworkError();
-            } else {
-                int status = retrofitError.getResponse().getStatus();
-                if(status == 404)
-                {
-                    displayText(getString(R.string.error_incorrect_user));
-                }
-                else{
-                    handleHttpErrors(retrofitError.getResponse().getStatus());
-                }
-            }
-        } else {
-            displayText(error.getErrorMessage());
+    protected void handleHttpErrors(int statusCode) {
+        
+        if(statusCode == 404 ){
+            String errorMessage = getDataHelper().getResetPageBadEmailMessage(getEmail());
+            displayText(errorMessage);
+        }else{
+            super.handleHttpErrors(statusCode);
         }
 
-        setLoading(false);
     }
 
     private void resetButtonAction(){
@@ -115,8 +102,8 @@ public class ResetPasswordFragment extends MitooFragment{
         if(getEmail().equals("")){
             displayText(getString(R.string.toast_password_empty));
         }
-        else if(!getDataHelper().validEmail(getEmail())){
-            displayText(getString(R.string.toast_invalid_email));
+        else if(!getFormHelper().validEmail(getEmail())){
+            getFormHelper().handleInvalidEmail(getEmail());
         }
         else{
             ResetPasswordRequestEvent event = new ResetPasswordRequestEvent(getEmail());
@@ -138,4 +125,6 @@ public class ResetPasswordFragment extends MitooFragment{
     public void setTopEditText(EditText topEditText) {
         this.topEditText = topEditText;
     }
+    
+    
 }

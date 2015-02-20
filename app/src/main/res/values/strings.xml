@@ -66,28 +66,6 @@
     <!--Competition Page -->
     <string name="competition_page_text1">SELECT SPORT</string>
 
-    <!--Filter Page -->
-    <string name="filter_text_1">SPORT</string>
-    <string name="filter_text_2">LEVEL OF PLAY</string>
-    <string name="filter_text_3">DAYS</string>
-    <string name="filter_text_4">DISTANCE</string>
-    <string name="filter_text_5">STARTING WITHIN</string>
-    <string name="filter_text_6">GENDER</string>
-
-    <string name="gender_male">Male</string>
-    <string name="gender_female">Female</string>
-    <string name="gender_coed">Coed</string>
-
-    <string name="day_mon">Mon</string>
-    <string name="day_tues">Tues</string>
-    <string name="day_wed">Wed</string>
-    <string name="day_thur">Thur</string>
-    <string name="day_fri">Fri</string>
-    <string name="day_sat">Sat</string>
-    <string name="day_sun">Sun</string>
-
-    <string name="distance_bar_left">0</string>
-    <string name="distance_bar_right">100</string>
 
     <!--Search Page -->
     <string name="search_page_text_1">Search Mitoo for:</string>
@@ -125,14 +103,12 @@
     <!--Home Page - Enquired List View-->
     <string name="home_page_enquired_date_prefix">Enquired on </string>
 
-    
     <!--Settings Page -->
     <string name="settings_page_bottom_text_1">Sign out of Mitoo</string>
     <string name="settings_page_top_text_1">Get help</string>
     <string name="settings_page_top_text_2">Feedback</string>
     <string name="settings_page_top_text_3">FAQ</string>
     <string name="settings_page_top_text_4">About</string>
-
 
     <string-array name="settings_top_menu_list">
         <item>Get help</item>
@@ -151,40 +127,14 @@
     <!--Error Message -->
     <string name="error_401">Incorrect credentials, please try again</string>
     <string name="error_404">The information you try to find can not be found</string>
-    <string name="error_409">We found an account matching your credentials. Please Try logging in with those.</string>
-    <string name="error_422">Something went wrong with the connection</string>
-    <string name="error_500">Server is down for maintenance, please try again later</string>
+    <string name="error_409">We already have an account with that email. Please login to continue.</string>
+    <string name="error_422">We already have an account with that email. Please login to continue.</string>
+    <string name="error_500">It looks like we are having some technical difficulties. We are looking into it now.</string>
     <string name="error_time_out">Connection timed out, please try again</string>
-    <string name="error_no_internet">Sorry you do not have internet access at the moment</string>
-    <string name="error_incorrect_user">Sorry, we can not match any user with your input</string>
-
-    <string-array name="sports_array">
-        <item>Soccer</item>
-        <item>Softball</item>
-        <item>Kickball</item>
-        <item>Basketball</item>
-        <item>Volleyball</item>
-        <item>Flag Football</item>
-        <item>Dodgeball</item>
-        <item>Bowling</item>
-        <item>Indoor Soccer</item>
-        <item>Tennis</item>
-        <item>Cornhole</item>
-        <item>Ultimate Frisbee</item>
-        <item>Lacrosse</item>
-        <item>Skeeball</item>
-        <item>Hockey</item>
-        <item>Indoor Volleyball</item>
-        <item>Brocce</item>
-        <item>Sand Volleyball</item>
-        <item>Futsal</item>
-        <item>Broomball</item>
-        <item>Baseball</item>
-        <item>Inline Hockey</item>
-        <item>Golf</item>
-        <item>Bar Games</item>
-        <item>Floor Hockey</item>
-    </string-array>
+    <string name="error_no_internet">Unable to connect to Mitoo. Check your connection and try again.</string>
+    <string name="error_incorrect_email_password_combo">We’re sorry but that was a miss. Please check your details and try again.</string>
+    <string name="error_bad_email_prefix">No account exists for\n</string>
+    <string name="error_bad_email_suffix">.\nPlease check it and try again.</string>
 
     <!--App -->
     <string name="empty"></string>
@@ -199,24 +149,6 @@
     <string name="hint_password">Password</string>
     <string name="hint_phone">Phone</string>
 
-    <!--Place Holder Text-->
-    <string name="place_holder_competition">Cornhole Friday (Winter 14)</string>
-    <string name="place_holder_started_on">Started on </string>
-    <string name="place_holder_date">11/21/2014</string>
-    <string name="place_holder_distance">1.2 MILES</string>
-    <string name="place_holder_price">FROM $39</string>
-    <string name="place_holder_location">CORNHOLE</string>
-    <string name="place_holder_day">Friday</string>
-    <string name="place_holder_level">CO-ED</string>
-    <string name="place_holder_league_name">PORTLAND SOCCERPLEEX</string>
-    <string name="place_holder_city_name">Mitoo City</string>
-    <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
-    <string name="place_holder_player_name">Mitoo Valuable Player - MVP</string>
-    <string name="place_holder_league_bottom">This competition is a social sports league,\nwe welcome players with any skill level</string>
-    <string name="place_holder_price_two">$99.99</string>
-    <string name="place_holder_sport">Football</string>
-    <string name="place_holder_dummie_text">Dummie Text</string>
-
     <!-- Toast -->
     <string name="toast_error">An error has occurred</string>
     <string name="toast_loading">Loading...</string>
@@ -226,23 +158,35 @@
     <string name="toast_login_success">Log in success</string>
     <string name="toast_signing_up">Signing up</string>
     <string name="toast_sign_up_success">Sign up success</string>
-    <string name="toast_network_error">Network Error, Please check your network connection</string>
     <string name="toast_server_error">Something Went Wrong. please let us know at help@mitoo.co</string>
 
     <string name="toast_password_reset">Password request successfully sent, please check your email</string>
 
     <!-- field checks -->
-    <string name="toast_username_empty">Username can not be empty</string>
-    <string name="toast_email_empty">Email can not be empty</string>
-    <string name="toast_password_empty">Password can not be empty</string>
-    <string name="toast_phone_empty">Phone Number can not be empty</string>
+    <string name="toast_username_empty">Name is required</string>
+    <string name="toast_email_empty">Email is required</string>
+    <string name="toast_password_empty">Password is required</string>
+    <string name="toast_phone_empty">Phone number is required</string>
     <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
-    <string name="toast_invalid_email">Email format is invalid</string>
-    <string name="toast_invalid_password">Password is too long or short</string>
-    <string name="toast_invalid_username">Username is too short or long</string>
-    <string name="toast_invalid_phone">Phone number format is invalid</string>
+    <string name="toast_invalid_email">Please enter a valid email</string>
+    <string name="toast_invalid_password">Please enter a valid password</string>
+    <string name="toast_invalid_username">Please enter a valid username</string>
+    <string name="toast_invalid_phone">Please enter your phone number including the area code</string>
+    
+    <string name="toast_email_length_too_short">Email field must have at least 5 characters</string>
+    <string name="toast_password_length_too_short">Password field must have at least 8 characters</string>
+    <string name="toast_username_length_too_short">Username field must have at least 3 characters</string>
+    <string name="toast_phone_length_too_short">Phone number field must have at least 10 digits</string>
+
+    <string name="toast_email_length_too_long">Email field can not have more than 100 characters</string>
+    <string name="toast_password_length_too_long">Password field can not have more than 100 characters</string>
+    <string name="toast_username_length_too_long">Username field can not have more than 100 characters</string>
+    <string name="toast_phone_length_too_long">Phone number can not have more than 11 digits</string>
+
     <string name="toast_invalid_input">Input is invalid</string>
 
+    <string name="toast_missing_location">Please enter a location</string>
+    
     <!-- Prompts -->
     <string name="prompt_location_services_title">Location Services</string>
     <string name="prompt_location_services_message">Please turn on location services</string>
@@ -267,11 +211,9 @@
     <string name="static_text_from">From</string>
 
     <!--Menu -->
-    <string name="menu_league">League</string>
-    <string name="menu_profile">Profile</string>
     <string name="menu_search">Search</string>
     <string name="menu_feedback">Feedback</string>
-    <string name="menu_logout">Logout</string>
+    <string name="menu_settings">Settings</string>
 
     <!--Menu -->
     <string name="alert_positive">Continue</string>
@@ -285,7 +227,7 @@
     <string name="feedback_page_text1">Contact Mitoo</string>
 
     <!--Unhappy Page -->
-    <string name="unhappy_page_text1">Thanks for the feedback. We are really sorry that we have\n not met your expectations. How can we do better?</string>
+    <string name="unhappy_page_text1">Thanks for the feedback. We are really sorry that we have not met your expectations. How can we do better?</string>
 
     <!--Confused Page -->
     <string name="confused_page_text1">Thanks for the feedback. Maybe our FAQ\'s might help you solve your problem?</string>
@@ -353,7 +295,7 @@
     <string name="google_place_api_political">political</string>
 
     <!--Error -->
-    <string name="error_location_serivces">Location services unavailible, please try again</string>
+    <string name="error_location_serivces">Current location unavailable. Please enter a location to continue.</string>
 
     <!--Shared Preference Hash Key -->
     <string name="shared_preference_session_key">Session Key</string>
@@ -362,5 +304,81 @@
     <string name="shared_preference_error">shared preference error</string>
     
     <string name="shared_preference_user_has_used_app">Not First Time User</string>
+
+    <!-- -->
+    <!-- -->
+    <!-- -->
+    <!--Old text that we might not need -->
+    
+    <!--Filter Page -->
+    <string name="filter_text_1">SPORT</string>
+    <string name="filter_text_2">LEVEL OF PLAY</string>
+    <string name="filter_text_3">DAYS</string>
+    <string name="filter_text_4">DISTANCE</string>
+    <string name="filter_text_5">STARTING WITHIN</string>
+    <string name="filter_text_6">GENDER</string>
+
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_coed">Coed</string>
+
+    <string name="day_mon">Mon</string>
+    <string name="day_tues">Tues</string>
+    <string name="day_wed">Wed</string>
+    <string name="day_thur">Thur</string>
+    <string name="day_fri">Fri</string>
+    <string name="day_sat">Sat</string>
+    <string name="day_sun">Sun</string>
+
+    <string name="distance_bar_left">0</string>
+    <string name="distance_bar_right">100</string>
+
+    <string-array name="sports_array">
+        <item>Soccer</item>
+        <item>Softball</item>
+        <item>Kickball</item>
+        <item>Basketball</item>
+        <item>Volleyball</item>
+        <item>Flag Football</item>
+        <item>Dodgeball</item>
+        <item>Bowling</item>
+        <item>Indoor Soccer</item>
+        <item>Tennis</item>
+        <item>Cornhole</item>
+        <item>Ultimate Frisbee</item>
+        <item>Lacrosse</item>
+        <item>Skeeball</item>
+        <item>Hockey</item>
+        <item>Indoor Volleyball</item>
+        <item>Brocce</item>
+        <item>Sand Volleyball</item>
+        <item>Futsal</item>
+        <item>Broomball</item>
+        <item>Baseball</item>
+        <item>Inline Hockey</item>
+        <item>Golf</item>
+        <item>Bar Games</item>
+        <item>Floor Hockey</item>
+    </string-array>
+
+
+    <!--Place Holder Text-->
+    <string name="place_holder_competition">Cornhole Friday (Winter 14)</string>
+    <string name="place_holder_started_on">Started on </string>
+    <string name="place_holder_date">11/21/2014</string>
+    <string name="place_holder_distance">1.2 MILES</string>
+    <string name="place_holder_price">FROM $39</string>
+    <string name="place_holder_location">CORNHOLE</string>
+    <string name="place_holder_day">Friday</string>
+    <string name="place_holder_level">CO-ED</string>
+    <string name="place_holder_league_name">PORTLAND SOCCERPLEEX</string>
+    <string name="place_holder_city_name">Mitoo City</string>
+    <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
+    <string name="place_holder_player_name">Mitoo Valuable Player - MVP</string>
+    <string name="place_holder_league_bottom">This competition is a social sports league,\nwe welcome players with any skill level</string>
+    <string name="place_holder_price_two">$99.99</string>
+    <string name="place_holder_sport">Football</string>
+    <string name="place_holder_dummie_text">Dummie Text</string>
+
     
 </resources>
