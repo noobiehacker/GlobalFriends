@@ -170,18 +170,18 @@
     <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
     <string name="toast_invalid_email">Please enter a valid email</string>
     <string name="toast_invalid_password">Please enter a valid password</string>
-    <string name="toast_invalid_username">Please enter a valid username</string>
+    <string name="toast_invalid_username">Please enter a valid name</string>
     <string name="toast_invalid_phone">Please enter your phone number including the area code</string>
     
-    <string name="toast_email_length_too_short">Email field must have at least 5 characters</string>
-    <string name="toast_password_length_too_short">Password field must have at least 8 characters</string>
-    <string name="toast_username_length_too_short">Username field must have at least 3 characters</string>
-    <string name="toast_phone_length_too_short">Phone number field must have at least 10 digits</string>
+    <string name="toast_email_length_too_short">Email must have at least 5 characters</string>
+    <string name="toast_password_length_too_short">Password must have at least 8 characters</string>
+    <string name="toast_username_length_too_short">Name must have at least 3 characters</string>
+    <string name="toast_phone_length_too_short">Phone number must have at least 10 digits</string>
 
-    <string name="toast_email_length_too_long">Email field can not have more than 100 characters</string>
-    <string name="toast_password_length_too_long">Password field can not have more than 100 characters</string>
-    <string name="toast_username_length_too_long">Username field can not have more than 100 characters</string>
-    <string name="toast_phone_length_too_long">Phone number can not have more than 11 digits</string>
+    <string name="toast_email_length_too_long">Email cannot be more than 100 characters</string>
+    <string name="toast_password_length_too_long">Password cannot be more than 100 characters</string>
+    <string name="toast_username_length_too_long">Name cannot be more than 100 characters</string>
+    <string name="toast_phone_length_too_long">Phone number cannot be more than 11 digits</string>
 
     <string name="toast_invalid_input">Input is invalid</string>
 
