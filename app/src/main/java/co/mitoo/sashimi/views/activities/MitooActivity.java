@@ -355,7 +355,7 @@ public class MitooActivity extends Activity {
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
-        popAllSurfaceFragments(); 
+        popAllFragments();
         startApp(false);
         
 

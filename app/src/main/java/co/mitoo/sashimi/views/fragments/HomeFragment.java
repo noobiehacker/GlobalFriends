@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,6 @@ import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
-import com.github.androidprogresslayout.ProgressLayout;
 /**
  * Created by david on 15-01-12.
  */
@@ -34,7 +35,6 @@ public class HomeFragment extends MitooFragment {
     private List<League> enquiredLeagueData;
     private ListView leagueList;
     private LeagueAdapter leagueDataAdapter;
-    private ProgressLayout progressLayout;
     private TextView noResultsView ;
     private boolean userHasUsedApp;
 
@@ -82,7 +82,7 @@ public class HomeFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        setProgressLayout((ProgressLayout)view.findViewById(R.id.progressLayout));
+        setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpListView(view);
         setUpNoResultsTextView(view);
 
@@ -258,13 +258,6 @@ public class HomeFragment extends MitooFragment {
         this.leagueList = leagueList;
     }
 
-    public ProgressLayout getProgressLayout() {
-        return progressLayout;
-    }
-
-    public void setProgressLayout(ProgressLayout progressLayout) {
-        this.progressLayout = progressLayout;
-    }
 
     @Override
     public void setLoading(boolean loading) {

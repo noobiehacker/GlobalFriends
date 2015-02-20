@@ -89,17 +89,7 @@ public class FeedBackFragment extends MitooFragment {
     }
 
     public void setFragmentTitle(){
-        switch(getFeedBack()){
-            case HAPPY:
-                setFragmentTitle(getFeedBackString()[0]);
-                break;
-            case CONFUSED:
-                setFragmentTitle(getFeedBackString()[1]);
-                break;
-            case UNHAPPY:
-                setFragmentTitle(getFeedBackString()[2]);
-                break;
-        }
+        setFragmentTitle(getString(R.string.feedback_page_title));
     }
     
     private View getLayoutPartial(){

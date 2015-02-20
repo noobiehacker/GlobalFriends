@@ -39,6 +39,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
+import com.github.androidprogresslayout.ProgressLayout;
 
 /**
  * Created by david on 14-11-13.
@@ -58,6 +59,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private ViewGroup rootView;
     private FormHelper formHelper;
     private boolean pageFirstLoad= true;
+    private ProgressLayout progressLayout;
+
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -564,6 +567,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void setPageFirstLoad(boolean pageFirstLoad) {
         this.pageFirstLoad = pageFirstLoad;
     }
+
+    public ProgressLayout getProgressLayout() {
+        return progressLayout;
+    }
+
+    public void setProgressLayout(ProgressLayout progressLayout) {
+        this.progressLayout = progressLayout;
+    }
+
 }
 
 

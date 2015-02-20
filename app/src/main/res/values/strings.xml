@@ -225,6 +225,7 @@
 
     <!--Feedback Page-->
     <string name="feedback_page_text1">Contact Mitoo</string>
+    <string name="feedback_page_title">Leave Feedback</string>
 
     <!--Unhappy Page -->
     <string name="unhappy_page_text1">Thanks for the feedback. We are really sorry that we have not met your expectations. How can we do better?</string>
