@@ -24,7 +24,7 @@
     <string name="landing_page_slider_text7">Stay fit and have fun in your\nnew league</string>
     <string name="landing_page_slider_text8">We keep you inform of any update on</string>
     <string name="landing_page_slider_text9">the competition you joined</string>
-    <string name="landing_page_text10">FIND A TEAM SPORT NEAR ME</string>
+    <string name="landing_page_text10">FIND A SPORTS LEAGUE NEAR ME</string>
     <string name="landing_page_text11">Already have an account? Login</string>
 
     <!--Login Page-->
@@ -81,8 +81,8 @@
     <string name="results_page_text_1">Sorry we don\'t have any results \nfor</string>
     <string name="results_page_text_2">in your area yet</string>
     <!--User Profile Page -->
-    <string name="settings_page_text_1">Help and feedback</string>
-    <string name="settings_page_text_2">Logout</string>
+    <string name="settings_page_text_1">Help and Feedback</string>
+    <string name="settings_page_text_2">Log Out</string>
 
     <!--League Page -->
     <string name="league_page_subtitle_1">DETAILS</string>
@@ -221,7 +221,7 @@
     <string name="alert_about_mitoo_title">About Mitoo</string>
     <string name="alert_default_message">Are you sure?</string>
     <string name="alert_feed_back_title">How do you feel about Mitoo?</string>
-    <string name="alert_log_out">Log out?</string>
+    <string name="alert_log_out">Log Out</string>
 
     <!--Feedback Page-->
     <string name="feedback_page_text1">Contact Mitoo</string>
