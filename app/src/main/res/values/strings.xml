@@ -97,7 +97,7 @@
     <!--Home Page -->
     <string name="home_page_text_1">ENQUIRED</string>
     <string name="home_page_text_2">Find a new league</string>
-    <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, use the search box at the top.</string>
+    <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, tap search at the top.</string>
     <string name="home_page_text_4">Hey, Here\'s where we put\nthe league you\'ve contacted</string>
 
     <!--Home Page - Enquired List View-->
