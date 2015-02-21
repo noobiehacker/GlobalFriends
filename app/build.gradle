@@ -93,7 +93,7 @@ dependencies {
     //AndroidImageSl
     compile 'com.daimajia.slider:library:1.1.0@aar'
     //Calligraphy
-    compile 'uk.co.chrisjenx:calligraphy:1.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.0.1'
     //Circle Profile Image
     compile 'de.hdodenhof:circleimageview:1.2.1'
     //*****Model*****//

@@ -82,6 +82,9 @@
     
     <dimen name="enquired_list_bottom_padding">20dp</dimen>
 
+    <!-- Sign Up page -->
+    <dimen name="sign_up_page_text_bottom_padding">20dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>

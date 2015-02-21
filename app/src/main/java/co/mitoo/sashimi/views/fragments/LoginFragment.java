@@ -122,16 +122,8 @@ public class LoginFragment extends MitooFragment {
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
 
-        LeagueModelEnquireRequestEvent leagueEnquireRequestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id);
-        getLeagueModel().requestEnquiredLeagues(leagueEnquireRequestEvent );
-
-    }
-
-    @Subscribe
-    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
-
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.VERTICAL);
         setLoading(false);
     }
 
@@ -183,9 +175,9 @@ public class LoginFragment extends MitooFragment {
 
         boolean result = true;
         if (getEmail().equals("")) {
-            this.displayText(getString(R.string.toast_email_empty));
+            this.displayText(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_empty));
+            this.displayText(getString(R.string.toast_password_required));
         } else {
             result =false;
         }

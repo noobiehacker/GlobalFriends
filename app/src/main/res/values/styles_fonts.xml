@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DIN_RegularItalic">
+        <item name="fontPath">@string/DIN_RegularItalic</item>
+    </style>
+
+    <style name="DIN_Regular">
+        <item name="fontPath">@string/DIN_Regular</item>
+    </style>
+
+    <style name="DIN_Medium">
+        <item name="fontPath">@string/DIN_Medium</item>
+    </style>
+
+    <style name="DIN_Light">
+        <item name="fontPath">@string/DIN_Light</item>
+    </style>
+
+    
+</resources>

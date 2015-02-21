@@ -97,11 +97,11 @@ public class LeagueModel extends MitooModel{
 
         } else if (objectRecieve instanceof Response) {
             League[] enquired = new League[1];
-            setEnquiredDateAsNow(getSelectedLeague());
             enquired[0] = getSelectedLeague();
             addLeagueEnquired(enquired);
             BusProvider.post(new LeagueModelEnquiresResponseEvent((Response)objectRecieve));
         }
+        
     }
    
 
@@ -186,6 +186,8 @@ public class LeagueModel extends MitooModel{
         if (this.leagueEnquired == null) {
             this.leagueEnquired = new ArrayList<League>();
         }
+        DataHelper helper = getActivity().getDataHelper();
+        helper.clearList(getLeaguesEnquired());
         for (League item : newleaguesEnquired) {
             this.leagueEnquired.add(item);
         }

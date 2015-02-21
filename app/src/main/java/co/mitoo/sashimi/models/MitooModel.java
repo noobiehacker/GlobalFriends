@@ -73,6 +73,7 @@ public abstract class MitooModel
 
             @Override
             public void onError(Throwable e) {
+                String temp = e.toString();
             }
 
             @Override

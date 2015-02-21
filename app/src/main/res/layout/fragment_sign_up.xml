@@ -32,6 +32,7 @@
             android:orientation="vertical"
             android:isScrollContainer="true">
 
+
             <include
                 android:id="@+id/joinForm"
                 layout="@layout/partial_join_form"

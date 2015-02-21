@@ -73,7 +73,6 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     private void leagueListItemAction(League league){
 
-        getFragment().setLoading(true);
         MitooActivity activity = getFragment().getMitooActivity();
         LeagueModel model = activity.getModelManager().getLeagueModel();
         model.setSelectedLeague(league);

@@ -171,7 +171,7 @@ public class HomeFragment extends MitooFragment {
     @Subscribe
     public void onUserInfoReceieve(UserInfoModelResponseEvent event){
 
-        fireFragmentChangeAction(R.id.fragment_settings);
+        fireFragmentChangeAction(R.id.fragment_settings , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.VERTICAL);
 
     }
 

@@ -5,6 +5,7 @@
     <style name="leagueNameText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
+        <item name="fontPath">@string/DIN_Medium</item>
     </style>
 
     <style name="leagueCityText">
@@ -14,18 +15,24 @@
         <item name="android:paddingBottom">@dimen/spacing_tiny</item>
         <item name="android:paddingLeft">@dimen/spacing_smallest</item>
         <item name="android:paddingRight">@dimen/spacing_smallest</item>
+        <item name="fontPath">@string/DIN_Medium</item>
+
     </style>
 
     <style name="leagueSportText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textAllCaps">true</item>
+        <item name="fontPath">@string/DIN_Light</item>
+
     </style>
 
     <!-- League Page -->
     <style name="confirmSuccessText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
+        <item name="fontPath">@string/DIN_RegularItalic</item>
+
     </style>
 
     <style name="confirmDetailsText">
@@ -43,6 +50,8 @@
     <style name="settingsTitleText">
         <item name="android:textColor">@color/gray_dark_five</item>
         <item name="android:textSize">14sp</item>
+        <item name="fontPath">@string/DIN_Medium</item>
+
     </style>
 
     <style name="settingsItemText">
@@ -53,11 +62,15 @@
     <style name="settingsCityWaterMarkText">
         <item name="android:textColor">@color/gray_dark_two</item>
         <item name="android:textSize">10sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+
     </style>
 
     <style name="settingsVersionWaterMarkText">
         <item name="android:textColor">@color/gray_light_seven</item>
         <item name="android:textSize">10sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+
     </style>
 
     <style name="searchResultsNoResult">
@@ -77,6 +90,8 @@
     <style name="enquiredLeagueTitleText">
         <item name="android:textColor">@color/gray_dark_five</item>
         <item name="android:textSize">14sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+
     </style>
 
     <style name="enquiredLeagueDateText">
@@ -87,16 +102,31 @@
     <style name="youHaveEnquiredText">
         <item name="android:textColor">@color/gray_dark_one</item>
         <item name="android:textSize">16sp</item>
+        <item name="fontPath">@string/DIN_RegularItalic</item>
+
     </style>
     <!-- Feedback Page -->
 
     <style name="feedbackMessageText">
         <item name="android:textColor">@color/gray_dark_three</item>
         <item name="android:textSize">14sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+
     </style>
 
     <style name="feedbackItemText">
         <item name="android:textColor">@color/gray_dark_two</item>
         <item name="android:textSize">17sp</item>
     </style>
+
+    <!-- Sign Up  Page -->
+
+
+    <style name="signUpStaticText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontPath">@string/DIN_RegularItalic</item>
+
+    </style>
+
 </resources>

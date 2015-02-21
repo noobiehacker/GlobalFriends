@@ -45,6 +45,7 @@
     <string name="signup_page_text5">Phone</string>
     <string name="signup_page_text6">Password</string>
     <string name="signup_page_text7">Signup</string>
+    <string name="signup_page_text8">Enter your details to signup and contact the league</string>
 
     <!--Sign Up Page Continue-->
     <string name="join_page_title">Join</string>
@@ -163,24 +164,25 @@
     <string name="toast_password_reset">Password request successfully sent, please check your email</string>
 
     <!-- field checks -->
-    <string name="toast_username_empty">Name is required</string>
-    <string name="toast_email_empty">Email is required</string>
-    <string name="toast_password_empty">Password is required</string>
-    <string name="toast_phone_empty">Phone number is required</string>
+    <string name="toast_name_required">Name is required</string>
+    <string name="toast_email_required">Email is required</string>
+    <string name="toast_password_required">Password is required</string>
+    <string name="toast_phone_required">Phone number is required</string>
+    
     <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
     <string name="toast_invalid_email">Please enter a valid email</string>
     <string name="toast_invalid_password">Please enter a valid password</string>
-    <string name="toast_invalid_username">Please enter a valid name</string>
+    <string name="toast_invalid_name">Please enter a valid name</string>
     <string name="toast_invalid_phone">Please enter your phone number including the area code</string>
     
     <string name="toast_email_length_too_short">Email must have at least 5 characters</string>
     <string name="toast_password_length_too_short">Password must have at least 8 characters</string>
-    <string name="toast_username_length_too_short">Name must have at least 3 characters</string>
+    <string name="toast_name_length_too_short">Name must have at least 3 characters</string>
     <string name="toast_phone_length_too_short">Phone number must have at least 10 digits</string>
 
     <string name="toast_email_length_too_long">Email cannot be more than 100 characters</string>
     <string name="toast_password_length_too_long">Password cannot be more than 100 characters</string>
-    <string name="toast_username_length_too_long">Name cannot be more than 100 characters</string>
+    <string name="toast_name_length_too_long">Name cannot be more than 100 characters</string>
     <string name="toast_phone_length_too_long">Phone number cannot be more than 11 digits</string>
 
     <string name="toast_invalid_input">Input is invalid</string>
@@ -268,6 +270,12 @@
     <string name="mitoo_privacy_url">http://app.mitoo.co/privacy-policy/</string>
     <string name="mitoo_terms_url">http://app.mitoo.co/terms/</string>
     <string name="mitoo_faq_url">http://mitoo.wpengine.com/article-category/faq/</string>
+
+    <!--Font Path -->
+    <string name="DIN_RegularItalic">fonts/din_comp_ita.ttf</string>
+    <string name="DIN_Regular">fonts/din_comp.ttf</string>
+    <string name="DIN_Medium">fonts/din_comp_medium.ttf</string>
+    <string name="DIN_Light">fonts/din_comp_light.ttf</string>
 
     <!--API Key-->
     <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>

@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.views.activities;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -16,13 +17,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
-
 import java.util.Arrays;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
@@ -39,6 +38,7 @@ import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MitooActivity extends Activity {
@@ -56,7 +56,7 @@ public class MitooActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        startApp(true);
+        startApp();
         initializeFields();
         setContentView(R.layout.activity_mitoo);
         setUpPersistenceData();
@@ -106,33 +106,32 @@ public class MitooActivity extends Activity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(new CalligraphyContextWrapper(newBase));
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void initializeFields(){
         initializeStatusBarColor();
         setModelManager(new ModelManager(this));
         setUpNewRelic();
+        setUpInitialCalligraphy();
         locationManager = new MitooLocationManager(this);
         BusProvider.register(this);
+    }
+    
+    private void setUpInitialCalligraphy(){
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                        .setDefaultFontPath(getString(R.string.DIN_Regular))
+                        .setFontAttrId(R.attr.fontPath)
+                        .build()
+        );
     }
 
     @Subscribe
     public void onFragmentChange(final FragmentChangeEvent event) {
 
-        if (event.getFragmentId() == R.id.fragment_home) {
-            popAllSurfaceFragments();
-        }
-        getHandler().post(new Runnable() {
-            public void run() {
-                MitooActivity.this.fragmentTransition(event);
-            }
-        });
-       
-    }
-    
-    private void fragmentTransition(FragmentChangeEvent event){
-
+        if(fragmentIsRoot(event.getFragmentId()))
+            popAllFragments();
         hideSoftKeyboard();
         switch (event.getTransition()) {
             case PUSH:
@@ -171,10 +170,25 @@ public class MitooActivity extends Activity {
             fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         setFragmentAnimation(ft, event.getAnimation());
-        ft.addToBackStack(null);
+        ft.addToBackStack(String.valueOf(event.getFragmentId()));
         ft.replace(R.id.content_frame, fragment);
         ft.commit();
-        fragmentStack.push(fragment);
+        getFragmentStack().push(fragment);
+
+    }
+
+    private void swapFragment(FragmentChangeEvent event){
+
+        if(getFragmentStack().size()>0){
+            getFragmentStack().pop();
+            getFragmentManager().popBackStack();
+        }
+        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        setFragmentAnimation(ft, event.getAnimation());
+        ft.replace(R.id.content_frame, fragment);
+        ft.commit();
+        getFragmentStack().push(fragment);
 
     }
     
@@ -208,41 +222,18 @@ public class MitooActivity extends Activity {
     
     public void popFragment() {
 
-        if (fragmentStack.size() > 0) {
-            fragmentStack.pop();
+        if (getFragmentStack().size() > 0) {
+            getFragmentStack().pop();
             getFragmentManager().popBackStack();
         }
 
     }
 
-    private void swapFragment(FragmentChangeEvent event){
+    public void popAllFragments(){
 
-        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if(event.getAnimation() == MitooEnum.FragmentAnimation.DOWNLEFT){
-            setFragmentAnimation(ft, event.getAnimation());
-        }
-        ft.replace(R.id.content_frame, fragment);
-        ft.commit();
-        if(fragmentStack.size()>0)
-            fragmentStack.pop();
-        fragmentStack.push(fragment);
-
-    }
-
-    private void popAllFragments(){
-
-        while(fragmentStack.size()>0){
-            popFragment();
-        }
-
-    }
-
-    private void popAllSurfaceFragments(){
-
-        while(fragmentStack.size()>1){
-            popFragment();
-        }
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        while(getFragmentStack().size() > 0)
+            getFragmentStack().pop();
 
     }
     
@@ -266,7 +257,7 @@ public class MitooActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            if (this.fragmentStack.peek().isAllowBackPressed()) {
+            if (getFragmentStack().peek().isAllowBackPressed()) {
                 hideSoftKeyboard();
                 Runnable runnable = new Runnable() {
                     @Override
@@ -285,7 +276,7 @@ public class MitooActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            if(this.fragmentStack.peek().isAllowBackPressed())
+            if(getFragmentStack().peek().isAllowBackPressed())
                 hideSoftKeyboard();
                 Runnable runnable = new Runnable() {
                     @Override
@@ -341,13 +332,10 @@ public class MitooActivity extends Activity {
         ServiceBuilder.getSingleTonInstance().resetXAuthToken();
     }
 
-    public void startApp(boolean firstTime){
+    public void startApp(){
 
-        fragmentStack= new Stack<MitooFragment>();
-        if(firstTime)
-            swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_splash));
-        else
-            swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.CHANGE, R.id.fragment_splash , MitooEnum.FragmentAnimation.DOWNLEFT));
+        setFragmentStack(new Stack<MitooFragment>());
+        swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_splash));
     }
 
     @Subscribe
@@ -355,10 +343,7 @@ public class MitooActivity extends Activity {
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
-        popAllFragments();
-        startApp(false);
-        
-
+        swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_landing , MitooEnum.FragmentAnimation.HORIZONTAL));
     }
 
     public void contactMitoo(){
@@ -500,4 +485,20 @@ public class MitooActivity extends Activity {
         return persistanceService;
     }
 
+    private boolean fragmentIsRoot(int id){
+        
+        return id==R.id.fragment_home || id == R.id.fragment_landing;
+    }
+
+    public Stack<MitooFragment> getFragmentStack() {
+        if(fragmentStack== null)
+            fragmentStack= new Stack<MitooFragment>();
+        return fragmentStack;
+    }
+
+    public void setFragmentStack(Stack<MitooFragment> fragmentStack) {
+        this.fragmentStack = fragmentStack;
+    }
 }
+
+

@@ -9,11 +9,9 @@ import android.widget.EditText;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
-import retrofit.RetrofitError;
 
 /**
  * Created by david on 14-11-19.
@@ -100,7 +98,7 @@ public class ResetPasswordFragment extends MitooFragment{
     private void resetButtonAction(){
 
         if(getEmail().equals("")){
-            displayText(getString(R.string.toast_password_empty));
+            displayText(getString(R.string.toast_email_required));
         }
         else if(!getFormHelper().validEmail(getEmail())){
             getFormHelper().handleInvalidEmail(getEmail());

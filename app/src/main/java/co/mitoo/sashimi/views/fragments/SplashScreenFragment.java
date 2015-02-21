@@ -59,24 +59,25 @@ public class SplashScreenFragment extends MitooFragment {
         super.onError(error);
     }
 
-    private void loadFirstFragment(){
+    private void loadFirstFragment() {
         Handler h = new Handler();
         h.postDelayed(new Runnable() {
             public void run() {
-                
-                    SessionRecieve session = getSessionModel().getSession();
-                    if (session != null) {
-                        getMitooActivity().updateAuthToken(session);
-                        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE);
 
-                    } else {
-                        fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE);
+                SessionRecieve session = getSessionModel().getSession();
+                if (session != null) {
+                    getMitooActivity().updateAuthToken(session);
+                    fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
 
-                    }
+                }
+                else{
+                    fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.HORIZONTAL);
+
+                }
 
             }
         }, 250);
-        
+
     }
 
 

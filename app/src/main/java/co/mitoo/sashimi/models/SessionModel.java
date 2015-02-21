@@ -49,11 +49,6 @@ public class SessionModel extends MitooModel implements IsPersistable {
                 Response.class);
     }
 
-    @Subscribe
-    public void onApiFailEvent(RetrofitError event) {
-        BusProvider.post(new MitooActivitiesErrorEvent(event));
-    }
-
     private void postUserRecieveResponse() {
 
         BusProvider.post(new SessionModelResponseEvent(getSession()));

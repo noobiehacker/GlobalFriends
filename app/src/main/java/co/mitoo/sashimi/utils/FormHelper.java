@@ -164,11 +164,11 @@ public class FormHelper {
 
     public void handleInvalidUserName(String username){
         if(userNameTooShort(username))
-            displayText(getActivity().getString(R.string.toast_username_length_too_short));
+            displayText(getActivity().getString(R.string.toast_name_length_too_short));
         else if(userNameTooLong(username))
-            displayText(getActivity().getString(R.string.toast_username_length_too_long));
+            displayText(getActivity().getString(R.string.toast_name_length_too_long));
         else
-            displayText(getActivity().getString(R.string.toast_invalid_username));
+            displayText(getActivity().getString(R.string.toast_invalid_name));
 
     }
 

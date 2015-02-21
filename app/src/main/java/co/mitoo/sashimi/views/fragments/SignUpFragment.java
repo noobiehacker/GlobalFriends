@@ -212,13 +212,13 @@ public class SignUpFragment extends MitooFragment {
 
         boolean result = true;
         if (getUsername().equals("")) {
-            this.displayText(getString(R.string.toast_username_empty));
+            this.displayText(getString(R.string.toast_name_required));
         } else if (getEmail().equals("")) {
-            this.displayText(getString(R.string.toast_email_empty));
+            this.displayText(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_empty));
+            this.displayText(getString(R.string.toast_password_required));
         } else if (getPhone().equals("")) {
-            this.displayText(getString(R.string.toast_phone_empty));
+            this.displayText(getString(R.string.toast_phone_required));
         } else {
             result =false;
         }
