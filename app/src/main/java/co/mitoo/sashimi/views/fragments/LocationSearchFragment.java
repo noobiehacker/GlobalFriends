@@ -151,11 +151,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         }
     }
     
-    private LocationModel getLocationModel(){
-        
-        return (LocationModel) getMitooModel(LocationModel.class);
-    }
-    
 
     private void setUpPlacesList(View view){
 

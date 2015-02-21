@@ -380,7 +380,6 @@ public class ViewHelper {
 
     private void leagueListItemAction(MitooFragment fragment,League league){
 
-        fragment.setLoading(true);
         LeagueModel model =getActivity().getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
         fragment.fireFragmentChangeAction(R.id.fragment_league);
@@ -433,9 +432,7 @@ public class ViewHelper {
                 setUpDynamicLeagueBackground(leagueItemHolder, league);
             }
         };
-        
     }
-
 
     private Callback createListIconCallBack(final View container){
 
@@ -468,7 +465,6 @@ public class ViewHelper {
                 leagueBackgroundLoadCompleteAction();
             }
         };
-
     }
 
     public void unbindDrawables(View view) {

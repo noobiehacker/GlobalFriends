@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.androidprogresslayout.ProgressLayout;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -15,15 +17,20 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
+import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 /**
  * Created by david on 15-01-19.
  */
-public class SearchResultsFragment extends MitooFragment  {
+public class SearchResultsFragment extends MitooFragment {
 
     private LinearLayout leagueListHolder;
-    private List<League> leagueData ;
+    private List<League> leagueData;
+    private String searchText;
+    private TextView noResultsView ;
+
 
     public static SearchResultsFragment newInstance() {
 
@@ -42,40 +49,78 @@ public class SearchResultsFragment extends MitooFragment  {
     }
 
     @Subscribe
-    public void onError(MitooActivitiesErrorEvent error){
+    public void onError(MitooActivitiesErrorEvent error) {
         super.onError(error);
     }
 
-    private void initializeFields(Bundle savedInstanceState){
+    private void initializeFields(Bundle savedInstanceState) {
 
         super.initializeFields();
         Bundle arguments = getArguments();
-        setFragmentTitle(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
+        setSearchText(arguments.get(getString(R.string.bundle_key_tool_bar_title)).toString());
+        setFragmentTitle(getSearchText());
         setLeagueData(new ArrayList<League>());
         updateLeagueDataResult();
     }
 
-    public void updateLeagueDataResult(){
+    @Override
+    public void onResume() {
+        super.onResume();
+        getLocationModel().requestSelectedLocationLatLng();
 
-        if(getLeagueModel().getLeagueSearchResults()!=null){
-            DataHelper dataHelper = new DataHelper(getMitooActivity());
-            dataHelper.clearList(leagueData);
-            dataHelper.addToListList(this.leagueData, getLeagueModel().getLeagueSearchResults());
+    }
+
+    @Subscribe
+    public void onLatLngRecieved(LatLng latLng) {
+
+        if (getDataHelper().IsValid(latLng)) {
+            getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getSearchText(), latLng));
+        } else {
+            getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getSearchText()));
         }
+    }
+
+    @Subscribe
+    public void recieveLeagueResult(LeagueQueryResponseEvent event) {
+
+        updateLeagueDataResult();
+        updateViews();
     }
     
     @Override
-    protected void initializeViews(View view){
+    protected void initializeViews(View view) {
 
         super.initializeViews(view);
-        if(leagueData.size() >0)
-            setUpListView(view);
+        setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
+        setUpListView(view);
+        setUpNoResultsTextView(view);
+        setLoading(true);
+
+    }
+
+    public void updateLeagueDataResult() {
+
+        if (getLeagueModel().getLeagueSearchResults() != null) {
+            DataHelper dataHelper = new DataHelper(getMitooActivity());
+            dataHelper.clearList(getLeagueData());
+            dataHelper.addToListList(getLeagueData(), getLeagueModel().getLeagueSearchResults());
+        }
+    }
+
+    private void updateViews(){
+
+        int leagueLayout = R.layout.view_league_dynamic_header;
+        if (getLeagueData().size() > 0)
+            getViewHelper().addLeagueDataToList(this, leagueLayout, 
+                    getLeagueListHolder(), getLeagueData());
         else
-            setUpNoResultsTextView(view);
+            getNoResultsView().setVisibility(View.VISIBLE);
+        setLoading(false);
+
     }
 
     @Override
-    protected void initializeOnClickListeners(View view){
+    protected void initializeOnClickListeners(View view) {
         super.initializeOnClickListeners(view);
     }
 
@@ -84,26 +129,17 @@ public class SearchResultsFragment extends MitooFragment  {
         switch (v.getId()) {
         }
     }
-    
-    private void setUpNoResultsTextView(View view){
-        
-        TextView noResultsView = (TextView) view.findViewById(R.id.noResultsTextView);
-        String noReultsText = createNoResultsString();
-        noResultsView.setText(noReultsText);
-        noResultsView.setVisibility(View.VISIBLE);
-    }
 
-    private String createNoResultsString(){
-        
+    private String createNoResultsString() {
+
         return getString(R.string.results_page_text_1) + " " +
-               getFragmentTitle() + " " +
-               getString(R.string.results_page_text_2);
+                getFragmentTitle() + " " +
+                getString(R.string.results_page_text_2);
     }
 
     public List<League> getLeagueData() {
         if (leagueData == null) {
             setLeagueData(new ArrayList<League>());
-            updateLeagueDataResult();
         }
         return leagueData;
     }
@@ -112,18 +148,16 @@ public class SearchResultsFragment extends MitooFragment  {
         this.leagueData = leagueData;
     }
 
-    private void setUpListView(View view){
+    private void setUpListView(View view) {
 
-        int leagueLayout = R.layout.view_league_dynamic_header;
         setLeagueListHolder((LinearLayout) view.findViewById(R.id.league_image_holder));
-        getViewHelper().addLeagueDataToList(this, leagueLayout, getLeagueListHolder(), getLeagueData());
 
     }
-    
-    @Override
-    public void tearDownReferences(){
 
-        removeDynamicViews();
+    @Override
+    public void tearDownReferences() {
+
+   //     removeDynamicViews();
         super.tearDownReferences();
     }
 
@@ -136,9 +170,42 @@ public class SearchResultsFragment extends MitooFragment  {
     }
 
     @Override
-    protected void removeDynamicViews(){
-        if(getLeagueListHolder()!=null)
+    protected void removeDynamicViews() {
+        if (getLeagueListHolder() != null)
             getLeagueListHolder().removeAllViews();
         super.removeDynamicViews();
+    }
+ 
+
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
+    @Override
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        if (this.loading) {
+            getProgressLayout().showProgress();
+        } else {
+            getProgressLayout().showContent();
+        }
+    }
+
+    public TextView getNoResultsView() {
+        return noResultsView;
+    }
+
+    public void setNoResultsView(TextView noResultsView) {
+        this.noResultsView = noResultsView;
+    }
+
+    private void setUpNoResultsTextView(View view){
+
+        setNoResultsView((TextView)view.findViewById(R.id.noResultsTextView));
+
     }
 }

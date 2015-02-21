@@ -576,6 +576,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.progressLayout = progressLayout;
     }
 
+    protected LocationModel getLocationModel() {
+
+        return (LocationModel) getMitooModel(LocationModel.class);
+    }
 }
 
 

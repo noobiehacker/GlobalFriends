@@ -75,17 +75,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     }
 
-    @Subscribe
-    public void recieveLeagueResult(LeagueQueryResponseEvent event) {
-
-        if (event.getResults() != null) {
-
-            Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.bundle_key_tool_bar_title), queryText);
-            fireFragmentChangeAction(R.id.fragment_search_results, bundle);
-
-        }
-    }
 
     @Override
     protected void initializeViews(View view) {
@@ -230,17 +219,16 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     }
 
-    private LocationModel getLocationModel() {
-
-        return (LocationModel) getMitooModel(LocationModel.class);
-    }
-
     private void searchFieldAction() {
 
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_tool_bar_title), getQueryText());
+        fireFragmentChangeAction(R.id.fragment_search_results, bundle);
         getLocationModel().requestSelectedLocationLatLng();
-        setLoading(true);
 
     }
+
+
 
     private void queryRefineAction(String query) {
 
@@ -301,16 +289,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setUpDynamicText(searchMitooFor);
     }
 
-    @Subscribe
-    public void onLatLngRecieved(LatLng latLng){
-
-        if(getDataHelper().IsValid(latLng)){
-            getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getQueryText(), latLng));
-        }
-        else{
-            getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getQueryText()));
-        }
-    }
+    
     
     public ListView getSportsList() {
         return sportsList;
