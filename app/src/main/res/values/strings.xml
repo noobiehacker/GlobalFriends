@@ -54,7 +54,7 @@
     <string name="join_page_text3">Email</string>
     <string name="join_page_text4">Phone</string>
     <string name="join_page_text5">Password</string>
-    <string name="join_page_button_2_text">I\'M INTERESTED</string>
+    <string name="join_page_button_2_text">SIGNUP</string>
     <string name="join_page_text6">SUCCESS</string>
     <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch very soon.</string>
     <string name="join_page_button_3_text">VIEW MY LEAGUES</string>
@@ -96,9 +96,9 @@
     <string name="league_page_button_disabled_text">CONTACTED</string>
 
     <!--Home Page -->
-    <string name="home_page_text_1">ENQUIRED</string>
+    <string name="home_page_text_1">CONTACTED LEAGUES</string>
     <string name="home_page_text_2">Find a new league</string>
-    <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, use the search box at the top.</string>
+    <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, tap search at the top.</string>
     <string name="home_page_text_4">Hey, Here\'s where we put\nthe league you\'ve contacted</string>
 
     <!--Home Page - Enquired List View-->
