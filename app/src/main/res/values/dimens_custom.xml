@@ -4,6 +4,7 @@
 
     <!-- App Wise -->
     <dimen name="spacing_sides">28dp</dimen>
+    <dimen name="spacing_top_bottom">28dp</dimen>
     <dimen name="height_app_bar">60dp</dimen>
 
     <!-- Settings Page -->

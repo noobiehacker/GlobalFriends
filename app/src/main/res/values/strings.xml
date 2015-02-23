@@ -240,7 +240,7 @@
 
     <string name="happy_page_text1">You being happy make us happy! Can you give us some stars?</string>
     <string name="happy_page_text2">Give us 5!</string>
-    <string name="happy_page_text3">Also if you have any requests, questions, or would just like\n to find out more, do contact us.</string>
+    <string name="happy_page_text3">Also if you have any requests, questions, or would just like to find out more, do contact us.</string>
 
     <!--Toolbar Title-->
     <string name="tool_bar_happy">HAPPY</string>

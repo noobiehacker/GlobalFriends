@@ -113,8 +113,11 @@ public class SearchResultsFragment extends MitooFragment {
         if (getLeagueData().size() > 0)
             getViewHelper().addLeagueDataToList(this, leagueLayout, 
                     getLeagueListHolder(), getLeagueData());
-        else
+        else{
+            getNoResultsView().setText(createNoResultsString());
             getNoResultsView().setVisibility(View.VISIBLE);
+        }
+       
         setLoading(false);
 
     }

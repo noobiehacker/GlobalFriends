@@ -15,11 +15,12 @@
         android:id="@+id/question_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/confused_page_text3"
+        android:text="@string/confused_page_text1"
         android:layout_marginTop="@dimen/spacing_normal"
         android:layout_below="@+id/question_icon"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:gravity="center"
+        android:minLines="2"
         style="@style/feedbackMessageText"
         />
 
@@ -42,10 +43,11 @@
         android:id="@+id/messagetext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/confused_page_text1"
+        android:text="@string/confused_page_text3"
         android:layout_marginTop="@dimen/spacing_normal"
         android:layout_below="@+id/message_icon"
         android:gravity="center"
+        android:minLines="2"
         style="@style/feedbackMessageText"
         />
 

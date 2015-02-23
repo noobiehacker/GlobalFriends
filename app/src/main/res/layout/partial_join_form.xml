@@ -6,6 +6,8 @@
     android:layout_centerVertical="true"
     android:paddingLeft="@dimen/spacing_sides"
     android:paddingRight="@dimen/spacing_sides"
+    android:paddingTop="@dimen/spacing_top_bottom"
+    android:paddingBottom="@dimen/spacing_top_bottom"
     android:gravity="center"
     android:orientation="vertical">
 

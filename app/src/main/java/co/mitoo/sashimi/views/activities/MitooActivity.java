@@ -204,8 +204,8 @@ public class MitooActivity extends Activity {
     
     private void setBottomToTopAnimation(FragmentTransaction transaction){
 
-        transaction.setCustomAnimations(R.anim.enter_top, R.anim.exit_top,
-                R.anim.exit_bottom,R.anim.enter_bottom);
+        transaction.setCustomAnimations(R.anim.enter_top, 0,
+               0,R.anim.enter_bottom);
 
     }
 
