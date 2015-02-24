@@ -336,6 +336,7 @@ public class MitooActivity extends Activity {
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
+        popAllFragments();
         swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_landing , MitooEnum.FragmentAnimation.HORIZONTAL));
     }
 

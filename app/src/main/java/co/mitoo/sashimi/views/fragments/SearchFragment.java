@@ -354,7 +354,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 getSearchView().setIconified(false);
             }
         });
-        getHandler().postDelayed(getRunnable(), 250);
+        getHandler().postDelayed(getRunnable(), 500);
         
     }
 }
