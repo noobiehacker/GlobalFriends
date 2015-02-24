@@ -20,9 +20,6 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     private SliderLayout slider;
     private PagerIndicator indicator;
-    private Handler myHandler;
-    private Runnable changeBackgroundCallBack;
-    private boolean stacked = false;
     private int sliderPosition = 0;
 
     public static LandingFragment newInstance() {
@@ -35,9 +32,8 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_landing,
                 container, false);
-        initializeViewElements(view);
+        initializeViews(view);
         initializeFields();
-        myHandler.postDelayed(changeBackgroundCallBack, 1000);
         return view;
     }
 
@@ -48,20 +44,18 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     @Override
     public void onResume(){
-        changeBackgroundToMatchSlider();
         super.onResume();
+        changeBackgroundToMatchSlider();
     }
 
     @Override
     public void onPause(){
-        myHandler.removeCallbacks(changeBackgroundCallBack);
-        updateSliderPosition();
         super.onPause();
+        updateSliderPosition();
     }
 
     @Override
     public void onStop() {
-        myHandler.removeCallbacks(changeBackgroundCallBack);
         super.onStop();
 
     }
@@ -77,12 +71,14 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     @Override
     protected void initializeFields(){
-        this.myHandler = new Handler();
+        super.initializeFields();
+        setPopActionRequiresDelay(true);
     }
 
-    private void initializeViewElements(View view){
+    @Override
+    protected void initializeViews(View view){
         //Work around for the animation to display a gray background during load
-        indicator = (PagerIndicator)view.findViewById(R.id.custom_indicator);
+        setIndicator((PagerIndicator)view.findViewById(R.id.custom_indicator));
         initializeCallBacks();
         initializeSlider(view);
         initializeOnClickListeners(view);
@@ -90,12 +86,12 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     }
 
     private void initializeCallBacks(){
-        changeBackgroundCallBack = new Runnable() {
+        setRunnable(new Runnable() {
             @Override
             public void run() {
                 changeBackground(R.color.gray_light_five);
             }
-        };
+        });
     }
 
     @Override
@@ -122,39 +118,37 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     //Inner class for holding fields
     private class sliderContent{
 
-        public sliderContent(int imageBackgroundId, int imageIconId, int textTitle , int descriptionOne , int descriptionTwo){
+        public sliderContent(int imageBackgroundId, int imageIconId, int textTitle ){
+
             this.imageBackgroundId = imageBackgroundId;
             this.imageIconId = imageIconId;
             this.title = textTitle;
-            this.descriptionOne = descriptionOne;
-            this.descriptionTwo = descriptionTwo;
+
         }
         public int imageBackgroundId;
         public int imageIconId;
         public int title;
-        public int descriptionOne;
-        public int descriptionTwo;
 
     }
 
 
     private List<sliderContent> createSliderContents() {
         List<sliderContent> contents = new ArrayList<sliderContent>();
-        contents.add(new sliderContent(R.drawable.bg1, R.drawable.home_1_assets, R.string.landing_page_slider_text1 , R.string.landing_page_slider_text2, R.string.landing_page_slider_text3));
-        contents.add(new sliderContent(R.drawable.bg2, R.drawable.home_2_assets, R.string.landing_page_slider_text4 , R.string.landing_page_slider_text5, R.string.landing_page_slider_text6));
-        contents.add(new sliderContent(R.drawable.bg3, R.drawable.home_3_assets, R.string.landing_page_slider_text7 , R.string.landing_page_slider_text8, R.string.landing_page_slider_text9));
+        contents.add(new sliderContent(R.drawable.bg1, R.drawable.home_1_assets, R.string.landing_page_slider_text1)); 
+        contents.add(new sliderContent(R.drawable.bg2, R.drawable.home_2_assets, R.string.landing_page_slider_text4)); 
+        contents.add(new sliderContent(R.drawable.bg3, R.drawable.home_3_assets, R.string.landing_page_slider_text7));
         return contents;
     }
 
 
     private void initializeSlider(View view) {
 
-        slider = (SliderLayout)view.findViewById(R.id.slider);
+        setSlider((SliderLayout)view.findViewById(R.id.slider));
         List<sliderContent> contents = createSliderContents();
         addContentsToSlider(slider, contents);
-        slider.setPresetTransformer(SliderLayout.Transformer.Stack);
-        slider.setCustomIndicator(indicator);
-        slider.stopAutoCycle();
+        getSlider().setPresetTransformer(SliderLayout.Transformer.Stack);
+        getSlider().setCustomIndicator(indicator);
+        getSlider().stopAutoCycle();
 
     }
 
@@ -195,4 +189,19 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         getActivity().findViewById(R.id.fragment_landing).setBackgroundResource(resource);
     }
 
+    public PagerIndicator getIndicator() {
+        return indicator;
+    }
+
+    public void setIndicator(PagerIndicator indicator) {
+        this.indicator = indicator;
+    }
+
+    public SliderLayout getSlider() {
+        return slider;
+    }
+
+    public void setSlider(SliderLayout slider) {
+        this.slider = slider;
+    }
 }

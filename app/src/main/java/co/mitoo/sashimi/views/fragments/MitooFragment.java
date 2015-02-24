@@ -60,7 +60,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private FormHelper formHelper;
     private boolean pageFirstLoad= true;
     private ProgressLayout progressLayout;
-
+    private boolean popActionRequiresDelay =false;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -384,7 +384,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MitooFragment.this.getMitooActivity().onBackPressed(v);
+                    MitooFragment.this.getMitooActivity().onBackPressed();
                 }
             });
 
@@ -579,6 +579,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected LocationModel getLocationModel() {
 
         return (LocationModel) getMitooModel(LocationModel.class);
+    }
+
+    public boolean popActionRequiresDelay() {
+        return popActionRequiresDelay;
+    }
+
+    public void setPopActionRequiresDelay(boolean popActionRequiresDelay) {
+        this.popActionRequiresDelay = popActionRequiresDelay;
     }
 }
 

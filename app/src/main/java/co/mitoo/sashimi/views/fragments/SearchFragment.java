@@ -64,7 +64,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     public void onResume() {
         super.onResume();
         handleLocationServices();
-        getSearchView().setIconified(false);
+        setUpIconifiedCallBack();
 
     }
 
@@ -344,6 +344,17 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     public void tearDownReferences(){
         super.tearDownReferences();
         getSearchView().setIconified(true);
+        
+    }
+    
+    private void setUpIconifiedCallBack(){
+        setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getSearchView().setIconified(false);
+            }
+        });
+        getHandler().postDelayed(getRunnable(), 500);
         
     }
 }

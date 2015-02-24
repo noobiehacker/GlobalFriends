@@ -74,7 +74,6 @@ public class MitooActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
         if (id == R.id.menu_settings) {
             return true;
         }
@@ -179,10 +178,6 @@ public class MitooActivity extends Activity {
 
     private void swapFragment(FragmentChangeEvent event){
 
-        if(getFragmentStack().size()>0){
-            getFragmentStack().pop();
-            getFragmentManager().popBackStack();
-        }
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         setFragmentAnimation(ft, event.getAnimation());
@@ -191,7 +186,7 @@ public class MitooActivity extends Activity {
         getFragmentStack().push(fragment);
 
     }
-    
+
     private void setFragmentAnimation(FragmentTransaction transction , MitooEnum.FragmentAnimation animation){
         
         if(animation == MitooEnum.FragmentAnimation.HORIZONTAL)
@@ -204,8 +199,8 @@ public class MitooActivity extends Activity {
     
     private void setBottomToTopAnimation(FragmentTransaction transaction){
 
-        transaction.setCustomAnimations(R.anim.enter_top, 0,
-               0,R.anim.enter_bottom);
+        transaction.setCustomAnimations(R.anim.enter_top, R.anim.no_animation,
+                0,R.anim.enter_bottom);
 
     }
 
@@ -227,6 +222,18 @@ public class MitooActivity extends Activity {
             getFragmentManager().popBackStack();
         }
 
+    }
+
+    public void popFragment(int delayed) {
+
+        Runnable popFragmentRunnable = new Runnable() {
+            @Override
+            public void run() {
+                popFragment();
+            }
+        };
+        setRunnable(popFragmentRunnable);
+        getHandler().postDelayed(getRunnable(),delayed);
     }
 
     public void popAllFragments(){
@@ -257,22 +264,24 @@ public class MitooActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            if (getFragmentStack().peek().isAllowBackPressed()) {
+            if (getFragmentStack().peek().isAllowBackPressed())  {
                 hideSoftKeyboard();
-                popFragment();
+                MitooFragment fragmentToDesplay = getSecondTopFragment();
+                if(fragmentToDesplay!=null && fragmentToDesplay.popActionRequiresDelay())
+                    popFragment(250);
+                else
+                    popFragment();
             }
         }
     }
-
-    public void onBackPressed(View v) {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.moveTaskToBack(true);
-        } else {
-            if(getFragmentStack().peek().isAllowBackPressed())
-                hideSoftKeyboard();
-                popFragment();
+    
+    private MitooFragment getSecondTopFragment(){
+        
+        if(getFragmentStack().size()>1){
+            return getFragmentStack().get(getFragmentStack().size()-2);
         }
-
+        return null;
+        
     }
 
     @Override

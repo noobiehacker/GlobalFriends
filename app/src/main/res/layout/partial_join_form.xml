@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/signup_page_text8"
+        android:text="@string/join_page_text8"
         style="@style/signUpStaticText"
         />
     
@@ -71,7 +71,7 @@
         android:layout_below="@+id/emailInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
-        android:hint="@string/hint_phone"
+        android:hint="@string/join_page_text4"
         android:inputType="phone"
         android:paddingLeft="@dimen/spacing_small" />
 
