@@ -37,6 +37,7 @@ public class HomeFragment extends MitooFragment {
     private LeagueAdapter leagueDataAdapter;
     private TextView noResultsView ;
     private boolean userHasUsedApp;
+    private View listFooterView;
 
     @Override
     public void onClick(View v) {
@@ -70,7 +71,7 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeFields();
         setUpUserHasUsedAppBoolean();
-        saveUserAsSecondTimeUser();
+
         updateEnquriedLeagueData();
     }
 
@@ -95,8 +96,8 @@ public class HomeFragment extends MitooFragment {
     @Override
     public void onResume(){
 
-        requestLeagueData();
         super.onResume();
+        requestLeagueData();
 
     }
     
@@ -124,7 +125,7 @@ public class HomeFragment extends MitooFragment {
                                 BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
                                 break;
                             case R.id.menu_search:
-                                fireFragmentChangeAction(R.id.fragment_search);
+                                fireFragmentChangeAction(R.id.fragment_search , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
                                 break;
                         }
                     }
@@ -159,10 +160,15 @@ public class HomeFragment extends MitooFragment {
 
         setLoading(false);
         updateEnquriedLeagueData();
-        if(getEnquiredLeagueData().size()!=0)
+        if(getEnquiredLeagueData().size()!=0){
             getLeagueDataAdapter().notifyDataSetChanged();
+            if(userHasUsedApp)
+                getLeagueList().removeFooterView(getListFooterView());
+        }
         else
             getNoResultsView().setVisibility(View.VISIBLE);
+        saveUserAsSecondTimeUser();
+
     }
 
     @Subscribe
@@ -171,6 +177,7 @@ public class HomeFragment extends MitooFragment {
         fireFragmentChangeAction(R.id.fragment_settings , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
 
     }
+
 
     @Override
     protected void handleAndDisplayError(MitooActivitiesErrorEvent error) {
@@ -200,8 +207,10 @@ public class HomeFragment extends MitooFragment {
         getLeagueList().setAdapter(getLeagueDataAdapter());
         getLeagueList().setOnItemClickListener(getLeagueDataAdapter());
         getLeagueList().addHeaderView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_text_view));
-        if(!getUserHasUsedApp())
-            getLeagueList().addFooterView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_footer));
+        if(!getUserHasUsedApp()){
+            setListFooterView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_footer));
+            getLeagueList().addFooterView(getListFooterView());
+        }
 
     }
 
@@ -272,5 +281,13 @@ public class HomeFragment extends MitooFragment {
 
     public void setNoResultsView(TextView noResultsView) {
         this.noResultsView = noResultsView;
+    }
+
+    public View getListFooterView() {
+        return listFooterView;
+    }
+
+    public void setListFooterView(View listFooterView) {
+        this.listFooterView = listFooterView;
     }
 }

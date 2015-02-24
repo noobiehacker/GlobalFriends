@@ -545,12 +545,18 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         
     }
     
-    protected void requestFocusForTopInput(EditText editText){
+    protected void requestFocusForTopInput(final EditText editText){
 
-        if(editText!=null){
-            editText.requestFocusFromTouch();
-            getMitooActivity().showKeyboard(250);
-        }
+        Runnable requestFocusRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if(editText!=null)
+                    editText.requestFocusFromTouch();
+                getMitooActivity().showKeyboard();
+            }
+        };
+        setRunnable(requestFocusRunnable);
+        getHandler().postDelayed(getRunnable(), 250);
 
     }
 

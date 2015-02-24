@@ -72,8 +72,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     protected void initializeFields() {
 
         updateFragmentTitle();
-        sportData = new ArrayList<IsSearchable>();
-        sportData.addAll(getDataHelper().getSports());
+        setSportData(new ArrayList<IsSearchable>());
+        getSportData().addAll(getDataHelper().getSports());
 
     }
 
@@ -354,7 +354,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 getSearchView().setIconified(false);
             }
         });
-        getHandler().postDelayed(getRunnable(), 500);
+        getHandler().postDelayed(getRunnable(), 250);
         
     }
 }

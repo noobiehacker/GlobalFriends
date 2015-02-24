@@ -59,7 +59,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     public void onResume(){
 
         super.onResume();
-        getSearchView().setIconified(false);
+        setUpIconifiedCallBack();
 
     }
     @Override
@@ -263,5 +263,16 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
                 return false;
             }
         };
+    }
+
+    private void setUpIconifiedCallBack(){
+        setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getSearchView().setIconified(false);
+            }
+        });
+        getHandler().postDelayed(getRunnable(), 250);
+
     }
 }
