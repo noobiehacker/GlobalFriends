@@ -199,7 +199,7 @@ public class MitooActivity extends Activity {
         else if(animation == MitooEnum.FragmentAnimation.VERTICAL)
             setBottomToTopAnimation(transction);
         else if(animation == MitooEnum.FragmentAnimation.DOWNLEFT)
-            setDownLeftAnimation(transction);
+            setBottomToTopAnimation(transction);
     }
     
     private void setBottomToTopAnimation(FragmentTransaction transaction){
@@ -259,15 +259,7 @@ public class MitooActivity extends Activity {
         } else {
             if (getFragmentStack().peek().isAllowBackPressed()) {
                 hideSoftKeyboard();
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        popFragment();
-
-                    }
-                };
-                setRunnable(runnable);
-                getHandler().postDelayed(runnable, 75);
+                popFragment();
             }
         }
     }
@@ -278,15 +270,7 @@ public class MitooActivity extends Activity {
         } else {
             if(getFragmentStack().peek().isAllowBackPressed())
                 hideSoftKeyboard();
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        popFragment();
-
-                    }
-                };
-                setRunnable(runnable);
-                getHandler().postDelayed(runnable, 125);
+                popFragment();
         }
 
     }

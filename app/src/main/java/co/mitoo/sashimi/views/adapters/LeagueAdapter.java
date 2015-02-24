@@ -62,13 +62,13 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (id!= -1 ) {
-            League item = (League)parent.getItemAtPosition(position);
-            view.setSelected(true);
-            leagueListItemAction(item);
-            getFragment().getMitooActivity().hideSoftKeyboard(view);
+        if(fragment.getDataHelper().isClickable() && id!= -1){
+                League item = (League)parent.getItemAtPosition(position);
+                view.setSelected(true);
+                leagueListItemAction(item);
+                getFragment().getMitooActivity().hideSoftKeyboard(view);
         }
-       
+
     }
 
     private void leagueListItemAction(League league){

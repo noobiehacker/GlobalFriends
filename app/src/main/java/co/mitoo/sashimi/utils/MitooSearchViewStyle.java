@@ -114,7 +114,6 @@ public class MitooSearchViewStyle extends SearchViewStyle{
     public MitooSearchViewStyle setUpRemaining(){
 
         getSearchView().requestFocusFromTouch();
-        getSearchView().setIconified(false);
         getSearchView().setGravity(Gravity.CENTER_VERTICAL);
         setEditFrameMargin();
         hideCloseButton();

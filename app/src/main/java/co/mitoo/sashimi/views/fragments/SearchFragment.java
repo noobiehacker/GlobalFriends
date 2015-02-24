@@ -64,6 +64,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     public void onResume() {
         super.onResume();
         handleLocationServices();
+        getSearchView().setIconified(false);
+
     }
 
     @Override
@@ -96,14 +98,16 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if (parent.getId() == sportsList.getId()) {
-            if (position != 0) {
-                Sport item = (Sport) sportsList.getItemAtPosition(position);
-                setQueryText(item.getName());
-                searchFieldAction();
-                parent.setFocusable(true);
-                parent.requestFocus();
+        if(getDataHelper().isClickable()){
+            if (parent.getId() == sportsList.getId()) {
+                if (position != 0) {
+                    Sport item = (Sport) sportsList.getItemAtPosition(position);
+                    setQueryText(item.getName());
+                    searchFieldAction();
+                    parent.setFocusable(true);
+                    parent.requestFocus();
 
+                }
             }
         }
     }
@@ -161,7 +165,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         setSearchView(new SearchView(getActivity()));
         getViewHelper().customizeMainSearch(getSearchView());
         getSearchView().setOnQueryTextListener(createQueryTextChangeListner());
-        getViewHelper().recursivelyCenterVertically(getSearchView());
         return getSearchView();
 
     }

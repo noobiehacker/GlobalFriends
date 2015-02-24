@@ -119,6 +119,27 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+
+    <!-- Feedback Page -->
+
+    <style name="leaguePageGrayTitle">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
+    <style name="leaguePageGrayText">
+        <item name="android:textColor">@color/gray_dark_two</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontPath">@string/DIN_RegularItalic</item>
+    </style>
+
+
+    <style name="leaguePageReadMoreText">
+        <item name="android:textSize">14sp</item>
+        <item name="fontPath">@string/DIN_RegularItalic</item>
+    </style>
+
     <!-- Sign Up  Page -->
 
 

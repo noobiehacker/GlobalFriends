@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:id="@+id/enquired_list_icon_container"
+        android:id="@+id/icon_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -14,7 +14,8 @@
         android:layout_marginRight="@dimen/enquired_list_icon_right_padding"
         android:layout_alignParentLeft="true"
         android:orientation="vertical"
-        android:background="@drawable/rounded">
+        android:background="@drawable/rounded"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/enquired_list_icon"

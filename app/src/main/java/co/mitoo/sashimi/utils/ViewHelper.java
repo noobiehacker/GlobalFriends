@@ -33,6 +33,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
@@ -63,16 +64,18 @@ public class ViewHelper {
 
         ImageView leagueOverLayImageView = (ImageView) leagueItemHolder.findViewById(R.id.blackOverLay);
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
+        MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
+        league.setLeagueMobileCover(target);
+        target.setCallBack(createBackgroundCallBack());
+        
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
             leagueOverLayImageView.setLayoutParams(layoutParam);
             leagueBackgroundImageView.setLayoutParams(layoutParam);
             getPicasso().with(getActivity())
                     .load(getCover(league))
-                    .fit()
-                    .centerInside()
                     .placeholder(R.color.over_lay_black)
-                    .into(leagueBackgroundImageView, createBackgroundCallBack());
+                    .into(target);
         }
     }
    
@@ -80,6 +83,8 @@ public class ViewHelper {
     private void setUpStaticLeagueBackground(final View leagueItemHolder, League league) {
 
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
+        MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
+        league.setLeagueCover(target);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             getPicasso().with(getActivity())
                     .load(getCoverTall(league))
@@ -120,22 +125,14 @@ public class ViewHelper {
 
     public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, View leagueListHolder){
         int iconDimenID = R.dimen.league_listview_icon_height;
-        String logo = league.getLogo_large();
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
+        MitooImageTarget target = new MitooImageTarget(leagueIconImageView);
+        league.setIconTarget(target);
+        target.setCallBack(createResultIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
         getPicasso().with(getActivity())
                 .load(getLogo(league))
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
-                .into(leagueIconImageView, createResultIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
-    }
-
-    public void setUpIconImage(final View leagueItemContainer, final League league){
-        int iconDimenID = R.dimen.league_listview_icon_height;
-        String logo = league.getLogo_large();
-        ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
-        getPicasso().with(getActivity())
-                .load(getLogo(league))
-                .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
-                .into(leagueIconImageView);
+                .into(target);
     }
 
     public void setUpFullLeagueText(View view, League league){
@@ -372,7 +369,7 @@ public class ViewHelper {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!fragment.isLoading())
+                if(fragment.getDataHelper().isClickable())
                     leagueListItemAction(fragment,itemClicked);
             }
         };
@@ -430,6 +427,8 @@ public class ViewHelper {
             public void onError() {
                 
                 setUpDynamicLeagueBackground(leagueItemHolder, league);
+                setUpEnquireListIconContainer(leagueListHolder, View.GONE);
+
             }
         };
     }
@@ -439,7 +438,7 @@ public class ViewHelper {
         return new Callback() {
             @Override
             public void onSuccess() {
-                setUpEnquireListIconContainer(container);
+                setUpEnquireListIconContainer(container , View.VISIBLE);
             }
 
             @Override
@@ -590,14 +589,12 @@ public class ViewHelper {
     }
 
 
-    private void setUpEnquireListIconContainer(View containerView) {
-        /*View iconContainer = containerView.findViewById(R.id.enquired_list_icon_container);
+    private void setUpEnquireListIconContainer(View containerView , int visibility) {
+        View iconContainer = containerView.findViewById(R.id.icon_container);
         if (iconContainer != null) {
 
-            iconContainer.getLayoutParams().height = getPixelFromDimenID(R.dimen.enquired_list_icon_length);
-            iconContainer.getLayoutParams().width = getPixelFromDimenID(R.dimen.enquired_list_icon_length);
-
-        }*/
+           iconContainer.setVisibility(visibility);
+        }
     }
 
 }

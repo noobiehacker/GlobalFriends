@@ -42,9 +42,6 @@ public class HomeFragment extends MitooFragment {
     public void onClick(View v) {
 
         switch(v.getId()){
-            case R.id.search_bar:
-                fireFragmentChangeAction(R.id.fragment_search);
-                break;
         }
     }
 
@@ -171,7 +168,7 @@ public class HomeFragment extends MitooFragment {
     @Subscribe
     public void onUserInfoReceieve(UserInfoModelResponseEvent event){
 
-        fireFragmentChangeAction(R.id.fragment_settings , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_settings , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
 
     }
 

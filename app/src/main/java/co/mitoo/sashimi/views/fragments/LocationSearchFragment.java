@@ -56,6 +56,13 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
 
     @Override
+    public void onResume(){
+
+        super.onResume();
+        getSearchView().setIconified(false);
+
+    }
+    @Override
     protected void initializeViews(View view){
 
         setUpToolBar(view);

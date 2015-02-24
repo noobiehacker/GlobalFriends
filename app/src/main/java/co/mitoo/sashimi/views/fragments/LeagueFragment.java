@@ -13,10 +13,13 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+
 /**
  * Created by david on 14-12-19.
  */
@@ -54,6 +57,11 @@ public class LeagueFragment extends MitooFragment {
             getFragmentManager().beginTransaction().remove(f).commit();
     }
 
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        super.onError(error);
+    }
+    
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
@@ -109,9 +117,16 @@ public class LeagueFragment extends MitooFragment {
     
     private void setUpMap(){
 
-        GoogleMap map = ((MapFragment) getFragmentManager()
-                .findFragmentById(R.id.googleMapFragment)).getMap();
-        getViewHelper().setUpMap(getSelectedLeague(), map);
+        try{
+            GoogleMap map = ((MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.googleMapFragment)).getMap();
+            getViewHelper().setUpMap(getSelectedLeague(), map);
+
+        }
+        catch(Exception e){
+            MitooActivitiesErrorEvent event = new MitooActivitiesErrorEvent("JACK THE ERROR IS HERE");
+            BusProvider.post(event);
+        }
 
     }
     
@@ -166,9 +181,9 @@ public class LeagueFragment extends MitooFragment {
 
     private void joinButtonAction(){
 
-        setLoading(true);
         SessionModel sessionModel =getSessionModel();
         if(sessionModel.userIsLoggedIn()){
+            setLoading(true);
             int UserID = sessionModel.getSession().id;
             LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(UserID);
             getLeagueModel().requestToEnquireLeague(requestEvent);

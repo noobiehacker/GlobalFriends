@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 
 import co.mitoo.sashimi.models.location;
+import co.mitoo.sashimi.views.MitooImageTarget;
 
 /**
  * Created by david on 14-11-21.
@@ -31,6 +32,9 @@ public class League implements Serializable {
     private _geoLoc _geoloc;
     private location location;
     private String[] sports;
+    private MitooImageTarget iconTarget;
+    private MitooImageTarget leagueCover;
+    private MitooImageTarget leagueMobileCover;
 
     public boolean isClaimed() {
         return claimed;
@@ -254,4 +258,27 @@ public class League implements Serializable {
         return leagueName;
     }
 
+    public MitooImageTarget getIconTarget() {
+        return iconTarget;
+    }
+
+    public void setIconTarget(MitooImageTarget iconTarget) {
+        this.iconTarget = iconTarget;
+    }
+
+    public MitooImageTarget getLeagueCover() {
+        return leagueCover;
+    }
+
+    public void setLeagueCover(MitooImageTarget leagueCover) {
+        this.leagueCover = leagueCover;
+    }
+
+    public MitooImageTarget getLeagueMobileCover() {
+        return leagueMobileCover;
+    }
+
+    public void setLeagueMobileCover(MitooImageTarget leagueMobileCover) {
+        this.leagueMobileCover = leagueMobileCover;
+    }
 }
