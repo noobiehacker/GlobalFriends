@@ -335,7 +335,7 @@ public class ViewHelper {
 
     private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<League> leagues){
 
-        int indexToStop= 3;
+        int indexToStop= 5;
 
         if(leagues.size()>indexToStop){
 

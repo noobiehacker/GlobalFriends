@@ -43,7 +43,6 @@ public class LeagueFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_league,
                         container, false);
-        initializeFields();
         initializeViews(view);
         return view;
     }

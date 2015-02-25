@@ -379,7 +379,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         if (toolbar != null) {
 
             toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.setTitle(getFragmentTitle());
+            toolbar.setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
             toolbar.setTitleTextColor(getResources().getColor(R.color.white));
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -471,6 +471,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             iniializeDialog();
         return progressDialog;
     }
+    
+
 
 
     public DataHelper getDataHelper() {

@@ -65,7 +65,7 @@ public class DataHelper {
 
     }
 
-    public boolean IsValid(LatLng latLng) {
+    public boolean IsValidLatLng(LatLng latLng) {
 
         return (latLng.latitude != MitooConstants.invalidConstant) ||
                 (latLng.longitude != MitooConstants.invalidConstant);
@@ -227,6 +227,19 @@ public class DataHelper {
 
     }
 
+    public String removeSpaceAtEnd(String input){
+
+        String result = input;
+        Boolean validInput = input!=null && input.length()>0;
+
+        if(validInput  && input.charAt(input.length()-1) == 8203 ){
+
+            result = input.substring(0 , input.length()-1);
+
+        }
+
+        return result;
+    }
 
         
 }

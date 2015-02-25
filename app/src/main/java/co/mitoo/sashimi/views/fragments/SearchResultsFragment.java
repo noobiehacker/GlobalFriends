@@ -73,7 +73,7 @@ public class SearchResultsFragment extends MitooFragment {
     @Subscribe
     public void onLatLngRecieved(LatLng latLng) {
 
-        if (getDataHelper().IsValid(latLng)) {
+        if (getDataHelper().IsValidLatLng(latLng)) {
             getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getSearchText(), latLng));
         } else {
             getLeagueModel().requestAlgoLiaSearch(new AlgoliaLeagueSearchEvent(getSearchText()));
