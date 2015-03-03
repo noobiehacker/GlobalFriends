@@ -77,20 +77,16 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
     
     @Override
-    protected void setUpToolBar(View view) {
+    protected Toolbar setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-        if(toolbar!=null) {
+        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        if(getToolbar()!=null) {
+            getToolbar().setTitle("");
+            getToolbar().addView(createSearchView());
+            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
 
-            toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.addView(createSearchView());
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getMitooActivity().onBackPressed();
-                }
-            });
         }
+        return getToolbar();
     }
 
     private void setUpCurrentLocationText(View view){

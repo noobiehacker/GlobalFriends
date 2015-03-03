@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -71,7 +72,7 @@ public class SignUpFragment extends MitooFragment {
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpSignUpView(view, getSelectedLeague());
         setTopEditText((EditText)view.findViewById(R.id.nameInput));
-
+        setUpSignUpInfoText(view);
     }
 
     @Override
@@ -245,5 +246,13 @@ public class SignUpFragment extends MitooFragment {
 
     public void setTopEditText(EditText topEditText) {
         this.topEditText = topEditText;
+    }
+
+    private void setUpSignUpInfoText(View view){
+
+        TextView topSignUpText = (TextView)view.findViewById(R.id.signUpTopText);
+        String leagueName = getSelectedLeague().getName();
+        topSignUpText.setText(getDataHelper().createSignUpInfo(leagueName));
+
     }
 }

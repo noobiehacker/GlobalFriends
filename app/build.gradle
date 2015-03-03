@@ -143,6 +143,7 @@ dependencies {
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')
     androidTestCompile files('lib/testrunner-runtime-1.1.jar')
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.3.1'
     androidTestCompile ('com.google.guava:guava:14.0.1'){
         exclude module : 'hamcrest'
         exclude module : 'hamcrest-core'

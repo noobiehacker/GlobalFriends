@@ -134,21 +134,15 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
 
     @Override
-    protected void setUpToolBar(View view) {
+    protected Toolbar setUpToolBar(View view) {
 
-        toolbar = (Toolbar) view.findViewById(R.id.app_bar);
-        if (toolbar != null) {
-
-            toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-            toolbar.addView(createClickableTitleView());
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getMitooActivity().onBackPressed();
-                }
-            });
+        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        if (getToolbar() != null) {
+            getToolbar().setTitle("");
+            getToolbar().addView(createClickableTitleView());
+            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
         }
+        return getToolbar();
     }
 
     private void setUpSearchView(View view) {

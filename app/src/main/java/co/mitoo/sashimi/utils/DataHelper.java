@@ -241,5 +241,12 @@ public class DataHelper {
         return result;
     }
 
+    public String createSignUpInfo(String leagueName){
+
+        String joinPagePrefix = getActivity().getString(R.string.join_page_info_prefix);
+        String joinPageSuffix = getActivity().getString(R.string.join_page_info_suffix);
+        return joinPagePrefix + " " + leagueName + " " + joinPageSuffix;
+
+   }
         
 }

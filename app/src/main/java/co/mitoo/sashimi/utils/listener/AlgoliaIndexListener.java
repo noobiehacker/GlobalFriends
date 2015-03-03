@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.algoliaResponseEvent;
+import co.mitoo.sashimi.utils.events.AlgoliaResponseEvent;
 
 /**
  * Created by david on 15-01-15.
@@ -24,7 +24,7 @@ public class AlgoliaIndexListener implements IndexListener {
     @Override
     public void searchResult(Index index, Query query, JSONObject jsonObject) {
         if(jsonObject!=null) {
-            BusProvider.post(new algoliaResponseEvent(jsonObject));
+            BusProvider.post(new AlgoliaResponseEvent(jsonObject));
         }
     }
     

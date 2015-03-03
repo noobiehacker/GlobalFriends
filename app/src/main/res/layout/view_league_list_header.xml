@@ -4,13 +4,14 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/enquired_league_text"
+        android:id="@+id/header_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/home_page_enquired_left"
         android:layout_marginTop="@dimen/home_page_enquired_top"
         android:layout_marginBottom="@dimen/home_page_enquired_bottom"
         android:text="@string/home_page_text_1"
+        android:textAllCaps="true"
         style="@style/enquiredLeagueText"
         />
     

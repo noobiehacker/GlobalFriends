@@ -33,12 +33,12 @@
         android:layout_marginTop="@dimen/spacing_smallest"/>
     -->
     <TextView
-        android:id="@+id/signUpStaticText"
+        android:id="@+id/signUpTopText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="@string/join_page_text8"
+        android:minLines="2"
         style="@style/signUpStaticText"
         />
     
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/signUpStaticText"
+        android:layout_below="@+id/signUpTopText"
         android:layout_marginTop="@dimen/sign_up_page_text_bottom_padding"
         android:hint="@string/join_page_text2" />
 
@@ -60,8 +60,8 @@
         android:layout_below="@+id/nameInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
+        android:inputType="textEmailAddress"
         android:hint="@string/join_page_text3" />
-
 
     <EditText
         android:id="@+id/phoneInput"

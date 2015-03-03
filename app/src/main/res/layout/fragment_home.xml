@@ -25,11 +25,20 @@
         progressLayout:progress="false"
         >
     <ListView
-        android:id="@+id/leagueListView"
+            android:id="@+id/myleagueListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="@dimen/list_divider_height"
+            android:divider="@color/gray_light_two"
+            android:descendantFocusability="blocksDescendants" />
+
+    <ListView
+        android:id="@+id/enquiredLeagueListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerHeight="@dimen/list_divider_height"
         android:divider="@color/gray_light_two"
+        android:layout_below="@id/myleagueListView"
         android:descendantFocusability="blocksDescendants" />
 
     <RelativeLayout

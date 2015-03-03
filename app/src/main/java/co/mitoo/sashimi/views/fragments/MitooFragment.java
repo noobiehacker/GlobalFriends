@@ -317,8 +317,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     private void handleCallBacks() {
 
-        if (getHandler() != null && getRunnable() != null) {
-            getHandler().removeCallbacks(getRunnable());
+        if (getHandler() != null) {
+            getHandler().removeCallbacksAndMessages(null);
         }
 
     }
@@ -373,15 +373,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    protected void setUpToolBar(View view) {
+    protected Toolbar setUpToolBar(View view) {
 
-        toolbar = (Toolbar) view.findViewById(R.id.app_bar);
-        if (toolbar != null) {
+        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        if (getToolbar() != null) {
 
-            toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+            getToolbar().setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
+            getToolbar().setTitleTextColor(getResources().getColor(R.color.white));
+            getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MitooFragment.this.getMitooActivity().onBackPressed();
@@ -389,6 +389,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             });
 
         }
+        return toolbar;
 
     }
 
@@ -595,6 +596,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void setPopActionRequiresDelay(boolean popActionRequiresDelay) {
         this.popActionRequiresDelay = popActionRequiresDelay;
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public void setToolbar(Toolbar toolbar) {
+        this.toolbar = toolbar;
     }
 }
 

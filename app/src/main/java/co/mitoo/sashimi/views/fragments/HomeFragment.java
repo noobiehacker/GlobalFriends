@@ -1,6 +1,6 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
@@ -33,11 +32,15 @@ import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 public class HomeFragment extends MitooFragment {
 
     private List<League> enquiredLeagueData;
-    private ListView leagueList;
-    private LeagueAdapter leagueDataAdapter;
+    private ListView enquiredLeagueList;
+    private LeagueAdapter enquiredLeagueDataAdapter;
+
+    private List<League> myLeagueData;
+    private ListView myLeagueList;
+    private LeagueAdapter myLeagueDataAdapter;
+
     private TextView noResultsView ;
     private boolean userHasUsedApp;
-    private View listFooterView;
 
     @Override
     public void onClick(View v) {
@@ -71,8 +74,8 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeFields();
         setUpUserHasUsedAppBoolean();
-
-        updateEnquriedLeagueData();
+        refreshEnquriedLeagueData();
+        setUpPopUpTask();
     }
 
 
@@ -81,9 +84,11 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
-        setUpListView(view);
+        setUpEnquiredListView(view, getString(R.string.home_page_text_1));
+        setUpMyLeagueListView(view, getString(R.string.home_page_text_5));
         setUpNoResultsTextView(view);
-
+        if(getLeagueModel().getLeaguesEnquired().size()==0)
+            setLoading(true);
     }
     
     @Override
@@ -100,23 +105,23 @@ public class HomeFragment extends MitooFragment {
         requestLeagueData();
 
     }
-    
+
     @Override
-    protected void setUpToolBar(View view) {
+    protected Toolbar setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-        if(toolbar!=null){
+        setToolbar(super.setUpToolBar(view));
+        if(getToolbar()!=null){
 
-            toolbar.setLogo(R.drawable.header_mitoo_logo);
-            toolbar.setTitle("");
-            toolbar.inflateMenu(R.menu.menu_main);
-            toolbar.setPopupTheme(R.style.MyPopupMenu);
-            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            getToolbar().setLogo(R.drawable.header_mitoo_logo);
+            getToolbar().setTitle("");
+            getToolbar().inflateMenu(R.menu.menu_main);
+            getToolbar().setPopupTheme(R.style.MyPopupMenu);
+            getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                    if(getDataHelper().isClickable()){
-                        switch (menuItem.getItemId()){
+                    if (getDataHelper().isClickable()) {
+                        switch (menuItem.getItemId()) {
                             case R.id.menu_feedback:
                                 FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
                                 dialog.buildPrompt().show();
@@ -125,13 +130,30 @@ public class HomeFragment extends MitooFragment {
                                 BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
                                 break;
                             case R.id.menu_search:
-                                fireFragmentChangeAction(R.id.fragment_search , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
+                                fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
                                 break;
                         }
                     }
                     return false;
                 }
             });
+        }
+        return getToolbar();
+    }
+
+    @Override
+    public void tearDownReferences(){
+
+        super.tearDownReferences();
+    }
+
+    @Override
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        if (this.loading) {
+            getProgressLayout().showProgress();
+        } else {
+            getProgressLayout().showContent();
         }
     }
     
@@ -147,8 +169,7 @@ public class HomeFragment extends MitooFragment {
     }
     
     private void requestLeagueData(){
-        
-        setLoading(true);
+
         LeagueModelEnquireRequestEvent event = new LeagueModelEnquireRequestEvent(
                 getUserId(), MitooEnum.APIRequest.UPDATE);
         getLeagueModel().requestEnquiredLeagues(event);
@@ -159,15 +180,36 @@ public class HomeFragment extends MitooFragment {
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         setLoading(false);
-        updateEnquriedLeagueData();
-        if(getEnquiredLeagueData().size()!=0){
-            getLeagueDataAdapter().notifyDataSetChanged();
-            if(userHasUsedApp)
-                getLeagueList().removeFooterView(getListFooterView());
-        }
-        else
-            getNoResultsView().setVisibility(View.VISIBLE);
+        updateEnqureLeagueListView();
+        updateMyLeagueListView();
+        updateNoResultsView();
         saveUserAsSecondTimeUser();
+
+    }
+
+    private void updateEnqureLeagueListView(){
+
+        refreshEnquriedLeagueData();
+        if(!getUserHasUsedApp())
+            setUpListFooter(getEnquiredLeagueList(), R.layout.view_league_list_footer, getString(R.string.home_page_text_4));
+
+    }
+
+    private void updateMyLeagueListView() {
+
+        if (getMyLeagueData().size() == 0) {
+            setUpListFooter(getMyLeagueList(), R.layout.view_league_list_footer, getString(R.string.home_page_text_6));
+        } else {
+            getMyLeagueDataAdapter().notifyDataSetChanged();
+        }
+
+    }
+
+    private void updateNoResultsView() {
+
+        if(getEnquiredLeagueData().size()!=0){
+            getNoResultsView().setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -186,12 +228,14 @@ public class HomeFragment extends MitooFragment {
     }
     
 
-    public void updateEnquriedLeagueData(){
+    public void refreshEnquriedLeagueData(){
 
         if(getLeagueModel().getLeaguesEnquired()!=null){
             getDataHelper().clearList(getEnquiredLeagueData());
             getDataHelper().addToListList(getEnquiredLeagueData(), getLeagueModel().getLeaguesEnquired());
         }
+        getEnquiredLeagueDataAdapter().notifyDataSetChanged();
+
     }
 
     public List<League> getEnquiredLeagueData() {
@@ -201,28 +245,34 @@ public class HomeFragment extends MitooFragment {
         return enquiredLeagueData;
     }
 
-    private void setUpListView(View view){
+    private void setUpEnquiredListView(View view, String headerText){
 
-        setLeagueList((ListView) view.findViewById(R.id.leagueListView));
-        getLeagueList().setAdapter(getLeagueDataAdapter());
-        getLeagueList().setOnItemClickListener(getLeagueDataAdapter());
-        getLeagueList().addHeaderView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_text_view));
-        if(!getUserHasUsedApp()){
-            setListFooterView(getViewHelper().createViewFromInflator(R.layout.view_enquired_league_footer));
-            getLeagueList().addFooterView(getListFooterView());
-        }
+        setEnquiredLeagueList((ListView) view.findViewById(R.id.enquiredLeagueListView));
+        getEnquiredLeagueList().setAdapter(getEnquiredLeagueDataAdapter());
+        getEnquiredLeagueList().setOnItemClickListener(getEnquiredLeagueDataAdapter());
+        setUpListHeader(getEnquiredLeagueList() , R.layout.view_league_list_header, headerText);
 
     }
 
-    @Override
-    public void tearDownReferences(){
+    private void setUpMyLeagueListView(View view, String headerText){
 
-        super.tearDownReferences();
+        setMyLeagueList((ListView) view.findViewById(R.id.myleagueListView));
+        getMyLeagueList().setAdapter(getMyLeagueDataAdapter());
+        getMyLeagueList().setOnItemClickListener(getMyLeagueDataAdapter());
+        setUpListHeader(getMyLeagueList(), R.layout.view_league_list_header, headerText);
+
     }
 
-    @Override
-    protected void removeDynamicViews(){
-        super.removeDynamicViews();
+    private void setUpListHeader(ListView listView , int headerLayout , String headerText){
+
+        View holder = getViewHelper().createHeadFooterView(headerLayout, R.id.header_text, headerText);
+        listView.addHeaderView(holder);
+    }
+
+    private void setUpListFooter(ListView listView , int footerLayout , String footerText) {
+
+        View holder = getViewHelper().createHeadFooterView(footerLayout, R.id.header_text, footerText);
+        listView.addFooterView(holder);
     }
 
     private void setUpNoResultsTextView(View view){
@@ -231,10 +281,10 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    public LeagueAdapter getLeagueDataAdapter() {
-        if(leagueDataAdapter==null)
-            leagueDataAdapter = new LeagueAdapter(getActivity(), R.id.leagueListView, getEnquiredLeagueData(), this, false);
-        return leagueDataAdapter;
+    public LeagueAdapter getEnquiredLeagueDataAdapter() {
+        if(enquiredLeagueDataAdapter ==null)
+            enquiredLeagueDataAdapter = new LeagueAdapter(getActivity(), R.id.enquiredLeagueListView, getEnquiredLeagueData(), this, false);
+        return enquiredLeagueDataAdapter;
     }
 
     public boolean getUserHasUsedApp() {
@@ -256,24 +306,14 @@ public class HomeFragment extends MitooFragment {
         
     }
 
-    public ListView getLeagueList() {
-        return leagueList;
+    public ListView getEnquiredLeagueList() {
+        return enquiredLeagueList;
     }
 
-    public void setLeagueList(ListView leagueList) {
-        this.leagueList = leagueList;
+    public void setEnquiredLeagueList(ListView enquiredLeagueList) {
+        this.enquiredLeagueList = enquiredLeagueList;
     }
 
-
-    @Override
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-        if (this.loading) {
-            getProgressLayout().showProgress();
-        } else {
-            getProgressLayout().showContent();
-        }
-    }
 
     public TextView getNoResultsView() {
         return noResultsView;
@@ -283,11 +323,42 @@ public class HomeFragment extends MitooFragment {
         this.noResultsView = noResultsView;
     }
 
-    public View getListFooterView() {
-        return listFooterView;
+    public List<League> getMyLeagueData() {
+        if (myLeagueData == null) {
+            myLeagueData= new ArrayList<League>();
+        }
+        return myLeagueData;
     }
 
-    public void setListFooterView(View listFooterView) {
-        this.listFooterView = listFooterView;
+    public ListView getMyLeagueList() {
+        return myLeagueList;
     }
+
+    public void setMyLeagueList(ListView myLeagueList) {
+        this.myLeagueList = myLeagueList;
+    }
+
+    public LeagueAdapter getMyLeagueDataAdapter() {
+        if(myLeagueDataAdapter ==null)
+            myLeagueDataAdapter  = new LeagueAdapter(getActivity(), R.id.enquiredLeagueListView, getMyLeagueData(), this, false);
+        return myLeagueDataAdapter ;
+    }
+
+    private void setUpPopUpTask(){
+
+        if(!getUserHasUsedApp() && !getDataHelper().feedBackHasAppeared()){
+            getDataHelper().setConfirmFeedBackPopped(true);
+            Handler handler = getHandler();
+            setRunnable( new Runnable() {
+                @Override
+                public void run() {
+                    FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
+                    dialog.buildPrompt().show();
+                }
+            });
+            handler.postDelayed(getRunnable(), MitooConstants.feedBackPopUpTime);
+        }
+    }
+
+
 }

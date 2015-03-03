@@ -54,7 +54,6 @@ public class ConfirmFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpConfirmView(view, getSelectedLeague());
-        setUpPopUpTask();
     }
 
     @Override
@@ -81,18 +80,7 @@ public class ConfirmFragment extends MitooFragment {
         fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL);
         
     }
-    
-    @Override
-    protected void setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-        if(toolbar!=null){
-
-            toolbar.setTitle(getFragmentTitle());
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
-        }
-    }
 
     public League getSelectedLeague() {
         if(selectedLeague==null){
@@ -103,23 +91,6 @@ public class ConfirmFragment extends MitooFragment {
 
     public void setSelectedLeague(League selectedLeague) {
         this.selectedLeague = selectedLeague;
-    }
-
-    
-    private void setUpPopUpTask(){
-        
-        if(!getDataHelper().feedBackHasAppeared()){
-            getDataHelper().setConfirmFeedBackPopped(true);
-            Handler handler = getHandler();
-            setRunnable( new Runnable() {
-                @Override
-                public void run() {
-                    FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
-                    dialog.buildPrompt().show();
-                }
-            });
-            handler.postDelayed(getRunnable(), 5000);
-        }
     }
 
 }

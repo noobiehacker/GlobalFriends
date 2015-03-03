@@ -71,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gray_button_height"
                 android:layout_centerHorizontal="true"
+                android:inputType="textEmailAddress"
                 android:hint="@string/login_page_text3" />
 
             <include

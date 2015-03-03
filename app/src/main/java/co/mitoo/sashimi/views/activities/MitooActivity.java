@@ -461,8 +461,8 @@ public class MitooActivity extends Activity {
 
     private void handleCallBacks() {
         
-        if (getHandler() != null && getRunnable() != null) {
-            getHandler().removeCallbacks(getRunnable());
+        if (getHandler() != null ) {
+            getHandler().removeCallbacksAndMessages(null);
         }
 
     }

@@ -62,6 +62,7 @@ public class ViewHelper {
 
     private void setUpDynamicLeagueBackground(final View leagueItemHolder, League league) {
 
+
         ImageView leagueOverLayImageView = (ImageView) leagueItemHolder.findViewById(R.id.blackOverLay);
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
@@ -335,7 +336,7 @@ public class ViewHelper {
 
     private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<League> leagues){
 
-        int indexToStop= 5;
+        int indexToStop= leagues.size();
 
         if(leagues.size()>indexToStop){
 
@@ -343,6 +344,7 @@ public class ViewHelper {
             fragment.setRunnable(createRecursiveLoadList(fragment, leagueLayout, holder, leagueToLoadLater));
             setRunnable(fragment.getRunnable());
             leagues = leagues.subList(0,indexToStop);
+            getHandler().post(getRunnable());
 
         }
 
@@ -586,6 +588,13 @@ public class ViewHelper {
         LayoutInflater inflater =  getActivity().getLayoutInflater();
         RelativeLayout enquiredText = (RelativeLayout)inflater.inflate(layoutID, null);
         return enquiredText;
+    }
+
+    public View createHeadFooterView(int layoutID, int textViewID, String text){
+        View holder = createViewFromInflator(layoutID);
+        TextView headerTextView = (TextView)holder.findViewById(R.id.header_text);
+        headerTextView.setText(text);
+        return holder;
     }
 
 

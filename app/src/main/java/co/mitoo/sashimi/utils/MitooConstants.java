@@ -24,4 +24,6 @@ public final class MitooConstants {
     public static int maxPasswordLength = 100;
     
     public static int requiredPhoneDigits =10;
+
+    public static int feedBackPopUpTime =8000;
 }
