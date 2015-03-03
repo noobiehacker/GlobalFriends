@@ -582,6 +582,7 @@ public class ViewHelper {
         params.addRule(RelativeLayout.CENTER_VERTICAL);
         return params;
 
+
     }
     
     public View createViewFromInflator(int layoutID){
@@ -592,7 +593,7 @@ public class ViewHelper {
 
     public View createHeadFooterView(int layoutID, int textViewID, String text){
         View holder = createViewFromInflator(layoutID);
-        TextView headerTextView = (TextView)holder.findViewById(R.id.header_text);
+        TextView headerTextView = (TextView)holder.findViewById(textViewID);
         headerTextView.setText(text);
         return holder;
     }

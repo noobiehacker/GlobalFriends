@@ -109,7 +109,7 @@ public class HomeFragment extends MitooFragment {
     @Override
     protected Toolbar setUpToolBar(View view) {
 
-        setToolbar(super.setUpToolBar(view));
+        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
         if(getToolbar()!=null){
 
             getToolbar().setLogo(R.drawable.header_mitoo_logo);
@@ -207,7 +207,7 @@ public class HomeFragment extends MitooFragment {
 
     private void updateNoResultsView() {
 
-        if(getEnquiredLeagueData().size()!=0){
+        if(getEnquiredLeagueData().size()==0){
             getNoResultsView().setVisibility(View.VISIBLE);
         }
 
@@ -265,13 +265,13 @@ public class HomeFragment extends MitooFragment {
 
     private void setUpListHeader(ListView listView , int headerLayout , String headerText){
 
-        View holder = getViewHelper().createHeadFooterView(headerLayout, R.id.header_text, headerText);
+        View holder = getViewHelper().createHeadFooterView(headerLayout, R.id.header_view, headerText);
         listView.addHeaderView(holder);
     }
 
     private void setUpListFooter(ListView listView , int footerLayout , String footerText) {
 
-        View holder = getViewHelper().createHeadFooterView(footerLayout, R.id.header_text, footerText);
+        View holder = getViewHelper().createHeadFooterView(footerLayout, R.id.footer_view, footerText);
         listView.addFooterView(holder);
     }
 

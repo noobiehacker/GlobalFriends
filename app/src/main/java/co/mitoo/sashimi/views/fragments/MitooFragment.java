@@ -381,12 +381,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             getToolbar().setNavigationIcon(R.drawable.header_back_icon);
             getToolbar().setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
             getToolbar().setTitleTextColor(getResources().getColor(R.color.white));
-            getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MitooFragment.this.getMitooActivity().onBackPressed();
-                }
-            });
+            setUpBackButtonClickListner();
 
         }
         return toolbar;
@@ -604,6 +599,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;
+    }
+
+    protected void setUpBackButtonClickListner(){
+        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MitooFragment.this.getMitooActivity().onBackPressed();
+            }
+        });
     }
 }
 

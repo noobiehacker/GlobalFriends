@@ -84,6 +84,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             getToolbar().setTitle("");
             getToolbar().addView(createSearchView());
             getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+            setUpBackButtonClickListner();
 
         }
         return getToolbar();

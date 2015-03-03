@@ -141,6 +141,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
             getToolbar().setTitle("");
             getToolbar().addView(createClickableTitleView());
             getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+            setUpBackButtonClickListner();
         }
         return getToolbar();
     }

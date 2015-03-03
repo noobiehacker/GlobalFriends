@@ -5,17 +5,15 @@
     android:paddingTop="@dimen/home_page_contacted_container_top_padding"
     android:paddingBottom="@dimen/home_page_contacted_container_bottom_padding"
     android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true"
     >
 
     <TextView
-        android:id="@+id/footer_text"
+        android:id="@+id/footer_view"
         style="@style/youHaveEnquiredText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/home_page_contacted_text_top_padding"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:minLines="1"
         android:text="@string/home_page_text_4" />
 
