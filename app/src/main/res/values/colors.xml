@@ -20,6 +20,7 @@
     <color name="black">#121212</color>
     <color name="transparent">#337b7b7b</color>
     <color name="transparent_black">#4D000000</color>
+    <color name="transparent_white">#99FFFFFF</color>
     <color name="over_lay_black">#4D000000</color>
 
     <!-- basic colors -->

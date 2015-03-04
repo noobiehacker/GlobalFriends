@@ -16,10 +16,17 @@
 
     <!--Landing Page-->
     <string name="landing_page_slider_text1">Search for your local sports\nleagues</string>
-    <string name="landing_page_slider_text4">Join a sports league that\nsuits you</string>
-    <string name="landing_page_slider_text7">Stay fit and have fun in your\nnew league</string>
-    <string name="landing_page_text10">FIND A SPORTS LEAGUE NEAR ME</string>
-    <string name="landing_page_text11">Already have an account? Login</string>
+    <string name="landing_page_slider_text2">Join a sports league that\nsuits you</string>
+    <string name="landing_page_slider_text3">Stay fit and have fun in your\nnew league</string>
+    <string name="landing_page_text1">FIND A SPORTS LEAGUE NEAR ME</string>
+    <string name="landing_page_text2">Already have an account? Login</string>
+
+
+    <string name="landing_page_terms_text_1">By using Mitoo, you agree to</string>
+    <string name="landing_page_terms_text_2">"our "</string>
+    <string name="landing_page_terms_text_3">"<u>Terms</u>"</string>
+    <string name="landing_page_terms_text_4">" and "</string>
+    <string name="landing_page_terms_text_5">"<u>Privacy Policy</u>"</string>
 
     <!--Login Page-->
     <string name="login_page_title">Login</string>
@@ -283,6 +290,7 @@
     <string name="bundle_key_league_object_id">bundle_ley_league_object_id</string>
     <string name="bundle_key_prompt">bundle_key_prompt</string>
     <string name="bundle_key_first_time">bundle_key_boolean</string>
+    <string name="bundle_key_from_confirm">bundle_key_from_confirm</string>
     <string name="bundle_value_true">bundle_value_true</string>
     <string name="bundle_value_false">bundle_value_false</string>
 

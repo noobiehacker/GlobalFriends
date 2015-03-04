@@ -54,7 +54,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     private void setUpLeagueText(View view, League league){
         TextView leagueNameText = (TextView) view.findViewById(R.id.leagueTitleText);
         TextView leagueDateText = (TextView) view.findViewById(R.id.leagueDateText);
-        leagueNameText.setText(league.getShortenName());
+        leagueNameText.setText(league.getName());
         String date = league.getCreated_at();
         leagueDateText.setText(getContext().getResources().getString(R.string.home_page_enquired_date_prefix) + " " +  getLeagueFormatedDate(date));
     }

@@ -5,6 +5,13 @@
     android:background="@color/white"
     android:orientation="horizontal">
 
+    <View
+        android:id="@+id/bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/gray_light_two"></View>
+
     <RelativeLayout
         android:id="@+id/icon_container"
         android:layout_width="wrap_content"
@@ -48,6 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="@dimen/enquired_list_text_middle_margin"
+            android:paddingRight="@dimen/enquired_list_text_right_padding"
             android:maxLines="1"
             android:text="@string/place_holder_sport" />
 

@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.*;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -9,7 +8,10 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.widgets.MultiTextSliderView;
 
 /**
@@ -69,6 +71,22 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         fireFragmentChangeAction(R.id.fragment_login);
     }
 
+    private void termsAction(){
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.termsSpinnerNumber));
+        fireFragmentChangeAction(R.id.fragment_about_mitoo , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL, bundle);
+
+    }
+
+    private void privacyAction(){
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.privacySpinnerNumber));
+        fireFragmentChangeAction(R.id.fragment_about_mitoo , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL, bundle);
+
+    }
+
     @Override
     protected void initializeFields(){
         super.initializeFields();
@@ -96,8 +114,12 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     @Override
     protected void initializeOnClickListeners(View view){
+
         view.findViewById(R.id.signupButton).setOnClickListener(this);
         view.findViewById(R.id.searchButton).setOnClickListener(this);
+        view.findViewById(R.id.termsTextView).setOnClickListener(this);
+        view.findViewById(R.id.privacyTextView).setOnClickListener(this);
+
     }
 
     @Override
@@ -109,6 +131,12 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
                     break;
                 case R.id.searchButton:
                     searchButtonAction();
+                    break;
+                case R.id.termsTextView:
+                    termsAction();
+                    break;
+                case R.id.privacyTextView:
+                    privacyAction();
                     break;
             }
         }
@@ -135,8 +163,8 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     private List<sliderContent> createSliderContents() {
         List<sliderContent> contents = new ArrayList<sliderContent>();
         contents.add(new sliderContent(R.drawable.bg1, R.drawable.home_1_assets, R.string.landing_page_slider_text1)); 
-        contents.add(new sliderContent(R.drawable.bg2, R.drawable.home_2_assets, R.string.landing_page_slider_text4)); 
-        contents.add(new sliderContent(R.drawable.bg3, R.drawable.home_3_assets, R.string.landing_page_slider_text7));
+        contents.add(new sliderContent(R.drawable.bg2, R.drawable.home_2_assets, R.string.landing_page_slider_text2));
+        contents.add(new sliderContent(R.drawable.bg3, R.drawable.home_3_assets, R.string.landing_page_slider_text3));
         return contents;
     }
 

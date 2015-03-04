@@ -52,6 +52,14 @@ public class FragmentChangeEvent extends EventObject{
         this.animation = animation;
     }
 
+    public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition , int fragmentId , MitooEnum.FragmentAnimation animation , Bundle bundle) {
+        super(source);
+        this.transition = transition;
+        this.fragmentId= fragmentId;
+        this.animation = animation;
+        this.bundle = bundle;
+    }
+
     public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition,int fragmentId,  Bundle bundle) {
         super(source);
         this.fragmentId = fragmentId;

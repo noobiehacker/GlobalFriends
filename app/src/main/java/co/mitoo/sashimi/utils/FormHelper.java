@@ -39,7 +39,8 @@ public class FormHelper {
 
     public boolean validPhone(String input) {
         boolean result = false;
-        result = stringLengthBetween(input
+        String numericOnlyInput = reduceToNumeric(input);
+        result = stringLengthBetween(numericOnlyInput
                 ,MitooConstants.minPhoneLength,MitooConstants.maxPhoneLength)
                 && hasNumOfDigits(input, MitooConstants.requiredPhoneDigits);
         return result;
@@ -79,7 +80,6 @@ public class FormHelper {
         return input.length() >= lowerEnd && input.length() <= higherEnd;
 
     }
-
 
     public boolean passwordTooShort(String input){
 
@@ -184,6 +184,21 @@ public class FormHelper {
     private void displayText(String text){
         
         getFragment().displayText(text);
+    }
+
+    private String reduceToNumeric(String input){
+
+        String result = input;
+        if(input!=null){
+            StringBuilder sb = new StringBuilder();
+            for(char c : input.toCharArray()){
+                if(c>='0' && c <= '9')
+                    sb.append(c);
+            }
+            result = sb.toString();
+
+        }
+        return result;
     }
 
     public MitooFragment getFragment() {

@@ -56,8 +56,8 @@ public class MitooActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        startApp();
         initializeFields();
+        startApp();
         setContentView(R.layout.activity_mitoo);
         setUpPersistenceData();
 
@@ -165,8 +165,6 @@ public class MitooActivity extends Activity {
     private void pushFragment(FragmentChangeEvent event){
 
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
-        if(event.getBundle()!=null)
-            fragment.setArguments(event.getBundle());
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         setFragmentAnimation(ft, event.getAnimation());
         ft.addToBackStack(String.valueOf(event.getFragmentId()));
@@ -328,7 +326,12 @@ public class MitooActivity extends Activity {
     public void startApp(){
 
         setFragmentStack(new Stack<MitooFragment>());
-        swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_splash));
+
+        FragmentChangeEvent event =
+                new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
+                        R.id.fragment_splash , MitooEnum.FragmentAnimation.NONE);
+
+        BusProvider.post(event);
     }
 
     @Subscribe
@@ -337,7 +340,13 @@ public class MitooActivity extends Activity {
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
         popAllFragments();
-        swapFragment(new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE, R.id.fragment_landing , MitooEnum.FragmentAnimation.HORIZONTAL));
+
+        FragmentChangeEvent fragmentChangeEvent =
+                new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
+                        R.id.fragment_landing , MitooEnum.FragmentAnimation.HORIZONTAL);
+
+        BusProvider.post(fragmentChangeEvent );
+
     }
 
     public void contactMitoo(){

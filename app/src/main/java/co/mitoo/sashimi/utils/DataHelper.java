@@ -245,7 +245,28 @@ public class DataHelper {
 
         String joinPagePrefix = getActivity().getString(R.string.join_page_info_prefix);
         String joinPageSuffix = getActivity().getString(R.string.join_page_info_suffix);
-        return joinPagePrefix + " " + leagueName + " " + joinPageSuffix;
+        return joinPagePrefix + "\n" + leagueName + " " + joinPageSuffix;
+
+   }
+
+   public boolean isBundleArgumentTrue(Object argument) {
+
+       if (argument != null) {
+           String stringArgument = argument.toString();
+           if (stringArgument.equals(getActivity().getString(R.string.bundle_value_true)))
+               return true;
+       }
+       return false;
+   }
+
+   public int getTextViewIDFromLayout(int layout) {
+
+       int result = MitooConstants.invalidConstant;
+       if (layout == R.layout.view_league_list_header)
+           result = R.id.header_view;
+       else if (layout == R.layout.view_league_list_footer)
+           result = R.id.footer_view;
+       return result;
 
    }
         

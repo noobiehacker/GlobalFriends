@@ -89,6 +89,7 @@ public class ViewHelper {
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
             getPicasso().with(getActivity())
                     .load(getCoverTall(league))
+                    .placeholder(R.color.over_lay_black)
                     .fit()
                     .centerCrop()
                     .into(leagueBackgroundImageView);
@@ -581,7 +582,6 @@ public class ViewHelper {
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_VERTICAL);
         return params;
-
 
     }
     

@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 
 import co.mitoo.sashimi.models.location;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.views.MitooImageTarget;
 
 /**
@@ -252,8 +253,8 @@ public class League implements Serializable {
     public String getShortenName(){
         
         String leagueName = getName();
-        if(leagueName.length()>30){
-            leagueName = leagueName.substring(0,30) + "...";
+        if(leagueName.length()> MitooConstants.maxLeagueCharacterName){
+            leagueName = leagueName.substring(0,MitooConstants.maxLeagueCharacterName) + "...";
         }
         return leagueName;
     }

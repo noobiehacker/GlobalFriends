@@ -207,6 +207,12 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         postFragmentChangeEvent(event);
     }
 
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation ,Bundle bundle){
+
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation , bundle);
+        postFragmentChangeEvent(event);
+    }
+
 
     public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentAnimation animation) {
 
@@ -608,6 +614,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 MitooFragment.this.getMitooActivity().onBackPressed();
             }
         });
+    }
+
+    protected Object getBundleArgumentFromKey(String key){
+
+        Object results = null;
+        Bundle arguments = getArguments();
+        if(arguments!=null){
+            results = arguments.get(key);
+        }
+        return results;
+
     }
 }
 

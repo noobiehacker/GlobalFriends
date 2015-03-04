@@ -7,7 +7,7 @@
     <dimen name="font_biggish">17sp</dimen>
     <dimen name="font_bigger">16sp</dimen>
     <dimen name="font_big">15sp</dimen>
-    <dimen name="font_normal">13sp</dimen>
+    <dimen name="font_normal">12sp</dimen>
     <dimen name="font_small">12sp</dimen>
     <dimen name="font_smaller">7sp</dimen>
 
@@ -51,6 +51,7 @@
     <dimen name="list_view_height">100dp</dimen>
     <dimen name="list_view_league_image_height">100dp</dimen>
     <dimen name="list_divider_height">1dp</dimen>
+
     <!-- stock android values -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

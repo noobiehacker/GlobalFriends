@@ -142,12 +142,23 @@
 
     <!-- Sign Up  Page -->
 
-
     <style name="signUpStaticText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
         <item name="fontPath">@string/DIN_RegularItalic</item>
+    </style>
 
+    <!-- Landing  Page -->
+    <style name="landingTermsPrivacyGrayText">
+        <item name="android:textColor">@color/transparent_white</item>
+        <item name="android:textSize">11sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+    </style>
+
+    <style name="landingTermsPrivacyWhiteText">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">11sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
     </style>
 
 </resources>

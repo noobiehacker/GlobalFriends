@@ -34,13 +34,11 @@ public class HomeFragment extends MitooFragment {
     private List<League> enquiredLeagueData;
     private ListView enquiredLeagueList;
     private LeagueAdapter enquiredLeagueDataAdapter;
-
-    private List<League> myLeagueData;
-    private ListView myLeagueList;
-    private LeagueAdapter myLeagueDataAdapter;
+    private View enquiredListFooter;
 
     private TextView noResultsView ;
     private boolean userHasUsedApp;
+    private boolean registerFlow;
 
     @Override
     public void onClick(View v) {
@@ -74,10 +72,10 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeFields();
         setUpUserHasUsedAppBoolean();
+        setUpRegisterFlowBoolean();
         refreshEnquriedLeagueData();
         setUpPopUpTask();
     }
-
 
     @Override
     protected void initializeViews(View view){
@@ -85,8 +83,8 @@ public class HomeFragment extends MitooFragment {
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpEnquiredListView(view, getString(R.string.home_page_text_1));
-        setUpMyLeagueListView(view, getString(R.string.home_page_text_5));
         setUpNoResultsTextView(view);
+        updateListViews();
         if(getLeagueModel().getLeaguesEnquired().size()==0)
             setLoading(true);
     }
@@ -180,11 +178,15 @@ public class HomeFragment extends MitooFragment {
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
         setLoading(false);
-        updateEnqureLeagueListView();
-        updateMyLeagueListView();
+        updateListViews();
         updateNoResultsView();
         saveUserAsSecondTimeUser();
 
+    }
+
+    private void updateListViews(){
+
+        updateEnqureLeagueListView();
     }
 
     private void updateEnqureLeagueListView(){
@@ -192,16 +194,6 @@ public class HomeFragment extends MitooFragment {
         refreshEnquriedLeagueData();
         if(!getUserHasUsedApp())
             setUpListFooter(getEnquiredLeagueList(), R.layout.view_league_list_footer, getString(R.string.home_page_text_4));
-
-    }
-
-    private void updateMyLeagueListView() {
-
-        if (getMyLeagueData().size() == 0) {
-            setUpListFooter(getMyLeagueList(), R.layout.view_league_list_footer, getString(R.string.home_page_text_6));
-        } else {
-            getMyLeagueDataAdapter().notifyDataSetChanged();
-        }
 
     }
 
@@ -226,7 +218,6 @@ public class HomeFragment extends MitooFragment {
         getProgressLayout().showErrorText("");
         super.handleAndDisplayError(error);
     }
-    
 
     public void refreshEnquriedLeagueData(){
 
@@ -250,29 +241,29 @@ public class HomeFragment extends MitooFragment {
         setEnquiredLeagueList((ListView) view.findViewById(R.id.enquiredLeagueListView));
         getEnquiredLeagueList().setAdapter(getEnquiredLeagueDataAdapter());
         getEnquiredLeagueList().setOnItemClickListener(getEnquiredLeagueDataAdapter());
-        setUpListHeader(getEnquiredLeagueList() , R.layout.view_league_list_header, headerText);
+        int headerLayoutID =  R.layout.view_league_list_header;
+        int footerLayoutID =  R.layout.view_league_list_footer;
+        setUpListHeader(getEnquiredLeagueList(), headerLayoutID, getString(R.string.home_page_text_5));
+        setUpListHeader(getEnquiredLeagueList(), footerLayoutID, getString(R.string.home_page_text_6));
+        setUpListHeader(getEnquiredLeagueList() , headerLayoutID , getString(R.string.home_page_text_1));
 
     }
 
-    private void setUpMyLeagueListView(View view, String headerText){
+    private void setUpListHeader(ListView listView , int layoutID , String headerText){
 
-        setMyLeagueList((ListView) view.findViewById(R.id.myleagueListView));
-        getMyLeagueList().setAdapter(getMyLeagueDataAdapter());
-        getMyLeagueList().setOnItemClickListener(getMyLeagueDataAdapter());
-        setUpListHeader(getMyLeagueList(), R.layout.view_league_list_header, headerText);
-
-    }
-
-    private void setUpListHeader(ListView listView , int headerLayout , String headerText){
-
-        View holder = getViewHelper().createHeadFooterView(headerLayout, R.id.header_view, headerText);
+        int textViewID = getDataHelper().getTextViewIDFromLayout(layoutID);
+        View holder = getViewHelper().createHeadFooterView(layoutID, textViewID, headerText);
         listView.addHeaderView(holder);
     }
 
     private void setUpListFooter(ListView listView , int footerLayout , String footerText) {
 
-        View holder = getViewHelper().createHeadFooterView(footerLayout, R.id.footer_view, footerText);
-        listView.addFooterView(holder);
+        if(listView.getFooterViewsCount() ==0 ){
+            View holder = getViewHelper().createHeadFooterView(footerLayout, R.id.footer_view, footerText);
+            listView.addFooterView(holder);
+            setFooterForListView(listView, holder);
+        }
+
     }
 
     private void setUpNoResultsTextView(View view){
@@ -303,7 +294,7 @@ public class HomeFragment extends MitooFragment {
     public void saveUserAsSecondTimeUser(){
         
         getAppSettingsModel().saveUsedAppBoolean();
-        
+        setUpUserHasUsedAppBoolean();
     }
 
     public ListView getEnquiredLeagueList() {
@@ -323,30 +314,9 @@ public class HomeFragment extends MitooFragment {
         this.noResultsView = noResultsView;
     }
 
-    public List<League> getMyLeagueData() {
-        if (myLeagueData == null) {
-            myLeagueData= new ArrayList<League>();
-        }
-        return myLeagueData;
-    }
-
-    public ListView getMyLeagueList() {
-        return myLeagueList;
-    }
-
-    public void setMyLeagueList(ListView myLeagueList) {
-        this.myLeagueList = myLeagueList;
-    }
-
-    public LeagueAdapter getMyLeagueDataAdapter() {
-        if(myLeagueDataAdapter ==null)
-            myLeagueDataAdapter  = new LeagueAdapter(getActivity(), R.id.enquiredLeagueListView, getMyLeagueData(), this, false);
-        return myLeagueDataAdapter ;
-    }
-
     private void setUpPopUpTask(){
 
-        if(!getUserHasUsedApp() && !getDataHelper().feedBackHasAppeared()){
+        if(isRegisterFlow() && !getDataHelper().feedBackHasAppeared()){
             getDataHelper().setConfirmFeedBackPopped(true);
             Handler handler = getHandler();
             setRunnable( new Runnable() {
@@ -360,5 +330,45 @@ public class HomeFragment extends MitooFragment {
         }
     }
 
+    public boolean isRegisterFlow() {
+        return registerFlow;
+    }
+
+    public void setRegisterFlow(boolean registerFlow) {
+        this.registerFlow = registerFlow;
+    }
+
+    private void setUpRegisterFlowBoolean(){
+
+        Object bundleArg = getBundleArgumentFromKey(getString(R.string.bundle_key_from_confirm));
+        if(getDataHelper().isBundleArgumentTrue(bundleArg)){
+            setRegisterFlow(true);
+        }else{
+            setRegisterFlow(false);
+        }
+
+    }
+
+    public View getEnquiredListFooter() {
+        return enquiredListFooter;
+    }
+
+    public void setEnquiredListFooter(View enquiredListFooter) {
+        this.enquiredListFooter = enquiredListFooter;
+    }
+
+    private View getFooterForListView(ListView listView){
+
+        View result = null;
+        if(listView == getEnquiredLeagueList())
+            result = getEnquiredListFooter();
+        return result;
+    }
+
+    private void setFooterForListView(ListView listView , View footer){
+
+        if(listView == getEnquiredLeagueList())
+            setEnquiredListFooter(footer);
+    }
 
 }

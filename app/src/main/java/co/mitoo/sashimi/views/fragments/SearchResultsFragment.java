@@ -30,11 +30,19 @@ public class SearchResultsFragment extends MitooFragment {
     private List<League> leagueData;
     private String searchText;
     private TextView noResultsView ;
-
+    private boolean searchFlowComplete;
 
     public static SearchResultsFragment newInstance() {
 
         return new SearchResultsFragment();
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setSearchFlowComplete(false);
+
     }
 
     @Override
@@ -65,8 +73,14 @@ public class SearchResultsFragment extends MitooFragment {
 
     @Override
     public void onResume() {
+
         super.onResume();
-        getLocationModel().requestSelectedLocationLatLng();
+        if(searchFlowHasCopmleted()==false){
+            setLoading(true);
+            getLocationModel().requestSelectedLocationLatLng();
+        }else{
+            updateViews();
+        }
 
     }
 
@@ -85,6 +99,7 @@ public class SearchResultsFragment extends MitooFragment {
 
         updateLeagueDataResult();
         updateViews();
+        setSearchFlowComplete(true);
     }
     
     @Override
@@ -94,7 +109,6 @@ public class SearchResultsFragment extends MitooFragment {
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpListView(view);
         setUpNoResultsTextView(view);
-        setLoading(true);
 
     }
 
@@ -210,5 +224,13 @@ public class SearchResultsFragment extends MitooFragment {
 
         setNoResultsView((TextView)view.findViewById(R.id.noResultsTextView));
 
+    }
+
+    public boolean searchFlowHasCopmleted() {
+        return searchFlowComplete;
+    }
+
+    public void setSearchFlowComplete(boolean searchFlowComplete) {
+        this.searchFlowComplete = searchFlowComplete;
     }
 }

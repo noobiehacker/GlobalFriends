@@ -37,10 +37,14 @@ public class MitooEnum {
     }
 
     public enum FragmentAnimation {
-        HORIZONTAL, VERTICAL , DOWNLEFT
+        HORIZONTAL, VERTICAL , DOWNLEFT ,NONE
     }
 
     public enum APIRequest {
         REQUEST, UPDATE
+    }
+
+    public enum SteakEnvironment {
+        PRODUCTION, STAGING ,APIARY
     }
 }

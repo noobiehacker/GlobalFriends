@@ -26,13 +26,7 @@
 
 
     //Bottom
-    <com.daimajia.slider.library.Indicators.PagerIndicator
-        android:id="@+id/custom_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonContainer"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="@dimen/spacing_large" />
+
 
     <RelativeLayout
         android:id="@+id/buttonContainer"
@@ -49,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/gray_button_height"
             android:layout_centerHorizontal="true"
-            android:text="@string/landing_page_text10" />
+            android:text="@string/landing_page_text1" />
 
         <Button
             android:id="@+id/signupButton"
@@ -58,10 +52,25 @@
             android:layout_height="@dimen/gray_button_height"
             android:layout_below="@id/searchButton"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/spacing_smaller"
-            android:text="@string/landing_page_text11" />
+            android:text="@string/landing_page_text2" />
+
+            <include
+                android:id="@+id/termsPrivacyView"
+                layout="@layout/view_terms_privacy"
+                android:layout_below="@id/signupButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
+
+    <com.daimajia.slider.library.Indicators.PagerIndicator
+        android:id="@+id/custom_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonContainer"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="@dimen/landing_page_indicator_bottom_paddng" />
 
 
 </RelativeLayout>
