@@ -14,6 +14,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.PredictionWrapper;
@@ -269,7 +270,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
                 getSearchView().setIconified(false);
             }
         });
-        getHandler().postDelayed(getRunnable(), 250);
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationShort);
 
     }
 }

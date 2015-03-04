@@ -304,7 +304,7 @@ public class MitooActivity extends Activity {
 
     private void setUpPersistenceData(){
 
-        if(MitooConstants.persistenceStorage){
+        if(MitooConstants.getPersistenceStorage()){
             getModelManager().readAllPersistedData();
         }else{
             getModelManager().deleteAllPersistedData();

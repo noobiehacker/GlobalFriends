@@ -42,9 +42,8 @@ public abstract class MitooModel
     }
 
     public boolean isPersistanceStorage() {
-        return MitooConstants.persistenceStorage;
+        return MitooConstants.getPersistenceStorage();
     }
-
 
     public MitooActivity getActivity() {
         return activity;
@@ -73,7 +72,9 @@ public abstract class MitooModel
 
             @Override
             public void onError(Throwable e) {
+
                 String temp = e.toString();
+
             }
 
             @Override

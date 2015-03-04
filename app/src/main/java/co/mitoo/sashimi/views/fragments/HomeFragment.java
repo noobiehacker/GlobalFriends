@@ -201,6 +201,7 @@ public class HomeFragment extends MitooFragment {
 
         if(getEnquiredLeagueData().size()==0){
             getNoResultsView().setVisibility(View.VISIBLE);
+            getEnquiredLeagueList().setVisibility(View.INVISIBLE);
         }
 
     }

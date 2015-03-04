@@ -269,5 +269,22 @@ public class DataHelper {
        return result;
 
    }
+
+   public String getAlgoliaIndex(){
+
+       String result = "";
+
+       switch(MitooConstants.steakEnvironment){
+           case PRODUCTION:
+               result = getActivity().getString(R.string.algolia_production_index);
+               break;
+           default:
+               result = getActivity().getString(R.string.algolia_staging_index);
+            break;
+       }
+
+       return result;
+
+   }
         
 }

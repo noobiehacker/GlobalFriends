@@ -7,7 +7,6 @@ public final class MitooConstants {
     
     public static final int invalidConstant = -1;
     public static final int searchRadius = 40233;
-    public static boolean persistenceStorage = true;
     public static final int faqOption = 1437;
 
     //Field min and max length
@@ -30,5 +29,17 @@ public final class MitooConstants {
     public static int termsSpinnerNumber =0;
     public static int privacySpinnerNumber =1;
 
-    public static MitooEnum.SteakEnvironment steakEnvironment = MitooEnum.SteakEnvironment.STAGING;
+    public static int durationShort =250;
+    public static int durationMedium =500;
+    public static int durationLong =750;
+    public static int durationExtraLong =1000;
+
+    public static MitooEnum.SteakEnvironment steakEnvironment = MitooEnum.SteakEnvironment.PRODUCTION;
+
+    public static boolean getPersistenceStorage() {
+        if (steakEnvironment == MitooEnum.SteakEnvironment.STAGING)
+            return false;
+        return true;
+    }
+
 }

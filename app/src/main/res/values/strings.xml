@@ -281,6 +281,7 @@
 
     <string name="App_Id_algolia">1ESI9QYTPJ</string>
     <string name="algolia_staging_index">steak-league-staging</string>
+    <string name="algolia_production_index">steak-league-production</string>
     <string name="algolia_proto_index">proto_league_search</string>
     <string name="algolia_result_param">hits</string>
 

@@ -58,6 +58,7 @@ public class AboutMitooFragment extends MitooFragment {
     private void setUpWebView(View view) {
 
         WebView webView =(WebView) view.findViewById(R.id.terms_web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(createWebViewClient());
         switch (getAboutMitooOptions()) {
             case TERMS:

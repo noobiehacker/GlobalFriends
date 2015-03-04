@@ -52,7 +52,7 @@ public class LeagueModel extends MitooModel{
     private void setUpAlgolia(){
 
         algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
-        index = algoliaClient.initIndex(getActivity().getString(R.string.algolia_staging_index));
+        setIndex(algoliaClient.initIndex(getActivity().getDataHelper().getAlgoliaIndex()));
         aiListener = new AlgoliaIndexListener();
 
     }
@@ -66,7 +66,7 @@ public class LeagueModel extends MitooModel{
 
         }
         setRequestingAlgolia(true);
-        index.searchASync(algoliaQuery, this.aiListener);
+        getIndex().searchASync(algoliaQuery, this.aiListener);
         
     }
 
@@ -271,5 +271,12 @@ public class LeagueModel extends MitooModel{
         
     }
 
+    public Index getIndex() {
+        return index;
+    }
+
+    public void setIndex(Index index) {
+        this.index = index;
+    }
 }
 

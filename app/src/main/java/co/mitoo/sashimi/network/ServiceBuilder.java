@@ -113,7 +113,7 @@ public class ServiceBuilder {
 
         switch (MitooConstants.steakEnvironment) {
             case PRODUCTION:
-                this.setEndPoint(StaticString.steakStagingEndPoint);
+                this.setEndPoint(StaticString.steakProductionEndPoint);
                 break;
             case STAGING:
                 this.setEndPoint(StaticString.steakStagingEndPoint);

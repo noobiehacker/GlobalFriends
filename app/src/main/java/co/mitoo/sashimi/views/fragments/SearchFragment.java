@@ -16,6 +16,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
@@ -349,7 +350,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 getSearchView().setIconified(false);
             }
         });
-        getHandler().postDelayed(getRunnable(), 500);
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
         
     }
 }
