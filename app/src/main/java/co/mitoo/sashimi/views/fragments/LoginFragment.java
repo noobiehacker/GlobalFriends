@@ -123,7 +123,7 @@ public class LoginFragment extends MitooFragment {
     public void onLoginResponse(SessionModelResponseEvent event) {
 
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
         setLoading(false);
     }
 
