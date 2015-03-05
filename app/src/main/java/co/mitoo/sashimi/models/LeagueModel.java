@@ -187,7 +187,6 @@ public class LeagueModel extends MitooModel{
             this.leagueEnquired = new ArrayList<League>();
         }
         DataHelper helper = getActivity().getDataHelper();
-        helper.clearList(getLeaguesEnquired());
         for (League item : newleaguesEnquired) {
             this.leagueEnquired.add(item);
         }

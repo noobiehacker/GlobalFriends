@@ -8,6 +8,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,7 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-
+import android.content.ActivityNotFoundException;
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
@@ -110,7 +111,7 @@ public class MitooActivity extends Activity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    private void initializeFields(){
+    private void initializeFields() {
         initializeStatusBarColor();
         setModelManager(new ModelManager(this));
         setUpNewRelic();
@@ -118,8 +119,8 @@ public class MitooActivity extends Activity {
         setLocationManager(new MitooLocationManager(this));
         BusProvider.register(this);
     }
-    
-    private void setUpInitialCalligraphy(){
+
+    private void setUpInitialCalligraphy() {
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath(getString(R.string.DIN_Regular))
@@ -131,7 +132,7 @@ public class MitooActivity extends Activity {
     @Subscribe
     public void onFragmentChange(final FragmentChangeEvent event) {
 
-        if(fragmentIsRoot(event.getFragmentId()))
+        if (fragmentIsRoot(event.getFragmentId()))
             popAllFragments();
         hideSoftKeyboard();
         switch (event.getTransition()) {
@@ -149,7 +150,7 @@ public class MitooActivity extends Activity {
     }
 
     @Subscribe
-    public void startIntent(Intent intent){
+    public void startIntent(Intent intent) {
         startActivity(intent);
     }
 
@@ -159,12 +160,12 @@ public class MitooActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
-    public boolean LocationServicesIsOn(){
+    public boolean LocationServicesIsOn() {
         return getLocationManager().LocationServicesIsOn();
     }
 
 
-    private void pushFragment(FragmentChangeEvent event){
+    private void pushFragment(FragmentChangeEvent event) {
 
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -176,7 +177,7 @@ public class MitooActivity extends Activity {
 
     }
 
-    private void swapFragment(FragmentChangeEvent event){
+    private void swapFragment(FragmentChangeEvent event) {
 
         MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -187,34 +188,34 @@ public class MitooActivity extends Activity {
 
     }
 
-    private void setFragmentAnimation(FragmentTransaction transction , MitooEnum.FragmentAnimation animation){
-        
-        if(animation == MitooEnum.FragmentAnimation.HORIZONTAL)
+    private void setFragmentAnimation(FragmentTransaction transction, MitooEnum.FragmentAnimation animation) {
+
+        if (animation == MitooEnum.FragmentAnimation.HORIZONTAL)
             setLeftToRightAnimation(transction);
-        else if(animation == MitooEnum.FragmentAnimation.VERTICAL)
+        else if (animation == MitooEnum.FragmentAnimation.VERTICAL)
             setBottomToTopAnimation(transction);
-        else if(animation == MitooEnum.FragmentAnimation.DOWNLEFT)
+        else if (animation == MitooEnum.FragmentAnimation.DOWNLEFT)
             setBottomToTopAnimation(transction);
     }
-    
-    private void setBottomToTopAnimation(FragmentTransaction transaction){
+
+    private void setBottomToTopAnimation(FragmentTransaction transaction) {
 
         transaction.setCustomAnimations(R.anim.enter_top, R.anim.no_animation,
                 0, R.anim.enter_bottom);
 
     }
 
-    private void setLeftToRightAnimation(FragmentTransaction transaction){
+    private void setLeftToRightAnimation(FragmentTransaction transaction) {
 
         transaction.setCustomAnimations(R.anim.enter_right, R.anim.exit_right,
-                R.anim.exit_left,R.anim.enter_left);
+                R.anim.exit_left, R.anim.enter_left);
     }
 
-    private void setDownLeftAnimation(FragmentTransaction transaction){
+    private void setDownLeftAnimation(FragmentTransaction transaction) {
 
         transaction.setCustomAnimations(R.anim.exit_bottom, R.anim.enter_top);
     }
-    
+
     public void popFragment() {
 
         if (getFragmentStack().size() > 0) {
@@ -236,14 +237,14 @@ public class MitooActivity extends Activity {
         getHandler().postDelayed(getRunnable(), delayed);
     }
 
-    public void popAllFragments(){
+    public void popAllFragments() {
 
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        while(getFragmentStack().size() > 0)
+        while (getFragmentStack().size() > 0)
             getFragmentStack().pop();
 
     }
-    
+
     public boolean NetWorkConnectionIsOn() {
 
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -252,8 +253,8 @@ public class MitooActivity extends Activity {
 
     }
 
-    private void setUpNewRelic(){
-        
+    private void setUpNewRelic() {
+
         NewRelic.withApplicationToken(getDataHelper().getNewRelicKey())
                 .start(this.getApplication());
 
@@ -264,24 +265,24 @@ public class MitooActivity extends Activity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            if (getFragmentStack().peek().isAllowBackPressed())  {
+            if (getFragmentStack().peek().isAllowBackPressed()) {
                 hideSoftKeyboard();
                 MitooFragment fragmentToDesplay = getSecondTopFragment();
-                if(fragmentToDesplay!=null && fragmentToDesplay.popActionRequiresDelay())
+                if (fragmentToDesplay != null && fragmentToDesplay.popActionRequiresDelay())
                     popFragment(250);
                 else
                     popFragment();
             }
         }
     }
-    
-    private MitooFragment getSecondTopFragment(){
-        
-        if(getFragmentStack().size()>1){
-            return getFragmentStack().get(getFragmentStack().size()-2);
+
+    private MitooFragment getSecondTopFragment() {
+
+        if (getFragmentStack().size() > 1) {
+            return getFragmentStack().get(getFragmentStack().size() - 2);
         }
         return null;
-        
+
     }
 
     @Override
@@ -304,40 +305,40 @@ public class MitooActivity extends Activity {
         this.modelManager = modelManager;
     }
 
-    private void setUpPersistenceData(){
+    private void setUpPersistenceData() {
 
-        if(MitooConstants.getPersistenceStorage()){
+        if (MitooConstants.getPersistenceStorage()) {
             getModelManager().readAllPersistedData();
-        }else{
+        } else {
             getModelManager().deleteAllPersistedData();
         }
 
     }
 
-    public void updateAuthToken(SessionRecieve session){
+    public void updateAuthToken(SessionRecieve session) {
 
-        if(session.auth_token!=null)
+        if (session.auth_token != null)
             ServiceBuilder.getSingleTonInstance().setXAuthToken(session.auth_token);
     }
 
-    public void resetAuthToken(){
+    public void resetAuthToken() {
 
         ServiceBuilder.getSingleTonInstance().resetXAuthToken();
     }
 
-    public void startApp(){
+    public void startApp() {
 
         setFragmentStack(new Stack<MitooFragment>());
 
         FragmentChangeEvent event =
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
-                        R.id.fragment_splash , MitooEnum.FragmentAnimation.NONE);
+                        R.id.fragment_splash, MitooEnum.FragmentAnimation.NONE);
 
         BusProvider.post(event);
     }
 
     @Subscribe
-    public void logOut(LogOutEvent event){
+    public void logOut(LogOutEvent event) {
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
@@ -345,20 +346,37 @@ public class MitooActivity extends Activity {
 
         FragmentChangeEvent fragmentChangeEvent =
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
-                        R.id.fragment_landing , MitooEnum.FragmentAnimation.HORIZONTAL);
+                        R.id.fragment_landing, MitooEnum.FragmentAnimation.HORIZONTAL);
 
-        BusProvider.post(fragmentChangeEvent );
+        BusProvider.post(fragmentChangeEvent);
 
     }
 
-    public void contactMitoo(){
+    public void contactMitooAction() {
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
-        intent.putExtra(Intent.EXTRA_SUBJECT , getString(R.string.mitoo_support_email_subject));
-        intent.putExtra(Intent.EXTRA_TEXT , getModelManager().getUserInfoModel().getUserInfoRecieve().email);
-        startActivity(Intent.createChooser(intent, "Send email..."));
+        try {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mitoo_support_email_subject));
+            intent.putExtra(Intent.EXTRA_TEXT, getModelManager().getUserInfoModel().getUserInfoRecieve().email);
+            startActivity(Intent.createChooser(intent, "Send email..."));
+        } catch (Exception e) {
+            //Hack to resolve the unreliability of this part
+        }
+
+    }
+
+    public void reviewMitooAction() {
+
+        String appPackageName = getPackageName();
+        try {
+            Uri marketUri = Uri.parse(getString(R.string.mitoo_play_store_market_prefix)+ appPackageName);
+            startActivity(new Intent(Intent.ACTION_VIEW, marketUri ));
+        } catch (ActivityNotFoundException e) {
+            Uri marketUri = Uri.parse(getString(R.string.mitoo_play_store_url_prefix)+ appPackageName);
+            startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
+        }
 
     }
 

@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.utils;
 
 import android.content.Context;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 
 import android.util.TypedValue;
@@ -52,6 +53,14 @@ public class MitooSearchViewStyle extends SearchViewStyle{
         final AutoCompleteTextView editText = getView(SEARCH_SRC_TEXT);
         if (editText != null) {
             editText.setHintTextColor(color);
+        }
+        return this;
+    }
+
+    public MitooSearchViewStyle setAutoCompleteKeyboard(final int inputType) {
+        final AutoCompleteTextView editText = getView(SEARCH_SRC_TEXT);
+        if (editText != null) {
+            editText.setInputType(inputType);
         }
         return this;
     }
@@ -117,6 +126,7 @@ public class MitooSearchViewStyle extends SearchViewStyle{
         getSearchView().setGravity(Gravity.CENTER_VERTICAL);
         setEditFrameMargin();
         hideCloseButton();
+        setAutoCompleteKeyboard(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         return this;
     }   
 

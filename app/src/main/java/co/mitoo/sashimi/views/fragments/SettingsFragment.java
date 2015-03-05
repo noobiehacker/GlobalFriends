@@ -40,7 +40,6 @@ public class SettingsFragment extends MitooFragment {
         return view;
     }
 
-    
     @Override
     public void onClick(View v) {
 
@@ -141,7 +140,7 @@ public class SettingsFragment extends MitooFragment {
 
     private void getHelpAction(){
 
-        getMitooActivity().contactMitoo();
+        getMitooActivity().contactMitooAction();
 
     }
     

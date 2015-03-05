@@ -32,6 +32,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     private ListView placesList;
     private SearchableAdapter placeListAdapter;
     private SearchView searchView;
+    private String queryText;
 
     public static LocationSearchFragment newInstance() {
         LocationSearchFragment fragment = new LocationSearchFragment();
@@ -118,7 +119,8 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationModelQueryResult(LocationModelQueryResultEvent event) {
 
-        updatePredictions(event.getPlaces());
+        if(!getQueryText().equals(""))
+            updatePredictions(event.getPlaces());
     }
 
     public SearchableAdapter getPlaceListAdapter() {
@@ -140,7 +142,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         getDataHelper().clearList(getPredictions());
         getDataHelper().addToListList(getPredictions(),predictions);
         placeListAdapter.notifyDataSetChanged();
-        handleViewVisibility(getPlacesList(),predictions.size()>0 );
+        handleViewVisibility(getPlacesList(),getPredictions().size()>0 );
 
     }
 
@@ -155,7 +157,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             }
         }
     }
-    
 
     private void setUpPlacesList(View view){
 
@@ -252,6 +253,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
             @Override
             public boolean onQueryTextChange(String s) {
+                setQueryText(s);
                 if(s.equals("")){
                     MitooSearchViewStyle.on(getSearchView()).hideCloseButton();
                 }else{
@@ -264,6 +266,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
 
     private void setUpIconifiedCallBack(){
+
         setRunnable(new Runnable() {
             @Override
             public void run() {
@@ -272,5 +275,13 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         });
         getHandler().postDelayed(getRunnable(), MitooConstants.durationShort);
 
+    }
+
+    public String getQueryText() {
+        return queryText;
+    }
+
+    public void setQueryText(String queryText) {
+        this.queryText = queryText;
     }
 }

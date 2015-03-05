@@ -169,13 +169,13 @@ public class FeedBackFragment extends MitooFragment {
     
     private void contactMitooAction(){
 
-        getMitooActivity().contactMitoo();
+        getMitooActivity().contactMitooAction();
 
     }
 
     private void writeReviewAction(){
 
-
+        getMitooActivity().reviewMitooAction();
     }
 
     private void faqAction(){

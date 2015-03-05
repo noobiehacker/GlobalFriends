@@ -31,16 +31,16 @@
             android:value="@string/API_key_facebook"/>
         <context android:name="com.greenhalolabs.facebooklogin.FacebookLoginActivity" />
 
-        <!--Release Google Map API Key
+        <!--Release Google Map API Key-->
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyD-69EptzG4e8V3hgj3JXbpmZhv9CWpUuU"/>-->
+            android:value="AIzaSyD-69EptzG4e8V3hgj3JXbpmZhv9CWpUuU"/>
 
-        <!-- Debug Google Map API Key-->
+        <!-- Debug Google Map API Key
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/>
+            android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/>-->
 
     </application>
 

@@ -264,9 +264,9 @@
     <string name="mitoo_support_email_body">talktous@mitoo.co</string>
     <string name="mitoo_privacy_url">http://app.mitoo.co/privacy-policy?mobile-app=true</string>
     <string name="mitoo_terms_url">http://app.mitoo.co/terms?mobile-app=true</string>
-    <string name="mitoo_faq_url">http://docs.mitoo.co/terms?mobile-app=true</string>
-
-
+    <string name="mitoo_faq_url">http://docs.mitoo.co?mobile-app=true</string>
+    <string name="mitoo_play_store_url_prefix">https://play.google.com/store/apps/details?id=</string>
+    <string name="mitoo_play_store_market_prefix">market://details?id=</string>
 
     <!--Font Path -->
     <string name="DIN_RegularItalic">fonts/din_comp_ita.ttf</string>
