@@ -44,7 +44,7 @@ public class MitooEnum {
         REQUEST, UPDATE
     }
 
-    public enum SteakEnvironment {
+    public enum AppEnvironment {
         PRODUCTION, STAGING ,APIARY
     }
 }

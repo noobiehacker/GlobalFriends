@@ -34,10 +34,10 @@ public final class MitooConstants {
     public static int durationLong =750;
     public static int durationExtraLong =1000;
 
-    public static MitooEnum.SteakEnvironment steakEnvironment = MitooEnum.SteakEnvironment.PRODUCTION;
+    public static MitooEnum.AppEnvironment appEnvironment = MitooEnum.AppEnvironment.PRODUCTION;
 
     public static boolean getPersistenceStorage() {
-        if (steakEnvironment == MitooEnum.SteakEnvironment.STAGING)
+        if (appEnvironment == MitooEnum.AppEnvironment.STAGING)
             return false;
         return true;
     }

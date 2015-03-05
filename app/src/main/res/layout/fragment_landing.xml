@@ -23,10 +23,7 @@
         android:layout_marginTop="70dp"
         android:background="@drawable/mitoo_header_assets" />
 
-
-
     //Bottom
-
 
     <RelativeLayout
         android:id="@+id/buttonContainer"
@@ -47,10 +44,11 @@
 
         <Button
             android:id="@+id/signupButton"
-            style="@style/noBackgroundButton"
+            style="@style/transparentButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/gray_button_height"
             android:layout_below="@id/searchButton"
+            android:layout_marginTop="@dimen/landing_page_middle_button_padding"
             android:layout_centerHorizontal="true"
             android:text="@string/landing_page_text2" />
 

@@ -3,7 +3,6 @@ package co.mitoo.sashimi.network;
 import com.squareup.okhttp.OkHttpClient;
 
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.StaticString;
 import retrofit.MockRestAdapter;
 import retrofit.RestAdapter;
@@ -111,7 +110,7 @@ public class ServiceBuilder {
     
     private void initializeFields() {
 
-        switch (MitooConstants.steakEnvironment) {
+        switch (MitooConstants.appEnvironment) {
             case PRODUCTION:
                 this.setEndPoint(StaticString.steakProductionEndPoint);
                 break;

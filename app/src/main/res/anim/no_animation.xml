@@ -6,10 +6,7 @@
         android:propertyName="alpha"
         android:duration="400"
         android:valueFrom="1.0"
-        android:valueTo="0.5"
+        android:valueTo="0"
         android:valueType="floatType" />
-
-
-
 
 </set>

@@ -12,7 +12,8 @@
     <dimen name="landing_page_privacy_top_padding">13dp</dimen>
     <dimen name="landing_page_privacy_bottom_padding">17.5dp</dimen>
     <dimen name="landing_page_indicator_bottom_paddng">25dp</dimen>
-    <dimen name="landing_page_slider_bottom_paddng">202dp</dimen>
+    <dimen name="landing_page_slider_bottom_paddng">209dp</dimen>
+    <dimen name="landing_page_middle_button_padding">10dp</dimen>
 
     <!-- Settings Page -->
     <dimen name="spacing_settings_profile_image_top">28dp</dimen>

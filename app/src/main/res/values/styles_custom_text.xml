@@ -150,7 +150,7 @@
 
     <!-- Landing  Page -->
     <style name="landingTermsPrivacyGrayText">
-        <item name="android:textColor">@color/transparent_white</item>
+        <item name="android:textColor">@color/transparent_white_60</item>
         <item name="android:textSize">11sp</item>
         <item name="fontPath">@string/DIN_Light</item>
     </style>

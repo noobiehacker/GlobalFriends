@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+
+import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
 import com.squareup.otto.Subscribe;
@@ -113,7 +115,7 @@ public class MitooActivity extends Activity {
         setModelManager(new ModelManager(this));
         setUpNewRelic();
         setUpInitialCalligraphy();
-        locationManager = new MitooLocationManager(this);
+        setLocationManager(new MitooLocationManager(this));
         BusProvider.register(this);
     }
     
@@ -158,7 +160,7 @@ public class MitooActivity extends Activity {
     }
 
     public boolean LocationServicesIsOn(){
-        return locationManager.LocationServicesIsOn();
+        return getLocationManager().LocationServicesIsOn();
     }
 
 
@@ -198,7 +200,7 @@ public class MitooActivity extends Activity {
     private void setBottomToTopAnimation(FragmentTransaction transaction){
 
         transaction.setCustomAnimations(R.anim.enter_top, R.anim.no_animation,
-                0,R.anim.enter_bottom);
+                0, R.anim.enter_bottom);
 
     }
 
@@ -231,7 +233,7 @@ public class MitooActivity extends Activity {
             }
         };
         setRunnable(popFragmentRunnable);
-        getHandler().postDelayed(getRunnable(),delayed);
+        getHandler().postDelayed(getRunnable(), delayed);
     }
 
     public void popAllFragments(){
@@ -252,9 +254,9 @@ public class MitooActivity extends Activity {
 
     private void setUpNewRelic(){
         
-      /*  NewRelic.withApplicationToken(getString(R.string.API_key_new_relic)
-        ).start(this.getApplication());
-        */
+        NewRelic.withApplicationToken(getDataHelper().getNewRelicKey())
+                .start(this.getApplication());
+
     }
 
     @Override
@@ -501,6 +503,16 @@ public class MitooActivity extends Activity {
 
     public void setFragmentStack(Stack<MitooFragment> fragmentStack) {
         this.fragmentStack = fragmentStack;
+    }
+
+    public MitooLocationManager getLocationManager() {
+        return locationManager;
+    }
+
+    public void setLocationManager(MitooLocationManager locationManager) {
+        if(locationManager== null)
+            locationManager = new MitooLocationManager(this);
+        this.locationManager = locationManager;
     }
 }
 

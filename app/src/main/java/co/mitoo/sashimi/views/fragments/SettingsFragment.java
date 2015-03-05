@@ -44,23 +44,26 @@ public class SettingsFragment extends MitooFragment {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.about_text_view:
-                aboutMitooAction();
-                break;
-            case R.id.log_out_text_view:
-                logtOutAction();
-                break;
-            case R.id.feedback_text_view:
-                feedBackAction();
-                break;
-            case R.id.get_help_text_view:
-                getHelpAction();
-                break;
-            case R.id.faq_text_view:
-                faqAction();
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.about_text_view:
+                    aboutMitooAction();
+                    break;
+                case R.id.log_out_text_view:
+                    logtOutAction();
+                    break;
+                case R.id.feedback_text_view:
+                    feedBackAction();
+                    break;
+                case R.id.get_help_text_view:
+                    getHelpAction();
+                    break;
+                case R.id.faq_text_view:
+                    faqAction();
 
+            }
         }
+
     }
                 
     @Override

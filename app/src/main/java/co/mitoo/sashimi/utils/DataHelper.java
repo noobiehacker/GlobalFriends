@@ -274,7 +274,7 @@ public class DataHelper {
 
        String result = "";
 
-       switch(MitooConstants.steakEnvironment){
+       switch(MitooConstants.appEnvironment){
            case PRODUCTION:
                result = getActivity().getString(R.string.algolia_production_index);
                break;
@@ -286,5 +286,25 @@ public class DataHelper {
        return result;
 
    }
+
+    public String getNewRelicKey(){
+
+        String result = "";
+
+        switch(MitooConstants.appEnvironment){
+            case PRODUCTION:
+                result = getActivity().getString(R.string.API_key_new_relic_production);
+                break;
+            case STAGING:
+                result = getActivity().getString(R.string.API_key_new_relic_staging);
+                break;
+            default:
+                result = getActivity().getString(R.string.API_key_new_relic_staging);
+                break;
+        }
+
+        return result;
+
+    }
         
 }

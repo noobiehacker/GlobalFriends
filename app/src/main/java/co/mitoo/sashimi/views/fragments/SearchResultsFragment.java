@@ -16,8 +16,10 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
+import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
@@ -130,9 +132,8 @@ public class SearchResultsFragment extends MitooFragment {
         else{
             getNoResultsView().setText(createNoResultsString());
             getNoResultsView().setVisibility(View.VISIBLE);
+            setLoading(false);
         }
-       
-        setLoading(false);
 
     }
 
@@ -232,5 +233,10 @@ public class SearchResultsFragment extends MitooFragment {
 
     public void setSearchFlowComplete(boolean searchFlowComplete) {
         this.searchFlowComplete = searchFlowComplete;
+    }
+
+    @Subscribe
+    public void iconBackgroundTasksComplete(BackGroundTaskCompleteEvent event) {
+        setLoading(false);
     }
 }

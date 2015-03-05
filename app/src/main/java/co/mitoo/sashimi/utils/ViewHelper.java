@@ -33,6 +33,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
@@ -51,6 +52,8 @@ public class ViewHelper {
     private Runnable runnable;
     private int itemLoaded = 0;
     private Picasso picasso;
+    private int iconBackGroundTasks= 0;
+
 
     public MitooActivity getActivity() {
         return activity;
@@ -351,6 +354,7 @@ public class ViewHelper {
 
         for(League item : leagues){
 
+            incrementIconBackgroundTasks();
             RelativeLayout layout = createLeagueResult(item, holder);
             layout.setOnClickListener(createLeagueItemClickedListner(fragment, item));
             holder.addView(layout);
@@ -396,6 +400,7 @@ public class ViewHelper {
                             // Ensure you call it only once :
                             loadedView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                             setUpDynamicLeagueBackground(leagueItemHolder, league);
+
                         }
                     });
         }
@@ -424,6 +429,8 @@ public class ViewHelper {
             @Override
             public void onSuccess() {
                 setUpViewCallBack(iconView, league, leagueItemHolder, leagueListHolder);
+                decrementIconBackgroundTasks();
+
             }
 
             @Override
@@ -431,6 +438,7 @@ public class ViewHelper {
                 
                 setUpDynamicLeagueBackground(leagueItemHolder, league);
                 setUpEnquireListIconContainer(leagueListHolder, View.GONE);
+                decrementIconBackgroundTasks();
 
             }
         };
@@ -605,6 +613,16 @@ public class ViewHelper {
 
            iconContainer.setVisibility(visibility);
         }
+    }
+
+    private void incrementIconBackgroundTasks(){
+        this.iconBackGroundTasks++;
+    }
+
+    private void decrementIconBackgroundTasks(){
+        this.iconBackGroundTasks--;
+        if(this.iconBackGroundTasks==0)
+            BusProvider.post(new BackGroundTaskCompleteEvent());
     }
 
 }
