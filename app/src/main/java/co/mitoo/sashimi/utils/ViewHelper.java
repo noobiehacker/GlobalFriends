@@ -299,7 +299,7 @@ public class ViewHelper {
     public void setUpMap(League league , GoogleMap map){
         if(league !=null & map !=null){
             LatLng latLng = league.getLatLng();
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
             MarkerOptions option = createMarkerOption(latLng, league.getCity());
             Marker marker = map.addMarker(option);
             disableMapGestures(map);
@@ -312,7 +312,7 @@ public class ViewHelper {
         map.getUiSettings().setZoomControlsEnabled(false);
         map.getUiSettings().setScrollGesturesEnabled(false);
         map.getUiSettings().setAllGesturesEnabled(false);
-        
+
     }
     
     private MarkerOptions createMarkerOption(LatLng latLng, String cityName){
