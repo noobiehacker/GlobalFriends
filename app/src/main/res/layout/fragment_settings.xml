@@ -34,13 +34,11 @@
             android:paddingRight="@dimen/spacing_water_mark_layout_border_margin"
             android:paddingTop="@dimen/spacing_water_mark_layout_border_margin">
 
-
             <include
                 android:id="@+id/settings_list_details"
                 layout="@layout/partial_user_profile_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
 
             <include
                 android:id="@+id/mitoo_copy_right"
@@ -49,7 +47,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/settings_list_details" />
-
 
         </RelativeLayout>
     </ScrollView>

@@ -45,9 +45,18 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        getMitooActivity().getModelManager().getLocationModel().GpsCurrentLocationRequest();
+        try{
+            super.onCreate(savedInstanceState);
+            getMitooActivity().getModelManager().getLocationModel().GpsCurrentLocationRequest();
 
+        }
+        catch(Exception e){
+            displayText("FAILED ON SearchResultsFragment onCreate" +
+                    e.getStackTrace().toString() +
+                    e.getMessage() +
+                    e.getCause().toString() +
+                    e.getLocalizedMessage());
+        }
     }
 
     @Override
@@ -63,6 +72,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     @Override
     public void onResume() {
+
         super.onResume();
         handleLocationServices();
         setUpIconifiedCallBack();
@@ -77,7 +87,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         getSportData().addAll(getDataHelper().getSports());
 
     }
-
 
     @Override
     protected void initializeViews(View view) {

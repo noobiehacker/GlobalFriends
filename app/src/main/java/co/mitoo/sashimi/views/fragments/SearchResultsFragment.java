@@ -55,6 +55,7 @@ public class SearchResultsFragment extends MitooFragment {
         initializeOnClickListeners(view);
         initializeFields(savedInstanceStaste);
         initializeViews(view);
+
         return view;
     }
 
@@ -71,16 +72,17 @@ public class SearchResultsFragment extends MitooFragment {
         setFragmentTitle(getSearchText());
         setLeagueData(new ArrayList<League>());
         updateLeagueDataResult();
+
     }
 
     @Override
     public void onResume() {
 
         super.onResume();
-        if(searchFlowHasCopmleted()==false){
+        if (searchFlowHasCopmleted() == false) {
             setLoading(true);
             getLocationModel().requestSelectedLocationLatLng();
-        }else{
+        } else {
             updateViews();
         }
 

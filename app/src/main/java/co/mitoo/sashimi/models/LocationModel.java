@@ -65,18 +65,38 @@ public class LocationModel extends MitooModel {
                 });
     }
 
-    public void handleGpsResponse(GpsResponseEvent event){
-        
-        if(event.getLocation()!=null){
-            Location result = event.getLocation();
-            setLocation(result);
-            setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
-            BusProvider.post(new LocationModelLocationsSelectedEvent());
-        }else{
-            setToUseCurrentLocation(false);
-            String errorMesssage = getActivity().getString(R.string.error_location_serivces);
-            MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
-            BusProvider.post(errorEvent);
+    public void handleGpsResponse(GpsResponseEvent event) {
+
+        if (event.getLocation() != null) {
+
+            try {
+                Location result = event.getLocation();
+                setLocation(result);
+                setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
+                BusProvider.post(new LocationModelLocationsSelectedEvent());
+            } catch (Exception e) {
+                getActivity().displayText("FAILED ON SearchResultsFragment onCreate" +
+                        e.getStackTrace().toString() +
+                        e.getMessage() +
+                        e.getCause().toString() +
+                        e.getLocalizedMessage());
+            }
+
+        } else {
+
+            try {
+                setToUseCurrentLocation(false);
+                String errorMesssage = getActivity().getString(R.string.error_location_serivces);
+                MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
+                BusProvider.post(errorEvent);
+            } catch (Exception e) {
+                getActivity().displayText("FAILED ON SearchResultsFragment onCreate" +
+                        e.getStackTrace().toString() +
+                        e.getMessage() +
+                        e.getCause().toString() +
+                        e.getLocalizedMessage());
+            }
+
         }
 
     }

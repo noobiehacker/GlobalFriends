@@ -47,4 +47,8 @@ public class MitooEnum {
     public enum AppEnvironment {
         PRODUCTION, STAGING ,APIARY
     }
+
+    public enum MenuItemSelected {
+        FEEDBACK, SETTINGS ,NONE
+    }
 }

@@ -23,11 +23,19 @@
         progressLayout:progress="false"
         progressLayout:progressBackground="@color/gray_light_one">
 
+        <ListView
+            android:id="@+id/myLeagueListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:descendantFocusability="blocksDescendants"
+            android:scrollbars="none" />
 
         <ListView
             android:id="@+id/enquiredLeagueListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/myLeagueListView"
             android:descendantFocusability="blocksDescendants"
             android:scrollbars="none" />
 

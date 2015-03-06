@@ -36,6 +36,7 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
 
@@ -54,7 +55,6 @@ public class ViewHelper {
     private Picasso picasso;
     private int iconBackGroundTasks= 0;
 
-
     public MitooActivity getActivity() {
         return activity;
     }
@@ -64,7 +64,6 @@ public class ViewHelper {
     }
 
     private void setUpDynamicLeagueBackground(final View leagueItemHolder, League league) {
-
 
         ImageView leagueOverLayImageView = (ImageView) leagueItemHolder.findViewById(R.id.blackOverLay);
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
@@ -599,7 +598,9 @@ public class ViewHelper {
         return enquiredText;
     }
 
-    public View createHeadFooterView(int layoutID, int textViewID, String text){
+    public View createHeadFooterView(int layoutID,  String text){
+
+        int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
         View holder = createViewFromInflator(layoutID);
         TextView headerTextView = (TextView)holder.findViewById(textViewID);
         headerTextView.setText(text);
@@ -623,6 +624,29 @@ public class ViewHelper {
         this.iconBackGroundTasks--;
         if(this.iconBackGroundTasks==0)
             BusProvider.post(new BackGroundTaskCompleteEvent());
+    }
+
+
+    public void setUpListHeader(ListView listView , int layoutID , String headerText){
+
+        View holder = createHeadFooterView(layoutID, headerText);
+        listView.addHeaderView(holder);
+    }
+
+    public void setUpListFooter(ListView listView , int layoutID , String footerText) {
+
+        if(listView.getFooterViewsCount() ==0 ){
+            View holder = createHeadFooterView(layoutID, footerText);
+            listView.addFooterView(holder);
+        }
+
+    }
+
+    public void setUpLeagueList(ListView listView, LeagueAdapter adapter,String headerText){
+        int headerLayoutID =  R.layout.view_league_list_header;
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(adapter);
+        setUpListHeader(listView, headerLayoutID, headerText);
     }
 
 }

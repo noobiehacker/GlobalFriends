@@ -19,6 +19,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.content.ActivityNotFoundException;
+import android.widget.Toast;
+
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
@@ -40,6 +42,8 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
+import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
+import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -58,12 +62,26 @@ public class MitooActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        initializeFields();
-        startApp();
-        setContentView(R.layout.activity_mitoo);
-        setUpPersistenceData();
+        try {
+            super.onCreate(savedInstanceState);
+            initializeFields();
+            startApp();
+            setContentView(R.layout.activity_mitoo);
+            setUpPersistenceData();
 
+        } catch (Exception e) {
+            displayText("FAILED ON SearchResultsFragment onCreate" +
+                    e.getStackTrace().toString() +
+                    e.getMessage() +
+                    e.getCause().toString() +
+                    e.getLocalizedMessage());
+        }
+    }
+
+    public void displayText(String text) {
+        Toast toast = new Toast(getApplicationContext());
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.show();
     }
 
     @Override
@@ -355,16 +373,18 @@ public class MitooActivity extends Activity {
     public void contactMitooAction() {
 
         try {
+            String emailText = getString(R.string.feedback_page_contact_mitoo_text_prefix);
+            emailText =emailText + getModelManager().getUserInfoModel().getUserInfoRecieve().email;
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("message/rfc822");
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mitoo_support_email_subject));
-            intent.putExtra(Intent.EXTRA_TEXT, getModelManager().getUserInfoModel().getUserInfoRecieve().email);
+            intent.putExtra(Intent.EXTRA_TEXT, emailText);
             startActivity(Intent.createChooser(intent, "Send email..."));
-        } catch (Exception e) {
-            //Hack to resolve the unreliability of this part
         }
+        catch (Exception e){
 
+        }
     }
 
     public void reviewMitooAction() {

@@ -151,7 +151,7 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getEmail() {
-        return this.getTextFromTextField(R.id.emailInput);
+        return this.getTextFromTextField(R.id.loginIDInput);
     }
 
     private String getPhone() {

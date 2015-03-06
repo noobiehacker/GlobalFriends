@@ -91,6 +91,7 @@ public class LeagueModel extends MitooModel{
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof League[]) {
+            clearLeaguesEnquired();
             addLeagueEnquired((League[]) objectRecieve);
             setSelectedLeague(getFirstLeague());
             BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeaguesEnquired()));
@@ -192,18 +193,6 @@ public class LeagueModel extends MitooModel{
         }
     }
 
-    private League[] createCombinedEnquiredArray(League[] oldArray, League[] inputArray){
-        
-        League[] combinedLeagueArray =  new League[oldArray.length+inputArray.length];
-        for(int i = 0 ; i< combinedLeagueArray.length ; i++){
-            if(i<oldArray.length)
-                combinedLeagueArray[i] = oldArray[i];
-            else
-                combinedLeagueArray[i] = inputArray[i-oldArray.length];
-        }
-        return combinedLeagueArray;
-        
-    }
 
     private League getFirstLeague(){
         if(getLeaguesEnquired() !=null && getLeaguesEnquired().size()>0)
@@ -276,6 +265,14 @@ public class LeagueModel extends MitooModel{
 
     public void setIndex(Index index) {
         this.index = index;
+    }
+
+    public void setLeagueEnquired(List<League> leagueEnquired) {
+        this.leagueEnquired = leagueEnquired;
+    }
+
+    private void clearLeaguesEnquired(){
+        setLeagueEnquired(new ArrayList<League>());
     }
 }
 

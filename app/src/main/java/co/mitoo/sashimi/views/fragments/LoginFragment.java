@@ -13,8 +13,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
-import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
@@ -71,7 +69,7 @@ public class LoginFragment extends MitooFragment {
 
         super.initializeViews(view);
         setPassWordInput((EditText) view.findViewById(R.id.passwordInput));
-        setTopEditText((EditText)view.findViewById(R.id.emailInput));
+        setTopEditText((EditText)view.findViewById(R.id.loginIDInput));
         setUpToolBar(view);
 
     }
@@ -110,7 +108,7 @@ public class LoginFragment extends MitooFragment {
 
         if (allInputsAreValid()) {
             setLoading(true);
-            JsonLoginSend jsonObject = new JsonLoginSend(getEmail(), getPassword());
+            JsonLoginSend jsonObject = new JsonLoginSend(getLoginID(), getPassword());
             SessionModelRequestEvent event = new SessionModelRequestEvent(MitooEnum.SessionRequestType.LOGIN, jsonObject);
             getSessionModel().requestSession(event);
 
@@ -139,9 +137,9 @@ public class LoginFragment extends MitooFragment {
         fireFragmentChangeAction(R.id.fragment_reset_password , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
     }
 
-    private String getEmail(){
+    private String getLoginID(){
 
-        return this.getTextFromTextField(R.id.emailInput);
+        return this.getTextFromTextField(R.id.loginIDInput);
 
     }
 
@@ -153,15 +151,16 @@ public class LoginFragment extends MitooFragment {
     private boolean allInputsAreValid(){
 
         FormHelper formHelper = getFormHelper();
-        return formHelper.validPassword(getPassword()) && formHelper.validEmail(getEmail());
+        boolean validLoginID = formHelper.validEmail(getLoginID())||formHelper.validPhone(getLoginID());
+        return formHelper.validPassword(getPassword()) && validLoginID;
 
     }
 
     private void handleInvalidInputs() {
 
         if (!handledEmptyInput()) {
-            if (!getFormHelper().validEmail(getEmail())) {
-                getFormHelper().handleInvalidEmail(getEmail());
+            if (!getFormHelper().validEmail(getLoginID())) {
+                getFormHelper().handleInvalidEmail(getLoginID());
             } else if (!getFormHelper().validPassword(getPassword())) {
                 getFormHelper().handleInvalidPassword(getPassword());
             } else {
@@ -174,7 +173,7 @@ public class LoginFragment extends MitooFragment {
     private boolean handledEmptyInput(){
 
         boolean result = true;
-        if (getEmail().equals("")) {
+        if (getLoginID().equals("")) {
             this.displayText(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
             this.displayText(getString(R.string.toast_password_required));
