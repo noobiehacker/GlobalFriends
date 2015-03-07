@@ -16,6 +16,7 @@ public class StaticString {
     public static String steakLocalEndPoint = getString("localEndPoint");
     public static String steakApiaryEndPoint = getString("apiaryEndPoint");
     public static String steakStagingEndPoint = getString("stagingEndPoint");
+    public static String steakProductionEndPoint = getString("productionEndPoint");
     public static String testPassword = getString("password");
     public static String errorMessage = getString("errorMessage");
     public static String apiConstantRegister = getString("apiConstantRegister");

@@ -10,8 +10,8 @@ android {
         applicationId "co.mitoo.sashimi"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.0"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
 
         /**use for espresso
@@ -93,7 +93,7 @@ dependencies {
     //AndroidImageSl
     compile 'com.daimajia.slider:library:1.1.0@aar'
     //Calligraphy
-    compile 'uk.co.chrisjenx:calligraphy:1.2.0'
+    compile 'uk.co.chrisjenx:calligraphy:2.0.1'
     //Circle Profile Image
     compile 'de.hdodenhof:circleimageview:1.2.1'
     //*****Model*****//
@@ -132,6 +132,10 @@ dependencies {
     //Google MAP
     compile 'com.google.maps.android:android-maps-utils:0.3+'
     //Library for future
+
+    //Progress loader
+    compile 'com.github.androidprogresslayout:library:2.0.2@aar'
+    
     //View Injection
     //compile 'com.jakewharton:butterknife:6.0.0'
 
@@ -139,6 +143,7 @@ dependencies {
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')
     androidTestCompile files('lib/testrunner-runtime-1.1.jar')
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.3.1'
     androidTestCompile ('com.google.guava:guava:14.0.1'){
         exclude module : 'hamcrest'
         exclude module : 'hamcrest-core'

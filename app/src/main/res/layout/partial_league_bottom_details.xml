@@ -13,7 +13,9 @@
         android:layout_marginBottom="@dimen/spacing_section_title_bottom"
         android:layout_centerHorizontal="true"
         android:text="@string/league_page_subtitle_2"
-        style="@style/graySectionTitle"/>
+        style="@style/leaguePageGrayTitle"
+
+        />
     
     <Button
         android:id="@+id/interestedButton"

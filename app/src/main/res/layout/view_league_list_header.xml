@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/header_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/home_page_enquired_left"
+        android:layout_marginTop="@dimen/home_page_enquired_top"
+        android:layout_marginBottom="@dimen/home_page_enquired_bottom"
+        android:text="@string/home_page_text_1"
+        android:textAllCaps="true"
+        style="@style/enquiredLeagueText"
+        />
+    
+</RelativeLayout>

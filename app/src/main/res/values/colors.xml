@@ -2,23 +2,28 @@
 
     <!-- White <-> Black palette -->
 
-    <color name="white">#FEFEFE</color>    
-    <color name="gray_light_zero">#F5F5F5</color>
-    <color name="gray_light_half">#F2F2F2</color>
-    <color name="gray_light_one">#E4E4E4</color>
-    <color name="gray_light_two">#CACACA</color>
-    <color name="gray_light_three">#AFAFAF</color>
-    <color name="gray_light_three_half">#AAAAAA</color>
-    <color name="gray_light_four">#959595</color>
-    <color name="gray_dark_zero">#8c8c8c</color>
-    <color name="gray_dark_one">#7b7b7b</color>
-    <color name="gray_dark_two">#616161</color>
-    <color name="gray_dark_three">#464646</color>
-    <color name="gray_dark_four">#2c2c2c</color>
+    <color name="white">#FEFEFE</color>
+    <color name="gray_light_one">#F5F5F5</color>
+    <color name="gray_light_two">#F2F2F2</color>
+    <color name="gray_light_three">#EBEBEB</color>
+    <color name="gray_light_four">#E4E4E4</color>
+    <color name="gray_light_five">#CACACA</color>
+    <color name="gray_light_six">#AFAFAF</color>
+    <color name="gray_light_seven">#AAAAAA</color>
+    <color name="gray_dark_one">#959595</color>
+    <color name="gray_dark_two">#8c8c8c</color>
+    <color name="gray_dark_three">#7b7b7b</color>
+    <color name="gray_dark_four">#616161</color>
+    <color name="gray_dark_five">#464646</color>
+    <color name="gray_dark_six">#2c2c2c</color>
+
     <color name="black">#121212</color>
     <color name="transparent">#337b7b7b</color>
-    <color name="transparent_black">#80000000</color>
-    <color name="over_lay_black">#80000000</color>
+    <color name="transparent_black">#4D000000</color>
+    <color name="transparent_white_60">#99FFFFFF</color>
+    <color name="transparent_white_30">#4DFFFFFF</color>
+    <color name="transparent_dark_gray">#99121212</color>
+    <color name="over_lay_black">#4D000000</color>
 
     <!-- basic colors -->
 

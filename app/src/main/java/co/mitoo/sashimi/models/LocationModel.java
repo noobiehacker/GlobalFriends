@@ -54,30 +54,49 @@ public class LocationModel extends MitooModel {
 
                     @Override
                     public void onError(Throwable e) {
+                        handleGpsResponse(new GpsResponseEvent(null));
                     }
 
                     @Override
                     public void onNext(Location objectRecieve) {
-                        BusProvider.post(new GpsResponseEvent(objectRecieve));
+                        handleGpsResponse(new GpsResponseEvent(objectRecieve));
 
                     }
                 });
     }
 
+    public void handleGpsResponse(GpsResponseEvent event) {
 
-    @Subscribe
-    public void GpsResponse(GpsResponseEvent event){
-        
-        if(event.getLocation()!=null){
-            Location result = event.getLocation();
-            setLocation(result);
-            setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
-            BusProvider.post(new LocationModelLocationsSelectedEvent());
-        }else{
-            setToUseCurrentLocation(false);
-            String errorMesssage = getActivity().getString(R.string.error_location_serivces);
-            MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
-            BusProvider.post(errorEvent);
+        if (event.getLocation() != null) {
+
+            try {
+                Location result = event.getLocation();
+                setLocation(result);
+                setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
+                BusProvider.post(new LocationModelLocationsSelectedEvent());
+            } catch (Exception e) {
+                getActivity().displayText("FAILED ON SearchResultsFragment onCreate" +
+                        e.getStackTrace().toString() +
+                        e.getMessage() +
+                        e.getCause().toString() +
+                        e.getLocalizedMessage());
+            }
+
+        } else {
+
+            try {
+                setToUseCurrentLocation(false);
+                String errorMesssage = getActivity().getString(R.string.error_location_serivces);
+                MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
+                BusProvider.post(errorEvent);
+            } catch (Exception e) {
+                getActivity().displayText("FAILED ON SearchResultsFragment onCreate" +
+                        e.getStackTrace().toString() +
+                        e.getMessage() +
+                        e.getCause().toString() +
+                        e.getLocalizedMessage());
+            }
+
         }
 
     }
@@ -125,7 +144,7 @@ public class LocationModel extends MitooModel {
 
                 }
                 catch(Exception e){
-
+                    BusProvider.post(new MitooActivitiesErrorEvent());
                 }
             }
         };

@@ -16,46 +16,40 @@
 
     <!--Landing Page-->
     <string name="landing_page_slider_text1">Search for your local sports\nleagues</string>
-    <string name="landing_page_slider_text2">Quickly find competition around you</string>
-    <string name="landing_page_slider_text3">using our powerful search engine</string>
-    <string name="landing_page_slider_text4">Join a sports league that\nsuits you</string>
-    <string name="landing_page_slider_text5">As soon as you are joined, the admin will be</string>
-    <string name="landing_page_slider_text6">notified and will respond quickly</string>
-    <string name="landing_page_slider_text7">Stay fit and have fun in your\nnew league</string>
-    <string name="landing_page_slider_text8">We keep you inform of any update on</string>
-    <string name="landing_page_slider_text9">the competition you joined</string>
-    <string name="landing_page_text10">FIND A TEAM SPORT NEAR ME</string>
-    <string name="landing_page_text11">Already have an account? Login</string>
+    <string name="landing_page_slider_text2">Join a sports league that\nsuits you</string>
+    <string name="landing_page_slider_text3">Stay fit and have fun in your\nnew league</string>
+    <string name="landing_page_text1">FIND A SPORTS LEAGUE NEAR ME</string>
+    <string name="landing_page_text2">Already have an account? Login</string>
+
+    <string name="landing_page_terms_text_1">By using Mitoo, you agree to</string>
+    <string name="landing_page_terms_text_2">"our "</string>
+    <string name="landing_page_terms_text_3">"<u>Terms</u>"</string>
+    <string name="landing_page_terms_text_4">" and "</string>
+    <string name="landing_page_terms_text_5">"<u>Privacy Policy</u>"</string>
 
     <!--Login Page-->
     <string name="login_page_title">Login</string>
     <string name="login_page_text1">FACEBOOK LOGIN</string>
     <string name="login_page_text2">Or</string>
-    <string name="login_page_text3">Email</string>
+    <string name="login_page_text3">Email or phone number</string>
     <string name="login_page_text4">Password</string>
     <string name="login_page_text5">Forgot?</string>
     <string name="login_page_text6">LOGIN</string>
 
-    <!--Signup Page-->
-    <string name="signup_page_title">Sign Up</string>
-    <string name="signup_page_text1">Facebook Login</string>
-    <string name="signup_page_text2">or</string>
-    <string name="signup_page_text3">Name</string>
-    <string name="signup_page_text4">Email</string>
-    <string name="signup_page_text5">Phone</string>
-    <string name="signup_page_text6">Password</string>
-    <string name="signup_page_text7">Signup</string>
-
-    <!--Sign Up Page Continue-->
+    <!--Register Page-->
     <string name="join_page_title">Join</string>
     <string name="join_page_button_1_text">CONNECT WITH FACEBOOK</string>
     <string name="join_page_text2">Name</string>
-    <string name="join_page_text3">Email</string>
+    <string name="join_page_text3">Email or phone number</string>
     <string name="join_page_text4">Phone</string>
-    <string name="join_page_text5">Password</string>
+    <string name="join_page_text5">Set a Mitoo password</string>
     <string name="join_page_button_2_text">I\'M INTERESTED</string>
     <string name="join_page_text6">SUCCESS</string>
-    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch with you very shortly</string>
+    <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch soon.</string>
+    <string name="join_page_info_prefix">We will send your details to</string>
+    <string name="join_page_info_suffix">so you can join.</string>
+
+
     <string name="join_page_button_3_text">VIEW MY LEAGUES</string>
 
     <!--Forgot Page-->
@@ -66,67 +60,51 @@
     <!--Competition Page -->
     <string name="competition_page_text1">SELECT SPORT</string>
 
-    <!--Filter Page -->
-    <string name="filter_text_1">SPORT</string>
-    <string name="filter_text_2">LEVEL OF PLAY</string>
-    <string name="filter_text_3">DAYS</string>
-    <string name="filter_text_4">DISTANCE</string>
-    <string name="filter_text_5">STARTING WITHIN</string>
-    <string name="filter_text_6">GENDER</string>
-
-    <string name="gender_male">Male</string>
-    <string name="gender_female">Female</string>
-    <string name="gender_coed">Coed</string>
-
-    <string name="day_mon">Mon</string>
-    <string name="day_tues">Tues</string>
-    <string name="day_wed">Wed</string>
-    <string name="day_thur">Thur</string>
-    <string name="day_fri">Fri</string>
-    <string name="day_sat">Sat</string>
-    <string name="day_sun">Sun</string>
-
-    <string name="distance_bar_left">0</string>
-    <string name="distance_bar_right">100</string>
-
     <!--Search Page -->
     <string name="search_page_text_1">Search Mitoo for:</string>
     <string name="search_page_text_2">SUGGESTIONS</string>
-    <string name="search_page_text_3">Search for a league name or sport</string>
+    <string name="search_page_text_3">Find more leagues</string>
     <string name="search_page_text_4">Current Location</string>
 
     <!--Location Search Page -->
     <string name="location_search_page_text_1">Enter any location</string>
     <string name="location_search_page_text_2">Current Location</string>
-    
+
     <!--Results Page -->
-    <string name="results_page_text_1">Sorry we don\'t have any results \nwith soccer</string>
+    <string name="results_page_text_1">Sorry we don\'t have any results \nfor</string>
     <string name="results_page_text_2">in your area yet</string>
     <!--User Profile Page -->
-    <string name="settings_page_text_1">Help and feedback</string>
-    <string name="settings_page_text_2">Logout</string>
-    
+    <string name="settings_page_text_1">Help and Feedback</string>
+    <string name="settings_page_text_2">Log Out</string>
+
     <!--League Page -->
     <string name="league_page_subtitle_1">DETAILS</string>
     <string name="league_page_subtitle_2">WANT TO JOIN?</string>
     <string name="league_page_subtitle_3">LOCATION</string>
     <string name="league_page_text_1">This competition is for any kind of player, \n we\'ll train and  evaluate you before sending you \n to a competition...</string>
-    <string name="league_page_text_2">We\'ve sent your details to the league, they \nshould be in touch very soon</string>
+    <string name="league_page_text_2">We\'ve sent your details to the league, they \nshould be in touch very soon.</string>
     <string name="league_page_text_3">Read more</string>
-    <string name="league_page_button_text">I\'M INTERESTED</string>    
-    <string name="league_page_button_disabled_text">CONTACTED</string>
+    <string name="league_page_button_text">I\'M INTERESTED</string>
+    <string name="league_page_button_disabled_text">DETAILS SENT</string>
 
     <!--Home Page -->
-    <string name="home_page_text_1">ENQUIRED</string>
+    <string name="home_page_text_1">Pending</string>
     <string name="home_page_text_2">Find a new league</string>
+    <string name="home_page_text_3">You haven\'t joined any leagues yet. To find a new league \nto join, tap search at the top.</string>
+    <string name="home_page_text_4">These leagues should be in touch soon</string>
+    <string name="home_page_text_5">My Leagues</string>
+    <string name="home_page_text_6">Once you are in a league it will show here</string>
+
+
+    <!--Home Page - Enquired List View-->
+    <string name="home_page_enquired_date_prefix">Enquired on </string>
 
     <!--Settings Page -->
-    <string name="settings_page_bottom_text_1">Logout</string>
+    <string name="settings_page_bottom_text_1">Sign out of Mitoo</string>
     <string name="settings_page_top_text_1">Get help</string>
     <string name="settings_page_top_text_2">Feedback</string>
     <string name="settings_page_top_text_3">FAQ</string>
     <string name="settings_page_top_text_4">About</string>
-    
 
     <string-array name="settings_top_menu_list">
         <item>Get help</item>
@@ -145,12 +123,215 @@
     <!--Error Message -->
     <string name="error_401">Incorrect credentials, please try again</string>
     <string name="error_404">The information you try to find can not be found</string>
-    <string name="error_409">We found an account matching your credentials. Please Try logging in with those.</string>
-    <string name="error_422">Something went wrong with the connection</string>
-    <string name="error_500">Server is down for maintenance, please try again later</string>
+    <string name="error_409">We already have an account with that email. Please login to continue.</string>
+    <string name="error_422">We already have an account with that email. Please login to continue.</string>
+    <string name="error_500">It looks like we are having some technical difficulties. We are looking into it now.</string>
     <string name="error_time_out">Connection timed out, please try again</string>
-    <string name="error_no_internet">Sorry you do not have internet access at the moment</string>
-    <string name="error_incorrect_user">Sorry, we can not match any user with your input</string>
+    <string name="error_no_internet">Unable to connect to Mitoo. Check your connection and try again.</string>
+    <string name="error_incorrect_email_password_combo">We’re sorry but that was a miss. Please check your details and try again.</string>
+    <string name="error_bad_email_prefix">No account exists for\n</string>
+    <string name="error_bad_email_suffix">.\nPlease check it and try again.</string>
+
+    <!--App -->
+    <string name="empty"></string>
+    <string name="bullet">\u2022</string>
+
+    <!--View-->
+    <string name="northAmericaAreaCode">+1</string>
+
+    <!--Hint-->
+    <string name="hint_search">Search</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_phone">Phone</string>
+
+    <!-- Toast -->
+    <string name="toast_error">An error has occurred</string>
+    <string name="toast_loading">Loading...</string>
+    <string name="toast_finish_loading">Loading Complete</string>
+    <string name="toast_authorization_token">Authorization Token Is</string>
+    <string name="toast_logging_in">Logging in</string>
+    <string name="toast_login_success">Log in success</string>
+    <string name="toast_signing_up">Signing up</string>
+    <string name="toast_sign_up_success">Sign up success</string>
+    <string name="toast_server_error">Something Went Wrong. please let us know at help@mitoo.co</string>
+
+    <string name="toast_password_reset">Password request successfully sent, please check your email</string>
+
+    <!-- field checks -->
+    <string name="toast_name_required">Name is required</string>
+    <string name="toast_email_required">Email is required</string>
+    <string name="toast_password_required">Password is required</string>
+    <string name="toast_phone_required">Phone number is required</string>
+    
+    <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
+    <string name="toast_invalid_email">Please enter a valid email</string>
+    <string name="toast_invalid_password">Please enter a valid password</string>
+    <string name="toast_invalid_name">Please enter a valid name</string>
+    <string name="toast_invalid_phone">Please enter your phone number including the area code</string>
+    
+    <string name="toast_email_length_too_short">Email must have at least 5 characters</string>
+    <string name="toast_password_length_too_short">Password must have at least 8 characters</string>
+    <string name="toast_name_length_too_short">Name must have at least 3 characters</string>
+    <string name="toast_phone_length_too_short">Phone number must have at least 10 digits</string>
+
+    <string name="toast_email_length_too_long">Email cannot be more than 100 characters</string>
+    <string name="toast_password_length_too_long">Password cannot be more than 100 characters</string>
+    <string name="toast_name_length_too_long">Name cannot be more than 100 characters</string>
+    <string name="toast_phone_length_too_long">Phone number cannot be more than 11 digits</string>
+
+    <string name="toast_invalid_input">Input is invalid</string>
+    <string name="toast_missing_location">Please enter a location</string>
+    
+    <!-- Prompts -->
+    <string name="prompt_location_services_title">Location Services</string>
+    <string name="prompt_location_services_message">Please turn on location services</string>
+    <string name="prompt_yes">Yes</string>
+    <string name="prompt_no">No</string>
+
+    <string-array name="prompt_feed_back_array">
+        <item>Happy</item>
+        <item>Confused</item>
+        <item>Unhappy</item>
+    </string-array>
+
+    <string-array name="prompt_about_mitoo_array">
+        <item>Terms</item>
+        <item>Privacy Policy</item>
+    </string-array>
+
+    <!-- Static Text -->
+    <string name="static_text_location">LOCATION</string>
+    <string name="static_text_description">DESCRIPTION</string>
+    <string name="static_text_or">Or</string>
+    <string name="static_text_from">From</string>
+
+    <!--Menu -->
+    <string name="menu_search">Search</string>
+    <string name="menu_feedback">Feedback</string>
+    <string name="menu_settings">Settings</string>
+
+    <!--Menu -->
+    <string name="alert_positive">Continue</string>
+    <string name="alert_negative">Cancel</string>
+    <string name="alert_about_mitoo_title">About Mitoo</string>
+    <string name="alert_default_message">Are you sure?</string>
+    <string name="alert_feed_back_title">How do you feel about Mitoo?</string>
+    <string name="alert_log_out">Log Out</string>
+
+    <!--Feedback Page-->
+    <string name="feedback_page_text1">Contact Mitoo</string>
+    <string name="feedback_page_title">Leave Feedback</string>
+    <string name="feedback_page_contact_mitoo_text_prefix">\n\n\n"Sent from user: "</string>
+
+    <!--Unhappy Page -->
+    <string name="unhappy_page_text1">Thanks for the feedback. We are really sorry that we have not met your expectations. How can we do better?</string>
+
+    <!--Confused Page -->
+    <string name="confused_page_text1">Thanks for the feedback. Maybe our FAQ\'s might help you solve your problem?</string>
+    <string name="confused_page_text2">FAQ</string>
+    <string name="confused_page_text3">Might we be able to assist you directly? Tell us how we can help.</string>
+    <!--Happy Page -->
+
+    <string name="happy_page_text1">You being happy make us happy! Can you give us some stars?</string>
+    <string name="happy_page_text2">Give us 5!</string>
+    <string name="happy_page_text3">Also if you have any requests, questions, or would just like to find out more, do contact us.</string>
+
+    <!--Toolbar Title-->
+    <string name="tool_bar_happy">HAPPY</string>
+    <string name="tool_bar_unhappy">UNHAPPY</string>
+    <string name="tool_bar_confused">CONFUSED</string>
+    <string name="tool_bar_my_details">My details</string>
+    <string name="tool_bar_join">Join</string>
+    <string name="tool_bar_login">Login</string>
+    <string name="tool_bar_reset_password">Reset Password</string>
+    <string name="tool_bar_confirmation">Confirmation</string>
+
+    <string name="tool_bar_terms">Terms</string>
+    <string name="tool_bar_near_you">Near You</string>
+    <string name="tool_bar_settings">Settings</string>
+    <string name="tool_bar_location_search">Enter any location</string>
+    <string name="toolbar_placeholder">Mitoo Fragment</string>
+
+    <!--Misc -->
+    <string name="mitoo_copyright_location">LONDON - SAN FRANCISCO</string>
+    <string name="mitoo_copyright_version">Version 1.0.0</string>
+    <string name="mitoo_copyright_terms">TERMS AND PRIVACY TEXT</string>
+    <string name="font_bold">bold</string>
+    <string name="font_italic">italic</string>
+    <string name="mitoo_support_email_address">talktous@mitoo.co</string>
+    <string name="mitoo_support_email_subject">Mitoo</string>
+    <string name="mitoo_support_email_body">talktous@mitoo.co</string>
+    <string name="mitoo_privacy_url">http://app.mitoo.co/privacy-policy?mobile-app=true</string>
+    <string name="mitoo_terms_url">http://app.mitoo.co/terms?mobile-app=true</string>
+    <string name="mitoo_faq_url">http://docs.mitoo.co?mobile-app=true</string>
+    <string name="mitoo_play_store_url_prefix">https://play.google.com/store/apps/details?id=</string>
+    <string name="mitoo_play_store_market_prefix">market://details?id=</string>
+
+    <!--Font Path -->
+    <string name="DIN_RegularItalic">fonts/din_comp_ita.ttf</string>
+    <string name="DIN_Regular">fonts/din_comp.ttf</string>
+    <string name="DIN_Medium">fonts/din_comp_medium.ttf</string>
+    <string name="DIN_Light">fonts/din_comp_light.ttf</string>
+
+    <!--API Key-->
+    <string name="API_key_new_relic_staging">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
+    <string name="API_key_new_relic_production">AA02524570c05c04f75ab74eabd07b2805bea697e9</string>
+
+    <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0</string>
+    <string name="API_key_google_places">AIzaSyCbsydXTG9a2-qCnZ91f_HS9k8fkBvVsVs</string>
+    <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
+    <string name="API_key_facebook">1524244734496711</string>
+
+    <string name="App_Id_algolia">1ESI9QYTPJ</string>
+    <string name="algolia_staging_index">steak-league-staging</string>
+    <string name="algolia_production_index">steak-league-production</string>
+    <string name="algolia_proto_index">proto_league_search</string>
+    <string name="algolia_result_param">hits</string>
+
+    <!--Bundle Map Key -->
+    <string name="bundle_key_tool_bar_title">bundle_key_tool_bar_title</string>
+    <string name="bundle_key_league_array_list">bundle_ley_league_array_list</string>
+    <string name="bundle_key_league_object_id">bundle_ley_league_object_id</string>
+    <string name="bundle_key_prompt">bundle_key_prompt</string>
+    <string name="bundle_key_first_time">bundle_key_boolean</string>
+    <string name="bundle_key_from_confirm">bundle_key_from_confirm</string>
+    <string name="bundle_value_true">bundle_value_true</string>
+    <string name="bundle_value_false">bundle_value_false</string>
+
+    <!--String Helper -->
+    <string name="google_place_api_geocode">geocode</string>
+    <string name="google_place_api_locality">locality</string>
+    <string name="google_place_api_political">political</string>
+
+    <!--Error -->
+    <string name="error_location_serivces">Current location unavailable. Please enter a location to continue.</string>
+
+    <!--Shared Preference Hash Key -->
+    <string name="shared_preference_session_key">Session Key</string>
+    <string name="shared_preference_user_info_key">User Info Key</string>
+    <string name="shared_preference_league_enquired_key">League enquired Key</string>
+    <string name="shared_preference_error">shared preference error</string>
+    
+    <string name="shared_preference_user_has_used_app">Not First Time User</string>
+
+    <!--Place Holder Text-->
+    <string name="place_holder_competition">Cornhole Friday (Winter 14)</string>
+    <string name="place_holder_started_on">Started on </string>
+    <string name="place_holder_date">11/21/2014</string>
+    <string name="place_holder_distance">1.2 MILES</string>
+    <string name="place_holder_price">FROM $39</string>
+    <string name="place_holder_location">CORNHOLE</string>
+    <string name="place_holder_day">Friday</string>
+    <string name="place_holder_level">CO-ED</string>
+    <string name="place_holder_league_name">PORTLAND SOCCERPLEEX</string>
+    <string name="place_holder_city_name">Mitoo City</string>
+    <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
+    <string name="place_holder_player_name">Mitoo Valuable Player - MVP</string>
+    <string name="place_holder_league_bottom">This competition is a social sports league,\nwe welcome players with any skill level</string>
+    <string name="place_holder_price_two">$99.99</string>
+    <string name="place_holder_sport">Football</string>
+    <string name="place_holder_dummie_text">Dummie Text</string>
 
     <string-array name="sports_array">
         <item>Soccer</item>
@@ -179,208 +360,5 @@
         <item>Bar Games</item>
         <item>Floor Hockey</item>
     </string-array>
-
-    <string-array name="levels_array">
-        <item>All</item>
-        <item>Beginner</item>
-        <item>Intermeditate</item>
-        <item>Advanced</item>
-    </string-array>
-
-    <string-array name="days_array">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
-    </string-array>
-
-    <string-array name="distances_array">
-        <item>100 Miles</item>
-        <item>50 Miles</item>
-        <item>20 Miles</item>
-    </string-array>
-
-    <string-array name="starting_within_array">
-        <item>This Month</item>
-        <item>This Season</item>
-        <item>This Year</item>
-    </string-array>
-
-    <!--App -->
-    <string name="empty"></string>
-    <string name="bullet">\u2022</string>
-
-    <!--View-->
-    <string name="northAmericaAreaCode">+1</string>
-
-    <!--Hint-->
-    <string name="hint_search">Search</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_phone">Phone</string>
-
-    <!--Place Holder Text-->
-    <string name="place_holder_competition">Cornhole Friday (Winter 14)</string>
-    <string name="place_holder_started_on">Started on </string>
-    <string name="place_holder_date">11/21/2014</string>
-    <string name="place_holder_distance">1.2 MILES</string>
-    <string name="place_holder_price">FROM $39</string>
-    <string name="place_holder_location">CORNHOLE</string>
-    <string name="place_holder_day">Friday</string>
-    <string name="place_holder_level">CO-ED</string>
-    <string name="place_holder_league_name">PORTLAND SOCCERPLEEX</string>
-    <string name="place_holder_city_name">Mitoo City</string>
-    <string name="place_holder_league_info">Soccer - Swimming - Basketball</string>
-    <string name="place_holder_player_name">Mitoo Valuable Player - MVP</string>
-    <string name="place_holder_league_bottom">This competition is a social sports league\n
-    ,we welcome players with any skill level</string>
-    <string name="place_holder_price_two">$99.99</string>
-    <string name="place_holder_sport">Football</string>
-    <string name="place_holder_dummie_text">Dummie Text</string>
-
-    <!-- Toast -->
-    <string name="toast_error">An error has occured</string>
-    <string name="toast_loading">Loading...</string>
-    <string name="toast_finish_loading">Loading Complete</string>
-    <string name="toast_authorization_token">Authorization Token Is</string>
-    <string name="toast_logging_in">Logging in</string>
-    <string name="toast_login_success">Log in success</string>
-    <string name="toast_signing_up">Signing up</string>
-    <string name="toast_sign_up_success">Sign up success</string>
-    <string name="toast_network_error">Network Error, Please check your network connection</string>
-    <string name="toast_server_error">Something Went Wrong. please let us know at help@mitoo.co</string>
-
-    <string name="toast_password_reset">Password request successfully sent, please check your email</string>
     
-    <!-- field checks -->
-    <string name="toast_username_empty">Username can not be empty</string>
-    <string name="toast_email_empty">Email can not be empty</string>
-    <string name="toast_password_empty">Password can not be empty</string>
-    <string name="toast_phone_empty">Phone Number can not be empty</string>
-    <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
-    <string name="toast_invalid_email">Email format is invalid</string>
-    <string name="toast_invalid_password">Password is too long or short</string>
-    <string name="toast_invalid_username">Username is too short or long</string>
-    <string name="toast_invalid_phone">Phone number format is invalid</string>
-    <string name="toast_invalid_input">Input is invalid</string>
-
-    <!-- Prompts -->
-    <string name="prompt_location_services_title">Location Services</string>
-    <string name="prompt_location_services_message">Please turn on location services</string>
-    <string name="prompt_yes">Yes</string>
-    <string name="prompt_no">No</string>
-
-    <string-array name="prompt_feed_back_array">
-        <item>Happy</item>
-        <item>Confused</item>
-        <item>Unhappy</item>
-    </string-array>
-
-    <string-array name="prompt_about_mitoo_array">
-        <item>Terms</item>
-        <item>Privacy Policy</item>
-    </string-array>
-
-    <!-- Static Text -->
-    <string name="static_text_location">LOCATION</string>
-    <string name="static_text_description">DESCRIPTION</string>
-    <string name="static_text_or">Or</string>
-    <string name="static_text_from">From</string>
-
-    <!--Menu -->
-    <string name="menu_league">League</string>
-    <string name="menu_profile">Profile</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_feedback">Feedback</string>
-    <string name="menu_logout">Logout</string>
-
-    <!--Menu -->
-    <string name="alert_positive">Continue</string>
-    <string name="alert_negative">Cancel</string>
-    <string name="alert_about_mitoo_title">About Mitoo</string>
-    <string name="alert_default_message">Are you sure?</string>
-    <string name="alert_feed_back_title">How do you feel about Mitoo?</string>
-    <string name="alert_log_out">Log out?</string>
-
-    <!--Feedback Page-->
-    <string name="feedback_page_text1">Contact Mitoo</string>
-
-    <!--Unhappy Page -->
-    <string name="unhappy_page_text1">Also if you have any request, questions, or would just like\nto find out more, please contact us.</string>
-
-    <!--Confused Page -->
-    <string name="confused_page_text1">Thanks for the feedback.  Maybe our FAQ\'s might help you solve your problem?</string>
-    <string name="confused_page_text2">FAQ</string>
-    <string name="confused_page_text3">Perhaps we can assist you direction.  Tell us how we can help?</string>
-    <!--Happy Page -->
-
-    <string name="happy_page_text1">Thanks for the feedback.  We would love for yout to reivew\n us on the app store</string>
-    <string name="happy_page_text2">Write a review</string>
-    <string name="happy_page_text3"></string>
-
-    <!--Toolbar Title-->
-    <string name="tool_bar_happy">HAPPY</string>
-    <string name="tool_bar_unhappy">UNHAPPY</string>
-    <string name="tool_bar_confused">CONFUSED</string>
-    <string name="tool_bar_my_details">My details</string>
-    <string name="tool_bar_join">Signup</string>
-    <string name="tool_bar_login">Login</string>
-    <string name="tool_bar_reset_password">Reset Password</string>
-    <string name="tool_bar_confirmation">Confirmation</string>
-
-    <string name="tool_bar_terms">Terms</string>
-    <string name="tool_bar_near_you">Near You</string>
-    <string name="tool_bar_settings">Settings</string>
-    <string name="tool_bar_location_search">Enter any location</string>
-    <string name="toolbar_placeholder">Mitoo Fragment</string>
-
-    <!--Misc -->
-    <string name="mitoo_copyright_location">LONDON - SAN FRANCISCO</string>
-    <string name="mitoo_copyright_version">Version 0.2</string>
-    <string name="mitoo_copyright_terms">TERMS AND PRIVACY TEXT</string>
-    <string name="font_bold">bold</string>
-    <string name="font_italic">italic</string>
-    <string name="mitoo_support_email_address">talktous@mitoo.co</string>
-    <string name="mitoo_support_email_subject">Mitoo</string>
-    <string name="mitoo_support_email_body">talktous@mitoo.co</string>
-    <string name="mitoo_privacy_url">http://app.mitoo.co/privacy-policy/</string>
-    <string name="mitoo_terms_url">http://app.mitoo.co/terms/</string>
-    <string name="mitoo_faq_url">http://mitoo.wpengine.com/article-category/faq/</string>
-
-    <!--API Key-->
-    <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
-    <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0</string>
-    <string name="API_key_google_places">AIzaSyCbsydXTG9a2-qCnZ91f_HS9k8fkBvVsVs</string>
-    <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
-    <string name="API_key_facebook">1524244734496711</string>
-
-    <string name="App_Id_algolia">1ESI9QYTPJ</string>
-    <string name="algolia_staging_index">steak-league-staging</string>
-    <string name="algolia_proto_index">proto_league_search</string>
-    <string name="algolia_result_param">hits</string>
-    
-    <!--Bundle Map Key -->
-    <string name="bundle_key_tool_bar_title">bundle_key_tool_bar_title</string>
-    <string name="bundle_key_league_array_list">bundle_ley_league_array_list</string>
-    <string name="bundle_key_league_object_id">bundle_ley_league_object_id</string>
-    <string name="bundle_key_prompt">bundle_key_prompt</string>
-    <string name="bundle_key_first_time">bundle_key_boolean</string>
-    <string name="bundle_value_true">bundle_value_true</string>
-    <string name="bundle_value_false">bundle_value_false</string>
-
-    <!--String Helper -->
-    <string name="google_place_api_geocode">geocode</string>
-    <string name="google_place_api_locality">locality</string>
-    <string name="google_place_api_political">political</string>
-
-    <!--Error -->
-    <string name="error_location_serivces">Location services is unavailible, please try again</string>
-
-    <string name="shared_preference_session_key">Session Key</string>
-    <string name="shared_preference_user_info_key">User Info Key</string>
-    <string name="shared_preference_league_enquired_key">League enquired Key</string>
-    <string name="shared_preference_error">shared preference error</string>
 </resources>

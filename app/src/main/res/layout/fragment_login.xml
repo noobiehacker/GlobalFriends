@@ -8,22 +8,21 @@
         android:id="@+id/app_bar"
         layout="@layout/app_tool_bar" />
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop"
+        android:layout_below="@id/app_bar"
+        android:src="@drawable/bg1"
+        />
+    
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar"
         android:fillViewport="true">
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg1"
-            />
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,11 +66,12 @@
 
 
             <EditText
-                android:id="@+id/emailInput"
+                android:id="@+id/loginIDInput"
                 style="@style/whiteEditText"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gray_button_height"
                 android:layout_centerHorizontal="true"
+                android:inputType="textEmailAddress"
                 android:hint="@string/login_page_text3" />
 
             <include
@@ -79,7 +79,7 @@
                 layout="@layout/view_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gray_button_height"
-                android:layout_below="@+id/emailInput"
+                android:layout_below="@+id/loginIDInput"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/spacing_smaller" />
 
@@ -97,9 +97,6 @@
                 android:textColor="@color/white" />
 
         </RelativeLayout>
-        </RelativeLayout>
     </ScrollView>
-
-
 
 </RelativeLayout>

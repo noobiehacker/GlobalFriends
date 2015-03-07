@@ -4,17 +4,12 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
+    android:paddingLeft="@dimen/spacing_sides"
+    android:paddingRight="@dimen/spacing_sides"
+    android:paddingTop="@dimen/spacing_top_bottom"
+    android:paddingBottom="@dimen/spacing_top_bottom"
     android:gravity="center"
     android:orientation="vertical">
-
-
-    <include
-        android:id="@+id/leagueInfoContainter"
-        layout="@layout/partial_league_image_and_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
-
 
     <!-- Take Out Facebook For V1 -->
     <!--
@@ -37,36 +32,46 @@
         android:layout_height="@dimen/gray_button_height"
         android:layout_marginTop="@dimen/spacing_smallest"/>
     -->
+    <TextView
+        android:id="@+id/signUpTopText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:minLines="2"
+        style="@style/signUpStaticText"
+        />
+    
     <EditText
         android:id="@+id/nameInput"
         style="@style/whiteEditText"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
-        android:layout_below="@+id/leagueInfoContainter"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_below="@+id/signUpTopText"
+        android:layout_marginTop="@dimen/sign_up_page_text_bottom_padding"
         android:hint="@string/join_page_text2" />
 
     <EditText
-        android:id="@+id/emailInput"
+        android:id="@+id/loginIDInput"
         style="@style/whiteEditText"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
         android:layout_below="@+id/nameInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
+        android:inputType="textEmailAddress"
         android:hint="@string/join_page_text3" />
-
 
     <EditText
         android:id="@+id/phoneInput"
         style="@style/whiteEditText"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
-        android:layout_below="@+id/emailInput"
+        android:layout_below="@+id/loginIDInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
-        android:hint="@string/hint_phone"
+        android:hint="@string/join_page_text4"
         android:inputType="phone"
         android:paddingLeft="@dimen/spacing_small" />
 
@@ -74,7 +79,7 @@
     <EditText
         android:id="@+id/passwordInput"
         style="@style/whiteEditText"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
         android:layout_below="@+id/phoneInput"
         android:layout_centerHorizontal="true"
@@ -85,7 +90,7 @@
     <Button
         android:id="@+id/joinButton"
         style="@style/darkGrayButton"
-        android:layout_width="@dimen/gray_button_width"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/gray_button_height"
         android:layout_below="@+id/passwordInput"
         android:layout_centerHorizontal="true"

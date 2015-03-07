@@ -10,7 +10,8 @@ import co.mitoo.sashimi.utils.MitooEnum;
 public class FragmentChangeEvent extends EventObject{
 
     private int fragmentId;
-    private MitooEnum.fragmentTransition transition;
+    private MitooEnum.FragmentTransition transition;
+    private MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
     private Bundle bundle;
 
     public Bundle getBundle() {
@@ -21,11 +22,11 @@ public class FragmentChangeEvent extends EventObject{
         this.bundle = bundle;
     }
 
-    public void setTransition(MitooEnum.fragmentTransition transition) {
+    public void setTransition(MitooEnum.FragmentTransition transition) {
         this.transition = transition;
     }
 
-    public MitooEnum.fragmentTransition getTransition() {
+    public MitooEnum.FragmentTransition getTransition() {
         return transition;
     }
 
@@ -33,18 +34,33 @@ public class FragmentChangeEvent extends EventObject{
         this.fragmentId = fragmentId;
     }
 
-    public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition) {
+    public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition) {
         super(source);
         this.transition = transition;
     }
 
-    public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition , int fragmentId) {
+    public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition , int fragmentId) {
         super(source);
         this.transition = transition;
         this.fragmentId= fragmentId;
     }
 
-    public FragmentChangeEvent(Object source, MitooEnum.fragmentTransition transition,int fragmentId,  Bundle bundle) {
+    public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition , int fragmentId , MitooEnum.FragmentAnimation animation) {
+        super(source);
+        this.transition = transition;
+        this.fragmentId= fragmentId;
+        this.animation = animation;
+    }
+
+    public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition , int fragmentId , MitooEnum.FragmentAnimation animation , Bundle bundle) {
+        super(source);
+        this.transition = transition;
+        this.fragmentId= fragmentId;
+        this.animation = animation;
+        this.bundle = bundle;
+    }
+
+    public FragmentChangeEvent(Object source, MitooEnum.FragmentTransition transition,int fragmentId,  Bundle bundle) {
         super(source);
         this.fragmentId = fragmentId;
         this.transition = transition;
@@ -55,4 +71,11 @@ public class FragmentChangeEvent extends EventObject{
         return fragmentId;
     }
 
+    public MitooEnum.FragmentAnimation getAnimation() {
+        return animation;
+    }
+
+    public void setAnimation(MitooEnum.FragmentAnimation animation) {
+        this.animation = animation;
+    }
 }

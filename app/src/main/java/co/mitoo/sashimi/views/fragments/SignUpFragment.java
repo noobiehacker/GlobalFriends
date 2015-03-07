@@ -4,13 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
-import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
@@ -26,6 +28,7 @@ public class SignUpFragment extends MitooFragment {
 
     private League selectedLeague;
     private boolean loggedIn;
+    private EditText topEditText;
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
     }
@@ -44,7 +47,6 @@ public class SignUpFragment extends MitooFragment {
         initializeFields();
         initializeViews(view);
         initializeOnClickListeners(view);
-
         return view;
     }
 
@@ -69,19 +71,30 @@ public class SignUpFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpSignUpView(view, getSelectedLeague());
+        setTopEditText((EditText)view.findViewById(R.id.nameInput));
+        setUpSignUpInfoText(view);
+    }
+
+    @Override
+    public void onStart(){
+
+        super.onResume();
+        requestFocusForTopInput(getTopEditText());
 
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.joinButton:
-                joinButtonAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.joinButton:
+                    joinButtonAction();
+                    break;
             /* Take Out For V1
             case R.id.facebookJoinButton:
                 facebookJoinButtonAction();
                 break;*/
+            }
         }
     }
 
@@ -104,8 +117,8 @@ public class SignUpFragment extends MitooFragment {
     public void onJoinResponse(SessionModelResponseEvent event) {
 
         setLoading(false);
-        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id,MitooEnum.crud.CREATE);
-        getLeagueModel().requestLeagueEnquire(requestEvent);
+        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id);
+        getLeagueModel().requestToEnquireLeague(requestEvent);
     }
 
     @Subscribe
@@ -113,12 +126,7 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
-        int keyID = R.string.bundle_key_first_time;
-        int valueID = R.string.bundle_value_true;
-        if(loggedIn)
-            valueID = R.string.bundle_value_false;
-        Bundle bundle = createBundleForNextFragment(keyID, valueID);
-        fireFragmentChangeAction(R.id.fragment_confirm , bundle);
+        fireFragmentChangeAction(R.id.fragment_confirm , MitooEnum.FragmentAnimation.VERTICAL);
 
     }
 
@@ -126,7 +134,6 @@ public class SignUpFragment extends MitooFragment {
     public void onError(MitooActivitiesErrorEvent error){
         super.onError(error);
     }
-
 
     private void facebookJoinButtonAction() {
 
@@ -144,7 +151,7 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getEmail() {
-        return this.getTextFromTextField(R.id.emailInput);
+        return this.getTextFromTextField(R.id.loginIDInput);
     }
 
     private String getPhone() {
@@ -171,42 +178,48 @@ public class SignUpFragment extends MitooFragment {
 
     private boolean allInputsAreValid(){
 
-        DataHelper dataHelper = getDataHelper();
-        return dataHelper.validPassword(getPassword()) && dataHelper.validEmail(getEmail())
-                && dataHelper.validName(getUsername()) && dataHelper.validPhone(getPhone());
+        FormHelper formHelper = getFormHelper();
+        return formHelper.validPassword(getPassword()) && formHelper.validEmail(getEmail())
+                && formHelper.validName(getUsername()) && formHelper.validPhone(getPhone());
 
     }
 
     private void handleInvalidInputs() {
 
         if (!handledEmptyInput()) {
-            DataHelper dataHelper = getDataHelper();
-            if (!dataHelper.validEmail(getEmail())) {
-                displayText(getString(R.string.toast_invalid_email));
-            } else if (!dataHelper.validPassword(getPassword())) {
-                displayText(getString(R.string.toast_invalid_password));
-            } else if (!dataHelper.validName(getUsername())) {
-                displayText(getString(R.string.toast_invalid_username));
-            } else if (!dataHelper.validPhone(getPhone())) {
-                displayText(getString(R.string.toast_invalid_phone));
+            if (!getFormHelper().validEmail(getEmail())) {
+                
+                getFormHelper().handleInvalidEmail(getEmail());
+                
+            } else if (!getFormHelper().validPassword(getPassword())) {
+                
+                getFormHelper().handleInvalidPassword(getPassword());
+                
+            } else if (!getFormHelper().validName(getUsername())) {
+                
+                getFormHelper().handleInvalidUserName(getUsername());
+                
+            } else if (!getFormHelper().validPhone(getPhone())) {
+                
+                getFormHelper().handleInvalidPhone(getPhone());
+                
             } else {
                 displayText(getString(R.string.toast_invalid_input));
             }
         }
-
     }
     
     private boolean handledEmptyInput(){
 
         boolean result = true;
         if (getUsername().equals("")) {
-            this.displayText(getString(R.string.toast_username_empty));
+            this.displayText(getString(R.string.toast_name_required));
         } else if (getEmail().equals("")) {
-            this.displayText(getString(R.string.toast_email_empty));
+            this.displayText(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_empty));
+            this.displayText(getString(R.string.toast_password_required));
         } else if (getPhone().equals("")) {
-            this.displayText(getString(R.string.toast_phone_empty));
+            this.displayText(getString(R.string.toast_phone_required));
         } else {
             result =false;
         }
@@ -224,6 +237,22 @@ public class SignUpFragment extends MitooFragment {
     private MitooEnum.ViewType getViewType(){
 
         return MitooEnum.ViewType.FRAGMENT;
+
+    }
+
+    public EditText getTopEditText() {
+        return topEditText;
+    }
+
+    public void setTopEditText(EditText topEditText) {
+        this.topEditText = topEditText;
+    }
+
+    private void setUpSignUpInfoText(View view){
+
+        TextView topSignUpText = (TextView)view.findViewById(R.id.signUpTopText);
+        String leagueName = getSelectedLeague().getName();
+        topSignUpText.setText(getDataHelper().createSignUpInfo(leagueName));
 
     }
 }

@@ -5,11 +5,11 @@ import org.json.JSONObject;
 /**
  * Created by david on 15-01-15.
  */
-public class algoliaResponseEvent {
+public class AlgoliaResponseEvent {
     
     private JSONObject result;
 
-    public algoliaResponseEvent(JSONObject result) {
+    public AlgoliaResponseEvent(JSONObject result) {
         this.result = result;
     }
 

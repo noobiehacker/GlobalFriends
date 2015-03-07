@@ -2,6 +2,8 @@ package co.mitoo.sashimi.managers;
 import java.util.ArrayList;
 import java.util.List;
 import android.os.Handler;
+
+import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -91,6 +93,20 @@ public class ModelManager {
         return locationModel;
     }
 
+    public AppSettingsModel getAppSettingsModel() {
+
+        AppSettingsModel appSettingsModel = null;
+        MitooModel model = getModel(AppSettingsModel.class);
+        if (model != null) {
+            appSettingsModel  = (AppSettingsModel) model;
+        } else {
+            appSettingsModel  = new AppSettingsModel(getMitooActivity());
+            addModel(appSettingsModel );
+        }
+        return appSettingsModel;
+    }
+
+
     public List<IsPersistable> getPersistableList() {
         return persistableList;
     }
@@ -156,7 +172,7 @@ public class ModelManager {
         getSessionModel();
         getUserInfoModel();
         getLeagueModel();
-        
+        getAppSettingsModel();
     }
 
     public void readAllPersistedData(){
@@ -210,8 +226,8 @@ public class ModelManager {
     
     private void removeModelReferences(){
         DataHelper dataHelper = new DataHelper(getMitooActivity());
-        dataHelper.clearList(this.getMitooModelList());
-        dataHelper.clearList(this.getPersistableList());
-        
+        getLeagueModel().resetFields();
+        //Refractor to remove model references
+        System.gc();
     }
 }

@@ -3,6 +3,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,10 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Protocol;
 import com.squareup.picasso.Callback;
-import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
@@ -33,7 +33,10 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
+import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
 
@@ -48,12 +51,14 @@ public class ViewHelper {
     }
     private Handler handler;
     private Runnable runnable;
+    private int itemLoaded = 0;
+    private Picasso picasso;
+    private int iconBackGroundTasks= 0;
+
     public MitooActivity getActivity() {
         return activity;
     }
-    private int itemLoaded = 0;
-    private Picasso picasso;
-
+    
     public void setActivity(MitooActivity activity) {
         this.activity = activity;
     }
@@ -62,28 +67,31 @@ public class ViewHelper {
 
         ImageView leagueOverLayImageView = (ImageView) leagueItemHolder.findViewById(R.id.blackOverLay);
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
+        MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
+        league.setLeagueMobileCover(target);
+        target.setCallBack(createBackgroundCallBack());
+        
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
-            String cover = league.getCover_mobile();
             RelativeLayout.LayoutParams layoutParam = new RelativeLayout.LayoutParams(leagueItemHolder.getMeasuredWidth(), leagueItemHolder.getHeight());
             leagueOverLayImageView.setLayoutParams(layoutParam);
             leagueBackgroundImageView.setLayoutParams(layoutParam);
             getPicasso().with(getActivity())
-                    .load(cover)
-                    .fit()
-                    .centerCrop()
+                    .load(getCover(league))
                     .placeholder(R.color.over_lay_black)
-                    .into(leagueBackgroundImageView, createBackgroundCallBack());
+                    .into(target);
         }
     }
-
+   
 
     private void setUpStaticLeagueBackground(final View leagueItemHolder, League league) {
 
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
+        MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
+        league.setLeagueCover(target);
         if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
-            String cover = league.getCover_mobile();
-            Picasso.with(getActivity())
-                    .load(cover)
+            getPicasso().with(getActivity())
+                    .load(getCoverTall(league))
+                    .placeholder(R.color.over_lay_black)
                     .fit()
                     .centerCrop()
                     .into(leagueBackgroundImageView);
@@ -99,39 +107,36 @@ public class ViewHelper {
 
         }
     }
-    
+
     public void setUpSignUpView(View fragmentView, League league){
-        setUpStaticLeagueInfoAndBackground(fragmentView, league);
+        setUpStaticLeagueBackground(fragmentView, league);
+
     }
 
     public void setUpConfirmView(View fragmentView, League league){
-        setUpStaticLeagueInfoAndBackground(fragmentView, league);
-    }
-    
-    private void setUpStaticLeagueInfoAndBackground(View fragmentView, League league){
-        setUpIconImage(fragmentView, league);
         setUpStaticLeagueBackground(fragmentView, league);
-        setUpLeagueNameText(fragmentView,league);
+
     }
     
-    public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, View leagueListHolder){
-        int iconDimenID = R.dimen.league_listview_icon_height;
-        String logo = league.getLogo_large();
-        ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
+    public void setUpEnquireListIcon(final View view , League league){
+        ImageView iconImage = (ImageView) view.findViewById(R.id.enquired_list_icon);
+        int iconDimenID = R.dimen.enquired_list_icon_length;
         getPicasso().with(getActivity())
-                .load(logo)
-                .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
-                .into(leagueIconImageView, createIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
+                .load(getLogo(league))
+                .transform(new LogoTransform(getPixelFromDimenID(iconDimenID), 1.0))
+                .into(iconImage, createListIconCallBack(view));
     }
 
-    public void setUpIconImage(final View leagueItemContainer, final League league){
+    public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, View leagueListHolder){
         int iconDimenID = R.dimen.league_listview_icon_height;
-        String logo = league.getLogo_large();
         ImageView leagueIconImageView = (ImageView) leagueItemContainer.findViewById(R.id.leagueImage);
+        MitooImageTarget target = new MitooImageTarget(leagueIconImageView);
+        league.setIconTarget(target);
+        target.setCallBack(createResultIconCallBack(leagueIconImageView, league, leagueItemContainer, leagueListHolder));
         getPicasso().with(getActivity())
-                .load(logo)
+                .load(getLogo(league))
                 .transform(new LogoTransform( getPixelFromDimenID(iconDimenID)))
-                .into(leagueIconImageView);
+                .into(target);
     }
 
     public void setUpFullLeagueText(View view, League league){
@@ -147,7 +152,7 @@ public class ViewHelper {
         TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
         View cityContainer = (View ) view .findViewById(R.id.city_name_container);
         cityNameTextView.setText(league.getCity());
-        setViewBackgroundDrawableColor(cityContainer, league.getColor_1());
+        cityContainer.setBackgroundDrawable(createRoundLeftCorners(league.getColor_1()));
 
     }
     
@@ -167,34 +172,15 @@ public class ViewHelper {
         
     }
 
-    public void setLineColor(View view , League league){
-        View bottomLine = (View) view.findViewById(R.id.bottomLine);
-        int colorID = getColor(league.getColor_1());
-        if(colorID!=MitooConstants.invalidConstant)
-            bottomLine.setBackgroundColor(colorID);
-    }
-    public void setTextViewColor(TextView view, String color){
+    public void setTextViewTextColor(TextView view, String color){
         int colorID = getColor(color);
-        setTextViewTextColor(view, colorID);
-    }
-    
-    public void setTextViewTextColor(TextView view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             view.setTextColor(colorID);
         }
     }
 
-    public void setViewColor(View view, String color){
-        int colorID = getColor(color);
-        setViewBackgroundDrawableColor(view, colorID);
-    }
-
     public void setViewBackgroundDrawableColor(View view, String color){
         int colorID = getColor(color);
-        setViewBackgroundDrawableColor(view, colorID);
-    }
-
-    public void setViewBackgroundDrawableColor(View view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             Drawable drawable =view.getBackground();
             drawable.setColorFilter(colorID, PorterDuff.Mode.SRC);
@@ -203,13 +189,28 @@ public class ViewHelper {
 
     public void setViewBackgroundColor(View view, String color){
         int colorID = getColor(color);
-        setViewBackgroundColor(view, colorID);
-    }
-    
-    public void setViewBackgroundColor(View view, int colorID){
         if(colorID!=MitooConstants.invalidConstant){
             view.setBackgroundColor(colorID);
         }
+    }
+
+    private Drawable createRoundLeftCorners(String color){
+        GradientDrawable drawable = new GradientDrawable();
+        int colorID = getColor(color);
+        drawable.setColor(colorID);
+        drawable.setCornerRadii(createLeftCornerRadii());
+        return drawable;
+    }
+
+    private float[] createLeftCornerRadii(){
+        
+        float[] radii = new float[8];
+        Arrays.fill(radii, 0);
+        radii[0] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        radii[1] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        radii[6] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        radii[7] = getPixelFromDimenID(R.dimen.corner_radius_small);
+        return radii;
     }
     
     private int getColor(String leagueColorInput){
@@ -248,23 +249,37 @@ public class ViewHelper {
 
     public void setOnTouchCloseKeyboard(View view) {
 
-        if(!(view instanceof EditText)) {
-            view.setOnTouchListener(new View.OnTouchListener() {
-                public boolean onTouch(View v, MotionEvent event) {
-                    getActivity().hideSoftKeyboard(v);
-                    return false;
-                }
-            });
-        }
-
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
                 setOnTouchCloseKeyboard(innerView);
             }
         }
+        else{
+            
+            if(!(view instanceof EditText || view instanceof ListView)) {
+                view.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        getActivity().hideSoftKeyboard(v);
+                        return false;
+                    }
+                });
+            }
+        }
+
     }
     
+    public void recursivelyCenterVertically(View view) {
+
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                recursivelyCenterVertically(innerView);
+            }
+        }
+
+    }
+
     private int getPixelFromDimenID(int id){
 
         return getActivity().getResources().getDimensionPixelSize(id);
@@ -324,7 +339,7 @@ public class ViewHelper {
 
     private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<League> leagues){
 
-        int indexToStop= 3;
+        int indexToStop= leagues.size();
 
         if(leagues.size()>indexToStop){
 
@@ -332,11 +347,13 @@ public class ViewHelper {
             fragment.setRunnable(createRecursiveLoadList(fragment, leagueLayout, holder, leagueToLoadLater));
             setRunnable(fragment.getRunnable());
             leagues = leagues.subList(0,indexToStop);
+            getHandler().post(getRunnable());
 
         }
 
         for(League item : leagues){
 
+            incrementIconBackgroundTasks();
             RelativeLayout layout = createLeagueResult(item, holder);
             layout.setOnClickListener(createLeagueItemClickedListner(fragment, item));
             holder.addView(layout);
@@ -358,7 +375,7 @@ public class ViewHelper {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!fragment.isLoading())
+                if(fragment.getDataHelper().isClickable())
                     leagueListItemAction(fragment,itemClicked);
             }
         };
@@ -366,7 +383,6 @@ public class ViewHelper {
 
     private void leagueListItemAction(MitooFragment fragment,League league){
 
-        fragment.setLoading(true);
         LeagueModel model =getActivity().getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
         fragment.fireFragmentChangeAction(R.id.fragment_league);
@@ -383,6 +399,7 @@ public class ViewHelper {
                             // Ensure you call it only once :
                             loadedView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                             setUpDynamicLeagueBackground(leagueItemHolder, league);
+
                         }
                     });
         }
@@ -390,9 +407,7 @@ public class ViewHelper {
     
     public RelativeLayout createLeagueResult(League league , View leagueListHolder){
 
-        int leagueLayout = R.layout.list_view_item_league;
-        LayoutInflater inflater =  getActivity().getLayoutInflater();
-        RelativeLayout leagueItemContainer = (RelativeLayout)inflater.inflate(leagueLayout, null);
+        RelativeLayout leagueItemContainer = (RelativeLayout)createViewFromInflator(R.layout.view_league_dynamic_header);
         this.setUpFullLeagueText(leagueItemContainer, league);
         this.setUpCheckBox(leagueItemContainer, league);
         this.setLineColor(leagueItemContainer, league);
@@ -400,21 +415,48 @@ public class ViewHelper {
         return leagueItemContainer;
     }
     
-    private Callback createIconCallBack(final View iconView, final League league, final View leagueItemHolder, final View leagueListHolder){
+    public void setLineColor(View container, League league){
+        
+        View bottomLine = (View) container.findViewById(R.id.bottomLine);
+        setViewBackgroundDrawableColor(bottomLine, league.getColor_1());
+        
+    }
+    
+    private Callback createResultIconCallBack(final View iconView, final League league, final View leagueItemHolder, final View leagueListHolder){
         
         return new Callback() {
             @Override
             public void onSuccess() {
                 setUpViewCallBack(iconView, league, leagueItemHolder, leagueListHolder);
+                decrementIconBackgroundTasks();
+
             }
 
             @Override
             public void onError() {
                 
                 setUpDynamicLeagueBackground(leagueItemHolder, league);
+                setUpEnquireListIconContainer(leagueListHolder, View.GONE);
+                decrementIconBackgroundTasks();
+
             }
         };
-        
+    }
+
+    private Callback createListIconCallBack(final View container){
+
+        return new Callback() {
+            @Override
+            public void onSuccess() {
+                setUpEnquireListIconContainer(container , View.VISIBLE);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        };
+
     }
 
     private Callback createBackgroundCallBack(){
@@ -432,7 +474,6 @@ public class ViewHelper {
                 leagueBackgroundLoadCompleteAction();
             }
         };
-
     }
 
     public void unbindDrawables(View view) {
@@ -480,19 +521,132 @@ public class ViewHelper {
 
     public Picasso getPicasso() {
         if (picasso == null) {
-            OkHttpClient client = new OkHttpClient();
-            client.setProtocols(Arrays.asList(Protocol.HTTP_1_1));
-            Picasso picasso = new Picasso.Builder(getActivity())
-                    .downloader(new OkHttpDownloader(client))
-                    .build();
-            setPicasso(picasso);
+            picasso=getActivity().getPicasso();
         }
         return picasso;
     }
 
-    public void setPicasso(Picasso picasso) {
-        this.picasso = picasso;
+    public void customizeMainSearch(SearchView searchView){
+        MitooSearchViewStyle.on(searchView)
+                .setSearchHintDrawable(getActivity().getString(R.string.search_page_text_3))
+                .setSearchPlateColor(getActivity().getResources().getColor(R.color.white))
+                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_six))
+                .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.gray_dark_four))
+                .setUpMainRemaining()
+                .setCursorColor(getActivity().getResources().getColor(R.color.blue_sky_light));
+    }
+
+    public void customizeLocationSearch(SearchView searchView){
+
+        MitooSearchViewStyle.on(searchView)
+                .setSearchHintDrawable(getActivity().getString(R.string.location_search_page_text_1))
+                .setSearchPlateColor(getActivity().getResources().getColor(R.color.gray_dark_five))
+                .setAutoCompleteHintColor(getActivity().getResources().getColor(R.color.gray_light_five))
+                .setAutoCompleteTextColor(getActivity().getResources().getColor(R.color.white))
+                .setUpLocationRemaining()
+                .setCursorColor(getActivity().getResources().getColor(R.color.blue_sky_light));
+                
     }
     
+    public String getRetinaUrl(String url){
+
+        return getActivity().getDataHelper().getRetinaURL(url);
+
+    }
+
+    private String getCover(League league){
+        
+        String result = "";
+        if(league!=null){
+            result = getRetinaUrl(league.getCover_mobile());
+        }
+        return result;
+
+    }
+
+    private String getCoverTall(League league){
+
+        String result = "";
+        if(league!=null){
+            result = getRetinaUrl(league.getCover_mobile_tall());
+        }
+        return result;
+
+    }
+    private String getLogo(League league) {
+
+        String result = "";
+        if (league != null) {
+            result = getRetinaUrl(league.getLogo_large());
+        }
+        return result;
+    }
+
+    public RelativeLayout.LayoutParams createCenterInVerticalParam(){
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.CENTER_VERTICAL);
+        return params;
+
+    }
+    
+    public View createViewFromInflator(int layoutID){
+        LayoutInflater inflater =  getActivity().getLayoutInflater();
+        RelativeLayout enquiredText = (RelativeLayout)inflater.inflate(layoutID, null);
+        return enquiredText;
+    }
+
+    public View createHeadFooterView(int layoutID,  String text){
+
+        int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
+        View holder = createViewFromInflator(layoutID);
+        TextView headerTextView = (TextView)holder.findViewById(textViewID);
+        headerTextView.setText(text);
+        return holder;
+    }
+
+
+    private void setUpEnquireListIconContainer(View containerView , int visibility) {
+        View iconContainer = containerView.findViewById(R.id.icon_container);
+        if (iconContainer != null) {
+
+           iconContainer.setVisibility(visibility);
+        }
+    }
+
+    private void incrementIconBackgroundTasks(){
+        this.iconBackGroundTasks++;
+    }
+
+    private void decrementIconBackgroundTasks(){
+        this.iconBackGroundTasks--;
+        if(this.iconBackGroundTasks==0)
+            BusProvider.post(new BackGroundTaskCompleteEvent());
+    }
+
+
+    public void setUpListHeader(ListView listView , int layoutID , String headerText){
+
+        View holder = createHeadFooterView(layoutID, headerText);
+        listView.addHeaderView(holder);
+    }
+
+    public void setUpListFooter(ListView listView , int layoutID , String footerText) {
+
+        if(listView.getFooterViewsCount() ==0 ){
+            View holder = createHeadFooterView(layoutID, footerText);
+            listView.addFooterView(holder);
+        }
+
+    }
+
+    public void setUpLeagueList(ListView listView, LeagueAdapter adapter,String headerText){
+        int headerLayoutID =  R.layout.view_league_list_header;
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(adapter);
+        setUpListHeader(listView, headerLayoutID, headerText);
+    }
 
 }

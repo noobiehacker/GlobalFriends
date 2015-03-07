@@ -8,18 +8,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
-import co.mitoo.sashimi.utils.events.algoliaResponseEvent;
+import co.mitoo.sashimi.utils.events.AlgoliaResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
@@ -49,7 +52,7 @@ public class LeagueModel extends MitooModel{
     private void setUpAlgolia(){
 
         algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
-        index = algoliaClient.initIndex(getActivity().getString(R.string.algolia_staging_index));
+        setIndex(algoliaClient.initIndex(getActivity().getDataHelper().getAlgoliaIndex()));
         aiListener = new AlgoliaIndexListener();
 
     }
@@ -63,26 +66,32 @@ public class LeagueModel extends MitooModel{
 
         }
         setRequestingAlgolia(true);
-        index.searchASync(algoliaQuery, this.aiListener);
+        getIndex().searchASync(algoliaQuery, this.aiListener);
         
     }
 
-    public void requestLeagueEnquire(LeagueModelEnquireRequestEvent event){
+    public void requestEnquiredLeagues(LeagueModelEnquireRequestEvent event) {
 
-        if(event.getRequestType()== MitooEnum.crud.CREATE) {
-            if (getSelectedLeague() != null) {
-                JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
-                handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
-            }
-        } else if (event.getRequestType() == MitooEnum.crud.READ) {
-            handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant() ,event.getUserID()), League[].class);
+        if(event.getApiRequestType()== MitooEnum.APIRequest.REQUEST && getLeaguesEnquired().size()!=0)
+            BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeaguesEnquired()));
+        else
+            handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant(), event.getUserID()), League[].class);
+    }
+
+    public void requestToEnquireLeague(LeagueModelEnquireRequestEvent event) {
+
+        if (getSelectedLeague() != null) {
+            JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
+            handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
         }
+
     }
 
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof League[]) {
+            clearLeaguesEnquired();
             addLeagueEnquired((League[]) objectRecieve);
             setSelectedLeague(getFirstLeague());
             BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeaguesEnquired()));
@@ -93,11 +102,12 @@ public class LeagueModel extends MitooModel{
             addLeagueEnquired(enquired);
             BusProvider.post(new LeagueModelEnquiresResponseEvent((Response)objectRecieve));
         }
+        
     }
    
 
     @Subscribe
-    public void algoliaResponse(algoliaResponseEvent event){
+    public void algoliaResponse(AlgoliaResponseEvent event){
 
         if(isRequestingAlgolia())
             parseLeagueResult(event.getResult());
@@ -177,23 +187,12 @@ public class LeagueModel extends MitooModel{
         if (this.leagueEnquired == null) {
             this.leagueEnquired = new ArrayList<League>();
         }
+        DataHelper helper = getActivity().getDataHelper();
         for (League item : newleaguesEnquired) {
             this.leagueEnquired.add(item);
         }
     }
 
-    private League[] createCombinedEnquiredArray(League[] oldArray, League[] inputArray){
-        
-        League[] combinedLeagueArray =  new League[oldArray.length+inputArray.length];
-        for(int i = 0 ; i< combinedLeagueArray.length ; i++){
-            if(i<oldArray.length)
-                combinedLeagueArray[i] = oldArray[i];
-            else
-                combinedLeagueArray[i] = inputArray[i-oldArray.length];
-        }
-        return combinedLeagueArray;
-        
-    }
 
     private League getFirstLeague(){
         if(getLeaguesEnquired() !=null && getLeaguesEnquired().size()>0)
@@ -218,7 +217,6 @@ public class LeagueModel extends MitooModel{
     }
     
     private boolean enquiredLeagueContains(League league){
-        
         
         boolean containsLeague = false;
         if(league!=null){
@@ -245,4 +243,36 @@ public class LeagueModel extends MitooModel{
     public void setRequestingAlgolia(boolean requestingAlgolia) {
         this.requestingAlgolia = requestingAlgolia;
     }
+    
+    private void setEnquiredDateAsNow(League league){
+        
+        Date date = new Date();
+        DataHelper helper = getActivity().getDataHelper();
+        league.setCreated_at(helper.getDateString(date));
+        
+    }
+    
+    public void resetFields(){
+        this.leagueEnquired=null;
+        this.leagueSearchResults = null;
+        this.selectedLeague = null;
+        
+    }
+
+    public Index getIndex() {
+        return index;
+    }
+
+    public void setIndex(Index index) {
+        this.index = index;
+    }
+
+    public void setLeagueEnquired(List<League> leagueEnquired) {
+        this.leagueEnquired = leagueEnquired;
+    }
+
+    private void clearLeaguesEnquired(){
+        setLeagueEnquired(new ArrayList<League>());
+    }
 }
+

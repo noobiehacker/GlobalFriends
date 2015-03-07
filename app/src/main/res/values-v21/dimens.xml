@@ -1,87 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- font sizes -->
-    <dimen name="font_largest">70sp</dimen>
-    <dimen name="font_larger">26sp</dimen>
-    <dimen name="font_large">20sp</dimen>
-    <dimen name="font_biggish">17sp</dimen>
-    <dimen name="font_bigger">16sp</dimen>
-    <dimen name="font_big">15sp</dimen>
-    <dimen name="font_normal">13sp</dimen>
-    <dimen name="font_small">12sp</dimen>
-    <dimen name="font_smaller">7sp</dimen>
+    <!-- All Pages -->
+    <dimen name="spacing_content_top">14dp</dimen>
+    <dimen name="spacing_content_bottom">14dp</dimen>
+    <dimen name="spacing_between_text">6dp</dimen>
 
-    <!-- font sizes custom -->
+    <!-- Search Page -->
+    <dimen name="search_edit_text_top_padding">7.5dp</dimen>
+    <dimen name="search_edit_text_left_padding">5dp</dimen>
 
-    <!-- typical spacing between two views -->
-    <dimen name="spacing_huge">165dp</dimen>
-    <dimen name="spacing_large">35dp</dimen>
-    <dimen name="spacing_larger">42dp</dimen>
-    <dimen name="spacing_big">52dp</dimen>
-    <dimen name="spacing_bigger">60dp</dimen>
-    <dimen name="spacing_medium_big">32dp</dimen>
-    <dimen name="spacing_medium">25dp</dimen>
-    <dimen name="spacing_normal">18dp</dimen>
-    <dimen name="spacing_small">14dp</dimen>
-    <dimen name="spacing_smallish">10dp</dimen>
-    <dimen name="spacing_smaller">7dp</dimen>
-    <dimen name="spacing_smallest">5dp</dimen>
-    <dimen name="spacing_tiny">3dp</dimen>
-
-    <dimen name="spacing_section_title_top">19dp</dimen>
-    <dimen name="spacing_section_title_bottom">9dp</dimen>
-
-    <dimen name="spacing_map_text_width">17dp</dimen>
-    <dimen name="spacing_map_text_height">8dp</dimen>
-    <!-- header / footer -->
-    <dimen name="header">120dp</dimen>
-    <dimen name="footer">120dp</dimen>
-
-    <!-- typical sizes of views -->
-    <dimen name="gray_button_height">45dp</dimen>
-    <dimen name="gray_button_width">324dp</dimen>
-    <dimen name="search_bar_height">37dp</dimen>
-
-    <dimen name="yellow_button_height">37dp</dimen>
-    <dimen name="yellow_button_width">140dp</dimen>
-
-    <dimen name="toggle_height_days">32dp</dimen>
-    <dimen name="toggle_height_gender">54dp</dimen>
-
-    <dimen name="list_view_height">100dp</dimen>
-    <dimen name="list_view_league_image_height">100dp</dimen>
-    <dimen name="list_divider_height">1dp</dimen>
-    <!-- stock android values -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <!-- Widgets -->
-    <dimen name="corner_radius_small">3dp</dimen>
-    <dimen name="image_container_border">2dp</dimen>
-    <dimen name="line_length_or">125dp</dimen>
-    <dimen name="line_length_league_bottom">5dp</dimen>
-    <dimen name="line_length_description">115dp</dimen>
-    <dimen name="line_length_location">120dp</dimen>
-    <dimen name="circle_button_diameter">76dp</dimen>
-    <dimen name="circle_button_radius">76dp</dimen>
-    <dimen name="circle_image_diameter">64dp</dimen>
-    <dimen name="league_icon_container_width">126dp</dimen>
-    <dimen name="league_icon_container_height">76dp</dimen>
-    <dimen name="league_listview_icon_height">57dp</dimen>
-    <dimen name="league_icon_radius">4dp</dimen>
-    
-    <!-- Slide Icon -->
-    <dimen name="slide_icon_big_width">200dp</dimen>
-    <dimen name="slide_icon_big_height">100dp</dimen>
-
-    <dimen name="slide_icon_small_width">160dp</dimen>
-    <dimen name="slide_icon_small_height">160dp</dimen>
-    
-    <!-- PlaceHolders -->
-    <dimen name="google_map_place_holder">177dp</dimen>
-
-    
-    <!--Float -->
-    <item name="text_line_spacing" format="float" type="dimen">1.5</item>
-    
 </resources>

@@ -20,7 +20,7 @@
         android:layout_below="@id/get_help_text_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_half"></View>
+        android:background="@color/gray_light_three"></View>
     
     <TextView
         android:id="@+id/feedback_text_view"
@@ -37,7 +37,7 @@
         android:id="@+id/dark_line_two"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_half"
+        android:background="@color/gray_light_three"
         android:layout_below="@id/feedback_text_view"></View>
 
     <TextView
@@ -55,7 +55,7 @@
         android:id="@+id/dark_line_three"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_half"
+        android:background="@color/gray_light_three"
         android:layout_below="@id/faq_text_view"></View>
 
     <TextView

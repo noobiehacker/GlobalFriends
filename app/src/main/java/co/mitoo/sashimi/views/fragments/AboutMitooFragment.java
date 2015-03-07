@@ -1,11 +1,12 @@
 package co.mitoo.sashimi.views.fragments;
-
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-
+import android.webkit.WebViewClient;
+import com.github.androidprogresslayout.ProgressLayout;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -15,8 +16,9 @@ import co.mitoo.sashimi.utils.MitooEnum;
  */
 public class AboutMitooFragment extends MitooFragment {
 
-    private MitooEnum.aboutMitooOption aboutMitooOptions;
+    private MitooEnum.AboutMitooOption aboutMitooOptions;
     private String[] optionsString;
+    private ProgressLayout progressLayout;
 
     public static AboutMitooFragment newInstance() {
         AboutMitooFragment fragment = new AboutMitooFragment();
@@ -34,10 +36,8 @@ public class AboutMitooFragment extends MitooFragment {
         return view;
     }
 
-
     @Override
     public void onClick(View v) {
-
 
     }
 
@@ -51,13 +51,15 @@ public class AboutMitooFragment extends MitooFragment {
     @Override
     protected void initializeViews(View view) {
         super.initializeViews(view);
+        setProgressLayout((ProgressLayout)view.findViewById(R.id.progressLayout));
         setUpWebView(view);
     }
 
     private void setUpWebView(View view) {
 
-        WebView webView = (WebView) view.findViewById(R.id.terms_web_view);
-
+        WebView webView =(WebView) view.findViewById(R.id.terms_web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(createWebViewClient());
         switch (getAboutMitooOptions()) {
             case TERMS:
                 webView.loadUrl(getString(R.string.mitoo_terms_url));
@@ -103,7 +105,7 @@ public class AboutMitooFragment extends MitooFragment {
         }
     }
 
-    public MitooEnum.aboutMitooOption getAboutMitooOptions() {
+    public MitooEnum.AboutMitooOption getAboutMitooOptions() {
 
         if (this.aboutMitooOptions == null) {
             Bundle arguments = getArguments();
@@ -114,16 +116,16 @@ public class AboutMitooFragment extends MitooFragment {
 
                 switch (integerValue) {
                     case 0:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.TERMS);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.TERMS);
                         break;
                     case 1:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.PRIVACYPOLICY);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.PRIVACYPOLICY);
                         break;
                     case MitooConstants.faqOption:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.FAQ);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.FAQ);
                         break;
                     default:
-                        setAboutMitooOptions(MitooEnum.aboutMitooOption.TERMS);
+                        setAboutMitooOptions(MitooEnum.AboutMitooOption.TERMS);
 
                 }
             }
@@ -131,7 +133,7 @@ public class AboutMitooFragment extends MitooFragment {
         return aboutMitooOptions;
     }
 
-    public void setAboutMitooOptions(MitooEnum.aboutMitooOption aboutMitooOptions) {
+    public void setAboutMitooOptions(MitooEnum.AboutMitooOption aboutMitooOptions) {
         this.aboutMitooOptions = aboutMitooOptions;
     }
 
@@ -140,4 +142,46 @@ public class AboutMitooFragment extends MitooFragment {
         return MitooConstants.faqOption;
 
     }
+
+    public ProgressLayout getProgressLayout() {
+        return progressLayout;
+    }
+
+    public void setProgressLayout(ProgressLayout progressLayout) {
+        this.progressLayout = progressLayout;
+    }
+    
+    private WebViewClient createWebViewClient(){
+        return new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                setLoading(true);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                setLoading(false);
+
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+
+                setLoading(false);
+                getProgressLayout().showErrorText(description);
+            }
+        };
+        
+    }
+
+    @Override
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        if (this.loading) {
+            getProgressLayout().showProgress();
+        } else {
+            getProgressLayout().showContent();
+        }
+    }
+
 }

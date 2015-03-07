@@ -1,13 +1,12 @@
 package co.mitoo.sashimi.views.fragments;
-import android.gesture.Prediction;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
@@ -15,13 +14,14 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.utils.IsSearchable;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
-import se.walkercrou.places.Place;
 
 /**
  * Created by david on 15-01-23.
@@ -31,6 +31,8 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     private List<IsSearchable> predictions;
     private ListView placesList;
     private SearchableAdapter placeListAdapter;
+    private SearchView searchView;
+    private String queryText;
 
     public static LocationSearchFragment newInstance() {
         LocationSearchFragment fragment = new LocationSearchFragment();
@@ -56,37 +58,41 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
 
     @Override
+    public void onResume(){
+
+        super.onResume();
+        setUpIconifiedCallBack();
+
+    }
+    @Override
     protected void initializeViews(View view){
 
         setUpToolBar(view);
         setUpPlacesList(view);
-        setUpDynamicText(view);
+        setUpCurrentLocationText(view);
     }
 
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
+        
         super.onError(error);
     }
     
     @Override
-    protected void setUpToolBar(View view) {
+    protected Toolbar setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-        if(toolbar!=null) {
+        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        if(getToolbar()!=null) {
+            getToolbar().setTitle("");
+            getToolbar().addView(createSearchView());
+            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+            setUpBackButtonClickListner();
 
-            toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.addView(createSearchView(view));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    getMitooActivity().onBackPressed();
-                }
-            });
         }
+        return getToolbar();
     }
 
-    
-    private void setUpDynamicText(View view){
+    private void setUpCurrentLocationText(View view){
         
         TextView dynamicText = (TextView) view.findViewById(R.id.dynamicText);
         dynamicText.setText(getString(R.string.location_search_page_text_2));
@@ -100,34 +106,21 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         view.findViewById(R.id.current_location).setOnClickListener(this);
     }
 
-    private SearchView createSearchView(View view){
 
-        SearchView searchView = new SearchView(getActivity());
-        searchView.setQueryHint(getString(R.string.location_search_page_text_1));
-        searchView.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        searchView.setIconified(false);
-        searchView.requestFocusFromTouch();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
+    private SearchView createSearchView(){
 
-            @Override
-            public boolean onQueryTextChange(String s) {
-                querySearchAction(s);
-                return false;
-            }
-        });
-        return searchView;
+        setSearchView(new SearchView(getActivity()));
+        getViewHelper().customizeLocationSearch(getSearchView());
+        getSearchView().setOnQueryTextListener(createQueryTextChangeListner());
+        return getSearchView();
+
     }
-    
+
     @Subscribe
     public void onLocationModelQueryResult(LocationModelQueryResultEvent event) {
 
-        updatePredictions(event.getPlaces());
+        if(!getQueryText().equals(""))
+            updatePredictions(event.getPlaces());
     }
 
     public SearchableAdapter getPlaceListAdapter() {
@@ -149,7 +142,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         getDataHelper().clearList(getPredictions());
         getDataHelper().addToListList(getPredictions(),predictions);
         placeListAdapter.notifyDataSetChanged();
-        handleViewVisibility(getPlacesList(),predictions.size()>0 );
+        handleViewVisibility(getPlacesList(),getPredictions().size()>0 );
 
     }
 
@@ -164,12 +157,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             }
         }
     }
-    
-    private LocationModel getLocationModel(){
-        
-        return (LocationModel) getMitooModel(LocationModel.class);
-    }
-    
 
     private void setUpPlacesList(View view){
 
@@ -202,7 +189,6 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             if (position != 0) {
                 parent.setFocusable(true);
                 parent.requestFocus();
-                getMitooActivity().hideSoftKeyboard(view);
                 PredictionWrapper wrapper = (PredictionWrapper) placesList.getItemAtPosition(position);
                 placeSelectionAction(wrapper);
             }
@@ -210,7 +196,8 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     }
     
     private void placeSelectionAction(PredictionWrapper prediction){
-        
+
+        getMitooActivity().hideSoftKeyboard();
         setLoading(true);
         getLocationModel().selectPlace(prediction);
         
@@ -219,7 +206,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
-        fireFragmentChangeAction(MitooEnum.fragmentTransition.POP);
+        fireFragmentChangeAction(MitooEnum.FragmentTransition.POP);
 
     }
 
@@ -242,5 +229,59 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     public void setPlacesList(ListView placesList) {
         this.placesList = placesList;
+    }
+
+    public SearchView getSearchView() {
+        return searchView;
+    }
+
+    public void setSearchView(SearchView searchView) {
+        this.searchView = searchView;
+    }
+    
+    private SearchView.OnQueryTextListener createQueryTextChangeListner(){
+
+        return new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                if(getPlacesList().getItemAtPosition(1)!=null){
+                    placeSelectionAction((PredictionWrapper)getPlacesList().getItemAtPosition(0));
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                setQueryText(s);
+                if(s.equals("")){
+                    MitooSearchViewStyle.on(getSearchView()).hideCloseButton();
+                }else{
+                    MitooSearchViewStyle.on(getSearchView()).showCloseButton();
+                }
+                querySearchAction(s);
+                return false;
+            }
+        };
+    }
+
+    private void setUpIconifiedCallBack(){
+
+        setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                getSearchView().setIconified(false);
+            }
+        });
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationShort);
+
+    }
+
+    public String getQueryText() {
+        return queryText;
+    }
+
+    public void setQueryText(String queryText) {
+        this.queryText = queryText;
     }
 }

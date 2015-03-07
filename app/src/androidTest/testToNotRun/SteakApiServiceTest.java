@@ -48,7 +48,7 @@ public class SteakApiServiceTest extends TestCase {
     @Test
     public void testNoNetwork() throws Exception {
 
-        ServiceBuilder builder = new ServiceBuilder();
+        ServiceBuilder builder = ServiceBuilder.getSingleTonInstance();
         SteakApi api = builder.setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class, new MockSteakApiService(200));
         MockRestAdapter adapter = builder.getMockRestAdapter();
@@ -98,7 +98,7 @@ public class SteakApiServiceTest extends TestCase {
     }
     private void testCreateRegistration(String userID) throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
+        SteakApi api = ServiceBuilder.getSingleTonInstance().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
         JsonLoginSend sendingObject = new JsonLoginSend(userID, StaticString.testPassword);
         Observable<SessionRecieve> observable = api.createRegistration(StaticString.apiConstantRegister
@@ -111,7 +111,7 @@ public class SteakApiServiceTest extends TestCase {
 
     private void testCreateSession(String userID) throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
+        SteakApi api = ServiceBuilder.getSingleTonInstance().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
         JsonLoginSend loginObject = new JsonLoginSend(userID, StaticString.testPassword);
         Observable<SessionRecieve> observable = api.createSession(loginObject);
@@ -123,7 +123,7 @@ public class SteakApiServiceTest extends TestCase {
 
     private void testResetPassword(String userID) throws Exception {
 
-        SteakApi api = new ServiceBuilder().setEndPoint(StaticString.steakLocalEndPoint)
+        SteakApi api =ServiceBuilder.getSingleTonInstance().setEndPoint(StaticString.steakLocalEndPoint)
                 .create(SteakApi.class);
         Observable<Response> observable = api.resetPassword(new JsonResetPasswordSend(userID));
         testApiMethod(observable , Response.class);

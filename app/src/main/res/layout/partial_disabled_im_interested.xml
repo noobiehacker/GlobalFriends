@@ -32,15 +32,4 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/league_join_confirm"
-        style="@style/grayLightSmallText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/disabledMockInterestedButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_smallish"
-        android:gravity="center"
-        android:text="@string/league_page_text_2" />
-
 </RelativeLayout>

@@ -25,7 +25,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_four"
+        android:background="@color/gray_dark_one"
         android:layout_below="@+id/dynamicText"></View>
 
 </RelativeLayout>

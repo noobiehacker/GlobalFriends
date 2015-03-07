@@ -54,7 +54,6 @@ public class ConfirmFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpConfirmView(view, getSelectedLeague());
-        setUpPopUpTask();
     }
 
     @Override
@@ -77,22 +76,13 @@ public class ConfirmFragment extends MitooFragment {
     }
 
     private void viewMyLeagueButtonAction(){
-        
-        fireFragmentChangeAction(R.id.fragment_home);
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL, bundle);
         
     }
-    
-    @Override
-    protected void setUpToolBar(View view) {
 
-        toolbar = (Toolbar)view.findViewById(R.id.app_bar);
-        if(toolbar!=null){
-
-            toolbar.setTitle(getFragmentTitle());
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-
-        }
-    }
 
     public League getSelectedLeague() {
         if(selectedLeague==null){
@@ -105,41 +95,4 @@ public class ConfirmFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
-    
-    private void setUpPopUpTask(){
-        
-        if(firstTimeUser()){
-            Handler handler = getHandler();
-            setRunnable( new Runnable() {
-                @Override
-                public void run() {
-                    FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
-                    dialog.buildPrompt().show();
-                }
-            });
-            handler.postDelayed(getRunnable(), 5000);
-
-        }
-        
-    }
-    
-    private boolean firstTimeUser(){
-
-        Boolean result= false;
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            String value = (String) arguments.get(getString(R.string.bundle_key_first_time));
-            if(value.equals(getString(R.string.bundle_value_true)))
-                result=true;
-            else
-                result =false;
-        }
-        return result;
-    }
-
-    private MitooEnum.ViewType getViewType(){
-
-        return MitooEnum.ViewType.FRAGMENT;
-
-    }
 }

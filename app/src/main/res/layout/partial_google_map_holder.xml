@@ -14,7 +14,8 @@
         android:layout_marginBottom="@dimen/spacing_section_title_bottom"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        style="@style/graySectionTitle"/>
+        style="@style/leaguePageGrayTitle"
+        />
 
     <fragment
         android:id="@+id/googleMapFragment"

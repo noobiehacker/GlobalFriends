@@ -1,9 +1,5 @@
 package co.mitoo.sashimi.models;
-
-import android.app.Activity;
-
 import com.squareup.otto.Subscribe;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
@@ -51,11 +47,6 @@ public class SessionModel extends MitooModel implements IsPersistable {
 
         handleObservable(getSteakApiService().resetPassword(new JsonResetPasswordSend(event.getEmail())),
                 Response.class);
-    }
-
-    @Subscribe
-    public void onApiFailEvent(RetrofitError event) {
-        BusProvider.post(new MitooActivitiesErrorEvent(event));
     }
 
     private void postUserRecieveResponse() {

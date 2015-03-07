@@ -8,5 +8,5 @@
         android:layout_height="match_parent"
         android:id="@+id/sportsListView"
         android:layout_gravity="center_horizontal"
-        android:background="@color/gray_light_one"/>
+        android:background="@color/gray_light_four"/>
 </LinearLayout>

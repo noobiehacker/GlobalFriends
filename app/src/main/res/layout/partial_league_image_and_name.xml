@@ -5,12 +5,13 @@
 
 
     <RelativeLayout
-        android:id="@+id/leagueImageContainer"
+        android:id="@+id/icon_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/rounded">
+
 
         <ImageView
             android:id="@+id/leagueImage"
@@ -29,9 +30,10 @@
         android:id="@+id/league_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/leagueImageContainer"
+        android:layout_below="@id/icon_container"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/league_logo_margin_middle_top"
+        android:lineSpacingExtra="@dimen/league_name_spacing"
         android:gravity="center"
         android:text="@string/place_holder_league_name"
         android:textAllCaps="true"

@@ -2,6 +2,7 @@ package co.mitoo.sashimi.utils.events;
 import java.util.List;
 
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.MitooEnum;
 import retrofit.client.Response;
 
 /**

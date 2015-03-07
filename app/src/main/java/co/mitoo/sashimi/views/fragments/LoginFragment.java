@@ -3,7 +3,6 @@ package co.mitoo.sashimi.views.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -11,29 +10,20 @@ import android.widget.EditText;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
-import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ViewHelper;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
-import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
-import rx.Subscription;
-import rx.observables.ConnectableObservable;
+
 /**
  * Created by david on 14-11-05.
  */
 public class LoginFragment extends MitooFragment {
 
-    protected Subscription subscription;
-    private ConnectableObservable<JsonLoginSend> observable;
     private EditText passWordInput;
+    private EditText topEditText;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -78,35 +68,47 @@ public class LoginFragment extends MitooFragment {
     protected void initializeViews(View view) {
 
         super.initializeViews(view);
-        setPassWordInput ((EditText) view.findViewById(R.id.passwordInput));
+        setPassWordInput((EditText) view.findViewById(R.id.passwordInput));
+        setTopEditText((EditText)view.findViewById(R.id.loginIDInput));
         setUpToolBar(view);
 
     }
     
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.loginButton:
-                loginButtonAction();
-                break;
-            case R.id.forgetPasswordButton:
-                forgetPasswordAction();
-                break;
-            case R.id.loginPasswordInput:
-                passwordInputRequestFocusAction();
-                break;
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.loginButton:
+                    loginButtonAction();
+                    break;
+                case R.id.forgetPasswordButton:
+                    forgetPasswordAction();
+                    break;
+                case R.id.loginPasswordInput:
+                    passwordInputRequestFocusAction();
+                    break;
             /*Take Out for V1
             case R.id.facebookLoginButton:
                 facebookLoginButtonAction();
                 break;*/
+            }
         }
     }
 
+    
+    @Override
+    public void onResume(){
+        
+        super.onResume();
+        requestFocusForTopInput(getTopEditText());
+
+    }
+    
     private void loginButtonAction() {
 
         if (allInputsAreValid()) {
             setLoading(true);
-            JsonLoginSend jsonObject = new JsonLoginSend(getEmail(), getPassword());
+            JsonLoginSend jsonObject = new JsonLoginSend(getLoginID(), getPassword());
             SessionModelRequestEvent event = new SessionModelRequestEvent(MitooEnum.SessionRequestType.LOGIN, jsonObject);
             getSessionModel().requestSession(event);
 
@@ -115,21 +117,11 @@ public class LoginFragment extends MitooFragment {
         }
     }
 
-
-
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
 
-        LeagueModelEnquireRequestEvent leagueEnquireRequestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id, MitooEnum.crud.READ);
-        getLeagueModel().requestLeagueEnquire(leagueEnquireRequestEvent );
-
-    }
-
-    @Subscribe
-    public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
-
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_home);
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
         setLoading(false);
     }
 
@@ -142,14 +134,12 @@ public class LoginFragment extends MitooFragment {
     }
 
     private void forgetPasswordAction(){
-        setLoading(true);
-        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_reset_password);
-        BusProvider.post(event);
+        fireFragmentChangeAction(R.id.fragment_reset_password , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
     }
 
-    private String getEmail(){
+    private String getLoginID(){
 
-        return this.getTextFromTextField(R.id.emailInput);
+        return this.getTextFromTextField(R.id.loginIDInput);
 
     }
 
@@ -160,32 +150,39 @@ public class LoginFragment extends MitooFragment {
 
     private boolean allInputsAreValid(){
 
-        DataHelper dataHelper = getDataHelper();
-        return dataHelper.validPassword(getPassword()) && dataHelper.validEmail(getEmail());
-        
+        FormHelper formHelper = getFormHelper();
+        boolean validLoginID = formHelper.validEmail(getLoginID())||formHelper.validPhone(getLoginID());
+        return formHelper.validPassword(getPassword()) && validLoginID;
+
     }
-    
-    private void handleInvalidInputs(){
 
-        if(getEmail().equals("")){
-            displayText(getString(R.string.toast_email_empty));
-        }
-        else if(getPassword().equals("")){
-            displayText(getString(R.string.toast_password_empty));
-        }
-        else {
+    private void handleInvalidInputs() {
 
-            DataHelper dataHelper =getDataHelper();
-            if(!dataHelper.validEmail(getEmail())){
-                displayText(getString(R.string.toast_invalid_email));
-            } else if(!dataHelper.validPassword(getPassword())){
-                displayText(getString(R.string.toast_invalid_password));
-            }else{
+        if (!handledEmptyInput()) {
+            if (!getFormHelper().validEmail(getLoginID())) {
+                getFormHelper().handleInvalidEmail(getLoginID());
+            } else if (!getFormHelper().validPassword(getPassword())) {
+                getFormHelper().handleInvalidPassword(getPassword());
+            } else {
                 displayText(getString(R.string.toast_invalid_input));
             }
         }
 
     }
+
+    private boolean handledEmptyInput(){
+
+        boolean result = true;
+        if (getLoginID().equals("")) {
+            this.displayText(getString(R.string.toast_email_required));
+        } else if (getPassword().equals("")) {
+            this.displayText(getString(R.string.toast_password_required));
+        } else {
+            result =false;
+        }
+        return result;
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         
@@ -220,5 +217,21 @@ public class LoginFragment extends MitooFragment {
     private void passwordInputRequestFocusAction(){
         if(getPassWordInput()!=null)
             getPassWordInput().requestFocus();
+    }
+
+    public EditText getTopEditText() {
+        return topEditText;
+    }
+
+    public void setTopEditText(EditText topEditText) {
+        this.topEditText = topEditText;
+    }
+
+    @Override
+    protected void handleHttpErrors(int statusCode) {
+        if (statusCode == 401)
+            displayText(getString(R.string.error_incorrect_email_password_combo));
+        else
+            super.handleHttpErrors(statusCode);
     }
 }

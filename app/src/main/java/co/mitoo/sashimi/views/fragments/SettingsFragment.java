@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
@@ -40,27 +40,29 @@ public class SettingsFragment extends MitooFragment {
         return view;
     }
 
-    
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.about_text_view:
-                aboutMitooAction();
-                break;
-            case R.id.log_out_text_view:
-                logtOutAction();
-                break;
-            case R.id.feedback_text_view:
-                feedBackAction();
-                break;
-            case R.id.get_help_text_view:
-                getHelpAction();
-                break;
-            case R.id.faq_text_view:
-                faqAction();
+        if(getDataHelper().isClickable()){
+            switch (v.getId()) {
+                case R.id.about_text_view:
+                    aboutMitooAction();
+                    break;
+                case R.id.log_out_text_view:
+                    logtOutAction();
+                    break;
+                case R.id.feedback_text_view:
+                    feedBackAction();
+                    break;
+                case R.id.get_help_text_view:
+                    getHelpAction();
+                    break;
+                case R.id.faq_text_view:
+                    faqAction();
 
+            }
         }
+
     }
                 
     @Override
@@ -83,12 +85,17 @@ public class SettingsFragment extends MitooFragment {
     protected void initializeOnClickListeners(View view){
 
         super.initializeOnClickListeners(view);
+        setUpDetailsViewListeners(view);
+    }
+
+    private void setUpDetailsViewListeners(View view){
+
         view.findViewById(R.id.about_text_view).setOnClickListener(this);
         view.findViewById(R.id.log_out_text_view).setOnClickListener(this);
         view.findViewById(R.id.feedback_text_view).setOnClickListener(this);
         view.findViewById(R.id.get_help_text_view).setOnClickListener(this);
         view.findViewById(R.id.faq_text_view).setOnClickListener(this);
-
+        
     }
 
     public UserInfoRecieve getUserInfoRecieve() {
@@ -133,14 +140,15 @@ public class SettingsFragment extends MitooFragment {
 
     private void getHelpAction(){
 
-        getMitooActivity().contactMitoo();
+        getMitooActivity().contactMitooAction();
 
     }
     
     private void faqAction(){
+        
         Bundle bundle = new Bundle();
         bundle.putString(getMitooActivity().getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.faqOption));
-        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.FragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
         BusProvider.post(event);
         
     }

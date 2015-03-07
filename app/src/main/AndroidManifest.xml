@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.mitoo.sashimi"
-    android:versionCode="0"
-    android:versionName="1.1">
+    android:versionCode="2"
+    android:versionName="0.1.5">
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -31,15 +31,16 @@
             android:value="@string/API_key_facebook"/>
         <context android:name="com.greenhalolabs.facebooklogin.FacebookLoginActivity" />
 
-        <!-- Debug Google Map API Key
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0"/>-->
+        <!--Release Google Map API Key
 
-        <!--Release Google Map API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCdwtL89lqAAEF478Cy_Br9BFY2s-bfxEU"/>
+            android:value="AIzaSyD-69EptzG4e8V3hgj3JXbpmZhv9CWpUuU"/>-->
+
+        <!-- Debug Google Map API Key-->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/>
 
     </application>
 

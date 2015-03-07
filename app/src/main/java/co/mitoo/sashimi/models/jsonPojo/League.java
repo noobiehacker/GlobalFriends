@@ -4,6 +4,8 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 
 import co.mitoo.sashimi.models.location;
+import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.views.MitooImageTarget;
 
 /**
  * Created by david on 14-11-21.
@@ -27,9 +29,13 @@ public class League implements Serializable {
     private String logo_thumb;
     private String cover;
     private String cover_mobile;
+    private String cover_mobile_tall;
     private _geoLoc _geoloc;
     private location location;
     private String[] sports;
+    private MitooImageTarget iconTarget;
+    private MitooImageTarget leagueCover;
+    private MitooImageTarget leagueMobileCover;
 
     public boolean isClaimed() {
         return claimed;
@@ -61,6 +67,14 @@ public class League implements Serializable {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getCover_mobile_tall() {
+        return cover_mobile_tall;
+    }
+
+    public void setCover_mobile_tall(String cover_mobile_tall) {
+        this.cover_mobile_tall = cover_mobile_tall;
     }
 
     public String getAbout() {
@@ -235,5 +249,37 @@ public class League implements Serializable {
         }
         return result;
     }
+    
+    public String getShortenName(){
+        
+        String leagueName = getName();
+        if(leagueName.length()> MitooConstants.maxLeagueCharacterName){
+            leagueName = leagueName.substring(0,MitooConstants.maxLeagueCharacterName) + "...";
+        }
+        return leagueName;
+    }
 
+    public MitooImageTarget getIconTarget() {
+        return iconTarget;
+    }
+
+    public void setIconTarget(MitooImageTarget iconTarget) {
+        this.iconTarget = iconTarget;
+    }
+
+    public MitooImageTarget getLeagueCover() {
+        return leagueCover;
+    }
+
+    public void setLeagueCover(MitooImageTarget leagueCover) {
+        this.leagueCover = leagueCover;
+    }
+
+    public MitooImageTarget getLeagueMobileCover() {
+        return leagueMobileCover;
+    }
+
+    public void setLeagueMobileCover(MitooImageTarget leagueMobileCover) {
+        this.leagueMobileCover = leagueMobileCover;
+    }
 }

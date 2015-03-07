@@ -10,13 +10,13 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/leagueListView"
+            android:id="@+id/enquiredLeagueListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 <!--
         <include
             android:id="@+id/league_result"
-            layout="@layout/list_view_item_league"
+            layout="@layout/view_league_dynamic_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/list_shadow"
@@ -24,7 +24,7 @@
 
         <include
             android:id="@+id/league_result2"
-            layout="@layout/list_view_item_league"
+            layout="@layout/view_league_dynamic_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/league_result"
@@ -32,7 +32,7 @@
 
         <include
             android:id="@+id/league_result3"
-            layout="@layout/list_view_item_league"
+            layout="@layout/view_league_dynamic_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/league_result2"

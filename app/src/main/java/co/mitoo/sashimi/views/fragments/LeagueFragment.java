@@ -4,23 +4,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.squareup.otto.Subscribe;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+
 /**
  * Created by david on 14-12-19.
  */
@@ -44,7 +43,6 @@ public class LeagueFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_league,
                         container, false);
-        initializeFields();
         initializeViews(view);
         return view;
     }
@@ -58,6 +56,11 @@ public class LeagueFragment extends MitooFragment {
             getFragmentManager().beginTransaction().remove(f).commit();
     }
 
+    @Subscribe
+    public void onError(MitooActivitiesErrorEvent error){
+        super.onError(error);
+    }
+    
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
@@ -113,9 +116,16 @@ public class LeagueFragment extends MitooFragment {
     
     private void setUpMap(){
 
-        GoogleMap map = ((MapFragment) getFragmentManager()
-                .findFragmentById(R.id.googleMapFragment)).getMap();
-        getViewHelper().setUpMap(getSelectedLeague(), map);
+        try{
+            GoogleMap map = ((MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.googleMapFragment)).getMap();
+            getViewHelper().setUpMap(getSelectedLeague(), map);
+
+        }
+        catch(Exception e){
+            MitooActivitiesErrorEvent event = new MitooActivitiesErrorEvent("JACK THE ERROR IS HERE");
+            BusProvider.post(event);
+        }
 
     }
     
@@ -124,7 +134,7 @@ public class LeagueFragment extends MitooFragment {
         setInterestedButton((Button) view.findViewById(R.id.interestedButton));
         setDisabledButtonView(view.findViewById(R.id.disabledInterestedView));
         if(getLeagueModel().selectedLeagueIsJoinable()){
-            viewHelper.setViewColor(getInterestedButton(), getSelectedLeague().getColor_1());
+            viewHelper.setViewBackgroundDrawableColor(getInterestedButton(), getSelectedLeague().getColor_1());
         }else{
             
             getInterestedButton().setVisibility(View.GONE);
@@ -144,7 +154,7 @@ public class LeagueFragment extends MitooFragment {
     private void setUpLeagueDetailsText(View view, League league){
 
         setReadMoreTextView((TextView) view.findViewById(R.id.read_more_text_view));
-        getViewHelper().setTextViewColor(getReadMoreTextView(), league.getColor_1());
+        getViewHelper().setTextViewTextColor(getReadMoreTextView(), league.getColor_1());
         setLeagueDetailsTextView ((TextView)view.findViewById(R.id.league_join_details));
         getLeagueDetailsTextView().setText(getTruncatedAbout(league));
 
@@ -170,12 +180,12 @@ public class LeagueFragment extends MitooFragment {
 
     private void joinButtonAction(){
 
-        setLoading(true);
         SessionModel sessionModel =getSessionModel();
         if(sessionModel.userIsLoggedIn()){
+            setLoading(true);
             int UserID = sessionModel.getSession().id;
-            LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(UserID, MitooEnum.crud.CREATE);
-            getLeagueModel().requestLeagueEnquire(requestEvent);
+            LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(UserID);
+            getLeagueModel().requestToEnquireLeague(requestEvent);
         }
         else{
             Bundle bundle = new Bundle();

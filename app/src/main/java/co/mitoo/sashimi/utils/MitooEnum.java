@@ -5,20 +5,19 @@ package co.mitoo.sashimi.utils;
  */
 public class MitooEnum {
 
-
-    public enum fragmentTransition{
+    public enum FragmentTransition {
         PUSH, POP, CHANGE,NONE
     }
 
-    public enum feedBackOption{
+    public enum FeedBackOption {
         HAPPY, CONFUSED, UNHAPPY
     }
 
-    public enum aboutMitooOption{
+    public enum AboutMitooOption {
         TERMS, PRIVACYPOLICY ,FAQ
     }
 
-    public enum crud{
+    public enum Crud {
         CREATE, READ, UPDATE,DELETE
     }
 
@@ -35,5 +34,21 @@ public class MitooEnum {
     }
     public enum ErrorType{
         APP ,API
+    }
+
+    public enum FragmentAnimation {
+        HORIZONTAL, VERTICAL , DOWNLEFT ,NONE
+    }
+
+    public enum APIRequest {
+        REQUEST, UPDATE
+    }
+
+    public enum AppEnvironment {
+        PRODUCTION, STAGING ,APIARY
+    }
+
+    public enum MenuItemSelected {
+        FEEDBACK, SETTINGS ,NONE
     }
 }

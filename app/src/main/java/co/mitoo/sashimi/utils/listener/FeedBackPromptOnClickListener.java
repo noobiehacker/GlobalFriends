@@ -22,7 +22,7 @@ public class FeedBackPromptOnClickListener extends MitooOptionsDialogOnClickList
 
             Bundle bundle = new Bundle();
             bundle.putString(getContext().getString(R.string.bundle_key_prompt), String.valueOf(getSelectedOption()));
-            FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.fragmentTransition.PUSH, R.id.fragment_feed_back, bundle);
+            FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.FragmentTransition.PUSH, R.id.fragment_feed_back, bundle);
             BusProvider.post(event);
             
         }

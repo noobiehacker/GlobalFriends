@@ -108,12 +108,19 @@ public class ServiceBuilder {
 
     }
     
-    private void initializeFields(){
+    private void initializeFields() {
 
-        if(MitooConstants.userApiary == true){
-            this.setEndPoint(StaticString.steakApiaryEndPoint);
-        }else{
-            this.setEndPoint(StaticString.steakStagingEndPoint);
+        switch (MitooConstants.appEnvironment) {
+            case PRODUCTION:
+                this.setEndPoint(StaticString.steakProductionEndPoint);
+                break;
+            case STAGING:
+                this.setEndPoint(StaticString.steakStagingEndPoint);
+                break;
+            case APIARY:
+                this.setEndPoint(StaticString.steakApiaryEndPoint);
+                break;
+
         }
 
     }

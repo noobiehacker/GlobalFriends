@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,6 +22,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -30,6 +30,7 @@ import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -38,6 +39,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
+import com.github.androidprogresslayout.ProgressLayout;
 
 /**
  * Created by david on 14-11-13.
@@ -51,12 +53,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected Toolbar toolbar;
     protected String fragmentTitle = "";
     private boolean allowBackPressed = true;
-    private boolean loading = false;
+    protected boolean loading = false;
     private ProgressDialog progressDialog;
-    private DataHelper dataHelper;
     private ViewHelper viewHelper;
     private ViewGroup rootView;
-
+    private FormHelper formHelper;
+    private boolean pageFirstLoad= true;
+    private ProgressLayout progressLayout;
+    private boolean popActionRequiresDelay =false;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -75,6 +79,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         super.onResume();
         handleNetwork();
         registerBus();
+        setPageFirstLoad(false);
     }
 
     @Override
@@ -126,6 +131,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         setUpToolBar(view);
         setRootView((ViewGroup)view);
+
     }
 
     protected void initializeOnClickListeners(View view) {
@@ -185,7 +191,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     private void handleNetwork() {
         if (!getMitooActivity().NetWorkConnectionIsOn())
-            displayText(getString(R.string.toast_network_error));
+            displayText(getString(R.string.error_no_internet));
 
     }
 
@@ -195,37 +201,49 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.fragmentTransition transition) {
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation) {
 
-        if (fragmentId == R.id.fragment_home) {
-            transition = MitooEnum.fragmentTransition.CHANGE;
-        }
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
+        postFragmentChangeEvent(event);
+    }
+
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation ,Bundle bundle){
+
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation , bundle);
+        postFragmentChangeEvent(event);
+    }
+
+
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentAnimation animation) {
+
+        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
+        postFragmentChangeEvent(event);
+    }
+
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition) {
+
+        MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , animation);
         postFragmentChangeEvent(event);
     }
 
 
     public void fireFragmentChangeAction(int fragmentId) {
 
-        MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
-        if (fragmentId == R.id.fragment_home) {
-            transition = MitooEnum.fragmentTransition.CHANGE;
-        }
+        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
         postFragmentChangeEvent(event);
     }
 
     protected void fireFragmentChangeAction(int fragmentId, Bundle bundle) {
 
-        MitooEnum.fragmentTransition transition = MitooEnum.fragmentTransition.PUSH;
-        if (fragmentId == R.id.fragment_home) {
-            transition = MitooEnum.fragmentTransition.CHANGE;
-        }
+        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
         FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, bundle);
         postFragmentChangeEvent(event);
     }
 
-    protected void fireFragmentChangeAction(MitooEnum.fragmentTransition transition) {
+    protected void fireFragmentChangeAction(MitooEnum.FragmentTransition transition) {
 
         FragmentChangeEvent event = new FragmentChangeEvent(this,transition);
         postFragmentChangeEvent(event);
@@ -240,7 +258,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
             }
         };
-        getHandler().postDelayed(runnable,250);
+        getHandler().postDelayed(runnable,150);
         
     }
 
@@ -250,7 +268,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    protected void displayText(String text) {
+    public void displayText(String text) {
 
         removeToast();
         View toastLayout = createToastView();
@@ -304,8 +322,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     private void handleCallBacks() {
-        if (handler != null && runnable != null) {
-            handler.removeCallbacks(runnable);
+
+        if (getHandler() != null) {
+            getHandler().removeCallbacksAndMessages(null);
         }
 
     }
@@ -347,6 +366,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         handleCallBacks();
         removeToast();
         unregisterBus();
+        getMitooActivity().hideSoftKeyboard();
         setLoading(false);
     }
 
@@ -359,22 +379,18 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    protected void setUpToolBar(View view) {
+    protected Toolbar setUpToolBar(View view) {
 
-        toolbar = (Toolbar) view.findViewById(R.id.app_bar);
-        if (toolbar != null) {
+        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        if (getToolbar() != null) {
 
-            toolbar.setNavigationIcon(R.drawable.header_back_icon);
-            toolbar.setTitle(getFragmentTitle());
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MitooFragment.this.getMitooActivity().onBackPressed(v);
-                }
-            });
+            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+            getToolbar().setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
+            getToolbar().setTitleTextColor(getResources().getColor(R.color.white));
+            setUpBackButtonClickListner();
 
         }
+        return toolbar;
 
     }
 
@@ -409,6 +425,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             return getMitooActivity().getModelManager().getSessionModel();
         else if (classType == LocationModel.class)
             return getMitooActivity().getModelManager().getLocationModel();
+        else if (classType == AppSettingsModel.class)
+            return getMitooActivity().getModelManager().getAppSettingsModel();
         else
             return null;
     }
@@ -455,17 +473,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             iniializeDialog();
         return progressDialog;
     }
+    
+
 
 
     public DataHelper getDataHelper() {
-        if (dataHelper == null)
-            setDataHelper(new DataHelper(getActivity()));
-        return dataHelper;
+        return getMitooActivity().getDataHelper();
     }
 
-    public void setDataHelper(DataHelper dataHelper) {
-        this.dataHelper = dataHelper;
-    }
 
     protected SessionModel getSessionModel() {
 
@@ -475,6 +490,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected LeagueModel getLeagueModel() {
         return (LeagueModel) getMitooModel(LeagueModel.class);
     }
+
+    protected AppSettingsModel getAppSettingsModel() {
+        return (AppSettingsModel) getMitooModel(AppSettingsModel.class);
+    }
+
 
     public ViewHelper getViewHelper() {
         if (viewHelper == null)
@@ -527,7 +547,84 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     
     protected void removeDynamicViews(){
         
-        
+    }
+    
+    protected void requestFocusForTopInput(final EditText editText){
+
+        Runnable requestFocusRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if(editText!=null)
+                    editText.requestFocusFromTouch();
+                getMitooActivity().showKeyboard();
+            }
+        };
+        setRunnable(requestFocusRunnable);
+        getHandler().postDelayed(getRunnable(), 250);
+
+    }
+
+    public FormHelper getFormHelper() {
+        if(formHelper==null)
+            formHelper = new FormHelper(this);
+        return formHelper;
+    }
+
+    public boolean isPageFirstLoad() {
+        return pageFirstLoad;
+    }
+
+    public void setPageFirstLoad(boolean pageFirstLoad) {
+        this.pageFirstLoad = pageFirstLoad;
+    }
+
+    public ProgressLayout getProgressLayout() {
+        return progressLayout;
+    }
+
+    public void setProgressLayout(ProgressLayout progressLayout) {
+        this.progressLayout = progressLayout;
+    }
+
+    protected LocationModel getLocationModel() {
+
+        return (LocationModel) getMitooModel(LocationModel.class);
+    }
+
+    public boolean popActionRequiresDelay() {
+        return popActionRequiresDelay;
+    }
+
+    public void setPopActionRequiresDelay(boolean popActionRequiresDelay) {
+        this.popActionRequiresDelay = popActionRequiresDelay;
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public void setToolbar(Toolbar toolbar) {
+        this.toolbar = toolbar;
+    }
+
+    protected void setUpBackButtonClickListner(){
+        getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MitooFragment.this.getMitooActivity().onBackPressed();
+            }
+        });
+    }
+
+    protected Object getBundleArgumentFromKey(String key){
+
+        Object results = null;
+        Bundle arguments = getArguments();
+        if(arguments!=null){
+            results = arguments.get(key);
+        }
+        return results;
+
     }
 }
 

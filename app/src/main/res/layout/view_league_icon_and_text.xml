@@ -26,6 +26,4 @@
         android:text="@string/place_holder_league_info"
         android:textIsSelectable="false" />
 
-
-
 </RelativeLayout>
