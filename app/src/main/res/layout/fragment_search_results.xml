@@ -40,7 +40,6 @@
 
     </ScrollView>
 
-
     </com.github.androidprogresslayout.ProgressLayout>
 
     <RelativeLayout
@@ -50,8 +49,7 @@
         android:paddingLeft="@dimen/spacing_sides"
         android:paddingRight="@dimen/spacing_sides"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        >
+        android:layout_centerVertical="true">
 
         <TextView
             android:id="@+id/noResultsTextView"

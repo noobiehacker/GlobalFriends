@@ -237,6 +237,12 @@
     <string name="happy_page_text2">Give us 5!</string>
     <string name="happy_page_text3">Also if you have any requests, questions, or would just like to find out more, do contact us.</string>
 
+    <!--Competition Page -->
+    <string-array name="competitions_tabs_array">
+        <item>SCHEDULE</item>
+        <item>RESULTS</item>
+    </string-array>
+
     <!--Toolbar Title-->
     <string name="tool_bar_happy">HAPPY</string>
     <string name="tool_bar_unhappy">UNHAPPY</string>
@@ -269,10 +275,11 @@
     <string name="mitoo_play_store_market_prefix">market://details?id=</string>
 
     <!--Font Path -->
-    <string name="DIN_RegularItalic">fonts/din_comp_ita.ttf</string>
+    <string name="DIN_Regular_Italic">fonts/din_comp_ita.ttf</string>
     <string name="DIN_Regular">fonts/din_comp.ttf</string>
     <string name="DIN_Medium">fonts/din_comp_medium.ttf</string>
     <string name="DIN_Light">fonts/din_comp_light.ttf</string>
+    <string name="DIN_Light_Italic">fonts/din_comp_light_ita.ttf</string>
 
     <!--API Key-->
     <string name="API_key_new_relic_staging">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>

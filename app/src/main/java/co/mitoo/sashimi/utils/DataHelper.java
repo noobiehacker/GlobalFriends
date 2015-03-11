@@ -1,6 +1,8 @@
 package co.mitoo.sashimi.utils;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
+
 import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -305,6 +307,12 @@ public class DataHelper {
 
         return result;
 
+    }
+
+    public float getFloatValue(int floatID){
+        TypedValue outValue = new TypedValue();
+        getActivity().getResources().getValue(R.dimen.low_alpha, outValue, true);
+        return outValue.getFloat();
     }
         
 }

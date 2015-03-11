@@ -32,10 +32,13 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import co.mitoo.sashimi.views.adapters.CompetitionAdapter;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
@@ -119,10 +122,23 @@ public class ViewHelper {
     }
     
     public void setUpEnquireListIcon(final View view , League league){
+
+        String leagueIconUrl = getLogo(league);
+        setUpLeagueIcon(view , leagueIconUrl);
+
+    }
+
+    public void setUpMyLeagueListIcon(final View view , Competition competition){
+
+        String leagueIconUrl = getLogo(competition);
+        setUpLeagueIcon(view , leagueIconUrl);
+    }
+
+    public void setUpLeagueIcon(final View view , String leagueIconUrl){
         ImageView iconImage = (ImageView) view.findViewById(R.id.enquired_list_icon);
         int iconDimenID = R.dimen.enquired_list_icon_length;
         getPicasso().with(getActivity())
-                .load(getLogo(league))
+                .load(leagueIconUrl)
                 .transform(new LogoTransform(getPixelFromDimenID(iconDimenID), 1.0))
                 .into(iconImage, createListIconCallBack(view));
     }
@@ -414,7 +430,112 @@ public class ViewHelper {
         this.setUpIconImageWithCallBack(leagueItemContainer, league, leagueListHolder);
         return leagueItemContainer;
     }
-    
+
+    public RelativeLayout createFixtureGrouped(Fixture fixture){
+
+        RelativeLayout fixtureGroupContainer = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_grouped);
+        LinearLayout fixtureHolder = (LinearLayout) fixtureGroupContainer.findViewById(R.id.fixtureRowContainer);
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.SCORE));
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.TIME));
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.TBC));
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.VOID));
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.ABANDONED));
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.CANCEL));
+        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.POSTPONED));
+        return fixtureGroupContainer;
+    }
+
+    public RelativeLayout createFixtureRow(Fixture fixture ,MitooEnum.FixtureRowType fixtureType){
+
+        RelativeLayout fixtureRow = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_row);
+        customizeFixtureRow(fixtureRow,fixture, fixtureType);
+        return fixtureRow;
+    }
+
+    private void setUpFixturRowTeamTextView(RelativeLayout row , Fixture fitxture ,MitooEnum.FixtureRowType fixtureType){
+        TextView leftTeamName = (TextView)row.findViewById(R.id.leftTeamName);
+        TextView rightTeamName = (TextView)row.findViewById(R.id.rightTeamName);
+
+        if(fixtureType == MitooEnum.FixtureRowType.TBC){
+            leftTeamName.setText("TBC");
+            rightTeamName.setText("TBC");
+
+            leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
+            rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
+
+        }
+
+    }
+
+    private void setUpFixtureStamp(RelativeLayout row, Fixture fitxture, MitooEnum.FixtureRowType fixtureType){
+
+        RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
+        ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
+        float alphaValue = getActivity().getDataHelper().getFloatValue(R.dimen.low_alpha);
+        switch(fixtureType){
+            case TIME:
+            case TBC:
+            case SCORE:
+                break;
+            case ABANDONED:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.abandonned_stamp);
+                break;
+            case VOID:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.void_stamp);
+                break;
+            case POSTPONED:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.postponed_stamp);
+                break;
+            case CANCEL:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.cancelled_stamp);
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private void setUpFixtureTeamIcons(RelativeLayout row , Fixture fitxture ,MitooEnum.FixtureRowType fixtureType){
+
+        ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
+        ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
+        rightTeamIcon.setImageResource(R.drawable.team_3);
+        leftTeamIcon.setImageResource(R.drawable.team_2);
+    }
+
+    private void setUpFixtureCenterText(RelativeLayout row , Fixture fitxture ,MitooEnum.FixtureRowType fixtureType){
+
+        TextView centerText = (TextView)row.findViewById(R.id.middleTextField);
+        switch(fixtureType){
+            case TIME:
+                centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
+                centerText.setText("11:00 AM");
+                break;
+            case SCORE:
+                centerText.setTextAppearance(getActivity(), R.style.schedulePageScoreText);
+                break;
+            case TBC:
+                centerText.setText("11:00 AM");
+                centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void customizeFixtureRow(RelativeLayout row , Fixture fixture,MitooEnum.FixtureRowType fixtureType){
+
+        setUpFixturRowTeamTextView(row, fixture, fixtureType);
+        setUpFixtureStamp(row, fixture, fixtureType);
+        setUpFixtureCenterText(row, fixture, fixtureType);
+        setUpFixtureTeamIcons(row, fixture, fixtureType);
+
+    }
+
     public void setLineColor(View container, League league){
         
         View bottomLine = (View) container.findViewById(R.id.bottomLine);
@@ -582,6 +703,16 @@ public class ViewHelper {
         return result;
     }
 
+    private String getLogo(Competition competition) {
+
+        String result = "";
+        result = "http://www.portlandsoccerplex.com/wp-content/uploads/2014/03/soccerplex-logo.png";
+        if (competition != null) {
+            result = getRetinaUrl(result);
+        }
+        return result;
+    }
+
     public RelativeLayout.LayoutParams createCenterInVerticalParam(){
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -643,6 +774,13 @@ public class ViewHelper {
     }
 
     public void setUpLeagueList(ListView listView, LeagueAdapter adapter,String headerText){
+        int headerLayoutID =  R.layout.view_league_list_header;
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(adapter);
+        setUpListHeader(listView, headerLayoutID, headerText);
+    }
+
+    public void setUpCompetitionList(ListView listView, CompetitionAdapter adapter,String headerText){
         int headerLayoutID =  R.layout.view_league_list_header;
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);

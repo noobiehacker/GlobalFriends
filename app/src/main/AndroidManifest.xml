@@ -40,9 +40,8 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/>
+            android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/> -->
 
-            -->
 
     </application>
 

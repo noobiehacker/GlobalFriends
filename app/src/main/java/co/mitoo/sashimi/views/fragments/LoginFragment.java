@@ -69,7 +69,7 @@ public class LoginFragment extends MitooFragment {
 
         super.initializeViews(view);
         setPassWordInput((EditText) view.findViewById(R.id.passwordInput));
-        setTopEditText((EditText)view.findViewById(R.id.loginIDInput));
+        setTopEditText((EditText)view.findViewById(R.id.emailInput));
         setUpToolBar(view);
 
     }
@@ -139,7 +139,7 @@ public class LoginFragment extends MitooFragment {
 
     private String getLoginID(){
 
-        return this.getTextFromTextField(R.id.loginIDInput);
+        return this.getTextFromTextField(R.id.emailInput);
 
     }
 

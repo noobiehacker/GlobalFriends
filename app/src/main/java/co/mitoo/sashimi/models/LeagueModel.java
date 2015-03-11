@@ -38,8 +38,11 @@ public class LeagueModel extends MitooModel{
     private APIClient algoliaClient;
     private Index index;
     private AlgoliaIndexListener aiListener;
+
     private List<League> leagueSearchResults;
-    private List<League> leagueEnquired;
+    private List<League> enquiredLeagues;
+    private List<League> myleagues;
+
     private JSONObject results;
     private League selectedLeague;
     private boolean requestingAlgolia;
@@ -104,7 +107,6 @@ public class LeagueModel extends MitooModel{
         }
         
     }
-   
 
     @Subscribe
     public void algoliaResponse(AlgoliaResponseEvent event){
@@ -177,19 +179,19 @@ public class LeagueModel extends MitooModel{
     }
 
     public List<League> getLeaguesEnquired() {
-        if(leagueEnquired==null)
-            leagueEnquired = new ArrayList<League>();
-        return leagueEnquired;
+        if(enquiredLeagues ==null)
+            enquiredLeagues = new ArrayList<League>();
+        return enquiredLeagues;
     }
 
     public void addLeagueEnquired(League[] newleaguesEnquired) {
 
-        if (this.leagueEnquired == null) {
-            this.leagueEnquired = new ArrayList<League>();
+        if (this.enquiredLeagues == null) {
+            this.enquiredLeagues = new ArrayList<League>();
         }
         DataHelper helper = getActivity().getDataHelper();
         for (League item : newleaguesEnquired) {
-            this.leagueEnquired.add(item);
+            this.enquiredLeagues.add(item);
         }
     }
 
@@ -253,7 +255,7 @@ public class LeagueModel extends MitooModel{
     }
     
     public void resetFields(){
-        this.leagueEnquired=null;
+        this.enquiredLeagues =null;
         this.leagueSearchResults = null;
         this.selectedLeague = null;
         
@@ -267,12 +269,20 @@ public class LeagueModel extends MitooModel{
         this.index = index;
     }
 
-    public void setLeagueEnquired(List<League> leagueEnquired) {
-        this.leagueEnquired = leagueEnquired;
+    public void setEnquiredLeagues(List<League> enquiredLeagues) {
+        this.enquiredLeagues = enquiredLeagues;
     }
 
     private void clearLeaguesEnquired(){
-        setLeagueEnquired(new ArrayList<League>());
+        setEnquiredLeagues(new ArrayList<League>());
+    }
+
+    public List<League> getMyleagues() {
+        return myleagues;
+    }
+
+    public void setMyleagues(List<League> myleagues) {
+        this.myleagues = myleagues;
     }
 }
 

@@ -7,16 +7,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.LogoTransform;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 
@@ -27,11 +23,11 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     
     private MitooFragment fragment;
 
-    public LeagueAdapter(Context context, int resourceId, List<League> objects , MitooFragment fragment, boolean hasHeader) {
+    public LeagueAdapter(Context context, int resourceId, List<League> objects , MitooFragment fragment){
         super(context, resourceId, objects);
         setFragment(fragment);
     }
-    
+
     public LeagueAdapter(Context context, int resourceId, List<League> objects) {
         super(context, resourceId, objects);
     }
@@ -62,20 +58,19 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if(fragment.getDataHelper().isClickable() && id!= -1){
-                League item = (League)parent.getItemAtPosition(position);
-                view.setSelected(true);
-                leagueListItemAction(item);
-                getFragment().getMitooActivity().hideSoftKeyboard(view);
+        if(fragment.getDataHelper().isClickable() && id!= -1) {
+
+            League item = (League) parent.getItemAtPosition(position);
+            view.setSelected(true);
+            enquiredLeagueListItemAction(item);
+            getFragment().getMitooActivity().hideSoftKeyboard(view);
         }
 
     }
 
-    private void leagueListItemAction(League league){
+    private void enquiredLeagueListItemAction(League league){
 
-        MitooActivity activity = getFragment().getMitooActivity();
-        LeagueModel model = activity.getModelManager().getLeagueModel();
-        model.setSelectedLeague(league);
+        setSelectedModelItem(league);
         getFragment().fireFragmentChangeAction(R.id.fragment_league);
     }
 
@@ -87,15 +82,15 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         this.fragment = fragment;
     }
 
-    private MitooEnum.ViewType getViewType(){
-
-        return MitooEnum.ViewType.LIST;
-
-    }
-    
     private String getLeagueFormatedDate(String date){
         DataHelper helper= getFragment().getMitooActivity().getDataHelper();
         return helper.parseDate(date);
+    }
+
+    private void setSelectedModelItem(League league){
+        MitooActivity activity = getFragment().getMitooActivity();
+        LeagueModel model = activity.getModelManager().getLeagueModel();
+        model.setSelectedLeague(league);
     }
 
 }

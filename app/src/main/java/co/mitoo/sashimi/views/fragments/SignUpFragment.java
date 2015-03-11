@@ -151,11 +151,10 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getEmail() {
-        return this.getTextFromTextField(R.id.loginIDInput);
+        return this.getTextFromTextField(R.id.emailInput);
     }
 
     private String getPhone() {
-        //return "0123456789";
         return this.getTextFromTextField(R.id.phoneInput);
     }
 
@@ -173,8 +172,6 @@ public class SignUpFragment extends MitooFragment {
     public void setSelectedLeague(League selectedLeague) {
         this.selectedLeague = selectedLeague;
     }
-
-
 
     private boolean allInputsAreValid(){
 

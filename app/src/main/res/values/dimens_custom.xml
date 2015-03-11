@@ -95,6 +95,18 @@
     <!-- Sign Up page -->
     <dimen name="sign_up_page_text_bottom_padding">20dp</dimen>
 
+    <!-- Competition page -->
+    <dimen name="competition_page_tab_text_size">12sp</dimen>
+    <dimen name="competition_page_tab_height">36.5dp</dimen>
+    <dimen name="competition_page_tab_date_top_padding">21.5dp</dimen>
+    <dimen name="competition_page_tab_date_bottom_padding">8.5dp</dimen>
+    <dimen name="competition_page_tab_row_top_padding">12.5dp</dimen>
+    <dimen name="competition_page_tab_row_bottom_padding">12dp</dimen>
+
+    <dimen name="competition_page_team_padding">8dp</dimen>
+    <dimen name="competition_page_center_container_width">98.5dp</dimen>
+    <dimen name="competition_page_center_text_width">60dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>

@@ -4,6 +4,7 @@ import java.util.List;
 import android.os.Handler;
 
 import co.mitoo.sashimi.models.AppSettingsModel;
+import co.mitoo.sashimi.models.CompetitionModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -106,6 +107,18 @@ public class ModelManager {
         return appSettingsModel;
     }
 
+    public CompetitionModel getCompetitionModel() {
+
+        CompetitionModel competitionModel = null;
+        MitooModel model = getModel(CompetitionModel.class);
+        if (model != null) {
+            competitionModel  = (CompetitionModel) model;
+        } else {
+            competitionModel  = new CompetitionModel(getMitooActivity());
+            addModel(competitionModel );
+        }
+        return competitionModel;
+    }
 
     public List<IsPersistable> getPersistableList() {
         return persistableList;

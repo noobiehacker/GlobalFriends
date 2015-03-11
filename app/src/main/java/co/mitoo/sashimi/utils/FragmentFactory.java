@@ -20,8 +20,15 @@ public class FragmentFactory {
     }
 
     public MitooFragment buildFragment(FragmentChangeEvent event) {
+        MitooFragment result = createFragment(event.getFragmentId());
+        if (event.getBundle() != null)
+            result.setArguments(event.getBundle());
+        return result;
+    }
+
+    public MitooFragment createFragment(int fragmentID){
         MitooFragment result = null;
-        switch (event.getFragmentId()) {
+        switch (fragmentID) {
             case R.id.fragment_landing:
                 result = LandingFragment.newInstance();
                 break;
@@ -52,7 +59,6 @@ public class FragmentFactory {
             case R.id.fragment_settings:
                 result = SettingsFragment.newInstance();
                 break;
-
             case R.id.fragment_confirm:
                 result = ConfirmFragment.newInstance();
                 break;
@@ -65,11 +71,15 @@ public class FragmentFactory {
             case R.id.fragment_about_mitoo:
                 result = AboutMitooFragment.newInstance();
                 break;
+            case R.id.fragment_fixture:
+                result = FixtureFragment.newInstance();
+                break;
+            case R.id.fragment_schedule:
+                result = FixtureTabFragment.newInstance();
+                break;
             default:
                 result = SplashScreenFragment.newInstance();
         }
-        if (event.getBundle() != null)
-            result.setArguments(event.getBundle());
         return result;
     }
 }

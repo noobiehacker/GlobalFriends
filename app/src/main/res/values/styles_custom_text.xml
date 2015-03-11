@@ -31,7 +31,7 @@
     <style name="confirmSuccessText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
-        <item name="fontPath">@string/DIN_RegularItalic</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
 
     </style>
 
@@ -102,7 +102,7 @@
     <style name="youHaveEnquiredText">
         <item name="android:textColor">@color/gray_dark_one</item>
         <item name="android:textSize">16sp</item>
-        <item name="fontPath">@string/DIN_RegularItalic</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
 
     </style>
     <!-- Feedback Page -->
@@ -119,25 +119,23 @@
         <item name="android:textSize">17sp</item>
     </style>
 
-
     <!-- Feedback Page -->
 
     <style name="leaguePageGrayTitle">
         <item name="android:textColor">@color/gray_dark_three</item>
         <item name="android:textSize">12sp</item>
-
     </style>
 
     <style name="leaguePageGrayText">
         <item name="android:textColor">@color/gray_dark_two</item>
         <item name="android:textSize">16sp</item>
-        <item name="fontPath">@string/DIN_RegularItalic</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
     </style>
 
 
     <style name="leaguePageReadMoreText">
         <item name="android:textSize">14sp</item>
-        <item name="fontPath">@string/DIN_RegularItalic</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
     </style>
 
     <!-- Sign Up  Page -->
@@ -145,10 +143,11 @@
     <style name="signUpStaticText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
-        <item name="fontPath">@string/DIN_RegularItalic</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
     </style>
 
     <!-- Landing  Page -->
+
     <style name="landingTermsPrivacyGrayText">
         <item name="android:textColor">@color/transparent_white_60</item>
         <item name="android:textSize">11sp</item>
@@ -161,4 +160,30 @@
         <item name="fontPath">@string/DIN_Light</item>
     </style>
 
+    <!-- Schedule  Page -->
+    <style name="schedulePageDateHeaderText">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">11.2sp</item>
+    </style>
+
+    <style name="schedulePageScoreText">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="schedulePageTimeText">
+        <item name="android:textColor">@color/gray_light_six</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="schedulePageTeamRegularText">
+        <item name="android:textColor">@color/gray_dark_five</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="schedulePageTBCText">
+        <item name="android:textColor">@color/gray_light_six</item>
+        <item name="android:textSize">13sp</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
+    </style>
 </resources>

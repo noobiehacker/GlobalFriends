@@ -6,12 +6,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.AppSettingsModel;
+import co.mitoo.sashimi.models.CompetitionModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -129,6 +133,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void initializeViews(View view) {
 
+        initializeStatusBarColor();
         setUpToolBar(view);
         setRootView((ViewGroup)view);
 
@@ -232,7 +237,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void fireFragmentChangeAction(int fragmentId) {
 
         MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
+        MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
         postFragmentChangeEvent(event);
     }
 
@@ -427,6 +433,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             return getMitooActivity().getModelManager().getLocationModel();
         else if (classType == AppSettingsModel.class)
             return getMitooActivity().getModelManager().getAppSettingsModel();
+        else if (classType == CompetitionModel.class)
+            return getMitooActivity().getModelManager().getCompetitionModel();
         else
             return null;
     }
@@ -443,6 +451,20 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             cancelProgressDialog();
         }
     }
+
+    public void setPreDataLoading(boolean loading) {
+
+        this.loading = loading;
+        if(getProgressLayout()!=null){
+            if (this.loading) {
+                getProgressLayout().showProgress();
+            } else {
+                getProgressLayout().showContent();
+            }
+        }
+
+    }
+
 
     private void displayProgressDialog() {
 
@@ -473,9 +495,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             iniializeDialog();
         return progressDialog;
     }
-    
-
-
 
     public DataHelper getDataHelper() {
         return getMitooActivity().getDataHelper();
@@ -495,6 +514,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return (AppSettingsModel) getMitooModel(AppSettingsModel.class);
     }
 
+    protected CompetitionModel getCompetitionModel() {
+        return (CompetitionModel) getMitooModel(CompetitionModel.class);
+    }
 
     public ViewHelper getViewHelper() {
         if (viewHelper == null)
@@ -608,6 +630,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     protected void setUpBackButtonClickListner(){
+
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -626,6 +649,22 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return results;
 
     }
+
+    protected void initializeStatusBarColor(){
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP){
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
+        }
+
+    }
+
+    protected void requestData(){
+    }
+
 }
 
 

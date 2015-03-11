@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
@@ -44,6 +45,7 @@ public class LeagueFragment extends MitooFragment {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_league,
                         container, false);
         initializeViews(view);
+        initializeOnClickListeners(view);
         return view;
     }
 
@@ -81,7 +83,6 @@ public class LeagueFragment extends MitooFragment {
     protected void initializeViews(View view){
         
         super.initializeViews(view);
-        initializeOnClickListeners(view);
         setUpLeagueHeaderView(view);
         setUpMap();
         setUpInterestedButton(view , getViewHelper());

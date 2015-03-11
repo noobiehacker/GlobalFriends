@@ -62,7 +62,7 @@ public class ResetPasswordFragment extends MitooFragment{
     @Override
     public void initializeViews(View view){
         super.initializeViews(view);
-        setTopEditText((EditText)view.findViewById(R.id.loginIDInput));
+        setTopEditText((EditText)view.findViewById(R.id.emailInput));
 
     }
 
@@ -112,7 +112,7 @@ public class ResetPasswordFragment extends MitooFragment{
     }
 
     private String getEmail(){
-        return this.getTextFromTextField(R.id.loginIDInput);
+        return this.getTextFromTextField(R.id.emailInput);
     }
 
 

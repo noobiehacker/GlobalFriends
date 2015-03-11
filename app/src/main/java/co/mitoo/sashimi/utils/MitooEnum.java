@@ -51,4 +51,12 @@ public class MitooEnum {
     public enum MenuItemSelected {
         FEEDBACK, SETTINGS ,NONE
     }
+
+    public enum LeagueListType {
+        COMPETITION, ENQUIRED
+    }
+
+    public enum FixtureRowType {
+        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCEL, TBC
+    }
 }

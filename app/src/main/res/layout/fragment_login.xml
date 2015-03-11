@@ -64,7 +64,7 @@
                 -->
 
             <EditText
-                android:id="@+id/loginIDInput"
+                android:id="@+id/emailInput"
                 style="@style/whiteEditText"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gray_button_height"
@@ -77,7 +77,7 @@
                 layout="@layout/view_password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gray_button_height"
-                android:layout_below="@+id/loginIDInput"
+                android:layout_below="@+id/emailInput"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/spacing_smaller" />
 

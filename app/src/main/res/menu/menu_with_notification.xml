@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto"
+    tools:context=".MitooActivity">
+
+    <item
+        android:id="@+id/menu_notification"
+        android:icon="@drawable/header_notification_icon"
+        android:orderInCategory="100"
+        android:title="@string/menu_search"
+        yourapp:showAsAction="always" />
+
+</menu>

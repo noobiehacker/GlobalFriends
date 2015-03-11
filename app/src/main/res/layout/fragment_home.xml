@@ -57,7 +57,6 @@
                 android:text="@string/home_page_text_3"
                 android:visibility="gone" />
 
-
         </RelativeLayout>
 
     </com.github.androidprogresslayout.ProgressLayout>

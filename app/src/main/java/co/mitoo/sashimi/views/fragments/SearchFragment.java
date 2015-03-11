@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +17,6 @@ import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
-import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
-import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
 import se.walkercrou.places.Place;
@@ -235,8 +232,6 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         getLocationModel().requestSelectedLocationLatLng();
 
     }
-
-
 
     private void queryRefineAction(String query) {
 

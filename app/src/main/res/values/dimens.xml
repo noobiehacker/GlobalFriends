@@ -11,7 +11,8 @@
     <dimen name="font_small">12sp</dimen>
     <dimen name="font_smaller">7sp</dimen>
 
-    <!-- font sizes custom -->
+    <!-- float values -->
+    <item name="low_alpha" format="float" type="dimen">0.3</item>
 
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">165dp</dimen>

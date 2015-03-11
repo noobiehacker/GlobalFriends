@@ -9,18 +9,15 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.content.ActivityNotFoundException;
 import android.widget.Toast;
-
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
@@ -42,13 +39,11 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
-import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
-import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MitooActivity extends Activity {
+public class MitooActivity extends ActionBarActivity {
 
     private MitooLocationManager locationManager;
     private Handler handler;
@@ -79,9 +74,11 @@ public class MitooActivity extends Activity {
     }
 
     public void displayText(String text) {
+
         Toast toast = new Toast(getApplicationContext());
         toast.setDuration(Toast.LENGTH_LONG);
         toast.show();
+
     }
 
     @Override
@@ -130,7 +127,6 @@ public class MitooActivity extends Activity {
     }
 
     private void initializeFields() {
-        initializeStatusBarColor();
         setModelManager(new ModelManager(this));
         setUpNewRelic();
         setUpInitialCalligraphy();
@@ -218,21 +214,18 @@ public class MitooActivity extends Activity {
 
     private void setBottomToTopAnimation(FragmentTransaction transaction) {
 
-        transaction.setCustomAnimations(R.anim.enter_top, R.anim.no_animation,
-                0, R.anim.enter_bottom);
+        transaction.setCustomAnimations(R.animator.enter_top, R.animator.no_animation,
+                0, R.animator.enter_bottom);
 
     }
 
     private void setLeftToRightAnimation(FragmentTransaction transaction) {
 
-        transaction.setCustomAnimations(R.anim.enter_right, R.anim.exit_right,
-                R.anim.exit_left, R.anim.enter_left);
+        transaction.setCustomAnimations(R.animator.enter_right, R.animator.exit_right,
+                R.animator.exit_left, R.animator.enter_left);
     }
 
-    private void setDownLeftAnimation(FragmentTransaction transaction) {
 
-        transaction.setCustomAnimations(R.anim.exit_bottom, R.anim.enter_top);
-    }
 
     public void popFragment() {
 
@@ -347,12 +340,16 @@ public class MitooActivity extends Activity {
     public void startApp() {
 
         setFragmentStack(new Stack<MitooFragment>());
-
         FragmentChangeEvent event =
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
                         R.id.fragment_splash, MitooEnum.FragmentAnimation.NONE);
-
+        /*RMB TO SWITCH BACK
+         FragmentChangeEvent event =
+                new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
+                        R.id.fragment_fixture ,MitooEnum.FragmentAnimation.NONE);
+        */
         BusProvider.post(event);
+
     }
 
     @Subscribe
@@ -379,7 +376,7 @@ public class MitooActivity extends Activity {
             intent.setType("message/rfc822");
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mitoo_support_email_subject));
-            intent.putExtra(Intent.EXTRA_TEXT, emailText);
+            //intent.putExtra(Intent.EXTRA_TEXT, emailText);
             startActivity(Intent.createChooser(intent, "Send email..."));
         }
         catch (Exception e){
@@ -428,17 +425,7 @@ public class MitooActivity extends Activity {
 
         }
     }
-    private void initializeStatusBarColor(){
 
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP){
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
-        }
-
-    }
 
     public Picasso getPicasso() {
         if (picasso == null) {

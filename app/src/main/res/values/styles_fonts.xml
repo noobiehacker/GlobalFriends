@@ -2,7 +2,7 @@
 <resources>
 
     <style name="DIN_RegularItalic">
-        <item name="fontPath">@string/DIN_RegularItalic</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
     </style>
 
     <style name="DIN_Regular">
