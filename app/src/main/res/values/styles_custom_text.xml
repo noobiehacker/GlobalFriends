@@ -184,6 +184,6 @@
     <style name="schedulePageTBCText">
         <item name="android:textColor">@color/gray_light_six</item>
         <item name="android:textSize">13sp</item>
-        <item name="fontPath">@string/DIN_Regular_Italic</item>
+        <item name="fontPath">@string/DIN_Light_Italic</item>
     </style>
 </resources>

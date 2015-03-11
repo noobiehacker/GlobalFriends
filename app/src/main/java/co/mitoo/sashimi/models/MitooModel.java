@@ -88,20 +88,12 @@ public abstract class MitooModel
     protected void handleSubscriberResponse(Object objectRecieve) {
 
     }
-    protected Runnable createGetResultsRunnable(){
-        return new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    obtainResults();
-                }
-                catch(Exception e){
-                }
-            }
-        };
-    }
 
     protected void obtainResults() {
+    }
+
+
+    protected void resetFields(){
+
     }
 }
