@@ -32,6 +32,7 @@ public class MitooEnum {
     public enum ViewType{
         LIST, FRAGMENT
     }
+
     public enum ErrorType{
         APP ,API
     }
@@ -57,7 +58,7 @@ public class MitooEnum {
     }
 
     public enum FixtureRowType {
-        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCEL, TBC
+        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCEL, TBC ,RESCHEDULE
     }
 
     public enum FixtureTabType {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.github.androidprogresslayout.ProgressLayout;
@@ -13,8 +14,10 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
 import co.mitoo.sashimi.views.widgets.MitooMaterialsTab;
 import co.mitoo.sashimi.views.widgets.MitooTab;
@@ -174,6 +177,28 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
             getToolbar().setTitle(getFragmentTitle());
             getToolbar().inflateMenu(R.menu.menu_with_notification);
             getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+            getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                    if (getDataHelper().isClickable()) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.menu_feedback:
+                                setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
+                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                break;
+                            case R.id.menu_settings:
+                                setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
+                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                break;
+                            case R.id.menu_search:
+                                fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
             setUpBackButtonClickListner();
 
         }

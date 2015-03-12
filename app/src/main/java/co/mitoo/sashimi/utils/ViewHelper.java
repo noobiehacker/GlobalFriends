@@ -467,7 +467,7 @@ public class ViewHelper {
         return fixtureRow;
     }
 
-    private void setUpFixturRowTeamTextView(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixturRowTeamTextView(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
 
         TextView leftTeamName = (TextView)row.findViewById(R.id.leftTeamName);
         TextView rightTeamName = (TextView)row.findViewById(R.id.rightTeamName);
@@ -477,6 +477,9 @@ public class ViewHelper {
             rightTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
             leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
             rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
+        }else{
+            leftTeamName.setText(fixture.getHomeTeamName());
+            rightTeamName.setText(fixture.getAwayTeamName());
         }
 
     }
@@ -507,6 +510,10 @@ public class ViewHelper {
                 alphaContainer.setAlpha(alphaValue);
                 stampView.setImageResource(R.drawable.cancelled_stamp);
                 break;
+            case RESCHEDULE:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.cancelled_stamp);
+                break;
             default:
                 break;
 
@@ -527,13 +534,14 @@ public class ViewHelper {
         switch(fixtureType){
             case TIME:
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
-                centerText.setText("11:00 AM");
+                centerText.setText(fitxture.getDisplayableTime());
                 break;
             case SCORE:
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageScoreText);
+                centerText.setText(fitxture.getDisplayableScore());
                 break;
             case TBC:
-                centerText.setText("11:00 AM");
+                centerText.setText(fitxture.getDisplayableTime());
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
                 break;
             default:

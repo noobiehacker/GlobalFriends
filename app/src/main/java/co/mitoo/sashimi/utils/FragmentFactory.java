@@ -74,8 +74,8 @@ public class FragmentFactory {
             case R.id.fragment_fixture:
                 result = FixtureFragment.newInstance();
                 break;
-            case R.id.fragment_fixture_tab:
-                result = FixtureTabFragment.newInstance();
+            case R.id.fragment_notification:
+                result = NotificationFragment.newInstance();
                 break;
             default:
                 result = SplashScreenFragment.newInstance();
