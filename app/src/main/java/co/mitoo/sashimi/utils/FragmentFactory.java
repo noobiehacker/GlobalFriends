@@ -74,8 +74,20 @@ public class FragmentFactory {
             case R.id.fragment_fixture:
                 result = FixtureFragment.newInstance();
                 break;
-            case R.id.fragment_schedule:
+            case R.id.fragment_fixture_tab:
                 result = FixtureTabFragment.newInstance();
+                break;
+            default:
+                result = SplashScreenFragment.newInstance();
+        }
+        return result;
+    }
+
+    public MitooFragment createTabFragment(int fragmentID , MitooEnum.FixtureTabType tabType){
+        MitooFragment result = null;
+        switch (fragmentID) {
+            case R.id.fragment_fixture_tab:
+                result = FixtureTabFragment.newInstance(tabType);
                 break;
             default:
                 result = SplashScreenFragment.newInstance();

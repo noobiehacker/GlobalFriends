@@ -2,7 +2,9 @@ package co.mitoo.sashimi.network.mockNetwork;
 
 import java.util.Collections;
 
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
@@ -98,4 +100,13 @@ public class MockSteakApiService implements SteakApi {
         this.statusCode = statusCode;
     }
 
+    @Override
+    public Observable<Team[]> getTeam(@Path("id") int id) {
+        return null;
+    }
+
+    @Override
+    public Observable<Fixture[]> getFixtureFromTeamID(@Query("filter") String filter, @Path("id") int id) {
+        return null;
+    }
 }

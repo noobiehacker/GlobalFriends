@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.models;
-
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.models.jsonPojo.Team;
@@ -12,6 +11,7 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
  * Created by david on 15-03-10.
  */
 public class TeamModel extends MitooModel {
+
 
     private List<Team> competitionTeams;
 
@@ -37,10 +37,9 @@ public class TeamModel extends MitooModel {
 
     public void addTeams(Team[] newTeams) {
 
-        List<Team> competitionTeams = getCompetitionTeams();
         DataHelper helper = getActivity().getDataHelper();
         for (Team item : newTeams) {
-            competitionTeams.add(item);
+            getCompetitionTeams().add(item);
         }
     }
 

@@ -8,7 +8,12 @@ import android.widget.LinearLayout;
 
 import com.squareup.otto.Subscribe;
 
+import java.util.List;
+
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
+import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 /**
@@ -16,15 +21,21 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
  */
 public class FixtureTabFragment extends MitooFragment {
 
-    private LinearLayout scheduleContainerView;
+    private LinearLayout fixtureTabContainerView;
+    private MitooEnum.FixtureTabType tabType;
 
     @Override
     public void onClick(View v) {
-
     }
 
     public static FixtureTabFragment newInstance() {
         FixtureTabFragment fragment = new FixtureTabFragment();
+        return fragment;
+    }
+
+    public static FixtureTabFragment newInstance(MitooEnum.FixtureTabType tabType) {
+        FixtureTabFragment fragment = new FixtureTabFragment();
+        fragment.setTabType(tabType);
         return fragment;
     }
 
@@ -42,10 +53,25 @@ public class FixtureTabFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        setScheduleContainerView((LinearLayout)view.findViewById(R.id.scheduleContainerView));
-        getScheduleContainerView().addView(getViewHelper().createFixtureGrouped(null));
-        getScheduleContainerView().addView(getViewHelper().createFixtureGrouped(null));
+        setFixtureTabContainerView((LinearLayout) view.findViewById(R.id.scheduleContainerView));
+        setUpScheduleContainerView();
 
+    }
+
+    private void setUpScheduleContainerView(){
+
+        List<FixtureWrapper> fixtureList;
+        switch(getTabType()){
+            case FIXTURE_RESULT:
+                fixtureList = getFixtureModel().getResult();
+                break;
+            case FIXTURE_SCHEDULE:
+                fixtureList = getFixtureModel().getSchedule();
+                break;
+            default:
+                fixtureList = getFixtureModel().getSchedule();
+        }
+        getViewHelper().setUpFixtureForTab(fixtureList, getFixtureTabContainerView());
     }
 
     @Override
@@ -60,11 +86,21 @@ public class FixtureTabFragment extends MitooFragment {
         super.onError(error);
     }
 
-    public LinearLayout getScheduleContainerView() {
-        return scheduleContainerView;
+    public LinearLayout getFixtureTabContainerView() {
+        return fixtureTabContainerView;
     }
 
-    public void setScheduleContainerView(LinearLayout scheduleContainerView) {
-        this.scheduleContainerView = scheduleContainerView;
+    public void setFixtureTabContainerView(LinearLayout fixtureTabContainerView) {
+        this.fixtureTabContainerView = fixtureTabContainerView;
+    }
+
+    public MitooEnum.FixtureTabType getTabType() {
+        if (tabType == null)
+            setTabType(MitooEnum.FixtureTabType.FIXTURE_SCHEDULE);
+        return tabType;
+    }
+
+    public void setTabType(MitooEnum.FixtureTabType tabType) {
+        this.tabType = tabType;
     }
 }

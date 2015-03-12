@@ -30,7 +30,9 @@ public abstract class MitooModel
     }
     
     public SteakApi getSteakApiService() {
-        return ServiceBuilder.getSingleTonInstance().getSteakApiService();
+        if(steakApiService == null)
+            steakApiService = ServiceBuilder.getSingleTonInstance().getSteakApiService();
+        return steakApiService;
     }
 
     public void setSteakApiService(SteakApi steakApiService) {
@@ -72,9 +74,6 @@ public abstract class MitooModel
 
             @Override
             public void onError(Throwable e) {
-
-                String temp = e.toString();
-
             }
 
             @Override

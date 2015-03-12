@@ -1,7 +1,4 @@
 package co.mitoo.sashimi.network;
-
-import java.util.List;
-
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;

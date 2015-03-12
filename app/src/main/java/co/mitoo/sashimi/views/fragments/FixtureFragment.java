@@ -13,7 +13,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.events.FixtureResponseEvent;
+import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
 import co.mitoo.sashimi.views.widgets.MitooMaterialsTab;
@@ -90,18 +90,14 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     @Override
     protected void requestData() {
 
-        //Mocking a behaviour of backend call
-        getHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                BusProvider.post(new FixtureResponseEvent());
-            }
-        }, MitooConstants.durationShort);
+        int competitionSeasonID = 0;
+        BusProvider.post(new FixtureModelResponseEvent() , MitooConstants.durationExtraLong);
+        //getFixtureModel().requestFixture(competitionSeasonID , false);
 
     }
 
     @Subscribe
-    public void onFixtureResponse(FixtureResponseEvent event) {
+    public void onFixtureResponse(FixtureModelResponseEvent event) {
 
         setUpPagerAdapter();
         setPreDataLoading(false);
@@ -118,16 +114,16 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     private void setUpTabs(){
 
         String[] tabNames = getResources().getStringArray(R.array.competitions_tabs_array);
-        for(int i = 0 ; i < tabNames.length ; i++){
+        for(int tabIndex = 0 ; tabIndex < tabNames.length ; tabIndex++){
 
-            String tabName = tabNames[i];
+            String tabName = tabNames[tabIndex];
 
             MitooMaterialsTab tab = new MitooMaterialsTab(getMitooActivity() ,false );
             tab.setText(tabName);
             tab.setTabListener(this);
             getTabHost().addTab(tab);
 
-            MitooTab mitooTab = new MitooTab();
+            MitooTab mitooTab = new MitooTab(getDataHelper().getFixtureTabTypeFromIndex(tabIndex));
             mitooTab.setTab(tab);
             getMitooTabsList().add(mitooTab);
 

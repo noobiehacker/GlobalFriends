@@ -153,8 +153,4 @@ public class SettingsFragment extends MitooFragment {
         
     }
 
-    private UserInfoModel getUserInfoModel(){
-
-        return (UserInfoModel) getMitooModel(UserInfoModel.class);
-    }
 }

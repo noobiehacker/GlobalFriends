@@ -27,10 +27,12 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.CompetitionModel;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -421,23 +423,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.allowBackPressed = allowBackPressed;
     }
 
-    protected MitooModel getMitooModel(Class<?> classType) {
-
-        if (classType == UserInfoModel.class)
-            return getMitooActivity().getModelManager().getUserInfoModel();
-        else if (classType == LeagueModel.class)
-            return getMitooActivity().getModelManager().getLeagueModel();
-        else if (classType == SessionModel.class)
-            return getMitooActivity().getModelManager().getSessionModel();
-        else if (classType == LocationModel.class)
-            return getMitooActivity().getModelManager().getLocationModel();
-        else if (classType == AppSettingsModel.class)
-            return getMitooActivity().getModelManager().getAppSettingsModel();
-        else if (classType == CompetitionModel.class)
-            return getMitooActivity().getModelManager().getCompetitionModel();
-        else
-            return null;
-    }
 
     public boolean isLoading() {
         return loading;
@@ -503,19 +488,35 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected SessionModel getSessionModel() {
 
-        return (SessionModel) getMitooModel(SessionModel.class);
+        return getMitooActivity().getModelManager().getSessionModel();
     }
 
     protected LeagueModel getLeagueModel() {
-        return (LeagueModel) getMitooModel(LeagueModel.class);
+        return getMitooActivity().getModelManager().getLeagueModel();
     }
 
     protected AppSettingsModel getAppSettingsModel() {
-        return (AppSettingsModel) getMitooModel(AppSettingsModel.class);
+        return getMitooActivity().getModelManager().getAppSettingsModel();
     }
 
     protected CompetitionModel getCompetitionModel() {
-        return (CompetitionModel) getMitooModel(CompetitionModel.class);
+        return getMitooActivity().getModelManager().getCompetitionModel();
+    }
+
+    protected TeamModel getTeamModel() {
+        return getMitooActivity().getModelManager().getTeamModel();
+    }
+
+    protected FixtureModel getFixtureModel() {
+        return getMitooActivity().getModelManager().getFixtureModel();
+    }
+
+    protected UserInfoModel getUserInfoModel() {
+        return getMitooActivity().getModelManager().getUserInfoModel();
+    }
+
+    protected LocationModel getLocationModel() {
+        return getMitooActivity().getModelManager().getLocationModel();
     }
 
     public ViewHelper getViewHelper() {
@@ -608,10 +609,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.progressLayout = progressLayout;
     }
 
-    protected LocationModel getLocationModel() {
-
-        return (LocationModel) getMitooModel(LocationModel.class);
-    }
 
     public boolean popActionRequiresDelay() {
         return popActionRequiresDelay;

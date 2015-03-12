@@ -257,9 +257,7 @@ public class HomeFragment extends MitooFragment {
                 dialog.buildPrompt().show();
                 break;
         }
-
     }
-
 
     @Override
     protected void handleAndDisplayError(MitooActivitiesErrorEvent error) {
@@ -280,7 +278,7 @@ public class HomeFragment extends MitooFragment {
     public void refreshMyLeagueData(){
 
         if(getCompetitionModel().getMyCompetition()!=null){
-            getDataHelper().clearList(getMyLeagueData());
+             getDataHelper().clearList(getMyLeagueData());
             getDataHelper().addToListList(getMyLeagueData(), getCompetitionModel().getMyCompetition());
         }
         getMyLeagueDataAdapter().notifyDataSetChanged();

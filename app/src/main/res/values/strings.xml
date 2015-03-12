@@ -48,8 +48,6 @@
     <string name="join_page_text7">We\'ve sent your details to the league, they\nshould be in touch soon.</string>
     <string name="join_page_info_prefix">We will send your details to</string>
     <string name="join_page_info_suffix">so you can join.</string>
-
-
     <string name="join_page_button_3_text">VIEW MY LEAGUES</string>
 
     <!--Forgot Page-->
@@ -242,6 +240,7 @@
         <item>SCHEDULE</item>
         <item>RESULTS</item>
     </string-array>
+    <string name="fixture_page_tbc">TBC</string>
 
     <!--Toolbar Title-->
     <string name="tool_bar_happy">HAPPY</string>

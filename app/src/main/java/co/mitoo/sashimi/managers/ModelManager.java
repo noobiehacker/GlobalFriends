@@ -1,14 +1,15 @@
 package co.mitoo.sashimi.managers;
 import java.util.ArrayList;
 import java.util.List;
-import android.os.Handler;
 
 import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.CompetitionModel;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -45,7 +46,7 @@ public class ModelManager {
     public LeagueModel getLeagueModel() {
 
         LeagueModel leagueModel = null;
-        MitooModel model = getModel(LeagueModel.class);
+        MitooModel model = getModelFromList(LeagueModel.class);
         if (model != null) {
             leagueModel = (LeagueModel) model;
         } else{
@@ -58,7 +59,7 @@ public class ModelManager {
     public SessionModel getSessionModel() {
 
         SessionModel sessionModel = null;
-        MitooModel model = getModel(SessionModel.class);
+        MitooModel model = getModelFromList(SessionModel.class);
         if (model != null) {
             sessionModel = (SessionModel) model;
         } else {
@@ -71,7 +72,7 @@ public class ModelManager {
     public UserInfoModel getUserInfoModel() {
 
         UserInfoModel userInfoModel = null;
-        MitooModel model = getModel(UserInfoModel.class);
+        MitooModel model = getModelFromList(UserInfoModel.class);
         if (model != null) {
             userInfoModel = (UserInfoModel) model;
         } else {
@@ -84,7 +85,7 @@ public class ModelManager {
     public LocationModel getLocationModel() {
 
         LocationModel locationModel = null;
-        MitooModel model = getModel(LocationModel.class);
+        MitooModel model = getModelFromList(LocationModel.class);
         if (model != null) {
             locationModel = (LocationModel) model;
         } else {
@@ -97,7 +98,7 @@ public class ModelManager {
     public AppSettingsModel getAppSettingsModel() {
 
         AppSettingsModel appSettingsModel = null;
-        MitooModel model = getModel(AppSettingsModel.class);
+        MitooModel model = getModelFromList(AppSettingsModel.class);
         if (model != null) {
             appSettingsModel  = (AppSettingsModel) model;
         } else {
@@ -109,15 +110,39 @@ public class ModelManager {
 
     public CompetitionModel getCompetitionModel() {
 
-        CompetitionModel competitionModel = null;
-        MitooModel model = getModel(CompetitionModel.class);
+        return (CompetitionModel) getModel(CompetitionModel.class);
+    }
+
+    public TeamModel getTeamModel() {
+
+        return (TeamModel) getModel(TeamModel.class);
+    }
+
+    public FixtureModel getFixtureModel() {
+
+        return (FixtureModel )getModel(FixtureModel.class);
+    }
+
+    private <T> MitooModel getModel(Class<T> classType) {
+
+        T classModel = null;
+        Object model = getModelFromList(classType);
         if (model != null) {
-            competitionModel  = (CompetitionModel) model;
+            classModel = (T) model;
         } else {
-            competitionModel  = new CompetitionModel(getMitooActivity());
-            addModel(competitionModel );
+
+            try{
+                model = classType.getConstructor(MitooActivity.class)
+                        .newInstance(getMitooActivity());
+            }
+            catch(Exception e){
+
+                String tremp = e.toString();
+
+            }
+            addModel((MitooModel)model );
         }
-        return competitionModel;
+        return (MitooModel)model;
     }
 
     public List<IsPersistable> getPersistableList() {
@@ -146,7 +171,7 @@ public class ModelManager {
         }
     }
 
-    public MitooModel getModel(Class<?> modelClass) {
+    public MitooModel getModelFromList(Class<?> modelClass) {
 
         MitooModel result = null;
         forloop:

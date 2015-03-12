@@ -21,7 +21,6 @@
         android:layout_marginRight="@dimen/enquired_list_icon_right_padding"
         android:layout_alignParentLeft="true"
         android:orientation="vertical"
-        android:background="@drawable/rounded"
         android:visibility="invisible">
 
         <ImageView
@@ -30,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:padding="@dimen/image_container_border"
             android:adjustViewBounds="true"
             android:focusable="false"
             android:scaleType="fitCenter"

@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -26,14 +25,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
@@ -200,13 +198,6 @@ public class ViewHelper {
         if(colorID!=MitooConstants.invalidConstant){
             Drawable drawable =view.getBackground();
             drawable.setColorFilter(colorID, PorterDuff.Mode.SRC);
-        }
-    }
-
-    public void setViewBackgroundColor(View view, String color){
-        int colorID = getColor(color);
-        if(colorID!=MitooConstants.invalidConstant){
-            view.setBackgroundColor(colorID);
         }
     }
 
@@ -431,43 +422,66 @@ public class ViewHelper {
         return leagueItemContainer;
     }
 
-    public RelativeLayout createFixtureGrouped(Fixture fixture){
+    public void setUpFixtureForTab(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
+
+        //1)Break the bigger list of Fixture into smaller list of all having the same date
+        //2)Than call helper method to create these grouped fixtures for one date, one by one
+        Date dateForCurrentList= null;
+        List<FixtureWrapper> listOfFixtureForOneDate = null;
+        for (FixtureWrapper item : fixtureList) {
+            Date dateForItem = item.getFixtureDate();
+            if(dateForCurrentList ==null || !getDataHelper().isSameDate(dateForItem, dateForCurrentList)){
+                listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
+                listOfFixtureForOneDate.add(item);
+            }
+            else{
+                tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+            }
+        }
+    }
+
+    public RelativeLayout createFixtureForOneDate(List<FixtureWrapper> fixtureGroup){
 
         RelativeLayout fixtureGroupContainer = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_grouped);
         LinearLayout fixtureHolder = (LinearLayout) fixtureGroupContainer.findViewById(R.id.fixtureRowContainer);
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.SCORE));
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.TIME));
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.TBC));
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.VOID));
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.ABANDONED));
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.CANCEL));
-        fixtureHolder.addView(createFixtureRow(fixture ,MitooEnum.FixtureRowType.POSTPONED));
+        for(FixtureWrapper item : fixtureGroup){
+            fixtureHolder.addView(createFixtureRow(item));
+        }
+        setDateForFixtureGroup(fixtureGroupContainer, fixtureGroup);
         return fixtureGroupContainer;
     }
 
-    public RelativeLayout createFixtureRow(Fixture fixture ,MitooEnum.FixtureRowType fixtureType){
+    private void setDateForFixtureGroup(RelativeLayout fixtureGroupContainer , List<FixtureWrapper> fixtureGroup){
+
+        if(fixtureGroup.size()>0){
+            TextView dateTextView = (TextView) fixtureGroupContainer.findViewById(R.id.dateTextField);
+            String fixtureDate = fixtureGroup.get(0).getDisplayableDate();
+            dateTextView.setText(fixtureDate);
+        }
+    }
+
+    public RelativeLayout createFixtureRow(FixtureWrapper fixture){
 
         RelativeLayout fixtureRow = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_row);
-        customizeFixtureRow(fixtureRow,fixture, fixtureType);
+        customizeFixtureRow(fixtureRow,fixture);
         return fixtureRow;
     }
 
-    private void setUpFixturRowTeamTextView(RelativeLayout row , Fixture fitxture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixturRowTeamTextView(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
+
         TextView leftTeamName = (TextView)row.findViewById(R.id.leftTeamName);
         TextView rightTeamName = (TextView)row.findViewById(R.id.rightTeamName);
 
         if(fixtureType == MitooEnum.FixtureRowType.TBC){
-            leftTeamName.setText("TBC");
-            rightTeamName.setText("TBC");
-
+            leftTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
+            rightTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
             leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
             rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
-
         }
 
     }
 
-    private void setUpFixtureStamp(RelativeLayout row, Fixture fitxture, MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fitxture, MitooEnum.FixtureRowType fixtureType){
 
         RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
         ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
@@ -499,7 +513,7 @@ public class ViewHelper {
         }
     }
 
-    private void setUpFixtureTeamIcons(RelativeLayout row , Fixture fitxture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
 
         ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
@@ -507,7 +521,7 @@ public class ViewHelper {
         leftTeamIcon.setImageResource(R.drawable.team_2);
     }
 
-    private void setUpFixtureCenterText(RelativeLayout row , Fixture fitxture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
 
         TextView centerText = (TextView)row.findViewById(R.id.middleTextField);
         switch(fixtureType){
@@ -527,8 +541,9 @@ public class ViewHelper {
         }
     }
 
-    private void customizeFixtureRow(RelativeLayout row , Fixture fixture,MitooEnum.FixtureRowType fixtureType){
+    private void customizeFixtureRow(RelativeLayout row , FixtureWrapper fixture){
 
+        MitooEnum.FixtureRowType fixtureType = getActivity().getDataHelper().getFixtureRowTypeFixture(fixture);
         setUpFixturRowTeamTextView(row, fixture, fixtureType);
         setUpFixtureStamp(row, fixture, fixtureType);
         setUpFixtureCenterText(row, fixture, fixtureType);
@@ -785,6 +800,10 @@ public class ViewHelper {
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);
         setUpListHeader(listView, headerLayoutID, headerText);
+    }
+
+    private DataHelper getDataHelper(){
+        return getActivity().getDataHelper();
     }
 
 }

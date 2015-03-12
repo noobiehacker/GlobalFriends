@@ -25,6 +25,7 @@ import com.squareup.otto.Subscribe;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
@@ -539,6 +540,8 @@ public class MitooActivity extends ActionBarActivity {
             locationManager = new MitooLocationManager(this);
         this.locationManager = locationManager;
     }
+
+
 }
 
 

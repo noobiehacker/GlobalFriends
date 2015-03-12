@@ -23,6 +23,7 @@
     <color name="transparent_white_60">#99FFFFFF</color>
     <color name="transparent_white_50">#80FFFFFF</color>
     <color name="transparent_white_30">#4DFFFFFF</color>
+    <color name="transparent_black_50">#80000000</color>
     <color name="transparent_dark_gray">#99121212</color>
     <color name="over_lay_black">#4D000000</color>
 

@@ -59,4 +59,12 @@ public class MitooEnum {
     public enum FixtureRowType {
         TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCEL, TBC
     }
+
+    public enum FixtureTabType {
+        FIXTURE_SCHEDULE, FIXTURE_RESULT
+    }
+
+    public enum TimeFrame {
+        PAST , FUTURE
+    }
 }

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import se.walkercrou.places.Prediction;
@@ -201,11 +202,19 @@ public class DataHelper {
                 result = getShortDateFormat().format(date);
             }
         } catch (Exception e) {
-            String temp = e.toString();
         }
         return result;
     }
 
+    public Date getDateFromString(String input){
+
+        Date result = null;
+        try{
+            result = getLongDateFormat().parse(input);
+        }catch (Exception e){
+        }
+        return result;
+    }
 
     public String getDateString(Date date) {
 
@@ -213,8 +222,9 @@ public class DataHelper {
     }
     
     public SimpleDateFormat getLongDateFormat(){
+
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        
+
     }
 
     public SimpleDateFormat getShortDateFormat(){
@@ -309,10 +319,86 @@ public class DataHelper {
 
     }
 
+
     public float getFloatValue(int floatID){
         TypedValue outValue = new TypedValue();
         getActivity().getResources().getValue(R.dimen.low_alpha, outValue, true);
         return outValue.getFloat();
     }
-        
+
+    public MitooEnum.FixtureTabType getFixtureTabTypeFromIndex(int index){
+
+        MitooEnum.FixtureTabType tabType;
+        switch(index){
+            case 0:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+            default:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+        }
+        return tabType;
+    }
+
+    public MitooEnum.FixtureRowType getFixtureRowTypeFixture(FixtureWrapper fixtureWrapper){
+
+        /*Notes from BE
+
+            The status attribute is a variable to show non-normal games
+            0 = Normal
+            1 = Cancelled
+            2 = Deleted
+            3 = Postponed
+            4 = Rescheduled
+            5 = Abandoned
+            6 = Void Notes:
+
+         */
+
+        MitooEnum.FixtureRowType tabType;
+        switch(fixtureWrapper.getFixture().getStatus()){
+            case 0:
+                MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
+                if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
+                    tabType = MitooEnum.FixtureRowType.TIME;
+                else
+                    tabType = MitooEnum.FixtureRowType.SCORE;
+                break;
+            case 1:
+                tabType = MitooEnum.FixtureRowType.CANCEL;
+                break;
+            case 2:
+                tabType = MitooEnum.FixtureRowType.VOID;
+                break;
+            case 3:
+                tabType = MitooEnum.FixtureRowType.POSTPONED;
+                break;
+            case 4:
+                tabType = MitooEnum.FixtureRowType.POSTPONED;
+                break;
+            case 5:
+                tabType = MitooEnum.FixtureRowType.ABANDONED;
+                break;
+            case 6:
+                tabType = MitooEnum.FixtureRowType.VOID;
+                break;
+            default:
+                tabType = MitooEnum.FixtureRowType.TBC;
+                break;
+
+        }
+        return tabType;
+    }
+
+    private MitooEnum.TimeFrame getTimeFrame(Date date){
+        if(date.after(new Date()))
+            return MitooEnum.TimeFrame.FUTURE;
+        else
+            return MitooEnum.TimeFrame.PAST;
+    }
+
+    public boolean isSameDate(Date itemOne , Date itemTwo){
+
+        return (itemOne.getDate() == itemTwo.getDate() &&
+                itemOne.getMonth() == itemTwo.getMonth() &&
+                itemOne.getYear() == itemTwo.getYear());
+    }
 }
