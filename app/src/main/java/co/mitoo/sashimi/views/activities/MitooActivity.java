@@ -54,6 +54,7 @@ public class MitooActivity extends ActionBarActivity {
     private DataHelper dataHelper;
     private Picasso picasso;
     protected DataPersistanceService persistanceService;
+    private int firstFragmentToStart = R.id.fragment_fixture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -343,12 +344,7 @@ public class MitooActivity extends ActionBarActivity {
         setFragmentStack(new Stack<MitooFragment>());
         FragmentChangeEvent event =
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
-                        R.id.fragment_splash, MitooEnum.FragmentAnimation.NONE);
-        /*RMB TO SWITCH BACK
-         FragmentChangeEvent event =
-                new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
-                        R.id.fragment_fixture ,MitooEnum.FragmentAnimation.NONE);
-        */
+                        getFirstFragmentToStart(), MitooEnum.FragmentAnimation.NONE);
         BusProvider.post(event);
 
     }
@@ -541,7 +537,13 @@ public class MitooActivity extends ActionBarActivity {
         this.locationManager = locationManager;
     }
 
+    public int getFirstFragmentToStart() {
+        return firstFragmentToStart;
+    }
 
+    public void setFirstFragmentToStart(int firstFragmentToStart) {
+        this.firstFragmentToStart = firstFragmentToStart;
+    }
 }
 
 

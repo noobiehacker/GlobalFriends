@@ -17,6 +17,7 @@ import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.TeamModelResponseEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
 import co.mitoo.sashimi.views.widgets.MitooMaterialsTab;
@@ -36,10 +37,11 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     private MitooTabAdapter adapter;
     private List<MitooTab> mitooTabsList ;
     private int teamColor = MitooConstants.invalidConstant;
+    private boolean teamModelLoaded = false;
+    private boolean fixtureModelLoaded = false;
 
     @Override
     public void onClick(View v) {
-
     }
 
     public static FixtureFragment newInstance() {
@@ -94,18 +96,33 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     protected void requestData() {
 
         int competitionSeasonID = 0;
-        BusProvider.post(new FixtureModelResponseEvent() , MitooConstants.durationExtraLong);
-        //getFixtureModel().requestFixture(competitionSeasonID , false);
+        getTeamModel().requestTeam(1);
+        getFixtureModel().requestFixture(competitionSeasonID , false);
 
     }
 
     @Subscribe
     public void onFixtureResponse(FixtureModelResponseEvent event) {
 
-        setUpPagerAdapter();
-        setPreDataLoading(false);
+        setFixtureModelLoaded(true);
+        if(allDataLoaded())
+            loadTabs();
+    }
+
+    @Subscribe
+    public void onTeamResponse(TeamModelResponseEvent event) {
+
+        setTeamModelLoaded(true);
+        if(allDataLoaded())
+            loadTabs();
 
     }
+
+    private void loadTabs(){
+        setUpPagerAdapter();
+        setPreDataLoading(false);
+    }
+
 
     private void setUpTabView(View view){
 
@@ -183,16 +200,8 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
 
                     if (getDataHelper().isClickable()) {
                         switch (menuItem.getItemId()) {
-                            case R.id.menu_feedback:
-                                setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
-                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
-                                break;
-                            case R.id.menu_settings:
-                                setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
-                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
-                                break;
-                            case R.id.menu_search:
-                                fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
+                            case R.id.menu_notification:
+                                fireFragmentChangeAction(R.id.fragment_notification);
                                 break;
                         }
                     }
@@ -237,5 +246,25 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
         if(mitooTabsList==null)
             mitooTabsList = new ArrayList<MitooTab>();
         return mitooTabsList;
+    }
+
+    public boolean allDataLoaded() {
+        return isTeamModelLoaded() && isFixtureModelLoaded();
+    }
+
+    public boolean isTeamModelLoaded() {
+        return teamModelLoaded;
+    }
+
+    public void setTeamModelLoaded(boolean teamModelLoaded) {
+        this.teamModelLoaded = teamModelLoaded;
+    }
+
+    public boolean isFixtureModelLoaded() {
+        return fixtureModelLoaded;
+    }
+
+    public void setFixtureModelLoaded(boolean fixtureModelLoaded) {
+        this.fixtureModelLoaded = fixtureModelLoaded;
     }
 }

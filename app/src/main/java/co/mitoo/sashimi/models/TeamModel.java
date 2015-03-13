@@ -20,7 +20,7 @@ public class TeamModel extends MitooModel {
     }
 
     public void requestTeam(int id) {
-        if (getCompetitionTeams() == null)
+        if (getCompetitionTeams().size()==0)
             handleObservable(getSteakApiService().getTeam(id), Team[].class);
         else
             BusProvider.post(new TeamModelResponseEvent());

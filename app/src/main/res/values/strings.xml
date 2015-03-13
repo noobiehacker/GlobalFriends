@@ -243,6 +243,13 @@
     </string-array>
     <string name="fixture_page_tbc">TBC</string>
 
+    <!--Notification Page -->
+    <string name="notification_page_list_title">Account</string>
+
+    <string name="notification_page_list_item_next_game">Your next game</string>
+    <string name="notification_page_list_item_your_results">Your results</string>
+    <string name="notification_page_list_rival_results">Rival results</string>
+
     <!--Toolbar Title-->
     <string name="tool_bar_happy">HAPPY</string>
     <string name="tool_bar_unhappy">UNHAPPY</string>
@@ -257,6 +264,7 @@
     <string name="tool_bar_near_you">Near You</string>
     <string name="tool_bar_settings">Settings</string>
     <string name="tool_bar_location_search">Enter any location</string>
+    <string name="tool_bar_notification">Notification</string>
     <string name="toolbar_placeholder">Mitoo Fragment</string>
 
     <!--Misc -->

@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import se.walkercrou.places.Prediction;
 
@@ -220,6 +220,11 @@ public class DataHelper {
 
         return getLongDateFormat().format(date);
     }
+
+    public String getTimeString(Date date) {
+
+        return getLongDateFormat().format(date);
+    }
     
     public SimpleDateFormat getLongDateFormat(){
 
@@ -274,7 +279,7 @@ public class DataHelper {
    public int getTextViewIDFromLayout(int layout) {
 
        int result = MitooConstants.invalidConstant;
-       if (layout == R.layout.view_league_list_header)
+       if (layout == R.layout.view_list_header)
            result = R.id.header_view;
        else if (layout == R.layout.view_league_list_footer)
            result = R.id.footer_view;
@@ -400,5 +405,31 @@ public class DataHelper {
         return (itemOne.getDate() == itemTwo.getDate() &&
                 itemOne.getMonth() == itemTwo.getMonth() &&
                 itemOne.getYear() == itemTwo.getYear());
+    }
+
+
+    public String getNotificationText(MitooEnum.NotificationType notificationType){
+
+        String result="";
+        switch(notificationType){
+
+            case NextGame:
+                result = getActivity().getString(R.string.notification_page_list_item_next_game);
+                break;
+            case TeamResults:
+                result = getActivity().getString(R.string.notification_page_list_item_your_results);
+                break;
+            case RivalResults:
+                result = getActivity().getString(R.string.notification_page_list_rival_results);
+                break;
+            default:
+                break;
+
+        }
+        return result;
+    }
+
+    public Team getTeam(int teamID){
+        return getActivity().getModelManager().getTeamModel().getTeam(teamID);
     }
 }

@@ -215,8 +215,8 @@ public class LeagueFragment extends MitooFragment {
     private void hideReadMoreTextView(){
         if(getReadMoreTextView()!=null)
             getReadMoreTextView().setVisibility(View.GONE);
-
     }
+
     public TextView getLeagueDetailsTextView() {
         return leagueDetailsTextView;
     }

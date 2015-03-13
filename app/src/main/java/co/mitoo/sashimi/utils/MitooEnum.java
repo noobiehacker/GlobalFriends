@@ -68,4 +68,12 @@ public class MitooEnum {
     public enum TimeFrame {
         PAST , FUTURE
     }
+
+    public enum NotificationType {
+        NextGame, TeamResults, RivalResults
+    }
+
+    public enum ModelType {
+        TEAM , FIXTURE
+    }
 }

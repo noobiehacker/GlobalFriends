@@ -25,7 +25,7 @@ public class StringListAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
             convertView = View.inflate(getContext(), R.layout.list_view_item_text, null);
         }
-        TextView textView = (TextView) convertView.findViewById(R.id.dynamicText);
+        TextView textView = (TextView) convertView.findViewById(R.id.small_list_item_text);
         textView.setText(getItem(position));
         return convertView;
 

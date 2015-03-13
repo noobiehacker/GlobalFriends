@@ -125,28 +125,7 @@ public class HomeFragment extends MitooFragment {
             getToolbar().setTitle("");
             getToolbar().inflateMenu(R.menu.menu_main);
             getToolbar().setPopupTheme(R.style.MyPopupMenu);
-            getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
 
-                    if (getDataHelper().isClickable()) {
-                        switch (menuItem.getItemId()) {
-                            case R.id.menu_feedback:
-                                setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
-                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
-                                break;
-                            case R.id.menu_settings:
-                                setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
-                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
-                                break;
-                            case R.id.menu_search:
-                                fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
-                                break;
-                        }
-                    }
-                    return false;
-                }
-            });
         }
         return getToolbar();
     }
@@ -295,14 +274,16 @@ public class HomeFragment extends MitooFragment {
     private void setUpEnquiredListView(View view, String headerText){
 
         setEnquiredLeagueList((ListView) view.findViewById(R.id.enquiredLeagueListView));
-        getViewHelper().setUpLeagueList(getEnquiredLeagueList() ,getEnquiredLeagueDataAdapter() , headerText );
+        getViewHelper().setUpListView(getEnquiredLeagueList() ,
+                getEnquiredLeagueDataAdapter() , headerText,getEnquiredLeagueDataAdapter() );
 
     }
 
     private void setUpMyLeagueListView(View view, String headerText){
 
         setMyLeagueList((ListView) view.findViewById(R.id.myLeagueListView));
-        getViewHelper().setUpCompetitionList(getMyLeagueList(), getMyLeagueDataAdapter(), headerText);
+        getViewHelper().setUpListView(getMyLeagueList(),
+                getMyLeagueDataAdapter(), headerText, getMyLeagueDataAdapter());
 
     }
 

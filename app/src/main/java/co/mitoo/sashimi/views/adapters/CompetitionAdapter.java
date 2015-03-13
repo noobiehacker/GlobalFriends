@@ -24,9 +24,6 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         setFragment(fragment);
     }
 
-    public CompetitionAdapter(Context context, int resourceId, List<Competition> objects) {
-        super(context, resourceId, objects);
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

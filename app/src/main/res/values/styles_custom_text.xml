@@ -27,7 +27,7 @@
 
     </style>
 
-    <!-- League Page -->
+    <!-- Confirm  Page -->
     <style name="confirmSuccessText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
@@ -40,6 +40,13 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <!-- Search / Search Results  Page -->
+
+    <style name="searchListItemText">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!-- Settings Page -->
 
     <style name="settingsUserNameText">
@@ -48,14 +55,12 @@
     </style>
     
     <style name="settingsTitleText">
-        <item name="android:textColor">@color/gray_dark_five</item>
-        <item name="android:textSize">14sp</item>
-        <item name="fontPath">@string/DIN_Medium</item>
-
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="settingsItemText">
-        <item name="android:textColor">@color/gray_dark_two</item>
+        <item name="android:textColor">@color/gray_dark_five</item>
         <item name="android:textSize">17sp</item>
     </style>
 
@@ -186,4 +191,17 @@
         <item name="android:textSize">13sp</item>
         <item name="fontPath">@string/DIN_Light_Italic</item>
     </style>
+
+    <!-- Notification page -->
+
+    <style name="notificationPageTitleText">
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="notificationPageItemText">
+        <item name="android:textColor">@color/gray_dark_five</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
 </resources>

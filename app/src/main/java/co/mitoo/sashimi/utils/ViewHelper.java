@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,11 +35,10 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.adapters.CompetitionAdapter;
-import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
 
@@ -438,6 +439,9 @@ public class ViewHelper {
                 tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
             }
         }
+        //3 Add in fixtures for last loop
+        tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+
     }
 
     public RelativeLayout createFixtureForOneDate(List<FixtureWrapper> fixtureGroup){
@@ -471,15 +475,16 @@ public class ViewHelper {
 
         TextView leftTeamName = (TextView)row.findViewById(R.id.leftTeamName);
         TextView rightTeamName = (TextView)row.findViewById(R.id.rightTeamName);
-
+        Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
+        Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
         if(fixtureType == MitooEnum.FixtureRowType.TBC){
             leftTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
             rightTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
             leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
             rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
         }else{
-            leftTeamName.setText(fixture.getHomeTeamName());
-            rightTeamName.setText(fixture.getAwayTeamName());
+            leftTeamName.setText(homeTeam.getName());
+            rightTeamName.setText(awayTeam.getName());
         }
 
     }
@@ -752,7 +757,7 @@ public class ViewHelper {
         return enquiredText;
     }
 
-    public View createHeadFooterView(int layoutID,  String text){
+    public View createHeaderORFooterView(int layoutID, String text){
 
         int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
         View holder = createViewFromInflator(layoutID);
@@ -783,30 +788,29 @@ public class ViewHelper {
 
     public void setUpListHeader(ListView listView , int layoutID , String headerText){
 
-        View holder = createHeadFooterView(layoutID, headerText);
+        View holder = createHeaderORFooterView(layoutID, headerText);
         listView.addHeaderView(holder);
     }
 
     public void setUpListFooter(ListView listView , int layoutID , String footerText) {
 
         if(listView.getFooterViewsCount() ==0 ){
-            View holder = createHeadFooterView(layoutID, footerText);
+            View holder = createHeaderORFooterView(layoutID, footerText);
             listView.addFooterView(holder);
         }
-
     }
 
-    public void setUpLeagueList(ListView listView, LeagueAdapter adapter,String headerText){
-        int headerLayoutID =  R.layout.view_league_list_header;
+    public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText
+            ,AdapterView.OnItemClickListener listener){
+        int headerLayoutID =  R.layout.view_list_header;
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(adapter);
+        listView.setOnItemClickListener(listener);
         setUpListHeader(listView, headerLayoutID, headerText);
     }
 
-    public void setUpCompetitionList(ListView listView, CompetitionAdapter adapter,String headerText){
-        int headerLayoutID =  R.layout.view_league_list_header;
+    public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText){
+        int headerLayoutID =  R.layout.view_list_header;
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(adapter);
         setUpListHeader(listView, headerLayoutID, headerText);
     }
 

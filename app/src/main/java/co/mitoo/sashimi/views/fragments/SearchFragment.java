@@ -185,7 +185,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private View getSuggestedSearchHeader() {
 
         View header = getActivity().getLayoutInflater().inflate(R.layout.list_view_header, null);
-        TextView suggestionTextView = (TextView) header.findViewById(R.id.dynamicText);
+        TextView suggestionTextView = (TextView) header.findViewById(R.id.header_text);
         suggestionTextView.setText(getString(R.string.search_page_text_2));
         return header;
     }
@@ -277,9 +277,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         this.searchMitooText = searchMitooText;
     }
 
-    private void setUpDynamicText(View view){
+    private void setUpSearchMitooText(View view){
 
-        TextView dynamicText = (TextView) view.findViewById(R.id.dynamicText);
+        TextView dynamicText = (TextView) view.findViewById(R.id.small_list_item_text);
         dynamicText.setText(getString(R.string.search_page_text_1));
         setSearchMitooText(dynamicText);
 
@@ -289,7 +289,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         View searchMitooFor = (View) view.findViewById(R.id.search_mitoo_for);
         setSearchMitooForView(searchMitooFor);
-        setUpDynamicText(searchMitooFor);
+        setUpSearchMitooText(searchMitooFor);
     }
 
     

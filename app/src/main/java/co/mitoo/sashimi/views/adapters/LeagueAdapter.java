@@ -28,10 +28,6 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
         setFragment(fragment);
     }
 
-    public LeagueAdapter(Context context, int resourceId, List<League> objects) {
-        super(context, resourceId, objects);
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
