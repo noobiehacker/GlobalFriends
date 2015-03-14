@@ -129,7 +129,7 @@ public class ViewHelper {
 
     public void setUpMyLeagueListIcon(final View view , Competition competition){
 
-        String leagueIconUrl = getLogo(competition);
+        String leagueIconUrl = getCompetitionLogo(competition);
         setUpLeagueIcon(view , leagueIconUrl);
     }
 
@@ -427,21 +427,44 @@ public class ViewHelper {
 
         //1)Break the bigger list of Fixture into smaller list of all having the same date
         //2)Than call helper method to create these grouped fixtures for one date, one by one
-        Date dateForCurrentList= null;
         List<FixtureWrapper> listOfFixtureForOneDate = null;
-        for (FixtureWrapper item : fixtureList) {
-            Date dateForItem = item.getFixtureDate();
-            if(dateForCurrentList ==null || !getDataHelper().isSameDate(dateForItem, dateForCurrentList)){
-                listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
-                listOfFixtureForOneDate.add(item);
-            }
-            else{
-                tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
-            }
-        }
-        //3 Add in fixtures for last loop
-        tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+        Date dateForCurrentList= null;
+        Date dateForItem = null;
+        boolean beginningOfInnerGroup = true;
 
+        //3)See if the current index is supposed to be a beginning of group
+        //If it is, initialize the group and add it to the group
+        //4) Add the fixture Item to the inner group's ArrayList
+        //5) If we reach the end of the Outter list or the date of the item is different than our inner group,
+        //we initilize the view
+        for (int index = 0 ; index <fixtureList.size() ; index++){
+
+            dateForItem = fixtureList.get(index).getFixtureDate();
+
+            if(index ==0 || index == fixtureList.size()-1){
+                if(index == 0){
+                    listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
+                    dateForCurrentList = dateForItem;
+                    listOfFixtureForOneDate.add(fixtureList.get(index));
+                }
+                if(index == fixtureList.size()-1){
+                    if(index!=0){
+                        listOfFixtureForOneDate.add(fixtureList.get(index));
+                    }
+                    tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+                }
+            }else{
+                if(!getDataHelper().isSameDate(dateForItem, dateForCurrentList)){
+                    tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+                    listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
+                    dateForCurrentList = dateForItem;
+                }
+                    listOfFixtureForOneDate.add(fixtureList.get(index));
+
+
+            }
+
+        }
     }
 
     public RelativeLayout createFixtureForOneDate(List<FixtureWrapper> fixtureGroup){
@@ -483,8 +506,11 @@ public class ViewHelper {
             leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
             rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
         }else{
-            leftTeamName.setText(homeTeam.getName());
-            rightTeamName.setText(awayTeam.getName());
+            if(awayTeam!=null && homeTeam!=null){
+                leftTeamName.setText(homeTeam.getName());
+                rightTeamName.setText(awayTeam.getName());
+            }
+
         }
 
     }
@@ -517,7 +543,7 @@ public class ViewHelper {
                 break;
             case RESCHEDULE:
                 alphaContainer.setAlpha(alphaValue);
-                stampView.setImageResource(R.drawable.cancelled_stamp);
+                stampView.setImageResource(R.drawable.rescheduled_stamp);
                 break;
             default:
                 break;
@@ -731,12 +757,22 @@ public class ViewHelper {
         return result;
     }
 
-    private String getLogo(Competition competition) {
+    private String getCompetitionLogo(Competition competition) {
 
         String result = "";
         result = "http://www.portlandsoccerplex.com/wp-content/uploads/2014/03/soccerplex-logo.png";
         if (competition != null) {
             result = getRetinaUrl(result);
+        }
+        return result;
+    }
+
+    private String getTeamLogo(Competition competition) {
+
+        String result = "";
+        result = "https://lh5.googleusercontent.com/d_In2MG41IybbBeSPhU6EqqEvMd8rq5IWlwZwKe0RlMb0XKiUpcp2qmjL2rHE4mG_OamxDWWs-M=w2512-h880";
+        if (competition != null) {
+            //result = getRetinaUrl(result);
         }
         return result;
     }

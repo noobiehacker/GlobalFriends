@@ -14,6 +14,7 @@ public class result implements Serializable {
     private int id;
     private int home_score;
     private int away_score;
+    private String delimiter;
 
     public int getId() {
         return id;
@@ -37,5 +38,13 @@ public class result implements Serializable {
 
     public void setAway_score(int away_score) {
         this.away_score = away_score;
+    }
+
+    public String getDelimiter() {
+        return delimiter;
+    }
+
+    public void setDelimiter(String delimiter) {
+        this.delimiter = delimiter;
     }
 }

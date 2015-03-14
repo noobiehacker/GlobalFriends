@@ -29,7 +29,11 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
 
     @Override
     public int compareTo(FixtureWrapper another) {
-        return getFixtureDate().compareTo(another.fixtureDate);
+        if(getFixtureDate()== null)
+            return -1;
+        else if(another.getFixtureDate() == null)
+            return 1;
+        return getFixtureDate().compareTo(another.getFixtureDate());
     }
 
     public MitooActivity getMitooActivity() {
@@ -41,15 +45,17 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     }
 
     public String getDisplayableDate() {
-        if(displayableDate== null)
-            displayableDate = getMitooActivity().getDataHelper().getDateString(getFixtureDate());
+        if(displayableDate== null) {
+            DataHelper dataHelper = getMitooActivity().getDataHelper();
+            displayableDate = dataHelper.getDisplayableDateString(getFixtureDate());
+        }
         return displayableDate;
     }
 
     public String getDisplayableTime(){
         if(displayableTime == null){
-            Date date = getFixtureDate();
-
+            DataHelper dataHelper = getMitooActivity().getDataHelper();
+            displayableTime =dataHelper.getDisplayableTimeString(getFixtureDate());
         }
         return displayableTime;
     }
@@ -57,7 +63,8 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     public String getDisplayableScore(){
         if(displayableScore == null){
             result result = getFixture().getResult();
-            displayableDate = result.getHome_score() + "-" +result.getAway_score();
+            if(result!=null)
+                displayableScore = result.getHome_score() + result.getDelimiter() +result.getAway_score();
         }
         return displayableScore;
     }

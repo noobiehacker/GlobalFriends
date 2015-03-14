@@ -50,6 +50,7 @@
                 android:layout_centerVertical="true"
                 android:text="Bocce Walkouts"
                 android:layout_marginRight="@dimen/competition_page_team_padding"
+                android:gravity="right"
                 android:layout_toLeftOf="@+id/leftTeamIcon"/>
 
             <ImageView
@@ -68,6 +69,7 @@
                 android:layout_centerVertical="true"
                 android:text="Boccemilk Biscuits"
                 android:layout_marginLeft="@dimen/competition_page_team_padding"
+                android:gravity="left"
                 android:layout_toRightOf="@+id/rightTeamIcon"/>
 
         </RelativeLayout>

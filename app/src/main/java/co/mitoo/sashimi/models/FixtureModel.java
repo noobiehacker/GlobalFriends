@@ -51,7 +51,9 @@ public class FixtureModel extends MitooModel{
 
         for (Fixture item : fixtures) {
             FixtureWrapper fixtureWrapper = new FixtureWrapper(item , getActivity());
-            if(fixtureWrapper.getFixtureDate().after(new Date()))
+            Date now = new Date();
+            Date fixtureDate = fixtureWrapper.getFixtureDate();
+            if(fixtureWrapper.getFixture().isTime_tbc() || fixtureDate.after(now))
                 getSchedule().add(fixtureWrapper);
             else
                 getResult().add(fixtureWrapper);

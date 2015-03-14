@@ -250,7 +250,7 @@ public class LeagueModel extends MitooModel{
         
         Date date = new Date();
         DataHelper helper = getActivity().getDataHelper();
-        league.setCreated_at(helper.getDateString(date));
+        league.setCreated_at(helper.getDisplayableDateString(date));
         
     }
     

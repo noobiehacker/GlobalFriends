@@ -198,7 +198,7 @@ public class DataHelper {
         String result = input;
         try {
             if (result != null) {
-                Date date = getLongDateFormat().parse(input);
+                Date date = getOldLongDateFormat().parse(input);
                 result = getShortDateFormat().format(date);
             }
         } catch (Exception e) {
@@ -210,31 +210,70 @@ public class DataHelper {
 
         Date result = null;
         try{
-            result = getLongDateFormat().parse(input);
+            result = getNewLongDateFormat().parse(input);
         }catch (Exception e){
+
+            String temp = e.toString();
+
         }
         return result;
     }
 
-    public String getDateString(Date date) {
+    public String getDisplayableDateString(Date date) {
 
-        return getLongDateFormat().format(date);
+        return getDisplayableDateFormat().format(date);
     }
 
-    public String getTimeString(Date date) {
+    public String getDisplayableTimeString(Date date) {
 
-        return getLongDateFormat().format(date);
+        return getDisplayableTimeFormat().format(date);
+
     }
     
-    public SimpleDateFormat getLongDateFormat(){
+    public SimpleDateFormat getOldLongDateFormat(){
 
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    }
+
+    public SimpleDateFormat getNewLongDateFormat(){
+
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     }
 
     public SimpleDateFormat getShortDateFormat(){
         return new SimpleDateFormat("MMM dd, yyyy");
     }
+
+    public SimpleDateFormat getDisplayableDateFormat(){
+        return new SimpleDateFormat("EEEE, dd MMM");
+    }
+
+    public SimpleDateFormat getDisplayableTimeFormat(){
+        return new SimpleDateFormat("h:mm a");
+    }
+
+
+    private MitooEnum.TimeFrame getTimeFrame(Date date){
+        if(date.after(new Date()))
+            return MitooEnum.TimeFrame.FUTURE;
+        else
+            return MitooEnum.TimeFrame.PAST;
+    }
+
+    public boolean isSameDate(Date itemOne , Date itemTwo) {
+
+        if (itemOne == null || itemTwo == null)
+            return false;
+        else {
+            return (itemOne.getDate() == itemTwo.getDate() &&
+                    itemOne.getMonth() == itemTwo.getMonth() &&
+                    itemOne.getYear() == itemTwo.getYear());
+
+        }
+    }
+
 
     public String getResetPageBadEmailMessage(String email){
         
@@ -331,14 +370,16 @@ public class DataHelper {
         return outValue.getFloat();
     }
 
-    public MitooEnum.FixtureTabType getFixtureTabTypeFromIndex(int index){
+    public MitooEnum.FixtureTabType getFixtureTabTypeFromIndex(int index) {
 
         MitooEnum.FixtureTabType tabType;
-        switch(index){
+        switch (index) {
             case 0:
                 tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+                break;
             default:
                 tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+                break;
         }
         return tabType;
     }
@@ -392,21 +433,6 @@ public class DataHelper {
         }
         return tabType;
     }
-
-    private MitooEnum.TimeFrame getTimeFrame(Date date){
-        if(date.after(new Date()))
-            return MitooEnum.TimeFrame.FUTURE;
-        else
-            return MitooEnum.TimeFrame.PAST;
-    }
-
-    public boolean isSameDate(Date itemOne , Date itemTwo){
-
-        return (itemOne.getDate() == itemTwo.getDate() &&
-                itemOne.getMonth() == itemTwo.getMonth() &&
-                itemOne.getYear() == itemTwo.getYear());
-    }
-
 
     public String getNotificationText(MitooEnum.NotificationType notificationType){
 

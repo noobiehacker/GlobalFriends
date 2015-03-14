@@ -13,6 +13,7 @@
         android:layout_marginTop="@dimen/spacing_section_title_top"
         android:layout_marginBottom="@dimen/spacing_section_title_bottom"
         android:layout_centerHorizontal="true"
+        android:textAllCaps="true"
         android:text="SATURDAY, 25 FEB" />
 
     <View
