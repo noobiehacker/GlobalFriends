@@ -31,7 +31,7 @@
     <string name="login_page_title">Login</string>
     <string name="login_page_text1">FACEBOOK LOGIN</string>
     <string name="login_page_text2">Or</string>
-    <string name="login_page_text3">Email or phone number</string>
+    <string name="login_page_text3">Email</string>
     <string name="login_page_text4">Password</string>
     <string name="login_page_text5">Forgot?</string>
     <string name="login_page_text6">LOGIN</string>
@@ -40,7 +40,7 @@
     <string name="join_page_title">Join</string>
     <string name="join_page_button_1_text">CONNECT WITH FACEBOOK</string>
     <string name="join_page_text2">Name</string>
-    <string name="join_page_text3">Email or phone number</string>
+    <string name="join_page_text3">Email</string>
     <string name="join_page_text4">Phone</string>
     <string name="join_page_text5">Set a Mitoo password</string>
     <string name="join_page_button_2_text">I\'M INTERESTED</string>
@@ -63,7 +63,7 @@
     <!--Search Page -->
     <string name="search_page_text_1">Search Mitoo for:</string>
     <string name="search_page_text_2">SUGGESTIONS</string>
-    <string name="search_page_text_3">Find more leagues</string>
+    <string name="search_page_text_3">Search for a league name or sport</string>
     <string name="search_page_text_4">Current Location</string>
 
     <!--Location Search Page -->
