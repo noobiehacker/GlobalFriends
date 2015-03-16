@@ -1,7 +1,5 @@
 package co.mitoo.sashimi.models.jsonPojo.send;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
-
 /**
  * Created by david on 14-11-13.
  */
@@ -9,10 +7,10 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 public class JsonLoginSend
 {
 
-    public JsonLoginSend(String email, String password){
-        this.email = email;
+    public JsonLoginSend(String identifier, String password){
+        this.identifier = identifier;
         this.password = password;
     }
-    public String email ;
+    public String identifier;
     public String password ;
 }

@@ -30,7 +30,11 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
@@ -461,10 +465,47 @@ public class ViewHelper {
                 }
                     listOfFixtureForOneDate.add(fixtureList.get(index));
 
+            }
+        }
+    }
 
+    public void setUpFixtureForTabRefrac(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
+
+        //1)Run one loop to count up how many fixtures does a particular date have
+        Map<Date, Integer> map = new HashMap<Date, Integer>();
+        //1b)Use a hash map to count up an store the value
+        for (FixtureWrapper item : fixtureList) {
+
+            if (map.containsKey(item.getFixtureDate())) {
+                map.put(item.getFixtureDate(), map.get(item.getFixtureDate()) + 1);
+            } else {
+                map.put(item.getFixtureDate(), 1);
             }
 
         }
+        //2)Second loop, for every date, get from the map on how many fixtures of a particular date has
+        Iterator<FixtureWrapper> iterator = fixtureList.iterator();
+        List<FixtureWrapper> fixtureListForOneDate = null;
+        int itemsRemainingInList = 0;
+        while (iterator.hasNext()) {
+
+            FixtureWrapper item = iterator.next();
+            if (fixtureListForOneDate == null) {
+                fixtureListForOneDate = new ArrayList<FixtureWrapper>();
+                itemsRemainingInList = map.get(item.getFixtureDate());
+            }
+            //2a)Group the List of fixture by iterating the value count and add them all to an ArrayList
+            fixtureListForOneDate.add(item);
+
+            if (itemsRemainingInList == 1) {
+                //3)Create a view for this list of fixtures for one date
+                tabLayOutContainer.addView(createFixtureForOneDate(fixtureListForOneDate));
+                fixtureListForOneDate = null;
+            }
+
+            itemsRemainingInList--;
+        }
+
     }
 
     public RelativeLayout createFixtureForOneDate(List<FixtureWrapper> fixtureGroup){
@@ -555,8 +596,14 @@ public class ViewHelper {
 
         ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
-        rightTeamIcon.setImageResource(R.drawable.team_3);
-        leftTeamIcon.setImageResource(R.drawable.team_2);
+        if(fixtureType == MitooEnum.FixtureRowType.TBC){
+            rightTeamIcon.setImageResource(R.drawable.team_logo_tbc);
+            leftTeamIcon.setImageResource(R.drawable.team_logo_tbc);
+        }else{
+            rightTeamIcon.setImageResource(R.drawable.team_3);
+            leftTeamIcon.setImageResource(R.drawable.team_2);
+        }
+
     }
 
     private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){

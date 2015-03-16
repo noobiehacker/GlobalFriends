@@ -120,7 +120,9 @@ public class ServiceBuilder {
             case APIARY:
                 this.setEndPoint(StaticString.steakApiaryEndPoint);
                 break;
-
+            case LOCALHOST:
+                this.setEndPoint(StaticString.steakLocalEndPoint);
+                break;
         }
 
     }

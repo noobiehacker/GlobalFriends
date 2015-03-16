@@ -17,7 +17,7 @@ public class MockPojo {
 
 
     public static JsonSignUpSend getLogin(){
-        JsonSignUpSend login = new JsonSignUpSend("abc@mitoo.com" , "abc123" ,"" ,"");
+        JsonSignUpSend login = new JsonSignUpSend("abc@mitoo.com" , "abc123" ,"" ,"" ,"");
         return login;
     }
     public static Session getSession(){

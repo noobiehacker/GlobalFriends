@@ -127,6 +127,7 @@
     <string name="error_time_out">Connection timed out, please try again</string>
     <string name="error_no_internet">Unable to connect to Mitoo. Check your connection and try again.</string>
     <string name="error_incorrect_email_password_combo">We’re sorry but that was a miss. Please check your details and try again.</string>
+    <string name="error_user_not_confirmed">Please confirm your email/phone before logging in</string>
     <string name="error_bad_email_prefix">No account exists for\n</string>
     <string name="error_bad_email_suffix">.\nPlease check it and try again.</string>
 

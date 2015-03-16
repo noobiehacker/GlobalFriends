@@ -231,6 +231,8 @@ public class LoginFragment extends MitooFragment {
     protected void handleHttpErrors(int statusCode) {
         if (statusCode == 401)
             displayText(getString(R.string.error_incorrect_email_password_combo));
+        else if(statusCode == 494)
+            displayText(getString(R.string.error_user_not_confirmed));
         else
             super.handleHttpErrors(statusCode);
     }

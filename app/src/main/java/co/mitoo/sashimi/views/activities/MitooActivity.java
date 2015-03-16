@@ -374,7 +374,7 @@ public class MitooActivity extends ActionBarActivity {
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mitoo_support_email_subject));
             //intent.putExtra(Intent.EXTRA_TEXT, emailText);
-            startActivity(Intent.createChooser(intent, "Send email..."));
+            startActivity(Intent.createChooser(intent, "Send identifier..."));
         }
         catch (Exception e){
 

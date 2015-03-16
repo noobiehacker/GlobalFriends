@@ -64,9 +64,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private ViewHelper viewHelper;
     private ViewGroup rootView;
     private FormHelper formHelper;
-    private boolean pageFirstLoad= true;
+    private boolean pageFirstLoad = true;
     private ProgressLayout progressLayout;
-    private boolean popActionRequiresDelay =false;
+    private boolean popActionRequiresDelay = false;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -137,7 +137,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         initializeStatusBarColor();
         setUpToolBar(view);
-        setRootView((ViewGroup)view);
+        setRootView((ViewGroup) view);
 
     }
 
@@ -208,15 +208,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation) {
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition, MitooEnum.FragmentAnimation animation) {
 
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
         postFragmentChangeEvent(event);
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation ,Bundle bundle){
+    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition, MitooEnum.FragmentAnimation animation, Bundle bundle) {
 
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation , bundle);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation, bundle);
         postFragmentChangeEvent(event);
     }
 
@@ -224,14 +224,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentAnimation animation) {
 
         MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
         postFragmentChangeEvent(event);
     }
 
     public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition) {
 
         MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , animation);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
         postFragmentChangeEvent(event);
     }
 
@@ -253,11 +253,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void fireFragmentChangeAction(MitooEnum.FragmentTransition transition) {
 
-        FragmentChangeEvent event = new FragmentChangeEvent(this,transition);
+        FragmentChangeEvent event = new FragmentChangeEvent(this, transition);
         postFragmentChangeEvent(event);
     }
-    
-    private void postFragmentChangeEvent(final FragmentChangeEvent event){
+
+    private void postFragmentChangeEvent(final FragmentChangeEvent event) {
 
         Runnable runnable = new Runnable() {
             @Override
@@ -266,8 +266,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
             }
         };
-        getHandler().postDelayed(runnable,150);
-        
+        getHandler().postDelayed(runnable, 150);
+
     }
 
     protected void popFragmentAction() {
@@ -389,7 +389,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected Toolbar setUpToolBar(View view) {
 
-        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        setToolbar((Toolbar) view.findViewById(R.id.app_bar));
         if (getToolbar() != null) {
 
             getToolbar().setNavigationIcon(R.drawable.header_back_icon);
@@ -440,7 +440,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void setPreDataLoading(boolean loading) {
 
         this.loading = loading;
-        if(getProgressLayout()!=null){
+        if (getProgressLayout() != null) {
             if (this.loading) {
                 getProgressLayout().showProgress();
             } else {
@@ -567,17 +567,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void setRootView(ViewGroup rootView) {
         this.rootView = rootView;
     }
-    
-    protected void removeDynamicViews(){
-        
+
+    protected void removeDynamicViews() {
+
     }
-    
-    protected void requestFocusForTopInput(final EditText editText){
+
+    protected void requestFocusForTopInput(final EditText editText) {
 
         Runnable requestFocusRunnable = new Runnable() {
             @Override
             public void run() {
-                if(editText!=null)
+                if (editText != null)
                     editText.requestFocusFromTouch();
                 getMitooActivity().showKeyboard();
             }
@@ -588,7 +588,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     public FormHelper getFormHelper() {
-        if(formHelper==null)
+        if (formHelper == null)
             formHelper = new FormHelper(this);
         return formHelper;
     }
@@ -626,7 +626,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.toolbar = toolbar;
     }
 
-    protected void setUpBackButtonClickListner(){
+    protected void setUpBackButtonClickListner() {
 
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -636,21 +636,21 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         });
     }
 
-    protected Object getBundleArgumentFromKey(String key){
+    protected Object getBundleArgumentFromKey(String key) {
 
         Object results = null;
         Bundle arguments = getArguments();
-        if(arguments!=null){
+        if (arguments != null) {
             results = arguments.get(key);
         }
         return results;
 
     }
 
-    protected void initializeStatusBarColor(){
+    protected void initializeStatusBarColor() {
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP){
+        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -659,11 +659,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    protected void requestData(){
+    protected void requestData() {
     }
 
 }
-
-
-
-

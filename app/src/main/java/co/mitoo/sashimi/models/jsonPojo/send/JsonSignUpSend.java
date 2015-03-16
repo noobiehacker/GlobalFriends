@@ -8,15 +8,18 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 @JsonRootName(value = "")
 public class JsonSignUpSend {
 
-    public JsonSignUpSend(String email, String password, String name, String phone) {
+    public JsonSignUpSend(String email, String password, String name, String phone, String time_zone) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.phone = phone;
+        this.time_zone = time_zone;
     }
 
     public String email;
     public String password;
     public String name;
     public String phone;
+    public String time_zone;
+
 }

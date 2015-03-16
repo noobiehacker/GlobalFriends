@@ -71,7 +71,7 @@ public class FixtureTabFragment extends MitooFragment {
             default:
                 fixtureList = getFixtureModel().getSchedule();
         }
-        getViewHelper().setUpFixtureForTab(fixtureList, getFixtureTabContainerView());
+        getViewHelper().setUpFixtureForTabRefrac(fixtureList, getFixtureTabContainerView());
     }
 
     @Override

@@ -2,7 +2,6 @@ package co.mitoo.sashimi.utils;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-
 import com.google.android.gms.maps.model.LatLng;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -360,9 +359,7 @@ public class DataHelper {
         }
 
         return result;
-
     }
-
 
     public float getFloatValue(int floatID){
         TypedValue outValue = new TypedValue();
@@ -400,36 +397,40 @@ public class DataHelper {
          */
 
         MitooEnum.FixtureRowType tabType;
-        switch(fixtureWrapper.getFixture().getStatus()){
-            case 0:
-                MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
-                if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
-                    tabType = MitooEnum.FixtureRowType.TIME;
-                else
-                    tabType = MitooEnum.FixtureRowType.SCORE;
-                break;
-            case 1:
-                tabType = MitooEnum.FixtureRowType.CANCEL;
-                break;
-            case 2:
-                tabType = MitooEnum.FixtureRowType.VOID;
-                break;
-            case 3:
-                tabType = MitooEnum.FixtureRowType.POSTPONED;
-                break;
-            case 4:
-                tabType = MitooEnum.FixtureRowType.POSTPONED;
-                break;
-            case 5:
-                tabType = MitooEnum.FixtureRowType.ABANDONED;
-                break;
-            case 6:
-                tabType = MitooEnum.FixtureRowType.VOID;
-                break;
-            default:
-                tabType = MitooEnum.FixtureRowType.TBC;
-                break;
+        if(fixtureWrapper.getFixture().isTime_tbc())
+            tabType = MitooEnum.FixtureRowType.TBC;
+        else{
+            switch(fixtureWrapper.getFixture().getStatus()){
+                case 0:
+                    MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
+                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
+                        tabType = MitooEnum.FixtureRowType.TIME;
+                    else
+                        tabType = MitooEnum.FixtureRowType.SCORE;
+                    break;
+                case 1:
+                    tabType = MitooEnum.FixtureRowType.CANCEL;
+                    break;
+                case 2:
+                    tabType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                case 3:
+                    tabType = MitooEnum.FixtureRowType.POSTPONED;
+                    break;
+                case 4:
+                    tabType = MitooEnum.FixtureRowType.POSTPONED;
+                    break;
+                case 5:
+                    tabType = MitooEnum.FixtureRowType.ABANDONED;
+                    break;
+                case 6:
+                    tabType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                default:
+                    tabType = MitooEnum.FixtureRowType.TBC;
+                    break;
 
+            }
         }
         return tabType;
     }

@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,13 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
-import android.os.Handler;
 /**
  * Created by david on 15-01-19.
  */
 public class ConfirmFragment extends MitooFragment {
 
     private League selectedLeague;
+    private MitooEnum.ConfirmFlow flow;
     
     public static ConfirmFragment newInstance() {
 
@@ -95,4 +93,14 @@ public class ConfirmFragment extends MitooFragment {
         this.selectedLeague = selectedLeague;
     }
 
+
+    public MitooEnum.ConfirmFlow getFlow() {
+        if(flow== null)
+            flow = MitooEnum.ConfirmFlow.SIGNUP;
+        return flow;
+    }
+
+    public void setFlow(MitooEnum.ConfirmFlow flow) {
+        this.flow = flow;
+    }
 }

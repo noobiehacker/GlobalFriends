@@ -46,7 +46,7 @@ public class MitooEnum {
     }
 
     public enum AppEnvironment {
-        PRODUCTION, STAGING ,APIARY
+        PRODUCTION, STAGING ,APIARY , LOCALHOST
     }
 
     public enum MenuItemSelected {
@@ -75,5 +75,9 @@ public class MitooEnum {
 
     public enum ModelType {
         TEAM , FIXTURE
+    }
+
+    public enum ConfirmFlow {
+        SIGNUP, INVITE
     }
 }

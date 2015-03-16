@@ -142,7 +142,7 @@ public class SignUpFragment extends MitooFragment {
 
     private JsonSignUpSend createSignUpJsonFromInput() {
 
-        return new JsonSignUpSend(getEmail(), getPassword(), getUsername(), getPhone());
+        return new JsonSignUpSend(getEmail(), getPassword(), getUsername(), getPhone() , getTimeZone());
           //return new JsonSignUpSend("ABC", "1@2.0", "1234567890", "abcd");
     }
 
@@ -159,6 +159,9 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getPassword() {
+        return this.getTextFromTextField(R.id.passwordInput);
+    }
+    private String getTimeZone() {
         return this.getTextFromTextField(R.id.passwordInput);
     }
 
