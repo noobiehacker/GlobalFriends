@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
@@ -25,9 +27,8 @@ public class FixtureModel extends MitooModel{
     public void requestFixture(int competitionSeasonID , boolean refresh) {
 
         if(fixtureIsEmpty() || refresh){
-            String filter = "";
             Observable<Fixture[]> observable = getSteakApiService()
-                    .getFixtureFromTeamID(filter, competitionSeasonID);
+                    .getFixtureFromTeamID(getActivity().getString(R.string.steak_api_filter_all), competitionSeasonID);
             handleObservable(observable, Fixture[].class);
         }
 

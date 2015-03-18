@@ -10,7 +10,8 @@
 
     <!--API related-->
     <string name="steak_apiary_end_point">http://private-87f66-steak.apiary-mock.com/</string>
-    <string name="steak_api_const_filter_enquiries">enquiries</string>
+    <string name="steak_api_filter_enquiries">enquiries</string>
+    <string name="steak_api_filter_all">all</string>
 
     <!--View Strings-->
 

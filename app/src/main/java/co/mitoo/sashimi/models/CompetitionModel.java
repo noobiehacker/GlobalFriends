@@ -1,10 +1,18 @@
 package co.mitoo.sashimi.models;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+
+import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
+import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import rx.Observable;
 
 /**
  * Created by david on 15-03-06.
@@ -18,26 +26,44 @@ public class CompetitionModel extends MitooModel{
         super(activity);
     }
 
-    public void requestCompetition(){
+    public void requestCompetition(int userID){
 
-        setMyCompetition(mockLeague());
-        BusProvider.post(new CompetitionModelResponseEvent());
+        if(competiionIsEmpty()){
+            Observable<Competition[]> observable = getSteakApiService()
+                    .getCompetitionSeasonFromUserID(getActivity().getString(R.string.steak_api_filter_all), userID);
+            handleObservable(observable, Competition[].class);
+        }
+        else{
+            BusProvider.post(new CompetitionModelResponseEvent());
+        }
     }
 
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
 
+        if (objectRecieve instanceof Competition[]) {
+            setMyCompetition(new ArrayList<Competition>());
+            addCompetition((Competition[]) objectRecieve);
+            BusProvider.post(new CompetitionModelResponseEvent());
+        }
+    }
+
+    public void addCompetition(Competition[] competitions) {
+
+        for (Competition item : competitions) {
+            getMyCompetition().add(item);
+        }
 
     }
+
     public void resetFields(){
         this.myCompetition = null;
-
     }
 
     public List<Competition> getMyCompetition() {
 
         if(myCompetition==null)
-            setMyCompetition(mockLeague());
+            myCompetition = new ArrayList<Competition>();
         return myCompetition;
     }
 
@@ -45,22 +71,18 @@ public class CompetitionModel extends MitooModel{
         this.myCompetition = myCompetition;
     }
 
-    private List<Competition> mockLeague(){
-
-        Competition comp = new Competition();
-        comp.setId(123);
-        comp.setSeason_name("Winter 2014");
-        comp.setName("Wednesday Coed Soccer");
-        List<Competition> result =new ArrayList<Competition>();
-        result.add(comp);
-        return result;
-    }
-
     public Competition getSelectedCompetition() {
+
+        if(selectedCompetition==null)
+            selectedCompetition = getMyCompetition().get(0);
         return selectedCompetition;
     }
 
     public void setSelectedCompetition(Competition selectedCompetition) {
         this.selectedCompetition = selectedCompetition;
+    }
+
+    private boolean competiionIsEmpty(){
+        return getMyCompetition().size()==0;
     }
 }

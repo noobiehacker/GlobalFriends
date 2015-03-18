@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.network;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
@@ -48,5 +49,8 @@ public interface SteakApi {
 
     @GET("/leagues/v1/teams/{id}/fixtures")
     Observable<Fixture[]>  getFixtureFromTeamID(@Query("filter") String filter ,@Path("id") int id);
+
+    @GET("/leagues/v1/users/{id}/competition_seasons")
+    Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter ,@Path("id") int id);
 
 }
