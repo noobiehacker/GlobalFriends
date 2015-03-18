@@ -151,7 +151,7 @@ public class LoginFragment extends MitooFragment {
     private boolean allInputsAreValid(){
 
         FormHelper formHelper = getFormHelper();
-        boolean validLoginID = formHelper.validEmail(getLoginID())||formHelper.validPhone(getLoginID());
+        boolean validLoginID = formHelper.validEmail(getLoginID());
         return formHelper.validPassword(getPassword()) && validLoginID;
 
     }
