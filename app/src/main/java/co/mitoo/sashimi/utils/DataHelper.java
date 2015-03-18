@@ -3,12 +3,14 @@ import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import com.google.android.gms.maps.model.LatLng;
+import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -458,5 +460,10 @@ public class DataHelper {
 
     public Team getTeam(int teamID){
         return getActivity().getModelManager().getTeamModel().getTeam(teamID);
+    }
+
+    public Invitation_token getInvitationToken(JSONObject referringParams){
+        Invitation_token result = null;
+        return result;
     }
 }

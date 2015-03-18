@@ -3,6 +3,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
@@ -12,14 +14,14 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 /**
  * Created by david on 15-01-19.
  */
-public class ConfirmFragment extends MitooFragment {
+public class SignUpConfirmFragment extends MitooFragment {
 
     private League selectedLeague;
     private MitooEnum.ConfirmFlow flow;
-    
-    public static ConfirmFragment newInstance() {
 
-        return new ConfirmFragment();
+    public static SignUpConfirmFragment newInstance() {
+
+        return new SignUpConfirmFragment();
     }
 
     @Override
@@ -52,6 +54,7 @@ public class ConfirmFragment extends MitooFragment {
         super.initializeViews(view);
         ViewHelper viewHelper = new ViewHelper(getMitooActivity());
         viewHelper.setUpConfirmView(view, getSelectedLeague());
+
     }
 
     @Override
@@ -100,7 +103,4 @@ public class ConfirmFragment extends MitooFragment {
         return flow;
     }
 
-    public void setFlow(MitooEnum.ConfirmFlow flow) {
-        this.flow = flow;
-    }
 }

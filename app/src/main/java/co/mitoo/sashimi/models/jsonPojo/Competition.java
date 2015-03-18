@@ -46,6 +46,7 @@ public class Competition  implements Serializable {
     }
 
     public void setCurrent_season(boolean current_season) {
+
         this.current_season = current_season;
     }
 

@@ -24,11 +24,14 @@ import com.squareup.okhttp.Protocol;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
+
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
+import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
@@ -38,9 +41,12 @@ import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
+import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -54,7 +60,8 @@ public class MitooActivity extends ActionBarActivity {
     private DataHelper dataHelper;
     private Picasso picasso;
     protected DataPersistanceService persistanceService;
-    private int firstFragmentToStart = R.id.fragment_fixture;
+    private int firstFragmentToStart = R.id.fragment_splash;
+    private Branch branch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +126,7 @@ public class MitooActivity extends ActionBarActivity {
 
     @Override
     public void onStop() {
+        branch.closeSession();
         tearDownReferences();
         super.onStop();
     }
@@ -133,6 +141,7 @@ public class MitooActivity extends ActionBarActivity {
         setUpNewRelic();
         setUpInitialCalligraphy();
         setLocationManager(new MitooLocationManager(this));
+        setUpBranch();
         BusProvider.register(this);
     }
 
@@ -544,6 +553,26 @@ public class MitooActivity extends ActionBarActivity {
     public void setFirstFragmentToStart(int firstFragmentToStart) {
         this.firstFragmentToStart = firstFragmentToStart;
     }
+
+    private void setUpBranch(){
+
+        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener(){
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+                if (error == null) {
+                    Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                    BusProvider.post(new BranchIOResponseEvent());
+                }
+            }
+        };
+        getBranch().initSession(branchReferralInitListener, this.getIntent().getData(), this);
+
+    }
+
+    private Branch getBranch() {
+        if(branch ==null)
+            branch = Branch.getInstance(this.getApplicationContext());
+        return branch;
+    }
+
 }
-
-

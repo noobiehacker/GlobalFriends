@@ -126,7 +126,7 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_confirm , MitooEnum.FragmentAnimation.VERTICAL);
+        fireFragmentChangeAction(R.id.fragment_sign_up_confirm, MitooEnum.FragmentAnimation.VERTICAL);
 
     }
 

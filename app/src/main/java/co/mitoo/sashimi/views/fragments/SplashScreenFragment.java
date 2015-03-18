@@ -10,7 +10,9 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
@@ -19,6 +21,10 @@ import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
  * Created by david on 14-11-05.
  */
 public class SplashScreenFragment extends MitooFragment {
+
+    private boolean branchResponseRecieved = false;
+    private boolean persistedDataResponseRecieved = false;
+
     @Override
     public void onClick(View v) {
 
@@ -39,7 +45,8 @@ public class SplashScreenFragment extends MitooFragment {
     
     @Subscribe
     public void onModelPersistedDataLoaded(ModelPersistedDataLoadedEvent event) {
-        
+
+        setPersistedDataResponseRecieved(true);
         loadFirstFragment();
 
     }
@@ -47,8 +54,14 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onModelPersistedDataDeleted(ModelPersistedDataDeletedEvent event) {
 
+        setPersistedDataResponseRecieved(true);
         loadFirstFragment();
 
+    }
+
+    @Subscribe
+    public void onBranchIOResponse(BranchIOResponseEvent event){
+        setBranchResponseRecieved(true);
     }
 
     @Subscribe
@@ -57,24 +70,43 @@ public class SplashScreenFragment extends MitooFragment {
         super.onError(error);
     }
 
+    public boolean recievedBranchIOResponse() {
+        return branchResponseRecieved;
+    }
+
+    public void setBranchResponseRecieved(boolean branchResponseRecieved) {
+        this.branchResponseRecieved = branchResponseRecieved;
+    }
+
+    public boolean recievedPersistedDataResponse() {
+        return persistedDataResponseRecieved;
+    }
+
+    public void setPersistedDataResponseRecieved(boolean persistedDataResponseRecieved) {
+        this.persistedDataResponseRecieved = persistedDataResponseRecieved;
+    }
+
     private void loadFirstFragment() {
-        Handler h = new Handler();
-        h.postDelayed(new Runnable() {
-            public void run() {
 
-                SessionRecieve session = getSessionModel().getSession();
-                if (session != null) {
-                    getMitooActivity().updateAuthToken(session);
-                    fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
+        if(recievedBranchIOResponse() && recievedPersistedDataResponse()){
+            Handler h = new Handler();
+            h.postDelayed(new Runnable() {
+                public void run() {
+
+                    SessionRecieve session = getSessionModel().getSession();
+                    if (session != null) {
+                        getMitooActivity().updateAuthToken(session);
+                        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
+
+                    }
+                    else{
+                        fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.HORIZONTAL);
+
+                    }
 
                 }
-                else{
-                    fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.HORIZONTAL);
-
-                }
-
-            }
-        }, 250);
+            }, MitooConstants.durationShort);
+        }
 
     }
 

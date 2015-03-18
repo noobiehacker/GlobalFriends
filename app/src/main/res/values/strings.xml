@@ -298,6 +298,10 @@
     <string name="API_key_google_places">AIzaSyCbsydXTG9a2-qCnZ91f_HS9k8fkBvVsVs</string>
     <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
     <string name="API_key_facebook">1524244734496711</string>
+    <string name="API_key_branch_prod_key">99662741807039061</string>
+    <string name="API_key_branch_staging_key">106486769708433935</string>
+
+    <string name="bnc_app_key">your app key</string>
 
     <string name="App_Id_algolia">1ESI9QYTPJ</string>
     <string name="algolia_staging_index">steak-league-staging</string>
