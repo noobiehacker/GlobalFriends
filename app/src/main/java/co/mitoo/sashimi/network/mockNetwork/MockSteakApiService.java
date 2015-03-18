@@ -2,6 +2,7 @@ package co.mitoo.sashimi.network.mockNetwork;
 
 import java.util.Collections;
 
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
@@ -67,6 +68,11 @@ public class MockSteakApiService implements SteakApi {
 
     @Override
     public Observable<UserInfoRecieve> getUser(@Path("id") int id) {
+        return null;
+    }
+
+    @Override
+    public Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter, @Path("id") int id) {
         return null;
     }
 

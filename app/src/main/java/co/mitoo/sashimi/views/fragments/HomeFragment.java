@@ -164,7 +164,7 @@ public class HomeFragment extends MitooFragment {
 
     private void requestCompetitionData(){
 
-        getCompetitionModel().requestCompetition();
+        getCompetitionModel().requestCompetition(getUserId());
 
     }
 
