@@ -875,12 +875,13 @@ public class ViewHelper {
         listView.addHeaderView(holder);
     }
 
-    public void setUpListFooter(ListView listView , int layoutID , String footerText) {
+    public View setUpListFooter(ListView listView , int layoutID , String footerText) {
 
+        View holder = createHeaderORFooterView(layoutID, footerText);
         if(listView.getFooterViewsCount() ==0 ){
-            View holder = createHeaderORFooterView(layoutID, footerText);
             listView.addFooterView(holder);
         }
+        return holder;
     }
 
     public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText

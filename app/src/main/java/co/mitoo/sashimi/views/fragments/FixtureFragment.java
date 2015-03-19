@@ -12,13 +12,11 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.TeamModelResponseEvent;
-import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
 import co.mitoo.sashimi.views.widgets.MitooMaterialsTab;
 import co.mitoo.sashimi.views.widgets.MitooTab;
@@ -39,6 +37,7 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     private int teamColor = MitooConstants.invalidConstant;
     private boolean teamModelLoaded = false;
     private boolean fixtureModelLoaded = false;
+    private Competition selectedCompetition;
 
     @Override
     public void onClick(View v) {
@@ -95,9 +94,9 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     @Override
     protected void requestData() {
 
-        int competitionSeasonID = 0;
-        getTeamModel().requestTeam(1);
-        getFixtureModel().requestFixture(competitionSeasonID , false);
+        int competitionSeasonID = getSelectedCompetition().getFixed_competition_id();
+        getTeamModel().requestTeamByCompetition(competitionSeasonID);
+        getFixtureModel().requestFixtureByCompetition(competitionSeasonID, false);
 
     }
 
@@ -266,5 +265,11 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
 
     public void setFixtureModelLoaded(boolean fixtureModelLoaded) {
         this.fixtureModelLoaded = fixtureModelLoaded;
+    }
+
+    public Competition getSelectedCompetition() {
+        if(selectedCompetition==null)
+            selectedCompetition= getCompetitionModel().getSelectedCompetition();
+        return selectedCompetition;
     }
 }

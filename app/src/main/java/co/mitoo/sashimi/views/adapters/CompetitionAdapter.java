@@ -31,7 +31,7 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         convertView = View.inflate(getContext(), R.layout.list_view_enquired_league ,null);
         Competition competition = this.getItem(position);
         setUpLeagueIcon(convertView, competition);
-        setUpLeagueText(convertView, competition);
+        setUpText(convertView, competition);
         return convertView;
     }
 
@@ -40,11 +40,11 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         getFragment().getViewHelper().setUpMyLeagueListIcon(view , competition);
 
     }
-    private void setUpLeagueText(View view, Competition competition){
-        TextView leagueNameText = (TextView) view.findViewById(R.id.leagueTitleText);
-        TextView leagueDateText = (TextView) view.findViewById(R.id.leagueDateText);
-        leagueNameText.setText(competition.getSeason_name());
-        leagueDateText.setText(competition.getName());
+    private void setUpText(View view, Competition competition){
+        TextView competitionNameText = (TextView) view.findViewById(R.id.leagueTitleText);
+        TextView leagueNameText = (TextView) view.findViewById(R.id.leagueDateText);
+        competitionNameText.setText(competition.getName());
+        leagueNameText.setText("HARD CODED LEAGUE TEXT");
     }
 
     @Override
@@ -64,11 +64,6 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
 
     public void setFragment(MitooFragment fragment) {
         this.fragment = fragment;
-    }
-
-    private String getLeagueFormatedDate(String date){
-        DataHelper helper= getFragment().getMitooActivity().getDataHelper();
-        return helper.parseDate(date);
     }
 
     private void setSelectedModelItem(Competition competition){

@@ -24,7 +24,7 @@ public class FixtureModel extends MitooModel{
         super(activity);
     }
 
-    public void requestFixture(int competitionSeasonID , boolean refresh) {
+    public void requestFixtureByCompetition(int competitionSeasonID, boolean refresh) {
 
         if(fixtureIsEmpty() || refresh){
             Observable<Fixture[]> observable = getSteakApiService()
