@@ -12,7 +12,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 
@@ -44,8 +43,8 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     }
     private void setUpLeagueText(View view, League league){
-        TextView leagueNameText = (TextView) view.findViewById(R.id.leagueTitleText);
-        TextView leagueDateText = (TextView) view.findViewById(R.id.leagueDateText);
+        TextView leagueNameText = (TextView) view.findViewById(R.id.topText);
+        TextView leagueDateText = (TextView) view.findViewById(R.id.bottomText);
         leagueNameText.setText(league.getName());
         String date = league.getCreated_at();
         leagueDateText.setText(getContext().getResources().getString(R.string.home_page_enquired_date_prefix) + " " +  getLeagueFormatedDate(date));

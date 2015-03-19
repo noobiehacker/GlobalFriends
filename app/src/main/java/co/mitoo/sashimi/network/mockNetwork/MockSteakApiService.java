@@ -28,7 +28,6 @@ import rx.Observable;
  */
 public class MockSteakApiService implements SteakApi {
 
-
     private int statusCode;
 
     public MockSteakApiService (int statusCode){
@@ -72,7 +71,7 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter, @Path("id") int id) {
+    public Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter, @Query("league_info") String league_info, @Path("id") int id) {
         return null;
     }
 
@@ -112,7 +111,7 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<Fixture[]> getFixtureFromTeamID(@Query("filter") String filter, @Path("id") int id) {
+    public Observable<Fixture[]> getFixtureFromCompetitionID(@Query("filter") String filter, @Path("id") int id) {
         return null;
     }
 }

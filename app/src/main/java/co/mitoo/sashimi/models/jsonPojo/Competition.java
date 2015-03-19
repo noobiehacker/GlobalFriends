@@ -23,6 +23,7 @@ public class Competition  implements Serializable {
     private String end_date;
     private String reg_open_date;
     private String reg_close_date;
+    private League league;
     private location location;
 
     public int getId() {
@@ -144,6 +145,14 @@ public class Competition  implements Serializable {
 
     public void setLocation(location location) {
         this.location = location;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
     }
 }
 

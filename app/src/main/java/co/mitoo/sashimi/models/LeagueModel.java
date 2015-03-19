@@ -175,7 +175,7 @@ public class LeagueModel extends MitooModel{
     }
 
     private String getEnquriesConstant(){
-        return getActivity().getString(R.string.steak_api_filter_enquiries);
+        return getActivity().getString(R.string.steak_api_param_filter_enquiries);
     }
 
     public List<League> getLeaguesEnquired() {

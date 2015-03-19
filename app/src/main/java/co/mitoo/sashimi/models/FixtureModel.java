@@ -28,7 +28,7 @@ public class FixtureModel extends MitooModel{
 
         if(fixtureIsEmpty() || refresh){
             Observable<Fixture[]> observable = getSteakApiService()
-                    .getFixtureFromTeamID(getActivity().getString(R.string.steak_api_filter_all), competitionSeasonID);
+                    .getFixtureFromCompetitionID(getActivity().getString(R.string.steak_api_param_filter_all), competitionSeasonID);
             handleObservable(observable, Fixture[].class);
         }
 

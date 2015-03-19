@@ -47,7 +47,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/leagueTitleText"
+            android:id="@+id/topText"
             style="@style/enquiredLeagueTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,11 +58,11 @@
             android:text="@string/place_holder_sport" />
 
         <TextView
-            android:id="@+id/leagueDateText"
+            android:id="@+id/bottomText"
             style="@style/enquiredLeagueDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/leagueTitleText"
+            android:layout_below="@id/topText"
             android:text="@string/place_holder_sport" />
 
     </RelativeLayout>

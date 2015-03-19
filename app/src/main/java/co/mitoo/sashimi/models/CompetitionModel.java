@@ -1,16 +1,11 @@
 package co.mitoo.sashimi.models;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
-import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
 
@@ -29,8 +24,10 @@ public class CompetitionModel extends MitooModel{
     public void requestCompetition(int userID){
 
         if(competiionIsEmpty()){
+            String filterParam = getActivity().getString(R.string.steak_api_param_filter_all);
+            String leagueInfoParam = getActivity().getString(R.string.steak_api_param_league_info_true);
             Observable<Competition[]> observable = getSteakApiService()
-                    .getCompetitionSeasonFromUserID(getActivity().getString(R.string.steak_api_filter_all), userID);
+                    .getCompetitionSeasonFromUserID(filterParam, leagueInfoParam, userID);
             handleObservable(observable, Competition[].class);
         }
         else{

@@ -46,7 +46,6 @@ public class HomeFragment extends MitooFragment {
     private CompetitionAdapter myLeagueDataAdapter;
     private View myLeagueListFooterView;
 
-    private TextView noResultsView ;
     private boolean userHasUsedApp;
     private boolean registerFlow;
     private boolean enquriedLeagueDataLoaded;
@@ -234,7 +233,7 @@ public class HomeFragment extends MitooFragment {
         if(!getMyLeagueData().isEmpty() && menu!=null){
             menu.removeItem(R.menu.menu_search);
         }else{
-            getToolbar().inflateMenu(R.menu.menu_main);
+
         }
     }
 

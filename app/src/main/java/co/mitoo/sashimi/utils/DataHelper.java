@@ -178,7 +178,7 @@ public class DataHelper {
         //only works if url is not null and it has one dot and more than three chracters
         String result = "";
         if(url!=null){
-            
+
             int dotIndex=url.lastIndexOf('.');
             if(dotIndex>=0 && url.length()>3){
                 result= url.substring(0 , dotIndex);
@@ -186,6 +186,11 @@ public class DataHelper {
                 result= result + url.substring(dotIndex, url.length());
             }
         }
+
+        //HACK to make logo display for now since rails prefix the logo with local host
+        //Take out for produciton
+
+        result =replaceLocalHostPrefix(result ,StaticString.steakLocalEndPoint );
         
         return result;
     }
@@ -462,8 +467,17 @@ public class DataHelper {
         return getActivity().getModelManager().getTeamModel().getTeam(teamID);
     }
 
-    public Invitation_token getInvitationToken(JSONObject referringParams){
+    public Invitation_token getInvitationToken(JSONObject referringParams) {
         Invitation_token result = null;
         return result;
+    }
+    private String replaceLocalHostPrefix(String url , String newPrefix){
+
+        String result= url;
+        int index = url.lastIndexOf("3000");
+        if(index>=0)
+            result =newPrefix + url.substring(index +5 , url.length());
+        return result;
+
     }
 }

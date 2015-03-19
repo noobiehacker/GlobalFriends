@@ -9,7 +9,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.CompetitionModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 /**
@@ -30,21 +30,31 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
 
         convertView = View.inflate(getContext(), R.layout.list_view_enquired_league ,null);
         Competition competition = this.getItem(position);
-        setUpLeagueIcon(convertView, competition);
-        setUpText(convertView, competition);
+        setUpCompetitionText(convertView, competition);
+        League league = competition.getLeague();
+        setUpLeagueIcon(convertView, league);
+        setUpLeagueText(convertView, league);
         return convertView;
     }
 
-    private void setUpLeagueIcon(View view, Competition competition) {
+    private void setUpCompetitionText(View view, Competition competition){
 
-        getFragment().getViewHelper().setUpMyLeagueListIcon(view , competition);
+        TextView competitionNameText = (TextView) view.findViewById(R.id.topText);
+        competitionNameText.setText(competition.getName());
 
     }
-    private void setUpText(View view, Competition competition){
-        TextView competitionNameText = (TextView) view.findViewById(R.id.leagueTitleText);
-        TextView leagueNameText = (TextView) view.findViewById(R.id.leagueDateText);
-        competitionNameText.setText(competition.getName());
-        leagueNameText.setText("HARD CODED LEAGUE TEXT");
+
+    private void setUpLeagueIcon(View view, League league) {
+
+        getFragment().getViewHelper().setUpEnquireListIcon(view , league);
+
+    }
+
+    private void setUpLeagueText(View view, League league){
+
+        TextView leagueNameText = (TextView) view.findViewById(R.id.bottomText);
+        leagueNameText.setText(league.getName());
+
     }
 
     @Override
