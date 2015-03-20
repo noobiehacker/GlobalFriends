@@ -22,7 +22,6 @@
         android:layout_below="@id/app_bar"
         android:fillViewport="true">
 
-
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +62,6 @@
                 android:layout_height="@dimen/gray_button_height"
                 android:layout_marginTop="@dimen/spacing_smallest"/>
                 -->
-
 
             <EditText
                 android:id="@+id/loginIDInput"

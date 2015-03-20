@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -200,7 +201,9 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         getMitooActivity().hideSoftKeyboard();
         setLoading(true);
         getLocationModel().selectPlace(prediction);
-        
+        BusProvider.post(new LocationModelLocationsSelectedEvent());
+
+
     }
     
     @Subscribe
@@ -245,8 +248,10 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-                if(getPlacesList().getItemAtPosition(1)!=null){
-                    placeSelectionAction((PredictionWrapper)getPlacesList().getItemAtPosition(0));
+                if (getDataHelper().isClickable()) {
+                    if (getPlacesList().getItemAtPosition(0) != null) {
+                        placeSelectionAction((PredictionWrapper) getPlacesList().getItemAtPosition(0));
+                    }
                 }
                 return false;
             }
