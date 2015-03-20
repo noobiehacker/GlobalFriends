@@ -71,7 +71,6 @@ public class JacksonConverter implements Converter {
             this.objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES , true);
             this.objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
             this.objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, false);
-
         }
 
     }

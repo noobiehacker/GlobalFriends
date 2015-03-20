@@ -118,7 +118,7 @@ public class LeagueModel extends MitooModel{
     
     private void parseLeagueResult(JSONObject results){
         
-        this.results=results;
+        setResults(results);
         this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
@@ -284,5 +284,15 @@ public class LeagueModel extends MitooModel{
     public void setMyleagues(List<League> myleagues) {
         this.myleagues = myleagues;
     }
+
+    public JSONObject getResults() {
+        return results;
+    }
+
+    public void setResults(JSONObject results) {
+        this.results = results;
+    }
+
+
 }
 

@@ -24,6 +24,7 @@ public class SplashScreenFragment extends MitooFragment {
 
     private boolean branchResponseRecieved = false;
     private boolean persistedDataResponseRecieved = false;
+    private boolean acceptInviteFlow = true;
 
     @Override
     public void onClick(View v) {
@@ -61,7 +62,11 @@ public class SplashScreenFragment extends MitooFragment {
 
     @Subscribe
     public void onBranchIOResponse(BranchIOResponseEvent event){
+
+        setAcceptInviteFlow(event.getToken()!=null);
         setBranchResponseRecieved(true);
+        loadFirstFragment();
+
     }
 
     @Subscribe
@@ -93,16 +98,10 @@ public class SplashScreenFragment extends MitooFragment {
             h.postDelayed(new Runnable() {
                 public void run() {
 
-                    SessionRecieve session = getSessionModel().getSession();
-                    if (session != null) {
-                        getMitooActivity().updateAuthToken(session);
-                        fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
-
-                    }
-                    else{
-                        fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.HORIZONTAL);
-
-                    }
+                    if(isAcceptInviteFlow())
+                        startInviteFlow();
+                    else
+                        startRegularFlow();
 
                 }
             }, MitooConstants.durationShort);
@@ -110,5 +109,31 @@ public class SplashScreenFragment extends MitooFragment {
 
     }
 
+    public boolean isAcceptInviteFlow() {
+        return acceptInviteFlow;
+    }
 
+    public void setAcceptInviteFlow(boolean acceptInviteFlow) {
+        this.acceptInviteFlow = acceptInviteFlow;
+    }
+
+    public void startInviteFlow(){
+
+        fireFragmentChangeAction(R.id.fragment_confirm_account, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.HORIZONTAL);
+
+    }
+
+    public void startRegularFlow(){
+
+        SessionRecieve session = getSessionModel().getSession();
+        if (session != null) {
+            getMitooActivity().updateAuthToken(session);
+            fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
+
+        }
+        else{
+            fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.HORIZONTAL);
+
+        }
+    }
 }

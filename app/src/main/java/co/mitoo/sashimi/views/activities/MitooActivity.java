@@ -559,9 +559,18 @@ public class MitooActivity extends ActionBarActivity {
         Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener(){
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
+
                 if (error == null) {
-                    Invitation_token token = getDataHelper().getInvitationToken(referringParams);
-                    BusProvider.post(new BranchIOResponseEvent());
+                    //REFRACTOR LATER FOR TRUE LOGIC
+                    Boolean hasReferingParam = true;
+                    if(hasReferingParam){
+                        Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                        BusProvider.post(new BranchIOResponseEvent(token));
+                    }else{
+                        BusProvider.post(new BranchIOResponseEvent(null));
+
+                    }
+
                 }
             }
         };

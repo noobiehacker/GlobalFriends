@@ -2,7 +2,17 @@ package co.mitoo.sashimi.utils;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,8 +21,10 @@ import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import se.walkercrou.places.Prediction;
 
@@ -25,6 +37,7 @@ public class DataHelper {
     private long lastCLickTime = 0;
     private boolean confirmFeedBackPopped;
     private DisplayMetrics metrics;
+    private ObjectMapper objectMapper;
 
     public DataHelper(MitooActivity activity) {
         this.activity = activity;
@@ -467,17 +480,45 @@ public class DataHelper {
         return getActivity().getModelManager().getTeamModel().getTeam(teamID);
     }
 
-    public Invitation_token getInvitationToken(JSONObject referringParams) {
+    public Invitation_token getInvitationToken(JSONObject referringParams){
+
         Invitation_token result = null;
+        JSONObject parmm = new JSONObject();
+        try{
+            result = getObjectMapper().readValue(parmm.toString(), Invitation_token.class);
+        }catch(Exception e){
+        }
+        return result;
+
+    }
+
+    //NOT TESTED, not gonna work
+    public List<League> getListOfLeauges(JSONObject leagueListJson){
+
+        List<League> result = null;
+        try{
+            JSONArray hits = leagueListJson.getJSONArray(getActivity().getString(R.string.algolia_result_param));
+            JsonNode node = getObjectMapper().valueToTree(hits);
+            result = getObjectMapper().readValue(new TreeTraversingParser(node) ,new TypeReference<List<League>>(){});
+        }catch(Exception e){
+
+        }
         return result;
     }
-    private String replaceLocalHostPrefix(String url , String newPrefix){
+    private String replaceLocalHostPrefix(String url , String newPrefix) {
 
-        String result= url;
+        String result = url;
         int index = url.lastIndexOf("3000");
-        if(index>=0)
-            result =newPrefix + url.substring(index +5 , url.length());
+        if (index >= 0)
+            result = newPrefix + url.substring(index + 5, url.length());
         return result;
+    }
 
+
+
+    public ObjectMapper getObjectMapper() {
+        if(objectMapper == null)
+            objectMapper = new ObjectMapper();
+        return objectMapper;
     }
 }
