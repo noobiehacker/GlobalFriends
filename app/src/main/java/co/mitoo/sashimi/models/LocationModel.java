@@ -140,7 +140,6 @@ public class LocationModel extends MitooModel {
                     setSelectedPlace(prediction);
                     setSelectedLocationLatLng(getSelectedPlace());
                     setToUseCurrentLocation(false);
-                    BusProvider.post(new LocationModelLocationsSelectedEvent());
 
                 }
                 catch(Exception e){
