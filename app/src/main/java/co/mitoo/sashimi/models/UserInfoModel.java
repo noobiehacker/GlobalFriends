@@ -1,10 +1,8 @@
 package co.mitoo.sashimi.models;
-import android.app.Activity;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.UserInfoModelRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
@@ -30,10 +28,10 @@ public class UserInfoModel extends MitooModel{
     }
 
     @Subscribe
-    public void onUserInfoRequest(UserInfoModelRequestEvent event) {
+    public void onUserInfoRequest(int userID) {
 
         if(getUserInfoRecieve() == null){
-            handleObservable(getSteakApiService().getUser(event.getUserID()) , UserInfoRecieve.class);
+            handleObservable(getSteakApiService().getUser(userID) , UserInfoRecieve.class);
         }
         else{
             postUserInfoRecieveResponse();

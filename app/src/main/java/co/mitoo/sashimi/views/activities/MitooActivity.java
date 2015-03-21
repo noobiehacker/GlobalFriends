@@ -66,20 +66,12 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        try {
-            super.onCreate(savedInstanceState);
-            initializeFields();
-            startApp();
-            setContentView(R.layout.activity_mitoo);
-            setUpPersistenceData();
+        super.onCreate(savedInstanceState);
+        initializeFields();
+        startApp();
+        setContentView(R.layout.activity_mitoo);
+        setUpPersistenceData();
 
-        } catch (Exception e) {
-            displayText("FAILED ON SearchResultsFragment onCreate" +
-                    e.getStackTrace().toString() +
-                    e.getMessage() +
-                    e.getCause().toString() +
-                    e.getLocalizedMessage());
-        }
     }
 
     public void displayText(String text) {
@@ -137,12 +129,14 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     private void initializeFields() {
+
         setModelManager(new ModelManager(this));
         setUpNewRelic();
         setUpInitialCalligraphy();
         setLocationManager(new MitooLocationManager(this));
         setUpBranch();
         BusProvider.register(this);
+
     }
 
     private void setUpInitialCalligraphy() {
@@ -419,7 +413,7 @@ public class MitooActivity extends ActionBarActivity {
             }
         };
         setRunnable(runnable);
-        getHandler().postDelayed(getRunnable(),delayed);
+        getHandler().postDelayed(getRunnable(), delayed);
         
     }
     public void hideSoftKeyboard() {
@@ -565,6 +559,7 @@ public class MitooActivity extends ActionBarActivity {
                     Boolean hasReferingParam = true;
                     if(hasReferingParam){
                         Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                        token = null;
                         BusProvider.post(new BranchIOResponseEvent(token));
                     }else{
                         BusProvider.post(new BranchIOResponseEvent(null));

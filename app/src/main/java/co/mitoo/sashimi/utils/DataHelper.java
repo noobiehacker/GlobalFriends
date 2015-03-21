@@ -483,9 +483,8 @@ public class DataHelper {
     public Invitation_token getInvitationToken(JSONObject referringParams){
 
         Invitation_token result = null;
-        JSONObject parmm = new JSONObject();
         try{
-            result = getObjectMapper().readValue(parmm.toString(), Invitation_token.class);
+            result = getObjectMapper().readValue(referringParams.toString(), Invitation_token.class);
         }catch(Exception e){
         }
         return result;
