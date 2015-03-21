@@ -125,6 +125,7 @@ public class HomeFragment extends MitooFragment {
             getToolbar().inflateMenu(R.menu.menu_main);
             getToolbar().setPopupTheme(R.style.MyPopupMenu);
 
+
         }
         return getToolbar();
     }

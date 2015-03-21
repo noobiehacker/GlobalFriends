@@ -7,11 +7,11 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 /**
  * Created by david on 15-03-20.
  */
-public class ComfirmationInfoModel extends MitooModel{
+public class ConfirmInfoModel extends MitooModel{
 
     private ConfirmInfo confirmInfo;
 
-    public ComfirmationInfoModel(MitooActivity activity) {
+    public ConfirmInfoModel(MitooActivity activity) {
         super(activity);
     }
 

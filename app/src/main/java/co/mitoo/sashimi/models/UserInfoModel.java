@@ -1,16 +1,17 @@
 package co.mitoo.sashimi.models;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
+import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
 
-
 /**
  * Created by david on 15-01-21.
  */
+
 public class UserInfoModel extends MitooModel{
 
     public UserInfoModel(MitooActivity activity) {
@@ -38,6 +39,13 @@ public class UserInfoModel extends MitooModel{
         }
     }
 
+    public void requestToConfirmUser(String token, JsonSignUpSend jsonObject) {
+
+            handleObservable(getSteakApiService().createUserFromConfirmation(token, jsonObject)
+                    , UserInfoRecieve.class);
+
+    }
+
     @Subscribe
     public void onApiFailEvent(RetrofitError event) {
         
@@ -57,7 +65,5 @@ public class UserInfoModel extends MitooModel{
         postUserInfoRecieveResponse();
 
     }
-
-
 
 }

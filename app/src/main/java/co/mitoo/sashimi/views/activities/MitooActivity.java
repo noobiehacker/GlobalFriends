@@ -559,7 +559,6 @@ public class MitooActivity extends ActionBarActivity {
                     Boolean hasReferingParam = true;
                     if(hasReferingParam){
                         Invitation_token token = getDataHelper().getInvitationToken(referringParams);
-                        token = null;
                         BusProvider.post(new BranchIOResponseEvent(token));
                     }else{
                         BusProvider.post(new BranchIOResponseEvent(null));

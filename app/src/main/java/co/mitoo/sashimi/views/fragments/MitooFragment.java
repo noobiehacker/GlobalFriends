@@ -27,6 +27,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.CompetitionModel;
+import co.mitoo.sashimi.models.ConfirmInfoModel;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
@@ -517,6 +518,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected LocationModel getLocationModel() {
         return getMitooActivity().getModelManager().getLocationModel();
+    }
+
+    protected ConfirmInfoModel getConfirmInfoModel() {
+        return getMitooActivity().getModelManager().getConfirmInfoModel();
     }
 
     public ViewHelper getViewHelper() {
