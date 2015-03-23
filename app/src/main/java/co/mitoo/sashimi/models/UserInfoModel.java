@@ -48,7 +48,8 @@ public class UserInfoModel extends MitooModel{
 
     @Subscribe
     public void onApiFailEvent(RetrofitError event) {
-        
+
+        RetrofitError error = event;
         BusProvider.post(new MitooActivitiesErrorEvent(event));
     }
 

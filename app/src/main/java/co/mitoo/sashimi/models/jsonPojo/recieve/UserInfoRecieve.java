@@ -17,5 +17,6 @@ public class UserInfoRecieve {
     public String picture_medium;
     public String picture_small;
     public String picture_thumb;
+    public String confirmed_at;
 
 }

@@ -232,6 +232,8 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     public int getTeamColor() {
         if(teamColor == MitooConstants.invalidConstant)
             teamColor = Color.parseColor("#FFAA4A");
+           /* String teamColorString = getSelectedCompetition().getLeague().getColor_1();
+            teamColor = getViewHelper().getColor(teamColorString);*/
         return teamColor;
     }
 

@@ -16,6 +16,7 @@ import rx.Subscriber;
 public abstract class MitooModel
 {
 
+
     protected MitooActivity activity;
     protected DataPersistanceService persistanceService;
     protected Handler handler;

@@ -93,6 +93,7 @@ public class League implements Serializable {
     }
 
     public String getColor_1() {
+
         return color_1;
     }
 

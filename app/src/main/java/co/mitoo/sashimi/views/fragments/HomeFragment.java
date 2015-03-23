@@ -124,6 +124,28 @@ public class HomeFragment extends MitooFragment {
             getToolbar().setTitle("");
             getToolbar().inflateMenu(R.menu.menu_main);
             getToolbar().setPopupTheme(R.style.MyPopupMenu);
+            getToolbar().setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+
+                    if (getDataHelper().isClickable()) {
+                        switch (menuItem.getItemId()) {
+                            case R.id.menu_feedback:
+                                setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
+                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                break;
+                            case R.id.menu_settings:
+                                setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
+                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                break;
+                            case R.id.menu_search:
+                                fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
 
 
         }
@@ -228,11 +250,9 @@ public class HomeFragment extends MitooFragment {
     }
 
     private void updateMenu(){
-        Menu menu = (Menu)getToolbar().getMenu().findItem(R.menu.menu_search);
+        Menu menu = (Menu)getToolbar().getMenu();
         if(!getMyLeagueData().isEmpty() && menu!=null){
-            menu.removeItem(R.menu.menu_search);
-        }else{
-
+            menu.removeItem(R.id.menu_search);
         }
     }
 

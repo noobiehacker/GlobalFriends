@@ -227,7 +227,7 @@ public class ViewHelper {
         return radii;
     }
     
-    private int getColor(String leagueColorInput){
+    public int getColor(String leagueColorInput){
 
         int colorID = MitooConstants.invalidConstant;
         if(validColorInput(leagueColorInput)){
@@ -603,8 +603,8 @@ public class ViewHelper {
             rightTeamIcon.setImageResource(R.drawable.team_logo_tbc);
             leftTeamIcon.setImageResource(R.drawable.team_logo_tbc);
         }else{
-            String homeTeamLogoString = getMockHomeTeamLogo(homeTeam);
-            String awayTeamLogoString = getMockAwayTeamLogo(awayTeam);
+            String homeTeamLogoString = getTeamLogo(homeTeam);
+            String awayTeamLogoString = getTeamLogo(awayTeam);
             loadTeamIcon(leftTeamIcon, homeTeamLogoString);
             loadTeamIcon(rightTeamIcon, awayTeamLogoString);
         }
@@ -816,8 +816,6 @@ public class ViewHelper {
         return result;
     }
 
-    //MOCKING UP DATA FOR NOW, WILL PUT IN REAL DATA WHEN BE AND DATABASE IS READ
-
     private String getCompetitionLogo(Competition competition) {
 
         String result = "";
@@ -828,27 +826,15 @@ public class ViewHelper {
         return result;
     }
 
-    private String getMockHomeTeamLogo(Team competition) {
+    private String getTeamLogo(Team team) {
 
         String result = "";
         result = "https://lh5.googleusercontent.com/TUbM3hnUyBjkMdwTXSZsXAdQ-QDh_47x-KlxADDzhmkQBLNipNTaxE2HZIfRb2o756fvBxkHnD-o15Q=w2512-h1014";
-        if (competition != null) {
-            //result = getRetinaUrl(result);
+        if (team != null) {
+            result = getRetinaUrl(team.getLogo_small());
         }
         return result;
     }
-
-    private String getMockAwayTeamLogo(Team competition) {
-
-        String result = "";
-        result = "https://lh5.googleusercontent.com/J-bcjK5VeFIdcOvZ535ve3vOTharP38xV8DC3WkFLgKwU81t_ltMDXEzP-vje_n1o01RviYvt-nvA-Y=w2512-h1014";
-        if (competition != null) {
-            //result = getRetinaUrl(result);
-        }
-        return result;
-    }
-
-    //MOCKING UP DATA FOR NOW, WILL PUT IN REAL DATA WHEN BE AND DATABASE IS READ
 
     public RelativeLayout.LayoutParams createCenterInVerticalParam(){
 

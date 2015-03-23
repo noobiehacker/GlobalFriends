@@ -293,7 +293,6 @@ public class DataHelper {
         }
     }
 
-
     public String getResetPageBadEmailMessage(String email){
         
         String prefix= getActivity().getString(R.string.error_bad_email_prefix);
