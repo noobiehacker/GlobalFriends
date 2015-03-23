@@ -23,7 +23,7 @@ public class CompetitionModel extends MitooModel{
 
     public void requestCompetition(int userID){
 
-        if(competiionIsEmpty()){
+        if(competitionIsEmpty()){
             String filterParam = getActivity().getString(R.string.steak_api_param_filter_all);
             String leagueInfoParam = getActivity().getString(R.string.steak_api_param_league_info_true);
             Observable<Competition[]> observable = getSteakApiService()
@@ -79,7 +79,7 @@ public class CompetitionModel extends MitooModel{
         this.selectedCompetition = selectedCompetition;
     }
 
-    private boolean competiionIsEmpty(){
+    private boolean competitionIsEmpty(){
         return getMyCompetition().size()==0;
     }
 }
