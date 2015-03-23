@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -132,11 +132,11 @@ public class HomeFragment extends MitooFragment {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_feedback:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
-                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                getUserInfoModel().onUserInfoRequest(getUserId() , true);
                                 break;
                             case R.id.menu_settings:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
-                                BusProvider.post(new UserInfoModelRequestEvent(getUserId()));
+                                getUserInfoModel().onUserInfoRequest(getUserId() , true);
                                 break;
                             case R.id.menu_search:
                                 fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);

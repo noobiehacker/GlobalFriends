@@ -28,10 +28,9 @@ public class UserInfoModel extends MitooModel{
         this.userInfoRecieve = userInfoRecieve;
     }
 
-    @Subscribe
-    public void onUserInfoRequest(int userID) {
+    public void onUserInfoRequest(int userID, boolean refresh) {
 
-        if(getUserInfoRecieve() == null){
+        if(getUserInfoRecieve() == null  || refresh){
             handleObservable(getSteakApiService().getUser(userID) , UserInfoRecieve.class);
         }
         else{

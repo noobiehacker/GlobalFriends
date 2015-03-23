@@ -74,7 +74,7 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
         
-        super.onError(error);
+         super.onError(error);
     }
 
     public boolean recievedBranchIOResponse() {
@@ -100,7 +100,7 @@ public class SplashScreenFragment extends MitooFragment {
             h.postDelayed(new Runnable() {
                 public void run() {
 
-                    if(getInvitationToken()!=null)
+                    if(getInvitationToken().getToken()!=null)
                         startInviteFlow();
                     else
                         startRegularFlow();
