@@ -3,6 +3,8 @@ import java.util.Date;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.models.jsonPojo.result;
+import org.joda.time.LocalDate;
+
 /**
  * Created by david on 15-03-11.
  */
@@ -11,6 +13,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     private Fixture fixture;
     private MitooActivity mitooActivity;
     private Date fixtureDate;
+    private LocalDate jodafixtureDate;
     private String displayableDate;
     private String displayableTime;
     private String displayableScore;
@@ -18,13 +21,24 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     public FixtureWrapper(Fixture fixture , MitooActivity activity) {
         this.fixture= fixture;
         this.mitooActivity = activity;
+        initializeNullParam();
     }
 
     public Date getFixtureDate() {
         if(fixtureDate == null){
-            fixtureDate = getMitooActivity().getDataHelper().getDateFromString(getFixture().getTime());
+            fixtureDate = getMitooActivity().getDataHelper().getDateFromString(getFixture().getLocal_time());
+            if(fixtureDate == null){
+                fixtureDate = new Date();
+            }
         }
         return fixtureDate;
+    }
+
+    public LocalDate getJodafixtureDate() {
+        if(jodafixtureDate==null){
+            jodafixtureDate = LocalDate.fromDateFields(getFixtureDate());
+        }
+        return jodafixtureDate;
     }
 
     @Override
@@ -67,6 +81,19 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
                 displayableScore = result.getHome_score() + result.getDelimiter() +result.getAway_score();
         }
         return displayableScore;
+    }
+
+    private void initializeNullParam(){
+        if(this.getFixture()!=null){
+            if(this.getFixture().getSport()==null)
+                this.getFixture().setSport("");
+        }
+    }
+
+    public boolean isFutureFixture(){
+        Date now = new Date();
+        return getFixtureDate().after(now);
+
     }
 
 }

@@ -12,5 +12,6 @@ public class SessionRecieve {
     public String email ;
     public String name;
     public String auth_token ;
+    public String phone ;
 
 }

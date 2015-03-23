@@ -74,7 +74,7 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     protected void initializeFields(){
 
         super.initializeFields();
-        setFragmentTitle("Dodgeball Tuesday");
+        setFragmentTitle(getSelectedCompetition().getName());
     }
 
     @Subscribe
@@ -95,8 +95,8 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     protected void requestData() {
 
         int competitionSeasonID = getSelectedCompetition().getFixed_competition_id();
-        getTeamModel().requestTeamByCompetition(competitionSeasonID);
-        getFixtureModel().requestFixtureByCompetition(competitionSeasonID, false);
+        getTeamModel().requestTeamByCompetition(competitionSeasonID , true);
+        getFixtureModel().requestFixtureByCompetition(competitionSeasonID , true);
 
     }
 
@@ -169,7 +169,7 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     @Override
     public void onTabSelected(MaterialTab tab) {
 
-        if(getPager()!=null){
+        if(getPager()!=null && !isLoading()){
             getPager().setCurrentItem(tab.getPosition());
         }
 

@@ -225,16 +225,16 @@ public class DataHelper {
         return result;
     }
 
-    public Date getDateFromString(String input){
+    public Date getDateFromString(String input) {
 
         Date result = null;
-        try{
-            result = getNewLongDateFormat().parse(input);
-        }catch (Exception e){
 
-            String temp = e.toString();
+        try {
+            result = getOldLongDateFormat().parse(input);
+        } catch (Exception e) {
 
         }
+
         return result;
     }
 
@@ -425,8 +425,12 @@ public class DataHelper {
                     MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
                     if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
                         tabType = MitooEnum.FixtureRowType.TIME;
-                    else
-                        tabType = MitooEnum.FixtureRowType.SCORE;
+                    else{
+                        if(fixtureWrapper.getFixture().getResult()==null)
+                            tabType = MitooEnum.FixtureRowType.TBC;
+                        else
+                            tabType = MitooEnum.FixtureRowType.SCORE;
+                    }
                     break;
                 case 1:
                     tabType = MitooEnum.FixtureRowType.CANCEL;
@@ -438,7 +442,7 @@ public class DataHelper {
                     tabType = MitooEnum.FixtureRowType.POSTPONED;
                     break;
                 case 4:
-                    tabType = MitooEnum.FixtureRowType.POSTPONED;
+                    tabType = MitooEnum.FixtureRowType.RESCHEDULE;
                     break;
                 case 5:
                     tabType = MitooEnum.FixtureRowType.ABANDONED;

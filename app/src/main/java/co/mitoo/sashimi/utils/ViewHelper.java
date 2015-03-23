@@ -46,6 +46,8 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
 
+import org.joda.time.LocalDate;
+
 /**
  * Created by david on 15-01-20.
  */
@@ -472,14 +474,14 @@ public class ViewHelper {
     public void setUpFixtureForTabRefrac(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
 
         //1)Run one loop to count up how many fixtures does a particular date have
-        Map<Date, Integer> map = new HashMap<Date, Integer>();
+        Map<LocalDate, Integer> map = new HashMap<LocalDate, Integer>();
         //1b)Use a hash map to count up an store the value
         for (FixtureWrapper item : fixtureList) {
 
-            if (map.containsKey(item.getFixtureDate())) {
-                map.put(item.getFixtureDate(), map.get(item.getFixtureDate()) + 1);
+            if (map.containsKey(item.getJodafixtureDate())) {
+                map.put(item.getJodafixtureDate(), map.get(item.getJodafixtureDate()) + 1);
             } else {
-                map.put(item.getFixtureDate(), 1);
+                map.put(item.getJodafixtureDate(), 1);
             }
 
         }
@@ -492,7 +494,7 @@ public class ViewHelper {
             FixtureWrapper item = iterator.next();
             if (fixtureListForOneDate == null) {
                 fixtureListForOneDate = new ArrayList<FixtureWrapper>();
-                itemsRemainingInList = map.get(item.getFixtureDate());
+                itemsRemainingInList = map.get(item.getJodafixtureDate());
             }
             //2a)Group the List of fixture by iterating the value count and add them all to an ArrayList
             fixtureListForOneDate.add(item);
@@ -551,7 +553,6 @@ public class ViewHelper {
                 leftTeamName.setText(homeTeam.getName());
                 rightTeamName.setText(awayTeam.getName());
             }
-
         }
 
     }
@@ -592,18 +593,29 @@ public class ViewHelper {
         }
     }
 
-    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
 
         ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
+        Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
+        Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
         if(fixtureType == MitooEnum.FixtureRowType.TBC){
             rightTeamIcon.setImageResource(R.drawable.team_logo_tbc);
             leftTeamIcon.setImageResource(R.drawable.team_logo_tbc);
         }else{
-            rightTeamIcon.setImageResource(R.drawable.team_3);
-            leftTeamIcon.setImageResource(R.drawable.team_2);
+            String homeTeamLogoString = getMockHomeTeamLogo(homeTeam);
+            String awayTeamLogoString = getMockAwayTeamLogo(awayTeam);
+            loadTeamIcon(leftTeamIcon, homeTeamLogoString);
+            loadTeamIcon(rightTeamIcon, awayTeamLogoString);
         }
 
+    }
+
+    private void loadTeamIcon(ImageView imageView, String iconUrl){
+        getPicasso().with(getActivity())
+                .load(iconUrl)
+                .error(R.drawable.team_2)
+                .into(imageView);
     }
 
     private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
@@ -619,7 +631,7 @@ public class ViewHelper {
                 centerText.setText(fitxture.getDisplayableScore());
                 break;
             case TBC:
-                centerText.setText(fitxture.getDisplayableTime());
+                centerText.setText(getActivity().getString(R.string.fixture_page_tbc));
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
                 break;
             default:
@@ -804,6 +816,8 @@ public class ViewHelper {
         return result;
     }
 
+    //MOCKING UP DATA FOR NOW, WILL PUT IN REAL DATA WHEN BE AND DATABASE IS READ
+
     private String getCompetitionLogo(Competition competition) {
 
         String result = "";
@@ -814,15 +828,27 @@ public class ViewHelper {
         return result;
     }
 
-    private String getTeamLogo(Competition competition) {
+    private String getMockHomeTeamLogo(Team competition) {
 
         String result = "";
-        result = "https://lh5.googleusercontent.com/d_In2MG41IybbBeSPhU6EqqEvMd8rq5IWlwZwKe0RlMb0XKiUpcp2qmjL2rHE4mG_OamxDWWs-M=w2512-h880";
+        result = "https://lh5.googleusercontent.com/TUbM3hnUyBjkMdwTXSZsXAdQ-QDh_47x-KlxADDzhmkQBLNipNTaxE2HZIfRb2o756fvBxkHnD-o15Q=w2512-h1014";
         if (competition != null) {
             //result = getRetinaUrl(result);
         }
         return result;
     }
+
+    private String getMockAwayTeamLogo(Team competition) {
+
+        String result = "";
+        result = "https://lh5.googleusercontent.com/J-bcjK5VeFIdcOvZ535ve3vOTharP38xV8DC3WkFLgKwU81t_ltMDXEzP-vje_n1o01RviYvt-nvA-Y=w2512-h1014";
+        if (competition != null) {
+            //result = getRetinaUrl(result);
+        }
+        return result;
+    }
+
+    //MOCKING UP DATA FOR NOW, WILL PUT IN REAL DATA WHEN BE AND DATABASE IS READ
 
     public RelativeLayout.LayoutParams createCenterInVerticalParam(){
 

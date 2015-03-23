@@ -18,7 +18,7 @@ public class Fixture implements Serializable {
     private result result;
     private location location;
     private boolean time_tbc;
-    private String time;
+    private String local_time;
     private String time_zone;
     private String sport;
 
@@ -86,12 +86,12 @@ public class Fixture implements Serializable {
         this.time_tbc = time_tbc;
     }
 
-    public String getTime() {
-        return time;
+    public String getLocal_time() {
+        return local_time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setLocal_time(String local_time) {
+        this.local_time = local_time;
     }
 
     public String getTime_zone() {

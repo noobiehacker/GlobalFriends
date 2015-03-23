@@ -103,6 +103,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.4.+'
     compile 'com.fasterxml.jackson.core:jackson-core:2.4.+'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.4.+'
+    //Joda Date
+    compile 'joda-time:joda-time:2.7'
     //Event Handling
     compile 'com.squareup:otto:1.3.5'
     //Reactive Programming

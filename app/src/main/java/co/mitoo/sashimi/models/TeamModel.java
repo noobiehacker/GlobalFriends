@@ -19,12 +19,13 @@ public class TeamModel extends MitooModel {
         super(activity);
     }
 
-    public void requestTeamByCompetition(int id) {
-        if (getCompetitionTeams().size()==0)
+    public void requestTeamByCompetition(int id , boolean refresh) {
+        if (getCompetitionTeams().size()==0 || refresh)
             handleObservable(getSteakApiService().getTeamByCompetition(id), Team[].class);
         else
             BusProvider.post(new TeamModelResponseEvent());
     }
+
 
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {

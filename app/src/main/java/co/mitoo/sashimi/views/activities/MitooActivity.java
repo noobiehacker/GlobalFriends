@@ -498,7 +498,7 @@ public class MitooActivity extends ActionBarActivity {
     private void handleCallBacks() {
         
         if (getHandler() != null ) {
-            getHandler().removeCallbacksAndMessages(null);
+            getHandler().removeCallbacksAndMessages(getRunnable());
         }
 
     }

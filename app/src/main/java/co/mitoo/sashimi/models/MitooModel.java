@@ -1,7 +1,5 @@
 package co.mitoo.sashimi.models;
-
 import android.os.Handler;
-
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
@@ -14,6 +12,7 @@ import rx.Subscriber;
 /**
  * Created by david on 14-11-12.
  */
+
 public abstract class MitooModel
 {
 
