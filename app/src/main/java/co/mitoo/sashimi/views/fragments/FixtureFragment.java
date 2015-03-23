@@ -28,12 +28,12 @@ import it.neokree.materialtabs.MaterialTabListener;
  * Created by david on 15-03-06.
  */
 
-public class FixtureFragment extends MitooFragment implements MaterialTabListener{
+public class FixtureFragment extends MitooFragment implements MaterialTabListener {
 
     private MaterialTabHost tabHost;
     private ViewPager pager;
     private MitooTabAdapter adapter;
-    private List<MitooTab> mitooTabsList ;
+    private List<MitooTab> mitooTabsList;
     private int teamColor = MitooConstants.invalidConstant;
     private boolean teamModelLoaded = false;
     private boolean fixtureModelLoaded = false;
@@ -60,7 +60,7 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     }
 
     @Override
-    protected void initializeViews(View view){
+    protected void initializeViews(View view) {
 
         super.initializeViews(view);
         setUpTabView(view);
@@ -71,20 +71,20 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     }
 
     @Override
-    protected void initializeFields(){
+    protected void initializeFields() {
 
         super.initializeFields();
         setFragmentTitle(getSelectedCompetition().getName());
     }
 
     @Subscribe
-    public void onError(MitooActivitiesErrorEvent error){
+    public void onError(MitooActivitiesErrorEvent error) {
 
         super.onError(error);
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
 
         super.onResume();
         requestData();
@@ -95,8 +95,8 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     protected void requestData() {
 
         int competitionSeasonID = getSelectedCompetition().getFixed_competition_id();
-        getTeamModel().requestTeamByCompetition(competitionSeasonID , true);
-        getFixtureModel().requestFixtureByCompetition(competitionSeasonID , true);
+        getTeamModel().requestTeamByCompetition(competitionSeasonID, true);
+        getFixtureModel().requestFixtureByCompetition(competitionSeasonID, true);
 
     }
 
@@ -104,7 +104,7 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     public void onFixtureResponse(FixtureModelResponseEvent event) {
 
         setFixtureModelLoaded(true);
-        if(allDataLoaded())
+        if (allDataLoaded())
             loadTabs();
     }
 
@@ -112,32 +112,37 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     public void onTeamResponse(TeamModelResponseEvent event) {
 
         setTeamModelLoaded(true);
-        if(allDataLoaded())
+        if (allDataLoaded())
             loadTabs();
 
     }
 
-    private void loadTabs(){
+    private void loadTabs() {
         setUpPagerAdapter();
         setPreDataLoading(false);
     }
 
 
-    private void setUpTabView(View view){
+    private void setUpTabView(View view) {
 
         setTabHost((MaterialTabHost) view.findViewById(R.id.materialTabHost));
+        setUpTabHost();
         setUpTabs();
 
     }
 
-    private void setUpTabs(){
+    private void setUpTabHost() {
+        tabHost.setPrimaryColor(getTeamColor());
+    }
+
+    private void setUpTabs() {
 
         String[] tabNames = getResources().getStringArray(R.array.competitions_tabs_array);
-        for(int tabIndex = 0 ; tabIndex < tabNames.length ; tabIndex++){
+        for (int tabIndex = 0; tabIndex < tabNames.length; tabIndex++) {
 
             String tabName = tabNames[tabIndex];
 
-            MitooMaterialsTab tab = new MitooMaterialsTab(getMitooActivity() ,false );
+            MitooMaterialsTab tab = new MitooMaterialsTab(getMitooActivity(), false);
             tab.setText(tabName);
             tab.setTabListener(this);
             getTabHost().addTab(tab);
@@ -150,7 +155,7 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
 
     }
 
-    private void setUpPagerAdapter(){
+    private void setUpPagerAdapter() {
 
         getPager().setAdapter(getAdapter());
         getPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -160,16 +165,17 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
             }
         });
     }
-    private void setUpPager(View view){
 
-        setPager((ViewPager)view.findViewById(R.id.pager));
+    private void setUpPager(View view) {
+
+        setPager((ViewPager) view.findViewById(R.id.pager));
 
     }
 
     @Override
     public void onTabSelected(MaterialTab tab) {
 
-        if(getPager()!=null && !isLoading()){
+        if (getPager() != null && !isLoading()) {
             getPager().setCurrentItem(tab.getPosition());
         }
 
@@ -230,10 +236,11 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     }
 
     public int getTeamColor() {
-        if(teamColor == MitooConstants.invalidConstant)
-            teamColor = Color.parseColor("#FFAA4A");
-           /* String teamColorString = getSelectedCompetition().getLeague().getColor_1();
-            teamColor = getViewHelper().getColor(teamColorString);*/
+        if (teamColor == MitooConstants.invalidConstant) {
+            String teamColorString = getSelectedCompetition().getLeague().getColor_1();
+            teamColor = getViewHelper().getColor(teamColorString);
+        }
+
         return teamColor;
     }
 

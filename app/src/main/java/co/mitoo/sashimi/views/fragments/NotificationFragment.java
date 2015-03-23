@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.appObject.Notification;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -26,7 +26,7 @@ public class NotificationFragment extends MitooFragment {
     private ListView notificationListView;
     private NotificationListAdapter notificaitonAdapter;
     private List<Notification> notificationList;
-
+    private League selectedLeague;
     @Override
     public void onClick(View v) {
     }
@@ -46,11 +46,18 @@ public class NotificationFragment extends MitooFragment {
         return view;
     }
 
+    public League getSelectedLeague() {
+        if(selectedLeague == null)
+            selectedLeague =getCompetitionModel().getSelectedCompetition().getLeague();
+        return selectedLeague;
+    }
+
     @Override
     protected void initializeViews(View view){
 
         super.initializeViews(view);
         setUpMyNotificationListView(view);
+
     }
 
     @Override
@@ -75,8 +82,11 @@ public class NotificationFragment extends MitooFragment {
     }
 
     public int getTeamColor() {
-        if(teamColor == MitooConstants.invalidConstant)
-            teamColor = Color.parseColor("#FFAA4A");
+        if (teamColor == MitooConstants.invalidConstant) {
+            String teamColorString = getSelectedLeague().getColor_1();
+            teamColor = getViewHelper().getColor(teamColorString);
+        }
+
         return teamColor;
     }
 
