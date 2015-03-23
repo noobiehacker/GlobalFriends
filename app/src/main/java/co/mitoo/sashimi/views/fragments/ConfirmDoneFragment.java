@@ -4,22 +4,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 /**
- * Created by david on 15-03-17.
+ * Created by david on 15-03-23.
  */
-public class ConfirmAccountFragment extends MitooFragment {
+public class ConfirmDoneFragment extends MitooFragment {
 
     @Override
     public void onClick(View v) {
         if(getDataHelper().isClickable()){
             switch (v.getId()) {
-                case R.id.confirmJoinButton:
-                    confirmButtonAction();
+                case R.id.viewMyLeaguesButton:
+                    viewMyLeagueButtonAction();
                     break;
             }
         }
@@ -34,7 +36,7 @@ public class ConfirmAccountFragment extends MitooFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_confirm_account,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_confirm_done,
                 container, false);
         initializeViews(view);
         initializeOnClickListeners(view);
@@ -63,14 +65,16 @@ public class ConfirmAccountFragment extends MitooFragment {
     @Override
     protected void initializeOnClickListeners(View view) {
 
-        view.findViewById(R.id.confirmJoinButton).setOnClickListener(this);
+        view.findViewById(R.id.viewMyLeaguesButton).setOnClickListener(this);
 
     }
 
-    private void confirmButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_confirm_set_password, MitooEnum.FragmentTransition.PUSH
-                , MitooEnum.FragmentAnimation.HORIZONTAL);
-    }
+    private void viewMyLeagueButtonAction(){
 
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
+        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL, bundle);
+
+    }
 
 }

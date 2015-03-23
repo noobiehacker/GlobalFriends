@@ -3,7 +3,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
@@ -14,14 +13,14 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 /**
  * Created by david on 15-01-19.
  */
-public class SignUpConfirmFragment extends MitooFragment {
+public class SignUpDoneFragment extends MitooFragment {
 
     private League selectedLeague;
     private MitooEnum.ConfirmFlow flow;
 
-    public static SignUpConfirmFragment newInstance() {
+    public static SignUpDoneFragment newInstance() {
 
-        return new SignUpConfirmFragment();
+        return new SignUpDoneFragment();
     }
 
     @Override

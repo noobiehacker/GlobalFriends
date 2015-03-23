@@ -555,15 +555,10 @@ public class MitooActivity extends ActionBarActivity {
             public void onInitFinished(JSONObject referringParams, BranchError error) {
 
                 if (error == null) {
-                    //REFRACTOR LATER FOR TRUE LOGIC
-                    Boolean hasReferingParam = true;
-                    if(hasReferingParam){
-                        Invitation_token token = getDataHelper().getInvitationToken(referringParams);
-                        BusProvider.post(new BranchIOResponseEvent(token));
-                    }else{
-                        BusProvider.post(new BranchIOResponseEvent(null));
 
-                    }
+                    Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                    getModelManager().getSessionModel().setInvitation_token(token);
+                    BusProvider.post(new BranchIOResponseEvent(token));
 
                 }
             }

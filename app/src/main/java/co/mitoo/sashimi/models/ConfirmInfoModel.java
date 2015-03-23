@@ -18,7 +18,7 @@ public class ConfirmInfoModel extends MitooModel{
     public void requestConfirmationInformation(String token){
 
         if(getConfirmInfo()==null){
-            getSteakApiService().getConfrimationInfo(token);
+            handleObservable(getSteakApiService().getConfirmationInfo(token), ConfirmInfo.class) ;
         }
         else{
             BusProvider.post(new ConfirmInfoModelResponseEvent());

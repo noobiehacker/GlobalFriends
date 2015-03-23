@@ -54,8 +54,8 @@ public interface SteakApi {
     @GET("/leagues/v1/users/{id}/competition_seasons")
     Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter ,@Query("league_info") String league_info ,@Path("id") int id);
 
-    @GET("/users/v1/confirmations/{token}/confirm")
-    Observable<ConfirmInfo>  getConfrimationInfo(@Path("token") String token);
+    @GET("/users/v1/confirmations/{token}")
+    Observable<ConfirmInfo> getConfirmationInfo(@Path("token") String token);
 
     @GET("/users/v1/confirmations/{token}/confirm")
     Observable<UserInfoRecieve>  createUserFromConfirmation(@Path("token") String token, @Body JsonSignUpSend jsonObject);

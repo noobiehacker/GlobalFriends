@@ -5,7 +5,6 @@ package co.mitoo.sashimi.models.jsonPojo;
  */
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
 
@@ -14,12 +13,12 @@ public class Invitation_token implements Serializable {
 
     public String invitation_token;
 
-    public String getInvitation_token() {
+    public String getToken() {
         return invitation_token;
     }
 
-    public void setInvitation_token(String invitation_token) {
-        this.invitation_token = invitation_token;
+    public void setToken(String token) {
+        this.invitation_token = token;
     }
 }
 

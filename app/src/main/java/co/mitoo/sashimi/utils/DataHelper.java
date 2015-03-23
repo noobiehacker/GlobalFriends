@@ -487,6 +487,8 @@ public class DataHelper {
 
         Invitation_token result = null;
         try{
+            /*JsonNode node = getObjectMapper().valueToTree(referringParams);
+            result = getObjectMapper().readValue(new TreeTraversingParser(node) ,Invitation_token.class);*/
             result = getObjectMapper().readValue(referringParams.toString(), Invitation_token.class);
         }catch(Exception e){
         }

@@ -60,7 +60,7 @@ public class FragmentFactory {
                 result = SettingsFragment.newInstance();
                 break;
             case R.id.fragment_sign_up_confirm:
-                result = SignUpConfirmFragment.newInstance();
+                result = SignUpDoneFragment.newInstance();
                 break;
             case R.id.fragment_home:
                 result = HomeFragment.newInstance();
@@ -79,6 +79,12 @@ public class FragmentFactory {
                 break;
             case R.id.fragment_confirm_account:
                 result = ConfirmAccountFragment.newInstance();
+                break;
+            case R.id.fragment_confirm_set_password:
+                result = ConfirmSetPasswordFragment.newInstance();
+                break;
+            case R.id.fragment_confirm_done:
+                result = ConfirmDoneFragment.newInstance();
                 break;
             default:
                 result = SplashScreenFragment.newInstance();

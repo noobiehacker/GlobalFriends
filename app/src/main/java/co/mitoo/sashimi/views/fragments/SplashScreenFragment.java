@@ -26,7 +26,7 @@ public class SplashScreenFragment extends MitooFragment {
 
     private boolean branchResponseRecieved = false;
     private boolean persistedDataResponseRecieved = false;
-    private Invitation_token token ;
+    private Invitation_token invitationToken;
 
     @Override
     public void onClick(View v) {
@@ -65,7 +65,7 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onBranchIOResponse(BranchIOResponseEvent event){
 
-        setToken(event.getToken());
+        setInvitationToken(event.getToken());
         setBranchResponseRecieved(true);
         loadFirstFragment();
 
@@ -100,7 +100,7 @@ public class SplashScreenFragment extends MitooFragment {
             h.postDelayed(new Runnable() {
                 public void run() {
 
-                    if(getToken()!=null)
+                    if(getInvitationToken()!=null)
                         startInviteFlow();
                     else
                         startRegularFlow();
@@ -113,7 +113,7 @@ public class SplashScreenFragment extends MitooFragment {
 
     public void startInviteFlow(){
 
-        getConfirmInfoModel().requestConfirmationInformation(getToken().getInvitation_token());
+        getConfirmInfoModel().requestConfirmationInformation(getInvitationToken().getToken());
     }
 
     public void startRegularFlow(){
@@ -133,15 +133,16 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent event){
 
+
         fireFragmentChangeAction(R.id.fragment_confirm_account, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.HORIZONTAL);
 
     }
 
-    public Invitation_token getToken() {
-        return token;
+    public Invitation_token getInvitationToken() {
+        return invitationToken;
     }
 
-    public void setToken(Invitation_token token) {
-        this.token = token;
+    public void setInvitationToken(Invitation_token invitationToken) {
+        this.invitationToken = invitationToken;
     }
 }

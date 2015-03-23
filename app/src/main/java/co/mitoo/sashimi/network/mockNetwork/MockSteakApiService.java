@@ -117,7 +117,7 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<ConfirmInfo> getConfrimationInfo(@Path("token") String token) {
+    public Observable<ConfirmInfo> getConfirmationInfo(@Path("token") String token) {
         return null;
     }
 

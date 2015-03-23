@@ -74,6 +74,7 @@ public abstract class MitooModel
 
             @Override
             public void onError(Throwable e) {
+                String error = e.getMessage();
             }
 
             @Override
