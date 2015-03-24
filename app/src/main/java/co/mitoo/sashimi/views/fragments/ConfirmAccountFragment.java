@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
@@ -45,6 +49,27 @@ public class ConfirmAccountFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
+        Competition competition = getCompetitionModel().getSelectedCompetition();
+        getViewHelper().setUpConfirmAccountView(view, competition);
+        setUpConfirmLeagueText(view);
+        setUpGreetingText(view);
+    }
+
+
+    public void setUpConfirmLeagueText(View view){
+
+        if(getCompetitionModel().getMyCompetition().size()==1){
+            Competition selectedCompetition = getCompetitionModel().getSelectedCompetition();
+            TextView competitionTextView = (TextView) view.findViewById(R.id.confirmAccountCompetitionName);
+            competitionTextView.setText(selectedCompetition.getName());
+        }
+
+    }
+
+    public void setUpGreetingText(View view){
+
+        TextView greetingTextView = (TextView) view.findViewById(R.id.confirmAccountTopText);
+        greetingTextView.setText(createGreetingText());
 
     }
 
@@ -74,5 +99,9 @@ public class ConfirmAccountFragment extends MitooFragment {
                 , MitooEnum.FragmentAnimation.HORIZONTAL);
     }
 
+    private String createGreetingText(){
+        String userName = getUserInfoModel().getUserInfoRecieve().name;
+        return userName + getString(R.string.confirmation_page_text_one);
+    }
 
 }

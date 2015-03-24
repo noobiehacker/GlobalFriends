@@ -204,4 +204,35 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <!-- Confirm Account page -->
+
+    <style name="confirmPageLeagueText">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontPath">@string/DIN_Medium</item>
+    </style>
+
+    <style name="confirmPageCompetitionText">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+    </style>
+
+    <style name="confirmPageBottomText">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">17sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+    </style>
+
+    <style name="confirmPageTopText">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="confirmSecondPageTopText">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">19sp</item>
+        <item name="fontPath">@string/DIN_Light</item>
+    </style>
+
 </resources>

@@ -255,7 +255,23 @@
     <string name="notification_page_list_item_your_results">Your results</string>
     <string name="notification_page_list_rival_results">Rival results</string>
 
+    <!--Confirmation Page -->
+
+    <string name="confirmation_page_button_one_text">JOIN</string>
+    <string name="confirmation_page_button_two_text">SET A PASSWORD</string>
+    <string name="confirmation_page_button_three_text">VIEW MY LEAGUES</string>
+
+    <string name="confirmation_page_text_one">, join your team</string>
+    <string name="confirmation_page_text_two">See your schedule and get real-time updates on your phone</string>
+    <string name="confirmation_page_text_three">Set a password for </string>
+    <string name="confirmation_page_text_four">Great! You\'re in</string>
+    <string name="confirmation_page_text_five">Password</string>
+
+    <string name="confirmation_page_text_six">"If you need to log back in,user +1 "</string>
+    <string name="confirmation_page_text_seven">" and the password you just set"</string>
+
     <!--Toolbar Title-->
+
     <string name="tool_bar_happy">HAPPY</string>
     <string name="tool_bar_unhappy">UNHAPPY</string>
     <string name="tool_bar_confused">CONFUSED</string>

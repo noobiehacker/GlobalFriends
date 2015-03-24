@@ -85,14 +85,12 @@ public abstract class MitooModel
     }
 
     protected void handleSubscriberResponse(Object objectRecieve) {
-
     }
 
     protected void obtainResults() {
     }
 
-
     protected void resetFields(){
-
     }
+
 }

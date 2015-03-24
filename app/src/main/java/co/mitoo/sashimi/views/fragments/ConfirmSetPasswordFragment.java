@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.squareup.otto.Subscribe;
 import java.util.TimeZone;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -53,6 +54,8 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
 
         super.initializeViews(view);
         view.findViewById(R.id.setPasswordButton).setOnClickListener(this);
+        Competition competition = getCompetitionModel().getSelectedCompetition();
+        getViewHelper().setUpConfirmPasswordView(view, competition);
 
     }
 

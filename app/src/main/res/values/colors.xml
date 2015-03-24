@@ -2,6 +2,7 @@
 
     <!-- White <-> Black palette -->
 
+    <color name="pure_white">#FFFFFF</color>
     <color name="white">#FEFEFE</color>
     <color name="gray_light_one">#F5F5F5</color>
     <color name="gray_light_two">#F2F2F2</color>

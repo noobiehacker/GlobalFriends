@@ -117,6 +117,19 @@
     <dimen name="notification_page_item_left_padding">16dp</dimen>
     <dimen name="notification_page_item_right_padding">16dp</dimen>
 
+    <!-- Confirmation page -->
+
+    <dimen name="confirmation_page_item_top_padding">38dp</dimen>
+    <dimen name="confirmation_page_item_bottom_padding">38dp</dimen>
+    <dimen name="confirmation_page_item_left_padding">28dp</dimen>
+    <dimen name="confirmation_page_item_right_padding">28dp</dimen>
+
+    <dimen name="confirmation_first_page_top_padding">10dp</dimen>
+    <dimen name="confirmation_first_page_middle_padding">5dp</dimen>
+
+    <dimen name="confirmation_second_page_top_padding">16dp</dimen>
+    <dimen name="confirmation_second_page_middle_padding">11.5dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>

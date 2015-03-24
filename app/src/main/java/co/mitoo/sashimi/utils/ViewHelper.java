@@ -104,6 +104,7 @@ public class ViewHelper {
                     .centerCrop()
                     .into(leagueBackgroundImageView);
         }
+
     }
 
     private void leagueBackgroundLoadCompleteAction(){
@@ -116,16 +117,43 @@ public class ViewHelper {
         }
     }
 
-    public void setUpSignUpView(View fragmentView, League league){
+    public void setUpConfirmAccountView(View fragmentView, Competition competition){
+
+        League league = competition.getLeague();
+        setUpStaticLeagueBackground(fragmentView, league);
+        String leagueIconUrl = getLogo(league);
+        ImageView iconImage = (ImageView) fragmentView.findViewById(R.id.leagueLogo);
+        getPicasso().with(getActivity())
+                .load(leagueIconUrl)
+                .into(iconImage);
+        setUpLeagueNameText(fragmentView, competition.getLeague());
+    }
+
+    public void setUpConfirmPasswordView(View fragmentView, Competition competition){
+
+        League league = competition.getLeague();
         setUpStaticLeagueBackground(fragmentView, league);
 
     }
 
-    public void setUpConfirmView(View fragmentView, League league){
+    public void setUpConfirmDoneView(View fragmentView, Competition competition){
+
+        League league = competition.getLeague();
+        setUpStaticLeagueBackground(fragmentView, league);
+        String leagueIconUrl = getLogo(league);
+        ImageView iconImage = (ImageView) fragmentView.findViewById(R.id.leagueLogo);
+        getPicasso().with(getActivity())
+                .load(leagueIconUrl)
+                .into(iconImage);
+        setUpLeagueNameText(fragmentView, competition.getLeague());
+
+    }
+
+    public void setUpLeagueBackgroundView(View fragmentView, League league){
         setUpStaticLeagueBackground(fragmentView, league);
 
     }
-    
+
     public void setUpEnquireListIcon(final View view , League league){
 
         String leagueIconUrl = getLogo(league);
@@ -334,11 +362,11 @@ public class ViewHelper {
         IconGenerator generator = new IconGenerator(getActivity());
         generator.setTextAppearance(R.style.grayCityMapText);
         generator.setContentPadding(
-                getPixelFromDimenID(R.dimen.spacing_map_text_width) ,
-                getPixelFromDimenID(R.dimen.spacing_map_text_height) ,
-                getPixelFromDimenID(R.dimen.spacing_map_text_width) ,
+                getPixelFromDimenID(R.dimen.spacing_map_text_width),
+                getPixelFromDimenID(R.dimen.spacing_map_text_height),
+                getPixelFromDimenID(R.dimen.spacing_map_text_width),
                 getPixelFromDimenID(R.dimen.spacing_map_text_height)
-                );
+        );
         Bitmap markerIcon = generator.makeIcon(cityName);
         MarkerOptions option = new MarkerOptions().position(latLng)
                 .icon(BitmapDescriptorFactory.fromBitmap(markerIcon));
@@ -348,7 +376,7 @@ public class ViewHelper {
 
     public void addLeagueDataToList(final MitooFragment fragment, final int leagueLayout, final LinearLayout holder, List<League> leagues) {
         setHandler(fragment.getHandler());
-        recursiveAddLeagueDataToList(fragment, leagueLayout,holder,leagues);
+        recursiveAddLeagueDataToList(fragment, leagueLayout, holder, leagues);
     }
 
     private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<League> leagues){
@@ -682,7 +710,7 @@ public class ViewHelper {
         return new Callback() {
             @Override
             public void onSuccess() {
-                setUpEnquireListIconContainer(container , View.VISIBLE);
+                setUpEnquireListIconContainer(container, View.VISIBLE);
             }
 
             @Override

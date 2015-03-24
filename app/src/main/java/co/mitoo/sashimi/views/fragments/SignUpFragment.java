@@ -14,7 +14,6 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -69,8 +68,7 @@ public class SignUpFragment extends MitooFragment {
     protected void initializeViews(View view){
         
         super.initializeViews(view);
-        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpSignUpView(view, getSelectedLeague());
+        getViewHelper().setUpLeagueBackgroundView(view, getSelectedLeague());
         setTopEditText((EditText)view.findViewById(R.id.nameInput));
         setUpSignUpInfoText(view);
     }

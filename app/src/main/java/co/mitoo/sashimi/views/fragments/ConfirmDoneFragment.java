@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
@@ -46,13 +48,16 @@ public class ConfirmDoneFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-
+        Competition competition = getCompetitionModel().getSelectedCompetition();
+        getViewHelper().setUpConfirmDoneView(view, competition);
+        setUpPasswordAdviceText(view);
     }
 
     @Override
     protected void initializeFields(){
 
         super.initializeFields();
+        setAllowBackPressed(false);
         setFragmentTitle(getString(R.string.tool_bar_confirmation));
     }
 
@@ -69,11 +74,29 @@ public class ConfirmDoneFragment extends MitooFragment {
 
     }
 
+    public void setUpPasswordAdviceText(View view){
+
+        TextView greetingTextView = (TextView) view.findViewById(R.id.confirmDoneBottomText);
+        greetingTextView.setText(createPasswordText());
+
+    }
+
     private void viewMyLeagueButtonAction(){
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
         fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL, bundle);
+
+    }
+
+    private String createPasswordText(){
+
+        String phoneNumber = getUserInfoModel().getUserInfoRecieve().phone;
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getString(R.string.confirmation_page_text_six));
+        stringBuilder.append(phoneNumber);
+        stringBuilder.append(getString(R.string.confirmation_page_text_seven));
+        return stringBuilder.toString();
 
     }
 

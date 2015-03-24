@@ -24,13 +24,6 @@ public class SignUpDoneFragment extends MitooFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setAllowBackPressed(false);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceStaste) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_confirm,
@@ -44,6 +37,7 @@ public class SignUpDoneFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setAllowBackPressed(false);
         setFragmentTitle(getString(R.string.tool_bar_confirmation));
     }
 
@@ -51,8 +45,7 @@ public class SignUpDoneFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpConfirmView(view, getSelectedLeague());
+        getViewHelper().setUpLeagueBackgroundView(view, getSelectedLeague());
 
     }
 

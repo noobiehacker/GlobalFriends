@@ -148,10 +148,13 @@ public class SplashScreenFragment extends MitooFragment {
 
     @Override
     protected void handleHttpErrors(int statusCode) {
-        if (statusCode == 401)
-            displayText(getString(R.string.error_401_already_confirmed));
-        else if(statusCode == 409)
-            displayText(getString(R.string.error_409_token_invalid));
+        if (statusCode == 401 || statusCode==409){
+            if(statusCode==401)
+                displayText(getString(R.string.error_401_already_confirmed));
+            else if(statusCode == 409)
+                displayText(getString(R.string.error_409_token_invalid));
+            fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.HORIZONTAL);
+        }
         else
             super.handleHttpErrors(statusCode);
     }
