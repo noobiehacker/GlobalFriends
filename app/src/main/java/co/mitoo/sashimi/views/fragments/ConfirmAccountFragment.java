@@ -10,7 +10,9 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 /**
@@ -95,8 +97,14 @@ public class ConfirmAccountFragment extends MitooFragment {
     }
 
     private void confirmButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_confirm_set_password, MitooEnum.FragmentTransition.PUSH
-                , MitooEnum.FragmentAnimation.HORIZONTAL);
+
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_confirm_set_password)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
     }
 
     private String createGreetingText(){

@@ -9,6 +9,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -148,8 +149,13 @@ public class SettingsFragment extends MitooFragment {
         
         Bundle bundle = new Bundle();
         bundle.putString(getMitooActivity().getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.faqOption));
-        FragmentChangeEvent event = new FragmentChangeEvent(this, MitooEnum.FragmentTransition.PUSH, R.id.fragment_about_mitoo, bundle);
-        BusProvider.post(event);
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_home)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setBundle(bundle)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
         
     }
 

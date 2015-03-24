@@ -203,13 +203,12 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         getLocationModel().selectPlace(prediction);
         BusProvider.post(new LocationModelLocationsSelectedEvent());
 
-
     }
     
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
-        fireFragmentChangeAction(MitooEnum.FragmentTransition.POP);
+        popFragmentAction();
 
     }
 

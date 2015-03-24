@@ -14,9 +14,12 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
 import se.walkercrou.places.Place;
@@ -202,7 +205,10 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
             @Override
             public void onClick(View v) {
                 if (getDataHelper().isClickable()) {
-                    fireFragmentChangeAction(R.id.fragment_location_search);
+                    FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                            .setFragmentID(R.id.fragment_location_search)
+                            .build();
+                    postFragmentChangeEvent(event);
                 }
             }
         });
@@ -228,7 +234,12 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_tool_bar_title), getQueryText());
-        fireFragmentChangeAction(R.id.fragment_search_results, bundle);
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_search_results)
+                .setBundle(bundle)
+                .build();
+        postFragmentChangeEvent(event);
         getLocationModel().requestSelectedLocationLatLng();
 
     }

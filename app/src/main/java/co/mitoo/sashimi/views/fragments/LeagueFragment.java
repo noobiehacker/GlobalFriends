@@ -15,8 +15,10 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -178,7 +180,6 @@ public class LeagueFragment extends MitooFragment {
 
     }
 
-
     private void joinButtonAction(){
 
         SessionModel sessionModel =getSessionModel();
@@ -191,7 +192,11 @@ public class LeagueFragment extends MitooFragment {
         else{
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getId()));
-            fireFragmentChangeAction(R.id.fragment_sign_up, bundle);
+            FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                    .setFragmentID(R.id.fragment_sign_up)
+                    .setBundle(bundle)
+                    .build();
+            postFragmentChangeEvent(event);
         }
     }
 
@@ -234,6 +239,7 @@ public class LeagueFragment extends MitooFragment {
     }
 
     private String getTruncatedAbout(League league){
+
         if(league!=null && league.getAbout().length()> 100)
             return league.getAbout().substring(0, 99) + "...";
         else

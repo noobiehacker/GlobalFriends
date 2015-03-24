@@ -1,7 +1,6 @@
 package co.mitoo.sashimi.network;
 
 import com.squareup.okhttp.OkHttpClient;
-
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.StaticString;
 import retrofit.MockRestAdapter;

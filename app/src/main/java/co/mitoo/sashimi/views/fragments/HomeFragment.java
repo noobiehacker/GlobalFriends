@@ -16,10 +16,12 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -139,14 +141,18 @@ public class HomeFragment extends MitooFragment {
                                 getUserInfoModel().onUserInfoRequest(getUserId() , true);
                                 break;
                             case R.id.menu_search:
-                                fireFragmentChangeAction(R.id.fragment_search, MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
+                                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                                        .setFragmentID(R.id.fragment_search)
+                                        .setTransition(MitooEnum.FragmentTransition.PUSH)
+                                        .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                                        .build();
+                                postFragmentChangeEvent(fragmentChangeEvent);
                                 break;
                         }
                     }
                     return false;
                 }
             });
-
 
         }
         return getToolbar();
@@ -261,8 +267,12 @@ public class HomeFragment extends MitooFragment {
 
         switch(getMenuItemSelected()){
             case SETTINGS:
-                fireFragmentChangeAction(R.id.fragment_settings ,
-                        MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
+                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                        .setFragmentID(R.id.fragment_settings)
+                        .setTransition(MitooEnum.FragmentTransition.PUSH)
+                        .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                        .build();
+                postFragmentChangeEvent(fragmentChangeEvent);
                 break;
 
             case FEEDBACK:

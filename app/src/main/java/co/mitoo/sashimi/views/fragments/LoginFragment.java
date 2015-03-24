@@ -12,7 +12,9 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.FormHelper;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
@@ -121,7 +123,7 @@ public class LoginFragment extends MitooFragment {
     public void onLoginResponse(SessionModelResponseEvent event) {
 
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
+        routeToHome();
         setLoading(false);
     }
 
@@ -134,7 +136,12 @@ public class LoginFragment extends MitooFragment {
     }
 
     private void forgetPasswordAction(){
-        fireFragmentChangeAction(R.id.fragment_reset_password , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL);
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_reset_password)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
     }
 
     private String getLoginID(){

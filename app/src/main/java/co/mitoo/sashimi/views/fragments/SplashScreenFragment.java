@@ -5,16 +5,16 @@ import android.os.Handler;
 import android.view.*;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.squareup.otto.Subscribe;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
@@ -121,20 +121,26 @@ public class SplashScreenFragment extends MitooFragment {
         SessionRecieve session = getSessionModel().getSession();
         if (session != null) {
             getMitooActivity().updateAuthToken(session);
-            fireFragmentChangeAction(R.id.fragment_home, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.VERTICAL);
+
+            routeToHome();
 
         }
         else{
-            fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.HORIZONTAL);
+
+            routeToLanding();
 
         }
     }
 
     @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent event){
+    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
 
-
-        fireFragmentChangeAction(R.id.fragment_confirm_account, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.HORIZONTAL);
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_confirm_account)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        postFragmentChangeEvent(event);
 
     }
 
@@ -153,7 +159,7 @@ public class SplashScreenFragment extends MitooFragment {
                 displayText(getString(R.string.error_401_already_confirmed));
             else if(statusCode == 409)
                 displayText(getString(R.string.error_409_token_invalid));
-            fireFragmentChangeAction(R.id.fragment_landing, MitooEnum.FragmentTransition.CHANGE, MitooEnum.FragmentAnimation.HORIZONTAL);
+            routeToLanding();
         }
         else
             super.handleHttpErrors(statusCode);

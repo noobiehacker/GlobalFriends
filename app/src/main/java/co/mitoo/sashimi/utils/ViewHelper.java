@@ -41,6 +41,7 @@ import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
@@ -428,8 +429,8 @@ public class ViewHelper {
         LeagueModel model =getActivity().getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
         fragment.fireFragmentChangeAction(R.id.fragment_league);
-    }
 
+    }
 
     public void setUpViewCallBack(final View loadedView, final League league, final View leagueItemHolder, final View leagueListHolder){
 

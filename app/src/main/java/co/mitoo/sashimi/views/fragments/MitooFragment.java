@@ -37,6 +37,7 @@ import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FormHelper;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -208,56 +209,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition, MitooEnum.FragmentAnimation animation) {
-
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
-        postFragmentChangeEvent(event);
-    }
-
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition, MitooEnum.FragmentAnimation animation, Bundle bundle) {
-
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation, bundle);
-        postFragmentChangeEvent(event);
-    }
-
-
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentAnimation animation) {
-
-        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
-        postFragmentChangeEvent(event);
-    }
-
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition) {
-
-        MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
-        postFragmentChangeEvent(event);
-    }
-
-
     public void fireFragmentChangeAction(int fragmentId) {
 
-        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, animation);
-        postFragmentChangeEvent(event);
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(fragmentId)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
     }
 
-    protected void fireFragmentChangeAction(int fragmentId, Bundle bundle) {
-
-        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, bundle);
-        postFragmentChangeEvent(event);
-    }
-
-    protected void fireFragmentChangeAction(MitooEnum.FragmentTransition transition) {
-
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition);
-        postFragmentChangeEvent(event);
-    }
-
-    private void postFragmentChangeEvent(final FragmentChangeEvent event) {
+    public void postFragmentChangeEvent(final FragmentChangeEvent event) {
 
         Runnable runnable = new Runnable() {
             @Override
@@ -661,6 +622,26 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
         }
 
+    }
+
+    protected void routeToHome(){
+
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_home)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
+    }
+
+    protected void routeToLanding(){
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_landing)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
     }
 
     protected void requestData() {
