@@ -12,6 +12,8 @@ public class UserInfoRecieve {
     public String email;
     public String name;
     public String phone;
+    public String auth_token;
+    public String time_zone;
     public String picture;
     public String picture_large;
     public String picture_medium;

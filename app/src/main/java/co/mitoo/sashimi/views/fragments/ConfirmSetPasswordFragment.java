@@ -9,7 +9,10 @@ import java.util.TimeZone;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
+import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 
 /**
  * Created by david on 15-03-23.
@@ -29,8 +32,8 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
         }
     }
 
-    public static ConfirmAccountFragment newInstance() {
-        ConfirmAccountFragment fragment = new ConfirmAccountFragment();
+    public static ConfirmSetPasswordFragment newInstance() {
+        ConfirmSetPasswordFragment fragment = new ConfirmSetPasswordFragment();
         return fragment;
     }
 
@@ -57,6 +60,7 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setFragmentTitle(getString(R.string.tool_bar_confirm_your_account));
     }
 
     @Subscribe
@@ -75,7 +79,7 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
             displayText(getString(R.string.toast_password_required));
         }
         else if(!getFormHelper().validPassword(getPassword())){
-            getFormHelper().handleInvalidEmail(getPassword());
+            getFormHelper().handleInvalidPassword(getPassword());
         }
         else{
             JsonSignUpSend confirmJson = createConfirmJsonFrom();
@@ -94,5 +98,13 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
 
         UserInfoRecieve userInfo = getUserInfoModel().getUserInfoRecieve();
         return new JsonSignUpSend(userInfo.email, getPassword(), userInfo.name, userInfo.phone, getTimeZone());
+    }
+
+    @Subscribe
+    public void onUserInfoReceieve(UserInfoModelResponseEvent event) {
+
+        fireFragmentChangeAction(R.id.fragment_confirm_done,
+                MitooEnum.FragmentTransition.PUSH, MitooEnum.FragmentAnimation.HORIZONTAL);
+
     }
 }

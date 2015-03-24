@@ -121,7 +121,7 @@
     </string-array>
 
     <!--Error Message -->
-    <string name="error_401">Incorrect credentials, please try again</string>
+    <string name="error_401_incorrect_cred">Incorrect credentials, please try again</string>
     <string name="error_404">The information you try to find can not be found</string>
     <string name="error_409">We already have an account with that email. Please login to continue.</string>
     <string name="error_422">We already have an account with that email. Please login to continue.</string>
@@ -132,6 +132,8 @@
     <string name="error_user_not_confirmed">Please confirm your email/phone before logging in</string>
     <string name="error_bad_email_prefix">No account exists for\n</string>
     <string name="error_bad_email_suffix">.\nPlease check it and try again.</string>
+    <string name="error_401_already_confirmed">Already confirmed</string>
+    <string name="error_409_token_invalid">Token invalid, contact Mitoo if you like</string>
 
     <!--App -->
     <string name="empty"></string>
@@ -262,6 +264,7 @@
     <string name="tool_bar_login">Login</string>
     <string name="tool_bar_reset_password">Reset Password</string>
     <string name="tool_bar_confirmation">Confirmation</string>
+    <string name="tool_bar_confirm_your_account">Confirm your account</string>
 
     <string name="tool_bar_terms">Terms</string>
     <string name="tool_bar_near_you">Near You</string>

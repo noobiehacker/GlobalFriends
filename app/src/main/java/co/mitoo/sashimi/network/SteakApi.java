@@ -57,7 +57,7 @@ public interface SteakApi {
     @GET("/users/v1/confirmations/{token}")
     Observable<ConfirmInfo> getConfirmationInfo(@Path("token") String token);
 
-    @GET("/users/v1/confirmations/{token}/confirm")
+    @POST("/users/v1/confirmations/{token}/confirm")
     Observable<UserInfoRecieve>  createUserFromConfirmation(@Path("token") String token, @Body JsonSignUpSend jsonObject);
 
 }

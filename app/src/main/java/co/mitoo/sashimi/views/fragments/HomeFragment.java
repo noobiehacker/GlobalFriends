@@ -16,7 +16,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
-import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -50,6 +49,7 @@ public class HomeFragment extends MitooFragment {
     private boolean myLeagueDataLoaded;
 
     private MitooEnum.MenuItemSelected menuItemSelected = MitooEnum.MenuItemSelected.NONE;
+
     @Override
     public void onClick(View v) {
 

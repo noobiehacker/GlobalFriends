@@ -27,11 +27,10 @@ public class ConfirmDoneFragment extends MitooFragment {
         }
     }
 
-    public static ConfirmAccountFragment newInstance() {
-        ConfirmAccountFragment fragment = new ConfirmAccountFragment();
+    public static ConfirmDoneFragment newInstance() {
+        ConfirmDoneFragment fragment = new ConfirmDoneFragment();
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +53,7 @@ public class ConfirmDoneFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setFragmentTitle(getString(R.string.tool_bar_confirmation));
     }
 
     @Subscribe

@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
@@ -518,11 +519,15 @@ public class DataHelper {
         return result;
     }
 
-
-
     public ObjectMapper getObjectMapper() {
         if(objectMapper == null)
             objectMapper = new ObjectMapper();
         return objectMapper;
+    }
+
+    public void addLeagueObjToCompetition(Competition[] competitions , League league){
+        for(Competition comp : competitions){
+            comp.setLeague(league);
+        }
     }
 }

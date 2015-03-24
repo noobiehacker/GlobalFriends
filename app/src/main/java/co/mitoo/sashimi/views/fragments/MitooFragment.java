@@ -31,7 +31,6 @@ import co.mitoo.sashimi.models.ConfirmInfoModel;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
-import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
@@ -180,7 +179,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected void handleHttpErrors(int statusCode) {
         switch (statusCode) {
             case 401:
-                displayText(getString(R.string.error_401));
+                displayText(getString(R.string.error_401_incorrect_cred));
                 break;
             case 404:
                 displayText(getString(R.string.error_404));

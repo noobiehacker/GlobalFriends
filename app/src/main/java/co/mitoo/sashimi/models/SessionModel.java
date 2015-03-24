@@ -84,9 +84,8 @@ public class SessionModel extends MitooModel implements IsPersistable {
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof SessionRecieve) {
-            setSession((SessionRecieve) objectRecieve);
+            updateSession((SessionRecieve)objectRecieve);
             postUserRecieveResponse();
-            updateToken();
 
         } else if (objectRecieve instanceof Response) {
             postResetPasswordResponse((Response) objectRecieve);
@@ -145,6 +144,11 @@ public class SessionModel extends MitooModel implements IsPersistable {
 
     public void setInvitation_token(Invitation_token invitation_token) {
         this.invitation_token = invitation_token;
+    }
+
+    public void updateSession(SessionRecieve session){
+        setSession(session);
+        updateToken();
     }
 }
 

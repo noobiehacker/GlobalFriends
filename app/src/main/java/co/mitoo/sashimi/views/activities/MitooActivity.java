@@ -35,6 +35,7 @@ import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
+import co.mitoo.sashimi.utils.AppStringHelper;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FragmentFactory;
@@ -62,6 +63,7 @@ public class MitooActivity extends ActionBarActivity {
     protected DataPersistanceService persistanceService;
     private int firstFragmentToStart = R.id.fragment_splash;
     private Branch branch;
+    private AppStringHelper appStringHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -557,6 +559,8 @@ public class MitooActivity extends ActionBarActivity {
                 if (error == null) {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                    token = new Invitation_token();
+                    token.setToken("rTRFW_wy6P1x_FXyHkd9");
                     getModelManager().getSessionModel().setInvitation_token(token);
                     BusProvider.post(new BranchIOResponseEvent(token));
 
@@ -569,8 +573,14 @@ public class MitooActivity extends ActionBarActivity {
 
     private Branch getBranch() {
         if(branch ==null)
-            branch = Branch.getInstance(this.getApplicationContext());
+            branch = Branch.getInstance(this.getApplicationContext(), getAppStringHelper().getBranchAPIKey());
         return branch;
+    }
+
+    public AppStringHelper getAppStringHelper() {
+        if(appStringHelper==null)
+            appStringHelper = new AppStringHelper(this);
+        return appStringHelper;
     }
 
 }

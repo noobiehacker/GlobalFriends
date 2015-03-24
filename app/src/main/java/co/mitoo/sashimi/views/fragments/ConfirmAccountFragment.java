@@ -52,6 +52,8 @@ public class ConfirmAccountFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setFragmentTitle(getString(R.string.tool_bar_confirm_your_account));
+
     }
 
     @Subscribe

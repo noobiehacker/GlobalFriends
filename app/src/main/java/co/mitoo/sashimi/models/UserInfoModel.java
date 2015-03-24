@@ -1,5 +1,7 @@
 package co.mitoo.sashimi.models;
 import com.squareup.otto.Subscribe;
+
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -40,15 +42,14 @@ public class UserInfoModel extends MitooModel{
 
     public void requestToConfirmUser(String token, JsonSignUpSend jsonObject) {
 
-            handleObservable(getSteakApiService().createUserFromConfirmation(token, jsonObject)
-                    , UserInfoRecieve.class);
+        handleObservable(getSteakApiService().createUserFromConfirmation(token, jsonObject)
+                , UserInfoRecieve.class);
 
     }
 
     @Subscribe
     public void onApiFailEvent(RetrofitError event) {
 
-        RetrofitError error = event;
         BusProvider.post(new MitooActivitiesErrorEvent(event));
     }
 
@@ -62,6 +63,8 @@ public class UserInfoModel extends MitooModel{
     protected void handleSubscriberResponse(Object objectRecieve)  {
         
         setUserInfoRecieve((UserInfoRecieve)objectRecieve);
+        SessionModel sessionModel = getActivity().getModelManager().getSessionModel();
+        sessionModel.updateSession(new SessionRecieve(getUserInfoRecieve()));
         postUserInfoRecieveResponse();
 
     }
