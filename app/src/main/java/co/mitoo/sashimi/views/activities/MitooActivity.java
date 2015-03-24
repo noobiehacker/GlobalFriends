@@ -550,17 +550,15 @@ public class MitooActivity extends ActionBarActivity {
         this.firstFragmentToStart = firstFragmentToStart;
     }
 
-    private void setUpBranch(){
+    private void setUpBranch() {
 
-        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener(){
+        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener() {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
 
                 if (error == null) {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
-                    token = new Invitation_token();
-                    token.setToken("rTRFW_wy6P1x_FXyHkd9");
                     getModelManager().getSessionModel().setInvitation_token(token);
                     BusProvider.post(new BranchIOResponseEvent(token));
 

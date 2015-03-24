@@ -33,7 +33,7 @@
     <string name="login_page_title">Login</string>
     <string name="login_page_text1">FACEBOOK LOGIN</string>
     <string name="login_page_text2">Or</string>
-    <string name="login_page_text3">Email</string>
+    <string name="login_page_text3">Email or phone number</string>
     <string name="login_page_text4">Password</string>
     <string name="login_page_text5">Forgot?</string>
     <string name="login_page_text6">LOGIN</string>
@@ -267,7 +267,7 @@
     <string name="confirmation_page_text_four">Great! You\'re in</string>
     <string name="confirmation_page_text_five">Password</string>
 
-    <string name="confirmation_page_text_six">"If you need to log back in,user +1 "</string>
+    <string name="confirmation_page_text_six">"If you need to log back in,use "</string>
     <string name="confirmation_page_text_seven">" and the password you just set"</string>
 
     <!--Toolbar Title-->

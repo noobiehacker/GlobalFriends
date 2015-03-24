@@ -151,7 +151,7 @@ public class LoginFragment extends MitooFragment {
     private boolean allInputsAreValid(){
 
         FormHelper formHelper = getFormHelper();
-        boolean validLoginID = formHelper.validEmail(getLoginID());
+        boolean validLoginID = formHelper.validIdentifier(getLoginID());
         return formHelper.validPassword(getPassword()) && validLoginID;
 
     }
@@ -159,8 +159,8 @@ public class LoginFragment extends MitooFragment {
     private void handleInvalidInputs() {
 
         if (!handledEmptyInput()) {
-            if (!getFormHelper().validEmail(getLoginID())) {
-                getFormHelper().handleInvalidEmail(getLoginID());
+            if (!getFormHelper().validIdentifier(getLoginID())) {
+                getFormHelper().handleInvalidIdentifier(getLoginID());
             } else if (!getFormHelper().validPassword(getPassword())) {
                 getFormHelper().handleInvalidPassword(getPassword());
             } else {

@@ -91,10 +91,10 @@ public class ConfirmDoneFragment extends MitooFragment {
 
     private String createPasswordText(){
 
-        String phoneNumber = getUserInfoModel().getUserInfoRecieve().phone;
+        String identifierUsed = getConfirmInfoModel().getConfirmInfo().getIdentifier_used();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.confirmation_page_text_six));
-        stringBuilder.append(phoneNumber);
+        stringBuilder.append(identifierUsed);
         stringBuilder.append(getString(R.string.confirmation_page_text_seven));
         return stringBuilder.toString();
 
