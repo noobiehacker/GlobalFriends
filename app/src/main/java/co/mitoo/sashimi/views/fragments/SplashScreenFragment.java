@@ -10,6 +10,7 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -102,14 +103,14 @@ public class SplashScreenFragment extends MitooFragment {
 
                     if(!isInviteFlow())
                         startRegularFlow();
+                    else
+                        startInviteFlow();
 
                 }
             }, MitooConstants.durationShort);
         }
 
     }
-
-
 
     public void startRegularFlow(){
 
@@ -123,7 +124,12 @@ public class SplashScreenFragment extends MitooFragment {
         }
     }
 
+    public void startInviteFlow() {
 
+        Invitation_token token = getInvitationToken();
+        getConfirmInfoModel().requestConfirmationInformation(token.getToken());
+
+    }
 
     public Invitation_token getInvitationToken() {
         return invitationToken;
@@ -181,5 +187,17 @@ public class SplashScreenFragment extends MitooFragment {
 
     private boolean isInviteFlow(){
         return getInvitationToken()!= null && getInvitationToken().getToken()!=null;
+    }
+
+    @Subscribe
+    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_confirm_account)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        BusProvider.post(event);
+
     }
 }

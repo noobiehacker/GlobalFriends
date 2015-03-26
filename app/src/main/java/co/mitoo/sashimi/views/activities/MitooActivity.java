@@ -17,7 +17,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.content.ActivityNotFoundException;
-import android.widget.Toast;
+
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
@@ -47,6 +47,9 @@ import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
+import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
+import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
+import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -66,23 +69,15 @@ public class MitooActivity extends ActionBarActivity {
     private int firstFragmentToStart = R.id.fragment_splash;
     private Branch branch;
     private AppStringHelper appStringHelper;
+    private boolean onSplashScreen= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        initializeFields();
         setContentView(R.layout.activity_mitoo);
+        initializeFields();
         startApp();
-        setUpPersistenceData();
-
-    }
-
-    public void displayText(String text) {
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.show();
 
     }
 
@@ -359,6 +354,7 @@ public class MitooActivity extends ActionBarActivity {
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
                         getFirstFragmentToStart(), MitooEnum.FragmentAnimation.NONE);
         BusProvider.post(event);
+        setUpPersistenceData();
 
     }
 
@@ -558,32 +554,12 @@ public class MitooActivity extends ActionBarActivity {
         this.firstFragmentToStart = firstFragmentToStart;
     }
 
-    private void setUpBranch() {
-
-        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener() {
-            @Override
-            public void onInitFinished(JSONObject referringParams, BranchError error) {
-
-                if (error == null) {
-
-                    Invitation_token token = getDataHelper().getInvitationToken(referringParams);
-                    token = new Invitation_token();
-                    token.setToken("Z_ryy7BchtV-s_MGEPPG");
-                    getModelManager().getSessionModel().setInvitation_token(token);
-                    BusProvider.post(new BranchIOResponseEvent(token));
-
-                }
-            }
-        };
-        getBranch().initSession(branchReferralInitListener, this.getIntent().getData(), this);
-
+    public boolean isOnSplashScreen() {
+        return onSplashScreen;
     }
 
-    @Subscribe
-    public void branchIODataReceived(BranchIOResponseEvent event){
-        if(event.getToken()!=null && event.getToken().getToken()!=null){
-            startInviteFlow(event.getToken().getToken());
-        }
+    public void setOnSplashScreen(boolean onSplashScreen) {
+        this.onSplashScreen = onSplashScreen;
     }
 
     private Branch getBranch() {
@@ -598,9 +574,59 @@ public class MitooActivity extends ActionBarActivity {
         return appStringHelper;
     }
 
-    public void startInviteFlow(String token){
+    private void setUpBranch() {
 
-        getModelManager().getConfirmInfoModel().requestConfirmationInformation(token);
+        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener() {
+            @Override
+            public void onInitFinished(JSONObject referringParams, BranchError error) {
+
+                if (error == null) {
+
+                    Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                    /*
+                    *
+                    Hard Coding Data for Testing
+                    token = new Invitation_token();
+                    token.setToken("Z_ryy7BchtV-s_MGEPPG");
+                    *
+                    */
+                    getModelManager().getSessionModel().setInvitation_token(token);
+                    if(isOnSplashScreen()){
+                        BusProvider.post(new BranchIOResponseEvent(getModelManager().getSessionModel().getInvitation_token()));
+                        setOnSplashScreen(false);
+                    }else{
+                        MitooActivity.this.branchIODataReceived();
+                    }
+
+                }
+            }
+        };
+        getBranch().initSession(branchReferralInitListener, this.getIntent().getData(), this);
+
+    }
+
+    private void branchIODataReceived(){
+
+        if(!userIsOnInviteFlow()) {
+            Invitation_token token = getModelManager().getSessionModel().getInvitation_token();
+            if (token != null && token.getToken() != null) {
+                getModelManager().getConfirmInfoModel().requestConfirmationInformation(token.getToken());
+            }
+        }
+    }
+
+    private boolean userIsOnInviteFlow(){
+
+        boolean result = false ;
+        MitooFragment fragment = (MitooFragment) getFragmentStack().peek();
+        if(fragment !=null ){
+            if(fragment instanceof ConfirmAccountFragment ||
+               fragment instanceof ConfirmSetPasswordFragment ||
+               fragment instanceof ConfirmDoneFragment)
+                result = true;
+        }
+        return result;
+
     }
 
     @Subscribe

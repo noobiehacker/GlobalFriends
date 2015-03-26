@@ -675,6 +675,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     public void resetFields() {
-    };
+    }
 
 }
