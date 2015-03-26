@@ -34,6 +34,7 @@ import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FormHelper;
@@ -167,39 +168,40 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 handleHttpErrors(retrofitError.getResponse().getStatus());
             }
         } else {
-            displayText(error.getErrorMessage());
+            displayTextWithToast(error.getErrorMessage());
         }
 
     }
 
     protected void handleNetworkError() {
 
-        displayText(getString(R.string.error_no_internet));
+        displayTextWithToast(getString(R.string.error_no_internet));
+
     }
 
     protected void handleHttpErrors(int statusCode) {
         switch (statusCode) {
             case 401:
-                displayText(getString(R.string.error_401_incorrect_cred));
+                displayTextWithToast(getString(R.string.error_401_incorrect_cred));
                 break;
             case 404:
-                displayText(getString(R.string.error_404));
+                displayTextWithToast(getString(R.string.error_404));
                 break;
             case 409:
-                displayText(getString(R.string.error_409));
+                displayTextWithToast(getString(R.string.error_409));
                 break;
             case 422:
-                displayText(getString(R.string.error_422));
+                displayTextWithToast(getString(R.string.error_422));
                 break;
             case 500:
-                displayText(getString(R.string.error_500));
+                displayTextWithToast(getString(R.string.error_500));
             default:
         }
     }
 
     private void handleNetwork() {
         if (!getMitooActivity().NetWorkConnectionIsOn())
-            displayText(getString(R.string.error_no_internet));
+            displayTextWithToast(getString(R.string.error_no_internet));
 
     }
 
@@ -237,7 +239,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    public void displayText(String text) {
+    public void displayTextWithToast(String text) {
 
         removeToast();
         View toastLayout = createToastView();
@@ -247,6 +249,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         toast.setView(toastLayout);
         toast.show();
         currentToast = toast;
+    }
+
+    public void displayTextWithDialog(String title, String message , DialogInterface.OnClickListener listenner){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title)
+               .setMessage(message)
+               .setPositiveButton(getString(R.string.prompt_ok),listenner)
+               .setCancelable(false);
+
+        builder.create().show();
     }
 
     private View createToastView() {
@@ -353,11 +366,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         setToolbar((Toolbar) view.findViewById(R.id.app_bar));
         if (getToolbar() != null) {
 
-            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
             getToolbar().setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
             getToolbar().setTitleTextColor(getResources().getColor(R.color.white));
-            setUpBackButtonClickListner();
+            if(backPressedAllowed()) {
 
+                getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+                setUpBackButtonClickListner();
+
+            }
         }
         return toolbar;
 
@@ -376,7 +392,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager();
     }
 
-    public boolean isAllowBackPressed() {
+    public boolean backPressedAllowed() {
         return allowBackPressed;
     }
 
@@ -410,7 +426,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
 
     }
-
 
     private void displayProgressDialog() {
 
@@ -644,7 +659,22 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         postFragmentChangeEvent(fragmentChangeEvent);
     }
 
+    protected void startRegularFlow(){
+
+        SessionRecieve session = getSessionModel().getSession();
+        if (session != null) {
+            getMitooActivity().updateAuthToken(session);
+            routeToHome();
+        }
+        else{
+            routeToLanding();
+        }
+    }
+
     protected void requestData() {
     }
+
+    public void resetFields() {
+    };
 
 }

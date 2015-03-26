@@ -149,6 +149,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
     public void updateSession(SessionRecieve session){
         setSession(session);
         updateToken();
+        saveData();
     }
 }
 

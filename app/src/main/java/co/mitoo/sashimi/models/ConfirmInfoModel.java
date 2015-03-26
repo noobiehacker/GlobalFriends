@@ -41,7 +41,7 @@ public class ConfirmInfoModel extends MitooModel{
     }
 
     @Override
-    protected void resetFields() {
+    public void resetFields() {
         setConfirmInfo(null);
     }
 
@@ -74,4 +74,5 @@ public class ConfirmInfoModel extends MitooModel{
         League league = getConfirmInfo().getLeague();
         getActivity().getDataHelper().addLeagueObjToCompetition(competitions, league);
     }
+
 }

@@ -69,4 +69,8 @@ public class UserInfoModel extends MitooModel{
 
     }
 
+    public void resetFields(){
+        setUserInfoRecieve(null);
+    }
+
 }

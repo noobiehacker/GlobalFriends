@@ -130,6 +130,9 @@
     <dimen name="confirmation_second_page_top_padding">16dp</dimen>
     <dimen name="confirmation_second_page_middle_padding">11.5dp</dimen>
 
+    <dimen name="confirmation_third_page_top_padding">14dp</dimen>
+    <dimen name="confirmation_third_page_second_padding">5dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>

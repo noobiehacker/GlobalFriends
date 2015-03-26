@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.views.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.*;
@@ -30,7 +31,6 @@ public class SplashScreenFragment extends MitooFragment {
 
     @Override
     public void onClick(View v) {
-
     }
 
     public static SplashScreenFragment newInstance() {
@@ -65,7 +65,7 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onBranchIOResponse(BranchIOResponseEvent event){
 
-        setInvitationToken(event.getToken());
+        setInvitationToken(getSessionModel().getInvitation_token());
         setBranchResponseRecieved(true);
         loadFirstFragment();
 
@@ -100,9 +100,7 @@ public class SplashScreenFragment extends MitooFragment {
             h.postDelayed(new Runnable() {
                 public void run() {
 
-                    if(getInvitationToken().getToken()!=null)
-                        startInviteFlow();
-                    else
+                    if(!isInviteFlow())
                         startRegularFlow();
 
                 }
@@ -111,38 +109,21 @@ public class SplashScreenFragment extends MitooFragment {
 
     }
 
-    public void startInviteFlow(){
 
-        getConfirmInfoModel().requestConfirmationInformation(getInvitationToken().getToken());
-    }
 
     public void startRegularFlow(){
 
         SessionRecieve session = getSessionModel().getSession();
         if (session != null) {
             getMitooActivity().updateAuthToken(session);
-
             routeToHome();
-
         }
         else{
-
             routeToLanding();
-
         }
     }
 
-    @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
 
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
-                .setFragmentID(R.id.fragment_confirm_account)
-                .setTransition(MitooEnum.FragmentTransition.CHANGE)
-                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                .build();
-        postFragmentChangeEvent(event);
-
-    }
 
     public Invitation_token getInvitationToken() {
         return invitationToken;
@@ -154,14 +135,51 @@ public class SplashScreenFragment extends MitooFragment {
 
     @Override
     protected void handleHttpErrors(int statusCode) {
-        if (statusCode == 401 || statusCode==409){
-            if(statusCode==401)
-                displayText(getString(R.string.error_401_already_confirmed));
-            else if(statusCode == 409)
-                displayText(getString(R.string.error_409_token_invalid));
-            routeToLanding();
-        }
-        else
+
+        if (statusCode == 401 || statusCode == 409) {
+            if (statusCode == 401)
+                handle401Error();
+            else if (statusCode == 409)
+                handle409Error();
+        } else
             super.handleHttpErrors(statusCode);
+    }
+
+    private void handle401Error(){
+
+        displayTextWithDialog(getString(R.string.prompt_confirm_401_title),
+                getString(R.string.prompt_confirm_401_Message),
+                createRegularFlowDialogListner());
+
+    }
+
+    private void handle409Error(){
+
+        displayTextWithDialog(getString(R.string.prompt_confirm_409_title),
+                getString(R.string.prompt_confirm_409_Message),
+                createRegularFlowDialogListner());
+
+    }
+
+    @Override
+    protected void handleNetworkError() {
+
+        displayTextWithToast(getString(R.string.error_no_internet));
+        startRegularFlow();
+
+    }
+
+    private DialogInterface.OnClickListener createRegularFlowDialogListner(){
+
+        return new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                startRegularFlow();
+            }
+        };
+
+    }
+
+    private boolean isInviteFlow(){
+        return getInvitationToken()!= null && getInvitationToken().getToken()!=null;
     }
 }

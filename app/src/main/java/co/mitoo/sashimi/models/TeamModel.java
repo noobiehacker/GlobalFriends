@@ -45,7 +45,7 @@ public class TeamModel extends MitooModel {
     }
 
     @Override
-    protected void resetFields() {
+    public void resetFields() {
         clearLeaguesEnquired();
     }
 
@@ -76,4 +76,6 @@ public class TeamModel extends MitooModel {
         }
         return result;
     }
+
+
 }

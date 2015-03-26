@@ -17,7 +17,6 @@ import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -51,7 +50,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         }
         catch(Exception e){
-            displayText("FAILED ON SearchResultsFragment onCreate" +
+            displayTextWithToast("FAILED ON SearchResultsFragment onCreate" +
                     e.getStackTrace().toString() +
                     e.getMessage() +
                     e.getCause().toString() +

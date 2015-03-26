@@ -271,7 +271,11 @@ public class ModelManager {
     private void removeModelReferences(){
         DataHelper dataHelper = new DataHelper(getMitooActivity());
         getLeagueModel().resetFields();
-        //Refractor to remove model references
+        getUserInfoModel().resetFields();
+        getCompetitionModel().resetFields();
+        getConfirmInfoModel().resetFields();
+        getTeamModel().resetFields();
+        getFixtureModel().resetFields();
         System.gc();
     }
 }

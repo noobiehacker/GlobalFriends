@@ -38,11 +38,13 @@ import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.AppStringHelper;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
@@ -70,8 +72,8 @@ public class MitooActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
         initializeFields();
-        startApp();
         setContentView(R.layout.activity_mitoo);
+        startApp();
         setUpPersistenceData();
 
     }
@@ -126,6 +128,13 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setUpBranch();
+
+    }
+
+    @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
@@ -136,7 +145,6 @@ public class MitooActivity extends ActionBarActivity {
         setUpNewRelic();
         setUpInitialCalligraphy();
         setLocationManager(new MitooLocationManager(this));
-        setUpBranch();
         BusProvider.register(this);
 
     }
@@ -283,7 +291,7 @@ public class MitooActivity extends ActionBarActivity {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
             this.moveTaskToBack(true);
         } else {
-            if (getFragmentStack().peek().isAllowBackPressed()) {
+            if (getFragmentStack().peek().backPressedAllowed()) {
                 hideSoftKeyboard();
                 MitooFragment fragmentToDesplay = getSecondTopFragment();
                 if (fragmentToDesplay != null && fragmentToDesplay.popActionRequiresDelay())
@@ -559,6 +567,8 @@ public class MitooActivity extends ActionBarActivity {
                 if (error == null) {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+                    token = new Invitation_token();
+                    token.setToken("Z_ryy7BchtV-s_MGEPPG");
                     getModelManager().getSessionModel().setInvitation_token(token);
                     BusProvider.post(new BranchIOResponseEvent(token));
 
@@ -567,6 +577,13 @@ public class MitooActivity extends ActionBarActivity {
         };
         getBranch().initSession(branchReferralInitListener, this.getIntent().getData(), this);
 
+    }
+
+    @Subscribe
+    public void branchIODataReceived(BranchIOResponseEvent event){
+        if(event.getToken()!=null && event.getToken().getToken()!=null){
+            startInviteFlow(event.getToken().getToken());
+        }
     }
 
     private Branch getBranch() {
@@ -579,6 +596,23 @@ public class MitooActivity extends ActionBarActivity {
         if(appStringHelper==null)
             appStringHelper = new AppStringHelper(this);
         return appStringHelper;
+    }
+
+    public void startInviteFlow(String token){
+
+        getModelManager().getConfirmInfoModel().requestConfirmationInformation(token);
+    }
+
+    @Subscribe
+    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_confirm_account)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        BusProvider.post(event);
+
     }
 
 }

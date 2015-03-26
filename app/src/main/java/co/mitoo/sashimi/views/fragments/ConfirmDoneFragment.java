@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -53,6 +54,8 @@ public class ConfirmDoneFragment extends MitooFragment {
         Competition competition = getCompetitionModel().getSelectedCompetition();
         getViewHelper().setUpConfirmDoneView(view, competition);
         setUpPasswordAdviceText(view);
+        setUpButtonColor(view);
+
     }
 
     @Override
@@ -106,6 +109,13 @@ public class ConfirmDoneFragment extends MitooFragment {
         stringBuilder.append(getString(R.string.confirmation_page_text_seven));
         return stringBuilder.toString();
 
+    }
+
+    private void setUpButtonColor(View view){
+        Button button = (Button) view.findViewById(R.id.viewMyLeaguesButton);
+        Competition selectedCompetition = getCompetitionModel().getSelectedCompetition();
+        String leagueColor = selectedCompetition.getLeague().getColor_1();
+        getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
     }
 
 }

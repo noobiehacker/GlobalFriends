@@ -55,6 +55,7 @@ public class CompetitionModel extends MitooModel{
 
     public void resetFields(){
         this.myCompetition = null;
+        this.selectedCompetition= null;
     }
 
     public List<Competition> getMyCompetition() {

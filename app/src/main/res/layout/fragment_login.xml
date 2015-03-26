@@ -67,7 +67,7 @@
                 android:id="@+id/emailInput"
                 style="@style/whiteEditText"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/gray_button_height"
+                android:layout_height="@dimen/general_button_height"
                 android:layout_centerHorizontal="true"
                 android:inputType="textEmailAddress"
                 android:hint="@string/login_page_text3" />
@@ -76,7 +76,7 @@
                 android:id="@+id/loginPasswordInput"
                 layout="@layout/view_password_edit_text"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/gray_button_height"
+                android:layout_height="@dimen/general_button_height"
                 android:layout_below="@+id/emailInput"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/spacing_smaller" />
@@ -86,7 +86,7 @@
                 android:id="@+id/loginButton"
                 style="@style/darkGrayButton"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/gray_button_height"
+                android:layout_height="@dimen/general_button_height"
                 android:layout_below="@+id/loginPasswordInput"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/spacing_smaller"

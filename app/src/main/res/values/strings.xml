@@ -132,8 +132,8 @@
     <string name="error_user_not_confirmed">Please confirm your email/phone before logging in</string>
     <string name="error_bad_email_prefix">No account exists for\n</string>
     <string name="error_bad_email_suffix">.\nPlease check it and try again.</string>
-    <string name="error_401_already_confirmed">Already confirmed</string>
-    <string name="error_409_token_invalid">Token invalid, contact Mitoo if you like</string>
+    <string name="error_409_already_confirmed">Already confirmed</string>
+    <string name="error_401_token_invalid">Token invalid, contact Mitoo if you like</string>
 
     <!--App -->
     <string name="empty"></string>
@@ -189,8 +189,13 @@
     <!-- Prompts -->
     <string name="prompt_location_services_title">Location Services</string>
     <string name="prompt_location_services_message">Please turn on location services</string>
+    <string name="prompt_confirm_401_title">Already Confirmed</string>
+    <string name="prompt_confirm_401_Message">Your account has been confirmed.</string>
+    <string name="prompt_confirm_409_title">Link Expired</string>
+    <string name="prompt_confirm_409_Message">Sorry, this link has expired.</string>
     <string name="prompt_yes">Yes</string>
     <string name="prompt_no">No</string>
+    <string name="prompt_ok">OK</string>
 
     <string-array name="prompt_feed_back_array">
         <item>Happy</item>
@@ -263,7 +268,7 @@
 
     <string name="confirmation_page_text_one">, join your team</string>
     <string name="confirmation_page_text_two">See your schedule and get real-time updates on your phone</string>
-    <string name="confirmation_page_text_three">Set a password for </string>
+    <string name="confirmation_page_text_three">"Set a password for "</string>
     <string name="confirmation_page_text_four">Great! You\'re in</string>
     <string name="confirmation_page_text_five">Password</string>
 

@@ -63,7 +63,7 @@ public class FixtureModel extends MitooModel{
     }
 
     @Override
-    protected void resetFields() {
+    public void resetFields() {
         clearFixtures();
     }
 
@@ -96,6 +96,7 @@ public class FixtureModel extends MitooModel{
     private boolean fixtureIsEmpty(){
         return getSchedule().size()==0 && getResult().size() == 0;
     }
+
 
 
 }

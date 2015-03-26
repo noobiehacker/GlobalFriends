@@ -171,7 +171,7 @@ public class LoginFragment extends MitooFragment {
             } else if (!getFormHelper().validPassword(getPassword())) {
                 getFormHelper().handleInvalidPassword(getPassword());
             } else {
-                displayText(getString(R.string.toast_invalid_input));
+                displayTextWithToast(getString(R.string.toast_invalid_input));
             }
         }
 
@@ -181,9 +181,9 @@ public class LoginFragment extends MitooFragment {
 
         boolean result = true;
         if (getLoginID().equals("")) {
-            this.displayText(getString(R.string.toast_email_required));
+            this.displayTextWithToast(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_required));
+            this.displayTextWithToast(getString(R.string.toast_password_required));
         } else {
             result =false;
         }
@@ -203,7 +203,7 @@ public class LoginFragment extends MitooFragment {
             }
             else {
                 String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
-                displayText(errorMessage);
+                displayTextWithToast(errorMessage);
             }
         }*/
     }
@@ -237,9 +237,9 @@ public class LoginFragment extends MitooFragment {
     @Override
     protected void handleHttpErrors(int statusCode) {
         if (statusCode == 401)
-            displayText(getString(R.string.error_incorrect_email_password_combo));
+            displayTextWithToast(getString(R.string.error_incorrect_email_password_combo));
         else if(statusCode == 494)
-            displayText(getString(R.string.error_user_not_confirmed));
+            displayTextWithToast(getString(R.string.error_user_not_confirmed));
         else
             super.handleHttpErrors(statusCode);
     }

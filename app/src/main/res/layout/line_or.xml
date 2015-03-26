@@ -3,7 +3,7 @@
     android:id="@+id/or_line"
     android:layout_centerInParent="true"
     android:layout_width="@dimen/gray_button_width"
-    android:layout_height="@dimen/gray_button_height"
+    android:layout_height="@dimen/general_button_height"
     android:orientation="horizontal">
 
     <View

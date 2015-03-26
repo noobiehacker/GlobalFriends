@@ -200,7 +200,7 @@ public class FormHelper {
     }
     private void displayText(String text){
         
-        getFragment().displayText(text);
+        getFragment().displayTextWithToast(text);
     }
 
     private String reduceToNumeric(String input){

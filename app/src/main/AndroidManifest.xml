@@ -16,13 +16,24 @@
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
         <!-- Put in for release -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+
+            <!-- Add this intent filter below, and change yourapp to your app name -->
+            <intent-filter>
+                <data android:scheme="mitoo" android:host="open" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+
+
         </activity>
         <uses-library android:name="android.test.runner"/>
         <meta-data android:name="com.google.android.gms.version"
@@ -44,9 +55,11 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/>-->
 
-        <!--Branch IO API KEY -->
+        <!--Branch IO STAGING API KEY -->
 
         <meta-data android:name="io.branch.sdk.ApplicationId" android:value="@string/API_key_branch_staging_key" />
+
+
 
         <!--
 
@@ -54,12 +67,7 @@
 
         <meta-data android:name="io.branch.sdk.ApplicationId" android:value="@string/API_key_branch_prod_key" />
 
-        Branch IO STAGING API KEY
-
-        <meta-data android:name="io.branch.sdk.ApplicationId" android:value="@string/API_key_branch_staging_key" />
-
         -->
-
 
     </application>
 

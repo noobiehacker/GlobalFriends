@@ -41,7 +41,7 @@
     <Button
         android:id="@+id/viewMyLeaguesButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gray_button_height"
+        android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/joinResultText"
         android:layout_centerHorizontal="true"
         android:text="@string/join_page_button_3_text"

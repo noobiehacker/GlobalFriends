@@ -88,7 +88,7 @@ public class ResetPasswordFragment extends MitooFragment{
         
         if(statusCode == 404 ){
             String errorMessage = getDataHelper().getResetPageBadEmailMessage(getEmail());
-            displayText(errorMessage);
+            displayTextWithToast(errorMessage);
         }else{
             super.handleHttpErrors(statusCode);
         }
@@ -98,7 +98,7 @@ public class ResetPasswordFragment extends MitooFragment{
     private void resetButtonAction(){
 
         if(getEmail().equals("")){
-            displayText(getString(R.string.toast_email_required));
+            displayTextWithToast(getString(R.string.toast_email_required));
         }
         else if(!getFormHelper().validEmail(getEmail())){
             getFormHelper().handleInvalidEmail(getEmail());

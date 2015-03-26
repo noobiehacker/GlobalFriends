@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -55,6 +56,7 @@ public class ConfirmAccountFragment extends MitooFragment {
         getViewHelper().setUpConfirmAccountView(view, competition);
         setUpConfirmLeagueText(view);
         setUpGreetingText(view);
+        setUpButtonColor(view);
     }
 
 
@@ -79,6 +81,7 @@ public class ConfirmAccountFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setAllowBackPressed(false);
         setFragmentTitle(getString(R.string.tool_bar_confirm_your_account));
 
     }
@@ -110,6 +113,13 @@ public class ConfirmAccountFragment extends MitooFragment {
     private String createGreetingText(){
         String userName = getUserInfoModel().getUserInfoRecieve().name;
         return userName + getString(R.string.confirmation_page_text_one);
+    }
+
+    private void setUpButtonColor(View view){
+        Button button = (Button) view.findViewById(R.id.confirmJoinButton);
+        Competition selectedCompetition = getCompetitionModel().getSelectedCompetition();
+        String leagueColor = selectedCompetition.getLeague().getColor_1();
+        getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
     }
 
 }

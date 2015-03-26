@@ -206,7 +206,7 @@ public class SignUpFragment extends MitooFragment {
                 getFormHelper().handleInvalidPhone(getPhone());
                 
             } else {
-                displayText(getString(R.string.toast_invalid_input));
+                displayTextWithToast(getString(R.string.toast_invalid_input));
             }
         }
     }
@@ -215,13 +215,13 @@ public class SignUpFragment extends MitooFragment {
 
         boolean result = true;
         if (getUsername().equals("")) {
-            this.displayText(getString(R.string.toast_name_required));
+            this.displayTextWithToast(getString(R.string.toast_name_required));
         } else if (getEmail().equals("")) {
-            this.displayText(getString(R.string.toast_email_required));
+            this.displayTextWithToast(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_required));
+            this.displayTextWithToast(getString(R.string.toast_password_required));
         } else if (getPhone().equals("")) {
-            this.displayText(getString(R.string.toast_phone_required));
+            this.displayTextWithToast(getString(R.string.toast_phone_required));
         } else {
             result =false;
         }
