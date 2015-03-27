@@ -1,3 +1,9 @@
+repositories {
+    flatDir {
+        dirs 'aars'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'android'
 apply plugin: 'robolectric'
@@ -115,9 +121,9 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
     //Facebook
     //*****Others*****//
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v4:21.+'
     compile 'com.android.support:appcompat-v7:21.+'
-    compile 'com.google.android.gms:play-services:6.1.+'
+    compile 'com.google.android.gms:play-services:7.0.0'
     //New relic
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
     compile files('libs/algoliasearch-client-android-1.5.9.jar')
@@ -135,6 +141,13 @@ dependencies {
     //branch - deep linking
 
     //compile 'com.jakewharton:butterknife:6.0.0'
+    //Urban Airship
+    compile 'com.urbanairship:urbanairship-lib:+@aar'
+    compile ('com.urbanairship:java-client:0.3.1'){
+        exclude module : 'jersey'
+        exclude module : 'jersey-core'
+    }
+
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')
@@ -174,7 +187,6 @@ dependencies {
         exclude module: 'hamcrest-core'
     }
 }
-
 
 apply plugin: 'idea'
 
