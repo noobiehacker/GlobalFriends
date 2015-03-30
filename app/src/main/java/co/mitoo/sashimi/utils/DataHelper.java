@@ -3,12 +3,9 @@ import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -25,7 +22,6 @@ import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.models.jsonPojo.Team;
-import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import se.walkercrou.places.Prediction;
 
@@ -213,7 +209,7 @@ public class DataHelper {
         return confirmFeedBackPopped;
     }
     
-    public String parseDate(String input) {
+    public String parseDateToDisplayFormat(String input) {
 
         String result = input;
         try {
@@ -433,7 +429,7 @@ public class DataHelper {
                     }
                     break;
                 case 1:
-                    tabType = MitooEnum.FixtureRowType.CANCEL;
+                    tabType = MitooEnum.FixtureRowType.CANCELED;
                     break;
                 case 2:
                     tabType = MitooEnum.FixtureRowType.VOID;

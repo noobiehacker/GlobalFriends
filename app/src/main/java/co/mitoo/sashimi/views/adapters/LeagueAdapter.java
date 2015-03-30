@@ -79,7 +79,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     private String getLeagueFormatedDate(String date){
         DataHelper helper= getFragment().getMitooActivity().getDataHelper();
-        return helper.parseDate(date);
+        return helper.parseDateToDisplayFormat(date);
     }
 
     private void setSelectedModelItem(League league){

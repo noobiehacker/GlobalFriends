@@ -54,9 +54,9 @@ public class LeagueModel extends MitooModel{
 
     private void setUpAlgolia(){
 
-        algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
-        setIndex(algoliaClient.initIndex(getActivity().getDataHelper().getAlgoliaIndex()));
-        aiListener = new AlgoliaIndexListener();
+        this.algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
+        setIndex(this.algoliaClient.initIndex(getActivity().getDataHelper().getAlgoliaIndex()));
+        this.aiListener = new AlgoliaIndexListener();
 
     }
 
@@ -179,9 +179,9 @@ public class LeagueModel extends MitooModel{
     }
 
     public List<League> getLeaguesEnquired() {
-        if(enquiredLeagues ==null)
-            enquiredLeagues = new ArrayList<League>();
-        return enquiredLeagues;
+        if(this.enquiredLeagues ==null)
+            this.enquiredLeagues = new ArrayList<League>();
+        return this.enquiredLeagues;
     }
 
     public void addLeagueEnquired(League[] newleaguesEnquired) {
@@ -281,8 +281,8 @@ public class LeagueModel extends MitooModel{
         return myleagues;
     }
 
-    public void setMyleagues(List<League> myleagues) {
-        this.myleagues = myleagues;
+    public void setMyleagues(List<League> myLeagues) {
+        this.myleagues = myLeagues;
     }
 
     public JSONObject getResults() {

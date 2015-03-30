@@ -41,7 +41,6 @@ import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
@@ -586,7 +585,7 @@ public class ViewHelper {
 
     }
 
-    private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fitxture, MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureRowType fixtureType){
 
         RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
         ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
@@ -608,7 +607,7 @@ public class ViewHelper {
                 alphaContainer.setAlpha(alphaValue);
                 stampView.setImageResource(R.drawable.postponed_stamp);
                 break;
-            case CANCEL:
+            case CANCELED:
                 alphaContainer.setAlpha(alphaValue);
                 stampView.setImageResource(R.drawable.cancelled_stamp);
                 break;
@@ -647,17 +646,17 @@ public class ViewHelper {
                 .into(imageView);
     }
 
-    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fitxture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
 
         TextView centerText = (TextView)row.findViewById(R.id.middleTextField);
         switch(fixtureType){
             case TIME:
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
-                centerText.setText(fitxture.getDisplayableTime());
+                centerText.setText(fixture.getDisplayableTime());
                 break;
             case SCORE:
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageScoreText);
-                centerText.setText(fitxture.getDisplayableScore());
+                centerText.setText(fixture.getDisplayableScore());
                 break;
             case TBC:
                 centerText.setText(getActivity().getString(R.string.fixture_page_tbc));
