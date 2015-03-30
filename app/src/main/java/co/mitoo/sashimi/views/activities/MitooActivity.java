@@ -136,7 +136,6 @@ public class MitooActivity extends ActionBarActivity {
 
     private void initializeFields() {
 
-        setModelManager(new ModelManager(this));
         setUpNewRelic();
         setUpInitialCalligraphy();
         setLocationManager(new MitooLocationManager(this));
@@ -319,11 +318,9 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     public ModelManager getModelManager() {
+        if(modelManager== null)
+            this.modelManager = new ModelManager(this);
         return modelManager;
-    }
-
-    public void setModelManager(ModelManager modelManager) {
-        this.modelManager = modelManager;
     }
 
     private void setUpPersistenceData() {

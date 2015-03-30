@@ -217,6 +217,7 @@ public class ModelManager {
         getUserInfoModel();
         getLeagueModel();
         getAppSettingsModel();
+        getLocationModel();
     }
 
     public void readAllPersistedData(){

@@ -12,6 +12,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
@@ -44,18 +45,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        try{
-            super.onCreate(savedInstanceState);
-            getMitooActivity().getModelManager().getLocationModel().GpsCurrentLocationRequest();
+        super.onCreate(savedInstanceState);
+        requestGPSLocation();
 
-        }
-        catch(Exception e){
-            displayTextWithToast("FAILED ON SearchResultsFragment onCreate" +
-                    e.getStackTrace().toString() +
-                    e.getMessage() +
-                    e.getCause().toString() +
-                    e.getLocalizedMessage());
-        }
     }
 
     @Override
@@ -366,6 +358,14 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         });
         getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
         
+    }
+
+    private void requestGPSLocation(){
+
+        if(getMitooActivity()!=null){
+            LocationModel locationModel = getMitooActivity().getModelManager().getLocationModel();
+            locationModel.GpsCurrentLocationRequest();
+        }
     }
 }
 

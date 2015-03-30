@@ -33,10 +33,17 @@ public class LocationModel extends MitooModel {
     private Place selectedPlace;
     private LatLng selectedLocationLatLng;
     private boolean currentLocationClicked = false;
-    
+    private ReactiveLocationProvider reactiveLocationProvider;
+
     public LocationModel(MitooActivity activity) {
         super(activity);
         client = new GooglePlaces(getActivity().getString(R.string.API_key_google_places));
+    }
+
+    public ReactiveLocationProvider getReactiveLocationProvider() {
+        if(this.reactiveLocationProvider==null)
+            this.reactiveLocationProvider = new ReactiveLocationProvider(getActivity());
+        return this.reactiveLocationProvider;
     }
 
     public void setLocation(Location location) {
@@ -44,7 +51,8 @@ public class LocationModel extends MitooModel {
     }
 
     public void GpsCurrentLocationRequest() {
-        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(this.activity);
+
+        ReactiveLocationProvider locationProvider = getReactiveLocationProvider();
         locationProvider.getLastKnownLocation()
                 .subscribe(new Subscriber<Location>() {
 
@@ -63,6 +71,7 @@ public class LocationModel extends MitooModel {
 
                     }
                 });
+
     }
 
     public void handleGpsResponse(GpsResponseEvent event) {
