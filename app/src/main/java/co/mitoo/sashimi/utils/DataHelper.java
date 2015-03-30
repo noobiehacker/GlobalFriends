@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -23,6 +25,7 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import rx.Subscriber;
 import se.walkercrou.places.Prediction;
 
 /**
@@ -179,28 +182,28 @@ public class DataHelper {
 
     public boolean isHighDenstiryScreen() {
         boolean result = false;
-        if(getMetrics().densityDpi > DisplayMetrics.DENSITY_HIGH)
-            result=true;
+        if (getMetrics().densityDpi > DisplayMetrics.DENSITY_HIGH)
+            result = true;
         return result;
     }
 
-    public String getRetinaURL(String url){
+    public String getRetinaURL(String url) {
         //only works if url is not null and it has one dot and more than three chracters
         String result = "";
-        if(url!=null){
+        if (url != null) {
 
-            int dotIndex=url.lastIndexOf('.');
-            if(dotIndex>=0 && url.length()>3){
-                result= url.substring(0 , dotIndex);
-                result= result + "@2x";
-                result= result + url.substring(dotIndex, url.length());
+            int dotIndex = url.lastIndexOf('.');
+            if (dotIndex >= 0 && url.length() > 3) {
+                result = url.substring(0, dotIndex);
+                result = result + "@2x";
+                result = result + url.substring(dotIndex, url.length());
             }
         }
 
         //HACK to make logo display for now since rails prefix the logo with local host
         //Take out for produciton
 
-        result =replaceLocalHostPrefix(result ,StaticString.steakLocalEndPoint );
+        result = replaceLocalHostPrefix(result, StaticString.steakLocalEndPoint);
 
         return result;
     }
@@ -251,43 +254,43 @@ public class DataHelper {
 
     }
 
-    public SimpleDateFormat getOldLongDateFormat(){
+    public SimpleDateFormat getOldLongDateFormat() {
 
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     }
 
-    public SimpleDateFormat getNewLongDateFormat(){
+    public SimpleDateFormat getNewLongDateFormat() {
 
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     }
 
-    public SimpleDateFormat getShortDateFormat(){
+    public SimpleDateFormat getShortDateFormat() {
         return new SimpleDateFormat("MMM dd, yyyy");
     }
 
-    public SimpleDateFormat getMediumDisplayableDateFormat(){
+    public SimpleDateFormat getMediumDisplayableDateFormat() {
         return new SimpleDateFormat("EEEE, dd MMM");
     }
 
-    public SimpleDateFormat getLongDisplayableDateFormat(){
+    public SimpleDateFormat getLongDisplayableDateFormat() {
         return new SimpleDateFormat("EEEE, dd MMMM yyyy");
     }
 
-    public SimpleDateFormat getDisplayableTimeFormat(){
+    public SimpleDateFormat getDisplayableTimeFormat() {
         return new SimpleDateFormat("h:mm a");
     }
 
 
-    public MitooEnum.TimeFrame getTimeFrame(Date date){
-        if(date.after(new Date()))
+    public MitooEnum.TimeFrame getTimeFrame(Date date) {
+        if (date.after(new Date()))
             return MitooEnum.TimeFrame.FUTURE;
         else
             return MitooEnum.TimeFrame.PAST;
     }
 
-    public boolean isSameDate(Date itemOne , Date itemTwo) {
+    public boolean isSameDate(Date itemOne, Date itemTwo) {
 
         if (itemOne == null || itemTwo == null)
             return false;
@@ -299,29 +302,29 @@ public class DataHelper {
         }
     }
 
-    public String getResetPageBadEmailMessage(String email){
+    public String getResetPageBadEmailMessage(String email) {
 
-        String prefix= getActivity().getString(R.string.error_bad_email_prefix);
-        String suffix= getActivity().getString(R.string.error_bad_email_suffix);
+        String prefix = getActivity().getString(R.string.error_bad_email_prefix);
+        String suffix = getActivity().getString(R.string.error_bad_email_suffix);
         return prefix + " " + email + " " + suffix;
 
     }
 
-    public String removeSpaceAtEnd(String input){
+    public String removeSpaceAtEnd(String input) {
 
         String result = input;
-        Boolean validInput = input!=null && input.length()>0;
+        Boolean validInput = input != null && input.length() > 0;
 
-        if(validInput  && input.charAt(input.length()-1) == 8203 ){
+        if (validInput && input.charAt(input.length() - 1) == 8203) {
 
-            result = input.substring(0 , input.length()-1);
+            result = input.substring(0, input.length() - 1);
 
         }
 
         return result;
     }
 
-    public String createSignUpInfo(String leagueName){
+    public String createSignUpInfo(String leagueName) {
 
         String joinPagePrefix = getActivity().getString(R.string.join_page_info_prefix);
         String joinPageSuffix = getActivity().getString(R.string.join_page_info_suffix);
@@ -350,11 +353,11 @@ public class DataHelper {
 
     }
 
-    public String getAlgoliaIndex(){
+    public String getAlgoliaIndex() {
 
         String result = "";
 
-        switch(MitooConstants.appEnvironment){
+        switch (MitooConstants.appEnvironment) {
             case PRODUCTION:
                 result = getActivity().getString(R.string.algolia_production_index);
                 break;
@@ -367,11 +370,11 @@ public class DataHelper {
 
     }
 
-    public String getNewRelicKey(){
+    public String getNewRelicKey() {
 
         String result = "";
 
-        switch(MitooConstants.appEnvironment){
+        switch (MitooConstants.appEnvironment) {
             case PRODUCTION:
                 result = getActivity().getString(R.string.API_key_new_relic_production);
                 break;
@@ -386,7 +389,7 @@ public class DataHelper {
         return result;
     }
 
-    public float getFloatValue(int floatID){
+    public float getFloatValue(int floatID) {
         TypedValue outValue = new TypedValue();
         getActivity().getResources().getValue(floatID, outValue, true);
         return outValue.getFloat();
@@ -407,11 +410,10 @@ public class DataHelper {
     }
 
 
+    public String getNotificationText(MitooEnum.NotificationType notificationType) {
 
-    public String getNotificationText(MitooEnum.NotificationType notificationType){
-
-        String result="";
-        switch(notificationType){
+        String result = "";
+        switch (notificationType) {
 
             case NextGame:
                 result = getActivity().getString(R.string.notification_page_list_item_next_game);
@@ -429,37 +431,39 @@ public class DataHelper {
         return result;
     }
 
-    public Team getTeam(int teamID){
+    public Team getTeam(int teamID) {
         return getActivity().getModelManager().getTeamModel().getTeam(teamID);
     }
 
-    public Invitation_token getInvitationToken(JSONObject referringParams){
+    public Invitation_token getInvitationToken(JSONObject referringParams) {
 
         Invitation_token result = null;
-        try{
+        try {
             /*JsonNode node = getObjectMapper().valueToTree(referringParams);
             result = getObjectMapper().readValue(new TreeTraversingParser(node) ,Invitation_token.class);*/
             result = getObjectMapper().readValue(referringParams.toString(), Invitation_token.class);
-        }catch(Exception e){
+        } catch (Exception e) {
         }
         return result;
 
     }
 
     //NOT TESTED, not gonna work
-    public List<League> getListOfLeauges(JSONObject leagueListJson){
+    public List<League> getListOfLeauges(JSONObject leagueListJson) {
 
         List<League> result = null;
-        try{
+        try {
             JSONArray hits = leagueListJson.getJSONArray(getActivity().getString(R.string.algolia_result_param));
             JsonNode node = getObjectMapper().valueToTree(hits);
-            result = getObjectMapper().readValue(new TreeTraversingParser(node) ,new TypeReference<List<League>>(){});
-        }catch(Exception e){
+            result = getObjectMapper().readValue(new TreeTraversingParser(node), new TypeReference<List<League>>() {
+            });
+        } catch (Exception e) {
 
         }
         return result;
     }
-    private String replaceLocalHostPrefix(String url , String newPrefix) {
+
+    private String replaceLocalHostPrefix(String url, String newPrefix) {
 
         String result = url;
         int index = url.lastIndexOf("3000");
@@ -469,18 +473,18 @@ public class DataHelper {
     }
 
     public ObjectMapper getObjectMapper() {
-        if(objectMapper == null)
+        if (objectMapper == null)
             objectMapper = new ObjectMapper();
         return objectMapper;
     }
 
-    public void addLeagueObjToCompetition(Competition[] competitions , League league){
-        for(Competition comp : competitions){
+    public void addLeagueObjToCompetition(Competition[] competitions, League league) {
+        for (Competition comp : competitions) {
             comp.setLeague(league);
         }
     }
 
-    public MitooEnum.FixtureStatus getFixtureStatus(FixtureWrapper fixtureWrapper){
+    public MitooEnum.FixtureStatus getFixtureStatus(FixtureWrapper fixtureWrapper) {
 
         /*Notes from BE
 
@@ -496,33 +500,58 @@ public class DataHelper {
          */
 
         MitooEnum.FixtureStatus tabType;
-            switch(fixtureWrapper.getFixture().getStatus()){
-                case 0:
-                    tabType = MitooEnum.FixtureStatus.SCORE;
-                    break;
-                case 1:
-                    tabType = MitooEnum.FixtureStatus.CANCELED;
-                    break;
-                case 2:
-                    tabType = MitooEnum.FixtureStatus.VOID;
-                    break;
-                case 3:
-                    tabType = MitooEnum.FixtureStatus.POSTPONED;
-                    break;
-                case 4:
-                    tabType = MitooEnum.FixtureStatus.RESCHEDULED;
-                    break;
-                case 5:
-                    tabType = MitooEnum.FixtureStatus.ABANDONED;
-                    break;
-                case 6:
-                    tabType = MitooEnum.FixtureStatus.VOID;
-                    break;
-                default:
-                    tabType = MitooEnum.FixtureStatus.VOID;
-                    break;
+        switch (fixtureWrapper.getFixture().getStatus()) {
+            case 0:
+                tabType = MitooEnum.FixtureStatus.SCORE;
+                break;
+            case 1:
+                tabType = MitooEnum.FixtureStatus.CANCELED;
+                break;
+            case 2:
+                tabType = MitooEnum.FixtureStatus.VOID;
+                break;
+            case 3:
+                tabType = MitooEnum.FixtureStatus.POSTPONED;
+                break;
+            case 4:
+                tabType = MitooEnum.FixtureStatus.RESCHEDULED;
+                break;
+            case 5:
+                tabType = MitooEnum.FixtureStatus.ABANDONED;
+                break;
+            case 6:
+                tabType = MitooEnum.FixtureStatus.VOID;
+                break;
+            default:
+                tabType = MitooEnum.FixtureStatus.VOID;
+                break;
 
-            }
+        }
         return tabType;
     }
+
+    public <T> String serializeObject(T input, Class<T> classType) {
+
+        String serializedValue = "";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            serializedValue = objectMapper.writeValueAsString(input);
+        } catch (Exception e) {
+        }
+        return serializedValue;
+    }
+
+    public <T> T deserializeObject(String input, Class<T> classType) {
+        T deserializedObject = null;
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            deserializedObject = objectMapper.readValue(input, classType);
+        } catch (Exception e) {
+
+        }
+        return deserializedObject;
+    }
+
+
 }

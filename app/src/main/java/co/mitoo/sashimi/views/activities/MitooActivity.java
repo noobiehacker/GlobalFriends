@@ -51,6 +51,8 @@ import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
+import co.mitoo.sashimi.utils.events.NotificationEvent;
+import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -543,6 +545,11 @@ public class MitooActivity extends ActionBarActivity {
         if(locationManager== null)
             locationManager = new MitooLocationManager(this);
         this.locationManager = locationManager;
+    }
+
+    @Subscribe
+    public void onNotificationRecieve(NotificationEvent event){
+
     }
 
     public int getFirstFragmentToStart() {

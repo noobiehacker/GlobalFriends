@@ -72,7 +72,7 @@
         </activity>
 
         <activity android:name="com.urbanairship.CoreActivity"/>
-        <receiver android:name="co.mitoo.sashimi.IntentReceiver"
+        <receiver android:name=".utils.MitooNotificationIntentReceiver"
             android:exported="false">
 
             <intent-filter>

@@ -9,6 +9,7 @@ import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
+import co.mitoo.sashimi.models.MobileTokenModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
@@ -137,18 +138,30 @@ public class ModelManager {
             classModel = (T) model;
         } else {
 
-            try{
+            try {
                 model = classType.getConstructor(MitooActivity.class)
                         .newInstance(getMitooActivity());
-            }
-            catch(Exception e){
+            } catch (Exception e) {
 
                 String tremp = e.toString();
 
             }
-            addModel((MitooModel)model );
+            addModel((MitooModel) model);
         }
-        return (MitooModel)model;
+        return (MitooModel) model;
+    }
+
+    public MobileTokenModel getMobileTokenModel() {
+
+        MobileTokenModel mobileTokenModel = null;
+        MitooModel model = getModel(MobileTokenModel.class);
+        if (model != null) {
+            mobileTokenModel  = (MobileTokenModel) model;
+        } else {
+            mobileTokenModel  = new MobileTokenModel(getMitooActivity());
+            addModel(mobileTokenModel );
+        }
+        return mobileTokenModel;
     }
 
     public List<IsPersistable> getPersistableList() {

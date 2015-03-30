@@ -31,6 +31,8 @@ import co.mitoo.sashimi.models.ConfirmInfoModel;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.models.MitooModel;
+import co.mitoo.sashimi.models.MobileTokenModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
@@ -400,6 +402,23 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.allowBackPressed = allowBackPressed;
     }
 
+    protected MitooModel getMitooModel(Class<?> classType) {
+
+        if (classType == UserInfoModel.class)
+            return getMitooActivity().getModelManager().getUserInfoModel();
+        else if (classType == LeagueModel.class)
+            return getMitooActivity().getModelManager().getLeagueModel();
+        else if (classType == SessionModel.class)
+            return getMitooActivity().getModelManager().getSessionModel();
+        else if (classType == LocationModel.class)
+            return getMitooActivity().getModelManager().getLocationModel();
+        else if (classType == AppSettingsModel.class)
+            return getMitooActivity().getModelManager().getAppSettingsModel();
+        else if (classType == MobileTokenModel.class)
+            return getMitooActivity().getModelManager().getMobileTokenModel();
+        else
+            return null;
+    }
 
     public boolean isLoading() {
         return loading;
