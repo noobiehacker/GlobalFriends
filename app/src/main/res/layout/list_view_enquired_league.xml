@@ -21,7 +21,6 @@
         android:layout_marginRight="@dimen/enquired_list_icon_right_padding"
         android:layout_alignParentLeft="true"
         android:orientation="vertical"
-        android:background="@drawable/rounded"
         android:visibility="invisible">
 
         <ImageView
@@ -30,7 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:padding="@dimen/image_container_border"
             android:adjustViewBounds="true"
             android:focusable="false"
             android:scaleType="fitCenter"
@@ -49,7 +47,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/leagueTitleText"
+            android:id="@+id/topText"
             style="@style/enquiredLeagueTitleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,11 +58,11 @@
             android:text="@string/place_holder_sport" />
 
         <TextView
-            android:id="@+id/leagueDateText"
+            android:id="@+id/bottomText"
             style="@style/enquiredLeagueDateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/leagueTitleText"
+            android:layout_below="@id/topText"
             android:text="@string/place_holder_sport" />
 
     </RelativeLayout>

@@ -147,7 +147,7 @@
     <style name="graySectionTitle">
         <item name="android:textColor">@color/gray_dark_three</item>
         <item name="android:textSize">@dimen/font_small</item>
-
     </style>
+
 
 </resources>

@@ -13,8 +13,9 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.FormHelper;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -69,8 +70,7 @@ public class SignUpFragment extends MitooFragment {
     protected void initializeViews(View view){
         
         super.initializeViews(view);
-        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpSignUpView(view, getSelectedLeague());
+        getViewHelper().setUpLeagueBackgroundView(view, getSelectedLeague());
         setTopEditText((EditText)view.findViewById(R.id.nameInput));
         setUpSignUpInfoText(view);
     }
@@ -126,7 +126,11 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
-        fireFragmentChangeAction(R.id.fragment_confirm , MitooEnum.FragmentAnimation.VERTICAL);
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_sign_up_confirm)
+                .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
 
     }
 
@@ -136,14 +140,11 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private void facebookJoinButtonAction() {
-
-
     }
 
     private JsonSignUpSend createSignUpJsonFromInput() {
 
-        return new JsonSignUpSend(getEmail(), getPassword(), getUsername(), getPhone());
-          //return new JsonSignUpSend("ABC", "1@2.0", "1234567890", "abcd");
+        return new JsonSignUpSend(getEmail(), getPassword(), getUsername(), getPhone() , getTimeZone());
     }
 
     private String getUsername() {
@@ -151,15 +152,18 @@ public class SignUpFragment extends MitooFragment {
     }
 
     private String getEmail() {
-        return this.getTextFromTextField(R.id.loginIDInput);
+        return this.getTextFromTextField(R.id.emailInput);
     }
 
     private String getPhone() {
-        //return "0123456789";
         return this.getTextFromTextField(R.id.phoneInput);
     }
 
     private String getPassword() {
+        return this.getTextFromTextField(R.id.passwordInput);
+    }
+
+    private String getTimeZone() {
         return this.getTextFromTextField(R.id.passwordInput);
     }
 
@@ -173,8 +177,6 @@ public class SignUpFragment extends MitooFragment {
     public void setSelectedLeague(League selectedLeague) {
         this.selectedLeague = selectedLeague;
     }
-
-
 
     private boolean allInputsAreValid(){
 
@@ -204,7 +206,7 @@ public class SignUpFragment extends MitooFragment {
                 getFormHelper().handleInvalidPhone(getPhone());
                 
             } else {
-                displayText(getString(R.string.toast_invalid_input));
+                displayTextWithToast(getString(R.string.toast_invalid_input));
             }
         }
     }
@@ -213,13 +215,13 @@ public class SignUpFragment extends MitooFragment {
 
         boolean result = true;
         if (getUsername().equals("")) {
-            this.displayText(getString(R.string.toast_name_required));
+            this.displayTextWithToast(getString(R.string.toast_name_required));
         } else if (getEmail().equals("")) {
-            this.displayText(getString(R.string.toast_email_required));
+            this.displayTextWithToast(getString(R.string.toast_email_required));
         } else if (getPassword().equals("")) {
-            this.displayText(getString(R.string.toast_password_required));
+            this.displayTextWithToast(getString(R.string.toast_password_required));
         } else if (getPhone().equals("")) {
-            this.displayText(getString(R.string.toast_phone_required));
+            this.displayTextWithToast(getString(R.string.toast_phone_required));
         } else {
             result =false;
         }

@@ -20,8 +20,15 @@ public class FragmentFactory {
     }
 
     public MitooFragment buildFragment(FragmentChangeEvent event) {
+        MitooFragment result = createFragment(event.getFragmentId());
+        if (event.getBundle() != null)
+            result.setArguments(event.getBundle());
+        return result;
+    }
+
+    public MitooFragment createFragment(int fragmentID){
         MitooFragment result = null;
-        switch (event.getFragmentId()) {
+        switch (fragmentID) {
             case R.id.fragment_landing:
                 result = LandingFragment.newInstance();
                 break;
@@ -52,9 +59,8 @@ public class FragmentFactory {
             case R.id.fragment_settings:
                 result = SettingsFragment.newInstance();
                 break;
-
-            case R.id.fragment_confirm:
-                result = ConfirmFragment.newInstance();
+            case R.id.fragment_sign_up_confirm:
+                result = SignUpDoneFragment.newInstance();
                 break;
             case R.id.fragment_home:
                 result = HomeFragment.newInstance();
@@ -65,11 +71,36 @@ public class FragmentFactory {
             case R.id.fragment_about_mitoo:
                 result = AboutMitooFragment.newInstance();
                 break;
+            case R.id.fragment_fixture:
+                result = FixtureFragment.newInstance();
+                break;
+            case R.id.fragment_notification:
+                result = NotificationFragment.newInstance();
+                break;
+            case R.id.fragment_confirm_account:
+                result = ConfirmAccountFragment.newInstance();
+                break;
+            case R.id.fragment_confirm_set_password:
+                result = ConfirmSetPasswordFragment.newInstance();
+                break;
+            case R.id.fragment_confirm_done:
+                result = ConfirmDoneFragment.newInstance();
+                break;
             default:
                 result = SplashScreenFragment.newInstance();
         }
-        if (event.getBundle() != null)
-            result.setArguments(event.getBundle());
+        return result;
+    }
+
+    public MitooFragment createTabFragment(int fragmentID , MitooEnum.FixtureTabType tabType){
+        MitooFragment result = null;
+        switch (fragmentID) {
+            case R.id.fragment_fixture_tab:
+                result = FixtureTabFragment.newInstance(tabType);
+                break;
+            default:
+                result = SplashScreenFragment.newInstance();
+        }
         return result;
     }
 }

@@ -1,7 +1,5 @@
 package co.mitoo.sashimi.models;
-
 import android.os.Handler;
-
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
@@ -14,6 +12,7 @@ import rx.Subscriber;
 /**
  * Created by david on 14-11-12.
  */
+
 public abstract class MitooModel
 {
 
@@ -30,7 +29,9 @@ public abstract class MitooModel
     }
     
     public SteakApi getSteakApiService() {
-        return ServiceBuilder.getSingleTonInstance().getSteakApiService();
+        if(steakApiService == null)
+            steakApiService = ServiceBuilder.getSingleTonInstance().getSteakApiService();
+        return steakApiService;
     }
 
     public void setSteakApiService(SteakApi steakApiService) {
@@ -73,8 +74,7 @@ public abstract class MitooModel
             @Override
             public void onError(Throwable e) {
 
-                String temp = e.toString();
-
+                String error = e.getMessage();
             }
 
             @Override
@@ -86,22 +86,12 @@ public abstract class MitooModel
     }
 
     protected void handleSubscriberResponse(Object objectRecieve) {
-
-    }
-    protected Runnable createGetResultsRunnable(){
-        return new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    obtainResults();
-                }
-                catch(Exception e){
-                }
-            }
-        };
     }
 
     protected void obtainResults() {
     }
+
+    protected void resetFields(){
+    }
+
 }

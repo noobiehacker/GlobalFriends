@@ -3,7 +3,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 
-import co.mitoo.sashimi.models.location;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.views.MitooImageTarget;
 
@@ -94,6 +93,7 @@ public class League implements Serializable {
     }
 
     public String getColor_1() {
+
         return color_1;
     }
 

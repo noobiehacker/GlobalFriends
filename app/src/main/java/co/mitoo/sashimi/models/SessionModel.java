@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.models;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.network.DataPersistanceService;
@@ -28,6 +29,8 @@ public class SessionModel extends MitooModel implements IsPersistable {
     }
 
     private SessionRecieve session;
+
+    private Invitation_token invitation_token;
 
     public SessionRecieve getSession() {
         return session;
@@ -81,9 +84,8 @@ public class SessionModel extends MitooModel implements IsPersistable {
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof SessionRecieve) {
-            setSession((SessionRecieve) objectRecieve);
+            updateSession((SessionRecieve)objectRecieve);
             postUserRecieveResponse();
-            updateToken();
 
         } else if (objectRecieve instanceof Response) {
             postResetPasswordResponse((Response) objectRecieve);
@@ -134,6 +136,20 @@ public class SessionModel extends MitooModel implements IsPersistable {
         
         return getSession()!=null;
         
+    }
+
+    public Invitation_token getInvitation_token() {
+        return invitation_token;
+    }
+
+    public void setInvitation_token(Invitation_token invitation_token) {
+        this.invitation_token = invitation_token;
+    }
+
+    public void updateSession(SessionRecieve session){
+        setSession(session);
+        updateToken();
+        saveData();
     }
 }
 

@@ -23,13 +23,13 @@
     <dimen name="spacing_water_mark_layout_border_margin">16dp</dimen>
     <dimen name="spacing_water_mark_layout_border_bottom">35dp</dimen>
 
-    <dimen name="spacing_settings_padding_text_left">11dp</dimen>
+    <dimen name="spacing_settings_padding_text_left">16dp</dimen>
 
-    <dimen name="spacing_settings_padding_title_top">8dp</dimen>
-    <dimen name="spacing_settings_padding_title_bottom">3dp</dimen>
+    <dimen name="spacing_settings_padding_title_top">20dp</dimen>
+    <dimen name="spacing_settings_padding_title_bottom">10dp</dimen>
 
-    <dimen name="spacing_settings_padding_item_top">17dp</dimen>
-    <dimen name="spacing_settings_padding_item_bottom">15dp</dimen>
+    <dimen name="spacing_settings_padding_item_top">16dp</dimen>
+    <dimen name="spacing_settings_padding_item_bottom">16dp</dimen>
 
     <dimen name="spacing_settings_margin_water_mark_top">38dp</dimen>
     <dimen name="spacing_settings_margin_water_mark_bottom">35dp</dimen>
@@ -67,8 +67,8 @@
     <dimen name="feedback_element_spacing">15dp</dimen>
 
     <!-- Home Page -->
-    <dimen name="home_page_enquired_top">27dp</dimen>
-    <dimen name="home_page_enquired_bottom">6dp</dimen>
+    <dimen name="home_page_enquired_top">20dp</dimen>
+    <dimen name="home_page_enquired_bottom">10dp</dimen>
     <dimen name="home_page_enquired_left">16dp</dimen>
     <dimen name="home_page_contacted_text_container">44dp</dimen>
 
@@ -95,8 +95,52 @@
     <!-- Sign Up page -->
     <dimen name="sign_up_page_text_bottom_padding">20dp</dimen>
 
+    <!-- Competition page -->
+    <dimen name="competition_page_tab_text_size">12sp</dimen>
+    <dimen name="competition_page_tab_height">36.5dp</dimen>
+    <dimen name="competition_page_tab_date_top_padding">21.5dp</dimen>
+    <dimen name="competition_page_tab_date_bottom_padding">8.5dp</dimen>
+    <dimen name="competition_page_tab_row_top_padding">12.5dp</dimen>
+    <dimen name="competition_page_tab_row_bottom_padding">12dp</dimen>
+
+    <dimen name="competition_page_team_padding">8dp</dimen>
+    <dimen name="competition_page_center_container_width">98.5dp</dimen>
+    <dimen name="competition_page_center_text_width">60dp</dimen>
+
+    <!-- Notification page -->
+    <dimen name="notification_page_title_top_padding">20dp</dimen>
+    <dimen name="notification_page_title_bottom_padding">10dp</dimen>
+    <dimen name="notification_page_title_left_padding">16dp</dimen>
+
+    <dimen name="notification_page_item_top_padding">16dp</dimen>
+    <dimen name="notification_page_item_bottom_padding">16dp</dimen>
+    <dimen name="notification_page_item_left_padding">16dp</dimen>
+    <dimen name="notification_page_item_right_padding">16dp</dimen>
+
+    <!-- Confirmation page -->
+
+    <dimen name="confirmation_page_item_top_padding">38dp</dimen>
+    <dimen name="confirmation_page_item_bottom_padding">38dp</dimen>
+    <dimen name="confirmation_page_item_left_padding">28dp</dimen>
+    <dimen name="confirmation_page_item_right_padding">28dp</dimen>
+
+    <dimen name="confirmation_first_page_top_padding">10dp</dimen>
+    <dimen name="confirmation_first_page_middle_padding">5dp</dimen>
+
+    <dimen name="confirmation_second_page_top_padding">16dp</dimen>
+    <dimen name="confirmation_second_page_middle_padding">11.5dp</dimen>
+
+    <dimen name="confirmation_third_page_top_padding">14dp</dimen>
+    <dimen name="confirmation_third_page_second_padding">5dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>
     <dimen name="spacing_between_text">3dp</dimen>
+
+    <dimen name="small_list_item_top_padding">14dp</dimen>
+    <dimen name="small_list_item_bottom_padding">14dp</dimen>
+    <dimen name="small_list_item_left_padding">16dp</dimen>
+    <dimen name="small_list_item_right_padding">16dp</dimen>
+
 </resources>

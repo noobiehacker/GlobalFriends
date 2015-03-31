@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_confirm"
+    android:id="@+id/fragment_sign_up_confirm"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,7 +19,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/app_bar" />
 
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +29,6 @@
         android:paddingLeft="@dimen/spacing_sides"
         android:paddingRight="@dimen/spacing_sides">
 
-
         <include
             android:id="@+id/leagueResultContainer"
             layout="@layout/partial_confirm_results"
@@ -40,5 +38,6 @@
             android:layout_centerVertical="true" />
 
     </RelativeLayout>
+
 </RelativeLayout>
 

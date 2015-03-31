@@ -95,7 +95,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
 
     private void setUpCurrentLocationText(View view){
         
-        TextView dynamicText = (TextView) view.findViewById(R.id.dynamicText);
+        TextView dynamicText = (TextView) view.findViewById(R.id.small_list_item_text);
         dynamicText.setText(getString(R.string.location_search_page_text_2));
         
     }
@@ -178,7 +178,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     private View getSuggestedSearchHeader(){
 
         View header = getActivity().getLayoutInflater().inflate(R.layout.list_view_header , null);
-        TextView suggestionTextView = (TextView) header.findViewById(R.id.dynamicText);
+        TextView suggestionTextView = (TextView) header.findViewById(R.id.header_text);
         suggestionTextView.setText(getString(R.string.search_page_text_2));
         return header;
     }
@@ -203,13 +203,12 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         getLocationModel().selectPlace(prediction);
         BusProvider.post(new LocationModelLocationsSelectedEvent());
 
-
     }
     
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
-        fireFragmentChangeAction(MitooEnum.FragmentTransition.POP);
+        popFragmentAction();
 
     }
 

@@ -22,13 +22,21 @@ public class FormHelper {
         return activity;
     }
 
+    public boolean validIdentifier(String input) {
+        boolean result = false;
+        if(input.contains("@"))
+            result = validEmail(input);
+        else
+            result = validPhone(input);
+        return result;
+    }
+
     public boolean validName(String input) {
         boolean result = false;
         result = stringLengthBetween(input, MitooConstants.minUserNameLength,
                 MitooConstants.maxUserNameLength);
         return result;
     }
-
 
     public boolean validEmail(String input) {
         boolean result = false;
@@ -141,6 +149,15 @@ public class FormHelper {
 
     }
 
+    public void handleInvalidIdentifier(String identifier){
+
+        if(identifier.contains("@"))
+            handleInvalidEmail(identifier);
+        else
+            handleInvalidPhone(identifier);
+
+    }
+
     public void handleInvalidEmail(String email){
 
         if(emailTooShort(email))
@@ -183,7 +200,7 @@ public class FormHelper {
     }
     private void displayText(String text){
         
-        getFragment().displayText(text);
+        getFragment().displayTextWithToast(text);
     }
 
     private String reduceToNumeric(String input){

@@ -2,7 +2,11 @@ package co.mitoo.sashimi.network.mockNetwork;
 
 import java.util.Collections;
 
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
@@ -24,7 +28,6 @@ import rx.Observable;
  * Created by david on 14-12-04.
  */
 public class MockSteakApiService implements SteakApi {
-
 
     private int statusCode;
 
@@ -68,6 +71,11 @@ public class MockSteakApiService implements SteakApi {
         return null;
     }
 
+    @Override
+    public Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter, @Query("league_info") String league_info, @Path("id") int id) {
+        return null;
+    }
+
     private <T> Observable<T> createMockRespoonse(T item){
 
         Observable<T> result = null;
@@ -98,4 +106,23 @@ public class MockSteakApiService implements SteakApi {
         this.statusCode = statusCode;
     }
 
+    @Override
+    public Observable<Team[]> getTeamByCompetition(@Path("id") int id) {
+        return null;
+    }
+
+    @Override
+    public Observable<Fixture[]> getFixtureFromCompetitionID(@Query("filter") String filter, @Path("id") int id) {
+        return null;
+    }
+
+    @Override
+    public Observable<ConfirmInfo> getConfirmationInfo(@Path("token") String token) {
+        return null;
+    }
+
+    @Override
+    public Observable<UserInfoRecieve> createUserFromConfirmation(@Path("token") String token, @Body JsonSignUpSend jsonObject) {
+        return null;
+    }
 }

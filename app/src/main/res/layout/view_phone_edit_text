@@ -3,7 +3,7 @@
     android:id="@+id/password_edit_parent_view"
     android:layout_centerInParent="true"
     android:layout_width="@dimen/gray_button_width"
-    android:layout_height="@dimen/gray_button_height"
+    android:layout_height="@dimen/general_button_height"
     android:orientation="horizontal"
     style="@style/whiteLayout">
 <!--Take out area code for V1

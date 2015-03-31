@@ -6,12 +6,15 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -23,14 +26,19 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.AppSettingsModel;
+import co.mitoo.sashimi.models.CompetitionModel;
+import co.mitoo.sashimi.models.ConfirmInfoModel;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
-import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FormHelper;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -58,9 +66,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private ViewHelper viewHelper;
     private ViewGroup rootView;
     private FormHelper formHelper;
-    private boolean pageFirstLoad= true;
+    private boolean pageFirstLoad = true;
     private ProgressLayout progressLayout;
-    private boolean popActionRequiresDelay =false;
+    private boolean popActionRequiresDelay = false;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -129,8 +137,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void initializeViews(View view) {
 
+        initializeStatusBarColor();
         setUpToolBar(view);
-        setRootView((ViewGroup)view);
+        setRootView((ViewGroup) view);
 
     }
 
@@ -159,39 +168,40 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 handleHttpErrors(retrofitError.getResponse().getStatus());
             }
         } else {
-            displayText(error.getErrorMessage());
+            displayTextWithToast(error.getErrorMessage());
         }
 
     }
 
     protected void handleNetworkError() {
 
-        displayText(getString(R.string.error_no_internet));
+        displayTextWithToast(getString(R.string.error_no_internet));
+
     }
 
     protected void handleHttpErrors(int statusCode) {
         switch (statusCode) {
             case 401:
-                displayText(getString(R.string.error_401));
+                displayTextWithToast(getString(R.string.error_401_incorrect_cred));
                 break;
             case 404:
-                displayText(getString(R.string.error_404));
+                displayTextWithToast(getString(R.string.error_404));
                 break;
             case 409:
-                displayText(getString(R.string.error_409));
+                displayTextWithToast(getString(R.string.error_409));
                 break;
             case 422:
-                displayText(getString(R.string.error_422));
+                displayTextWithToast(getString(R.string.error_422));
                 break;
             case 500:
-                displayText(getString(R.string.error_500));
+                displayTextWithToast(getString(R.string.error_500));
             default:
         }
     }
 
     private void handleNetwork() {
         if (!getMitooActivity().NetWorkConnectionIsOn())
-            displayText(getString(R.string.error_no_internet));
+            displayTextWithToast(getString(R.string.error_no_internet));
 
     }
 
@@ -201,55 +211,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation) {
-
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
-        postFragmentChangeEvent(event);
-    }
-
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition , MitooEnum.FragmentAnimation animation ,Bundle bundle){
-
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation , bundle);
-        postFragmentChangeEvent(event);
-    }
-
-
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentAnimation animation) {
-
-        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId ,animation);
-        postFragmentChangeEvent(event);
-    }
-
-    public void fireFragmentChangeAction(int fragmentId, MitooEnum.FragmentTransition transition) {
-
-        MitooEnum.FragmentAnimation animation = MitooEnum.FragmentAnimation.HORIZONTAL;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId , animation);
-        postFragmentChangeEvent(event);
-    }
-
-
     public void fireFragmentChangeAction(int fragmentId) {
 
-        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId);
-        postFragmentChangeEvent(event);
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(fragmentId)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
     }
 
-    protected void fireFragmentChangeAction(int fragmentId, Bundle bundle) {
-
-        MitooEnum.FragmentTransition transition = MitooEnum.FragmentTransition.PUSH;
-        FragmentChangeEvent event = new FragmentChangeEvent(this, transition, fragmentId, bundle);
-        postFragmentChangeEvent(event);
-    }
-
-    protected void fireFragmentChangeAction(MitooEnum.FragmentTransition transition) {
-
-        FragmentChangeEvent event = new FragmentChangeEvent(this,transition);
-        postFragmentChangeEvent(event);
-    }
-    
-    private void postFragmentChangeEvent(final FragmentChangeEvent event){
+    public void postFragmentChangeEvent(final FragmentChangeEvent event) {
 
         Runnable runnable = new Runnable() {
             @Override
@@ -258,8 +229,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
             }
         };
-        getHandler().postDelayed(runnable,150);
-        
+        getHandler().postDelayed(runnable, 150);
+
     }
 
     protected void popFragmentAction() {
@@ -268,7 +239,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    public void displayText(String text) {
+    public void displayTextWithToast(String text) {
 
         removeToast();
         View toastLayout = createToastView();
@@ -278,6 +249,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         toast.setView(toastLayout);
         toast.show();
         currentToast = toast;
+    }
+
+    public void displayTextWithDialog(String title, String message , DialogInterface.OnClickListener listenner){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(title)
+               .setMessage(message)
+               .setPositiveButton(getString(R.string.prompt_ok),listenner)
+               .setCancelable(false);
+
+        builder.create().show();
     }
 
     private View createToastView() {
@@ -381,14 +363,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected Toolbar setUpToolBar(View view) {
 
-        setToolbar((Toolbar)view.findViewById(R.id.app_bar));
+        setToolbar((Toolbar) view.findViewById(R.id.app_bar));
         if (getToolbar() != null) {
 
-            getToolbar().setNavigationIcon(R.drawable.header_back_icon);
             getToolbar().setTitle(getDataHelper().removeSpaceAtEnd(getFragmentTitle()));
             getToolbar().setTitleTextColor(getResources().getColor(R.color.white));
-            setUpBackButtonClickListner();
+            if(backPressedAllowed()) {
 
+                getToolbar().setNavigationIcon(R.drawable.header_back_icon);
+                setUpBackButtonClickListner();
+
+            }
         }
         return toolbar;
 
@@ -407,7 +392,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager();
     }
 
-    public boolean isAllowBackPressed() {
+    public boolean backPressedAllowed() {
         return allowBackPressed;
     }
 
@@ -415,21 +400,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.allowBackPressed = allowBackPressed;
     }
 
-    protected MitooModel getMitooModel(Class<?> classType) {
-
-        if (classType == UserInfoModel.class)
-            return getMitooActivity().getModelManager().getUserInfoModel();
-        else if (classType == LeagueModel.class)
-            return getMitooActivity().getModelManager().getLeagueModel();
-        else if (classType == SessionModel.class)
-            return getMitooActivity().getModelManager().getSessionModel();
-        else if (classType == LocationModel.class)
-            return getMitooActivity().getModelManager().getLocationModel();
-        else if (classType == AppSettingsModel.class)
-            return getMitooActivity().getModelManager().getAppSettingsModel();
-        else
-            return null;
-    }
 
     public boolean isLoading() {
         return loading;
@@ -442,6 +412,19 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         } else {
             cancelProgressDialog();
         }
+    }
+
+    public void setPreDataLoading(boolean loading) {
+
+        this.loading = loading;
+        if (getProgressLayout() != null) {
+            if (this.loading) {
+                getProgressLayout().showProgress();
+            } else {
+                getProgressLayout().showContent();
+            }
+        }
+
     }
 
     private void displayProgressDialog() {
@@ -473,9 +456,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             iniializeDialog();
         return progressDialog;
     }
-    
-
-
 
     public DataHelper getDataHelper() {
         return getMitooActivity().getDataHelper();
@@ -484,17 +464,40 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected SessionModel getSessionModel() {
 
-        return (SessionModel) getMitooModel(SessionModel.class);
+        return getMitooActivity().getModelManager().getSessionModel();
     }
 
     protected LeagueModel getLeagueModel() {
-        return (LeagueModel) getMitooModel(LeagueModel.class);
+        return getMitooActivity().getModelManager().getLeagueModel();
     }
 
     protected AppSettingsModel getAppSettingsModel() {
-        return (AppSettingsModel) getMitooModel(AppSettingsModel.class);
+        return getMitooActivity().getModelManager().getAppSettingsModel();
     }
 
+    protected CompetitionModel getCompetitionModel() {
+        return getMitooActivity().getModelManager().getCompetitionModel();
+    }
+
+    protected TeamModel getTeamModel() {
+        return getMitooActivity().getModelManager().getTeamModel();
+    }
+
+    protected FixtureModel getFixtureModel() {
+        return getMitooActivity().getModelManager().getFixtureModel();
+    }
+
+    protected UserInfoModel getUserInfoModel() {
+        return getMitooActivity().getModelManager().getUserInfoModel();
+    }
+
+    protected LocationModel getLocationModel() {
+        return getMitooActivity().getModelManager().getLocationModel();
+    }
+
+    protected ConfirmInfoModel getConfirmInfoModel() {
+        return getMitooActivity().getModelManager().getConfirmInfoModel();
+    }
 
     public ViewHelper getViewHelper() {
         if (viewHelper == null)
@@ -544,17 +547,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void setRootView(ViewGroup rootView) {
         this.rootView = rootView;
     }
-    
-    protected void removeDynamicViews(){
-        
+
+    protected void removeDynamicViews() {
+
     }
-    
-    protected void requestFocusForTopInput(final EditText editText){
+
+    protected void requestFocusForTopInput(final EditText editText) {
 
         Runnable requestFocusRunnable = new Runnable() {
             @Override
             public void run() {
-                if(editText!=null)
+                if (editText != null)
                     editText.requestFocusFromTouch();
                 getMitooActivity().showKeyboard();
             }
@@ -565,7 +568,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     public FormHelper getFormHelper() {
-        if(formHelper==null)
+        if (formHelper == null)
             formHelper = new FormHelper(this);
         return formHelper;
     }
@@ -586,10 +589,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.progressLayout = progressLayout;
     }
 
-    protected LocationModel getLocationModel() {
-
-        return (LocationModel) getMitooModel(LocationModel.class);
-    }
 
     public boolean popActionRequiresDelay() {
         return popActionRequiresDelay;
@@ -607,7 +606,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.toolbar = toolbar;
     }
 
-    protected void setUpBackButtonClickListner(){
+    protected void setUpBackButtonClickListner() {
+
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -616,18 +616,65 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         });
     }
 
-    protected Object getBundleArgumentFromKey(String key){
+    protected Object getBundleArgumentFromKey(String key) {
 
         Object results = null;
         Bundle arguments = getArguments();
-        if(arguments!=null){
+        if (arguments != null) {
             results = arguments.get(key);
         }
         return results;
 
     }
+
+    protected void initializeStatusBarColor() {
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getActivity().getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
+        }
+
+    }
+
+    protected void routeToHome(){
+
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_home)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
+    }
+
+    protected void routeToLanding(){
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_landing)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+    }
+
+    protected void startRegularFlow(){
+
+        SessionRecieve session = getSessionModel().getSession();
+        if (session != null) {
+            getMitooActivity().updateAuthToken(session);
+            routeToHome();
+        }
+        else{
+            routeToLanding();
+        }
+    }
+
+    protected void requestData() {
+    }
+
+    public void resetFields() {
+    }
+
 }
-
-
-
-

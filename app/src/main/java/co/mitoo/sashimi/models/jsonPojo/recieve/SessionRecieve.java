@@ -12,5 +12,20 @@ public class SessionRecieve {
     public String email ;
     public String name;
     public String auth_token ;
+    public String phone ;
+
+    public SessionRecieve(UserInfoRecieve userInfoRecieve){
+
+        this.id = userInfoRecieve.id;
+        this.email = userInfoRecieve.email;
+        this.name = userInfoRecieve.name;
+        this.auth_token = userInfoRecieve.auth_token;
+        this.phone = userInfoRecieve.phone;
+
+    }
+
+    public SessionRecieve(){
+
+    }
 
 }

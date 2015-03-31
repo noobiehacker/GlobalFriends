@@ -12,7 +12,7 @@
         android:background="@color/gray_light_three"></View>
 
     <TextView
-        android:id="@+id/dynamicText"
+        android:id="@+id/big_list_item_text"
         style="@style/feedbackItemText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
         android:id="@+id/bottom_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/list_divider_height"
-        android:layout_below="@+id/dynamicText"
+        android:layout_below="@+id/small_list_item_text"
         android:background="@color/gray_light_three"></View>
 
 </RelativeLayout>

@@ -45,19 +45,6 @@
             android:paddingLeft="@dimen/spacing_sides"
             android:paddingRight="@dimen/spacing_sides">
 
-            <TextView
-                android:id="@+id/noEnquiredTextView"
-                style="@style/searchResultsNoResult"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:minLines="2"
-                android:text="@string/home_page_text_3"
-                android:visibility="gone" />
-
-
         </RelativeLayout>
 
     </com.github.androidprogresslayout.ProgressLayout>

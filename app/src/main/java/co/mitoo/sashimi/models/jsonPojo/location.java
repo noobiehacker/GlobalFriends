@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.models.jsonPojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

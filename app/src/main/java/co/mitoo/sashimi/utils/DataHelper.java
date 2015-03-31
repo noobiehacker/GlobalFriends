@@ -1,14 +1,27 @@
 package co.mitoo.sashimi.utils;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import se.walkercrou.places.Prediction;
 
@@ -21,6 +34,7 @@ public class DataHelper {
     private long lastCLickTime = 0;
     private boolean confirmFeedBackPopped;
     private DisplayMetrics metrics;
+    private ObjectMapper objectMapper;
 
     public DataHelper(MitooActivity activity) {
         this.activity = activity;
@@ -174,7 +188,7 @@ public class DataHelper {
         //only works if url is not null and it has one dot and more than three chracters
         String result = "";
         if(url!=null){
-            
+
             int dotIndex=url.lastIndexOf('.');
             if(dotIndex>=0 && url.length()>3){
                 result= url.substring(0 , dotIndex);
@@ -182,6 +196,11 @@ public class DataHelper {
                 result= result + url.substring(dotIndex, url.length());
             }
         }
+
+        //HACK to make logo display for now since rails prefix the logo with local host
+        //Take out for produciton
+
+        result =replaceLocalHostPrefix(result ,StaticString.steakLocalEndPoint );
         
         return result;
     }
@@ -190,33 +209,85 @@ public class DataHelper {
         return confirmFeedBackPopped;
     }
     
-    public String parseDate(String input) {
+    public String parseDateToDisplayFormat(String input) {
 
         String result = input;
         try {
             if (result != null) {
-                Date date = getLongDateFormat().parse(input);
+                Date date = getOldLongDateFormat().parse(input);
                 result = getShortDateFormat().format(date);
             }
         } catch (Exception e) {
-            String temp = e.toString();
         }
         return result;
     }
 
+    public Date getDateFromString(String input) {
 
-    public String getDateString(Date date) {
+        Date result = null;
 
-        return getLongDateFormat().format(date);
+        try {
+            result = getOldLongDateFormat().parse(input);
+        } catch (Exception e) {
+
+        }
+
+        return result;
+    }
+
+    public String getDisplayableDateString(Date date) {
+
+        return getDisplayableDateFormat().format(date);
+    }
+
+    public String getDisplayableTimeString(Date date) {
+
+        return getDisplayableTimeFormat().format(date);
+
     }
     
-    public SimpleDateFormat getLongDateFormat(){
+    public SimpleDateFormat getOldLongDateFormat(){
+
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        
+
+    }
+
+    public SimpleDateFormat getNewLongDateFormat(){
+
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
     }
 
     public SimpleDateFormat getShortDateFormat(){
         return new SimpleDateFormat("MMM dd, yyyy");
+    }
+
+    public SimpleDateFormat getDisplayableDateFormat(){
+        return new SimpleDateFormat("EEEE, dd MMM");
+    }
+
+    public SimpleDateFormat getDisplayableTimeFormat(){
+        return new SimpleDateFormat("h:mm a");
+    }
+
+
+    private MitooEnum.TimeFrame getTimeFrame(Date date){
+        if(date.after(new Date()))
+            return MitooEnum.TimeFrame.FUTURE;
+        else
+            return MitooEnum.TimeFrame.PAST;
+    }
+
+    public boolean isSameDate(Date itemOne , Date itemTwo) {
+
+        if (itemOne == null || itemTwo == null)
+            return false;
+        else {
+            return (itemOne.getDate() == itemTwo.getDate() &&
+                    itemOne.getMonth() == itemTwo.getMonth() &&
+                    itemOne.getYear() == itemTwo.getYear());
+
+        }
     }
 
     public String getResetPageBadEmailMessage(String email){
@@ -262,7 +333,7 @@ public class DataHelper {
    public int getTextViewIDFromLayout(int layout) {
 
        int result = MitooConstants.invalidConstant;
-       if (layout == R.layout.view_league_list_header)
+       if (layout == R.layout.view_list_header)
            result = R.id.header_view;
        else if (layout == R.layout.view_league_list_footer)
            result = R.id.footer_view;
@@ -304,7 +375,155 @@ public class DataHelper {
         }
 
         return result;
+    }
+
+    public float getFloatValue(int floatID){
+        TypedValue outValue = new TypedValue();
+        getActivity().getResources().getValue(R.dimen.low_alpha, outValue, true);
+        return outValue.getFloat();
+    }
+
+    public MitooEnum.FixtureTabType getFixtureTabTypeFromIndex(int index) {
+
+        MitooEnum.FixtureTabType tabType;
+        switch (index) {
+            case 0:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+                break;
+            default:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+                break;
+        }
+        return tabType;
+    }
+
+    public MitooEnum.FixtureRowType getFixtureRowTypeFixture(FixtureWrapper fixtureWrapper){
+
+        /*Notes from BE
+
+            The status attribute is a variable to show non-normal games
+            0 = Normal
+            1 = Cancelled
+            2 = Deleted
+            3 = Postponed
+            4 = Rescheduled
+            5 = Abandoned
+            6 = Void Notes:
+
+         */
+
+        MitooEnum.FixtureRowType tabType;
+        if(fixtureWrapper.getFixture().isTime_tbc())
+            tabType = MitooEnum.FixtureRowType.TBC;
+        else{
+            switch(fixtureWrapper.getFixture().getStatus()){
+                case 0:
+                    MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
+                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
+                        tabType = MitooEnum.FixtureRowType.TIME;
+                    else{
+                        if(fixtureWrapper.getFixture().getResult()==null)
+                            tabType = MitooEnum.FixtureRowType.TBC;
+                        else
+                            tabType = MitooEnum.FixtureRowType.SCORE;
+                    }
+                    break;
+                case 1:
+                    tabType = MitooEnum.FixtureRowType.CANCELED;
+                    break;
+                case 2:
+                    tabType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                case 3:
+                    tabType = MitooEnum.FixtureRowType.POSTPONED;
+                    break;
+                case 4:
+                    tabType = MitooEnum.FixtureRowType.RESCHEDULE;
+                    break;
+                case 5:
+                    tabType = MitooEnum.FixtureRowType.ABANDONED;
+                    break;
+                case 6:
+                    tabType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                default:
+                    tabType = MitooEnum.FixtureRowType.TBC;
+                    break;
+
+            }
+        }
+        return tabType;
+    }
+
+    public String getNotificationText(MitooEnum.NotificationType notificationType){
+
+        String result="";
+        switch(notificationType){
+
+            case NextGame:
+                result = getActivity().getString(R.string.notification_page_list_item_next_game);
+                break;
+            case TeamResults:
+                result = getActivity().getString(R.string.notification_page_list_item_your_results);
+                break;
+            case RivalResults:
+                result = getActivity().getString(R.string.notification_page_list_rival_results);
+                break;
+            default:
+                break;
+
+        }
+        return result;
+    }
+
+    public Team getTeam(int teamID){
+        return getActivity().getModelManager().getTeamModel().getTeam(teamID);
+    }
+
+    public Invitation_token getInvitationToken(JSONObject referringParams){
+
+        Invitation_token result = null;
+        try{
+            /*JsonNode node = getObjectMapper().valueToTree(referringParams);
+            result = getObjectMapper().readValue(new TreeTraversingParser(node) ,Invitation_token.class);*/
+            result = getObjectMapper().readValue(referringParams.toString(), Invitation_token.class);
+        }catch(Exception e){
+        }
+        return result;
 
     }
-        
+
+    //NOT TESTED, not gonna work
+    public List<League> getListOfLeauges(JSONObject leagueListJson){
+
+        List<League> result = null;
+        try{
+            JSONArray hits = leagueListJson.getJSONArray(getActivity().getString(R.string.algolia_result_param));
+            JsonNode node = getObjectMapper().valueToTree(hits);
+            result = getObjectMapper().readValue(new TreeTraversingParser(node) ,new TypeReference<List<League>>(){});
+        }catch(Exception e){
+
+        }
+        return result;
+    }
+    private String replaceLocalHostPrefix(String url , String newPrefix) {
+
+        String result = url;
+        int index = url.lastIndexOf("3000");
+        if (index >= 0)
+            result = newPrefix + url.substring(index + 5, url.length());
+        return result;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        if(objectMapper == null)
+            objectMapper = new ObjectMapper();
+        return objectMapper;
+    }
+
+    public void addLeagueObjToCompetition(Competition[] competitions , League league){
+        for(Competition comp : competitions){
+            comp.setLeague(league);
+        }
+    }
 }

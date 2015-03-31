@@ -1,34 +1,28 @@
 package co.mitoo.sashimi.views.fragments;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
-import android.os.Handler;
 /**
  * Created by david on 15-01-19.
  */
-public class ConfirmFragment extends MitooFragment {
+public class SignUpDoneFragment extends MitooFragment {
 
     private League selectedLeague;
-    
-    public static ConfirmFragment newInstance() {
+    private MitooEnum.ConfirmFlow flow;
 
-        return new ConfirmFragment();
-    }
+    public static SignUpDoneFragment newInstance() {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setAllowBackPressed(false);
+        return new SignUpDoneFragment();
     }
 
     @Override
@@ -45,6 +39,7 @@ public class ConfirmFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
+        setAllowBackPressed(false);
         setFragmentTitle(getString(R.string.tool_bar_confirmation));
     }
 
@@ -52,8 +47,8 @@ public class ConfirmFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        ViewHelper viewHelper = new ViewHelper(getMitooActivity());
-        viewHelper.setUpConfirmView(view, getSelectedLeague());
+        getViewHelper().setUpLeagueBackgroundView(view, getSelectedLeague());
+
     }
 
     @Override
@@ -79,10 +74,15 @@ public class ConfirmFragment extends MitooFragment {
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
-        fireFragmentChangeAction(R.id.fragment_home , MitooEnum.FragmentTransition.CHANGE , MitooEnum.FragmentAnimation.VERTICAL, bundle);
-        
-    }
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_home)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .setBundle(bundle)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
 
+    }
 
     public League getSelectedLeague() {
         if(selectedLeague==null){
@@ -93,6 +93,13 @@ public class ConfirmFragment extends MitooFragment {
 
     public void setSelectedLeague(League selectedLeague) {
         this.selectedLeague = selectedLeague;
+    }
+
+
+    public MitooEnum.ConfirmFlow getFlow() {
+        if(flow== null)
+            flow = MitooEnum.ConfirmFlow.SIGNUP;
+        return flow;
     }
 
 }

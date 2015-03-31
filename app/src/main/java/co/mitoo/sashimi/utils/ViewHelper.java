@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +18,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -26,19 +27,26 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
+
+import org.joda.time.LocalDate;
 
 /**
  * Created by david on 15-01-20.
@@ -96,6 +104,7 @@ public class ViewHelper {
                     .centerCrop()
                     .into(leagueBackgroundImageView);
         }
+
     }
 
     private void leagueBackgroundLoadCompleteAction(){
@@ -108,21 +117,61 @@ public class ViewHelper {
         }
     }
 
-    public void setUpSignUpView(View fragmentView, League league){
+    public void setUpConfirmAccountView(View fragmentView, Competition competition){
+
+        League league = competition.getLeague();
+        setUpStaticLeagueBackground(fragmentView, league);
+        String leagueIconUrl = getLogo(league);
+        ImageView iconImage = (ImageView) fragmentView.findViewById(R.id.leagueLogo);
+        getPicasso().with(getActivity())
+                .load(leagueIconUrl)
+                .into(iconImage);
+        setUpLeagueNameText(fragmentView, competition.getLeague());
+    }
+
+    public void setUpConfirmPasswordView(View fragmentView, Competition competition){
+
+        League league = competition.getLeague();
         setUpStaticLeagueBackground(fragmentView, league);
 
     }
 
-    public void setUpConfirmView(View fragmentView, League league){
+    public void setUpConfirmDoneView(View fragmentView, Competition competition){
+
+        League league = competition.getLeague();
+        setUpStaticLeagueBackground(fragmentView, league);
+        String leagueIconUrl = getLogo(league);
+        ImageView iconImage = (ImageView) fragmentView.findViewById(R.id.leagueLogo);
+        getPicasso().with(getActivity())
+                .load(leagueIconUrl)
+                .into(iconImage);
+        setUpLeagueNameText(fragmentView, competition.getLeague());
+
+    }
+
+    public void setUpLeagueBackgroundView(View fragmentView, League league){
         setUpStaticLeagueBackground(fragmentView, league);
 
     }
-    
+
     public void setUpEnquireListIcon(final View view , League league){
+
+        String leagueIconUrl = getLogo(league);
+        setUpLeagueIcon(view , leagueIconUrl);
+
+    }
+
+    public void setUpMyLeagueListIcon(final View view , Competition competition){
+
+        String leagueIconUrl = getCompetitionLogo(competition);
+        setUpLeagueIcon(view , leagueIconUrl);
+    }
+
+    public void setUpLeagueIcon(final View view , String leagueIconUrl){
         ImageView iconImage = (ImageView) view.findViewById(R.id.enquired_list_icon);
         int iconDimenID = R.dimen.enquired_list_icon_length;
         getPicasso().with(getActivity())
-                .load(getLogo(league))
+                .load(leagueIconUrl)
                 .transform(new LogoTransform(getPixelFromDimenID(iconDimenID), 1.0))
                 .into(iconImage, createListIconCallBack(view));
     }
@@ -187,13 +236,6 @@ public class ViewHelper {
         }
     }
 
-    public void setViewBackgroundColor(View view, String color){
-        int colorID = getColor(color);
-        if(colorID!=MitooConstants.invalidConstant){
-            view.setBackgroundColor(colorID);
-        }
-    }
-
     private Drawable createRoundLeftCorners(String color){
         GradientDrawable drawable = new GradientDrawable();
         int colorID = getColor(color);
@@ -213,7 +255,7 @@ public class ViewHelper {
         return radii;
     }
     
-    private int getColor(String leagueColorInput){
+    public int getColor(String leagueColorInput){
 
         int colorID = MitooConstants.invalidConstant;
         if(validColorInput(leagueColorInput)){
@@ -299,7 +341,7 @@ public class ViewHelper {
     public void setUpMap(League league , GoogleMap map){
         if(league !=null & map !=null){
             LatLng latLng = league.getLatLng();
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
             MarkerOptions option = createMarkerOption(latLng, league.getCity());
             Marker marker = map.addMarker(option);
             disableMapGestures(map);
@@ -312,7 +354,7 @@ public class ViewHelper {
         map.getUiSettings().setZoomControlsEnabled(false);
         map.getUiSettings().setScrollGesturesEnabled(false);
         map.getUiSettings().setAllGesturesEnabled(false);
-        
+
     }
     
     private MarkerOptions createMarkerOption(LatLng latLng, String cityName){
@@ -320,11 +362,11 @@ public class ViewHelper {
         IconGenerator generator = new IconGenerator(getActivity());
         generator.setTextAppearance(R.style.grayCityMapText);
         generator.setContentPadding(
-                getPixelFromDimenID(R.dimen.spacing_map_text_width) ,
-                getPixelFromDimenID(R.dimen.spacing_map_text_height) ,
-                getPixelFromDimenID(R.dimen.spacing_map_text_width) ,
+                getPixelFromDimenID(R.dimen.spacing_map_text_width),
+                getPixelFromDimenID(R.dimen.spacing_map_text_height),
+                getPixelFromDimenID(R.dimen.spacing_map_text_width),
                 getPixelFromDimenID(R.dimen.spacing_map_text_height)
-                );
+        );
         Bitmap markerIcon = generator.makeIcon(cityName);
         MarkerOptions option = new MarkerOptions().position(latLng)
                 .icon(BitmapDescriptorFactory.fromBitmap(markerIcon));
@@ -334,7 +376,7 @@ public class ViewHelper {
 
     public void addLeagueDataToList(final MitooFragment fragment, final int leagueLayout, final LinearLayout holder, List<League> leagues) {
         setHandler(fragment.getHandler());
-        recursiveAddLeagueDataToList(fragment, leagueLayout,holder,leagues);
+        recursiveAddLeagueDataToList(fragment, leagueLayout, holder, leagues);
     }
 
     private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<League> leagues){
@@ -386,8 +428,8 @@ public class ViewHelper {
         LeagueModel model =getActivity().getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
         fragment.fireFragmentChangeAction(R.id.fragment_league);
-    }
 
+    }
 
     public void setUpViewCallBack(final View loadedView, final League league, final View leagueItemHolder, final View leagueListHolder){
 
@@ -414,7 +456,227 @@ public class ViewHelper {
         this.setUpIconImageWithCallBack(leagueItemContainer, league, leagueListHolder);
         return leagueItemContainer;
     }
-    
+
+    public void setUpFixtureForTab(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
+
+        //1)Break the bigger list of Fixture into smaller list of all having the same date
+        //2)Than call helper method to create these grouped fixtures for one date, one by one
+        List<FixtureWrapper> listOfFixtureForOneDate = null;
+        Date dateForCurrentList= null;
+        Date dateForItem = null;
+        boolean beginningOfInnerGroup = true;
+
+        //3)See if the current index is supposed to be a beginning of group
+        //If it is, initialize the group and add it to the group
+        //4) Add the fixture Item to the inner group's ArrayList
+        //5) If we reach the end of the Outter list or the date of the item is different than our inner group,
+        //we initilize the view
+        for (int index = 0 ; index <fixtureList.size() ; index++){
+
+            dateForItem = fixtureList.get(index).getFixtureDate();
+
+            if(index ==0 || index == fixtureList.size()-1){
+                if(index == 0){
+                    listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
+                    dateForCurrentList = dateForItem;
+                    listOfFixtureForOneDate.add(fixtureList.get(index));
+                }
+                if(index == fixtureList.size()-1){
+                    if(index!=0){
+                        listOfFixtureForOneDate.add(fixtureList.get(index));
+                    }
+                    tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+                }
+            }else{
+                if(!getDataHelper().isSameDate(dateForItem, dateForCurrentList)){
+                    tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
+                    listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
+                    dateForCurrentList = dateForItem;
+                }
+                    listOfFixtureForOneDate.add(fixtureList.get(index));
+
+            }
+        }
+    }
+
+    public void setUpFixtureForTabRefrac(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
+
+        //1)Run one loop to count up how many fixtures does a particular date have
+        Map<LocalDate, Integer> map = new HashMap<LocalDate, Integer>();
+        //1b)Use a hash map to count up an store the value
+        for (FixtureWrapper item : fixtureList) {
+
+            if (map.containsKey(item.getJodafixtureDate())) {
+                map.put(item.getJodafixtureDate(), map.get(item.getJodafixtureDate()) + 1);
+            } else {
+                map.put(item.getJodafixtureDate(), 1);
+            }
+
+        }
+        //2)Second loop, for every date, get from the map on how many fixtures of a particular date has
+        Iterator<FixtureWrapper> iterator = fixtureList.iterator();
+        List<FixtureWrapper> fixtureListForOneDate = null;
+        int itemsRemainingInList = 0;
+        while (iterator.hasNext()) {
+
+            FixtureWrapper item = iterator.next();
+            if (fixtureListForOneDate == null) {
+                fixtureListForOneDate = new ArrayList<FixtureWrapper>();
+                itemsRemainingInList = map.get(item.getJodafixtureDate());
+            }
+            //2a)Group the List of fixture by iterating the value count and add them all to an ArrayList
+            fixtureListForOneDate.add(item);
+
+            if (itemsRemainingInList == 1) {
+                //3)Create a view for this list of fixtures for one date
+                tabLayOutContainer.addView(createFixtureForOneDate(fixtureListForOneDate));
+                fixtureListForOneDate = null;
+            }
+
+            itemsRemainingInList--;
+        }
+
+    }
+
+    public RelativeLayout createFixtureForOneDate(List<FixtureWrapper> fixtureGroup){
+
+        RelativeLayout fixtureGroupContainer = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_grouped);
+        LinearLayout fixtureHolder = (LinearLayout) fixtureGroupContainer.findViewById(R.id.fixtureRowContainer);
+        for(FixtureWrapper item : fixtureGroup){
+            fixtureHolder.addView(createFixtureRow(item));
+        }
+        setDateForFixtureGroup(fixtureGroupContainer, fixtureGroup);
+        return fixtureGroupContainer;
+    }
+
+    private void setDateForFixtureGroup(RelativeLayout fixtureGroupContainer , List<FixtureWrapper> fixtureGroup){
+
+        if(fixtureGroup.size()>0){
+            TextView dateTextView = (TextView) fixtureGroupContainer.findViewById(R.id.dateTextField);
+            String fixtureDate = fixtureGroup.get(0).getDisplayableDate();
+            dateTextView.setText(fixtureDate);
+        }
+    }
+
+    public RelativeLayout createFixtureRow(FixtureWrapper fixture){
+
+        RelativeLayout fixtureRow = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_row);
+        customizeFixtureRow(fixtureRow,fixture);
+        return fixtureRow;
+    }
+
+    private void setUpFixturRowTeamTextView(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
+
+        TextView leftTeamName = (TextView)row.findViewById(R.id.leftTeamName);
+        TextView rightTeamName = (TextView)row.findViewById(R.id.rightTeamName);
+        Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
+        Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
+        if(fixtureType == MitooEnum.FixtureRowType.TBC){
+            leftTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
+            rightTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
+            leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
+            rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
+        }else{
+            if(awayTeam!=null && homeTeam!=null){
+                leftTeamName.setText(homeTeam.getName());
+                rightTeamName.setText(awayTeam.getName());
+            }
+        }
+
+    }
+
+    private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureRowType fixtureType){
+
+        RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
+        ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
+        float alphaValue = getActivity().getDataHelper().getFloatValue(R.dimen.low_alpha);
+        switch(fixtureType){
+            case TIME:
+            case TBC:
+            case SCORE:
+                break;
+            case ABANDONED:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.abandonned_stamp);
+                break;
+            case VOID:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.void_stamp);
+                break;
+            case POSTPONED:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.postponed_stamp);
+                break;
+            case CANCELED:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.cancelled_stamp);
+                break;
+            case RESCHEDULE:
+                alphaContainer.setAlpha(alphaValue);
+                stampView.setImageResource(R.drawable.rescheduled_stamp);
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
+
+        ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
+        ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
+        Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
+        Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
+        if(fixtureType == MitooEnum.FixtureRowType.TBC){
+            rightTeamIcon.setImageResource(R.drawable.team_logo_tbc);
+            leftTeamIcon.setImageResource(R.drawable.team_logo_tbc);
+        }else{
+            String homeTeamLogoString = getTeamLogo(homeTeam);
+            String awayTeamLogoString = getTeamLogo(awayTeam);
+            loadTeamIcon(leftTeamIcon, homeTeamLogoString);
+            loadTeamIcon(rightTeamIcon, awayTeamLogoString);
+        }
+
+    }
+
+    private void loadTeamIcon(ImageView imageView, String iconUrl){
+        getPicasso().with(getActivity())
+                .load(iconUrl)
+                .error(R.drawable.team_2)
+                .into(imageView);
+    }
+
+    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
+
+        TextView centerText = (TextView)row.findViewById(R.id.middleTextField);
+        switch(fixtureType){
+            case TIME:
+                centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
+                centerText.setText(fixture.getDisplayableTime());
+                break;
+            case SCORE:
+                centerText.setTextAppearance(getActivity(), R.style.schedulePageScoreText);
+                centerText.setText(fixture.getDisplayableScore());
+                break;
+            case TBC:
+                centerText.setText(getActivity().getString(R.string.fixture_page_tbc));
+                centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void customizeFixtureRow(RelativeLayout row , FixtureWrapper fixture){
+
+        MitooEnum.FixtureRowType fixtureType = getActivity().getDataHelper().getFixtureRowTypeFixture(fixture);
+        setUpFixturRowTeamTextView(row, fixture, fixtureType);
+        setUpFixtureStamp(row, fixture, fixtureType);
+        setUpFixtureCenterText(row, fixture, fixtureType);
+        setUpFixtureTeamIcons(row, fixture, fixtureType);
+
+    }
+
     public void setLineColor(View container, League league){
         
         View bottomLine = (View) container.findViewById(R.id.bottomLine);
@@ -448,7 +710,7 @@ public class ViewHelper {
         return new Callback() {
             @Override
             public void onSuccess() {
-                setUpEnquireListIconContainer(container , View.VISIBLE);
+                setUpEnquireListIconContainer(container, View.VISIBLE);
             }
 
             @Override
@@ -582,6 +844,26 @@ public class ViewHelper {
         return result;
     }
 
+    private String getCompetitionLogo(Competition competition) {
+
+        String result = "";
+        result = "http://www.portlandsoccerplex.com/wp-content/uploads/2014/03/soccerplex-logo.png";
+        if (competition != null) {
+            result = getRetinaUrl(result);
+        }
+        return result;
+    }
+
+    private String getTeamLogo(Team team) {
+
+        String result = "";
+        result = "https://lh5.googleusercontent.com/TUbM3hnUyBjkMdwTXSZsXAdQ-QDh_47x-KlxADDzhmkQBLNipNTaxE2HZIfRb2o756fvBxkHnD-o15Q=w2512-h1014";
+        if (team != null) {
+            result = getRetinaUrl(team.getLogo_small());
+        }
+        return result;
+    }
+
     public RelativeLayout.LayoutParams createCenterInVerticalParam(){
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -598,7 +880,7 @@ public class ViewHelper {
         return enquiredText;
     }
 
-    public View createHeadFooterView(int layoutID,  String text){
+    public View createHeaderORFooterView(int layoutID, String text){
 
         int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
         View holder = createViewFromInflator(layoutID);
@@ -629,24 +911,35 @@ public class ViewHelper {
 
     public void setUpListHeader(ListView listView , int layoutID , String headerText){
 
-        View holder = createHeadFooterView(layoutID, headerText);
+        View holder = createHeaderORFooterView(layoutID, headerText);
         listView.addHeaderView(holder);
     }
 
-    public void setUpListFooter(ListView listView , int layoutID , String footerText) {
+    public View setUpListFooter(ListView listView , int layoutID , String footerText) {
 
+        View holder = createHeaderORFooterView(layoutID, footerText);
         if(listView.getFooterViewsCount() ==0 ){
-            View holder = createHeadFooterView(layoutID, footerText);
             listView.addFooterView(holder);
         }
-
+        return holder;
     }
 
-    public void setUpLeagueList(ListView listView, LeagueAdapter adapter,String headerText){
-        int headerLayoutID =  R.layout.view_league_list_header;
+    public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText
+            ,AdapterView.OnItemClickListener listener){
+        int headerLayoutID =  R.layout.view_list_header;
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(adapter);
+        listView.setOnItemClickListener(listener);
         setUpListHeader(listView, headerLayoutID, headerText);
+    }
+
+    public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText){
+        int headerLayoutID =  R.layout.view_list_header;
+        listView.setAdapter(adapter);
+        setUpListHeader(listView, headerLayoutID, headerText);
+    }
+
+    private DataHelper getDataHelper(){
+        return getActivity().getDataHelper();
     }
 
 }

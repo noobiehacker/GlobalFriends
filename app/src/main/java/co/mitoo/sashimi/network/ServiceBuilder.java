@@ -1,7 +1,6 @@
 package co.mitoo.sashimi.network;
 
 import com.squareup.okhttp.OkHttpClient;
-
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.StaticString;
 import retrofit.MockRestAdapter;
@@ -120,7 +119,9 @@ public class ServiceBuilder {
             case APIARY:
                 this.setEndPoint(StaticString.steakApiaryEndPoint);
                 break;
-
+            case LOCALHOST:
+                this.setEndPoint(StaticString.steakLocalEndPoint);
+                break;
         }
 
     }

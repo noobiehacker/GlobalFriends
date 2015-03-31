@@ -8,18 +8,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
-import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
-import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
 import se.walkercrou.places.Place;
@@ -45,18 +45,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-        try{
-            super.onCreate(savedInstanceState);
-            getMitooActivity().getModelManager().getLocationModel().GpsCurrentLocationRequest();
+        super.onCreate(savedInstanceState);
+        requestGPSLocation();
 
-        }
-        catch(Exception e){
-            displayText("FAILED ON SearchResultsFragment onCreate" +
-                    e.getStackTrace().toString() +
-                    e.getMessage() +
-                    e.getCause().toString() +
-                    e.getLocalizedMessage());
-        }
     }
 
     @Override
@@ -188,7 +179,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private View getSuggestedSearchHeader() {
 
         View header = getActivity().getLayoutInflater().inflate(R.layout.list_view_header, null);
-        TextView suggestionTextView = (TextView) header.findViewById(R.id.dynamicText);
+        TextView suggestionTextView = (TextView) header.findViewById(R.id.header_text);
         suggestionTextView.setText(getString(R.string.search_page_text_2));
         return header;
     }
@@ -205,7 +196,10 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
             @Override
             public void onClick(View v) {
                 if (getDataHelper().isClickable()) {
-                    fireFragmentChangeAction(R.id.fragment_location_search);
+                    FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                            .setFragmentID(R.id.fragment_location_search)
+                            .build();
+                    postFragmentChangeEvent(event);
                 }
             }
         });
@@ -231,12 +225,15 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_tool_bar_title), getQueryText());
-        fireFragmentChangeAction(R.id.fragment_search_results, bundle);
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_search_results)
+                .setBundle(bundle)
+                .build();
+        postFragmentChangeEvent(event);
         getLocationModel().requestSelectedLocationLatLng();
 
     }
-
-
 
     private void queryRefineAction(String query) {
 
@@ -282,9 +279,9 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         this.searchMitooText = searchMitooText;
     }
 
-    private void setUpDynamicText(View view){
+    private void setUpSearchMitooText(View view){
 
-        TextView dynamicText = (TextView) view.findViewById(R.id.dynamicText);
+        TextView dynamicText = (TextView) view.findViewById(R.id.small_list_item_text);
         dynamicText.setText(getString(R.string.search_page_text_1));
         setSearchMitooText(dynamicText);
 
@@ -294,7 +291,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
         View searchMitooFor = (View) view.findViewById(R.id.search_mitoo_for);
         setSearchMitooForView(searchMitooFor);
-        setUpDynamicText(searchMitooFor);
+        setUpSearchMitooText(searchMitooFor);
     }
 
     
@@ -361,6 +358,14 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         });
         getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
         
+    }
+
+    private void requestGPSLocation(){
+
+        if(getMitooActivity()!=null){
+            LocationModel locationModel = getMitooActivity().getModelManager().getLocationModel();
+            locationModel.GpsCurrentLocationRequest();
+        }
     }
 }
 

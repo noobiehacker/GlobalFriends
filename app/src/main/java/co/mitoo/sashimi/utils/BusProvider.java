@@ -41,4 +41,18 @@ public final class BusProvider {
             });
         }
     }
+
+    public static void post(final Object obj , int duration){
+        Handler handler = new Handler(Looper.getMainLooper());
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            getInstance().post(obj);
+        } else {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getInstance().post(obj);
+                }
+            }, duration);
+        }
+    }
 }

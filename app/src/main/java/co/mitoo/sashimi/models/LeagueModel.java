@@ -38,8 +38,11 @@ public class LeagueModel extends MitooModel{
     private APIClient algoliaClient;
     private Index index;
     private AlgoliaIndexListener aiListener;
+
     private List<League> leagueSearchResults;
-    private List<League> leagueEnquired;
+    private List<League> enquiredLeagues;
+    private List<League> myleagues;
+
     private JSONObject results;
     private League selectedLeague;
     private boolean requestingAlgolia;
@@ -51,9 +54,9 @@ public class LeagueModel extends MitooModel{
 
     private void setUpAlgolia(){
 
-        algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
-        setIndex(algoliaClient.initIndex(getActivity().getDataHelper().getAlgoliaIndex()));
-        aiListener = new AlgoliaIndexListener();
+        this.algoliaClient = new APIClient(getActivity().getString(R.string.App_Id_algolia) , getActivity().getString(R.string.API_key_algolia)) ;
+        setIndex(this.algoliaClient.initIndex(getActivity().getDataHelper().getAlgoliaIndex()));
+        this.aiListener = new AlgoliaIndexListener();
 
     }
 
@@ -104,7 +107,6 @@ public class LeagueModel extends MitooModel{
         }
         
     }
-   
 
     @Subscribe
     public void algoliaResponse(AlgoliaResponseEvent event){
@@ -116,7 +118,7 @@ public class LeagueModel extends MitooModel{
     
     private void parseLeagueResult(JSONObject results){
         
-        this.results=results;
+        setResults(results);
         this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
@@ -173,23 +175,23 @@ public class LeagueModel extends MitooModel{
     }
 
     private String getEnquriesConstant(){
-        return getActivity().getString(R.string.steak_api_const_filter_enquiries);
+        return getActivity().getString(R.string.steak_api_param_filter_enquiries);
     }
 
     public List<League> getLeaguesEnquired() {
-        if(leagueEnquired==null)
-            leagueEnquired = new ArrayList<League>();
-        return leagueEnquired;
+        if(this.enquiredLeagues ==null)
+            this.enquiredLeagues = new ArrayList<League>();
+        return this.enquiredLeagues;
     }
 
     public void addLeagueEnquired(League[] newleaguesEnquired) {
 
-        if (this.leagueEnquired == null) {
-            this.leagueEnquired = new ArrayList<League>();
+        if (this.enquiredLeagues == null) {
+            this.enquiredLeagues = new ArrayList<League>();
         }
         DataHelper helper = getActivity().getDataHelper();
         for (League item : newleaguesEnquired) {
-            this.leagueEnquired.add(item);
+            this.enquiredLeagues.add(item);
         }
     }
 
@@ -248,12 +250,12 @@ public class LeagueModel extends MitooModel{
         
         Date date = new Date();
         DataHelper helper = getActivity().getDataHelper();
-        league.setCreated_at(helper.getDateString(date));
+        league.setCreated_at(helper.getDisplayableDateString(date));
         
     }
     
     public void resetFields(){
-        this.leagueEnquired=null;
+        this.enquiredLeagues =null;
         this.leagueSearchResults = null;
         this.selectedLeague = null;
         
@@ -267,12 +269,30 @@ public class LeagueModel extends MitooModel{
         this.index = index;
     }
 
-    public void setLeagueEnquired(List<League> leagueEnquired) {
-        this.leagueEnquired = leagueEnquired;
+    public void setEnquiredLeagues(List<League> enquiredLeagues) {
+        this.enquiredLeagues = enquiredLeagues;
     }
 
     private void clearLeaguesEnquired(){
-        setLeagueEnquired(new ArrayList<League>());
+        setEnquiredLeagues(new ArrayList<League>());
     }
+
+    public List<League> getMyleagues() {
+        return myleagues;
+    }
+
+    public void setMyleagues(List<League> myLeagues) {
+        this.myleagues = myLeagues;
+    }
+
+    public JSONObject getResults() {
+        return results;
+    }
+
+    public void setResults(JSONObject results) {
+        this.results = results;
+    }
+
+
 }
 

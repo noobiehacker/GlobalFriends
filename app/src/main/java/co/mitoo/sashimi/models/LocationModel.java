@@ -33,10 +33,17 @@ public class LocationModel extends MitooModel {
     private Place selectedPlace;
     private LatLng selectedLocationLatLng;
     private boolean currentLocationClicked = false;
-    
+    private ReactiveLocationProvider reactiveLocationProvider;
+
     public LocationModel(MitooActivity activity) {
         super(activity);
         client = new GooglePlaces(getActivity().getString(R.string.API_key_google_places));
+    }
+
+    public ReactiveLocationProvider getReactiveLocationProvider() {
+        if(this.reactiveLocationProvider==null)
+            this.reactiveLocationProvider = new ReactiveLocationProvider(getActivity());
+        return this.reactiveLocationProvider;
     }
 
     public void setLocation(Location location) {
@@ -44,7 +51,8 @@ public class LocationModel extends MitooModel {
     }
 
     public void GpsCurrentLocationRequest() {
-        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(this.activity);
+
+        ReactiveLocationProvider locationProvider = getReactiveLocationProvider();
         locationProvider.getLastKnownLocation()
                 .subscribe(new Subscriber<Location>() {
 
@@ -63,39 +71,24 @@ public class LocationModel extends MitooModel {
 
                     }
                 });
+
     }
 
     public void handleGpsResponse(GpsResponseEvent event) {
 
         if (event.getLocation() != null) {
 
-            try {
-                Location result = event.getLocation();
-                setLocation(result);
-                setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
-                BusProvider.post(new LocationModelLocationsSelectedEvent());
-            } catch (Exception e) {
-                getActivity().displayText("FAILED ON SearchResultsFragment onCreate" +
-                        e.getStackTrace().toString() +
-                        e.getMessage() +
-                        e.getCause().toString() +
-                        e.getLocalizedMessage());
-            }
+            Location result = event.getLocation();
+            setLocation(result);
+            setSelectedLocationLatLng(new LatLng(result.getLatitude(), result.getLongitude()));
+            BusProvider.post(new LocationModelLocationsSelectedEvent());
 
         } else {
 
-            try {
-                setToUseCurrentLocation(false);
-                String errorMesssage = getActivity().getString(R.string.error_location_serivces);
-                MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
-                BusProvider.post(errorEvent);
-            } catch (Exception e) {
-                getActivity().displayText("FAILED ON SearchResultsFragment onCreate" +
-                        e.getStackTrace().toString() +
-                        e.getMessage() +
-                        e.getCause().toString() +
-                        e.getLocalizedMessage());
-            }
+            setToUseCurrentLocation(false);
+            String errorMesssage = getActivity().getString(R.string.error_location_serivces);
+            MitooActivitiesErrorEvent errorEvent = new MitooActivitiesErrorEvent(errorMesssage);
+            BusProvider.post(errorEvent);
 
         }
 

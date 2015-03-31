@@ -25,7 +25,7 @@ public class SearchableAdapter extends ArrayAdapter<IsSearchable> {
         if (convertView == null) {
             convertView = View.inflate(getContext(), R.layout.list_view_item_text, null);
         }
-        TextView itemText = (TextView) convertView.findViewById(R.id.dynamicText);
+        TextView itemText = (TextView) convertView.findViewById(R.id.small_list_item_text);
         String text = getItem(position).getName();
         itemText.setText(getItem(position).getName());
         return convertView;

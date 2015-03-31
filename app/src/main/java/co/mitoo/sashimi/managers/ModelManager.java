@@ -1,13 +1,16 @@
 package co.mitoo.sashimi.managers;
 import java.util.ArrayList;
 import java.util.List;
-import android.os.Handler;
 
 import co.mitoo.sashimi.models.AppSettingsModel;
+import co.mitoo.sashimi.models.CompetitionModel;
+import co.mitoo.sashimi.models.ConfirmInfoModel;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -44,7 +47,7 @@ public class ModelManager {
     public LeagueModel getLeagueModel() {
 
         LeagueModel leagueModel = null;
-        MitooModel model = getModel(LeagueModel.class);
+        MitooModel model = getModelFromList(LeagueModel.class);
         if (model != null) {
             leagueModel = (LeagueModel) model;
         } else{
@@ -57,7 +60,7 @@ public class ModelManager {
     public SessionModel getSessionModel() {
 
         SessionModel sessionModel = null;
-        MitooModel model = getModel(SessionModel.class);
+        MitooModel model = getModelFromList(SessionModel.class);
         if (model != null) {
             sessionModel = (SessionModel) model;
         } else {
@@ -70,7 +73,7 @@ public class ModelManager {
     public UserInfoModel getUserInfoModel() {
 
         UserInfoModel userInfoModel = null;
-        MitooModel model = getModel(UserInfoModel.class);
+        MitooModel model = getModelFromList(UserInfoModel.class);
         if (model != null) {
             userInfoModel = (UserInfoModel) model;
         } else {
@@ -83,7 +86,7 @@ public class ModelManager {
     public LocationModel getLocationModel() {
 
         LocationModel locationModel = null;
-        MitooModel model = getModel(LocationModel.class);
+        MitooModel model = getModelFromList(LocationModel.class);
         if (model != null) {
             locationModel = (LocationModel) model;
         } else {
@@ -96,7 +99,7 @@ public class ModelManager {
     public AppSettingsModel getAppSettingsModel() {
 
         AppSettingsModel appSettingsModel = null;
-        MitooModel model = getModel(AppSettingsModel.class);
+        MitooModel model = getModelFromList(AppSettingsModel.class);
         if (model != null) {
             appSettingsModel  = (AppSettingsModel) model;
         } else {
@@ -106,6 +109,47 @@ public class ModelManager {
         return appSettingsModel;
     }
 
+    public CompetitionModel getCompetitionModel() {
+
+        return (CompetitionModel) getModel(CompetitionModel.class);
+    }
+
+    public TeamModel getTeamModel() {
+
+        return (TeamModel) getModel(TeamModel.class);
+    }
+
+    public FixtureModel getFixtureModel() {
+
+        return (FixtureModel )getModel(FixtureModel.class);
+    }
+
+    public ConfirmInfoModel getConfirmInfoModel() {
+
+        return (ConfirmInfoModel)getModel(ConfirmInfoModel.class);
+    }
+
+    private <T> MitooModel getModel(Class<T> classType) {
+
+        T classModel = null;
+        Object model = getModelFromList(classType);
+        if (model != null) {
+            classModel = (T) model;
+        } else {
+
+            try{
+                model = classType.getConstructor(MitooActivity.class)
+                        .newInstance(getMitooActivity());
+            }
+            catch(Exception e){
+
+                String tremp = e.toString();
+
+            }
+            addModel((MitooModel)model );
+        }
+        return (MitooModel)model;
+    }
 
     public List<IsPersistable> getPersistableList() {
         return persistableList;
@@ -133,7 +177,7 @@ public class ModelManager {
         }
     }
 
-    public MitooModel getModel(Class<?> modelClass) {
+    public MitooModel getModelFromList(Class<?> modelClass) {
 
         MitooModel result = null;
         forloop:
@@ -173,6 +217,7 @@ public class ModelManager {
         getUserInfoModel();
         getLeagueModel();
         getAppSettingsModel();
+        getLocationModel();
     }
 
     public void readAllPersistedData(){
@@ -227,7 +272,11 @@ public class ModelManager {
     private void removeModelReferences(){
         DataHelper dataHelper = new DataHelper(getMitooActivity());
         getLeagueModel().resetFields();
-        //Refractor to remove model references
+        getUserInfoModel().resetFields();
+        getCompetitionModel().resetFields();
+        getConfirmInfoModel().resetFields();
+        getTeamModel().resetFields();
+        getFixtureModel().resetFields();
         System.gc();
     }
 }

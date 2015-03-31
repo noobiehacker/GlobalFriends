@@ -113,7 +113,6 @@ public class AboutMitooFragment extends MitooFragment {
                 String value = (String) arguments.get(getString(R.string.bundle_key_prompt));
                 int integerValue = Integer.parseInt(value);
 
-
                 switch (integerValue) {
                     case 0:
                         setAboutMitooOptions(MitooEnum.AboutMitooOption.TERMS);
@@ -131,10 +130,13 @@ public class AboutMitooFragment extends MitooFragment {
             }
         }
         return aboutMitooOptions;
+
     }
 
     public void setAboutMitooOptions(MitooEnum.AboutMitooOption aboutMitooOptions) {
+
         this.aboutMitooOptions = aboutMitooOptions;
+
     }
 
     private static int getFaqConstant() {

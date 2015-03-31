@@ -1,8 +1,9 @@
 package co.mitoo.sashimi.network;
-
-import java.util.List;
-
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
@@ -44,5 +45,19 @@ public interface SteakApi {
     @GET("/users/v1/users/{id}")
     Observable<UserInfoRecieve>  getUser(@Path("id") int id);
 
+    @GET("/leagues/v1/competition_seasons/{id}/teams")
+    Observable<Team[]> getTeamByCompetition(@Path("id") int id);
+
+    @GET("/leagues/v1/competition_seasons/{id}/fixtures")
+    Observable<Fixture[]> getFixtureFromCompetitionID(@Query("filter") String filter, @Path("id") int id);
+
+    @GET("/leagues/v1/users/{id}/competition_seasons")
+    Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter ,@Query("league_info") String league_info ,@Path("id") int id);
+
+    @GET("/users/v1/confirmations/{token}")
+    Observable<ConfirmInfo> getConfirmationInfo(@Path("token") String token);
+
+    @POST("/users/v1/confirmations/{token}/confirm")
+    Observable<UserInfoRecieve>  createUserFromConfirmation(@Path("token") String token, @Body JsonSignUpSend jsonObject);
 
 }

@@ -46,17 +46,17 @@
         android:id="@+id/nameInput"
         style="@style/whiteEditText"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gray_button_height"
+        android:layout_height="@dimen/general_button_height"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/signUpTopText"
         android:layout_marginTop="@dimen/sign_up_page_text_bottom_padding"
         android:hint="@string/join_page_text2" />
 
     <EditText
-        android:id="@+id/loginIDInput"
+        android:id="@+id/emailInput"
         style="@style/whiteEditText"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gray_button_height"
+        android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/nameInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
@@ -67,8 +67,8 @@
         android:id="@+id/phoneInput"
         style="@style/whiteEditText"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gray_button_height"
-        android:layout_below="@+id/loginIDInput"
+        android:layout_height="@dimen/general_button_height"
+        android:layout_below="@+id/emailInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
         android:hint="@string/join_page_text4"
@@ -80,7 +80,7 @@
         android:id="@+id/passwordInput"
         style="@style/whiteEditText"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gray_button_height"
+        android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/phoneInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
@@ -91,12 +91,11 @@
         android:id="@+id/joinButton"
         style="@style/darkGrayButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gray_button_height"
+        android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/passwordInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_smaller"
         android:onClick="joinButtonAction"
         android:text="@string/join_page_button_2_text" />
-
 
 </RelativeLayout>

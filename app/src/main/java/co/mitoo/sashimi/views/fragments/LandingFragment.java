@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -63,19 +64,30 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     }
 
     private void searchButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_search , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.VERTICAL);
-        
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_search)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .build();
+        postFragmentChangeEvent(event);
+
     }
 
     private void loginButtonAction(){
-        fireFragmentChangeAction(R.id.fragment_login);
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_login)
+                .build();
+        postFragmentChangeEvent(event);
+
     }
 
-    private void termsAction(){
+    private void termsAction() {
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.termsSpinnerNumber));
-        fireFragmentChangeAction(R.id.fragment_about_mitoo , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL, bundle);
+        routeToAboutMitoo(bundle);
 
     }
 
@@ -83,8 +95,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_prompt), String.valueOf(MitooConstants.privacySpinnerNumber));
-        fireFragmentChangeAction(R.id.fragment_about_mitoo , MitooEnum.FragmentTransition.PUSH , MitooEnum.FragmentAnimation.HORIZONTAL, bundle);
-
+        routeToAboutMitoo(bundle);
     }
 
     @Override
@@ -231,5 +242,17 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     public void setSlider(SliderLayout slider) {
         this.slider = slider;
+    }
+
+    private void routeToAboutMitoo(Bundle bundle){
+
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                .setFragmentID(R.id.fragment_about_mitoo)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .setBundle(bundle)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
     }
 }

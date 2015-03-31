@@ -2,20 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <TextView
-        android:id="@+id/dynamicText"
+        android:id="@+id/small_list_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/place_holder_sport"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_marginLeft="@dimen/small_list_item_left_padding"
+        android:layout_marginTop="@dimen/small_list_item_top_padding"
+        android:layout_marginBottom="@dimen/small_list_item_bottom_padding"
         android:layout_alignParentLeft="true"
-        style="@style/grayDarkBigText"
-        />
+        style="@style/searchListItemText"/>
 
 </RelativeLayout>

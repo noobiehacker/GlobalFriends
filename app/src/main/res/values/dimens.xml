@@ -11,7 +11,8 @@
     <dimen name="font_small">12sp</dimen>
     <dimen name="font_smaller">7sp</dimen>
 
-    <!-- font sizes custom -->
+    <!-- float values -->
+    <item name="low_alpha" format="float" type="dimen">0.3</item>
 
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">165dp</dimen>
@@ -38,7 +39,7 @@
     <dimen name="footer">120dp</dimen>
 
     <!-- typical sizes of views -->
-    <dimen name="gray_button_height">45dp</dimen>
+    <dimen name="general_button_height">45dp</dimen>
     <dimen name="gray_button_width">324dp</dimen>
     <dimen name="search_bar_height">37dp</dimen>
 

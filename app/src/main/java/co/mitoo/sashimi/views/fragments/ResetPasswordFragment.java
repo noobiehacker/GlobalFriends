@@ -62,7 +62,7 @@ public class ResetPasswordFragment extends MitooFragment{
     @Override
     public void initializeViews(View view){
         super.initializeViews(view);
-        setTopEditText((EditText)view.findViewById(R.id.loginIDInput));
+        setTopEditText((EditText)view.findViewById(R.id.emailInput));
 
     }
 
@@ -88,7 +88,7 @@ public class ResetPasswordFragment extends MitooFragment{
         
         if(statusCode == 404 ){
             String errorMessage = getDataHelper().getResetPageBadEmailMessage(getEmail());
-            displayText(errorMessage);
+            displayTextWithToast(errorMessage);
         }else{
             super.handleHttpErrors(statusCode);
         }
@@ -98,7 +98,7 @@ public class ResetPasswordFragment extends MitooFragment{
     private void resetButtonAction(){
 
         if(getEmail().equals("")){
-            displayText(getString(R.string.toast_email_required));
+            displayTextWithToast(getString(R.string.toast_email_required));
         }
         else if(!getFormHelper().validEmail(getEmail())){
             getFormHelper().handleInvalidEmail(getEmail());
@@ -112,7 +112,7 @@ public class ResetPasswordFragment extends MitooFragment{
     }
 
     private String getEmail(){
-        return this.getTextFromTextField(R.id.loginIDInput);
+        return this.getTextFromTextField(R.id.emailInput);
     }
 
 

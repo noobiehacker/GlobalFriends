@@ -32,6 +32,7 @@ public class MitooEnum {
     public enum ViewType{
         LIST, FRAGMENT
     }
+
     public enum ErrorType{
         APP ,API
     }
@@ -45,10 +46,38 @@ public class MitooEnum {
     }
 
     public enum AppEnvironment {
-        PRODUCTION, STAGING ,APIARY
+        PRODUCTION, STAGING ,APIARY , LOCALHOST
     }
 
     public enum MenuItemSelected {
         FEEDBACK, SETTINGS ,NONE
+    }
+
+    public enum LeagueListType {
+        COMPETITION, ENQUIRED
+    }
+
+    public enum FixtureRowType {
+        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCELED, TBC ,RESCHEDULE
+    }
+
+    public enum FixtureTabType {
+        FIXTURE_SCHEDULE, FIXTURE_RESULT
+    }
+
+    public enum TimeFrame {
+        PAST , FUTURE
+    }
+
+    public enum NotificationType {
+        NextGame, TeamResults, RivalResults
+    }
+
+    public enum ModelType {
+        TEAM , FIXTURE
+    }
+
+    public enum ConfirmFlow {
+        SIGNUP, INVITE
     }
 }

@@ -144,7 +144,7 @@ public class FeedBackFragment extends MitooFragment {
     public void setUpContactMitooView(View view){
         
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.feedback_contact_mitoo_container);
-        TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
+        TextView contactMitooTextView = (TextView) container.findViewById(R.id.big_list_item_text);
         contactMitooTextView.setText(getString(R.string.feedback_page_text1));
         
     }
@@ -152,8 +152,8 @@ public class FeedBackFragment extends MitooFragment {
     public void setUpFAQView(View view){
 
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.faq_container);
-        TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
-        contactMitooTextView.setText(getString(R.string.confused_page_text2));
+        TextView faqTextView = (TextView) container.findViewById(R.id.big_list_item_text);
+        faqTextView.setText(getString(R.string.confused_page_text2));
         container.setOnClickListener(this);
 
     }
@@ -161,8 +161,8 @@ public class FeedBackFragment extends MitooFragment {
     public void setUpWriteReviewView(View view){
 
         RelativeLayout container = (RelativeLayout) view.findViewById(R.id.write_a_review_container);
-        TextView contactMitooTextView = (TextView) container.findViewById(R.id.dynamicText);
-        contactMitooTextView.setText(getString(R.string.happy_page_text2));
+        TextView reviewMitooTextView = (TextView) container.findViewById(R.id.big_list_item_text);
+        reviewMitooTextView.setText(getString(R.string.happy_page_text2));
         container.setOnClickListener(this);
 
     }
