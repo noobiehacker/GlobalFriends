@@ -80,7 +80,7 @@
     <!-- Home Page - Enquired List View -->
     <dimen name="enquired_list_icon_left_padding">16dp</dimen>
     <dimen name="enquired_list_icon_right_padding">12dp</dimen>
-    <dimen name="enquired_list_icon_length">31dp</dimen>
+    <dimen name="enquired_list_icon_length">18dp</dimen>
     <dimen name="enquired_list_arrow_right_padding">16dp</dimen>
     <dimen name="enquired_list_arrow_width">7dp</dimen>
     <dimen name="enquired_list_arrow_height">12dp</dimen>

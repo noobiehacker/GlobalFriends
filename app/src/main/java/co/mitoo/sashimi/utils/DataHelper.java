@@ -222,7 +222,7 @@ public class DataHelper {
         return result;
     }
 
-    public Date getDateFromString(String input) {
+    public Date getLongDateFromString(String input) {
 
         Date result = null;
 

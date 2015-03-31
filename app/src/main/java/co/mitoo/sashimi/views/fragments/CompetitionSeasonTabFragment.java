@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -19,22 +19,23 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 /**
  * Created by david on 15-03-08.
  */
-public class FixtureTabFragment extends MitooFragment {
+public class CompetitionSeasonTabFragment extends MitooFragment {
 
     private LinearLayout fixtureTabContainerView;
     private MitooEnum.FixtureTabType tabType;
+    private TextView noResultsTextView;
 
     @Override
     public void onClick(View v) {
     }
 
-    public static FixtureTabFragment newInstance() {
-        FixtureTabFragment fragment = new FixtureTabFragment();
+    public static CompetitionSeasonTabFragment newInstance() {
+        CompetitionSeasonTabFragment fragment = new CompetitionSeasonTabFragment();
         return fragment;
     }
 
-    public static FixtureTabFragment newInstance(MitooEnum.FixtureTabType tabType) {
-        FixtureTabFragment fragment = new FixtureTabFragment();
+    public static CompetitionSeasonTabFragment newInstance(MitooEnum.FixtureTabType tabType) {
+        CompetitionSeasonTabFragment fragment = new CompetitionSeasonTabFragment();
         fragment.setTabType(tabType);
         return fragment;
     }
@@ -53,9 +54,17 @@ public class FixtureTabFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
+        setNoResultsTextView((TextView) view.findViewById(R.id.noResultsTextView));
         setFixtureTabContainerView((LinearLayout) view.findViewById(R.id.scheduleContainerView));
         setUpScheduleContainerView();
+    }
 
+    public TextView getNoResultsTextView() {
+        return noResultsTextView;
+    }
+
+    public void setNoResultsTextView(TextView noResultsTextView) {
+        this.noResultsTextView = noResultsTextView;
     }
 
     private void setUpScheduleContainerView(){
@@ -71,7 +80,10 @@ public class FixtureTabFragment extends MitooFragment {
             default:
                 fixtureList = getFixtureModel().getSchedule();
         }
-        getViewHelper().setUpFixtureForTabRefrac(fixtureList, getFixtureTabContainerView());
+        if(fixtureList.isEmpty())
+            getNoResultsTextView().setVisibility(View.VISIBLE);
+        else
+            getViewHelper().setUpFixtureForTabRefrac(fixtureList, getFixtureTabContainerView());
     }
 
     @Override

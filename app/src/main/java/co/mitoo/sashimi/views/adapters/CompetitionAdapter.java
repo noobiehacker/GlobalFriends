@@ -30,6 +30,7 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
 
         convertView = View.inflate(getContext(), R.layout.list_view_enquired_league ,null);
         Competition competition = this.getItem(position);
+
         setUpCompetitionText(convertView, competition);
         League league = competition.getLeague();
         setUpLeagueIcon(convertView, league);

@@ -13,6 +13,7 @@
 
     <!-- float values -->
     <item name="low_alpha" format="float" type="dimen">0.3</item>
+    <item name="width_to_height_ratio" format="float" type="dimen">2.1</item>
 
     <!-- typical spacing between two views -->
     <dimen name="spacing_huge">165dp</dimen>
