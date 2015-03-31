@@ -170,9 +170,10 @@ public class ViewHelper {
     public void setUpLeagueIcon(final View view , String leagueIconUrl){
         ImageView iconImage = (ImageView) view.findViewById(R.id.enquired_list_icon);
         int iconDimenID = R.dimen.enquired_list_icon_length;
+        float ratio = getActivity().getResources().getDimension(R.dimen.width_to_height_ratio);
         getPicasso().with(getActivity())
                 .load(leagueIconUrl)
-                .transform(new LogoTransform(getPixelFromDimenID(iconDimenID), 1.0))
+                .transform(new LogoTransform(getPixelFromDimenID(iconDimenID), ratio))
                 .into(iconImage, createListIconCallBack(view));
     }
 
@@ -456,7 +457,7 @@ public class ViewHelper {
         this.setUpIconImageWithCallBack(leagueItemContainer, league, leagueListHolder);
         return leagueItemContainer;
     }
-
+/*
     public void setUpFixtureForTab(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
 
         //1)Break the bigger list of Fixture into smaller list of all having the same date
@@ -497,7 +498,7 @@ public class ViewHelper {
 
             }
         }
-    }
+    }*/
 
     public void setUpFixtureForTabRefrac(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
 

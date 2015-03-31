@@ -27,7 +27,7 @@ import it.neokree.materialtabs.MaterialTabListener;
  * Created by david on 15-03-06.
  */
 
-public class FixtureFragment extends MitooFragment implements MaterialTabListener {
+public class CompetitionSeasonFragment extends MitooFragment implements MaterialTabListener {
 
     private MaterialTabHost tabHost;
     private ViewPager pager;
@@ -42,8 +42,8 @@ public class FixtureFragment extends MitooFragment implements MaterialTabListene
     public void onClick(View v) {
     }
 
-    public static FixtureFragment newInstance() {
-        FixtureFragment fragment = new FixtureFragment();
+    public static CompetitionSeasonFragment newInstance() {
+        CompetitionSeasonFragment fragment = new CompetitionSeasonFragment();
         return fragment;
     }
 

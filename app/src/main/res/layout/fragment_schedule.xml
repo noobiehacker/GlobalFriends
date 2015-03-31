@@ -22,4 +22,24 @@
 
     </ScrollView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/spacing_sides"
+        android:paddingRight="@dimen/spacing_sides">
+
+        <TextView
+            android:id="@+id/noFixturesTextView"
+            style="@style/schedulePageNoResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:minLines="1"
+            android:text="@string/fixture_page_no_results"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

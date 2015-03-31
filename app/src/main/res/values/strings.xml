@@ -252,6 +252,7 @@
         <item>RESULTS</item>
     </string-array>
     <string name="fixture_page_tbc">TBC</string>
+    <string name="fixture_page_no_results">This competition has no results</string>
 
     <!--Notification Page -->
     <string name="notification_page_list_title">Account</string>

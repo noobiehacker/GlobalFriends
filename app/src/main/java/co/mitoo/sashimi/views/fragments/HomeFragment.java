@@ -40,15 +40,16 @@ public class HomeFragment extends MitooFragment {
     private ListView enquiredLeagueList;
     private LeagueAdapter enquiredLeagueDataAdapter;
 
-    private List<Competition> myLeagueData;
-    private ListView myLeagueList;
-    private CompetitionAdapter myLeagueDataAdapter;
-    private View myLeagueListFooterView;
+    private List<Competition> myCompetitionData;
+    private ListView myCompetitionList;
+    private CompetitionAdapter myCompetitionDataAdapter;
+
+    private View myCompetitionListFooterView;
 
     private boolean userHasUsedApp;
     private boolean registerFlow;
     private boolean enquriedLeagueDataLoaded;
-    private boolean myLeagueDataLoaded;
+    private boolean myCompetitionDataLoaded;
 
     private MitooEnum.MenuItemSelected menuItemSelected = MitooEnum.MenuItemSelected.NONE;
 
@@ -86,7 +87,7 @@ public class HomeFragment extends MitooFragment {
         setUpUserHasUsedAppBoolean();
         setUpRegisterFlowBoolean();
         refreshEnquriedLeagueData();
-        refreshMyLeagueData();
+        refreshMyCompetitionData();
         //setUpPopUpTask();
     }
 
@@ -96,7 +97,7 @@ public class HomeFragment extends MitooFragment {
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpEnquiredListView(view, getString(R.string.home_page_text_1));
-        setUpMyLeagueListView(view, getString(R.string.home_page_text_5));
+        setUpMyCompetitionListView(view, getString(R.string.home_page_text_5));
         if(getLeagueModel().getLeaguesEnquired().size()==0)
             setPreDataLoading(true);
     }
@@ -179,7 +180,7 @@ public class HomeFragment extends MitooFragment {
     protected void requestData(){
 
         setEnquriedLeagueDataLoaded(false);
-        setMyLeagueDataLoaded(false);
+        setMyCompetitionDataLoaded(false);
         requestLeagueData();
         requestCompetitionData();
     }
@@ -211,16 +212,16 @@ public class HomeFragment extends MitooFragment {
     @Subscribe
     public void onCompetitionResponse(CompetitionModelResponseEvent event) {
 
-        setMyLeagueDataLoaded(true);
+        setMyCompetitionDataLoaded(true);
         updateListViews();
 
     }
 
     private void updateListViews(){
 
-        if(enquriedLeagueDataHasLoaded() && myLeagueDataHasLoaded()){
+        if(enquriedLeagueDataHasLoaded() && myCompetitionDataHasLoaded()){
             updateEnqureLeagueListView();
-            updateMyLeagueListView();
+            updateMyCompetitionListView();
             updateMenu();
         }
 
@@ -237,27 +238,27 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    private void updateMyLeagueListView(){
+    private void updateMyCompetitionListView(){
 
-        refreshMyLeagueData();
-        updateMyLeagueListFooter();
+        refreshMyCompetitionData();
+        updateMyCompetitionListFooter();
 
     }
 
-    private void updateMyLeagueListFooter(){
-        if(getMyLeagueData().isEmpty()){
-            View footerView = getViewHelper().setUpListFooter(getMyLeagueList()
+    private void updateMyCompetitionListFooter(){
+        if(getMyCompetitionData().isEmpty()){
+            View footerView = getViewHelper().setUpListFooter(getMyCompetitionList()
                     ,R.layout.view_league_list_footer, getString(R.string.home_page_text_6));
-            setMyLeagueListFooterView(footerView);
+            setMyCompetitionListFooterView(footerView);
         }else{
-            if(getMyLeagueListFooterView()!=null)
-                getMyLeagueListFooterView().setVisibility(View.GONE);
+            if(getMyCompetitionListFooterView()!=null)
+                getMyCompetitionListFooterView().setVisibility(View.GONE);
         }
     }
 
     private void updateMenu(){
         Menu menu = (Menu)getToolbar().getMenu();
-        if(!getMyLeagueData().isEmpty() && menu!=null){
+        if(!getMyCompetitionData().isEmpty() && menu!=null){
             menu.removeItem(R.id.menu_search);
         }
     }
@@ -298,13 +299,13 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    public void refreshMyLeagueData(){
+    public void refreshMyCompetitionData(){
 
         if(getCompetitionModel().getMyCompetition()!=null){
-            getDataHelper().clearList(getMyLeagueData());
-            getDataHelper().addToListList(getMyLeagueData(), getCompetitionModel().getMyCompetition());
+            getDataHelper().clearList(getMyCompetitionData());
+            getDataHelper().addToListList(getMyCompetitionData(), getCompetitionModel().getMyCompetition());
         }
-        getMyLeagueDataAdapter().notifyDataSetChanged();
+        getMyCompetitionDataAdapter().notifyDataSetChanged();
 
     }
 
@@ -323,11 +324,11 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    private void setUpMyLeagueListView(View view, String headerText){
+    private void setUpMyCompetitionListView(View view, String headerText){
 
-        setMyLeagueList((ListView) view.findViewById(R.id.myLeagueListView));
-        getViewHelper().setUpListView(getMyLeagueList(),
-                getMyLeagueDataAdapter(), headerText, getMyLeagueDataAdapter());
+        setMyCompetitionList((ListView) view.findViewById(R.id.myLeagueListView));
+        getViewHelper().setUpListView(getMyCompetitionList(),
+                getMyCompetitionDataAdapter(), headerText, getMyCompetitionDataAdapter());
 
     }
 
@@ -399,25 +400,25 @@ public class HomeFragment extends MitooFragment {
 
     }
 
-    public List<Competition> getMyLeagueData() {
-        if (myLeagueData == null) {
-            myLeagueData= new ArrayList<Competition>();
+    public List<Competition> getMyCompetitionData() {
+        if (myCompetitionData == null) {
+            myCompetitionData = new ArrayList<Competition>();
         }
-        return myLeagueData;
+        return myCompetitionData;
     }
 
-    public ListView getMyLeagueList() {
-        return myLeagueList;
+    public ListView getMyCompetitionList() {
+        return myCompetitionList;
     }
 
-    public void setMyLeagueList(ListView myLeagueList) {
-        this.myLeagueList = myLeagueList;
+    public void setMyCompetitionList(ListView myCompetitionList) {
+        this.myCompetitionList = myCompetitionList;
     }
 
-    public CompetitionAdapter getMyLeagueDataAdapter() {
-        if (myLeagueDataAdapter == null)
-            myLeagueDataAdapter = new CompetitionAdapter(getActivity(), R.id.myLeagueListView, getMyLeagueData(), this);
-        return myLeagueDataAdapter;
+    public CompetitionAdapter getMyCompetitionDataAdapter() {
+        if (myCompetitionDataAdapter == null)
+            myCompetitionDataAdapter = new CompetitionAdapter(getActivity(), R.id.myLeagueListView, getMyCompetitionData(), this);
+        return myCompetitionDataAdapter;
     }
 
     public MitooEnum.MenuItemSelected getMenuItemSelected() {
@@ -428,12 +429,12 @@ public class HomeFragment extends MitooFragment {
         this.menuItemSelected = menuItemSelected;
     }
 
-    public View getMyLeagueListFooterView() {
-        return myLeagueListFooterView;
+    public View getMyCompetitionListFooterView() {
+        return myCompetitionListFooterView;
     }
 
-    public void setMyLeagueListFooterView(View myLeagueListFooterView) {
-        this.myLeagueListFooterView = myLeagueListFooterView;
+    public void setMyCompetitionListFooterView(View myCompetitionListFooterView) {
+        this.myCompetitionListFooterView = myCompetitionListFooterView;
     }
 
     public boolean enquriedLeagueDataHasLoaded() {
@@ -444,12 +445,12 @@ public class HomeFragment extends MitooFragment {
         this.enquriedLeagueDataLoaded = enquriedLeagueDataLoaded;
     }
 
-    public boolean myLeagueDataHasLoaded() {
-        return myLeagueDataLoaded;
+    public boolean myCompetitionDataHasLoaded() {
+        return myCompetitionDataLoaded;
     }
 
-    public void setMyLeagueDataLoaded(boolean myLeagueDataLoaded) {
-        this.myLeagueDataLoaded = myLeagueDataLoaded;
+    public void setMyCompetitionDataLoaded(boolean myCompetitionDataLoaded) {
+        this.myCompetitionDataLoaded = myCompetitionDataLoaded;
     }
 
 }

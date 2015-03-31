@@ -26,7 +26,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
 
     public Date getFixtureDate() {
         if(fixtureDate == null){
-            fixtureDate = getMitooActivity().getDataHelper().getDateFromString(getFixture().getLocal_time());
+            fixtureDate = getMitooActivity().getDataHelper().getLongDateFromString(getFixture().getLocal_time());
             if(fixtureDate == null){
                 fixtureDate = new Date();
             }

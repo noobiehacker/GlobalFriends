@@ -192,6 +192,12 @@
         <item name="fontPath">@string/DIN_Light_Italic</item>
     </style>
 
+    <style name="schedulePageNoResult">
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">15sp</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
+    </style>
+
     <!-- Notification page -->
 
     <style name="notificationPageTitleText">

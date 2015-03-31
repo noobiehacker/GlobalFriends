@@ -72,7 +72,7 @@ public class FragmentFactory {
                 result = AboutMitooFragment.newInstance();
                 break;
             case R.id.fragment_fixture:
-                result = FixtureFragment.newInstance();
+                result = CompetitionSeasonFragment.newInstance();
                 break;
             case R.id.fragment_notification:
                 result = NotificationFragment.newInstance();
@@ -96,7 +96,7 @@ public class FragmentFactory {
         MitooFragment result = null;
         switch (fragmentID) {
             case R.id.fragment_fixture_tab:
-                result = FixtureTabFragment.newInstance(tabType);
+                result = CompetitionSeasonTabFragment.newInstance(tabType);
                 break;
             default:
                 result = SplashScreenFragment.newInstance();
