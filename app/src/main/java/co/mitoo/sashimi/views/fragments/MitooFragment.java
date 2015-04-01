@@ -518,6 +518,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager().getConfirmInfoModel();
     }
 
+    protected MobileTokenModel getMobileTokenModel() {
+        return getMitooActivity().getModelManager().getMobileTokenModel();
+    }
+
     public ViewHelper getViewHelper() {
         if (viewHelper == null)
             viewHelper = new ViewHelper(getMitooActivity());

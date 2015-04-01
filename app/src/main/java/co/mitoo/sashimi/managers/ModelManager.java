@@ -47,67 +47,31 @@ public class ModelManager {
 
     public LeagueModel getLeagueModel() {
 
-        LeagueModel leagueModel = null;
-        MitooModel model = getModelFromList(LeagueModel.class);
-        if (model != null) {
-            leagueModel = (LeagueModel) model;
-        } else{
-            leagueModel = new LeagueModel(getMitooActivity());
-            addModel(leagueModel);
-        }
-        return leagueModel;
+        return (LeagueModel) getModel(LeagueModel.class);
+
     }
 
     public SessionModel getSessionModel() {
 
-        SessionModel sessionModel = null;
-        MitooModel model = getModelFromList(SessionModel.class);
-        if (model != null) {
-            sessionModel = (SessionModel) model;
-        } else {
-            sessionModel = new SessionModel(getMitooActivity());
-            addModel(sessionModel);
-        }
-        return sessionModel;
+        return (SessionModel) getModel(SessionModel.class);
+
     }
 
     public UserInfoModel getUserInfoModel() {
 
-        UserInfoModel userInfoModel = null;
-        MitooModel model = getModelFromList(UserInfoModel.class);
-        if (model != null) {
-            userInfoModel = (UserInfoModel) model;
-        } else {
-            userInfoModel = new UserInfoModel(getMitooActivity());
-            addModel(userInfoModel);
-        }
-        return userInfoModel;
+        return (UserInfoModel) getModel(UserInfoModel.class);
+
     }
 
     public LocationModel getLocationModel() {
 
-        LocationModel locationModel = null;
-        MitooModel model = getModelFromList(LocationModel.class);
-        if (model != null) {
-            locationModel = (LocationModel) model;
-        } else {
-            locationModel = new LocationModel(getMitooActivity());
-            addModel(locationModel);
-        }
-        return locationModel;
+        return (LocationModel) getModel(LocationModel.class);
+
     }
 
     public AppSettingsModel getAppSettingsModel() {
 
-        AppSettingsModel appSettingsModel = null;
-        MitooModel model = getModelFromList(AppSettingsModel.class);
-        if (model != null) {
-            appSettingsModel  = (AppSettingsModel) model;
-        } else {
-            appSettingsModel  = new AppSettingsModel(getMitooActivity());
-            addModel(appSettingsModel );
-        }
-        return appSettingsModel;
+        return (AppSettingsModel) getModel(AppSettingsModel.class);
     }
 
     public CompetitionModel getCompetitionModel() {
@@ -231,6 +195,7 @@ public class ModelManager {
         getLeagueModel();
         getAppSettingsModel();
         getLocationModel();
+        getMobileTokenModel();
     }
 
     public void readAllPersistedData(){
@@ -277,19 +242,18 @@ public class ModelManager {
     private void runRunnableInBackground(Runnable runnable){
         
         this.currentRunnable= runnable;
-        Thread t = new Thread(currentRunnable);
-        t.start();
-        
+        Thread thread = new Thread(this.currentRunnable);
+        thread.start();
+
     }
     
     private void removeModelReferences(){
+
         DataHelper dataHelper = new DataHelper(getMitooActivity());
-        getLeagueModel().resetFields();
-        getUserInfoModel().resetFields();
-        getCompetitionModel().resetFields();
-        getConfirmInfoModel().resetFields();
-        getTeamModel().resetFields();
-        getFixtureModel().resetFields();
+
+        for(MitooModel item  : getMitooModelList()){
+            item.resetFields();
+        }
         System.gc();
     }
 }

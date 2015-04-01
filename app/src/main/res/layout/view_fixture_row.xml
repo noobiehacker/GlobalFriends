@@ -36,7 +36,7 @@
 
             <ImageView
                 android:id="@+id/leftTeamIcon"
-                android:src="@drawable/team_1"
+                android:src="@drawable/team_logo_tbc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -55,7 +55,7 @@
 
             <ImageView
                 android:id="@+id/rightTeamIcon"
-                android:src="@drawable/team_3"
+                android:src="@drawable/team_logo_tbc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

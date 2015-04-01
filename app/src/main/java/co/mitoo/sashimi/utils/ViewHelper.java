@@ -196,12 +196,13 @@ public class ViewHelper {
         leagueSportsTextView.setText(league.getLeagueSports());
         setUpLeagueNameText(view, league);
         setUpCityNameText(view, league);
+
     }
 
     public void setUpCityNameText(View view, League league){
 
         TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
-        View cityContainer = (View ) view .findViewById(R.id.city_name_container);
+        View cityContainer = (View) view .findViewById(R.id.city_name_container);
         cityNameTextView.setText(league.getCity());
         cityContainer.setBackgroundDrawable(createRoundLeftCorners(league.getColor_1()));
 
@@ -517,7 +518,9 @@ public class ViewHelper {
         RelativeLayout fixtureGroupContainer = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_grouped);
         LinearLayout fixtureHolder = (LinearLayout) fixtureGroupContainer.findViewById(R.id.fixtureRowContainer);
         for(FixtureWrapper item : fixtureGroup){
-            fixtureHolder.addView(createFixtureRow(item));
+            MitooEnum.FixtureRowType fixtureType = getActivity().getDataHelper().getFixtureRowTypeFixture(item);
+            if(fixtureType != MitooEnum.FixtureRowType.DELETED)
+                fixtureHolder.addView(createFixtureRow(item));
         }
         setDateForFixtureGroup(fixtureGroupContainer, fixtureGroup);
         return fixtureGroupContainer;
@@ -549,6 +552,7 @@ public class ViewHelper {
 
         setUpTeamName(homeTeam, leftTeamTextView);
         setUpTeamName(awayTeam, rightTeamTextView);
+
 
     }
 
@@ -616,10 +620,13 @@ public class ViewHelper {
     }
 
     private void loadTeamIcon(ImageView imageView, String iconUrl){
-        getPicasso().with(getActivity())
-                .load(iconUrl)
-                .error(R.drawable.team_logo_tbc)
-                .into(imageView);
+
+        if(iconUrl!= null && imageView !=null){
+            getPicasso().with(getActivity())
+                    .load(iconUrl)
+                    .error(R.drawable.team_logo_tbc)
+                    .into(imageView);
+        }
     }
 
     private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureStatus fixtureType) {
@@ -820,8 +827,7 @@ public class ViewHelper {
 
     private String getCompetitionLogo(Competition competition) {
 
-        String result = "";
-        result = "http://www.portlandsoccerplex.com/wp-content/uploads/2014/03/soccerplex-logo.png";
+        String result = null;
         if (competition != null) {
             result = getRetinaUrl(result);
         }
@@ -830,8 +836,7 @@ public class ViewHelper {
 
     private String getTeamLogo(Team team) {
 
-        String result = "";
-        result = "https://lh5.googleusercontent.com/TUbM3hnUyBjkMdwTXSZsXAdQ-QDh_47x-KlxADDzhmkQBLNipNTaxE2HZIfRb2o756fvBxkHnD-o15Q=w2512-h1014";
+        String result = null;
         if (team != null) {
             result = getRetinaUrl(team.getLogo_small());
         }

@@ -253,7 +253,8 @@ public class LeagueModel extends MitooModel{
         league.setCreated_at(helper.getDisplayableTimeString(date));
         
     }
-    
+
+    @Override
     public void resetFields(){
         this.enquiredLeagues =null;
         this.leagueSearchResults = null;

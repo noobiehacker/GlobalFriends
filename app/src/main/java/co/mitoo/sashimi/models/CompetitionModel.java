@@ -53,6 +53,7 @@ public class CompetitionModel extends MitooModel{
 
     }
 
+    @Override
     public void resetFields(){
         this.myCompetition = null;
         this.selectedCompetition= null;

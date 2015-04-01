@@ -19,6 +19,7 @@ android {
         versionCode 3
         versionName "1.0.0"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        multiDexEnabled true
 
         /**use for espresso
          testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
@@ -116,7 +117,7 @@ dependencies {
     //Reactive Programming
     compile 'io.reactivex:rxjava:1.0.0-rc.10'
     compile 'io.reactivex:rxandroid:0.23.0'
-    compile 'pl.charmas.android:android-reactive-location:0.2@aar'
+    compile 'pl.charmas.android:android-reactive-location:0.4@aar'
     //Networking
     compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
     //Facebook

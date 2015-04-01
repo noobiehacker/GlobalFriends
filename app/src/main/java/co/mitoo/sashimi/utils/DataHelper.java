@@ -1,4 +1,6 @@
 package co.mitoo.sashimi.utils;
+import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -413,7 +415,7 @@ public class DataHelper {
     public String getNotificationText(MitooEnum.NotificationType notificationType) {
 
         String result = "";
-        switch (notificationType) {
+        switch(notificationType){
 
             case NextGame:
                 result = getActivity().getString(R.string.notification_page_list_item_next_game);
@@ -553,5 +555,48 @@ public class DataHelper {
         return deserializedObject;
     }
 
+    public String getOSVersion(){
+
+        return Build.VERSION.RELEASE;
+
+    }
+
+    public String getAppVersion(){
+
+        String result = "";
+        try{
+            PackageInfo info = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+            result = info.versionName;
+        }catch(Exception e){
+        }
+        return result;
+    }
+
+    public String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer) + " " + model;
+        }
+    }
+
+    public String getPlatformName(){
+
+        return getActivity().getString(R.string.platform_name);
+    }
+
+    private String capitalize(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
+        }
+    }
 
 }

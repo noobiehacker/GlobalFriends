@@ -5,7 +5,7 @@ import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
-import co.mitoo.sashimi.models.jsonPojo.recieve.DeviceInfoRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
@@ -71,7 +71,7 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<DeviceInfoRecieve> createDeviceAssociation(@Path("user_id") int user_id) {
+    public Observable<Response> createDeviceAssociation(@Path("user_id") int user_id, @Body JsonDeviceInfo jsonObject) {
         return null;
     }
 

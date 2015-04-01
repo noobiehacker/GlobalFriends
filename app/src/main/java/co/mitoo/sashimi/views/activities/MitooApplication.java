@@ -1,5 +1,7 @@
 package co.mitoo.sashimi.views.activities;
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.support.v4.app.NotificationCompat;
 import com.urbanairship.Logger;
 import com.urbanairship.UAirship;
@@ -22,9 +24,8 @@ public class MitooApplication extends Application{
             public void onAirshipReady(UAirship airship) {
                 // Create a customized default notification factory
                 DefaultNotificationFactory defaultNotificationFactory = new DefaultNotificationFactory(getApplicationContext());
-                defaultNotificationFactory.setSmallIconId(R.drawable.ic_launcher);
-                defaultNotificationFactory.setColor(NotificationCompat.COLOR_DEFAULT);
-
+                defaultNotificationFactory.setSmallIconId(R.drawable.notification_icon);
+                defaultNotificationFactory.setColor(getResources().getColor(R.color.black));
                 // Set it
                 airship.getPushManager().setNotificationFactory(defaultNotificationFactory);
 
@@ -36,5 +37,11 @@ public class MitooApplication extends Application{
             }
         });
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base){
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

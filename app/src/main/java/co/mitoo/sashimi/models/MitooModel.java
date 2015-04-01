@@ -91,7 +91,5 @@ public abstract class MitooModel
     protected void obtainResults() {
     }
 
-    protected void resetFields(){
-    }
-
+    public void resetFields() {}
 }

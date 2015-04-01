@@ -9,6 +9,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
+import rx.Subscriber;
 
 /**
  * Created by david on 15-01-21.
@@ -63,14 +64,41 @@ public class UserInfoModel extends MitooModel{
     protected void handleSubscriberResponse(Object objectRecieve)  {
         
         setUserInfoRecieve((UserInfoRecieve)objectRecieve);
-        SessionModel sessionModel = getActivity().getModelManager().getSessionModel();
-        sessionModel.updateSession(new SessionRecieve(getUserInfoRecieve()));
         postUserInfoRecieveResponse();
+        updateSessionModelAuthToken();
 
     }
 
+    protected <T> Subscriber<T> createSubscriber(Class<T> objectRecieve) {
+        return new Subscriber<T>() {
+
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+                String error = e.getMessage();
+            }
+
+            @Override
+            public void onNext(T objectRecieve) {
+
+                handleSubscriberResponse(objectRecieve);
+            }
+        };
+    }
+
+    @Override
     public void resetFields(){
         setUserInfoRecieve(null);
     }
 
+    private void updateSessionModelAuthToken(){
+        SessionModel sessionModel = getActivity().getModelManager().getSessionModel();
+        SessionRecieve session = sessionModel.getSession();
+        if(session!=null || session.auth_token== null)
+            sessionModel.updateSession(getUserInfoRecieve());
+    }
 }

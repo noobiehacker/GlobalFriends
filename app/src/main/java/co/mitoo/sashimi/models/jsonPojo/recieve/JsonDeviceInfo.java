@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  * Created by david on 15-03-29.
  */
 @JsonRootName(value = "")
-public class DeviceInfoRecieve {
+public class JsonDeviceInfo {
 
     public String token;
     public String platform;

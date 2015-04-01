@@ -4,7 +4,7 @@ import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
-import co.mitoo.sashimi.models.jsonPojo.recieve.DeviceInfoRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
@@ -62,7 +62,7 @@ public interface SteakApi {
     Observable<UserInfoRecieve>  createUserFromConfirmation(@Path("token") String token, @Body JsonSignUpSend jsonObject);
 
     @POST("/users/v1/users/{user_id}/mobile_devices")
-    Observable<DeviceInfoRecieve> createDeviceAssociation(@Path("user_id") int user_id);
+    Observable<Response> createDeviceAssociation(@Path("user_id") int user_id, @Body JsonDeviceInfo jsonObject);
 
     @DELETE("/users/v1/mobile_devices/{token}")
     Observable<Response> deleteDeviceAssociation(@Path("token") String token);
