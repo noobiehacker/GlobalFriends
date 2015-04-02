@@ -60,7 +60,6 @@
         <meta-data android:name="io.branch.sdk.ApplicationId" android:value="@string/API_key_branch_staging_key" />
 
 
-
         <!--
 
         Branch IO PROD API KEY

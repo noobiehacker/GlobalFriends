@@ -341,14 +341,20 @@ public class ViewHelper {
     }
 
     public void setUpMap(League league , GoogleMap map){
+
         if(league !=null & map !=null){
-            LatLng latLng = league.getLatLng();
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
-            MarkerOptions option = createMarkerOption(latLng, league.getCity());
-            Marker marker = map.addMarker(option);
-            disableMapGestures(map);
+            setUpMap(league.getLatLng() , map , league.getCity());
         }
         
+    }
+
+    public void setUpMap(LatLng latLng , GoogleMap map , String markerTitle) {
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+        MarkerOptions option = createMarkerOption(latLng, markerTitle);
+        Marker marker = map.addMarker(option);
+        disableMapGestures(map);
+
     }
     
     private void disableMapGestures(GoogleMap map){

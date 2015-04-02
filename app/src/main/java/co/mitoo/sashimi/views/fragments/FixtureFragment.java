@@ -1,4 +1,6 @@
 package co.mitoo.sashimi.views.fragments;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -6,7 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
+
+import java.util.Locale;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.Team;
@@ -27,6 +35,7 @@ public class FixtureFragment extends MitooFragment {
     private TextView timeTextView;
     private TextView locationTextView;
     private TextView statusTextView;
+    private MapFragment mapFragment;
 
     @Override
     public void onClick(View v) {
@@ -61,6 +70,7 @@ public class FixtureFragment extends MitooFragment {
         setLocationTextView((TextView) view.findViewById(R.id.fixtureLocationText));
         setStatusTextView((TextView) view.findViewById(R.id.fixtureStatusText));
         setUpAllTextViews();
+        setUpMap();
 
     }
 
@@ -98,10 +108,6 @@ public class FixtureFragment extends MitooFragment {
         Team homeTeam = getDataHelper().getTeam(getFixtureWrapper().getFixture().getHome_team_id());
         Team awayTeam = getDataHelper().getTeam(getFixtureWrapper().getFixture().getAway_team_id());
         return getTeamName(homeTeam) +getString(R.string.fixture_page_vs) + getTeamName(awayTeam);
-
-    }
-
-    private void setUpMap(){
 
     }
 
@@ -163,6 +169,24 @@ public class FixtureFragment extends MitooFragment {
 
     }
 
+    private void setUpMap(){
+
+        try{
+            GoogleMap map = ((MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.googleFixtureMapFragment)).getMap();
+            getViewHelper().setUpMap(getFixtureWrapper().getLatLng(), map , getFixtureTitle());
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    googleMapAction();
+                }
+            });
+        }
+        catch(Exception e){
+        }
+
+    }
+
     private void setUpYellowStatus(){
         setUpStatusText(getResources().getColor(R.color.orange_light));
     }
@@ -215,5 +239,12 @@ public class FixtureFragment extends MitooFragment {
 
     public void setStatusTextView(TextView statusTextView) {
         this.statusTextView = statusTextView;
+    }
+
+    private void googleMapAction(){
+        LatLng latLng = getFixtureWrapper().getLatLng();
+        String uri = String.format(Locale.ENGLISH, "geo:%d,%d", latLng.latitude, latLng.longitude);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        getActivity().startActivity(intent);
     }
 }

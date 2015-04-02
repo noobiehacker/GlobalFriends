@@ -1,4 +1,6 @@
 package co.mitoo.sashimi.utils;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.location;
@@ -167,6 +169,17 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
 
         }
         return rowType;
+    }
+
+    public LatLng getLatLng(){
+
+        LatLng result = null;
+        location location = getFixture().getLocation();
+        if(location!=null ){
+            result = new LatLng(location.getLat(), location.getLng());
+        }
+        return result;
+
     }
 
     private DataHelper getDataHelper(){
