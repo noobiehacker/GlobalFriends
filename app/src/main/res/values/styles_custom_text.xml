@@ -241,4 +241,38 @@
         <item name="fontPath">@string/DIN_Light</item>
     </style>
 
+    <!-- Fixture page -->
+
+    <style name="fixturePageTitleText">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">11.2sp</item>
+    </style>
+
+    <style name="fixturePageResultText">
+        <item name="android:textColor">@color/gray_dark_three</item>
+        <item name="android:textSize">19.6sp</item>
+    </style>
+
+    <style name="fixturePageMiddleTopText">
+        <item name="android:textColor">@color/gray_dark_four</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="fixturePageMiddleBottomText">
+        <item name="android:textColor">@color/gray_light_six</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="fixturePageBottomText">
+        <item name="android:textColor">@color/gray_dark_five</item>
+        <item name="android:textSize">15.6sp</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
+    </style>
+
+    <style name="fixturePageGetDirectionText">
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">15.6sp</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
+    </style>
+
 </resources>

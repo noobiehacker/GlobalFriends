@@ -29,19 +29,20 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
-import co.mitoo.sashimi.views.MitooImageTarget;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
@@ -170,7 +171,7 @@ public class ViewHelper {
     public void setUpLeagueIcon(final View view , String leagueIconUrl){
         ImageView iconImage = (ImageView) view.findViewById(R.id.enquired_list_icon);
         int iconDimenID = R.dimen.enquired_list_icon_length;
-        float ratio = getActivity().getResources().getDimension(R.dimen.width_to_height_ratio);
+        float ratio = getActivity().getDataHelper().getFloatValue(R.dimen.width_to_height_ratio);
         getPicasso().with(getActivity())
                 .load(leagueIconUrl)
                 .transform(new LogoTransform(getPixelFromDimenID(iconDimenID), ratio))
@@ -457,48 +458,6 @@ public class ViewHelper {
         this.setUpIconImageWithCallBack(leagueItemContainer, league, leagueListHolder);
         return leagueItemContainer;
     }
-/*
-    public void setUpFixtureForTab(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
-
-        //1)Break the bigger list of Fixture into smaller list of all having the same date
-        //2)Than call helper method to create these grouped fixtures for one date, one by one
-        List<FixtureWrapper> listOfFixtureForOneDate = null;
-        Date dateForCurrentList= null;
-        Date dateForItem = null;
-        boolean beginningOfInnerGroup = true;
-
-        //3)See if the current index is supposed to be a beginning of group
-        //If it is, initialize the group and add it to the group
-        //4) Add the fixture Item to the inner group's ArrayList
-        //5) If we reach the end of the Outter list or the date of the item is different than our inner group,
-        //we initilize the view
-        for (int index = 0 ; index <fixtureList.size() ; index++){
-
-            dateForItem = fixtureList.get(index).getFixtureDate();
-
-            if(index ==0 || index == fixtureList.size()-1){
-                if(index == 0){
-                    listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
-                    dateForCurrentList = dateForItem;
-                    listOfFixtureForOneDate.add(fixtureList.get(index));
-                }
-                if(index == fixtureList.size()-1){
-                    if(index!=0){
-                        listOfFixtureForOneDate.add(fixtureList.get(index));
-                    }
-                    tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
-                }
-            }else{
-                if(!getDataHelper().isSameDate(dateForItem, dateForCurrentList)){
-                    tabLayOutContainer.addView(createFixtureForOneDate(listOfFixtureForOneDate));
-                    listOfFixtureForOneDate = new ArrayList<FixtureWrapper>();
-                    dateForCurrentList = dateForItem;
-                }
-                    listOfFixtureForOneDate.add(fixtureList.get(index));
-
-            }
-        }
-    }*/
 
     public void setUpFixtureForTabRefrac(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
 
@@ -554,7 +513,7 @@ public class ViewHelper {
 
         if(fixtureGroup.size()>0){
             TextView dateTextView = (TextView) fixtureGroupContainer.findViewById(R.id.dateTextField);
-            String fixtureDate = fixtureGroup.get(0).getDisplayableDate();
+            String fixtureDate = fixtureGroup.get(0).getLongDisplayableDate();
             dateTextView.setText(fixtureDate);
         }
     }
@@ -675,6 +634,7 @@ public class ViewHelper {
         setUpFixtureStamp(row, fixture, fixtureType);
         setUpFixtureCenterText(row, fixture, fixtureType);
         setUpFixtureTeamIcons(row, fixture, fixtureType);
+        setUpFixtureOnClickListner(row, fixture);
 
     }
 
@@ -943,4 +903,30 @@ public class ViewHelper {
         return getActivity().getDataHelper();
     }
 
+    private View.OnClickListener createFixtureItemClickedListner(final FixtureWrapper itemClicked){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getActivity().getDataHelper().isClickable())
+                    fixtureItemClickAction(itemClicked);
+            }
+        };
+    }
+
+    private void fixtureItemClickAction(FixtureWrapper fixture){
+
+        FixtureModel model =getActivity().getModelManager().getFixtureModel();
+        model.setSelectedFixture(fixture);
+        FragmentChangeEvent event = FragmentChangeEventBuilder
+                .getSingleTonInstance()
+                .setFragmentID(R.id.fragment_individual_fixture)
+                .build();
+        BusProvider.post(event);
+
+    }
+
+    private void setUpFixtureOnClickListner(RelativeLayout row , FixtureWrapper fixture){
+
+        row.setOnClickListener(createFixtureItemClickedListner(fixture));
+    }
 }

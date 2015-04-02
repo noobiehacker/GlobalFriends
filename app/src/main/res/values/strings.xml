@@ -254,6 +254,13 @@
     <string name="fixture_page_tbc">TBC</string>
     <string name="fixture_page_no_results">This competition has no results</string>
 
+    <!--Fixture Page -->
+    <string name="fixture_page_result_title">RESULT</string>
+    <string name="fixture_page_match_info_title">MATCH INFO</string>
+    <string name="fixture_page_location_title">LOCATION</string>
+    <string name="fixture_page_get_direction">Get directions</string>
+    <string name="fixture_page_vs">" VS "</string>
+
     <!--Notification Page -->
     <string name="notification_page_list_title">Account</string>
 

@@ -176,14 +176,14 @@ public class DataHelper {
     public void setMetrics(DisplayMetrics metrics) {
         this.metrics = metrics;
     }
-    
+
     public boolean isHighDenstiryScreen() {
         boolean result = false;
         if(getMetrics().densityDpi > DisplayMetrics.DENSITY_HIGH)
             result=true;
         return result;
     }
-    
+
     public String getRetinaURL(String url){
         //only works if url is not null and it has one dot and more than three chracters
         String result = "";
@@ -201,14 +201,14 @@ public class DataHelper {
         //Take out for produciton
 
         result =replaceLocalHostPrefix(result ,StaticString.steakLocalEndPoint );
-        
+
         return result;
     }
 
     public boolean isConfirmFeedBackPopped() {
         return confirmFeedBackPopped;
     }
-    
+
     public String parseDateToDisplayFormat(String input) {
 
         String result = input;
@@ -235,9 +235,14 @@ public class DataHelper {
         return result;
     }
 
-    public String getDisplayableDateString(Date date) {
+    public String getMdeiumDateString(Date date) {
 
-        return getDisplayableDateFormat().format(date);
+        return getMediumDisplayableDateFormat().format(date);
+    }
+
+    public String getLongDateString(Date date) {
+
+        return getLongDisplayableDateFormat().format(date);
     }
 
     public String getDisplayableTimeString(Date date) {
@@ -245,7 +250,7 @@ public class DataHelper {
         return getDisplayableTimeFormat().format(date);
 
     }
-    
+
     public SimpleDateFormat getOldLongDateFormat(){
 
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -262,8 +267,12 @@ public class DataHelper {
         return new SimpleDateFormat("MMM dd, yyyy");
     }
 
-    public SimpleDateFormat getDisplayableDateFormat(){
+    public SimpleDateFormat getMediumDisplayableDateFormat(){
         return new SimpleDateFormat("EEEE, dd MMM");
+    }
+
+    public SimpleDateFormat getLongDisplayableDateFormat(){
+        return new SimpleDateFormat("EEEE, dd MMMM yyyy");
     }
 
     public SimpleDateFormat getDisplayableTimeFormat(){
@@ -271,7 +280,7 @@ public class DataHelper {
     }
 
 
-    private MitooEnum.TimeFrame getTimeFrame(Date date){
+    public MitooEnum.TimeFrame getTimeFrame(Date date){
         if(date.after(new Date()))
             return MitooEnum.TimeFrame.FUTURE;
         else
@@ -291,9 +300,9 @@ public class DataHelper {
     }
 
     public String getResetPageBadEmailMessage(String email){
-        
+
         String prefix= getActivity().getString(R.string.error_bad_email_prefix);
-        String suffix= getActivity().getString(R.string.error_bad_email_suffix);        
+        String suffix= getActivity().getString(R.string.error_bad_email_suffix);
         return prefix + " " + email + " " + suffix;
 
     }
@@ -318,45 +327,45 @@ public class DataHelper {
         String joinPageSuffix = getActivity().getString(R.string.join_page_info_suffix);
         return joinPagePrefix + "\n" + leagueName + " " + joinPageSuffix;
 
-   }
+    }
 
-   public boolean isBundleArgumentTrue(Object argument) {
+    public boolean isBundleArgumentTrue(Object argument) {
 
-       if (argument != null) {
-           String stringArgument = argument.toString();
-           if (stringArgument.equals(getActivity().getString(R.string.bundle_value_true)))
-               return true;
-       }
-       return false;
-   }
+        if (argument != null) {
+            String stringArgument = argument.toString();
+            if (stringArgument.equals(getActivity().getString(R.string.bundle_value_true)))
+                return true;
+        }
+        return false;
+    }
 
-   public int getTextViewIDFromLayout(int layout) {
+    public int getTextViewIDFromLayout(int layout) {
 
-       int result = MitooConstants.invalidConstant;
-       if (layout == R.layout.view_list_header)
-           result = R.id.header_view;
-       else if (layout == R.layout.view_league_list_footer)
-           result = R.id.footer_view;
-       return result;
+        int result = MitooConstants.invalidConstant;
+        if (layout == R.layout.view_list_header)
+            result = R.id.header_view;
+        else if (layout == R.layout.view_league_list_footer)
+            result = R.id.footer_view;
+        return result;
 
-   }
+    }
 
-   public String getAlgoliaIndex(){
+    public String getAlgoliaIndex(){
 
-       String result = "";
+        String result = "";
 
-       switch(MitooConstants.appEnvironment){
-           case PRODUCTION:
-               result = getActivity().getString(R.string.algolia_production_index);
-               break;
-           default:
-               result = getActivity().getString(R.string.algolia_staging_index);
-            break;
-       }
+        switch(MitooConstants.appEnvironment){
+            case PRODUCTION:
+                result = getActivity().getString(R.string.algolia_production_index);
+                break;
+            default:
+                result = getActivity().getString(R.string.algolia_staging_index);
+                break;
+        }
 
-       return result;
+        return result;
 
-   }
+    }
 
     public String getNewRelicKey(){
 
@@ -379,7 +388,7 @@ public class DataHelper {
 
     public float getFloatValue(int floatID){
         TypedValue outValue = new TypedValue();
-        getActivity().getResources().getValue(R.dimen.low_alpha, outValue, true);
+        getActivity().getResources().getValue(floatID, outValue, true);
         return outValue.getFloat();
     }
 
@@ -397,63 +406,7 @@ public class DataHelper {
         return tabType;
     }
 
-    public MitooEnum.FixtureRowType getFixtureRowTypeFixture(FixtureWrapper fixtureWrapper){
 
-        /*Notes from BE
-
-            The status attribute is a variable to show non-normal games
-            0 = Normal
-            1 = Cancelled
-            2 = Deleted
-            3 = Postponed
-            4 = Rescheduled
-            5 = Abandoned
-            6 = Void Notes:
-
-         */
-
-        MitooEnum.FixtureRowType tabType;
-        if(fixtureWrapper.getFixture().isTime_tbc())
-            tabType = MitooEnum.FixtureRowType.TBC;
-        else{
-            switch(fixtureWrapper.getFixture().getStatus()){
-                case 0:
-                    MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
-                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
-                        tabType = MitooEnum.FixtureRowType.TIME;
-                    else{
-                        if(fixtureWrapper.getFixture().getResult()==null)
-                            tabType = MitooEnum.FixtureRowType.TBC;
-                        else
-                            tabType = MitooEnum.FixtureRowType.SCORE;
-                    }
-                    break;
-                case 1:
-                    tabType = MitooEnum.FixtureRowType.CANCELED;
-                    break;
-                case 2:
-                    tabType = MitooEnum.FixtureRowType.VOID;
-                    break;
-                case 3:
-                    tabType = MitooEnum.FixtureRowType.POSTPONED;
-                    break;
-                case 4:
-                    tabType = MitooEnum.FixtureRowType.RESCHEDULE;
-                    break;
-                case 5:
-                    tabType = MitooEnum.FixtureRowType.ABANDONED;
-                    break;
-                case 6:
-                    tabType = MitooEnum.FixtureRowType.VOID;
-                    break;
-                default:
-                    tabType = MitooEnum.FixtureRowType.TBC;
-                    break;
-
-            }
-        }
-        return tabType;
-    }
 
     public String getNotificationText(MitooEnum.NotificationType notificationType){
 
@@ -525,5 +478,63 @@ public class DataHelper {
         for(Competition comp : competitions){
             comp.setLeague(league);
         }
+    }
+
+    public MitooEnum.FixtureRowType getFixtureRowTypeFixture(FixtureWrapper fixtureWrapper){
+
+        /*Notes from BE
+
+            The status attribute is a variable to show non-normal games
+            0 = Normal
+            1 = Cancelled
+            2 = Deleted
+            3 = Postponed
+            4 = Rescheduled
+            5 = Abandoned
+            6 = Void Notes:
+
+         */
+
+        MitooEnum.FixtureRowType tabType;
+        if(fixtureWrapper.getFixture().isTime_tbc())
+            tabType = MitooEnum.FixtureRowType.TBC;
+        else{
+            switch(fixtureWrapper.getFixture().getStatus()){
+                case 0:
+                    MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
+                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
+                        tabType = MitooEnum.FixtureRowType.TIME;
+                    else{
+                        if(fixtureWrapper.getFixture().getResult()==null)
+                            tabType = MitooEnum.FixtureRowType.TBC;
+                        else
+                            tabType = MitooEnum.FixtureRowType.SCORE;
+                    }
+                    break;
+                case 1:
+                    tabType = MitooEnum.FixtureRowType.CANCELED;
+                    break;
+                case 2:
+                    tabType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                case 3:
+                    tabType = MitooEnum.FixtureRowType.POSTPONED;
+                    break;
+                case 4:
+                    tabType = MitooEnum.FixtureRowType.RESCHEDULE;
+                    break;
+                case 5:
+                    tabType = MitooEnum.FixtureRowType.ABANDONED;
+                    break;
+                case 6:
+                    tabType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                default:
+                    tabType = MitooEnum.FixtureRowType.TBC;
+                    break;
+
+            }
+        }
+        return tabType;
     }
 }

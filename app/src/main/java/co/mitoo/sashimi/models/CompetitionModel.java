@@ -83,4 +83,22 @@ public class CompetitionModel extends MitooModel{
     private boolean competitionIsEmpty(){
         return getMyCompetition().size()==0;
     }
+
+    public Competition getCompetitionFromID(int id ){
+
+        Competition result = null;
+        boolean resultFound = false;
+        loop:
+        for(Competition item : getMyCompetition()){
+            if(item.getFixed_competition_id()==id){
+                result = item;
+                resultFound= true;
+            }
+            if(resultFound)
+                break loop;
+        }
+        return result;
+
+    }
+
 }

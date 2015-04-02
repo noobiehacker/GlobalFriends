@@ -37,7 +37,7 @@ public final class MitooConstants {
     public static MitooEnum.AppEnvironment appEnvironment = MitooEnum.AppEnvironment.LOCALHOST;
 
     public static boolean getPersistenceStorage() {
-        return false;
+        return true;
     }
 
 }

@@ -19,6 +19,7 @@ public class FixtureModel extends MitooModel{
 
     private List<FixtureWrapper> schedule;
     private List<FixtureWrapper> result;
+    private FixtureWrapper selectedFixture;
 
     public FixtureModel(MitooActivity activity) {
         super(activity);
@@ -97,6 +98,11 @@ public class FixtureModel extends MitooModel{
         return getSchedule().size()==0 && getResult().size() == 0;
     }
 
+    public FixtureWrapper getSelectedFixture() {
+        return selectedFixture;
+    }
 
-
+    public void setSelectedFixture(FixtureWrapper selectedFixture) {
+        this.selectedFixture = selectedFixture;
+    }
 }

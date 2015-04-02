@@ -4,7 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.views.MitooImageTarget;
+import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 
 /**
  * Created by david on 14-11-21.

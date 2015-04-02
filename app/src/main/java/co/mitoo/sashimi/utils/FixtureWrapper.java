@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.utils;
 import java.util.Date;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
+import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.models.jsonPojo.result;
 import org.joda.time.LocalDate;
@@ -17,6 +18,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     private String displayableDate;
     private String displayableTime;
     private String displayableScore;
+    private String displayablePlace;
 
     public FixtureWrapper(Fixture fixture , MitooActivity activity) {
         this.fixture= fixture;
@@ -58,10 +60,18 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         return fixture;
     }
 
-    public String getDisplayableDate() {
+    public String getLongDisplayableDate() {
         if(displayableDate== null) {
             DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableDate = dataHelper.getDisplayableDateString(getFixtureDate());
+            displayableDate = dataHelper.getLongDateString(getFixtureDate());
+        }
+        return displayableDate;
+    }
+
+    public String getMediumDisplayableDate() {
+        if(displayableDate== null) {
+            DataHelper dataHelper = getMitooActivity().getDataHelper();
+            displayableDate = dataHelper.getMdeiumDateString(getFixtureDate());
         }
         return displayableDate;
     }
@@ -83,6 +93,15 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         return displayableScore;
     }
 
+    public String getDisplayablePlace(){
+        if(displayablePlace == null){
+            location location = getFixture().getLocation();
+            if(location!=null)
+                displayablePlace = location.getTitle();
+        }
+        return displayablePlace;
+    }
+
     private void initializeNullParam(){
         if(this.getFixture()!=null){
             if(this.getFixture().getSport()==null)
@@ -94,6 +113,64 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         Date now = new Date();
         return getFixtureDate().after(now);
 
+    }
+
+    public MitooEnum.FixtureRowType getFixtureType(){
+
+        /*Notes from BE
+
+            The status attribute is a variable to show non-normal games
+            0 = Normal
+            1 = Cancelled
+            2 = Deleted
+            3 = Postponed
+            4 = Rescheduled
+            5 = Abandoned
+            6 = Void Notes:
+
+         */
+
+        MitooEnum.FixtureRowType rowType;
+            switch(getFixture().getStatus()){
+                case 0:
+                    MitooEnum.TimeFrame fixtureTimeFrame = getDataHelper().getTimeFrame(getFixtureDate());
+                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
+                        rowType = MitooEnum.FixtureRowType.TIME;
+                    else{
+                        if(getFixture().getResult()==null)
+                            rowType = MitooEnum.FixtureRowType.TBC;
+                        else
+                            rowType = MitooEnum.FixtureRowType.SCORE;
+                    }
+                    break;
+                case 1:
+                    rowType = MitooEnum.FixtureRowType.CANCELED;
+                    break;
+                case 2:
+                    rowType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                case 3:
+                    rowType = MitooEnum.FixtureRowType.POSTPONED;
+                    break;
+                case 4:
+                    rowType = MitooEnum.FixtureRowType.RESCHEDULE;
+                    break;
+                case 5:
+                    rowType = MitooEnum.FixtureRowType.ABANDONED;
+                    break;
+                case 6:
+                    rowType = MitooEnum.FixtureRowType.VOID;
+                    break;
+                default:
+                    rowType = MitooEnum.FixtureRowType.TBC;
+                    break;
+
+        }
+        return rowType;
+    }
+
+    private DataHelper getDataHelper(){
+        return getMitooActivity().getDataHelper();
     }
 
 }
