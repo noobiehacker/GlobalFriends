@@ -619,11 +619,17 @@ public class MitooActivity extends ActionBarActivity {
                     token.setToken("Z_ryy7BchtV-s_MGEPPG");
                     *
                     */
+                    if (token.invitation_token!= null && token.invitation_token.equalsIgnoreCase("hxR1FZ4cPsUTyQz985SL")) {
+                        token = new Invitation_token();
+                        token.setToken("Z_ryy7BchtV-s_MGEPPG");
+                    }
                     getModelManager().getSessionModel().setInvitation_token(token);
-                    if(isOnSplashScreen()){
+                    if (isOnSplashScreen()) {
                         BusProvider.post(new BranchIOResponseEvent(getModelManager().getSessionModel().getInvitation_token()));
                         setOnSplashScreen(false);
-                    }else{
+                    } else {
+                        if(getModelManager().getSessionModel().userIsLoggedIn())
+                            BusProvider.post(new LogOutEvent());
                         MitooActivity.this.branchIODataReceived();
                     }
 
@@ -669,7 +675,6 @@ public class MitooActivity extends ActionBarActivity {
         BusProvider.post(event);
 
     }
-
 
     @Subscribe
     public void onNotificationRecieve(NotificationEvent event){

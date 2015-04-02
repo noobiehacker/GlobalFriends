@@ -97,7 +97,8 @@ public class ViewHelper {
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
         league.setLeagueCover(target);
-        if (leagueBackgroundImageView != null && leagueBackgroundImageView != null) {
+        String leagueBackgroundUrl = getCoverTall(league);
+        if (leagueBackgroundImageView != null && leagueBackgroundImageView != null && leagueBackgroundUrl!=null) {
             getPicasso().with(getActivity())
                     .load(getCoverTall(league))
                     .placeholder(R.color.over_lay_black)
@@ -809,7 +810,7 @@ public class ViewHelper {
 
     private String getCoverTall(League league){
 
-        String result = "";
+        String result = null;
         if(league!=null){
             result = getRetinaUrl(league.getCover_mobile_tall());
         }

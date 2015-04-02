@@ -65,6 +65,7 @@ public class ConfirmInfoModel extends MitooModel{
         leagueModel.setSelectedLeague(confirmInfo.getLeague());
 
         CompetitionModel competitionModel = manager.getCompetitionModel();
+        competitionModel.resetFields();
         competitionModel.addCompetition(confirmInfo.getCompetition_seasons());
 
     }

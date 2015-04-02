@@ -12,8 +12,11 @@ import com.squareup.otto.Subscribe;
 
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
@@ -128,9 +131,8 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
 
     private void setUpSetPasswordString(View view){
 
-        String identifier = getConfirmInfoModel().getConfirmInfo().getIdentifier_used();
         TextView textView = (TextView) view.findViewById(R.id.setAPasswordForText);
-        textView.setText(getString(R.string.confirmation_page_text_three) + identifier);
+        textView.setText(getString(R.string.confirmation_page_text_three));
     }
 
     private void setUpButtonColor(View view){

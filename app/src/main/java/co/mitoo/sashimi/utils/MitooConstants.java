@@ -34,7 +34,7 @@ public final class MitooConstants {
     public static int durationLong =750;
     public static int durationExtraLong =1000;
 
-    public static MitooEnum.AppEnvironment appEnvironment = MitooEnum.AppEnvironment.STAGING;
+    public static MitooEnum.AppEnvironment appEnvironment = MitooEnum.AppEnvironment.LOCALHOST;
 
     public static boolean getPersistenceStorage() {
         return true;

@@ -191,8 +191,9 @@ public class DataHelper {
 
     public String getRetinaURL(String url) {
         //only works if url is not null and it has one dot and more than three chracters
-        String result = "";
-        if (url != null) {
+
+        String result = null;
+        if(url!=null){
 
             int dotIndex = url.lastIndexOf('.');
             if (dotIndex >= 0 && url.length() > 3) {
@@ -412,6 +413,7 @@ public class DataHelper {
     }
 
 
+
     public String getNotificationText(MitooEnum.NotificationType notificationType) {
 
         String result = "";
@@ -467,10 +469,12 @@ public class DataHelper {
 
     private String replaceLocalHostPrefix(String url, String newPrefix) {
 
-        String result = url;
-        int index = url.lastIndexOf("3000");
-        if (index >= 0)
-            result = newPrefix + url.substring(index + 5, url.length());
+        String result = null;
+        if (url != null) {
+            int index = url.lastIndexOf("3000");
+            if (index >= 0)
+                result = newPrefix + url.substring(index + 5, url.length());
+        }
         return result;
     }
 

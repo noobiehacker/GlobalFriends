@@ -34,6 +34,7 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
     }
 
     public Boolean channelIDSent;
+    public Boolean fireLogOutEvent;
 
     public void setJsonDeviceInfo(JsonDeviceInfo jsonDeviceInfo) {
         this.jsonDeviceInfo = jsonDeviceInfo;
@@ -57,8 +58,7 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
             handleObservable(getSteakApiService().deleteDeviceAssociation(getChannelID())
                 , Response.class);
         else
-            BusProvider.post(new LogOutNetworkCompleteEevent());
-
+            fireLogOutEvent();
 
     }
 
@@ -76,7 +76,7 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
             if(status == 201){
                 setChannelIDSent(true);
             }else if (status ==204){
-                BusProvider.post(new LogOutNetworkCompleteEevent());
+                fireLogOutEvent();
             }
         }
 
@@ -106,6 +106,13 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         saveData();
     }
 
+
+    public void fireLogOutEvent(){
+        if(getFireLogOutEvent())
+            BusProvider.post(new LogOutNetworkCompleteEevent());
+        setFireLogOutEvent(true);
+
+    }
     @Override
     public void readData() {
 
@@ -141,5 +148,11 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         setJsonDeviceInfo(null);
     }
 
+    public Boolean getFireLogOutEvent() {
+        return fireLogOutEvent;
+    }
 
+    public void setFireLogOutEvent(Boolean fireLogOutEvent) {
+        this.fireLogOutEvent = fireLogOutEvent;
+    }
 }
