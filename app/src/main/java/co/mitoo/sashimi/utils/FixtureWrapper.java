@@ -19,7 +19,6 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     private MitooActivity mitooActivity;
     private Date fixtureDate;
     private LocalDate jodafixtureDate;
-    private String displayableDate;
     private String displayableTime;
     private String displayableScore;
     private String displayablePlace;
@@ -65,19 +64,8 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     }
 
     public String getLongDisplayableDate() {
-        if(displayableDate== null) {
-            DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableDate = dataHelper.getLongDateString(getFixtureDate());
-        }
-        return displayableDate;
-    }
-
-    public String getMediumDisplayableDate() {
-        if(displayableDate== null) {
-            DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableDate = dataHelper.getMediumDateString(getFixtureDate());
-        }
-        return displayableDate;
+        DataHelper dataHelper = getMitooActivity().getDataHelper();
+        return dataHelper.getLongDateString(getFixtureDate());
     }
 
     public String getDisplayableTime(){
