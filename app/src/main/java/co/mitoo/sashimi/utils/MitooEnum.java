@@ -57,7 +57,7 @@ public class MitooEnum {
         COMPETITION, ENQUIRED
     }
 
-    public enum FixtureRowType {
+    public enum FixtureStatus {
         TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCELED ,RESCHEDULE , DELETED
     }
 

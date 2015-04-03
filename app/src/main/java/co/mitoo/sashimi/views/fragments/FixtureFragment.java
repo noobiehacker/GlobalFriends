@@ -177,8 +177,8 @@ public class FixtureFragment extends MitooFragment {
     }
 
     private void setUpStatusText(){
-        MitooEnum.FixtureRowType fixtureRowType = getFixtureWrapper().getFixtureType();
-        switch (fixtureRowType){
+        MitooEnum.FixtureStatus fixtureStatus = getFixtureWrapper().getFixtureType();
+        switch (fixtureStatus){
             case ABANDONED:
             case VOID:
             case DELETED:

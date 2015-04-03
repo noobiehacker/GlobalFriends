@@ -539,7 +539,7 @@ public class ViewHelper {
         return fixtureRow;
     }
 
-    private void setUpFixtureRowTeamTextView(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureRowTeamTextView(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureStatus fixtureType){
 
         TextView leftTeamTextView = (TextView)row.findViewById(R.id.leftTeamName);
         TextView rightTeamTextView = (TextView)row.findViewById(R.id.rightTeamName);
@@ -568,7 +568,7 @@ public class ViewHelper {
 
     }
 
-    private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureStatus fixtureType){
 
 
         RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
@@ -604,7 +604,7 @@ public class ViewHelper {
         }
     }
 
-    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType) {
+    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureStatus fixtureType) {
 
         ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
@@ -622,7 +622,7 @@ public class ViewHelper {
                 .into(imageView);
     }
 
-    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType) {
+    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureStatus fixtureType) {
 
         TextView centerText = (TextView) row.findViewById(R.id.middleTextField);
         MitooEnum.TimeFrame fixtureTimeFrame = getDataHelper().getTimeFrame(fixture.getFixtureDate());
@@ -642,7 +642,7 @@ public class ViewHelper {
 
     private void customizeFixtureRow(RelativeLayout row , FixtureWrapper fixture){
 
-        MitooEnum.FixtureRowType fixtureType = getActivity().getDataHelper().getFixtureRowTypeFixture(fixture);
+        MitooEnum.FixtureStatus fixtureType = getActivity().getDataHelper().getFixtureStatus(fixture);
         setUpFixtureRowTeamTextView(row, fixture, fixtureType);
         setUpFixtureStamp(row, fixture, fixtureType);
         setUpFixtureCenterText(row, fixture, fixtureType);

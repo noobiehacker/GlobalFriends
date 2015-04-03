@@ -480,7 +480,7 @@ public class DataHelper {
         }
     }
 
-    public MitooEnum.FixtureRowType getFixtureRowTypeFixture(FixtureWrapper fixtureWrapper){
+    public MitooEnum.FixtureStatus getFixtureStatus(FixtureWrapper fixtureWrapper){
 
         /*Notes from BE
 
@@ -495,31 +495,31 @@ public class DataHelper {
 
          */
 
-        MitooEnum.FixtureRowType tabType;
+        MitooEnum.FixtureStatus tabType;
             switch(fixtureWrapper.getFixture().getStatus()){
                 case 0:
-                    tabType = MitooEnum.FixtureRowType.SCORE;
+                    tabType = MitooEnum.FixtureStatus.SCORE;
                     break;
                 case 1:
-                    tabType = MitooEnum.FixtureRowType.CANCELED;
+                    tabType = MitooEnum.FixtureStatus.CANCELED;
                     break;
                 case 2:
-                    tabType = MitooEnum.FixtureRowType.VOID;
+                    tabType = MitooEnum.FixtureStatus.VOID;
                     break;
                 case 3:
-                    tabType = MitooEnum.FixtureRowType.POSTPONED;
+                    tabType = MitooEnum.FixtureStatus.POSTPONED;
                     break;
                 case 4:
-                    tabType = MitooEnum.FixtureRowType.RESCHEDULE;
+                    tabType = MitooEnum.FixtureStatus.RESCHEDULE;
                     break;
                 case 5:
-                    tabType = MitooEnum.FixtureRowType.ABANDONED;
+                    tabType = MitooEnum.FixtureStatus.ABANDONED;
                     break;
                 case 6:
-                    tabType = MitooEnum.FixtureRowType.VOID;
+                    tabType = MitooEnum.FixtureStatus.VOID;
                     break;
                 default:
-                    tabType = MitooEnum.FixtureRowType.VOID;
+                    tabType = MitooEnum.FixtureStatus.VOID;
                     break;
 
             }
