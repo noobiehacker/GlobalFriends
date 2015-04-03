@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -35,7 +36,7 @@ public class FixtureFragment extends MitooFragment {
     private TextView timeTextView;
     private TextView locationTextView;
     private TextView statusTextView;
-    private MapFragment mapFragment;
+    private TextView addressTextView;
 
     @Override
     public void onClick(View v) {
@@ -61,15 +62,21 @@ public class FixtureFragment extends MitooFragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        MapFragment f = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.googleFixtureMapFragment);
+        if (f != null)
+            getFragmentManager().beginTransaction().remove(f).commit();
+    }
+
+    @Override
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        setResultTextView((TextView) view.findViewById(R.id.fixtureResultText));
-        setDateTextView((TextView) view.findViewById(R.id.fixtureDateText));
-        setTimeTextView((TextView) view.findViewById(R.id.fixtureTimeText));
-        setLocationTextView((TextView) view.findViewById(R.id.fixtureLocationText));
-        setStatusTextView((TextView) view.findViewById(R.id.fixtureStatusText));
+        initializeAllTextView(view);
         setUpAllTextViews();
+        showAndHideLogic(view);
         setUpMap();
 
     }
@@ -90,7 +97,23 @@ public class FixtureFragment extends MitooFragment {
 
     @Override
     protected void initializeOnClickListeners(View view) {
+    }
 
+    private void initializeAllTextView(View view){
+        setResultTextView((TextView) view.findViewById(R.id.fixtureResultText));
+        setDateTextView((TextView) view.findViewById(R.id.fixtureDateText));
+        setTimeTextView((TextView) view.findViewById(R.id.fixtureTimeText));
+        setLocationTextView((TextView) view.findViewById(R.id.fixtureLocationText));
+        setStatusTextView((TextView) view.findViewById(R.id.fixtureStatusText));
+        setAddressTextView((TextView) view.findViewById(R.id.fixtureAddressText));
+    }
+
+    private void showAndHideLogic(View view){
+
+        if(fixtureWrapper.getFixture().getResult()==null){
+            RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.fixture_top_details);
+            layout.setVisibility(View.GONE);
+        }
 
     }
 
@@ -113,7 +136,7 @@ public class FixtureFragment extends MitooFragment {
 
     private String getTeamName(Team team){
         if(team==null)
-            return getResources().getString(R.string.fixture_page_tbc);
+            return getResources().getString(R.string.fixture_page_tbd);
         else
             return team.getName();
     }
@@ -147,7 +170,9 @@ public class FixtureFragment extends MitooFragment {
         getDateTextView().setText(getFixtureWrapper().getLongDisplayableDate());
         getTimeTextView().setText(getFixtureWrapper().getDisplayableTime());
         getLocationTextView().setText(getFixtureWrapper().getDisplayablePlace());
+        getAddressTextView().setText((getFixtureWrapper().getDisplayableAddress()));
         setUpStatusText();
+
     }
 
     private void setUpStatusText(){
@@ -162,7 +187,6 @@ public class FixtureFragment extends MitooFragment {
             case RESCHEDULE:
                 setUpYellowStatus();
                 break;
-            case TBC:
             case SCORE:
                 break;
         }
@@ -174,7 +198,7 @@ public class FixtureFragment extends MitooFragment {
         try{
             GoogleMap map = ((MapFragment) getFragmentManager()
                     .findFragmentById(R.id.googleFixtureMapFragment)).getMap();
-            getViewHelper().setUpMap(getFixtureWrapper().getLatLng(), map , getFixtureTitle());
+            getViewHelper().setUpMap(getFixtureWrapper().getLatLng(), map );
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
@@ -241,9 +265,17 @@ public class FixtureFragment extends MitooFragment {
         this.statusTextView = statusTextView;
     }
 
+    public TextView getAddressTextView() {
+        return addressTextView;
+    }
+
+    public void setAddressTextView(TextView addressTextView) {
+        this.addressTextView = addressTextView;
+    }
+
     private void googleMapAction(){
         LatLng latLng = getFixtureWrapper().getLatLng();
-        String uri = String.format(Locale.ENGLISH, "geo:%d,%d", latLng.latitude, latLng.longitude);
+        String uri = String.format(Locale.ENGLISH, "geo:%1$,.2f,%2$,.2f", latLng.latitude, latLng.longitude);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         getActivity().startActivity(intent);
     }

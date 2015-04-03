@@ -252,7 +252,9 @@
         <item>RESULTS</item>
     </string-array>
     <string name="fixture_page_tbc">TBC</string>
-    <string name="fixture_page_no_results">This competition has no results</string>
+    <string name="fixture_page_tbd">TBD</string>
+    <string name="fixture_page_no_results">This competition has no past games</string>
+    <string name="fixture_page_no_up_coming_games">This competition has no upcoming games</string>
 
     <!--Fixture Page -->
     <string name="fixture_page_result_title">RESULT</string>

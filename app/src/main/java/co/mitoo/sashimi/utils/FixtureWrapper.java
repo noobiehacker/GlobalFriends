@@ -2,6 +2,8 @@ package co.mitoo.sashimi.utils;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Date;
+
+import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -80,8 +82,12 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
 
     public String getDisplayableTime(){
         if(displayableTime == null){
-            DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableTime =dataHelper.getDisplayableTimeString(getFixtureDate());
+            if(getFixture().isTime_tbc())
+                displayableTime  = getMitooActivity().getString(R.string.fixture_page_tbd);
+            else{
+                DataHelper dataHelper = getMitooActivity().getDataHelper();
+                displayableTime =dataHelper.getDisplayableTimeString(getFixtureDate());
+            }
         }
         return displayableTime;
     }
@@ -91,6 +97,8 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
             result result = getFixture().getResult();
             if(result!=null)
                 displayableScore = result.getHome_score() + result.getDelimiter() +result.getAway_score();
+            else
+                displayableScore = getMitooActivity().getString(R.string.fixture_page_tbd);
         }
         return displayableScore;
     }
@@ -119,6 +127,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
 
     public MitooEnum.FixtureRowType getFixtureType(){
 
+
         /*Notes from BE
 
             The status attribute is a variable to show non-normal games
@@ -132,43 +141,35 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
 
          */
 
-        MitooEnum.FixtureRowType rowType;
-            switch(getFixture().getStatus()){
-                case 0:
-                    MitooEnum.TimeFrame fixtureTimeFrame = getDataHelper().getTimeFrame(getFixtureDate());
-                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
-                        rowType = MitooEnum.FixtureRowType.TIME;
-                    else{
-                        if(getFixture().getResult()==null)
-                            rowType = MitooEnum.FixtureRowType.TBC;
-                        else
-                            rowType = MitooEnum.FixtureRowType.SCORE;
-                    }
-                    break;
-                case 1:
-                    rowType = MitooEnum.FixtureRowType.CANCELED;
-                    break;
-                case 2:
-                    rowType = MitooEnum.FixtureRowType.VOID;
-                    break;
-                case 3:
-                    rowType = MitooEnum.FixtureRowType.POSTPONED;
-                    break;
-                case 4:
-                    rowType = MitooEnum.FixtureRowType.RESCHEDULE;
-                    break;
-                case 5:
-                    rowType = MitooEnum.FixtureRowType.ABANDONED;
-                    break;
-                case 6:
-                    rowType = MitooEnum.FixtureRowType.VOID;
-                    break;
-                default:
-                    rowType = MitooEnum.FixtureRowType.TBC;
-                    break;
+        MitooEnum.FixtureRowType tabType;
+        switch(getFixture().getStatus()){
+            case 0:
+                tabType = MitooEnum.FixtureRowType.SCORE;
+                break;
+            case 1:
+                tabType = MitooEnum.FixtureRowType.CANCELED;
+                break;
+            case 2:
+                tabType = MitooEnum.FixtureRowType.VOID;
+                break;
+            case 3:
+                tabType = MitooEnum.FixtureRowType.POSTPONED;
+                break;
+            case 4:
+                tabType = MitooEnum.FixtureRowType.RESCHEDULE;
+                break;
+            case 5:
+                tabType = MitooEnum.FixtureRowType.ABANDONED;
+                break;
+            case 6:
+                tabType = MitooEnum.FixtureRowType.VOID;
+                break;
+            default:
+                tabType = MitooEnum.FixtureRowType.VOID;
+                break;
 
         }
-        return rowType;
+        return tabType;
     }
 
     public LatLng getLatLng(){
@@ -180,6 +181,15 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         }
         return result;
 
+    }
+
+    public String getDisplayableAddress(){
+        String result = "";
+        if(getFixture().getLocation()!=null){
+            location location = getFixture().getLocation();
+            result = location.getStreet_1() ;
+        }
+        return result;
     }
 
     private DataHelper getDataHelper(){

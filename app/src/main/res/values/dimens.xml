@@ -30,8 +30,8 @@
     <dimen name="spacing_smallest">5dp</dimen>
     <dimen name="spacing_tiny">3dp</dimen>
 
-    <dimen name="spacing_section_title_top">19dp</dimen>
-    <dimen name="spacing_section_title_bottom">9dp</dimen>
+    <dimen name="spacing_section_title_top">21.5dp</dimen>
+    <dimen name="spacing_section_title_bottom">8.5dp</dimen>
 
     <dimen name="spacing_map_text_width">17dp</dimen>
     <dimen name="spacing_map_text_height">8dp</dimen>

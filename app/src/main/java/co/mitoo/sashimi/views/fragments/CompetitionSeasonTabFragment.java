@@ -54,10 +54,18 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        setNoResultsTextView((TextView) view.findViewById(R.id.noResultsTextView));
+        setNoResultsTextView((TextView) view.findViewById(R.id.noFixturesTextView));
         setFixtureTabContainerView((LinearLayout) view.findViewById(R.id.scheduleContainerView));
-        setUpScheduleContainerView();
     }
+
+    @Override
+    public void onResume(){
+
+        super.onResume();
+        setUpScheduleContainerView();
+
+    }
+
 
     public TextView getNoResultsTextView() {
         return noResultsTextView;
@@ -80,8 +88,13 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             default:
                 fixtureList = getFixtureModel().getSchedule();
         }
-        if(fixtureList.isEmpty())
+        if(fixtureList.isEmpty()){
             getNoResultsTextView().setVisibility(View.VISIBLE);
+            if(getTabType()==MitooEnum.FixtureTabType.FIXTURE_RESULT)
+                getNoResultsTextView().setText(getString(R.string.fixture_page_no_results));
+            else
+                getNoResultsTextView().setText(getString(R.string.fixture_page_no_up_coming_games));
+        }
         else
             getViewHelper().setUpFixtureForTabRefrac(fixtureList, getFixtureTabContainerView());
     }

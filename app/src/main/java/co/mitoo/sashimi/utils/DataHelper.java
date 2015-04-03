@@ -496,20 +496,9 @@ public class DataHelper {
          */
 
         MitooEnum.FixtureRowType tabType;
-        if(fixtureWrapper.getFixture().isTime_tbc())
-            tabType = MitooEnum.FixtureRowType.TBC;
-        else{
             switch(fixtureWrapper.getFixture().getStatus()){
                 case 0:
-                    MitooEnum.TimeFrame fixtureTimeFrame = getTimeFrame(fixtureWrapper.getFixtureDate());
-                    if(fixtureTimeFrame == MitooEnum.TimeFrame.FUTURE)
-                        tabType = MitooEnum.FixtureRowType.TIME;
-                    else{
-                        if(fixtureWrapper.getFixture().getResult()==null)
-                            tabType = MitooEnum.FixtureRowType.TBC;
-                        else
-                            tabType = MitooEnum.FixtureRowType.SCORE;
-                    }
+                    tabType = MitooEnum.FixtureRowType.SCORE;
                     break;
                 case 1:
                     tabType = MitooEnum.FixtureRowType.CANCELED;
@@ -530,11 +519,10 @@ public class DataHelper {
                     tabType = MitooEnum.FixtureRowType.VOID;
                     break;
                 default:
-                    tabType = MitooEnum.FixtureRowType.TBC;
+                    tabType = MitooEnum.FixtureRowType.VOID;
                     break;
 
             }
-        }
         return tabType;
     }
 }

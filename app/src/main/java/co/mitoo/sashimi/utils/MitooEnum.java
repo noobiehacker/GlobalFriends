@@ -58,7 +58,7 @@ public class MitooEnum {
     }
 
     public enum FixtureRowType {
-        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCELED, TBC ,RESCHEDULE , DELETED
+        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCELED ,RESCHEDULE , DELETED
     }
 
     public enum FixtureTabType {

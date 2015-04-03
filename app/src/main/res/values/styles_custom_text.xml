@@ -263,9 +263,15 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="fixturePageBottomText">
+    <style name="fixturePageLocationText">
         <item name="android:textColor">@color/gray_dark_five</item>
-        <item name="android:textSize">15.6sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontPath">@string/DIN_Regular_Italic</item>
+    </style>
+
+    <style name="fixturePageAddressText">
+        <item name="android:textColor">@color/gray_dark_one</item>
+        <item name="android:textSize">16sp</item>
         <item name="fontPath">@string/DIN_Regular_Italic</item>
     </style>
 

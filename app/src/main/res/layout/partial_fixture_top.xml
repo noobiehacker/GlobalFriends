@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/fixture_page_top_section_top_padding"
-        android:layout_marginBottom="@dimen/fixture_page_top_section_bottom_padding"
+        android:layout_marginTop="@dimen/fixture_page_title_top_padding"
+        android:layout_marginBottom="@dimen/fixture_page_title_bottom_padding"
         android:text="@string/fixture_page_result_title" />
 
     <RelativeLayout

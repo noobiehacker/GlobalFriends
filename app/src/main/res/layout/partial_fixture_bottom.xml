@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/fixture_page_top_section_top_padding"
-        android:layout_marginBottom="@dimen/fixture_page_top_section_bottom_padding"
+        android:layout_marginTop="@dimen/fixture_page_title_top_padding"
+        android:layout_marginBottom="@dimen/fixture_page_title_bottom_padding"
         android:text="@string/fixture_page_location_title"
         style="@style/fixturePageTitleText"
         />
@@ -45,10 +45,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fixture_page_bottom_section_top_padding"
+                android:gravity="center"
+                android:text="@string/place_holder_dummie_text"
+                style="@style/fixturePageLocationText"
+                />
+
+            <TextView
+                android:id="@+id/fixtureAddressText"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fixtureLocationText"
                 android:layout_marginBottom="@dimen/fixture_page_bottom_section_bottom_padding"
                 android:gravity="center"
                 android:text="@string/place_holder_dummie_text"
-                style="@style/fixturePageBottomText"
+                style="@style/fixturePageAddressText"
                 />
 
         </RelativeLayout>

@@ -356,7 +356,15 @@ public class ViewHelper {
         disableMapGestures(map);
 
     }
-    
+
+    public void setUpMap(LatLng latLng , GoogleMap map ) {
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+        MarkerOptions option = new MarkerOptions().position(latLng);
+        Marker marker = map.addMarker(option);
+        disableMapGestures(map);
+
+    }
     private void disableMapGestures(GoogleMap map){
 
         map.getUiSettings().setZoomControlsEnabled(false);
@@ -533,32 +541,41 @@ public class ViewHelper {
 
     private void setUpFixturRowTeamTextView(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
 
-        TextView leftTeamName = (TextView)row.findViewById(R.id.leftTeamName);
-        TextView rightTeamName = (TextView)row.findViewById(R.id.rightTeamName);
+        TextView leftTeamTextView = (TextView)row.findViewById(R.id.leftTeamName);
+        TextView rightTeamTextView = (TextView)row.findViewById(R.id.rightTeamName);
+
         Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
         Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
-        if(fixtureType == MitooEnum.FixtureRowType.TBC){
-            leftTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
-            rightTeamName.setText(getActivity().getString(R.string.fixture_page_tbc));
-            leftTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
-            rightTeamName.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
-        }else{
-            if(awayTeam!=null && homeTeam!=null){
-                leftTeamName.setText(homeTeam.getName());
-                rightTeamName.setText(awayTeam.getName());
-            }
-        }
+
+        setUpTeamName(homeTeam , leftTeamTextView);
+        setUpTeamName(awayTeam , rightTeamTextView);
+
+    }
+
+    private void setUpTeamName(Team team ,TextView textView){
+
+        if(team!=null)
+            textView.setText(team.getName());
+        else
+            setTextViewAsTBC(textView);
+
+    }
+
+    private void setTextViewAsTBC(TextView textView){
+
+        textView.setText(getActivity().getString(R.string.fixture_page_tbd));
+        textView.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
 
     }
 
     private void setUpFixtureStamp(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureRowType fixtureType){
+
 
         RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
         ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
         float alphaValue = getActivity().getDataHelper().getFloatValue(R.dimen.low_alpha);
         switch(fixtureType){
             case TIME:
-            case TBC:
             case SCORE:
                 break;
             case ABANDONED:
@@ -587,46 +604,36 @@ public class ViewHelper {
         }
     }
 
-    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureTeamIcons(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType) {
 
         ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
         Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
         Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
-        if(fixtureType == MitooEnum.FixtureRowType.TBC){
-            rightTeamIcon.setImageResource(R.drawable.team_logo_tbc);
-            leftTeamIcon.setImageResource(R.drawable.team_logo_tbc);
-        }else{
-            String homeTeamLogoString = getTeamLogo(homeTeam);
-            String awayTeamLogoString = getTeamLogo(awayTeam);
-            loadTeamIcon(leftTeamIcon, homeTeamLogoString);
-            loadTeamIcon(rightTeamIcon, awayTeamLogoString);
-        }
+        loadTeamIcon(leftTeamIcon, getTeamLogo(homeTeam));
+        loadTeamIcon(rightTeamIcon, getTeamLogo(awayTeam));
 
     }
 
     private void loadTeamIcon(ImageView imageView, String iconUrl){
         getPicasso().with(getActivity())
                 .load(iconUrl)
-                .error(R.drawable.team_2)
+                .error(R.drawable.team_logo_tbc)
                 .into(imageView);
     }
 
-    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureCenterText(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType) {
 
-        TextView centerText = (TextView)row.findViewById(R.id.middleTextField);
-        switch(fixtureType){
-            case TIME:
+        TextView centerText = (TextView) row.findViewById(R.id.middleTextField);
+        MitooEnum.TimeFrame fixtureTimeFrame = getDataHelper().getTimeFrame(fixture.getFixtureDate());
+        switch (fixtureTimeFrame) {
+            case FUTURE:
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
                 centerText.setText(fixture.getDisplayableTime());
                 break;
-            case SCORE:
+            case PAST:
                 centerText.setTextAppearance(getActivity(), R.style.schedulePageScoreText);
                 centerText.setText(fixture.getDisplayableScore());
-                break;
-            case TBC:
-                centerText.setText(getActivity().getString(R.string.fixture_page_tbc));
-                centerText.setTextAppearance(getActivity(), R.style.schedulePageTimeText);
                 break;
             default:
                 break;
