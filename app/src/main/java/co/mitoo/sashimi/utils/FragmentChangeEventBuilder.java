@@ -15,7 +15,7 @@ public class FragmentChangeEventBuilder {
     private MitooEnum.FragmentAnimation animation ;
     private Bundle bundle;
 
-    public static FragmentChangeEventBuilder getSingleTonInstance(){
+    public static FragmentChangeEventBuilder getSingletonInstance(){
         if(FragmentChangeEventBuilder.singleTonInstance==null){
             FragmentChangeEventBuilder.singleTonInstance= new FragmentChangeEventBuilder();
         }

@@ -75,7 +75,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     public String getMediumDisplayableDate() {
         if(displayableDate== null) {
             DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableDate = dataHelper.getMdeiumDateString(getFixtureDate());
+            displayableDate = dataHelper.getMediumDateString(getFixtureDate());
         }
         return displayableDate;
     }

@@ -136,7 +136,7 @@ public class LoginFragment extends MitooFragment {
     }
 
     private void forgetPasswordAction(){
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_reset_password)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

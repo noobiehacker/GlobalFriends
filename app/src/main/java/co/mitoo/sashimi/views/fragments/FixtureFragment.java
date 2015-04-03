@@ -42,6 +42,7 @@ public class FixtureFragment extends MitooFragment {
     public void onClick(View v) {
         if(getDataHelper().isClickable()){
             switch (v.getId()) {
+                //Implement later
             }
         }
     }
@@ -74,7 +75,7 @@ public class FixtureFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        initializeAllTextView(view);
+        initializeAllTextViews(view);
         setUpAllTextViews();
         showAndHideLogic(view);
         setUpMap();
@@ -99,7 +100,7 @@ public class FixtureFragment extends MitooFragment {
     protected void initializeOnClickListeners(View view) {
     }
 
-    private void initializeAllTextView(View view){
+    private void initializeAllTextViews(View view){
         setResultTextView((TextView) view.findViewById(R.id.fixtureResultText));
         setDateTextView((TextView) view.findViewById(R.id.fixtureDateText));
         setTimeTextView((TextView) view.findViewById(R.id.fixtureTimeText));

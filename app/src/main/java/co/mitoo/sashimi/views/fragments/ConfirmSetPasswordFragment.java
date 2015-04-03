@@ -117,7 +117,7 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
     @Subscribe
     public void onUserInfoReceieve(UserInfoModelResponseEvent event) {
 
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_done)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

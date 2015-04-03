@@ -142,7 +142,7 @@ public class HomeFragment extends MitooFragment {
                                 getUserInfoModel().onUserInfoRequest(getUserId() , true);
                                 break;
                             case R.id.menu_search:
-                                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                                         .setFragmentID(R.id.fragment_search)
                                         .setTransition(MitooEnum.FragmentTransition.PUSH)
                                         .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
@@ -268,7 +268,7 @@ public class HomeFragment extends MitooFragment {
 
         switch(getMenuItemSelected()){
             case SETTINGS:
-                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                         .setFragmentID(R.id.fragment_settings)
                         .setTransition(MitooEnum.FragmentTransition.PUSH)
                         .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

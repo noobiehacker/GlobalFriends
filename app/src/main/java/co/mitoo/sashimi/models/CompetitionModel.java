@@ -92,10 +92,8 @@ public class CompetitionModel extends MitooModel{
         for(Competition item : getMyCompetition()){
             if(item.getFixed_competition_id()==id){
                 result = item;
-                resultFound= true;
-            }
-            if(resultFound)
                 break loop;
+            }
         }
         return result;
 

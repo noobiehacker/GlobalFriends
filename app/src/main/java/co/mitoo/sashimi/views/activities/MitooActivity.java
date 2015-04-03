@@ -629,7 +629,7 @@ public class MitooActivity extends ActionBarActivity {
     @Subscribe
     public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
 
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_account)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

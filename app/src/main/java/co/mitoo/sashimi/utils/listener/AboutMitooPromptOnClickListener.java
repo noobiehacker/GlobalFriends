@@ -25,7 +25,7 @@ public class AboutMitooPromptOnClickListener extends MitooOptionsDialogOnClickLi
 
             Bundle bundle = new Bundle();
             bundle.putString(getContext().getString(R.string.bundle_key_prompt), String.valueOf(getSelectedOption()));
-            FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+            FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_about_mitoo)
                     .setTransition(MitooEnum.FragmentTransition.PUSH)
                     .setBundle(bundle)

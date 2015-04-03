@@ -126,7 +126,7 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_sign_up_confirm)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
                 .build();

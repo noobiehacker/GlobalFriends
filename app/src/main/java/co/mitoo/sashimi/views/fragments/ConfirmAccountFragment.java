@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -101,7 +100,7 @@ public class ConfirmAccountFragment extends MitooFragment {
 
     private void confirmButtonAction(){
 
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_set_password)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

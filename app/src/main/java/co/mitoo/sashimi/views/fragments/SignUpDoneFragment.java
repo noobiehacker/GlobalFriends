@@ -9,7 +9,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 /**
@@ -74,7 +73,7 @@ public class SignUpDoneFragment extends MitooFragment {
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)

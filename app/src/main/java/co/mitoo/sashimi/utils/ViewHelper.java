@@ -343,7 +343,7 @@ public class ViewHelper {
     public void setUpMap(League league , GoogleMap map){
 
         if(league !=null & map !=null){
-            setUpMap(league.getLatLng() , map , league.getCity());
+            setUpMap(league.getLatLng(), map, league.getCity());
         }
         
     }
@@ -539,7 +539,7 @@ public class ViewHelper {
         return fixtureRow;
     }
 
-    private void setUpFixturRowTeamTextView(RelativeLayout row , FixtureWrapper fixture ,MitooEnum.FixtureRowType fixtureType){
+    private void setUpFixtureRowTeamTextView(RelativeLayout row, FixtureWrapper fixture, MitooEnum.FixtureRowType fixtureType){
 
         TextView leftTeamTextView = (TextView)row.findViewById(R.id.leftTeamName);
         TextView rightTeamTextView = (TextView)row.findViewById(R.id.rightTeamName);
@@ -643,11 +643,11 @@ public class ViewHelper {
     private void customizeFixtureRow(RelativeLayout row , FixtureWrapper fixture){
 
         MitooEnum.FixtureRowType fixtureType = getActivity().getDataHelper().getFixtureRowTypeFixture(fixture);
-        setUpFixturRowTeamTextView(row, fixture, fixtureType);
+        setUpFixtureRowTeamTextView(row, fixture, fixtureType);
         setUpFixtureStamp(row, fixture, fixtureType);
         setUpFixtureCenterText(row, fixture, fixtureType);
         setUpFixtureTeamIcons(row, fixture, fixtureType);
-        setUpFixtureOnClickListner(row, fixture);
+        setUpFixtureOnClickListener(row, fixture);
 
     }
 
@@ -916,7 +916,7 @@ public class ViewHelper {
         return getActivity().getDataHelper();
     }
 
-    private View.OnClickListener createFixtureItemClickedListner(final FixtureWrapper itemClicked){
+    private View.OnClickListener createFixtureItemClickedListener(final FixtureWrapper itemClicked){
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -931,15 +931,15 @@ public class ViewHelper {
         FixtureModel model =getActivity().getModelManager().getFixtureModel();
         model.setSelectedFixture(fixture);
         FragmentChangeEvent event = FragmentChangeEventBuilder
-                .getSingleTonInstance()
+                .getSingletonInstance()
                 .setFragmentID(R.id.fragment_individual_fixture)
                 .build();
         BusProvider.post(event);
 
     }
 
-    private void setUpFixtureOnClickListner(RelativeLayout row , FixtureWrapper fixture){
+    private void setUpFixtureOnClickListener(RelativeLayout row, FixtureWrapper fixture){
 
-        row.setOnClickListener(createFixtureItemClickedListner(fixture));
+        row.setOnClickListener(createFixtureItemClickedListener(fixture));
     }
 }

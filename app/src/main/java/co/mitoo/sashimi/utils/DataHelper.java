@@ -235,7 +235,7 @@ public class DataHelper {
         return result;
     }
 
-    public String getMdeiumDateString(Date date) {
+    public String getMediumDateString(Date date) {
 
         return getMediumDisplayableDateFormat().format(date);
     }
