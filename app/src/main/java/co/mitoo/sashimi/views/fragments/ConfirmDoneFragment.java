@@ -90,7 +90,7 @@ public class ConfirmDoneFragment extends MitooFragment {
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)

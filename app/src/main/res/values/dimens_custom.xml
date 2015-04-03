@@ -79,8 +79,8 @@
 
     <!-- Home Page - Enquired List View -->
     <dimen name="enquired_list_icon_left_padding">16dp</dimen>
-    <dimen name="enquired_list_icon_right_padding">12dp</dimen>
-    <dimen name="enquired_list_icon_length">18dp</dimen>
+    <dimen name="enquired_list_icon_right_padding">16dp</dimen>
+    <dimen name="enquired_list_icon_length">22dp</dimen>
     <dimen name="enquired_list_arrow_right_padding">16dp</dimen>
     <dimen name="enquired_list_arrow_width">7dp</dimen>
     <dimen name="enquired_list_arrow_height">12dp</dimen>
@@ -132,6 +132,26 @@
 
     <dimen name="confirmation_third_page_top_padding">14dp</dimen>
     <dimen name="confirmation_third_page_second_padding">5dp</dimen>
+
+    <!-- Fixture page -->
+
+    <dimen name="fixture_page_title_top_padding">21.5dp</dimen>
+    <dimen name="fixture_page_title_bottom_padding">8.5dp</dimen>
+
+    <dimen name="fixture_page_top_section_top_padding">15.5dp</dimen>
+    <dimen name="fixture_page_top_section_bottom_padding">15.5dp</dimen>
+
+    <dimen name="fixture_page_middle_section_top_padding">15dp</dimen>
+    <dimen name="fixture_page_middle_section_bottom_padding">15dp</dimen>
+
+    <dimen name="fixture_page_bottom_section_top_padding">13dp</dimen>
+    <dimen name="fixture_page_bottom_section_bottom_padding">14.5dp</dimen>
+
+    <dimen name="fixture_page_get_direction_top_padding">13dp</dimen>
+    <dimen name="fixture_page_get_direction_bottom_padding">15.5dp</dimen>
+
+    <dimen name="fixture_page_status_padding">5dp</dimen>
+    <dimen name="fixture_page_time_date_padding">2.5dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

@@ -213,7 +213,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void fireFragmentChangeAction(int fragmentId) {
 
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(fragmentId)
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
@@ -611,7 +611,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MitooFragment.this.getMitooActivity().onBackPressed();
+                if(getMitooActivity().getDataHelper().isClickable())
+                    MitooFragment.this.getMitooActivity().onBackPressed();
             }
         });
     }
@@ -641,7 +642,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void routeToHome(){
 
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
@@ -651,7 +652,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     protected void routeToLanding(){
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_landing)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

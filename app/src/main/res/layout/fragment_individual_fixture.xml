@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_individual_fixture"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_light_one"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/app_bar">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal">
+
+                <include
+                    android:id="@+id/fixture_top_details"
+                    layout="@layout/partial_fixture_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/fixture_middle_details"
+                    layout="@layout/partial_fixture_middle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fixture_top_details" />
+
+                <include
+                    android:id="@+id/fixture_bottom_details"
+                    layout="@layout/partial_fixture_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fixture_middle_details" />
+
+                <include
+                    android:id="@+id/fixture_get_direction"
+                    layout="@layout/partial_fixture_get_direction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fixture_bottom_details" />
+
+            </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

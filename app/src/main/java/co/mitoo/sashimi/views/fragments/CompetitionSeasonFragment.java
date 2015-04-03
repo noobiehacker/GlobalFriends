@@ -74,6 +74,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
         super.initializeFields();
         setFragmentTitle(getSelectedCompetition().getName());
+        setUpTabs();
+
     }
 
     @Subscribe
@@ -94,6 +96,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     protected void requestData() {
 
         int competitionSeasonID = getSelectedCompetition().getFixed_competition_id();
+        setTeamModelLoaded(false);
+        setFixtureModelLoaded(false);
         getTeamModel().requestTeamByCompetition(competitionSeasonID, true);
         getFixtureModel().requestFixtureByCompetition(competitionSeasonID, true);
 
@@ -119,6 +123,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private void loadTabs() {
         setUpPagerAdapter();
         setPreDataLoading(false);
+
     }
 
 
@@ -126,7 +131,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
         setTabHost((MaterialTabHost) view.findViewById(R.id.materialTabHost));
         setUpTabHost();
-        setUpTabs();
 
     }
 
@@ -160,7 +164,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         getPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                getTabHost().setSelectedNavigationItem(position);
+                if(position<getMitooTabsList().size()-1)
+                    getTabHost().setSelectedNavigationItem(position);
             }
         });
     }

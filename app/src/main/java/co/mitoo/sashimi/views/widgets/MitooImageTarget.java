@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.views;
+package co.mitoo.sashimi.views.widgets;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;

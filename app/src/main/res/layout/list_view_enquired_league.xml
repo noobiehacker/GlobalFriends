@@ -42,8 +42,7 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="@dimen/enquired_list_text_bottom_padding"
         android:layout_marginTop="@dimen/enquired_list_text_top_padding"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="@dimen/enquired_list_text_left_padding"
+        android:layout_toRightOf="@id/icon_container"
         android:orientation="vertical">
 
         <TextView

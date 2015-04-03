@@ -1,6 +1,11 @@
 package co.mitoo.sashimi.utils;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
+
+import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
+import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.models.jsonPojo.result;
 import org.joda.time.LocalDate;
@@ -14,9 +19,9 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     private MitooActivity mitooActivity;
     private Date fixtureDate;
     private LocalDate jodafixtureDate;
-    private String displayableDate;
     private String displayableTime;
     private String displayableScore;
+    private String displayablePlace;
 
     public FixtureWrapper(Fixture fixture , MitooActivity activity) {
         this.fixture= fixture;
@@ -58,18 +63,19 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         return fixture;
     }
 
-    public String getDisplayableDate() {
-        if(displayableDate== null) {
-            DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableDate = dataHelper.getDisplayableDateString(getFixtureDate());
-        }
-        return displayableDate;
+    public String getLongDisplayableDate() {
+        DataHelper dataHelper = getMitooActivity().getDataHelper();
+        return dataHelper.getLongDateString(getFixtureDate());
     }
 
     public String getDisplayableTime(){
         if(displayableTime == null){
-            DataHelper dataHelper = getMitooActivity().getDataHelper();
-            displayableTime =dataHelper.getDisplayableTimeString(getFixtureDate());
+            if(getFixture().isTime_tbc())
+                displayableTime  = getMitooActivity().getString(R.string.fixture_page_tbd);
+            else{
+                DataHelper dataHelper = getMitooActivity().getDataHelper();
+                displayableTime =dataHelper.getDisplayableTimeString(getFixtureDate());
+            }
         }
         return displayableTime;
     }
@@ -79,8 +85,19 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
             result result = getFixture().getResult();
             if(result!=null)
                 displayableScore = result.getHome_score() + result.getDelimiter() +result.getAway_score();
+            else
+                displayableScore = getMitooActivity().getString(R.string.fixture_page_tbd);
         }
         return displayableScore;
+    }
+
+    public String getDisplayablePlace(){
+        if(displayablePlace == null){
+            location location = getFixture().getLocation();
+            if(location!=null)
+                displayablePlace = location.getTitle();
+        }
+        return displayablePlace;
     }
 
     private void initializeNullParam(){
@@ -94,6 +111,77 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         Date now = new Date();
         return getFixtureDate().after(now);
 
+    }
+
+    public MitooEnum.FixtureStatus getFixtureType(){
+
+
+        /*Notes from BE
+
+            The status attribute is a variable to show non-normal games
+            0 = Normal
+            1 = Cancelled
+            2 = Deleted
+            3 = Postponed
+            4 = Rescheduled
+            5 = Abandoned
+            6 = Void Notes:
+
+         */
+
+        MitooEnum.FixtureStatus tabType;
+        switch(getFixture().getStatus()){
+            case 0:
+                tabType = MitooEnum.FixtureStatus.SCORE;
+                break;
+            case 1:
+                tabType = MitooEnum.FixtureStatus.CANCELED;
+                break;
+            case 2:
+                tabType = MitooEnum.FixtureStatus.VOID;
+                break;
+            case 3:
+                tabType = MitooEnum.FixtureStatus.POSTPONED;
+                break;
+            case 4:
+                tabType = MitooEnum.FixtureStatus.RESCHEDULED;
+                break;
+            case 5:
+                tabType = MitooEnum.FixtureStatus.ABANDONED;
+                break;
+            case 6:
+                tabType = MitooEnum.FixtureStatus.VOID;
+                break;
+            default:
+                tabType = MitooEnum.FixtureStatus.VOID;
+                break;
+
+        }
+        return tabType;
+    }
+
+    public LatLng getLatLng(){
+
+        LatLng result = null;
+        location location = getFixture().getLocation();
+        if(location!=null ){
+            result = new LatLng(location.getLat(), location.getLng());
+        }
+        return result;
+
+    }
+
+    public String getDisplayableAddress(){
+        String result = "";
+        if(getFixture().getLocation()!=null){
+            location location = getFixture().getLocation();
+            result = location.getStreet_1() ;
+        }
+        return result;
+    }
+
+    private DataHelper getDataHelper(){
+        return getMitooActivity().getDataHelper();
     }
 
 }

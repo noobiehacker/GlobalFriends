@@ -195,7 +195,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
             @Override
             public void onClick(View v) {
                 if (getDataHelper().isClickable()) {
-                    FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+                    FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                             .setFragmentID(R.id.fragment_location_search)
                             .build();
                     postFragmentChangeEvent(event);
@@ -225,7 +225,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_tool_bar_title), getQueryText());
 
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_search_results)
                 .setBundle(bundle)
                 .build();

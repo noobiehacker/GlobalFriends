@@ -8,7 +8,6 @@ import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -65,7 +64,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     private void searchButtonAction(){
 
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_search)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
@@ -76,7 +75,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     private void loginButtonAction(){
 
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_login)
                 .build();
         postFragmentChangeEvent(event);
@@ -246,7 +245,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
 
     private void routeToAboutMitoo(Bundle bundle){
 
-        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_about_mitoo)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)

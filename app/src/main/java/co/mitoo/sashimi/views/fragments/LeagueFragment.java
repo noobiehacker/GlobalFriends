@@ -8,7 +8,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
@@ -192,7 +191,7 @@ public class LeagueFragment extends MitooFragment {
         else{
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(getSelectedLeague().getId()));
-            FragmentChangeEvent event = FragmentChangeEventBuilder.getSingleTonInstance()
+            FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_sign_up)
                     .setBundle(bundle)
                     .build();

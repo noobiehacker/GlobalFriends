@@ -86,6 +86,9 @@ public class FragmentFactory {
             case R.id.fragment_confirm_done:
                 result = ConfirmDoneFragment.newInstance();
                 break;
+            case R.id.fragment_individual_fixture:
+                result = FixtureFragment.newInstance();
+                break;
             default:
                 result = SplashScreenFragment.newInstance();
         }
