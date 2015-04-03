@@ -510,7 +510,7 @@ public class DataHelper {
                     tabType = MitooEnum.FixtureStatus.POSTPONED;
                     break;
                 case 4:
-                    tabType = MitooEnum.FixtureStatus.RESCHEDULE;
+                    tabType = MitooEnum.FixtureStatus.RESCHEDULED;
                     break;
                 case 5:
                     tabType = MitooEnum.FixtureStatus.ABANDONED;

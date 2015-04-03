@@ -547,8 +547,8 @@ public class ViewHelper {
         Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
         Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
 
-        setUpTeamName(homeTeam , leftTeamTextView);
-        setUpTeamName(awayTeam , rightTeamTextView);
+        setUpTeamName(homeTeam, leftTeamTextView);
+        setUpTeamName(awayTeam, rightTeamTextView);
 
     }
 
@@ -594,7 +594,7 @@ public class ViewHelper {
                 alphaContainer.setAlpha(alphaValue);
                 stampView.setImageResource(R.drawable.cancelled_stamp);
                 break;
-            case RESCHEDULE:
+            case RESCHEDULED:
                 alphaContainer.setAlpha(alphaValue);
                 stampView.setImageResource(R.drawable.rescheduled_stamp);
                 break;

@@ -185,7 +185,7 @@ public class FixtureFragment extends MitooFragment {
                 setUpRedStatus();
                 break;
             case POSTPONED:
-            case RESCHEDULE:
+            case RESCHEDULED:
                 setUpYellowStatus();
                 break;
             case SCORE:
