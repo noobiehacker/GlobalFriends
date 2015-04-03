@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -27,7 +26,6 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import rx.Subscriber;
 import se.walkercrou.places.Prediction;
 
 /**

@@ -615,14 +615,12 @@ public class MitooActivity extends ActionBarActivity {
                     /*
                     *
                     Hard Coding Data for Testing
-                    token = new Invitation_token();
-                    token.setToken("Z_ryy7BchtV-s_MGEPPG");
-                    *
-                    */
                     if (token.invitation_token!= null && token.invitation_token.equalsIgnoreCase("hxR1FZ4cPsUTyQz985SL")) {
                         token = new Invitation_token();
                         token.setToken("Z_ryy7BchtV-s_MGEPPG");
                     }
+                    *
+                    */
                     getModelManager().getSessionModel().setInvitation_token(token);
                     if (isOnSplashScreen()) {
                         BusProvider.post(new BranchIOResponseEvent(getModelManager().getSessionModel().getInvitation_token()));

@@ -539,7 +539,7 @@ public class ViewHelper {
     public RelativeLayout createFixtureRow(FixtureWrapper fixture){
 
         RelativeLayout fixtureRow = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_row);
-        customizeFixtureRow(fixtureRow,fixture);
+        customizeFixtureRow(fixtureRow, fixture);
         return fixtureRow;
     }
 
@@ -580,8 +580,8 @@ public class ViewHelper {
         ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
         float alphaValue = getActivity().getDataHelper().getFloatValue(R.dimen.low_alpha);
         switch(fixtureType){
-            case TIME:
-            case SCORE:
+
+            case NORMAL:
                 break;
             case ABANDONED:
                 alphaContainer.setAlpha(alphaValue);
