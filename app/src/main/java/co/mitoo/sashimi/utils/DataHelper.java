@@ -356,38 +356,14 @@ public class DataHelper {
 
     public String getAlgoliaIndex() {
 
-        String result = "";
-
-        switch (MitooConstants.appEnvironment) {
-            case PRODUCTION:
-                result = getActivity().getString(R.string.algolia_production_index);
-                break;
-            default:
-                result = getActivity().getString(R.string.algolia_staging_index);
-                break;
-        }
-
-        return result;
+       return getActivity().getString(R.string.algolia_index);
 
     }
 
     public String getNewRelicKey() {
 
-        String result = "";
+        return getActivity().getString(R.string.API_key_new_relic);
 
-        switch (MitooConstants.appEnvironment) {
-            case PRODUCTION:
-                result = getActivity().getString(R.string.API_key_new_relic_production);
-                break;
-            case STAGING:
-                result = getActivity().getString(R.string.API_key_new_relic_staging);
-                break;
-            default:
-                result = getActivity().getString(R.string.API_key_new_relic_staging);
-                break;
-        }
-
-        return result;
     }
 
     public float getFloatValue(int floatID) {

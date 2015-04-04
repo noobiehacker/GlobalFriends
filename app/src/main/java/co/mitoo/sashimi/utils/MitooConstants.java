@@ -1,5 +1,7 @@
 package co.mitoo.sashimi.utils;
 
+import co.mitoo.sashimi.BuildConfig;
+
 /**
  * Created by david on 15-01-21.
  */
@@ -33,11 +35,31 @@ public final class MitooConstants {
     public static int durationMedium =500;
     public static int durationLong =750;
     public static int durationExtraLong =1000;
-
-    public static MitooEnum.AppEnvironment appEnvironment = MitooEnum.AppEnvironment.LOCALHOST;
+    public static MitooEnum.SteakEndPoint mitooDevelopmentEndPoint =MitooEnum.SteakEndPoint.STAGING;
 
     public static boolean getPersistenceStorage() {
         return true;
     }
 
+    public static MitooEnum.SteakEndPoint getEndPoint() {
+
+        if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.PRODUCTION.name())
+            return MitooEnum.SteakEndPoint.PRODUCTION;
+        else if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.STAGING.name()){
+            return MitooConstants.mitooDevelopmentEndPoint;
+        }
+        else
+            return MitooEnum.SteakEndPoint.STAGING;
+    }
+
+    public static MitooEnum.AppEnvironment getAppEnvironment() {
+
+        if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.PRODUCTION.name())
+            return MitooEnum.AppEnvironment.PRODUCTION;
+        else if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.STAGING.name())
+            return MitooEnum.AppEnvironment.STAGING;
+        else
+            return MitooEnum.AppEnvironment.STAGING;
+
+    }
 }

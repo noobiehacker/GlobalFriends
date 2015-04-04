@@ -1,23 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.mitoo.sashimi"
-    android:versionCode="2"
-    android:versionName="0.1.5">
+    android:versionCode="3"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="21" />
     <!-- user permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />  <!-- Required for Push -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- Required for Push -->
+
 
     <!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
-    <permission android:name="co.mitoo.sashimi.permission.UA_DATA" android:protectionLevel="signature" />
+    <permission
+        android:name="co.mitoo.sashimi.permission.UA_DATA"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="co.mitoo.sashimi.permission.UA_DATA" />
     <!-- The two elements above ensure that only this application has access to the Urban Airship provider and can receive push intents -->
+
 
     <!-- REQUIRED PERMISSIONS for GCM -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -25,56 +33,69 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- This app has permission to register with GCM and receive message -->
     <!-- Required MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
-    <permission android:name="co.mitoo.sashimi.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <permission
+        android:name="co.mitoo.sashimi.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="co.mitoo.sashimi.permission.C2D_MESSAGE" />
     <!-- The two elements above ensure that only this application can receive the messages and registration result -->
+
 
     <!-- OPTIONAL Urban Airship Settings -->
     <!-- REQUIRED FOR LOCATION -->
     <!-- Use ACCESS_COARSE_LOCATION if GPS access is not necessary -->
-    <!-- uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /-->
+    <!-- uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" / -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--  OPTIONAL - This permission is only necessary if your app has multiple processes -->
-    <!--  <uses-permission android:name="android.permission.BROADCAST_STICKY" /> -->
-
+    <!-- Google Map API -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <!-- Testing -->
+    <instrumentation
+        android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        android:targetPackage="co.mitoo.sashimi" />
+    <!-- OPTIONAL - This permission is only necessary if your app has multiple processes -->
+    <!-- <uses-permission android:name="android.permission.BROADCAST_STICKY" /> -->
     <application
+        android:name="co.mitoo.sashimi.views.activities.MitooApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".views.activities.MitooApplication"
         android:largeHeap="true"
-        >
+        android:theme="@style/AppTheme" >
         <activity
-            android:name=".views.activities.MitooActivity"
-            android:label="@string/app_name"
+            android:name="co.mitoo.sashimi.views.activities.MitooActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
-        <!-- Put in for release -->
+            android:windowSoftInputMode="adjustResize" >
+
+            <!-- Put in for release -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
             <!-- Add this intent filter below, and change yourapp to your app name -->
             <intent-filter>
-                <data android:scheme="mitoo" android:host="open" />
+                <data
+                    android:host="open"
+                    android:scheme="mitoo" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-
-
         </activity>
+        <activity android:name="com.urbanairship.CoreActivity" />
 
-        <activity android:name="com.urbanairship.CoreActivity"/>
-        <receiver android:name=".utils.MitooNotificationIntentReceiver"
-            android:exported="false">
-
+        <receiver
+            android:name="co.mitoo.sashimi.utils.MitooNotificationIntentReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.urbanairship.push.CHANNEL_UPDATED" />
                 <action android:name="com.urbanairship.push.OPENED" />
@@ -86,21 +107,23 @@
             </intent-filter>
         </receiver>
 
-        <uses-library android:name="android.test.runner"/>
+        <uses-library android:name="android.test.runner" />
 
         <!-- REQUIRED for PlayServiceUtils.handleAnyPlayServicesError to handle Google Play services recoverable errors. -->
         <activity
             android:name="com.urbanairship.google.PlayServicesErrorActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- REQUIRED for Urban Airship Push. The priority is important to be set lower than the
+        <!--
+        REQUIRED for Urban Airship Push. The priority is important to be set lower than the
         application's push intent receiver in order for the push intent receiver to handle push intents
         before the core receiver. This allows the application to launch any activities before Urban
-        Airship performs any actions or falls back to launching the application launch intent. -->
-        <receiver android:name="com.urbanairship.CoreReceiver"
-            android:exported="false">
-
-            <intent-filter android:priority="-999">
+        Airship performs any actions or falls back to launching the application launch intent.
+        -->
+        <receiver
+            android:name="com.urbanairship.CoreReceiver"
+            android:exported="false" >
+            <intent-filter android:priority="-999" >
                 <action android:name="com.urbanairship.push.OPENED" />
 
                 <!-- MODIFICATION REQUIRED - Use your package name as the category -->
@@ -111,8 +134,7 @@
         <!-- REQUIRED for GCM -->
         <receiver
             android:name="com.urbanairship.push.GCMPushReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -122,19 +144,28 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.urbanairship.push.PushService" android:label="Push Notification Service" />
-        <service android:name="com.urbanairship.analytics.EventService" android:label="Event Service" />
+        <service
+            android:name="com.urbanairship.push.PushService"
+            android:label="Push Notification Service" />
+        <service
+            android:name="com.urbanairship.analytics.EventService"
+            android:label="Event Service" />
         <service android:name="com.urbanairship.actions.ActionService" />
         <service android:name="com.urbanairship.richpush.RichPushUpdateService" />
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/API_key_facebook"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/API_key_facebook" />
+
         <context android:name="com.greenhalolabs.facebooklogin.FacebookLoginActivity" />
 
         <!-- OPTIONAL for Urban Airship Location (for segments support) -->
-        <service android:name="com.urbanairship.location.LocationService" android:label="Segments Service" />
+        <service
+            android:name="com.urbanairship.location.LocationService"
+            android:label="Segments Service" />
 
         <!-- This is required for persisting preferences related to push and location -->
         <!-- MODIFICATION REQUIRED - Replace "com.urbanairship.push.sample" with your package name -->
@@ -146,41 +177,16 @@
             android:permission="co.mitoo.sashimi.permission.UA_DATA" />
 
 
-        <!--Release Google Map API Key
-
-        <meta-data
-        android:name="com.google.android.maps.v2.API_KEY"
-        android:value="AIzaSyAQOtOjhia8HceD2J5S82Bv8CKBHBly17I"/>-->
-
-
-        <!-- Debug Google Map API Key
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY"/> -->
-
-        <!--Branch IO STAGING API KEY -->
-
-        <meta-data android:name="io.branch.sdk.ApplicationId" android:value="@string/API_key_branch_staging_key" />
+            android:value="@string/API_key_google_map" />
 
 
-        <!--
+        <meta-data
+            android:name="io.branch.sdk.ApplicationId"
+            android:value="@string/API_key_branch" />
 
-        Branch IO PROD API KEY
-
-        <meta-data android:name="io.branch.sdk.ApplicationId" android:value="@string/API_key_branch_prod_key" />
-
-        -->
 
     </application>
 
-
-    <!-- Google Map API -->
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"/>
-    <!-- Testing -->
-    <instrumentation
-        android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
-        android:targetPackage="co.mitoo.sashimi"/>
 </manifest>

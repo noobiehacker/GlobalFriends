@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--API related-->
-    <string name="steak_end_point_url">>http://10.0.2.16:3000/api/auth/v1</string>
+    <!--Staging API Keys-->
+    <string name="API_key_new_relic">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
+    <string name="API_key_branch">106486769708433935</string>
+    <string name="algolia_index">steak-league-staging</string>
+    <string name="API_key_google_map">AIzaSyDNJoFgGFNOatgvZaB9weoWqJUr7SS9kZY</string>
 
 </resources>

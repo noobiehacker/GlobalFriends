@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.utils;
 
+import co.mitoo.sashimi.BuildConfig;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
@@ -23,9 +24,7 @@ public class AppStringHelper {
     }
 
     public String getBranchAPIKey(){
-        if(MitooConstants.appEnvironment == MitooEnum.AppEnvironment.PRODUCTION)
-            return getActivity().getString(R.string.API_key_branch_prod_key);
-        else
-            return getActivity().getString(R.string.API_key_branch_staging_key);
+        return getActivity().getString(R.string.API_key_branch);
     }
+
 }

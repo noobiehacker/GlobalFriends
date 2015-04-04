@@ -25,6 +25,17 @@ android {
          testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
          **/
     }
+
+    productFlavors {
+        production {
+            applicationId "co.mitoo.sashimi"
+        }
+
+        staging {
+            applicationId "co.mitoo.sashimi.staging"
+        }
+    }
+
     signingConfigs {
         release {
             storeFile file("release.jks")

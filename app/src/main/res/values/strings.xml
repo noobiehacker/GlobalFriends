@@ -329,23 +329,23 @@
     <string name="DIN_Light_Italic">fonts/din_comp_light_ita.ttf</string>
 
     <!--API Key-->
-    <string name="API_key_new_relic_staging">AA122023d85b82c7e121b4e55f6d8b0a524f5132d2</string>
-    <string name="API_key_new_relic_production">AA02524570c05c04f75ab74eabd07b2805bea697e9</string>
-
     <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0</string>
     <string name="API_key_google_places">AIzaSyCbsydXTG9a2-qCnZ91f_HS9k8fkBvVsVs</string>
+    <string name="API_key_gcm_sender">697919773337</string>
     <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
     <string name="API_key_facebook">1524244734496711</string>
-    <string name="API_key_branch_prod_key">99662741807039061</string>
-    <string name="API_key_branch_staging_key">106486769708433935</string>
 
     <string name="bnc_app_key">your app key</string>
 
     <string name="App_Id_algolia">1ESI9QYTPJ</string>
-    <string name="algolia_staging_index">steak-league-staging</string>
-    <string name="algolia_production_index">steak-league-production</string>
     <string name="algolia_proto_index">proto_league_search</string>
     <string name="algolia_result_param">hits</string>
+
+    <string name="UA_app_prod_key">wufR7WAsTM2wXwOWlRapqw</string>
+    <string name="UA_app_prod_secret">2gnIgmGxRdyH7MO-iSd4Eg</string>
+    <string name="UA_app_dev_key">JZEB66hoS5GQ_zhKr1bfuQ</string>
+    <string name="UA_app_dev_secret">6ff6lA5TQLa6MDGSZM9mEQ</string>
+
 
     <!--Bundle Map Key -->
     <string name="bundle_key_tool_bar_title">bundle_key_tool_bar_title</string>
