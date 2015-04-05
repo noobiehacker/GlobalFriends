@@ -46,6 +46,10 @@ public class MitooEnum {
     }
 
     public enum AppEnvironment {
+        PRODUCTION, STAGING
+    }
+
+    public enum SteakEndPoint {
         PRODUCTION, STAGING ,APIARY , LOCALHOST
     }
 
@@ -58,7 +62,7 @@ public class MitooEnum {
     }
 
     public enum FixtureStatus {
-        TIME, SCORE, ABANDONED, VOID, POSTPONED , CANCELED , RESCHEDULED, DELETED
+        TIME, SCORE, ABANDONED, VOID, POSTPONED, CANCELED, RESCHEDULED, DELETED
     }
 
     public enum FixtureTabType {

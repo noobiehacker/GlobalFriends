@@ -60,14 +60,20 @@ public class HomeFragment extends MitooFragment {
         }
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        getMobileTokenModel().requestDeviceTokenAssociation(getUserId(),true);
+    }
+
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
         super.onError(error);
     }
 
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        return fragment;
+        return new HomeFragment();
     }
 
     @Override

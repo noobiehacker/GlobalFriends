@@ -109,7 +109,7 @@ public class ServiceBuilder {
     
     private void initializeFields() {
 
-        switch (MitooConstants.appEnvironment) {
+        switch (MitooConstants.getEndPoint()) {
             case PRODUCTION:
                 this.setEndPoint(StaticString.steakProductionEndPoint);
                 break;

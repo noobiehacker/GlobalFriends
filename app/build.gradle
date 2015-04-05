@@ -1,3 +1,9 @@
+repositories {
+    flatDir {
+        dirs 'aars'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'android'
 apply plugin: 'robolectric'
@@ -13,11 +19,23 @@ android {
         versionCode 3
         versionName "1.0.0"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        multiDexEnabled true
 
         /**use for espresso
          testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
          **/
     }
+
+    productFlavors {
+        production {
+            applicationId "co.mitoo.sashimi"
+        }
+
+        staging {
+            applicationId "co.mitoo.sashimi.staging"
+        }
+    }
+
     signingConfigs {
         release {
             storeFile file("release.jks")
@@ -110,14 +128,14 @@ dependencies {
     //Reactive Programming
     compile 'io.reactivex:rxjava:1.0.0-rc.10'
     compile 'io.reactivex:rxandroid:0.23.0'
-    compile 'pl.charmas.android:android-reactive-location:0.2@aar'
+    compile 'pl.charmas.android:android-reactive-location:0.4@aar'
     //Networking
     compile 'com.squareup.retrofit:retrofit-mock:1.6.1'
     //Facebook
     //*****Others*****//
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v4:21.+'
     compile 'com.android.support:appcompat-v7:21.+'
-    compile 'com.google.android.gms:play-services:6.1.+'
+    compile 'com.google.android.gms:play-services:7.0.0'
     //New relic
     compile 'com.newrelic.agent.android:android-agent:4.120.0'
     compile files('libs/algoliasearch-client-android-1.5.9.jar')
@@ -135,6 +153,13 @@ dependencies {
     //branch - deep linking
 
     //compile 'com.jakewharton:butterknife:6.0.0'
+    //Urban Airship
+    compile 'com.urbanairship:urbanairship-lib:+@aar'
+    compile ('com.urbanairship:java-client:0.3.1'){
+        exclude module : 'jersey'
+        exclude module : 'jersey-core'
+    }
+
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')
@@ -174,7 +199,6 @@ dependencies {
         exclude module: 'hamcrest-core'
     }
 }
-
 
 apply plugin: 'idea'
 

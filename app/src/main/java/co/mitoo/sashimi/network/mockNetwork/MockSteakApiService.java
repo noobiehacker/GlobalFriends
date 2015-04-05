@@ -1,12 +1,11 @@
 package co.mitoo.sashimi.network.mockNetwork;
-
 import java.util.Collections;
-
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
@@ -49,7 +48,7 @@ public class MockSteakApiService implements SteakApi {
     @Override
     public Observable<Response> resetPassword(@Body JsonResetPasswordSend jsonObject) {
         return createMockRespoonse(createResponse());
-}
+    }
 
     @Override
     public Observable<SessionRecieve> deleteSession() {
@@ -72,38 +71,18 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter, @Query("league_info") String league_info, @Path("id") int id) {
+    public Observable<Response> createDeviceAssociation(@Path("user_id") int user_id, @Body JsonDeviceInfo jsonObject) {
         return null;
     }
 
-    private <T> Observable<T> createMockRespoonse(T item){
-
-        Observable<T> result = null;
-        if(statusCode!=200){
-            BusProvider.post(createError());
-        }else{
-            result= Observable.just(item);
-        }
-        return result;
-
+    @Override
+    public Observable<Response> deleteDeviceAssociation(@Path("token") String token) {
+        return null;
     }
 
-    private RetrofitError createError(){
-        Response response = createResponse();
-        return RetrofitError.httpError("", response, null,null);
-    }
-
-    private Response createResponse(){
-        return new Response("", statusCode, "", Collections.<Header>emptyList(),null );
-    }
-
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    @Override
+    public Observable<Competition[]> getCompetitionSeasonFromUserID(@Query("filter") String filter, @Query("league_info") String league_info, @Path("id") int id) {
+        return null;
     }
 
     @Override
@@ -125,4 +104,36 @@ public class MockSteakApiService implements SteakApi {
     public Observable<UserInfoRecieve> createUserFromConfirmation(@Path("token") String token, @Body JsonSignUpSend jsonObject) {
         return null;
     }
+
+    private <T> Observable<T> createMockRespoonse(T item){
+
+            Observable<T> result = null;
+            if (statusCode != 200) {
+                BusProvider.post(createError());
+            } else {
+                result = Observable.just(item);
+            }
+            return result;
+
+        }
+
+    private RetrofitError createError(){
+        Response response = createResponse();
+        return RetrofitError.httpError("", response, null,null);
+    }
+
+    private Response createResponse(){
+        return new Response("", statusCode, "", Collections.<Header>emptyList(),null );
+    }
+
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+
 }

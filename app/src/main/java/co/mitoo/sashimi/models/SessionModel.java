@@ -3,6 +3,7 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -38,7 +39,6 @@ public class SessionModel extends MitooModel implements IsPersistable {
 
     public void setSession(SessionRecieve user) {
         this.session = user;
-        saveData();
     }
 
     public void requestSession(SessionModelRequestEvent event) {
@@ -84,7 +84,9 @@ public class SessionModel extends MitooModel implements IsPersistable {
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof SessionRecieve) {
-            updateSession((SessionRecieve)objectRecieve);
+            setSession((SessionRecieve)objectRecieve);
+            updateToken();
+            saveData();
             postUserRecieveResponse();
 
         } else if (objectRecieve instanceof Response) {
@@ -97,7 +99,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
 
         DataPersistanceService service = getPersistanceService();
         setSession(service.readFromPreference(getPreferenceKey() , SessionRecieve.class));
-
+        updateToken();
     }
 
     @Override
@@ -123,6 +125,8 @@ public class SessionModel extends MitooModel implements IsPersistable {
     public void sessionPersistanceResponse(SessionPersistanceResponseEvent event) {
 
         setSession((SessionRecieve)event.getPersistedObject());
+        updateToken();
+        saveData();
         postUserRecieveResponse();
 
     }
@@ -132,7 +136,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
             getActivity().updateAuthToken(this.session);
     }
     
-    public boolean  userIsLoggedIn(){
+    public boolean userIsLoggedIn(){
         
         return getSession()!=null;
         
@@ -146,11 +150,15 @@ public class SessionModel extends MitooModel implements IsPersistable {
         this.invitation_token = invitation_token;
     }
 
-    public void updateSession(SessionRecieve session){
-        setSession(session);
+    public void updateSession(UserInfoRecieve userInfoRecieve){
+        if(session==null)
+            setSession(session);
+        else if(session.auth_token== null)
+            session.auth_token = userInfoRecieve.auth_token;
         updateToken();
         saveData();
     }
+
 }
 
 

@@ -97,17 +97,10 @@ public class SplashScreenFragment extends MitooFragment {
     private void loadFirstFragment() {
 
         if(recievedBranchIOResponse() && recievedPersistedDataResponse()){
-            Handler h = new Handler();
-            h.postDelayed(new Runnable() {
-                public void run() {
-
-                    if(!isInviteFlow())
-                        startRegularFlow();
-                    else
-                        startInviteFlow();
-
-                }
-            }, MitooConstants.durationShort);
+            if(!isInviteFlow())
+                startRegularFlow();
+            else
+                startInviteFlow();
         }
 
     }

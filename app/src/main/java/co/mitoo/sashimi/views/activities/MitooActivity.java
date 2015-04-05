@@ -26,8 +26,10 @@ import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
-
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
@@ -47,9 +49,11 @@ import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
+import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
+import co.mitoo.sashimi.utils.events.NotificationEvent;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -70,6 +74,7 @@ public class MitooActivity extends ActionBarActivity {
     private Branch branch;
     private AppStringHelper appStringHelper;
     private boolean onSplashScreen= true;
+    private Queue<Object> eventQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,14 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onStart() {
         super.onStart();
+        if(getModelManager().getSessionModel().userIsLoggedIn())
+            consumeEventsInQueue();
+    }
+
+    private void consumeEventsInQueue(){
+        Queue<Object> eventsQueue = getEventQueue();
+        while(!eventsQueue.isEmpty())
+            BusProvider.post(eventsQueue.poll());
     }
 
     @Override
@@ -150,6 +163,14 @@ public class MitooActivity extends ActionBarActivity {
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+    }
+
+    @Subscribe
+    public void onFragmentQueueChange(LinkedList<FragmentChangeEvent> queueOfEvents) {
+
+        popAllFragments();
+        while(!queueOfEvents.isEmpty())
+            BusProvider.post(queueOfEvents.pop());
     }
 
     @Subscribe
@@ -357,6 +378,17 @@ public class MitooActivity extends ActionBarActivity {
 
     @Subscribe
     public void logOut(LogOutEvent event) {
+
+        logOutNetWorkCalls();
+
+    }
+
+    private void logOutNetWorkCalls(){
+        getModelManager().getMobileTokenModel().requestDeviceTokenDisassociation();
+    }
+
+    @Subscribe
+    public void logOutCleanUpAppReferences(LogOutNetworkCompleteEevent event){
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
@@ -583,15 +615,19 @@ public class MitooActivity extends ActionBarActivity {
                     /*
                     *
                     Hard Coding Data for Testing
-                    token = new Invitation_token();
-                    token.setToken("Z_ryy7BchtV-s_MGEPPG");
+                    if (token.invitation_token!= null && token.invitation_token.equalsIgnoreCase("hxR1FZ4cPsUTyQz985SL")) {
+                        token = new Invitation_token();
+                        token.setToken("Z_ryy7BchtV-s_MGEPPG");
+                    }
                     *
                     */
                     getModelManager().getSessionModel().setInvitation_token(token);
-                    if(isOnSplashScreen()){
+                    if (isOnSplashScreen()) {
                         BusProvider.post(new BranchIOResponseEvent(getModelManager().getSessionModel().getInvitation_token()));
                         setOnSplashScreen(false);
-                    }else{
+                    } else {
+                        if(getModelManager().getSessionModel().userIsLoggedIn())
+                            BusProvider.post(new LogOutEvent());
                         MitooActivity.this.branchIODataReceived();
                     }
 
@@ -638,4 +674,27 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
+    @Subscribe
+    public void onNotificationRecieve(NotificationEvent event){
+
+        FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                .setFragmentID(R.id.fragment_home)
+                .build();
+
+        FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                .setFragmentID(R.id.fragment_fixture)
+                .build();
+
+        Queue<FragmentChangeEvent> eventStack = new LinkedList<FragmentChangeEvent>();
+        getEventQueue().offer(firstEvent);
+        getEventQueue().offer(seconndEvent);
+
+    }
+
+
+    public Queue<Object> getEventQueue() {
+        if(eventQueue==null)
+            eventQueue = new LinkedList<Object>();
+        return eventQueue;
+    }
 }

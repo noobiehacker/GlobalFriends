@@ -61,6 +61,7 @@ public class FixtureModel extends MitooModel{
         }
         Collections.sort(getSchedule());
         Collections.sort(getResult());
+        Collections.reverse(getResult());
     }
 
     @Override

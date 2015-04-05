@@ -20,7 +20,11 @@ public class StaticString {
     public static String testPassword = getString("password");
     public static String errorMessage = getString("errorMessage");
     public static String apiConstantRegister = getString("apiConstantRegister");
-    
+
+    public static String notificationObjID = getString("notificationObjIDKey");
+    public static String notificationObjType = getString("notificationObjTypeKey");
+    public static String notificationMitooAction = getString("notificationMitooActionKey");
+
     private Properties properties;
 
     public static String getString(String key){

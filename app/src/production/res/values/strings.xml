@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Production API Keys-->
+    <string name="API_key_new_relic">AA02524570c05c04f75ab74eabd07b2805bea697e9</string>
+    <string name="API_key_branch">99662741807039061</string>
+    <string name="API_key_google_map">AIzaSyAQOtOjhia8HceD2J5S82Bv8CKBHBly17I</string>
+    <string name="algolia_index">steak-league-production</string>
+
+</resources>
+
+
+
