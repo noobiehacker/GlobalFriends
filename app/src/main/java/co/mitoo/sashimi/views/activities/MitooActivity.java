@@ -677,11 +677,11 @@ public class MitooActivity extends ActionBarActivity {
     @Subscribe
     public void onNotificationRecieve(NotificationEvent event){
 
-        FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .build();
 
-        FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingleTonInstance()
+        FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_fixture)
                 .build();
 

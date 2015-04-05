@@ -519,8 +519,8 @@ public class ViewHelper {
         RelativeLayout fixtureGroupContainer = (RelativeLayout)createViewFromInflator(R.layout.view_fixture_grouped);
         LinearLayout fixtureHolder = (LinearLayout) fixtureGroupContainer.findViewById(R.id.fixtureRowContainer);
         for(FixtureWrapper item : fixtureGroup){
-            MitooEnum.FixtureRowType fixtureType = getActivity().getDataHelper().getFixtureRowTypeFixture(item);
-            if(fixtureType != MitooEnum.FixtureRowType.DELETED)
+            MitooEnum.FixtureStatus fixtureType = getActivity().getDataHelper().getFixtureStatus(item);
+            if(fixtureType != MitooEnum.FixtureStatus.DELETED)
                 fixtureHolder.addView(createFixtureRow(item));
         }
         setDateForFixtureGroup(fixtureGroupContainer, fixtureGroup);
@@ -581,8 +581,6 @@ public class ViewHelper {
         float alphaValue = getActivity().getDataHelper().getFloatValue(R.dimen.low_alpha);
         switch(fixtureType){
 
-            case NORMAL:
-                break;
             case ABANDONED:
                 alphaContainer.setAlpha(alphaValue);
                 stampView.setImageResource(R.drawable.abandonned_stamp);
