@@ -15,6 +15,9 @@ import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.network.Services.SessionService;
 import co.mitoo.sashimi.network.Services.TeamService;
 import co.mitoo.sashimi.network.Services.UserInfoService;
+import co.mitoo.sashimi.models.FixtureModel;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.StandingsModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
@@ -111,7 +114,13 @@ public class ModelManager {
     public NotificationPreferenceService getNotificationPreferenceModel() {
 
         return (NotificationPreferenceService)getModel(NotificationPreferenceService.class);
+
     }
+/*
+    public StandingsService getStandingsModel() {
+
+        return (StandingsService)getModel(StandingsService.class);
+    }*/
 
     public NotificationInAppServices getNotificationInAppService() {
 

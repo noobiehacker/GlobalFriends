@@ -77,6 +77,7 @@ public class FeedBackFragment extends MitooFragment {
         super.initializeOnClickListeners(view);
     }
 
+
     public String[] getFeedBackString() {
         if(feedBackString==null){
             setFeedBackString(getResources().getStringArray(R.array.prompt_feed_back_array));

@@ -39,6 +39,9 @@ import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.network.Services.SessionService;
 import co.mitoo.sashimi.network.Services.TeamService;
 import co.mitoo.sashimi.network.Services.UserInfoService;
+import co.mitoo.sashimi.models.FixtureModel;
+import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.StandingsModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -548,6 +551,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected NotificationPreferenceService getNotificationPreferenceModel() {
         return getMitooActivity().getModelManager().getNotificationPreferenceModel();
+    }
+
+    protected StandingsModel getStandingsModel() {
+        return getMitooActivity().getModelManager().getStandingsModel();
     }
 
     public ViewHelper getViewHelper() {

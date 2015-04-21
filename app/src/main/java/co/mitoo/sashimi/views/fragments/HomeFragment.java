@@ -86,6 +86,7 @@ public class HomeFragment extends MitooFragment {
     public void onPause(){
         super.onPause();
 
+        //getMobileTokenModel().requestDeviceTokenAssociation(getUserId(),true);
     }
 
     @Subscribe
@@ -258,8 +259,11 @@ public class HomeFragment extends MitooFragment {
 
         setEnquriedLeagueDataLoaded(false);
         setMyCompetitionDataLoaded(false);
-        requestLeagueData();
-        requestCompetitionData();
+        int competitionID = 13;
+        getStandingsModel().requestCompetitionStandings(competitionID,true);
+        String auth = getSessionModel().getSession().auth_token;
+        /*requestLeagueData();
+        requestCompetitionData();*/
     }
 
     private void requestLeagueData(){

@@ -33,6 +33,8 @@ public final class MitooConstants {
 
     public static int durationShort =250;
     public static int durationMedium =500;
+    public static int standingHead =-97123;
+
     public static int durationLong =750;
     public static int durationExtraLong =1000;
 

@@ -232,6 +232,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
                 getNoResultsTextView().setText(getString(R.string.fixture_page_no_up_coming_games));
         }
 
+
     }
 
     @Subscribe
