@@ -71,7 +71,7 @@ public class FragmentFactory {
             case R.id.fragment_about_mitoo:
                 result = AboutMitooFragment.newInstance();
                 break;
-            case R.id.fragment_fixture:
+            case R.id.fragment_competition:
                 result = CompetitionSeasonFragment.newInstance();
                 break;
             case R.id.fragment_notification:
@@ -86,7 +86,7 @@ public class FragmentFactory {
             case R.id.fragment_confirm_done:
                 result = ConfirmDoneFragment.newInstance();
                 break;
-            case R.id.fragment_individual_fixture:
+            case R.id.fragment_fixture:
                 result = FixtureFragment.newInstance();
                 break;
             default:
@@ -98,7 +98,7 @@ public class FragmentFactory {
     public MitooFragment createTabFragment(int fragmentID , MitooEnum.FixtureTabType tabType){
         MitooFragment result = null;
         switch (fragmentID) {
-            case R.id.fragment_fixture_tab:
+            case R.id.fragment_competition_tab:
                 result = CompetitionSeasonTabFragment.newInstance(tabType);
                 break;
             default:

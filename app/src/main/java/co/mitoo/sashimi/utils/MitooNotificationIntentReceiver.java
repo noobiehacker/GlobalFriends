@@ -1,15 +1,16 @@
 package co.mitoo.sashimi.utils;
-
-import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.squareup.otto.Bus;
 import com.urbanairship.push.BaseIntentReceiver;
 import com.urbanairship.push.PushMessage;
 
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationRecieve;
 import co.mitoo.sashimi.utils.events.NotificationEvent;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
  * Created by david on 15-03-27.
@@ -17,6 +18,7 @@ import co.mitoo.sashimi.utils.events.NotificationEvent;
 public class MitooNotificationIntentReceiver extends BaseIntentReceiver {
 
     private static final String TAG = "IntentReceiver";
+    public static String bundleKey = "bundle_key_notification";
 
     @Override
     protected void onChannelRegistrationSucceeded(Context context, String channelId) {
@@ -42,9 +44,17 @@ public class MitooNotificationIntentReceiver extends BaseIntentReceiver {
     protected boolean onNotificationOpened(Context context, PushMessage message, int notificationId) {
         Log.i(TAG, "User clicked notification. Alert: " + message.getAlert());
         Bundle bundle = message.getPushBundle();
-        NotificationRecieve notificationRecieve = new NotificationRecieve(bundle);
-        BusProvider.post(new NotificationEvent(notificationRecieve));
+        if(MitooActivity.activityStarted){
+            NotificationRecieve notificationRecieve = new NotificationRecieve(bundle);
+            BusProvider.post(new NotificationEvent(notificationRecieve));
+        }else{
+            Intent myIntent = new Intent(context.getApplicationContext(), MitooActivity.class);
+            myIntent.putExtra(MitooNotificationIntentReceiver.bundleKey ,bundle);
+            myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(myIntent);
+        }
         return false;
+
     }
 
     @Override
@@ -58,4 +68,5 @@ public class MitooNotificationIntentReceiver extends BaseIntentReceiver {
     protected void onNotificationDismissed(Context context, PushMessage message, int notificationId) {
         Log.i(TAG, "Notification dismissed. Alert: " + message.getAlert() + ". Notification ID: " + notificationId);
     }
+
 }

@@ -2,7 +2,6 @@ package co.mitoo.sashimi.views.fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.*;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
@@ -29,6 +27,7 @@ public class SplashScreenFragment extends MitooFragment {
     private boolean branchResponseRecieved = false;
     private boolean persistedDataResponseRecieved = false;
     private Invitation_token invitationToken;
+    private boolean dialogButtonCreated;
 
     @Override
     public void onClick(View v) {
@@ -96,25 +95,16 @@ public class SplashScreenFragment extends MitooFragment {
 
     private void loadFirstFragment() {
 
-        if(recievedBranchIOResponse() && recievedPersistedDataResponse()){
-            if(!isInviteFlow())
-                startRegularFlow();
-            else
+        if(!getMitooActivity().getNotificationQueue().isEmpty()){
+            getMitooActivity().consumeNotification();
+        }
+        else if(recievedBranchIOResponse() && recievedPersistedDataResponse()){
+            if(isInviteFlow())
                 startInviteFlow();
+            else
+                startRegularFlow();
         }
 
-    }
-
-    public void startRegularFlow(){
-
-        SessionRecieve session = getSessionModel().getSession();
-        if (session != null) {
-            getMitooActivity().updateAuthToken(session);
-            routeToHome();
-        }
-        else{
-            routeToLanding();
-        }
     }
 
     public void startInviteFlow() {
@@ -144,19 +134,24 @@ public class SplashScreenFragment extends MitooFragment {
             super.handleHttpErrors(statusCode);
     }
 
-    private void handle401Error(){
+    private void handle401Error() {
 
-        displayTextWithDialog(getString(R.string.prompt_confirm_401_title),
-                getString(R.string.prompt_confirm_401_Message),
-                createRegularFlowDialogListner());
+        if (!isDialogButtonCreated()) {
+            setDialogButtonCreated(true);
+            displayTextWithDialog(getString(R.string.prompt_confirm_401_title),
+                    getString(R.string.prompt_confirm_401_Message),
+                    createRegularFlowDialogListner());
+        }
 
     }
 
-    private void handle409Error(){
-
-        displayTextWithDialog(getString(R.string.prompt_confirm_409_title),
-                getString(R.string.prompt_confirm_409_Message),
-                createRegularFlowDialogListner());
+    private void handle409Error() {
+        if (!isDialogButtonCreated()) {
+            setDialogButtonCreated(true);
+            displayTextWithDialog(getString(R.string.prompt_confirm_409_title),
+                    getString(R.string.prompt_confirm_409_Message),
+                    createRegularFlowDialogListner());
+        }
 
     }
 
@@ -168,15 +163,14 @@ public class SplashScreenFragment extends MitooFragment {
 
     }
 
-    private DialogInterface.OnClickListener createRegularFlowDialogListner(){
-
-        return new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                startRegularFlow();
-            }
-        };
+    @Override
+    protected void handleNetwork(){
+        if (getMitooActivity()!=null && !getMitooActivity().NetWorkConnectionIsOn())
+          displayTextWithToast(getString(R.string.error_no_internet));
 
     }
+
+
 
     private boolean isInviteFlow(){
         return getInvitationToken()!= null && getInvitationToken().getToken()!=null;
@@ -192,5 +186,13 @@ public class SplashScreenFragment extends MitooFragment {
                 .build();
         BusProvider.post(event);
 
+    }
+
+    public boolean isDialogButtonCreated() {
+        return dialogButtonCreated;
+    }
+
+    public void setDialogButtonCreated(boolean dialogButtonCreated) {
+        this.dialogButtonCreated = dialogButtonCreated;
     }
 }

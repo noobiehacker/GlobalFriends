@@ -42,7 +42,7 @@ public class ResetPasswordFragment extends MitooFragment{
 
     @Override
     public void onClick(View v) {
-        if(getDataHelper().isClickable()){
+        if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
                 case R.id.resetButton:
                     resetButtonAction();

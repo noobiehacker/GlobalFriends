@@ -93,7 +93,7 @@ public class LeagueFragment extends MitooFragment {
     private void setUpLeagueHeaderView(View view){
 
         RelativeLayout holder = (RelativeLayout)view.findViewById(R.id.league_image_holder);
-        RelativeLayout leagueView = getViewHelper().createLeagueResult(getSelectedLeague(), holder);
+        RelativeLayout leagueView = getViewHelper().getLeagueViewHelper().createLeagueResult(getSelectedLeague(), holder);
         holder.addView(leagueView);
     }
     
@@ -116,18 +116,11 @@ public class LeagueFragment extends MitooFragment {
         }
     }
     
-    private void setUpMap(){
+    private void setUpMap() {
 
-        try{
-            GoogleMap map = ((MapFragment) getFragmentManager()
-                    .findFragmentById(R.id.googleMapFragment)).getMap();
-            getViewHelper().setUpMap(getSelectedLeague(), map);
-
-        }
-        catch(Exception e){
-            MitooActivitiesErrorEvent event = new MitooActivitiesErrorEvent("JACK THE ERROR IS HERE");
-            BusProvider.post(event);
-        }
+        GoogleMap map = ((MapFragment) getFragmentManager()
+                .findFragmentById(R.id.googleMapFragment)).getMap();
+        getViewHelper().setUpMap(getSelectedLeague(), map);
 
     }
     

@@ -11,29 +11,29 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.content.ActivityNotFoundException;
-
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
+import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
@@ -45,16 +45,20 @@ import co.mitoo.sashimi.utils.FragmentFactory;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
+import co.mitoo.sashimi.utils.MitooNotificationIntentReceiver;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
+import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
 import co.mitoo.sashimi.utils.events.NotificationEvent;
+import co.mitoo.sashimi.views.fragments.FixtureFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
+import co.mitoo.sashimi.views.fragments.SplashScreenFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -62,6 +66,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MitooActivity extends ActionBarActivity {
 
+    public static boolean activityStarted =false;
     private MitooLocationManager locationManager;
     private Handler handler;
     private Runnable runnable;
@@ -75,11 +80,14 @@ public class MitooActivity extends ActionBarActivity {
     private AppStringHelper appStringHelper;
     private boolean onSplashScreen= true;
     private Queue<Object> eventQueue;
+    private Queue<NotificationRecieve> notificationQueue;
+    private Branch.BranchReferralInitListener branchReferralInitListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        MitooActivity.activityStarted=true;
         setContentView(R.layout.activity_mitoo);
         initializeFields();
         startApp();
@@ -106,14 +114,20 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if(getModelManager().getSessionModel().userIsLoggedIn())
-            consumeEventsInQueue();
+
     }
 
-    private void consumeEventsInQueue(){
-        Queue<Object> eventsQueue = getEventQueue();
-        while(!eventsQueue.isEmpty())
-            BusProvider.post(eventsQueue.poll());
+    public void consumeEventsInQueue(){
+
+        if(getModelManager().getSessionModel().userIsLoggedIn()){
+            Queue<Object> eventsQueue = getEventQueue();
+            if(!eventsQueue.isEmpty())
+                popAllFragments();
+            while(!eventsQueue.isEmpty()){
+                BusProvider.post(eventsQueue.poll());
+            }
+        }
+
     }
 
     @Override
@@ -136,9 +150,10 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
-        setUpBranch();
+        getBranch().initSession(getBranchReferralInitListener(), getIntent().getData(), this);
+        consumeEventsInQueue();
 
     }
 
@@ -152,7 +167,20 @@ public class MitooActivity extends ActionBarActivity {
         setUpNewRelic();
         setUpInitialCalligraphy();
         setLocationManager(new MitooLocationManager(this));
+        setUpBranch();
+        initializeNotification();
         BusProvider.register(this);
+
+    }
+
+    private void initializeNotification(){
+
+        Bundle extra = getIntent().getBundleExtra(MitooNotificationIntentReceiver.bundleKey);
+        if(extra!=null){
+            NotificationRecieve notificationRecieve = new NotificationRecieve(extra);
+            getNotificationQueue().add(notificationRecieve);
+            getIntent().removeExtra(MitooNotificationIntentReceiver.bundleKey);
+        }
 
     }
 
@@ -262,6 +290,7 @@ public class MitooActivity extends ActionBarActivity {
         if (getFragmentStack().size() > 0) {
             getFragmentStack().pop();
             getFragmentManager().popBackStack();
+            setPreviousFragmentBackClicked();
         }
 
     }
@@ -329,13 +358,6 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        /*
-        if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
-            if(fragmentStack.peek() instanceof LoginFragment){
-                LoginFragment loginFragment = (LoginFragment)fragmentStack.peek();
-                loginFragment.onActivityResult(requestCode, resultCode, data);
-            }
-        }*/
     }
 
     public ModelManager getModelManager() {
@@ -461,7 +483,6 @@ public class MitooActivity extends ActionBarActivity {
         }
     }
 
-
     public Picasso getPicasso() {
         if (picasso == null) {
             OkHttpClient client = new OkHttpClient();
@@ -505,6 +526,7 @@ public class MitooActivity extends ActionBarActivity {
             public void run() {
 
                 MitooActivity.this.showKeyboard();
+
             }
         };
         setRunnable(runnable);
@@ -609,7 +631,7 @@ public class MitooActivity extends ActionBarActivity {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
 
-                if (error == null) {
+                if (error == null && !isDuringConfirmFlow()){
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
                     /*
@@ -621,20 +643,25 @@ public class MitooActivity extends ActionBarActivity {
                     }
                     *
                     */
+                   /* if (token.invitation_token!= null ) {
+                        token = new Invitation_token();
+                        token.setToken("Z_ryy7BchtV-s_MGEPPG");
+                    }*/
                     getModelManager().getSessionModel().setInvitation_token(token);
                     if (isOnSplashScreen()) {
+
                         BusProvider.post(new BranchIOResponseEvent(getModelManager().getSessionModel().getInvitation_token()));
                         setOnSplashScreen(false);
+
                     } else {
-                        if(getModelManager().getSessionModel().userIsLoggedIn())
+                        if (token.invitation_token != null && getModelManager().getSessionModel().userIsLoggedIn())
                             BusProvider.post(new LogOutEvent());
                         MitooActivity.this.branchIODataReceived();
                     }
-
                 }
             }
         };
-        getBranch().initSession(branchReferralInitListener, this.getIntent().getData(), this);
+        setBranchReferralInitListener(branchReferralInitListener);
 
     }
 
@@ -677,24 +704,93 @@ public class MitooActivity extends ActionBarActivity {
     @Subscribe
     public void onNotificationRecieve(NotificationEvent event){
 
-        FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                .setFragmentID(R.id.fragment_home)
-                .build();
+        if(topFragmentType() == FixtureFragment.class)
+            BusProvider.post(new NotificationUpdateEvent(event.getNotificationRecieve()));
+        else{
+            FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                    .setFragmentID(R.id.fragment_home)
+                    .build();
 
-        FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                .setFragmentID(R.id.fragment_fixture)
-                .build();
+            FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                    .setFragmentID(R.id.fragment_competition)
+                    .build();
 
-        Queue<FragmentChangeEvent> eventStack = new LinkedList<FragmentChangeEvent>();
-        getEventQueue().offer(firstEvent);
-        getEventQueue().offer(seconndEvent);
+            FragmentChangeEvent thirdEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                    .setFragmentID(R.id.fragment_fixture)
+                    .setBundle(createNotifcationBundle(event.getNotificationRecieve()))
+                    .build();
+
+            getEventQueue().offer(firstEvent);
+            getEventQueue().offer(seconndEvent);
+            getEventQueue().offer(thirdEvent);
+
+        }
+
+        if(topFragmentType() == SplashScreenFragment.class)
+            consumeEventsInQueue();
 
     }
 
+    private Bundle createNotifcationBundle(NotificationRecieve notificationRecieve){
+
+        Bundle bundle = new Bundle();
+        String bundleValue = getDataHelper().serializeObject(notificationRecieve);
+        String bundleKey = getString(R.string.bundle_key_notification);
+        bundle.putString(bundleKey,bundleValue);
+        return bundle;
+
+    }
 
     public Queue<Object> getEventQueue() {
         if(eventQueue==null)
             eventQueue = new LinkedList<Object>();
         return eventQueue;
+    }
+
+    private void setPreviousFragmentBackClicked(){
+        if(getFragmentStack().size()>0 && getFragmentStack().peek()!=null)
+            getFragmentStack().peek().setBackClicked(true);
+    }
+
+    public Class<?> topFragmentType(){
+        if(getFragmentStack().size()!= 0){
+            MitooFragment fragment = getFragmentStack().peek();
+            return fragment.getClass();
+        }
+        return null;
+    }
+
+    public Queue<NotificationRecieve> getNotificationQueue() {
+        if(notificationQueue==null)
+            notificationQueue= new PriorityQueue<NotificationRecieve>();
+        return notificationQueue;
+
+    }
+
+    public void consumeNotification(){
+
+        while(getNotificationQueue().size()>0){
+            BusProvider.post(new NotificationEvent(getNotificationQueue().poll()));
+        }
+    }
+
+    public Branch.BranchReferralInitListener getBranchReferralInitListener() {
+        return branchReferralInitListener;
+    }
+
+    public void setBranchReferralInitListener(Branch.BranchReferralInitListener branchReferralInitListener) {
+        this.branchReferralInitListener = branchReferralInitListener;
+    }
+
+    public boolean isDuringConfirmFlow(){
+        boolean result = false;
+        if(topFragmentType()!= null ){
+
+            if(topFragmentType() == ConfirmAccountFragment.class ||
+                    topFragmentType() == ConfirmSetPasswordFragment.class ||
+                    topFragmentType() == ConfirmDoneFragment.class)
+                result =true;
+        }
+        return result;
     }
 }

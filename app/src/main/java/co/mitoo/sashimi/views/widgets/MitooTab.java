@@ -22,7 +22,7 @@ public class MitooTab {
 
         if(fragment==null)
             fragment= FragmentFactory.getInstance()
-                    .createTabFragment(R.id.fragment_fixture_tab, getFixtureTabType());
+                    .createTabFragment(R.id.fragment_competition_tab, getFixtureTabType());
         return fragment;
     }
 
@@ -35,6 +35,7 @@ public class MitooTab {
     }
 
     public void setFragment(MitooFragment fragment) {
+
         this.fragment = fragment;
     }
 
@@ -47,4 +48,5 @@ public class MitooTab {
     public void setFixtureTabType(MitooEnum.FixtureTabType fixtureTabType) {
         this.fixtureTabType = fixtureTabType;
     }
+
 }

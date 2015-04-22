@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.otto.Subscribe;
@@ -33,6 +35,7 @@ import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.MobileTokenModel;
+import co.mitoo.sashimi.models.NotificationPreferenceModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
@@ -41,10 +44,12 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -71,6 +76,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean pageFirstLoad = true;
     private ProgressLayout progressLayout;
     private boolean popActionRequiresDelay = false;
+    private boolean backClicked =false;
+    private boolean foreGround;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -87,6 +94,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        setForeGround(true);
         handleNetwork();
         registerBus();
         setPageFirstLoad(false);
@@ -114,6 +122,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     public void onError(MitooActivitiesErrorEvent error) {
 
         setLoading(false);
+        setPreDataLoading(false);
         handleAndDisplayError(error);
 
     }
@@ -177,8 +186,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void handleNetworkError() {
 
-        displayTextWithToast(getString(R.string.error_no_internet));
+        if (getProgressLayout() != null) {
 
+            centerProgressLayout();
+            getProgressLayout().removeAllViews();
+            getProgressLayout().addView(createNetworkFailureView());
+            displayTextWithToast(getString(R.string.error_no_internet));
+
+        }
     }
 
     protected void handleHttpErrors(int statusCode) {
@@ -196,14 +211,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 displayTextWithToast(getString(R.string.error_422));
                 break;
             case 500:
+            case 504:
                 displayTextWithToast(getString(R.string.error_500));
             default:
         }
     }
 
-    private void handleNetwork() {
-        if (!getMitooActivity().NetWorkConnectionIsOn())
-            displayTextWithToast(getString(R.string.error_no_internet));
+    protected void handleNetwork(){
+        //if (getMitooActivity()!=null && !getMitooActivity().NetWorkConnectionIsOn())
+            //displayTextWithToast(getString(R.string.error_no_internet));
 
     }
 
@@ -243,14 +259,17 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void displayTextWithToast(String text) {
 
-        removeToast();
-        View toastLayout = createToastView();
-        createTextForToast(toastLayout, text);
-        Toast toast = new Toast(getActivity().getApplicationContext());
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(toastLayout);
-        toast.show();
-        currentToast = toast;
+        if(isForeGround()){
+            removeToast();
+            View toastLayout = createToastView();
+            createTextForToast(toastLayout, text);
+            Toast toast = new Toast(getActivity().getApplicationContext());
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setView(toastLayout);
+            toast.show();
+            currentToast = toast;
+        }
+
     }
 
     public void displayTextWithDialog(String title, String message , DialogInterface.OnClickListener listenner){
@@ -351,6 +370,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         removeToast();
         unregisterBus();
         getMitooActivity().hideSoftKeyboard();
+        setForeGround(false);
         setLoading(false);
     }
 
@@ -522,6 +542,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager().getMobileTokenModel();
     }
 
+    protected NotificationPreferenceModel getNotificationPreferenceModel() {
+        return getMitooActivity().getModelManager().getNotificationPreferenceModel();
+    }
+
     public ViewHelper getViewHelper() {
         if (viewHelper == null)
             viewHelper = new ViewHelper(getMitooActivity());
@@ -586,7 +610,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             }
         };
         setRunnable(requestFocusRunnable);
-        getHandler().postDelayed(getRunnable(), 250);
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationShort);
 
     }
 
@@ -596,7 +620,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return formHelper;
     }
 
-    public boolean isPageFirstLoad() {
+    public boolean pageLoaded() {
         return pageFirstLoad;
     }
 
@@ -634,7 +658,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(getMitooActivity().getDataHelper().isClickable())
+                if(getMitooActivity().getDataHelper().isClickable(v.getId()))
                     MitooFragment.this.getMitooActivity().onBackPressed();
             }
         });
@@ -695,10 +719,78 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
+    protected void centerProgressLayout(){
+
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)getProgressLayout().getLayoutParams();
+        params.addRule(RelativeLayout.CENTER_VERTICAL);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        getProgressLayout().setLayoutParams(params);
+        getProgressLayout().setGravity(Gravity.CENTER);
+
+    }
+
     protected void requestData() {
     }
 
     public void resetFields() {
     }
 
+    public boolean isBackClicked() {
+        return backClicked;
+    }
+
+    public void setBackClicked(boolean backClicked) {
+        this.backClicked = backClicked;
+    }
+
+    protected void onNetWorkFailure(){
+    }
+
+    protected View createNetworkFailureView(){
+        RelativeLayout layout = (RelativeLayout) getViewHelper().createViewFromInflator(R.layout.view_networkfailure_text_view);
+        return layout;
+    }
+
+    public boolean isForeGround() {
+        return foreGround;
+    }
+
+    public void setForeGround(boolean foreGround) {
+        this.foreGround = foreGround;
+    }
+
+    protected int getUserID(){
+        if(getUserInfoModel().getUserInfoRecieve() != null)
+            return getUserInfoModel().getUserInfoRecieve().id;
+        else if(getSessionModel().getSession()!=null)
+            return getSessionModel().getSession().id;
+        else
+            return MitooConstants.invalidConstant;
+    }
+
+    protected boolean isDuringConfirmFlow(){
+        boolean result = false;
+        if(getMitooActivity()!=null && getMitooActivity().topFragmentType()!= null ){
+
+            if(getMitooActivity().topFragmentType() == ConfirmAccountFragment.class ||
+               getMitooActivity().topFragmentType() == ConfirmSetPasswordFragment.class ||
+               getMitooActivity().topFragmentType() == ConfirmDoneFragment.class)
+                result =true;
+        }
+        return result;
+    }
+
+    protected void handleAuth401Error(){
+        if(!isDuringConfirmFlow())
+            BusProvider.post(new LogOutNetworkCompleteEevent());
+    }
+
+    protected DialogInterface.OnClickListener createRegularFlowDialogListner(){
+
+        return new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                startRegularFlow();
+            }
+        };
+    }
 }

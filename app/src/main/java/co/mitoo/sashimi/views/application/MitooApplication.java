@@ -1,18 +1,15 @@
-package co.mitoo.sashimi.views.activities;
+package co.mitoo.sashimi.views.application;
 import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
-import android.support.v4.app.NotificationCompat;
-
 import com.urbanairship.AirshipConfigOptions;
 import com.urbanairship.Logger;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.notifications.DefaultNotificationFactory;
-
-import co.mitoo.sashimi.BuildConfig;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+
 
 /**
  * Created by david on 15-03-26.
@@ -20,10 +17,10 @@ import co.mitoo.sashimi.utils.MitooEnum;
 
 public class MitooApplication extends Application{
 
+
     @Override
     public void onCreate() {
         super.onCreate();
-
         UAirship.takeOff(this, createAirshipOptions(), new UAirship.OnReadyCallback() {
             @Override
             public void onAirshipReady(UAirship airship) {
@@ -62,4 +59,6 @@ public class MitooApplication extends Application{
         return options;
 
     }
+
+
 }

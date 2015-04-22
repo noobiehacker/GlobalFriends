@@ -20,9 +20,11 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
  */
 public class ConfirmAccountFragment extends MitooFragment {
 
+    private boolean dialogButtonCreated;
+
     @Override
     public void onClick(View v) {
-        if(getDataHelper().isClickable()){
+        if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
                 case R.id.confirmJoinButton:
                     confirmButtonAction();
@@ -121,4 +123,11 @@ public class ConfirmAccountFragment extends MitooFragment {
         getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
     }
 
+    public boolean isDialogButtonCreated() {
+        return dialogButtonCreated;
+    }
+
+    public void setDialogButtonCreated(boolean dialogButtonCreated) {
+        this.dialogButtonCreated = dialogButtonCreated;
+    }
 }

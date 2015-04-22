@@ -16,7 +16,6 @@ import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
@@ -120,7 +119,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
     @Subscribe
     public void onLocationModelQueryResult(LocationModelQueryResultEvent event) {
 
-        if(!getQueryText().equals(""))
+        if(getQueryText()!=null&&!getQueryText().equals(""))
             updatePredictions(event.getPlaces());
     }
 
@@ -204,7 +203,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         BusProvider.post(new LocationModelLocationsSelectedEvent());
 
     }
-    
+
     @Subscribe
     public void onLocationSelected(LocationModelLocationsSelectedEvent event){
 
@@ -247,7 +246,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
             @Override
             public boolean onQueryTextSubmit(String s) {
 
-                if (getDataHelper().isClickable()) {
+                if (getDataHelper().isClickable(getSearchView().getId())) {
                     if (getPlacesList().getItemAtPosition(0) != null) {
                         placeSelectionAction((PredictionWrapper) getPlacesList().getItemAtPosition(0));
                     }

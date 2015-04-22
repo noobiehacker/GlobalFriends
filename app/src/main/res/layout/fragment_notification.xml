@@ -14,14 +14,38 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <ListView
-        android:id="@+id/notification_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progressLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_below="@id/app_bar"
-        android:divider="@color/gray_light_three"
-        android:dividerHeight="@dimen/list_divider_height"
-        android:descendantFocusability="blocksDescendants"
-        android:scrollbars="none" />
+        progressLayout:progress="false"
+        progressLayout:progressBackground="@color/gray_light_one">
+
+        <ListView
+            android:id="@+id/email_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@color/gray_light_three"
+            android:dividerHeight="@dimen/list_divider_height"
+            android:scrollbars="none" />
+
+
+        <ListView
+            android:id="@+id/push_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email_list_view"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@color/gray_light_three"
+            android:dividerHeight="@dimen/list_divider_height"
+            android:scrollbars="none" />
+
+
+    </com.github.androidprogresslayout.ProgressLayout>
 
 </RelativeLayout>
+
+

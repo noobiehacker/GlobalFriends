@@ -4,7 +4,6 @@ import com.urbanairship.UAirship;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
-import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -34,7 +33,7 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
     }
 
     public Boolean channelIDSent;
-    public Boolean fireLogOutEvent;
+    public boolean fireLogOutEvent=false;
 
     public void setJsonDeviceInfo(JsonDeviceInfo jsonDeviceInfo) {
         this.jsonDeviceInfo = jsonDeviceInfo;
@@ -65,7 +64,13 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
     @Subscribe
     public void onApiFailEvent(RetrofitError event) {
 
-        BusProvider.post(new MitooActivitiesErrorEvent(event));
+        boolean urlIsTokenEndPoint = urlIsTokenEndPoint(event.getUrl());
+        if(event.getResponse() !=null && event.getResponse().getStatus() == 404){
+            if(urlIsTokenEndPoint)
+                fireLogOutEvent();
+        }
+        else
+            BusProvider.post(new MitooActivitiesErrorEvent(event));
     }
 
     @Override
@@ -75,6 +80,7 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
             int status = ((Response)objectRecieve).getStatus();
             if(status == 201){
                 setChannelIDSent(true);
+                BusProvider.post(new MobileTokenEventResponse());
             }else if (status ==204){
                 fireLogOutEvent();
             }
@@ -108,16 +114,19 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
 
 
     public void fireLogOutEvent(){
+        BusProvider.post(new LogOutNetworkCompleteEevent());
+/*
         if(getFireLogOutEvent())
-            BusProvider.post(new LogOutNetworkCompleteEevent());
-        setFireLogOutEvent(true);
+        setFireLogOutEvent(true); */
 
     }
     @Override
     public void readData() {
 
         DataPersistanceService service = getPersistanceService();
-        setChannelIDSent(service.readFromPreference(getPreferenceKey(), Boolean.class));
+        Object value = service.readFromPreference(getPreferenceKey(), Boolean.class);
+        if(value!=null)
+            setChannelIDSent((Boolean)value);
 
     }
 
@@ -154,5 +163,10 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
 
     public void setFireLogOutEvent(Boolean fireLogOutEvent) {
         this.fireLogOutEvent = fireLogOutEvent;
+    }
+
+    private boolean urlIsTokenEndPoint(String url){
+        String endPointSuffix = "/users/v1/mobile_devices/";
+        return url.toLowerCase().contains((endPointSuffix));
     }
 }

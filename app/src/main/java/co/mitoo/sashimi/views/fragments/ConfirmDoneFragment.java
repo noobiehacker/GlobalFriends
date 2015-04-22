@@ -1,20 +1,18 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.squareup.otto.Subscribe;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 
 /**
  * Created by david on 15-03-23.
@@ -23,7 +21,7 @@ public class ConfirmDoneFragment extends MitooFragment {
 
     @Override
     public void onClick(View v) {
-        if(getDataHelper().isClickable()){
+        if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
                 case R.id.viewMyLeaguesButton:
                     viewMyLeagueButtonAction();
@@ -87,6 +85,13 @@ public class ConfirmDoneFragment extends MitooFragment {
     }
 
     private void viewMyLeagueButtonAction(){
+
+        getMobileTokenModel().requestDeviceTokenAssociation(getUserID(), true);
+
+    }
+
+    @Subscribe
+    public void onMobileTokenModelResponse(MobileTokenEventResponse event){
 
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));

@@ -30,11 +30,11 @@ import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
  */
 public class ConfirmSetPasswordFragment extends MitooFragment {
 
-    private EditText passwordTextField;
+    private boolean dialogButtonCreated;
 
     @Override
     public void onClick(View v) {
-        if(getDataHelper().isClickable()){
+        if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
                 case R.id.setPasswordButton:
                     setPasswordButtonAction();
@@ -154,18 +154,6 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
             super.handleHttpErrors(statusCode);
     }
 
-    private void handle401Error(){
-        displayTextWithDialog(getString(R.string.prompt_confirm_401_title),
-                getString(R.string.prompt_confirm_401_Message),
-                createRegularFlowDialogListner());
-    }
-
-    private void handle409Error(){
-        displayTextWithDialog(getString(R.string.prompt_confirm_409_title),
-                getString(R.string.prompt_confirm_409_Message),
-                createRegularFlowDialogListner());
-    }
-
     @Override
     protected void handleNetworkError() {
 
@@ -174,13 +162,33 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
 
     }
 
-    private DialogInterface.OnClickListener createRegularFlowDialogListner(){
+    public boolean isDialogButtonCreated() {
+        return dialogButtonCreated;
+    }
 
-        return new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                startRegularFlow();
-            }
-        };
+    public void setDialogButtonCreated(boolean dialogButtonCreated) {
+        this.dialogButtonCreated = dialogButtonCreated;
+    }
+
+    private void handle409Error(){
+
+        if (!isDialogButtonCreated()) {
+            setDialogButtonCreated(true);
+        displayTextWithDialog(getString(R.string.prompt_confirm_409_title),
+                getString(R.string.prompt_confirm_409_Message),
+                createRegularFlowDialogListner());
+        }
+
+    }
+
+    private void handle401Error() {
+
+        if (!isDialogButtonCreated()) {
+            setDialogButtonCreated(true);
+            displayTextWithDialog(getString(R.string.prompt_confirm_401_title),
+                    getString(R.string.prompt_confirm_401_Message),
+                    createRegularFlowDialogListner());
+        }
 
     }
 

@@ -96,7 +96,6 @@
     <string name="home_page_text_5">My Leagues</string>
     <string name="home_page_text_6">Once you are in a league it will show here</string>
 
-
     <!--Home Page - Enquired List View-->
     <string name="home_page_enquired_date_prefix">Enquired on </string>
 
@@ -123,7 +122,7 @@
 
     <!--Error Message -->
     <string name="error_401_incorrect_cred">Incorrect credentials, please try again</string>
-    <string name="error_404">The information you try to find can not be found</string>
+    <string name="error_404">The information you are trying to find can not be found</string>
     <string name="error_409">We already have an account with that email. Please login to continue.</string>
     <string name="error_422">We already have an account with that email. Please login to continue.</string>
     <string name="error_500">It looks like we are having some technical difficulties. We are looking into it now.</string>
@@ -190,10 +189,10 @@
     <!-- Prompts -->
     <string name="prompt_location_services_title">Location Services</string>
     <string name="prompt_location_services_message">Please turn on location services</string>
-    <string name="prompt_confirm_401_title">Already Confirmed</string>
-    <string name="prompt_confirm_401_Message">Your account has been confirmed.</string>
-    <string name="prompt_confirm_409_title">Link Expired</string>
-    <string name="prompt_confirm_409_Message">Sorry, this link has expired.</string>
+    <string name="prompt_confirm_409_title">Already Confirmed</string>
+    <string name="prompt_confirm_409_Message">Your account has been confirmed.</string>
+    <string name="prompt_confirm_401_title">Link Expired</string>
+    <string name="prompt_confirm_401_Message">Sorry, this link has expired.</string>
     <string name="prompt_yes">Yes</string>
     <string name="prompt_no">No</string>
     <string name="prompt_ok">OK</string>
@@ -254,6 +253,7 @@
     </string-array>
     <string name="fixture_page_tbc">TBC</string>
     <string name="fixture_page_tbd">TBD</string>
+    <string name="fixture_page_time">"Time "</string>
     <string name="fixture_page_no_results">This competition has no past games</string>
     <string name="fixture_page_no_up_coming_games">This competition has no upcoming games</string>
 
@@ -263,15 +263,17 @@
     <string name="fixture_page_location_title">LOCATION</string>
     <string name="fixture_page_get_direction">Get directions</string>
     <string name="fixture_page_vs">" VS "</string>
+    <string name="fixture_page_loading">Fixture Loading</string>
 
 
     <!--Notification Page -->
-    <string name="notification_page_list_title">Account</string>
+    <string name="notification_page_email_list_title">"Get Email Notifications for:"</string>
+    <string name="notification_page_push_list_title">"Get Push Notifications for:"</string>
 
-    <string name="notification_page_list_item_next_game">Your next game</string>
-    <string name="notification_page_list_item_your_results">Your results</string>
-    <string name="notification_page_list_rival_results">Rival results</string>
-
+    <string name="notification_page_list_item_team_games">Your upcoming games</string>
+    <string name="notification_page_list_item_team_results">Your results</string>
+    <string name="notification_page_list_item_league_results">League results</string>
+    <string name="notification_page_list_item_rival_results">Rival results</string>
     <!--Confirmation Page -->
 
     <string name="confirmation_page_button_one_text">JOIN</string>
@@ -303,12 +305,12 @@
     <string name="tool_bar_near_you">Near You</string>
     <string name="tool_bar_settings">Settings</string>
     <string name="tool_bar_location_search">Enter any location</string>
-    <string name="tool_bar_notification">Notification</string>
+    <string name="tool_bar_notifications">Notifications</string>
     <string name="toolbar_placeholder">Mitoo Fragment</string>
 
     <!--Misc -->
     <string name="mitoo_copyright_location">LONDON - SAN FRANCISCO</string>
-    <string name="mitoo_copyright_version">Version 1.0.0</string>
+    <string name="mitoo_copyright_version">Version 1.1.0</string>
     <string name="mitoo_copyright_terms">TERMS AND PRIVACY TEXT</string>
     <string name="font_bold">bold</string>
     <string name="font_italic">italic</string>
@@ -329,7 +331,6 @@
     <string name="DIN_Light_Italic">fonts/din_comp_light_ita.ttf</string>
 
     <!--API Key-->
-    <string name="API_key_google_map">AIzaSyCepJmpE1CEFUKB7J8-rHFrDnxGQgEEnK0</string>
     <string name="API_key_google_places">AIzaSyCbsydXTG9a2-qCnZ91f_HS9k8fkBvVsVs</string>
     <string name="API_key_gcm_sender">697919773337</string>
     <string name="API_key_algolia">8c45f667d9649e81fa2a735dacefaa42</string>
@@ -346,7 +347,6 @@
     <string name="UA_app_dev_key">JZEB66hoS5GQ_zhKr1bfuQ</string>
     <string name="UA_app_dev_secret">6ff6lA5TQLa6MDGSZM9mEQ</string>
 
-
     <!--Bundle Map Key -->
     <string name="bundle_key_tool_bar_title">bundle_key_tool_bar_title</string>
     <string name="bundle_key_league_array_list">bundle_ley_league_array_list</string>
@@ -354,6 +354,7 @@
     <string name="bundle_key_prompt">bundle_key_prompt</string>
     <string name="bundle_key_first_time">bundle_key_boolean</string>
     <string name="bundle_key_from_confirm">bundle_key_from_confirm</string>
+    <string name="bundle_key_notification">bundle_key_notification</string>
     <string name="bundle_value_true">bundle_value_true</string>
     <string name="bundle_value_false">bundle_value_false</string>
 

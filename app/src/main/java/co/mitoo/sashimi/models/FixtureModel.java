@@ -7,6 +7,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
 import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -39,6 +40,18 @@ public class FixtureModel extends MitooModel{
 
     }
 
+    public void requestFixtureByFixtureID(int fixtureID, boolean refresh) {
+
+        if(getSelectedFixture() ==null || refresh){
+            Observable<Fixture> observable = getSteakApiService().getFixtureFromFixtureID(fixtureID);
+            handleObservable(observable, Fixture.class);
+        }
+        else{
+            BusProvider.post(new FixtureModelIndividualResponse());
+        }
+
+    }
+
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
 
@@ -46,14 +59,55 @@ public class FixtureModel extends MitooModel{
             clearFixtures();
             addFixtures((Fixture[]) objectRecieve);
             BusProvider.post(new FixtureModelResponseEvent());
+        }else if(objectRecieve instanceof Fixture) {
+            Fixture fixture = (Fixture)objectRecieve;
+            setSelectedFixture(new FixtureWrapper(fixture, getActivity()));
+            addFixtureToList(fixture);
+            BusProvider.post(new FixtureModelIndividualResponse());
         }
+    }
+
+    public void addFixtureToList(Fixture fixture) {
+
+        Fixture[] fixtureArray = new Fixture[1];
+        fixtureArray[0] = fixture;
+        FixtureWrapper fixtureWrapper = new FixtureWrapper(fixture , getActivity());
+
+        if(fixtureWrapper.isFutureFixture()){
+            if(!listContainsFixture(getSchedule(),fixtureWrapper))
+                addFixturesToSchedule(fixtureArray);
+        }
+        else{
+            if(!listContainsFixture(getResult(),fixtureWrapper))
+                addFixturesToResult(fixtureArray);
+        }
+    }
+
+    public void addFixturesToResult(Fixture[] fixtures) {
+
+        for (Fixture item : fixtures) {
+            FixtureWrapper fixtureWrapper = new FixtureWrapper(item, getActivity());
+            getResult().add(fixtureWrapper);
+        }
+        Collections.sort(getResult());
+        Collections.reverse(getResult());
+        getActivity().getDataHelper().setUpFixtureSection(getResult());
+    }
+
+    public void addFixturesToSchedule(Fixture[] fixtures) {
+
+        for (Fixture item : fixtures) {
+            FixtureWrapper fixtureWrapper = new FixtureWrapper(item, getActivity());
+            getSchedule().add(fixtureWrapper);
+        }
+        Collections.sort(getSchedule());
+        getActivity().getDataHelper().setUpFixtureSection(getSchedule());
     }
 
     public void addFixtures(Fixture[] fixtures) {
 
         for (Fixture item : fixtures) {
             FixtureWrapper fixtureWrapper = new FixtureWrapper(item , getActivity());
-            Date fixtureDate = fixtureWrapper.getFixtureDate();
             if(fixtureWrapper.isFutureFixture())
                 getSchedule().add(fixtureWrapper);
             else
@@ -62,6 +116,8 @@ public class FixtureModel extends MitooModel{
         Collections.sort(getSchedule());
         Collections.sort(getResult());
         Collections.reverse(getResult());
+        getActivity().getDataHelper().setUpFixtureSection(getSchedule());
+        getActivity().getDataHelper().setUpFixtureSection(getResult());
     }
 
     @Override
@@ -87,6 +143,30 @@ public class FixtureModel extends MitooModel{
         return result;
     }
 
+    public FixtureWrapper getFixtureFromModel(int fixtureID){
+
+        FixtureWrapper result = getFixtureFromList(fixtureID , getSchedule());
+        if(result!=null)
+            return result;
+        else
+            return getFixtureFromList(fixtureID, getResult());
+
+    }
+
+    public FixtureWrapper getFixtureFromList(int fixtureID, List<FixtureWrapper> fixtureList){
+
+        FixtureWrapper result = null;
+        loop:
+        for(FixtureWrapper item : fixtureList){
+            if(item.getFixture().getId()==fixtureID){
+                result = item;
+                break loop;
+            }
+        }
+        return result;
+
+    }
+
     public void setSchedule(List<FixtureWrapper> schedule) {
         this.schedule = schedule;
     }
@@ -105,5 +185,18 @@ public class FixtureModel extends MitooModel{
 
     public void setSelectedFixture(FixtureWrapper selectedFixture) {
         this.selectedFixture = selectedFixture;
+    }
+
+    private boolean listContainsFixture(List<FixtureWrapper> list, FixtureWrapper fixtureWrapper){
+
+        boolean contains = false;
+        loop:
+        for(FixtureWrapper item : list){
+            if(fixtureWrapper.getFixture().getId() == item.getFixture().getId()){
+                contains=true;
+                break loop;
+            }
+        }
+        return contains;
     }
 }

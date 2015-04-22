@@ -1,7 +1,9 @@
 package co.mitoo.sashimi.utils;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
@@ -22,6 +24,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     private String displayableTime;
     private String displayableScore;
     private String displayablePlace;
+    private boolean firstFixtureForDateGroup;
 
     public FixtureWrapper(Fixture fixture , MitooActivity activity) {
         this.fixture= fixture;
@@ -68,6 +71,11 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         return dataHelper.getLongDateString(getFixtureDate());
     }
 
+    public String getMediumDisplayableDate() {
+        DataHelper dataHelper = getMitooActivity().getDataHelper();
+        return dataHelper.getMediumDateString(getFixtureDate());
+    }
+
     public String getDisplayableTime(){
         if(displayableTime == null){
             if(getFixture().isTime_tbc())
@@ -98,16 +106,20 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
                 displayablePlace = location.getTitle();
         }
         return displayablePlace;
+
     }
 
     private void initializeNullParam(){
+
         if(this.getFixture()!=null){
             if(this.getFixture().getSport()==null)
                 this.getFixture().setSport("");
         }
+
     }
 
     public boolean isFutureFixture(){
+
         Date now = new Date();
         return getFixtureDate().after(now);
 
@@ -174,9 +186,37 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     public String getDisplayableAddress(){
         String result = "";
         if(getFixture().getLocation()!=null){
+            List<String> addressStrings = new ArrayList<String>();
+
             location location = getFixture().getLocation();
-            result = location.getStreet_1() ;
+            addStringToList(location.getStreet_1() , addressStrings);
+            addStringToList(location.getCity() , addressStrings);
+            addStringToList(location.getState() , addressStrings);
+            addStringToList(location.getPostal_code() , addressStrings);
+
+            result = formatString(addressStrings);
+
         }
+        return result;
+    }
+
+    private void addStringToList(String string, List<String> list){
+        if(string!=null)
+            list.add(string);
+    }
+
+    private String formatString(List<String> list) {
+
+        String result = "";
+        boolean firstString = true;
+
+        for (String item : list) {
+            if (!firstString)
+                item = " " + item;
+            result = result + item;
+            firstString = false;
+        }
+
         return result;
     }
 
@@ -184,4 +224,11 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
         return getMitooActivity().getDataHelper();
     }
 
+    public boolean isFirstFixtureForDateGroup() {
+        return firstFixtureForDateGroup;
+    }
+
+    public void setFirstFixtureForDateGroup(boolean firstFixtureForDateGroup) {
+        this.firstFixtureForDateGroup = firstFixtureForDateGroup;
+    }
 }

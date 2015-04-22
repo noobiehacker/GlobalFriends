@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <it.neokree.materialtabs.MaterialTabHost
+        android:id="@+id/materialTabHost"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/competition_page_tab_height"
+        android:layout_below="@id/app_bar"
+        app:accentColor="@color/transparent_black_30"
+        app:primaryColor="#FFAA4A"
+        app:textColor="@color/white" />
+
+    <com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/materialTabHost"
+        progressLayout:progress="false"
+        progressLayout:progressBackground="@color/gray_light_one">
+
+
+
+            <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+
+
+    </com.github.androidprogresslayout.ProgressLayout>
+
+</RelativeLayout>

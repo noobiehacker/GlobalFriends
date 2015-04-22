@@ -8,6 +8,7 @@ import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsPersistable;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.StaticString;
 import co.mitoo.sashimi.utils.events.SessionPersistanceResponseEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
@@ -34,6 +35,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
     private Invitation_token invitation_token;
 
     public SessionRecieve getSession() {
+
         return session;
     }
 
@@ -150,17 +152,14 @@ public class SessionModel extends MitooModel implements IsPersistable {
         this.invitation_token = invitation_token;
     }
 
-    public void updateSession(UserInfoRecieve userInfoRecieve){
-        if(session==null)
-            setSession(session);
-        else if(session.auth_token== null)
+    public void updateSession(UserInfoRecieve userInfoRecieve) {
+        if (session == null)
+            setSession(new SessionRecieve());
+        if(userInfoRecieve.auth_token!=null)
             session.auth_token = userInfoRecieve.auth_token;
+        session.id = userInfoRecieve.id;
         updateToken();
         saveData();
     }
 
 }
-
-
-
-

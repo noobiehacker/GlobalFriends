@@ -14,7 +14,7 @@
 
     <RelativeLayout
         android:id="@+id/icon_container"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/enquired_list_icon_length"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/enquired_list_icon_left_padding"

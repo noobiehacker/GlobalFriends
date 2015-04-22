@@ -17,18 +17,27 @@
         style="@style/fixturePageTitleText"
         />
 
-    <fragment
-        android:id="@+id/googleFixtureMapFragment"
-        android:layout_below="@+id/fixtureLocationTitle"
-        android:layout_width="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_height="@dimen/google_map_place_holder"
-        class="com.google.android.gms.maps.MapFragment" />
-
     <RelativeLayout
+        android:id="@+id/googleMapFragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/googleFixtureMapFragment"
+        android:layout_below="@+id/fixtureLocationTitle"
+        android:layout_centerHorizontal="true">
+
+        <fragment
+            android:id="@+id/googleFixtureMapFragment"
+            android:layout_width="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_height="@dimen/google_map_place_holder"
+            class="com.google.android.gms.maps.MapFragment" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/locationAndAddressContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/googleMapFragmentContainer"
         android:layout_centerHorizontal="true"
         android:background="@color/gray_light_two"
         android:padding="@dimen/list_divider_height">
@@ -37,6 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/fixture_page_bottom_section_top_padding"
+            android:paddingBottom="@dimen/fixture_page_bottom_section_bottom_padding"
             android:background="@color/white">
 
             <TextView
@@ -44,7 +55,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fixture_page_bottom_section_top_padding"
                 android:gravity="center"
                 android:text="@string/place_holder_dummie_text"
                 style="@style/fixturePageLocationText"
@@ -56,7 +66,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/fixtureLocationText"
-                android:layout_marginBottom="@dimen/fixture_page_bottom_section_bottom_padding"
+                android:minLines="1"
+                android:maxLines="2"
                 android:gravity="center"
                 android:text="@string/place_holder_dummie_text"
                 style="@style/fixturePageAddressText"

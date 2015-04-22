@@ -35,6 +35,7 @@ public final class MitooConstants {
     public static int durationMedium =500;
     public static int durationLong =750;
     public static int durationExtraLong =1000;
+
     public static MitooEnum.SteakEndPoint mitooDevelopmentEndPoint =MitooEnum.SteakEndPoint.STAGING;
 
     public static boolean getPersistenceStorage() {
@@ -43,9 +44,9 @@ public final class MitooConstants {
 
     public static MitooEnum.SteakEndPoint getEndPoint() {
 
-        if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.PRODUCTION.name())
+        if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.PRODUCTION.name()))
             return MitooEnum.SteakEndPoint.PRODUCTION;
-        else if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.STAGING.name()){
+        else if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.STAGING.name())){
             return MitooConstants.mitooDevelopmentEndPoint;
         }
         else
@@ -54,9 +55,9 @@ public final class MitooConstants {
 
     public static MitooEnum.AppEnvironment getAppEnvironment() {
 
-        if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.PRODUCTION.name())
+        if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.PRODUCTION.name()))
             return MitooEnum.AppEnvironment.PRODUCTION;
-        else if(BuildConfig.FLAVOR == MitooEnum.AppEnvironment.STAGING.name())
+        else if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.STAGING.name()))
             return MitooEnum.AppEnvironment.STAGING;
         else
             return MitooEnum.AppEnvironment.STAGING;

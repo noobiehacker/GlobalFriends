@@ -1,7 +1,6 @@
 package co.mitoo.sashimi.models;
 import android.location.Location;
 import com.google.android.gms.maps.model.LatLng;
-import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -17,7 +16,6 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.Subscriber;
-import rx.functions.Action1;
 import se.walkercrou.places.GooglePlaces;
 import se.walkercrou.places.Place;
 import se.walkercrou.places.Prediction;
@@ -34,6 +32,7 @@ public class LocationModel extends MitooModel {
     private LatLng selectedLocationLatLng;
     private boolean currentLocationClicked = false;
     private ReactiveLocationProvider reactiveLocationProvider;
+    private PredictionWrapper predictionWrapper;
 
     public LocationModel(MitooActivity activity) {
         super(activity);
@@ -121,8 +120,10 @@ public class LocationModel extends MitooModel {
         t.start();
 
     }
-    
+
     public void selectPlace(final PredictionWrapper selectedPrediction) {
+        setPredictionWrapper(selectedPrediction);
+        setToUseCurrentLocation(false);
         this.backgroundRunnable =new Runnable() {
             @Override
             public void run() {
@@ -145,7 +146,6 @@ public class LocationModel extends MitooModel {
         t.start();
 
     }
-
 
     public GooglePlaces getClient() {
         return client;
@@ -247,4 +247,11 @@ public class LocationModel extends MitooModel {
         }
     }
 
+    public PredictionWrapper getPredictionWrapper() {
+        return predictionWrapper;
+    }
+
+    public void setPredictionWrapper(PredictionWrapper predictionWrapper) {
+        this.predictionWrapper = predictionWrapper;
+    }
 }

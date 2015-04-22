@@ -11,6 +11,7 @@ import retrofit.RequestInterceptor;
 public class InterceptorBuilder {
 
     private Map<String,String> headerMappings;
+    private String token;
 
     public InterceptorBuilder(){
     }
@@ -48,17 +49,21 @@ public class InterceptorBuilder {
         headerMappings.put("Content-Type" , "application/json");
     }
 
-    private InterceptorBuilder addHeaderMapping(String key, String value)
-    {
+    private InterceptorBuilder addHeaderMapping(String key, String value){
+
         if(headerMappings==null)
             initalizeHeaderMapping();
         headerMappings.put(key,value);
         return this;
     }
 
-    private InterceptorBuilder removeHeaderMapping(String key)
-    {
+    private InterceptorBuilder removeHeaderMapping(String key){
+
         headerMappings.remove(key);
         return this;
+    }
+
+    public String getToken(){
+        return getHeaderMappings().get("X-AUTH-TOKEN");
     }
 }

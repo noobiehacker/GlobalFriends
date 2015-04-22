@@ -47,7 +47,7 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
 
     private void setUpLeagueIcon(View view, League league) {
 
-        getFragment().getViewHelper().setUpEnquireListIcon(view , league);
+        getFragment().getViewHelper().getLeagueViewHelper().setUpLeagueListIcon(view, league);
 
     }
 
@@ -61,10 +61,10 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if(getFragment().getDataHelper().isClickable() && id!= -1) {
+        if(getFragment().getDataHelper().isClickable(view.getId()) && id!= -1) {
             Competition item = (Competition) parent.getItemAtPosition(position);
             setSelectedModelItem(item);
-            getFragment().fireFragmentChangeAction(R.id.fragment_fixture);
+            getFragment().fireFragmentChangeAction(R.id.fragment_competition);
         }
 
     }

@@ -13,6 +13,7 @@ import co.mitoo.sashimi.views.widgets.MitooTab;
 public class MitooTabAdapter extends FragmentStatePagerAdapterNotV4{
 
     private List<MitooTab> mitooTabs;
+    private FragmentManager fragmentManager;
 
     public MitooTabAdapter(FragmentManager fm) {
         super(fm);
@@ -21,14 +22,18 @@ public class MitooTabAdapter extends FragmentStatePagerAdapterNotV4{
     public MitooTabAdapter(List<MitooTab> mitooTabs ,FragmentManager fm) {
         super(fm);
         setMitooTabs(mitooTabs);
+        setFragmentManager(fm);
     }
 
-    public Fragment getItem(int num) {
-        return getMitooTabs().get(num).getFragment();
+    @Override
+    public Fragment getItem(int position) {
+
+        return getMitooTabs().get(position).getFragment();
     }
 
     @Override
     public int getCount() {
+
         return getMitooTabs().size();
     }
 
@@ -43,5 +48,18 @@ public class MitooTabAdapter extends FragmentStatePagerAdapterNotV4{
 
     public void setMitooTabs(List<MitooTab> mitooTabs) {
         this.mitooTabs = mitooTabs;
+    }
+
+    public FragmentManager getFragmentManager() {
+        return fragmentManager;
+    }
+
+    public void setFragmentManager(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

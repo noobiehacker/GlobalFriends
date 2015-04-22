@@ -4,14 +4,13 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
-
 import com.google.android.gms.maps.model.LatLng;
 
+import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
@@ -31,6 +30,7 @@ import se.walkercrou.places.Prediction;
 /**
  * Created by david on 15-01-27.
  */
+
 public class DataHelper {
 
     private MitooActivity activity;
@@ -38,6 +38,7 @@ public class DataHelper {
     private boolean confirmFeedBackPopped;
     private DisplayMetrics metrics;
     private ObjectMapper objectMapper;
+    private int lastButtonClicked;
 
     public DataHelper(MitooActivity activity) {
         this.activity = activity;
@@ -133,7 +134,6 @@ public class DataHelper {
 
     private String getBullet() {
         return getActivity().getString(R.string.bullet);
-
     }
 
     public MitooActivity getActivity() {
@@ -152,12 +152,14 @@ public class DataHelper {
         this.lastCLickTime = lastCLickTime;
     }
 
-    public boolean isClickable() {
+    public boolean isClickable(int buttonID) {
         //Only allow user to click if interval between two clicks is greater than 1 second
-        boolean result = false;
-        if (SystemClock.elapsedRealtime() > getLastCLickTime() + 1000) {
-            result = true;
+        boolean result = true;
+        boolean elapsedIsTimeTooShort = SystemClock.elapsedRealtime() <= getLastCLickTime() + MitooConstants.durationLong;
+        if (elapsedIsTimeTooShort && getLastButtonClicked() == buttonID ) {
+            result = false;
         }
+        setLastButtonClicked(buttonID);
         setLastCLickTime(SystemClock.elapsedRealtime());
         return result;
     }
@@ -174,17 +176,6 @@ public class DataHelper {
         if (metrics == null)
             metrics = getActivity().getResources().getDisplayMetrics();
         return metrics;
-    }
-
-    public void setMetrics(DisplayMetrics metrics) {
-        this.metrics = metrics;
-    }
-
-    public boolean isHighDenstiryScreen() {
-        boolean result = false;
-        if (getMetrics().densityDpi > DisplayMetrics.DENSITY_HIGH)
-            result = true;
-        return result;
     }
 
     public String getRetinaURL(String url) {
@@ -209,16 +200,12 @@ public class DataHelper {
         return result;
     }
 
-    public boolean isConfirmFeedBackPopped() {
-        return confirmFeedBackPopped;
-    }
-
     public String parseDateToDisplayFormat(String input) {
 
         String result = input;
         try {
             if (result != null) {
-                Date date = getOldLongDateFormat().parse(input);
+                Date date = getLongestDateFormat().parse(input);
                 result = getShortDateFormat().format(date);
             }
         } catch (Exception e) {
@@ -231,7 +218,7 @@ public class DataHelper {
         Date result = null;
 
         try {
-            result = getOldLongDateFormat().parse(input);
+            result = getLongestDateFormat().parse(input);
         } catch (Exception e) {
 
         }
@@ -239,32 +226,22 @@ public class DataHelper {
         return result;
     }
 
-    public String getMediumDateString(Date date) {
-
-        return getMediumDisplayableDateFormat().format(date);
-    }
-
     public String getLongDateString(Date date) {
 
         return getLongDisplayableDateFormat().format(date);
     }
 
+    public String getMediumDateString(Date date) {
+
+        return getMediumDisplayableDateFormat().format(date);
+    }
+
     public String getDisplayableTimeString(Date date) {
-
         return getDisplayableTimeFormat().format(date);
-
     }
 
-    public SimpleDateFormat getOldLongDateFormat() {
-
+    public SimpleDateFormat getLongestDateFormat() {
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-    }
-
-    public SimpleDateFormat getNewLongDateFormat() {
-
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
     }
 
     public SimpleDateFormat getShortDateFormat() {
@@ -276,7 +253,7 @@ public class DataHelper {
     }
 
     public SimpleDateFormat getLongDisplayableDateFormat() {
-        return new SimpleDateFormat("EEEE, dd MMMM yyyy");
+        return new SimpleDateFormat("EEEE, d MMMM yyyy");
     }
 
     public SimpleDateFormat getDisplayableTimeFormat() {
@@ -388,27 +365,6 @@ public class DataHelper {
 
 
 
-    public String getNotificationText(MitooEnum.NotificationType notificationType) {
-
-        String result = "";
-        switch(notificationType){
-
-            case NextGame:
-                result = getActivity().getString(R.string.notification_page_list_item_next_game);
-                break;
-            case TeamResults:
-                result = getActivity().getString(R.string.notification_page_list_item_your_results);
-                break;
-            case RivalResults:
-                result = getActivity().getString(R.string.notification_page_list_rival_results);
-                break;
-            default:
-                break;
-
-        }
-        return result;
-    }
-
     public Team getTeam(int teamID) {
         return getActivity().getModelManager().getTeamModel().getTeam(teamID);
     }
@@ -443,7 +399,7 @@ public class DataHelper {
 
     private String replaceLocalHostPrefix(String url, String newPrefix) {
 
-        String result = null;
+        String result = url;
         if (url != null) {
             int index = url.lastIndexOf("3000");
             if (index >= 0)
@@ -464,53 +420,7 @@ public class DataHelper {
         }
     }
 
-    public MitooEnum.FixtureStatus getFixtureStatus(FixtureWrapper fixtureWrapper) {
-
-        /*Notes from BE
-
-            The status attribute is a variable to show non-normal games
-            0 = Normal
-            1 = Cancelled
-            2 = Deleted
-            3 = Postponed
-            4 = Rescheduled
-            5 = Abandoned
-            6 = Void Notes:
-
-         */
-
-        MitooEnum.FixtureStatus tabType;
-        switch (fixtureWrapper.getFixture().getStatus()) {
-            case 0:
-                tabType = MitooEnum.FixtureStatus.SCORE;
-                break;
-            case 1:
-                tabType = MitooEnum.FixtureStatus.CANCELED;
-                break;
-            case 2:
-                tabType = MitooEnum.FixtureStatus.VOID;
-                break;
-            case 3:
-                tabType = MitooEnum.FixtureStatus.POSTPONED;
-                break;
-            case 4:
-                tabType = MitooEnum.FixtureStatus.RESCHEDULED;
-                break;
-            case 5:
-                tabType = MitooEnum.FixtureStatus.ABANDONED;
-                break;
-            case 6:
-                tabType = MitooEnum.FixtureStatus.VOID;
-                break;
-            default:
-                tabType = MitooEnum.FixtureStatus.VOID;
-                break;
-
-        }
-        return tabType;
-    }
-
-    public <T> String serializeObject(T input, Class<T> classType) {
+    public String serializeObject(Object input) {
 
         String serializedValue = "";
         try {
@@ -528,7 +438,7 @@ public class DataHelper {
             ObjectMapper objectMapper = new ObjectMapper();
             deserializedObject = objectMapper.readValue(input, classType);
         } catch (Exception e) {
-
+            String temp = e.toString();
         }
         return deserializedObject;
     }
@@ -577,4 +487,42 @@ public class DataHelper {
         }
     }
 
+    public void setUpFixtureSection(List<FixtureWrapper> list) {
+
+        //Assumption: List is already sorted
+        //Run a loop thought the list and for the first fixture for a particular date
+        //We set the variable "firstFixtureForDateGroup" to true
+
+        if(list!=null && !list.isEmpty()) {
+
+            Date currentSectionDate =null;
+            for (FixtureWrapper item : list) {
+                if(currentSectionDate==null || !isSameDate(currentSectionDate , item.getFixtureDate())){
+
+                    item.setFirstFixtureForDateGroup(true);
+                    currentSectionDate= item.getFixtureDate();
+                }
+            }
+        }
+    }
+
+    public int getLastButtonClicked() {
+        return lastButtonClicked;
+    }
+
+    public void setLastButtonClicked(int lastButtonClicked) {
+        this.lastButtonClicked = lastButtonClicked;
+    }
+
+    public String getCityNameFromString(String item){
+        String result="";
+        if(item!=null && item.length()>0){
+            int index = item.indexOf(',');
+            if(index >= 0)
+                result= item.substring(0 , index);
+            else
+                result= item;
+        }
+        return result;
+    }
 }

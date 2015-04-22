@@ -12,4 +12,12 @@ public class NotificationEvent {
     public NotificationEvent(NotificationRecieve notificationRecieve) {
         this.notificationRecieve = notificationRecieve;
     }
+
+    public NotificationRecieve getNotificationRecieve() {
+        return notificationRecieve;
+    }
+
+    public void setNotificationRecieve(NotificationRecieve notificationRecieve) {
+        this.notificationRecieve = notificationRecieve;
+    }
 }

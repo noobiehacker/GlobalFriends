@@ -282,4 +282,6 @@ public class League implements Serializable {
     public void setLeagueMobileCover(MitooImageTarget leagueMobileCover) {
         this.leagueMobileCover = leagueMobileCover;
     }
+
+
 }

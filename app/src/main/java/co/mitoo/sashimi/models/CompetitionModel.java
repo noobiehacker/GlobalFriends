@@ -35,6 +35,20 @@ public class CompetitionModel extends MitooModel{
         }
     }
 
+    public void setSelectedCompetition(int competitionID){
+
+        Competition competition = getCompetitionFromID(competitionID);
+        if(competition!=null){
+            setSelectedCompetition(competition);
+        }
+
+    }
+
+    private int getUserID(){
+        SessionModel model = getActivity().getModelManager().getSessionModel();
+        return model.getSession().id;
+    }
+
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
 
@@ -72,8 +86,10 @@ public class CompetitionModel extends MitooModel{
 
     public Competition getSelectedCompetition() {
 
-        if(selectedCompetition==null)
-            selectedCompetition = getMyCompetition().get(0);
+        if(selectedCompetition==null){
+            if(!getMyCompetition().isEmpty())
+                selectedCompetition = getMyCompetition().get(0);
+        }
         return selectedCompetition;
     }
 
@@ -91,7 +107,7 @@ public class CompetitionModel extends MitooModel{
         boolean resultFound = false;
         loop:
         for(Competition item : getMyCompetition()){
-            if(item.getFixed_competition_id()==id){
+            if(item.getId()==id){
                 result = item;
                 break loop;
             }

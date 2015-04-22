@@ -1,19 +1,27 @@
 package co.mitoo.sashimi.views.fragments;
+import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.TeamModelResponseEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
@@ -33,10 +41,13 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private ViewPager pager;
     private MitooTabAdapter adapter;
     private List<MitooTab> mitooTabsList;
+    private RelativeLayout materialsTabContainer;
     private int teamColor = MitooConstants.invalidConstant;
     private boolean teamModelLoaded = false;
     private boolean fixtureModelLoaded = false;
     private Competition selectedCompetition;
+    private MitooEnum.FixtureTabType tabselected;
+    private boolean tabLoaded = false;
 
     @Override
     public void onClick(View v) {
@@ -48,24 +59,51 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     }
 
     @Override
+    public void onCreate (Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        requestData();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_fixture,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_competition,
                 container, false);
-        initializeFields();
         initializeViews(view);
         initializeOnClickListeners(view);
+        setUpTabs();
+        setPreDataLoading(true);
         return view;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        setUpTabFromPreviousState();
+        //QUICK FIX REFACTOR LATER
+        //Naming convention of isLoading should be hasLoaded! REFACTOR
+        if(!isLoading() || isBackClicked())
+            loadTabs();
+    }
+
+    private void setUpTabFromPreviousState(){
+        if(getTabselected()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+            getPager().setCurrentItem(0);
+        else if(getTabselected()== MitooEnum.FixtureTabType.FIXTURE_RESULT)
+            getPager().setCurrentItem(1);
     }
 
     @Override
     protected void initializeViews(View view) {
 
         super.initializeViews(view);
-        setUpTabView(view);
-        setUpPager(view);
-        setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
-        setPreDataLoading(true);
+        setMaterialsTabContainer((RelativeLayout)view.findViewById(R.id.materialTabContainer));
+        RelativeLayout tabLayout =  (RelativeLayout)getViewHelper().createViewFromInflator(R.layout.partial_competition_tabs);
+        getMaterialsTabContainer().addView(tabLayout);
+
+        setUpTabView(tabLayout);
+        setUpPager(tabLayout);
+        setProgressLayout((ProgressLayout) tabLayout.findViewById(R.id.progressLayout));
 
     }
 
@@ -73,8 +111,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     protected void initializeFields() {
 
         super.initializeFields();
-        setFragmentTitle(getSelectedCompetition().getName());
-        setUpTabs();
+        if(getSelectedCompetition()!=null)
+            setFragmentTitle(getSelectedCompetition().getName());
 
     }
 
@@ -85,21 +123,30 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     }
 
     @Override
-    public void onResume() {
+    protected void handleNetworkError() {
 
-        super.onResume();
-        requestData();
+        if (getProgressLayout() != null) {
+
+            centerProgressLayout();
+            getProgressLayout().removeAllViews();
+            getProgressLayout().addView(createNetworkFailureView());
+        }
 
     }
 
     @Override
     protected void requestData() {
 
-        int competitionSeasonID = getSelectedCompetition().getFixed_competition_id();
+        setPreDataLoading(true);
+        setFixtureModelLoaded(false);
+        setTeamModelLoaded(false);
         setTeamModelLoaded(false);
         setFixtureModelLoaded(false);
-        getTeamModel().requestTeamByCompetition(competitionSeasonID, true);
-        getFixtureModel().requestFixtureByCompetition(competitionSeasonID, true);
+        if(getSelectedCompetition()!=null){
+            int competitionSeasonID = getSelectedCompetition().getId();
+            getTeamModel().requestTeamByCompetition(competitionSeasonID, true);
+            getFixtureModel().requestFixtureByCompetition(competitionSeasonID, true);
+        }
 
     }
 
@@ -107,39 +154,70 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     public void onFixtureResponse(FixtureModelResponseEvent event) {
 
         setFixtureModelLoaded(true);
-        if (allDataLoaded())
-            loadTabs();
+        attemptToDisplayData();
+
     }
 
     @Subscribe
     public void onTeamResponse(TeamModelResponseEvent event) {
 
         setTeamModelLoaded(true);
+        attemptToDisplayData();
+
+    }
+
+    private void attemptToDisplayData(){
         if (allDataLoaded())
-            loadTabs();
+            updateView();
+    }
+
+    private void updateView() {
+
+        loadTabs();
+        setFragmentTitle(getSelectedCompetition().getName());
+        getToolbar().setBackgroundColor(getTeamColor());
+        getToolbar().setTitle(getFragmentTitle());
 
     }
 
     private void loadTabs() {
-        setUpPagerAdapter();
-        setPreDataLoading(false);
+
+        //QUICK FIX, REFACTOR
+        setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                //resetAdapter();
+                setUpPagerAdapter();
+                setPreDataLoading(false);
+                if(isBackClicked()){
+                    getPager().setCurrentItem(0 ,true);
+                }
+                /*
+                android.app.FragmentManager fm =getAdapter().getFragmentManager();
+                fm.beginTransaction();
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+                    android.app.FragmentManager childFM = getChildFragmentManager();
+                    FragmentTransaction ft = childFM.beginTransaction();
+                    ft.replace(R.id.pager , getAdapter().getItem(0));
+                    ft.commit();
+                }*/
+            }
+        });
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
 
     }
-
 
     private void setUpTabView(View view) {
 
         setTabHost((MaterialTabHost) view.findViewById(R.id.materialTabHost));
-        setUpTabHost();
+        getTabHost().setPrimaryColor(getTeamColor());
 
-    }
-
-    private void setUpTabHost() {
-        tabHost.setPrimaryColor(getTeamColor());
     }
 
     private void setUpTabs() {
 
+        getDataHelper().clearList(getMitooTabsList());
         String[] tabNames = getResources().getStringArray(R.array.competitions_tabs_array);
         for (int tabIndex = 0; tabIndex < tabNames.length; tabIndex++) {
 
@@ -148,12 +226,14 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             MitooMaterialsTab tab = new MitooMaterialsTab(getMitooActivity(), false);
             tab.setText(tabName);
             tab.setTabListener(this);
-            getTabHost().addTab(tab);
 
             MitooTab mitooTab = new MitooTab(getDataHelper().getFixtureTabTypeFromIndex(tabIndex));
             mitooTab.setTab(tab);
             getMitooTabsList().add(mitooTab);
+        }
 
+        for (MitooTab item : getMitooTabsList()) {
+            getTabHost().addTab(item.getTab());
         }
 
     }
@@ -164,10 +244,11 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         getPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                if(position<getMitooTabsList().size()-1)
+                if(position<=getMitooTabsList().size()-1)
                     getTabHost().setSelectedNavigationItem(position);
             }
         });
+
     }
 
     private void setUpPager(View view) {
@@ -182,7 +263,10 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         if (getPager() != null && !isLoading()) {
             getPager().setCurrentItem(tab.getPosition());
         }
-
+        if(tab.getPosition()==0)
+            setTabselected(MitooEnum.FixtureTabType.FIXTURE_SCHEDULE);
+        else if(tab.getPosition()==0)
+            setTabselected(MitooEnum.FixtureTabType.FIXTURE_RESULT);
     }
 
     @Override
@@ -207,10 +291,15 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                    if (getDataHelper().isClickable()) {
+                    if (getDataHelper().isClickable(menuItem.getItemId())) {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_notification:
-                                fireFragmentChangeAction(R.id.fragment_notification);
+                                FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                                        .setFragmentID(R.id.fragment_notification)
+                                        .setTransition(MitooEnum.FragmentTransition.PUSH)
+                                        .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                                        .build();
+                                postFragmentChangeEvent(fragmentChangeEvent);
                                 break;
                         }
                     }
@@ -235,23 +324,44 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         return tabHost;
     }
 
+
     public void setTabHost(MaterialTabHost tabHost) {
         this.tabHost = tabHost;
     }
 
     public int getTeamColor() {
+
         if (teamColor == MitooConstants.invalidConstant) {
-            String teamColorString = getSelectedCompetition().getLeague().getColor_1();
-            teamColor = getViewHelper().getColor(teamColorString);
+            if(getCompetitionModel().getSelectedCompetition()!=null){
+                String teamColorString = getSelectedCompetition().getLeague().getColor_1();
+                teamColor = getViewHelper().getColor(teamColorString);
+            }
         }
 
         return teamColor;
     }
 
     public MitooTabAdapter getAdapter() {
-        if(adapter == null)
-            adapter = new MitooTabAdapter(getMitooTabsList(), getFragmentManager());
+        if(adapter == null){
+            android.app.FragmentManager fm = getFragmentManager();
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+                fm  = getChildFragmentManager();
+            }
+            adapter = new MitooTabAdapter(getMitooTabsList(), fm);
+        }
         return adapter;
+    }
+
+    public void resetAdapter(){
+        getFragmentManager().beginTransaction().remove(getAdapter().getItem(0));
+        getFragmentManager().beginTransaction().remove(getAdapter().getItem(1));
+        adapter = new MitooTabAdapter(getMitooTabsList(), getFragmentManager());
+
+    }
+
+    public void setAdapter(MitooTabAdapter adapter) {
+        this.adapter = adapter;
     }
 
     public List<MitooTab> getMitooTabsList() {
@@ -260,8 +370,12 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         return mitooTabsList;
     }
 
+    public void setMitooTabsList(List<MitooTab> mitooTabsList) {
+        this.mitooTabsList = mitooTabsList;
+    }
+
     public boolean allDataLoaded() {
-        return isTeamModelLoaded() && isFixtureModelLoaded();
+        return isTeamModelLoaded() && isFixtureModelLoaded() ;
     }
 
     public boolean isTeamModelLoaded() {
@@ -284,5 +398,48 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         if(selectedCompetition==null)
             selectedCompetition= getCompetitionModel().getSelectedCompetition();
         return selectedCompetition;
+    }
+
+    public void resetFields(){
+        setTabHost(null);
+        setAdapter(null);
+        setPager(null);
+        setMitooTabsList(null);
+
+    }
+
+    public MitooEnum.FixtureTabType getTabselected() {
+        if(tabselected==null)
+            tabselected = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+        return tabselected;
+    }
+
+    public void setTabselected(MitooEnum.FixtureTabType tabselected) {
+        this.tabselected = tabselected;
+    }
+
+    public RelativeLayout getMaterialsTabContainer() {
+        return materialsTabContainer;
+    }
+
+    public void setMaterialsTabContainer(RelativeLayout materialsTabContainer) {
+        this.materialsTabContainer = materialsTabContainer;
+    }
+
+    @Override
+    public void onDestroyView (){
+        if(getMaterialsTabContainer()!=null){
+            getTabHost().removeAllViews();
+            getMaterialsTabContainer().removeAllViews();
+        }
+        super.onDestroyView();
+    }
+
+    public boolean isTabLoaded() {
+        return tabLoaded;
+    }
+
+    public void setTabLoaded(boolean tabLoaded) {
+        this.tabLoaded = tabLoaded;
     }
 }

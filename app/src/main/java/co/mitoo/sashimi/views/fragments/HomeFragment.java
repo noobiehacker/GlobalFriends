@@ -16,6 +16,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
@@ -24,6 +25,8 @@ import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+import co.mitoo.sashimi.utils.events.LogOutEvent;
+import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
@@ -50,6 +53,7 @@ public class HomeFragment extends MitooFragment {
     private boolean registerFlow;
     private boolean enquriedLeagueDataLoaded;
     private boolean myCompetitionDataLoaded;
+    private boolean logOutEventFired;
 
     private MitooEnum.MenuItemSelected menuItemSelected = MitooEnum.MenuItemSelected.NONE;
 
@@ -64,11 +68,13 @@ public class HomeFragment extends MitooFragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getMobileTokenModel().requestDeviceTokenAssociation(getUserId(),true);
+        requestData();
+
     }
 
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
+
         super.onError(error);
     }
 
@@ -104,7 +110,7 @@ public class HomeFragment extends MitooFragment {
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpEnquiredListView(view, getString(R.string.home_page_text_1));
         setUpMyCompetitionListView(view, getString(R.string.home_page_text_5));
-        if(getLeagueModel().getLeaguesEnquired().size()==0)
+        if(getLeagueModel().getLeaguesEnquired().size()==0 && !isBackClicked())
             setPreDataLoading(true);
     }
     
@@ -119,7 +125,8 @@ public class HomeFragment extends MitooFragment {
     public void onResume(){
 
         super.onResume();
-        requestData();
+        updateMenu();
+        updateListViews();
 
     }
 
@@ -137,15 +144,16 @@ public class HomeFragment extends MitooFragment {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
 
-                    if (getDataHelper().isClickable()) {
+                    if (getDataHelper().isClickable(menuItem.getItemId())) {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_feedback:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
-                                getUserInfoModel().onUserInfoRequest(getUserId() , true);
+                                getUserInfoModel().onUserInfoRequest(getUserId(), false);
                                 break;
                             case R.id.menu_settings:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
-                                getUserInfoModel().onUserInfoRequest(getUserId() , true);
+                                getUserInfoModel().onUserInfoRequest(getUserId() , false);
+                                setLoading(true);
                                 break;
                             case R.id.menu_search:
                                 FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
@@ -163,6 +171,22 @@ public class HomeFragment extends MitooFragment {
 
         }
         return getToolbar();
+    }
+
+    @Override
+    protected void handleNetworkError(){
+        if (getMitooActivity()!=null && !getMitooActivity().NetWorkConnectionIsOn()){
+            if(getMitooActivity().topFragmentType()!=null && getMitooActivity().topFragmentType()==HomeFragment.class)
+                displayTextWithToast(getString(R.string.error_no_internet));
+        }
+    }
+
+    @Override
+    protected void handleHttpErrors(int statusCode) {
+
+        super.handleHttpErrors(statusCode);
+        if(statusCode == 401)
+            handleAuth401Error();
     }
 
     @Override
@@ -208,7 +232,6 @@ public class HomeFragment extends MitooFragment {
     @Subscribe
     public void onLeagueEnquireResponse(LeagueModelEnquiresResponseEvent event) {
 
-        setPreDataLoading(false);
         setEnquriedLeagueDataLoaded(true);
         saveUserAsSecondTimeUser();
         updateListViews();
@@ -226,6 +249,7 @@ public class HomeFragment extends MitooFragment {
     private void updateListViews(){
 
         if(enquriedLeagueDataHasLoaded() && myCompetitionDataHasLoaded()){
+            setPreDataLoading(false);
             updateEnqureLeagueListView();
             updateMyCompetitionListView();
             updateMenu();
@@ -406,6 +430,12 @@ public class HomeFragment extends MitooFragment {
 
     }
 
+    @Override
+    protected void handleAuth401Error(){
+        if(!isDuringConfirmFlow()&&! isLogOutEventFired())
+            BusProvider.post(new LogOutNetworkCompleteEevent());
+    }
+
     public List<Competition> getMyCompetitionData() {
         if (myCompetitionData == null) {
             myCompetitionData = new ArrayList<Competition>();
@@ -459,4 +489,11 @@ public class HomeFragment extends MitooFragment {
         this.myCompetitionDataLoaded = myCompetitionDataLoaded;
     }
 
+    public boolean isLogOutEventFired() {
+        return logOutEventFired;
+    }
+
+    public void setLogOutEventFired(boolean logOutEventFired) {
+        this.logOutEventFired = logOutEventFired;
+    }
 }

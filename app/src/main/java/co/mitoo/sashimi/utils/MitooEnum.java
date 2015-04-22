@@ -73,8 +73,12 @@ public class MitooEnum {
         PAST , FUTURE
     }
 
+    public enum NotificationCategory {
+        TeamGames, TeamResults, LeagueResults
+    }
+
     public enum NotificationType {
-        NextGame, TeamResults, RivalResults
+        EMAIL, PUSH
     }
 
     public enum ModelType {

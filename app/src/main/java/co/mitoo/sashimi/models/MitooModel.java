@@ -13,8 +13,7 @@ import rx.Subscriber;
  * Created by david on 14-11-12.
  */
 
-public abstract class MitooModel
-{
+public abstract class MitooModel{
 
     protected MitooActivity activity;
     protected DataPersistanceService persistanceService;
@@ -75,6 +74,8 @@ public abstract class MitooModel
             public void onError(Throwable e) {
 
                 String error = e.getMessage();
+               // if(MitooConstants.getAppEnvironment() == MitooEnum.AppEnvironment.STAGING)
+              //      BusProvider.post(new LogOutEvent());
             }
 
             @Override

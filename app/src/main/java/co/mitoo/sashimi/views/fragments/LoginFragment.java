@@ -15,6 +15,7 @@ import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
@@ -78,7 +79,7 @@ public class LoginFragment extends MitooFragment {
     
     @Override
     public void onClick(View v) {
-        if(getDataHelper().isClickable()){
+        if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
                 case R.id.loginButton:
                     loginButtonAction();
@@ -121,6 +122,19 @@ public class LoginFragment extends MitooFragment {
 
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
+
+        getMobileTokenModel().requestDeviceTokenAssociation(getUserID(), true);
+
+    }
+
+    @Subscribe
+    public void onMobileTokenModelResponse(MobileTokenEventResponse event) {
+
+        loadHomeScreen();
+
+    }
+
+    private void loadHomeScreen(){
 
         getMitooActivity().hideSoftKeyboard();
         routeToHome();
@@ -243,4 +257,5 @@ public class LoginFragment extends MitooFragment {
         else
             super.handleHttpErrors(statusCode);
     }
+
 }

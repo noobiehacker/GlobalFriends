@@ -2,17 +2,21 @@ package co.mitoo.sashimi.models.jsonPojo.recieve;
 
 import android.os.Bundle;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import co.mitoo.sashimi.utils.StaticString;
 
 /**
  * Created by david on 15-03-29.
  */
+@JsonRootName(value = "")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NotificationRecieve {
 
+    private String mitoo_action ;
     private String obj_id ;
     private String obj_type;
-    private String mitoo_action ;
-
 
     public String getObj_id() {
         return obj_id;
@@ -42,5 +46,8 @@ public class NotificationRecieve {
         setObj_id(bundle.getString(StaticString.notificationObjID));
         setObj_type(bundle.getString(StaticString.notificationObjType));
         setMitoo_action(bundle.getString(StaticString.notificationMitooAction));
+    }
+
+    public NotificationRecieve() {
     }
 }

@@ -129,7 +129,7 @@ public class SearchResultsFragment extends MitooFragment {
 
         int leagueLayout = R.layout.view_league_dynamic_header;
         if (getLeagueData().size() > 0)
-            getViewHelper().addLeagueDataToList(this, leagueLayout, 
+            getViewHelper().getLeagueViewHelper().addLeagueDataToList(this, leagueLayout,
                     getLeagueListHolder(), getLeagueData());
         else{
             getNoResultsView().setText(createNoResultsString());

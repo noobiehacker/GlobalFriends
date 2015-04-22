@@ -2,17 +2,49 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/alphaContainer"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/dateTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/competition_page_tab_row_bottom_padding"
-        android:layout_marginBottom="@dimen/competition_page_tab_row_top_padding">
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dateTextField"
+            style="@style/schedulePageDateHeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/spacing_section_title_bottom"
+            android:layout_marginTop="@dimen/spacing_section_title_top"
+            android:text="SATURDAY, 25 FEB"
+            android:textAllCaps="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_divider_height"
+            android:layout_below="@id/dateTextField"
+            android:background="@color/gray_light_two"></View>
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fixtureRowContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@id/dateTextContainer"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/alphaContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/competition_page_tab_row_top_padding"
+            android:layout_marginTop="@dimen/competition_page_tab_row_bottom_padding"
+            android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/textContainerLayout"
@@ -22,25 +54,25 @@
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/middleTextField"
-                style="@style/schedulePageTimeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:gravity="center"
-                android:text="10-7" />
+                <TextView
+                    android:id="@+id/middleTextField"
+                    style="@style/schedulePageTimeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="10-7" />
 
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/leftTeamIcon"
-                android:src="@drawable/team_logo_tbc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/textContainerLayout"/>
+                android:layout_toLeftOf="@id/textContainerLayout"
+                android:src="@drawable/team_logo_tbc" />
 
             <TextView
                 android:id="@+id/leftTeamName"
@@ -48,18 +80,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Bocce Walkouts"
                 android:layout_marginRight="@dimen/competition_page_team_padding"
+                android:layout_toLeftOf="@+id/leftTeamIcon"
                 android:gravity="right"
-                android:layout_toLeftOf="@+id/leftTeamIcon"/>
+                android:text="Bocce Walkouts" />
 
             <ImageView
                 android:id="@+id/rightTeamIcon"
-                android:src="@drawable/team_logo_tbc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/textContainerLayout"/>
+                android:layout_toRightOf="@id/textContainerLayout"
+                android:src="@drawable/team_logo_tbc" />
 
             <TextView
                 android:id="@+id/rightTeamName"
@@ -67,26 +99,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Boccemilk Biscuits"
                 android:layout_marginLeft="@dimen/competition_page_team_padding"
+                android:layout_toRightOf="@+id/rightTeamIcon"
                 android:gravity="left"
-                android:layout_toRightOf="@+id/rightTeamIcon"/>
+                android:text="Boccemilk Biscuits" />
 
         </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/list_divider_height"
-        android:background="@color/gray_light_two"
-        android:layout_below="@+id/alphaContainer">
-    </View>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/list_divider_height"
+            android:layout_below="@+id/alphaContainer"
+            android:background="@color/gray_light_two"></View>
 
-    <ImageView
-        android:id="@+id/stampIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        />
+        <ImageView
+            android:id="@+id/stampIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

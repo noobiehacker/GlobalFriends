@@ -125,6 +125,8 @@ public class ServiceBuilder {
         }
 
     }
+
+    private String getToken(){
+        return getInterceptorBuilder().getToken();
+    }
 }
-
-

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
@@ -13,6 +15,17 @@
         android:layout_marginBottom="@dimen/notification_page_item_bottom_padding"
         style="@style/notificationPageItemText"/>
 
+    <com.kyleduo.switchbutton.SwitchButton
+        android:id="@+id/notification_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/notification_page_item_top_padding"
+        android:layout_marginRight="@dimen/notification_page_item_right_padding"
+        android:layout_marginBottom="@dimen/notification_page_item_bottom_padding"
+        android:layout_alignParentRight="true"
+        style="@style/MaterialDesignStyle" />
+
+    <!--
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,5 +33,8 @@
         android:layout_marginTop="@dimen/notification_page_item_top_padding"
         android:layout_marginRight="@dimen/notification_page_item_right_padding"
         android:layout_marginBottom="@dimen/notification_page_item_bottom_padding"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:track="@drawable/toggle_track"
+        android:padding="16dp"/>
+        -->
 </RelativeLayout>

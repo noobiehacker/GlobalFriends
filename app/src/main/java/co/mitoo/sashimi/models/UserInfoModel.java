@@ -69,27 +69,6 @@ public class UserInfoModel extends MitooModel{
 
     }
 
-    protected <T> Subscriber<T> createSubscriber(Class<T> objectRecieve) {
-        return new Subscriber<T>() {
-
-            @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-                String error = e.getMessage();
-            }
-
-            @Override
-            public void onNext(T objectRecieve) {
-
-                handleSubscriberResponse(objectRecieve);
-            }
-        };
-    }
-
     @Override
     public void resetFields(){
         setUserInfoRecieve(null);
@@ -98,7 +77,7 @@ public class UserInfoModel extends MitooModel{
     private void updateSessionModelAuthToken(){
         SessionModel sessionModel = getActivity().getModelManager().getSessionModel();
         SessionRecieve session = sessionModel.getSession();
-        if(session!=null || session.auth_token== null)
-            sessionModel.updateSession(getUserInfoRecieve());
+        sessionModel.updateSession(getUserInfoRecieve());
+
     }
 }

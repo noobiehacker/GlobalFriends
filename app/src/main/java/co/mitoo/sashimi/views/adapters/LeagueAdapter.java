@@ -39,7 +39,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     private void setUpLeagueIcon(View view, League league) {
      
-        getFragment().getViewHelper().setUpEnquireListIcon(view , league);
+        getFragment().getViewHelper().getLeagueViewHelper().setUpLeagueListIcon(view, league);
 
     }
     private void setUpLeagueText(View view, League league){
@@ -53,7 +53,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        if(fragment.getDataHelper().isClickable() && id!= -1) {
+        if(fragment.getDataHelper().isClickable(view.getId()) && id!= -1) {
 
             League item = (League) parent.getItemAtPosition(position);
             view.setSelected(true);

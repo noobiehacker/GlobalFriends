@@ -1,11 +1,14 @@
 package co.mitoo.sashimi.models.jsonPojo.recieve;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 /**
  * Created by david on 15-01-21.
  */
 @JsonRootName(value = "")
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class UserInfoRecieve {
     
     public int id;

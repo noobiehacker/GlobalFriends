@@ -153,6 +153,13 @@
     <dimen name="fixture_page_status_padding">5dp</dimen>
     <dimen name="fixture_page_time_date_padding">2.5dp</dimen>
 
+    <!-- Notificaation page -->
+    <dimen name="notification_toggle_track_width">27dp</dimen>
+    <dimen name="notification_toggle_track_height">15dp</dimen>
+    <dimen name="notification_toggle_track_radius">12dp</dimen>
+    <dimen name="notification_toggle_thumb_radius">9.5dp</dimen>
+    <dimen name="notification_toggle_thumb_height">19dp</dimen>
+
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>
     <dimen name="spacing_content_bottom">8dp</dimen>

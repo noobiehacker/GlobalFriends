@@ -10,6 +10,7 @@ import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
 import co.mitoo.sashimi.models.MobileTokenModel;
+import co.mitoo.sashimi.models.NotificationPreferenceModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
@@ -92,6 +93,11 @@ public class ModelManager {
     public ConfirmInfoModel getConfirmInfoModel() {
 
         return (ConfirmInfoModel)getModel(ConfirmInfoModel.class);
+    }
+
+    public NotificationPreferenceModel getNotificationPreferenceModel() {
+
+        return (NotificationPreferenceModel)getModel(NotificationPreferenceModel.class);
     }
 
     private <T> MitooModel getModel(Class<T> classType) {
@@ -211,6 +217,7 @@ public class ModelManager {
                     BusProvider.post(new ModelPersistedDataLoadedEvent());
                 }
                 catch(Exception e){
+                    String temp = e.toString();
                 }
             }
         };
