@@ -151,6 +151,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     public ListView getFixtureListView() {
+
         return fixtureListView;
     }
 

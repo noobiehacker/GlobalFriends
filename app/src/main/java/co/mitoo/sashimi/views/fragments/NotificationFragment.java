@@ -48,7 +48,6 @@ public class NotificationFragment extends MitooFragment {
     public void onCreate (Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setPreDataLoading(true);
-        requestData();
     }
 
     public static NotificationFragment  newInstance() {
@@ -61,6 +60,7 @@ public class NotificationFragment extends MitooFragment {
 
         super.onResume();
         //QUICK FIX REFACTOR LATER
+        requestData();
         //Naming convention of isLoading should be hasLoaded! REFACTOR
         if(!isLoading() && isNotificationDataLoaded())
             updateView();
@@ -237,6 +237,7 @@ public class NotificationFragment extends MitooFragment {
                 getPushNotificaitonAdapter().notifyDataSetChanged();
             }
         });
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
 
     }
 

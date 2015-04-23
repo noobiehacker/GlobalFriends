@@ -33,9 +33,7 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
-            convertView = View.inflate(getContext(), R.layout.view_fixture_row, null);
-        }
+        convertView = View.inflate(getContext(), R.layout.view_fixture_row, null);
         getViewHelper().customizeFixtureRow(convertView, this.getItem(position));
         setUpDateTextView(convertView, this.getItem(position));
         return convertView;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
@@ -29,6 +30,7 @@ public class FixtureModel extends MitooModel{
     public void requestFixtureByCompetition(int competitionSeasonID, boolean refresh) {
 
         if(fixtureIsEmpty() || refresh){
+            String temp = ServiceBuilder.getSingleTonInstance().getInterceptorBuilder().getToken();
             Observable<Fixture[]> observable = getSteakApiService()
                     .getFixtureFromCompetitionID(getActivity().getString(R.string.steak_api_param_filter_all), competitionSeasonID);
             handleObservable(observable, Fixture[].class);
