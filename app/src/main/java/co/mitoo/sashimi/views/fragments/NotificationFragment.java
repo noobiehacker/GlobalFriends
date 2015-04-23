@@ -123,6 +123,13 @@ public class NotificationFragment extends MitooFragment {
             getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.EMAIL, getMitooActivity()));
 
         }
+/*
+        //REMOVE
+
+        for(MitooEnum.NotificationCategory item :MitooEnum.NotificationCategory.values()){
+            getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.EMAIL, getMitooActivity()));
+
+        }*/
 
     }
 
@@ -132,6 +139,15 @@ public class NotificationFragment extends MitooFragment {
             getPushMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
 
         }
+
+        /*
+        //REMOVE
+
+        for(MitooEnum.NotificationCategory item :MitooEnum.NotificationCategory.values()){
+            getPushMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
+
+        }
+        */
     }
 
     @Subscribe
