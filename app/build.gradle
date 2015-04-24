@@ -42,7 +42,7 @@ android {
             storePassword "mitooKey"
             keyAlias "mitooKey"
             keyPassword "mitooKey"
-        }cd sashimi
+        }
     }
     buildTypes {
         debug {
