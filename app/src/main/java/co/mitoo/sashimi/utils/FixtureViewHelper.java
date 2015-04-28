@@ -31,8 +31,9 @@ public class FixtureViewHelper {
     }
 
     private ViewHelper viewHelper;
-
+    private TeamViewHelper teamViewHelper;
     private View.OnClickListener createFixtureItemClickedListener(final FixtureModel itemClicked){
+
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,22 +124,11 @@ public class FixtureViewHelper {
         setUpTeamName(homeTeam, leftTeamTextView);
         setUpTeamName(awayTeam, rightTeamTextView);
 
-
     }
 
     private void setUpTeamName(Team team ,TextView textView) {
 
-        if (team != null)
-            textView.setText(team.getName());
-        else
-            setTextViewAsTBC(textView);
-
-    }
-
-    private void setTextViewAsTBC(TextView textView){
-
-        textView.setText(getActivity().getString(R.string.fixture_page_tbd));
-        textView.setTextAppearance(getActivity(), R.style.schedulePageTBCText);
+        getTeamViewHelper().setUpTeamName(team , textView);
 
     }
 
@@ -187,19 +177,14 @@ public class FixtureViewHelper {
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
         Team homeTeam = getDataHelper().getTeam(fixture.getFixture().getHome_team_id());
         Team awayTeam = getDataHelper().getTeam(fixture.getFixture().getAway_team_id());
-        loadTeamIcon(leftTeamIcon, getTeamLogo(homeTeam));
-        loadTeamIcon(rightTeamIcon, getTeamLogo(awayTeam));
+        loadTeamIcon(leftTeamIcon, homeTeam);
+        loadTeamIcon(rightTeamIcon, awayTeam);
 
     }
 
-    private void loadTeamIcon(ImageView imageView, String iconUrl){
+    private void loadTeamIcon(ImageView imageView, Team team){
 
-        if(iconUrl!= null && imageView !=null){
-            getViewHelper().getPicasso().with(getActivity())
-                    .load(iconUrl)
-                    .error(R.drawable.team_logo_tbc)
-                    .into(imageView);
-        }
+        getTeamViewHelper().loadTeamIcon(imageView,team);
     }
 
     private void setUpFixtureCenterText(View row , FixtureModel fixture ) {
@@ -235,13 +220,11 @@ public class FixtureViewHelper {
         row.setOnClickListener(createFixtureItemClickedListener(fixture));
     }
 
-    private String getTeamLogo(Team team) {
-
-        String result = null;
-        if (team != null) {
-            result = getViewHelper().getRetinaUrl(team.getLogo_small());
+    public TeamViewHelper getTeamViewHelper() {
+        if(teamViewHelper==null){
+            teamViewHelper = new TeamViewHelper(getViewHelper());
         }
-        return result;
+        return teamViewHelper;
     }
 
     private MitooActivity getActivity(){

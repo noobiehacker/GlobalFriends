@@ -33,6 +33,16 @@ import co.mitoo.sashimi.views.widgets.HeaderListView;
 import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import android.os.Handler;
+import java.util.Arrays;
+
+import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.views.widgets.HeaderGridView;
+import co.mitoo.sashimi.views.widgets.MitooImageTarget;
+import co.mitoo.sashimi.views.activities.MitooActivity;
+
+import android.os.Handler;
 
 /**
  * Created by david on 15-01-20.
@@ -431,6 +441,12 @@ public class ViewHelper {
         View holder = createHeaderORFooterView(layoutID, headerText);
         listView.addHeaderView(holder);
         return holder;
+    }
+
+    public void setUpListHeader(HeaderGridView gridView , int layoutID , String headerText){
+
+        View holder = createHeaderORFooterView(layoutID, headerText);
+        gridView.addHeaderView(holder);
     }
 
     public View setUpListFooter(ListView listView , int layoutID , String footerText) {

@@ -41,7 +41,17 @@ import co.mitoo.sashimi.network.Services.TeamService;
 import co.mitoo.sashimi.network.Services.UserInfoService;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
+<<<<<<< HEAD
 import co.mitoo.sashimi.models.StandingsModel;
+=======
+import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.models.MitooModel;
+import co.mitoo.sashimi.models.MobileTokenModel;
+import co.mitoo.sashimi.models.NotificationPreferenceModel;
+import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.TeamModel;
+import co.mitoo.sashimi.models.UserInfoModel;
+>>>>>>> Finished Static elements of Standings GridView
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -553,9 +563,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager().getNotificationPreferenceModel();
     }
 
-    protected StandingsModel getStandingsModel() {
+    //TODO
+    /*
+    protected StandingsService getStandingsModel() {
         return getMitooActivity().getModelManager().getStandingsModel();
-    }
+    }*/
 
     public ViewHelper getViewHelper() {
         if (viewHelper == null)
@@ -693,7 +705,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             Window window = getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(getResources().getColor(R.color.gray_dark_six));
+            window.setStatusBarColor(getResources().getColor(R.color.gray_dark_seven));
         }
 
     }

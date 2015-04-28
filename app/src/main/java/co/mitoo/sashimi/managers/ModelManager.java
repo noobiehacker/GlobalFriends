@@ -17,7 +17,7 @@ import co.mitoo.sashimi.network.Services.TeamService;
 import co.mitoo.sashimi.network.Services.UserInfoService;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.StandingsModel;
+import co.mitoo.sashimi.models.StandingsService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
@@ -117,6 +117,10 @@ public class ModelManager {
 
     }
 /*
+=======
+    //TODO:
+    /*
+>>>>>>> Finished Static elements of Standings GridView
     public StandingsService getStandingsModel() {
 
         return (StandingsService)getModel(StandingsService.class);

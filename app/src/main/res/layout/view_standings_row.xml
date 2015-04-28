@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/standings_row_height"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:id="@+id/rankingsContainer"
+        android:layout_width="@dimen/standings_page_ranking_width"
+        android:layout_height="@dimen/standings_row_height">
+
+        <TextView
+            android:id="@+id/rankingsText"
+            style="@style/standingsPageRankingText"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/logoAndNameContainer"
+        layout="@layout/partial_standings_team_name_and_icon"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/rankingsContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/list_divider_height"
+        android:layout_below="@+id/alphaContainer"
+        android:background="@color/gray_light_two"></View>
+
+</RelativeLayout>

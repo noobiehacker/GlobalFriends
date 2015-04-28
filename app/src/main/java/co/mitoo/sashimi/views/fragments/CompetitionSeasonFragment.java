@@ -183,11 +183,12 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         }
     }
 
-    private void onFragmentAnimationFinish(){
+    private void onFragmentAnimationFinish() {
         BusProvider.post(new CompetitionSeasonRequestByCompID(this.competitionSeasonID));
         getAdapter().notifyDataSetChanged();
         restoreSelectedTab();
     }
+
 
     @Override
     protected void initializeViews(View view) {
@@ -308,8 +309,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             tab.setText(tabName);
             tab.setTabListener(this);
 
-            MitooTab mitooTab = new MitooTab(getDataHelper().getFixtureTabTypeFromIndex(tabIndex)
-                    , this.competitionSeasonID, getCompetitionSeasonIdKey());
+            MitooTab mitooTab = new MitooTab(getTabTypeFromIndex(tabIndex) , this.competitionSeasonID, getCompetitionSeasonIdKey());
             mitooTab.setTab(tab);
             getMitooTabsList().add(mitooTab);
         }
@@ -360,6 +360,25 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             getPager().setCurrentItem(tab.getPosition());
         }
 
+    }
+
+    private MitooEnum.FixtureTabType getTabTypeFromIndex(int index) {
+
+        MitooEnum.FixtureTabType result = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+        switch(index){
+            case 0:
+                result = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+                break;
+            case 1:
+                result = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+                break;
+            case 2:
+                result = MitooEnum.FixtureTabType.TEAM_STANDINGS;
+                break;
+            default:
+                result = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+        }
+        return result;
     }
 
     @Override
@@ -442,6 +461,13 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         return adapter;
     }
 
+    public void resetAdapter(){
+        getFragmentManager().beginTransaction().remove(getAdapter().getItem(0));
+        getFragmentManager().beginTransaction().remove(getAdapter().getItem(1));
+        getFragmentManager().beginTransaction().remove(getAdapter().getItem(2));
+        adapter = new MitooTabAdapter(getMitooTabsList(), getFragmentManager());
+
+    }
 
     public void setAdapter(MitooTabAdapter adapter) {
         this.adapter = adapter;

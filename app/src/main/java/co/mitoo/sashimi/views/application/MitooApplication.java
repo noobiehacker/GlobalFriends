@@ -13,16 +13,15 @@ import io.keen.client.java.KeenClient;
 import io.keen.client.android.AndroidKeenClientBuilder;
 import io.keen.client.java.KeenLogging;
 import io.keen.client.java.KeenProject;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.ModelManager;
+import co.mitoo.sashimi.models.StandingsService;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -41,12 +40,15 @@ public class MitooApplication extends Application{
     private boolean persistedDataLoaded = false;
     private Queue<Object> eventQueue;
     private NotificationReceive notificationReceive;
+    private StandingsService service;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        this.modelManager=null;
+        this.modelManager = null;
         this.eventQueue = new LinkedList<Object>();
+        this.modelManager = null;
+        service = new StandingsService();
         UAirship.takeOff(this, createAirshipOptions(), new UAirship.OnReadyCallback() {
             @Override
             public void onAirshipReady(UAirship airship) {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/teamIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/team_logo_tbc" />
+
+    <TextView
+        android:id="@+id/teamName"
+        style="@style/schedulePageTeamRegularText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/competition_page_team_padding"
+        android:layout_toRightOf="@+id/teamIcon"
+        android:gravity="left"
+        android:text="Boccemilk Biscuits" />
+
+</RelativeLayout>

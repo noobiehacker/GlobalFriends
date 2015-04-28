@@ -38,6 +38,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.RainOutModel;
 import co.mitoo.sashimi.utils.events.TeamIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamIndividualResponseEvent;
+import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 
 /**
  * Created by david on 15-04-01.

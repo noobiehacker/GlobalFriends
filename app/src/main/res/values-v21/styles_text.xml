@@ -52,12 +52,12 @@
     </style>
 
     <style name="grayDarkerBigText">
-        <item name="android:textColor">@color/gray_dark_six</item>
+        <item name="android:textColor">@color/gray_dark_seven</item>
         <item name="android:textSize">@dimen/font_big</item>
     </style>
 
     <style name="grayDarkerMediumText">
-        <item name="android:textColor">@color/gray_dark_six</item>
+        <item name="android:textColor">@color/gray_dark_seven</item>
         <item name="android:textSize">@dimen/font_normal</item>
     </style>
 

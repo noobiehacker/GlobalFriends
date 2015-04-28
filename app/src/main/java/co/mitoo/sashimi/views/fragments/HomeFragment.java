@@ -24,7 +24,10 @@ import co.mitoo.sashimi.utils.events.CompetitionListResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionRequestByUserID;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+<<<<<<< HEAD
 import co.mitoo.sashimi.utils.events.LeaguesAlreadyEnquiredRequest;
+=======
+>>>>>>> Finished Static elements of Standings GridView
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
@@ -259,11 +262,8 @@ public class HomeFragment extends MitooFragment {
 
         setEnquriedLeagueDataLoaded(false);
         setMyCompetitionDataLoaded(false);
-        int competitionID = 13;
-        getStandingsModel().requestCompetitionStandings(competitionID,true);
-        String auth = getSessionModel().getSession().auth_token;
-        /*requestLeagueData();
-        requestCompetitionData();*/
+        requestLeagueData();
+        requestCompetitionData();
     }
 
     private void requestLeagueData(){

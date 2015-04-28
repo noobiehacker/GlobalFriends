@@ -180,7 +180,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private View getSuggestedSearchHeader() {
 
         View header = getActivity().getLayoutInflater().inflate(R.layout.list_view_header, null);
-        TextView suggestionTextView = (TextView) header.findViewById(R.id.header_text);
+        TextView suggestionTextView = (TextView) header.findViewById(R.id.header_view);
         suggestionTextView.setText(getString(R.string.search_page_text_2));
         return header;
     }

@@ -94,6 +94,8 @@ public class FragmentFactory {
                 break;
             case R.id.fragment_pre_confirm:
                 result = PreConfirmFragment.newInstance();
+            case R.id.fragment_standings:
+                result = StandingsFragment.newInstance();
                 break;
             default:
                 result = SplashScreenFragment.newInstance();

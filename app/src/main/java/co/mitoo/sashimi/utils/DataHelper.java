@@ -329,6 +329,8 @@ public class DataHelper {
             result = R.id.footer_view;
         else if (layout ==R.layout.view_rainout_header)
             result = R.id.leagueMessage;
+        else if (layout == R.layout.view_standings_list_header)
+            result = R.id.header_view;
         return result;
 
     }
@@ -350,21 +352,6 @@ public class DataHelper {
         getActivity().getResources().getValue(floatID, outValue, true);
         return outValue.getFloat();
     }
-
-    public MitooEnum.FixtureTabType getFixtureTabTypeFromIndex(int index) {
-
-        MitooEnum.FixtureTabType tabType;
-        switch (index) {
-            case 0:
-                tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
-                break;
-            default:
-                tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
-                break;
-        }
-        return tabType;
-    }
-
 
 
     public Team getTeam(int teamID) {

@@ -66,7 +66,7 @@ public class MitooEnum {
     }
 
     public enum FixtureTabType {
-        FIXTURE_SCHEDULE, FIXTURE_RESULT
+        FIXTURE_SCHEDULE, FIXTURE_RESULT , TEAM_STANDINGS
     }
 
     public enum TimeFrame {

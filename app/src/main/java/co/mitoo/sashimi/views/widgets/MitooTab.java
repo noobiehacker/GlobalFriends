@@ -27,10 +27,20 @@ public class MitooTab {
 
     public MitooFragment getFragment() {
 
-        if (fragment == null){
-            fragment = FragmentFactory.getInstance()
-                    .createTabFragment(R.id.fragment_competition_tab, getFixtureTabType());
-            fragment.setArguments(createBundle());
+        if(fragment==null){
+            switch(this.fixtureTabType){
+                case TEAM_STANDINGS:
+                    fragment= FragmentFactory.getInstance().createFragment(R.id.fragment_standings);
+                    break;
+                case FIXTURE_RESULT:
+                case FIXTURE_SCHEDULE:
+                default:
+                    fragment = FragmentFactory.getInstance()
+                            .createTabFragment(R.id.fragment_competition_tab, getFixtureTabType());
+                    fragment.setArguments(createBundle());
+                    break;
+
+            }
         }
         return fragment;
     }

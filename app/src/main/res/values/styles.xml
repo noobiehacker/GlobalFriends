@@ -92,7 +92,7 @@
 
     <style name="MyPopupMenu"
         parent="@android:style/Widget.Holo.Light.ListPopupWindow">
-        <item name="android:popupBackground">@color/gray_dark_six</item>
+        <item name="android:popupBackground">@color/gray_dark_seven</item>
     </style>
     
     <style name="searchView">
