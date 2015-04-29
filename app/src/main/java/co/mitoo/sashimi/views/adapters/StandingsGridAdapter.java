@@ -10,23 +10,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.appObject.MitooStandings;
+import co.mitoo.sashimi.models.appObject.StandingsRow;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.TeamViewHelper;
+import co.mitoo.sashimi.utils.TeamViewModel;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 
 /**
  * Created by david on 15-04-28.
  */
-public class StandingsGridAdapter extends ArrayAdapter<MitooStandings> implements AdapterView.OnItemClickListener , ListAdapter{
+public class StandingsGridAdapter extends ArrayAdapter<StandingsRow> implements AdapterView.OnItemClickListener , ListAdapter{
 
     private ViewHelper viewHelper;
-    private TeamViewHelper teamViewHelper;
+    private TeamViewModel teamViewModel;
     private MitooFragment fragment;
 
-    public StandingsGridAdapter(Context context, int resourceId, List<MitooStandings> objects , MitooFragment fragment) {
+    public StandingsGridAdapter(Context context, int resourceId, List<StandingsRow> objects , MitooFragment fragment) {
         super(context, resourceId, objects);
         this.viewHelper = fragment.getViewHelper();
         this.fragment=fragment;
@@ -55,14 +55,14 @@ public class StandingsGridAdapter extends ArrayAdapter<MitooStandings> implement
         TextView teamName = (TextView) convertView.findViewById(R.id.teamName);
 
         //Set up all static Views
-        MitooStandings standing = (MitooStandings) getItem(position);
+        StandingsRow standing = (StandingsRow) getItem(position);
         Team team = getDataHelper().getTeam(standing.getId());
 
         if(team!=null){
 
             rankingsText.setText( Integer.toString(position));
-            getTeamViewHelper().setUpTeamName(team , teamName);
-            getTeamViewHelper().loadTeamIcon(teamIcon , team);
+            getTeamViewModel().setUpTeamName(team , teamName);
+            getTeamViewModel().loadTeamIcon(teamIcon , team);
 
         }
 
@@ -73,11 +73,11 @@ public class StandingsGridAdapter extends ArrayAdapter<MitooStandings> implement
 
     }
 
-    public TeamViewHelper getTeamViewHelper() {
-        if(teamViewHelper == null){
-            teamViewHelper = new TeamViewHelper(this.viewHelper);
+    public TeamViewModel getTeamViewModel() {
+        if(teamViewModel == null){
+            teamViewModel = new TeamViewModel(this.viewHelper);
         }
-        return teamViewHelper;
+        return teamViewModel;
     }
 
     @Override

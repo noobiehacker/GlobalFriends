@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import co.mitoo.sashimi.models.appObject.MitooStandings;
-import co.mitoo.sashimi.models.jsonPojo.recieve.standings.SteakStandings;
+import co.mitoo.sashimi.models.appObject.StandingsRow;
+import co.mitoo.sashimi.models.jsonPojo.recieve.standings.StandingsJSON;
 import co.mitoo.sashimi.services.BaseService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
@@ -28,8 +28,8 @@ public class StandingsService extends BaseService {
     @Subscribe
     public void onLoadStandings(LoadStandingsEvent event) {
 
-        Observable<SteakStandings> observable = getSteakApiService().getCompetitionStandings(event.getCompetitionSeasonID());
-        observable.subscribe(new Subscriber<SteakStandings>() {
+        Observable<StandingsJSON> observable = getSteakApiService().getCompetitionStandings(event.getCompetitionSeasonID());
+        observable.subscribe(new Subscriber<StandingsJSON>() {
 
             @Override
             public void onCompleted() {
@@ -41,24 +41,23 @@ public class StandingsService extends BaseService {
             }
 
             @Override
-            public void onNext(SteakStandings objectRecieve) {
+            public void onNext(StandingsJSON objectRecieve) {
 
-                SteakStandings steakStanding = (SteakStandings) objectRecieve;
+                StandingsJSON steakStanding = (StandingsJSON) objectRecieve;
                 BusProvider.post(new StandingsLoadedEvent(standingsTransform(steakStanding)));
             }
         });
 
     }
 
-    private List<MitooStandings> standingsTransform(SteakStandings steakStanding){
+    private List<StandingsRow> standingsTransform(StandingsJSON json){
 
-        MitooStandings.setUpClassData(steakStanding);
-        List<MitooStandings> result = new ArrayList<MitooStandings>();
-        int[] series = steakStanding.getSeries();
-        for(int id : series){
-            result.add(new MitooStandings(id));
+        List<StandingsRow> result = new ArrayList<StandingsRow>();
+
+        for(int id : json.getSeries()){
+
+            result.add(new StandingsRow(id, json.getData().get(id)));
         }
-        Collections.sort(result);
         return result;
 
     }

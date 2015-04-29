@@ -107,7 +107,6 @@ public class DataPersistanceService {
                 deserializedObject = objectMapper.readValue(savedUserSerialized, classType);
             }
         } catch (Exception e) {
-            String temp = e.toString();
         }
         return deserializedObject;
 

@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 
-import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -14,11 +12,10 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 
-import co.mitoo.sashimi.models.appObject.MitooStandings;
+import co.mitoo.sashimi.models.appObject.StandingsRow;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -31,7 +28,7 @@ import co.mitoo.sashimi.views.widgets.HeaderGridView;
  */
 public class StandingsFragment extends MitooFragment {
 
-    private List<MitooStandings> standingsList;
+    private List<StandingsRow> standingsList;
     private HeaderGridView standingsGridView;
     private StandingsGridAdapter standingsGridAdapter;
 
@@ -79,7 +76,7 @@ public class StandingsFragment extends MitooFragment {
     protected void initializeFields(){
 
         super.initializeFields();
-        this.standingsList = new ArrayList<MitooStandings>();
+        this.standingsList = new ArrayList<StandingsRow>();
 
     }
 
@@ -98,7 +95,7 @@ public class StandingsFragment extends MitooFragment {
     public void onStandingsLoaded(StandingsLoadedEvent event){
 
         //Update the data for our Grid Adapter, set header and update views
-        updateStandingsData(event.getMitooStandings());
+        updateStandingsData(event.getStandingRows());
         getViewHelper().setUpListHeader(this.standingsGridView, R.layout.view_standings_list_header,
                 getString(R.string.standing_page_header_text));
 
@@ -107,7 +104,7 @@ public class StandingsFragment extends MitooFragment {
 
     }
 
-    public void updateStandingsData(List<MitooStandings> standingsList) {
+    public void updateStandingsData(List<StandingsRow> standingsList) {
 
         if (standingsList != null) {
             DataHelper dataHelper = getDataHelper();

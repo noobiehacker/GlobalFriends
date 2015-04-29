@@ -9,7 +9,7 @@ import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
-import co.mitoo.sashimi.models.jsonPojo.recieve.standings.SteakStandings;
+import co.mitoo.sashimi.models.jsonPojo.recieve.standings.StandingsJSON;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
@@ -95,6 +95,6 @@ public interface SteakApi {
     @POST("/users/v1/users/{id}/resend_confirmation")
     Observable<Response> retriggerConfirmationLink(@Path("id") String user_id);
     @GET("/leagues/v1/competition_seasons/{id}/standings/")
-    Observable<SteakStandings> getCompetitionStandings(@Path("id") int id);
+    Observable<StandingsJSON> getCompetitionStandings(@Path("id") int id);
 
 }

@@ -429,8 +429,9 @@ public class ViewHelper {
 
     public View createHeaderORFooterView(int layoutID, String text){
 
-        int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
         View holder = createViewFromInflator(layoutID);
+
+        int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
         TextView headerTextView = (TextView)holder.findViewById(textViewID);
         headerTextView.setText(text);
         return holder;

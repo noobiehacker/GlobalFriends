@@ -2,20 +2,20 @@ package co.mitoo.sashimi.utils.events;
 
 import java.util.List;
 
-import co.mitoo.sashimi.models.appObject.MitooStandings;
+import co.mitoo.sashimi.models.appObject.StandingsRow;
 
 /**
  * Created by david on 15-04-20.
  */
 public class StandingsLoadedEvent {
 
-    private List<MitooStandings> mitooStandings;
+    private List<StandingsRow> standingRows;
 
-    public StandingsLoadedEvent(List<MitooStandings> mitooStandings) {
-        this.mitooStandings = mitooStandings;
+    public StandingsLoadedEvent(List<StandingsRow> standingRows) {
+        this.standingRows = standingRows;
     }
 
-    public List<MitooStandings> getMitooStandings() {
-        return mitooStandings;
+    public List<StandingsRow> getStandingRows() {
+        return standingRows;
     }
 }

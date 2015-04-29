@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @JsonRootName(value = "")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SteakStandings implements Serializable {
+public class StandingsJSON implements Serializable {
 
     @JsonProperty(value = "data")
     private Map<String, Map<String, String>> data;

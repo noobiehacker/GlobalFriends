@@ -115,12 +115,6 @@ public class MobileTokenService extends MitooService implements IsPersistable {
         Object value = service.readFromPreference(getPreferenceKey(), Boolean.class);
         if(value!=null)
             setChannelIDSent((Boolean)value);
-        /*
-        Object value = service.readFromPreference(getPreferenceKey(), Boolean.class);
-        if(value!=null)
-            setChannelIDSent((Boolean)value);
-            */
-        setChannelIDSent(true);
 
     }
 

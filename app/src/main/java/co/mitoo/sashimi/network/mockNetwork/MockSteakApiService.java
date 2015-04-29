@@ -10,7 +10,7 @@ import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
-import co.mitoo.sashimi.models.jsonPojo.recieve.standings.SteakStandings;
+import co.mitoo.sashimi.models.jsonPojo.recieve.standings.StandingsJSON;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
@@ -123,7 +123,7 @@ public class MockSteakApiService implements SteakApi {
         return null;
 
     }
-    public Observable<SteakStandings> getCompetitionStandings(@Path("id") int id) {
+    public Observable<StandingsJSON> getCompetitionStandings(@Path("id") int id) {
         return null;
     }
 

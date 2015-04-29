@@ -320,6 +320,7 @@ public class DataHelper {
         return false;
     }
 
+    //TODO: ReFACTOR
     public int getTextViewIDFromLayout(int layout) {
 
         int result = MitooConstants.invalidConstant;
