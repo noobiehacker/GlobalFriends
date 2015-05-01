@@ -11,16 +11,77 @@
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         progressLayout:progress="false"
         progressLayout:progressBackground="@color/gray_light_one">
 
-        <co.mitoo.sashimi.views.widgets.HeaderGridView
-            android:id="@+id/standings_grid_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:divider="@color/gray_light_three"
-            android:dividerHeight="@dimen/list_divider_height">
-            </co.mitoo.sashimi.views.widgets.HeaderGridView>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="@dimen/standings_left_scroll_view_width"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/header_view"
+                    style="@style/standingsHeaderText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_section_title_bottom"
+                    android:layout_marginLeft="@dimen/standings_page_ranking_width"
+                    android:layout_marginTop="@dimen/spacing_section_title_top"
+                    android:text="@string/standing_page_header_text"
+                    android:textAllCaps="true" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/list_divider_height"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_light_three"></View>
+
+                <co.mitoo.sashimi.views.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/leftScrollView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:scrollbars="vertical">
+
+                    <TableLayout
+                        android:id="@+id/teamTableLayout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" />
+
+                </co.mitoo.sashimi.views.widgets.ObservableScrollView>
+
+            </LinearLayout>
+
+            <com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rightTableProgressLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                progressLayout:progress="false"
+                progressLayout:progressBackground="@color/gray_light_one">
+
+                <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+
+                    <TableLayout
+                        android:id="@+id/scoreHeaderView"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+
+
+                </HorizontalScrollView>
+            </com.github.androidprogresslayout.ProgressLayout>
+
+
+        </LinearLayout>
 
     </com.github.androidprogresslayout.ProgressLayout>
 

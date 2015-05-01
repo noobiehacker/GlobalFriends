@@ -16,12 +16,19 @@ public class MitooTab {
     private MitooFragment fragment;
     private MitooMaterialsTab tab;
     private MitooEnum.FixtureTabType fixtureTabType;
+<<<<<<< HEAD
     private int competitionSeasonID;
     private String competitionSeaonKey;
 
     public MitooTab(MitooEnum.FixtureTabType tabType , int competitionSeasonID , String competitionSeaonKey){
         this.competitionSeasonID = competitionSeasonID;
         this.competitionSeaonKey = competitionSeaonKey;
+=======
+    private Bundle fragmentArgument;
+
+    public MitooTab(MitooEnum.FixtureTabType tabType , Bundle fragmentArgument){
+        this.fragmentArgument = fragmentArgument;
+>>>>>>> Standings Temporary 4 colm soln
         setFixtureTabType(tabType);
     }
 
@@ -41,6 +48,7 @@ public class MitooTab {
                     break;
 
             }
+            fragment.setArguments(this.fragmentArgument);
         }
         return fragment;
     }

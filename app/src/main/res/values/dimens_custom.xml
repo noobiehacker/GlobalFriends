@@ -177,8 +177,12 @@
     <!-- Standings page -->
     <dimen name="standings_page_team_lhs_margin">8dp</dimen>
     <dimen name="standings_page_ranking_width">38dp</dimen>
-    <dimen name="standings_row_height">48dp</dimen>
+    <dimen name="standings_right_row_height">48dp</dimen>
+    <dimen name="standings_left_row_height">48dp</dimen>
     <dimen name="standings_header_height">50dp</dimen>
+    <dimen name="standings_score_width_padding">10dp</dimen>
+    <dimen name="standings_left_scroll_view_width">220dp</dimen>
+    <dimen name="standings_icon_size">17.5dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

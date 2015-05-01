@@ -421,7 +421,7 @@ public class ViewHelper {
 
     }
     
-    public View createViewFromInflator(int layoutID){
+    public View createRelativeLayoutFromInflator(int layoutID){
         LayoutInflater inflater =  getActivity().getLayoutInflater();
         RelativeLayout enquiredText = (RelativeLayout)inflater.inflate(layoutID, null);
         return enquiredText;
@@ -429,7 +429,7 @@ public class ViewHelper {
 
     public View createHeaderORFooterView(int layoutID, String text){
 
-        View holder = createViewFromInflator(layoutID);
+        View holder = createRelativeLayoutFromInflator(layoutID);
 
         int textViewID = getActivity().getDataHelper().getTextViewIDFromLayout(layoutID);
         TextView headerTextView = (TextView)holder.findViewById(textViewID);

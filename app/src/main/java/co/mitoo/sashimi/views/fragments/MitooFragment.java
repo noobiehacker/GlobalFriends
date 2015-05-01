@@ -774,7 +774,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
     protected View createNetworkFailureView(){
-        RelativeLayout layout = (RelativeLayout) getViewHelper().createViewFromInflator(R.layout.view_networkfailure_text_view);
+        RelativeLayout layout = (RelativeLayout) getViewHelper().createRelativeLayoutFromInflator(R.layout.view_networkfailure_text_view);
         return layout;
     }
 

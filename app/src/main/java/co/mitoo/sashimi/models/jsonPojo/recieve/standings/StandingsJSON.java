@@ -40,4 +40,8 @@ public class StandingsJSON implements Serializable {
     public int[] getSeries() {
         return series;
     }
+
+    public void setCols(String[] cols) {
+        this.cols = cols;
+    }
 }

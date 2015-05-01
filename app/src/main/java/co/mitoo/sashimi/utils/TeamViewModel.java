@@ -23,6 +23,8 @@ public class TeamViewModel {
         if(iconUrl!= null && imageView !=null){
             this.viewHelper.getPicasso().with(this.viewHelper.getActivity())
                     .load(iconUrl)
+                    .placeholder(R.drawable.team_logo_tbc)
+                    .fit()
                     .error(R.drawable.team_logo_tbc)
                     .into(imageView);
         }

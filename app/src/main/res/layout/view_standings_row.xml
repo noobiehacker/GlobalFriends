@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/standings_row_height"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:id="@+id/rankingsContainer"
-        android:layout_width="@dimen/standings_page_ranking_width"
-        android:layout_height="@dimen/standings_row_height">
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/standings_left_row_height">
 
-        <TextView
-            android:id="@+id/rankingsText"
-            style="@style/standingsPageRankingText"
-            android:gravity="center"
+        <RelativeLayout
+            android:id="@+id/rankingsContainer"
+            android:layout_width="@dimen/standings_page_ranking_width"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/rankingsText"
+                style="@style/standingsPageRankingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/logoAndNameContainer"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_toRightOf="@id/rankingsContainer">
+
+            <ImageView
+                android:id="@+id/teamIcon"
+                android:layout_width="@dimen/standings_icon_size"
+                android:layout_height="@dimen/standings_icon_size"
+                android:layout_centerVertical="true"
+                android:src="@drawable/team_logo_tbc" />
+
+            <TextView
+                android:id="@+id/teamName"
+                style="@style/schedulePageTeamRegularText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/competition_page_team_padding"
+                android:layout_toRightOf="@+id/teamIcon"
+                android:gravity="left"
+                android:text="Boccemilk Biscuits" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <include
-        android:id="@+id/logoAndNameContainer"
-        layout="@layout/partial_standings_team_name_and_icon"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/rankingsContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"/>
-
     <View
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/list_divider_height"
-        android:layout_below="@+id/alphaContainer"
-        android:background="@color/gray_light_two"></View>
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_light_three"></View>
 
 </RelativeLayout>

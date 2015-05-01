@@ -309,4 +309,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="standingsScoreText">
+        <item name="android:textColor">@color/gray_light_six</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
 </resources>
