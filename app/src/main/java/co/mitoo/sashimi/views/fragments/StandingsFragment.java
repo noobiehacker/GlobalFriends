@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.StandingsLoadedEvent;
 import co.mitoo.sashimi.views.Listener.ScrollViewListener;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.widgets.ObservableScrollView;
 
 /**
@@ -40,8 +42,9 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     private List<StandingsRow> standingsRows;
     private ProgressLayout rightViewProgressLayout;
     private boolean dataRequested = false;
+    private boolean dataReceived = false;
     private boolean tabClicked = false;
-    private boolean tableLoaded = false;
+    private boolean tableLoaded;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -79,6 +82,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
+        this.tabClicked = false;
         this.scoreHeaderTable = (TableLayout) view.findViewById(R.id.scoreHeaderView);
         this.leftScrollView = (ObservableScrollView) view.findViewById(R.id.leftScrollView);
         this.teamTable = (TableLayout) view.findViewById(R.id.teamTableLayout);
@@ -91,6 +95,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
         super.initializeFields();
         String bundleValue = getArguments().getString(getString(R.string.bundle_key_competition_id));
         this.competitionSeasonID = Integer.parseInt(bundleValue);
+        this.tableLoaded =false;
 
     }
 
@@ -111,6 +116,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
             }
         });
         getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
+        this.dataRequested=true;
     }
 
     @Override
@@ -119,22 +125,30 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
         super.onResume();
         if (this.dataRequested == false)
             requestData();
-        else
-            loadStandingsView();
+        loadStandingsView();
 
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+    }
+
+
     private void loadStandingsView() {
 
-        setUpTeamView(this.standingsRows);
-        attemptToLoadTable();
+        if(this.dataReceived==true){
+            setUpTeamView(this.standingsRows);
+            attemptToLoadTable();
+        }
 
     }
 
     @Subscribe
     public void onStandingsLoaded(StandingsLoadedEvent event) {
 
-        this.dataRequested = true;
+        this.dataReceived = true;
         this.standingsRows = event.getStandingRows();
         loadStandingsView();
 
@@ -148,7 +162,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     }
 
     private void attemptToLoadTable(){
-        if (this.tabClicked == true && this.dataRequested==true && this.tableLoaded==false) {
+        if (this.tabClicked == true && this.dataReceived == true) {
 
             setRunnable(new Runnable() {
                 @Override
@@ -227,6 +241,13 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
         setPreDataLoading(false);
         syncScrollViews();
 
+    }
+
+    @Override
+    public void tearDownReferences(){
+
+    //    this.scoreHeaderTable.removeView(this.rightScrollView);
+        super.tearDownReferences();
     }
 
     private void dynamicallyResizeColumns() {

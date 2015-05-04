@@ -1,7 +1,15 @@
 package co.mitoo.sashimi.views.fragments;
+<<<<<<< HEAD
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> Standings Temporary 4 colm soln
+=======
+>>>>>>> UI optimization
+>>>>>>> UI optimization
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -31,7 +39,14 @@ import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueRequestFromIDEvent;
 import co.mitoo.sashimi.utils.events.LoadScoreTableEvent;
+<<<<<<< HEAD
 import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
+<<<<<<< HEAD
+=======
+>>>>>>> Standings Temporary 4 colm soln
+=======
+>>>>>>> UI optimization
+>>>>>>> UI optimization
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.TeamServiceDataClearEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
@@ -55,11 +70,17 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private int teamColor = MitooConstants.invalidConstant;
     private Competition competition;
     private MitooEnum.FixtureTabType tabselected;
+<<<<<<< HEAD
     private int competitionSeasonID = MitooConstants.invalidConstant;
     private boolean viewLoaded=false;
     private String leagueColor;
+<<<<<<< HEAD
     private String mitooAction;
     private int tabIndexSelected=0;
+=======
+=======
+>>>>>>> UI optimization
+>>>>>>> UI optimization
 
     @Override
     public void onClick(View v) {
@@ -431,7 +452,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private void setUpPager(View view) {
 
         setPager((ViewPager) view.findViewById(R.id.pager));
-        getPager().setOffscreenPageLimit(2);
+        getPager().setOffscreenPageLimit(0);
 
     }
 
@@ -644,6 +665,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     }
 
+<<<<<<< HEAD
     public boolean isTabLoaded() {
         return tabLoaded;
     }
@@ -656,3 +678,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     }
 
 }
+=======
+}
+>>>>>>> UI optimization
