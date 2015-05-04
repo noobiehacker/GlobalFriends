@@ -44,12 +44,10 @@
     <string name="pre_login_page_dialog_message">Try a different email, phone or check the spelling</string>
 
     <!--Pre Confirm Page-->
-    <string name="pre_confirm_page_text1">Please check your inbox</string>
-    <string name="pre_confirm_page_text2">"We sent you an invite, just click on the link and you'll be able to confirm your account"</string>
-    <string name="pre_confirm_page_text3">"DIDN"T RECEIVE ONE? RESEND"</string>
-
-
-
+    <string name="pre_confirm_page_text1">"Check your "</string>
+    <string name="pre_confirm_page_text2">"You'll receive an "</string>
+    <string name="pre_confirm_page_text3">" to confirm your account, just click the link to login."</string>
+    <string name="pre_confirm_page_text4">"DIDN"T RECEIVE ONE? RESEND"</string>
 
     <!--Register Page-->
     <string name="join_page_title">Join</string>
@@ -368,6 +366,7 @@
     <string name="bundle_key_first_time">bundle_key_boolean</string>
     <string name="bundle_key_from_confirm">bundle_key_from_confirm</string>
     <string name="bundle_key_notification">bundle_key_notification</string>
+    <string name="bundle_key_identifier_type">bundle_key_identifier</string>
     <string name="bundle_value_true">bundle_value_true</string>
     <string name="bundle_value_false">bundle_value_false</string>
 

@@ -108,16 +108,21 @@ public class PreLoginFragment extends MitooFragment{
     }
 
     private void routeToPreConfirm(){
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.bundle_key_identifier_type), getIdentifier());
         FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_pre_confirm)
+                .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(event);
 
     }
 
     private String getIdentifier(){
-        return this.identifierText.getText().toString();
+        //TODO:Refactor
+        return "TEXT";
+        //return this.identifierText.getText().toString();
     }
-
 
 }

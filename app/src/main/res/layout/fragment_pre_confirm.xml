@@ -36,26 +36,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/confirm_icon"
                 android:gravity="center" />
 
             <TextView
                 android:id="@+id/preConfirmText1"
-                style="@style/confirmPageTopText"
+                style="@style/preConfirmPageTopText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/preConfirmLetterIcon"
                 android:layout_marginTop="@dimen/pre_confirm_top_padding"
+                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="@string/pre_confirm_page_text1" />
 
             <TextView
                 android:id="@+id/preConfirmText2"
-                style="@style/confirmPageTopText"
+                style="@style/preConfirmPageBottomText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/pre_confirm_middle_padding"
                 android:layout_below="@+id/preConfirmText1"
+                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="@string/pre_confirm_page_text2" />
@@ -65,10 +69,11 @@
                 style="@style/darkGrayButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/general_button_height"
-                android:layout_marginBottom="@dimen/pre_confirm_bottom_padding"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/preConfirmText2"
+                android:layout_marginTop="@dimen/pre_confirm_middle_padding"
+                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:text="@string/pre_confirm_page_text3" />
+                android:text="@string/pre_confirm_page_text4" />
 
         </RelativeLayout>
 
