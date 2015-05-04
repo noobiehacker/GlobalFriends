@@ -63,13 +63,12 @@ public class StandingsService extends BaseService {
 
         //TODO: REMOVE LATER
 
-        /*
+
         String[] dataNew = new String[4];
         for(int i = 0 ; i< 4 ; i++){
             dataNew[i] = json.getCols()[i];
         }
         json.setCols(dataNew);
-        */
         List<String> headData = getDataFromMap(json.getCols(), json.getData().get(headKey));
         result.add(new StandingsRow(MitooConstants.standingHead,headData));
 

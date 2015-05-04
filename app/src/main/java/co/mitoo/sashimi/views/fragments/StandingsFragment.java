@@ -40,8 +40,8 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     private List<StandingsRow> standingsRows;
     private ProgressLayout rightViewProgressLayout;
     private boolean dataRequested = false;
-    private boolean tableDataLoaded = false;
-
+    private boolean tabClicked = false;
+    private boolean tableLoaded = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -104,7 +104,6 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     @Override
     protected void requestData() {
         setPreDataLoading(true);
-        this.rightViewProgressLayout.showProgress();
         setRunnable(new Runnable() {
             @Override
             public void run() {
@@ -128,10 +127,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     private void loadStandingsView() {
 
         setUpTeamView(this.standingsRows);
-        setPreDataLoading(false);
-       /* if(this.tableDataLoaded==false){
-            onLoadScoreTable(null);
-        }*/
+        attemptToLoadTable();
 
     }
 
@@ -146,8 +142,13 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
     @Subscribe
     public void onLoadScoreTable(LoadScoreTableEvent event) {
+        this.tabClicked = true;
+        attemptToLoadTable();
 
-        if (this.tableDataLoaded == false && this.dataRequested==true) {
+    }
+
+    private void attemptToLoadTable(){
+        if (this.tabClicked == true && this.dataRequested==true && this.tableLoaded==false) {
 
             setRunnable(new Runnable() {
                 @Override
@@ -158,7 +159,6 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
             getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
 
         }
-
     }
 
     private void setUpScoreTable(List<StandingsRow> listOfRows) {
@@ -224,7 +224,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
         }
 
         this.scoreHeaderTable.addView(this.rightScrollView);
-        this.tableDataLoaded = true;
+        setPreDataLoading(false);
         syncScrollViews();
 
     }
@@ -251,6 +251,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
         }
 
+        this.tableLoaded= true;
         this.rightViewProgressLayout.showContent();
 
     }
