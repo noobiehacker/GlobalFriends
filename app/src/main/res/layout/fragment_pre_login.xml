@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_pre_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_tool_bar" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="centerCrop"
+        android:layout_below="@id/app_bar"
+        android:src="@drawable/bg1" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar"
+        android:fillViewport="true">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/spacing_sides"
+            android:paddingRight="@dimen/spacing_sides"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:isScrollContainer="true">
+
+            <EditText
+                android:id="@+id/identifierInput"
+                style="@style/whiteEditText"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_button_height"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/spacing_smaller"
+                android:inputType="textEmailAddress"
+                android:hint="@string/login_page_text3" />
+
+            <Button
+                android:id="@+id/loginButton"
+                style="@style/darkGrayButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/general_button_height"
+                android:layout_below="@+id/identifierInput"
+                android:layout_centerHorizontal="true"
+                android:text="@string/login_page_text6" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

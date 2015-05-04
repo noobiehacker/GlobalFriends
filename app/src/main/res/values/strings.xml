@@ -22,7 +22,7 @@
     <string name="landing_page_slider_text2">Join a sports league that\nsuits you</string>
     <string name="landing_page_slider_text3">Stay fit and have fun in your\nnew league</string>
     <string name="landing_page_text1">FIND A SPORTS LEAGUE NEAR ME</string>
-    <string name="landing_page_text2">Already have an account? Login</string>
+    <string name="landing_page_text2">Login</string>
 
     <string name="landing_page_terms_text_1">By using Mitoo, you agree to</string>
     <string name="landing_page_terms_text_2">"our "</string>
@@ -38,6 +38,18 @@
     <string name="login_page_text4">Password</string>
     <string name="login_page_text5">Forgot?</string>
     <string name="login_page_text6">LOGIN</string>
+
+    <!-- Pre Login Page -->
+    <string name="pre_login_page_dialog_title">"That email/phone doesn't exist on Mitoo"</string>
+    <string name="pre_login_page_dialog_message">Try a different email, phone or check the spelling</string>
+
+    <!--Pre Confirm Page-->
+    <string name="pre_confirm_page_text1">Please check your inbox</string>
+    <string name="pre_confirm_page_text2">"We sent you an invite, just click on the link and you'll be able to confirm your account"</string>
+    <string name="pre_confirm_page_text3">"DIDN"T RECEIVE ONE? RESEND"</string>
+
+
+
 
     <!--Register Page-->
     <string name="join_page_title">Join</string>
@@ -300,6 +312,7 @@
     <string name="tool_bar_reset_password">Reset Password</string>
     <string name="tool_bar_confirmation">Confirmation</string>
     <string name="tool_bar_confirm_your_account">Confirm your account</string>
+    <string name="tool_bar_pre_confirm">Confirm</string>
 
     <string name="tool_bar_terms">Terms</string>
     <string name="tool_bar_near_you">Near You</string>
