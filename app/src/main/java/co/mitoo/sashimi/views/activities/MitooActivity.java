@@ -709,6 +709,7 @@ public class MitooActivity extends ActionBarActivity {
         else{
             FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_home)
+                    .setTransition(MitooEnum.FragmentTransition.CHANGE)
                     .build();
 
             FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()

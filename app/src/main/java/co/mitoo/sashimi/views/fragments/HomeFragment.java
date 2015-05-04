@@ -125,6 +125,8 @@ public class HomeFragment extends MitooFragment {
     public void onResume(){
 
         super.onResume();
+        if(isBackClicked())
+            requestData();
         updateMenu();
         updateListViews();
 

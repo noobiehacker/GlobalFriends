@@ -80,6 +80,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     public void onResume(){
         super.onResume();
         setUpTabFromPreviousState();
+        if(isBackClicked())
+            requestData();
         //QUICK FIX REFACTOR LATER
         //Naming convention of isLoading should be hasLoaded! REFACTOR
         if(!isLoading() || isBackClicked())

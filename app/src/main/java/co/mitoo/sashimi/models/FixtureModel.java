@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
