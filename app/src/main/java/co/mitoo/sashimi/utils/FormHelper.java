@@ -65,7 +65,7 @@ public class FormHelper {
 
         boolean result = false;
         if (input.contains("@") && input.contains(".")) {
-            result = input.indexOf("@") < input.indexOf(".");
+            result = input.indexOf("@") < input.lastIndexOf(".");
         }
         return result;
 

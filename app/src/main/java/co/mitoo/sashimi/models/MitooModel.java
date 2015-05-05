@@ -74,8 +74,7 @@ public abstract class MitooModel{
             public void onError(Throwable e) {
 
                 String error = e.getMessage();
-               // if(MitooConstants.getAppEnvironment() == MitooEnum.AppEnvironment.STAGING)
-              //      BusProvider.post(new LogOutEvent());
+
             }
 
             @Override

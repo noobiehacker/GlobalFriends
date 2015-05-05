@@ -41,13 +41,21 @@
 
     <!-- Pre Login Page -->
     <string name="pre_login_page_dialog_title">"That email/phone doesn't exist on Mitoo"</string>
-    <string name="pre_login_page_dialog_message">Try a different email, phone or check the spelling</string>
+    <string name="pre_login_page_dialog_message">"Try a different email, phone or check the spelling"</string>
 
     <!--Pre Confirm Page-->
     <string name="pre_confirm_page_text1">"Check your "</string>
     <string name="pre_confirm_page_text2">"You'll receive an "</string>
     <string name="pre_confirm_page_text3">" to confirm your account, just click the link to login."</string>
     <string name="pre_confirm_page_text4">"DIDN"T RECEIVE ONE? RESEND"</string>
+    <string name="pre_confirm_page_text5">email</string>
+    <string name="pre_confirm_page_text6">"text"</string>
+
+    <string name="pre_confirm_alert_success_title">Invite resent</string>
+    <string name="pre_confirm_alert_success_message">"We've sent another invite, this can take up to 10 minutes."</string>
+
+    <string name="pre_confirm_alert_failure_title">Fail to resend invitation</string>
+    <string name="pre_confirm_alert_failure_message">Already confirmed</string>
 
     <!--Register Page-->
     <string name="join_page_title">Join</string>
@@ -176,7 +184,8 @@
     <string name="toast_email_required">Email is required</string>
     <string name="toast_password_required">Password is required</string>
     <string name="toast_phone_required">Phone number is required</string>
-    
+    <string name="toast_identifier_required">An email or phone number is required</string>
+
     <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
     <string name="toast_invalid_email">Please enter a valid email</string>
     <string name="toast_invalid_password">Please enter a valid password</string>
@@ -366,7 +375,8 @@
     <string name="bundle_key_first_time">bundle_key_boolean</string>
     <string name="bundle_key_from_confirm">bundle_key_from_confirm</string>
     <string name="bundle_key_notification">bundle_key_notification</string>
-    <string name="bundle_key_identifier_type">bundle_key_identifier</string>
+    <string name="bundle_key_identifier_type">bundle_key_identifier_type</string>
+    <string name="bundle_key_user_id">bundle_key_user_id</string>
     <string name="bundle_value_true">bundle_value_true</string>
     <string name="bundle_value_false">bundle_value_false</string>
 

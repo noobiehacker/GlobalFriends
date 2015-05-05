@@ -51,7 +51,7 @@
                 android:text="@string/login_page_text6" />
 
         </RelativeLayout>
-    </ScrollView>
 
+    </ScrollView>
 
 </RelativeLayout>
