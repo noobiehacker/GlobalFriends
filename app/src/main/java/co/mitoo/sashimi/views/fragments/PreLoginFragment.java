@@ -8,11 +8,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import com.squareup.otto.Subscribe;
 
-import java.net.URLEncoder;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.UserCheck;
-import co.mitoo.sashimi.network.InterceptorBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
@@ -27,6 +24,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 public class PreLoginFragment extends MitooFragment{
 
     private EditText identifierText;
+    private boolean loginActionFired = false;
 
     @Override
     public void onClick(View v) {
@@ -100,11 +98,14 @@ public class PreLoginFragment extends MitooFragment{
 
     private void loginButtonAction(){
 
-        if(allInputsAreValid()){
-            CheckUserEvent event = new CheckUserEvent(getIdentifier());
-            BusProvider.post(event);
-        }else{
-            handleInvalidInputs();
+        if(this.loginActionFired ==false){
+            if(allInputsAreValid()){
+                CheckUserEvent event = new CheckUserEvent(getIdentifier());
+                BusProvider.post(event);
+                this.loginActionFired = true;
+            }else{
+                handleInvalidInputs();
+            }
         }
 
     }
@@ -136,11 +137,11 @@ public class PreLoginFragment extends MitooFragment{
     @Subscribe
     public void onUserChecked(UserCheck userCheck) {
         boolean confirmed = checkUserConfirmation(userCheck);
-        routeToPreConfirm(userCheck);
         if (confirmed)
             routeToLogin();
         else
             routeToPreConfirm(userCheck);
+        this.loginActionFired = false;
 
     }
 
