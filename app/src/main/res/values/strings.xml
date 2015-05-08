@@ -384,6 +384,7 @@
     <string name="bundle_key_tab_index_key">bundle_key_tab_index_key</string>
     <string name="bundle_key_team_color_key">bundle_key_team_color_key</string>
     <string name="bundle_key_user_id_key">bundle_key_user_id</string>
+    <string name="bundle_key_confirm_token_key">bundle_key_confirm_token</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>
@@ -392,6 +393,8 @@
 
     <!--Error -->
     <string name="error_location_serivces">Current location unavailable. Please enter a location to continue.</string>
+    <string name="error_log_tag">mitoo_error_logs</string>
+    <string name="error_branch">branch_error</string>
 
     <!--Shared Preference Hash Key -->
     <string name="shared_preference_session_key">Session Key</string>

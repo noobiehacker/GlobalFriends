@@ -10,6 +10,7 @@ import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenAssociateRequestEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
@@ -39,11 +40,12 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         this.jsonDeviceInfo = jsonDeviceInfo;
     }
 
-    public void requestDeviceTokenAssociation(int userID , boolean refresh) {
+    @Subscribe
+    public void onRequestDeviceTokenAssociation(MobileTokenAssociateRequestEvent event) {
 
-        if(getJsonDeviceInfo() == null || refresh){
+        if(getJsonDeviceInfo() == null ){
             Observable<Response> observable = getSteakApiService()
-                    .createDeviceAssociation(userID, createDeviceInfo(getChannelID()));
+                    .createDeviceAssociation(event.getUserID(), createDeviceInfo(getChannelID()));
             handleObservable(observable , Response.class);
         }
         else{

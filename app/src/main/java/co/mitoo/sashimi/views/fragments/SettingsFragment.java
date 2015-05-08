@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -12,6 +14,8 @@ import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
+import co.mitoo.sashimi.utils.events.UserInfoResponseEvent;
 import co.mitoo.sashimi.views.Dialog.AboutMitooDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.Dialog.LogOutDialogBuilder;
@@ -23,10 +27,36 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SettingsFragment extends MitooFragment {
 
     private UserInfoRecieve userInfoRecieve;
+    private boolean viewLoaded = false;
     
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        requestData();
+
+    }
+
+    @Override
+    protected void requestData(){
+        BusProvider.post(new UserInfoRequestEvent(getUserID()));
+    }
+
+    private void updateView(){
+        if(userInfoRecieve!=null && this.viewLoaded==true)
+            setUpUserDetails(getRootView());
+    }
+
+
+    @Subscribe
+    public void onUserInfoReceieve(UserInfoResponseEvent event){
+        setUserInfoRecieve(event.getUserInfoRecieve());
+        updateView();
     }
 
     @Override
@@ -77,7 +107,7 @@ public class SettingsFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         setUpToolBar(view);
-        setUpUserDetails(view);
+        this.viewLoaded=true;
 
     }
 

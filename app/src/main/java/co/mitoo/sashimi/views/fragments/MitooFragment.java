@@ -107,6 +107,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     @Override
     public void onPause() {
         tearDownReferences();
+        if(getArguments()!=null)
+            onSaveInstanceState(getArguments());
+        else
+            onSaveInstanceState(new Bundle());
         super.onPause();
     }
 
@@ -813,5 +817,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected String getUserIDKey(){
         return getString(R.string.bundle_key_user_id_key);
     }
+
+    protected String getCompetitionSeasonIdKey() {
+        return getString(R.string.bundle_key_competition_id_key);
+    }
+
+    protected String getTeamColorKey() {
+        return getString(R.string.bundle_key_team_color_key);
+    }
+
 
 }

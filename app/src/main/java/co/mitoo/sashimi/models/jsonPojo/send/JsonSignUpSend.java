@@ -2,6 +2,8 @@ package co.mitoo.sashimi.models.jsonPojo.send;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 
+import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
+
 /**
  * Created by david on 14-11-12.
  */
@@ -14,6 +16,14 @@ public class JsonSignUpSend {
         this.name = name;
         this.phone = phone;
         this.time_zone = time_zone;
+    }
+
+    public JsonSignUpSend(String time_zone, String password, UserInfoRecieve userInfoRecieve) {
+        this.time_zone = time_zone;
+        this.password = password;
+        this.email = userInfoRecieve.email;
+        this.name = userInfoRecieve.name;
+        this.phone = userInfoRecieve.phone;
     }
 
     public String email;

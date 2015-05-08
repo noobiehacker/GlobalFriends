@@ -52,6 +52,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private Competition competition;
     private MitooEnum.FixtureTabType tabselected;
     private int competitionSeasonID = MitooConstants.invalidConstant;
+    private boolean viewLoaded=false;
 
     @Override
     public void onClick(View v) {
@@ -77,15 +78,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     }
 
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        Bundle bundle = new Bundle();
-        onSaveInstanceState(bundle);
-
-    }
-
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -107,8 +99,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     @Override
     public void onResume() {
         super.onResume();
-        if (!isLoading() || isBackClicked())
-            loadTabs();
     }
 
     @Subscribe
@@ -116,13 +106,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         this.competition = event.getCompetition();
         updateView();
 
-    }
-
-    private void setUpTabFromPreviousState() {
-        if (getTabselected() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
-            getPager().setCurrentItem(0);
-        else if (getTabselected() == MitooEnum.FixtureTabType.FIXTURE_RESULT)
-            getPager().setCurrentItem(1);
     }
 
     @Override
@@ -135,6 +118,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         setUpTabView(tabLayout);
         setUpPager(tabLayout);
         setProgressLayout((ProgressLayout) tabLayout.findViewById(R.id.progressLayout));
+        this.viewLoaded=true;
+        updateView();
 
     }
 
@@ -165,36 +150,16 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     }
 
-    @Subscribe
-    public void onFixtureResponse(FixtureModelResponseEvent event) {
-
-        setFixtureModelLoaded(true);
-        attemptToDisplayData();
-
-    }
-
-    @Subscribe
-    public void onTeamResponse(TeamIndividualResponseEvent event) {
-
-        setTeamModelLoaded(true);
-        attemptToDisplayData();
-
-    }
-
-    private void attemptToDisplayData() {
-        if (allDataLoaded()) {
-            updateView();
-            loadTabs();
-        }
-    }
-
     private void updateView() {
 
-        setFragmentTitle(this.competition.getName());
-        if (getToolbar() != null) {
-            getToolbar().setBackgroundColor(getTeamColor());
-            getToolbar().setTitle(getFragmentTitle());
-            getTabHost().setPrimaryColor(getTeamColor());
+        if(this.viewLoaded && this.competition!=null){
+            setFragmentTitle(this.competition.getName());
+            if (getToolbar() != null) {
+                getToolbar().setBackgroundColor(getTeamColor());
+                getToolbar().setTitle(getFragmentTitle());
+                getTabHost().setPrimaryColor(getTeamColor());
+            }
+            loadTabs();
         }
 
     }
@@ -208,7 +173,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
                 getPager().setCurrentItem(0, true);
             }
         });
-        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationLong);
 
     }
 
@@ -246,6 +211,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private void setUpPagerAdapter() {
 
         getPager().setAdapter(getAdapter());
+        getPager().setOffscreenPageLimit(2);
         getPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -432,13 +398,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         super.onDestroyView();
     }
 
-    private String getCompetitionSeasonIdKey() {
-        return getString(R.string.bundle_key_competition_id_key);
-    }
-
-    private String getTeamColorKey() {
-        return getString(R.string.bundle_key_team_color_key);
-    }
 
     private Bundle createBundle(){
         Bundle bundle = new Bundle();

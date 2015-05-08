@@ -1,10 +1,14 @@
 package co.mitoo.sashimi.models;
+import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
@@ -18,13 +22,14 @@ public class ConfirmInfoModel extends MitooModel{
         super(activity);
     }
 
-    public void requestConfirmationInformation(String token){
+    @Subscribe
+    public void requestConfirmationInformation(ConfirmingUserRequestEvent event){
 
         if(getConfirmInfo()==null){
-            handleObservable(getSteakApiService().getConfirmationInfo(token), ConfirmInfo.class) ;
+            handleObservable(getSteakApiService().getConfirmationInfo(event.getToken()), ConfirmInfo.class) ;
         }
         else{
-            BusProvider.post(new ConfirmInfoModelResponseEvent());
+            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo));
         }
 
     }
@@ -36,7 +41,8 @@ public class ConfirmInfoModel extends MitooModel{
             ConfirmInfo confirmInfo = (ConfirmInfo) objectRecieve;
             setConfirmInfo(confirmInfo);
             setUpDataForOtherModels(confirmInfo);
-            BusProvider.post(new ConfirmInfoModelResponseEvent());
+            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo));
+
         }
     }
 

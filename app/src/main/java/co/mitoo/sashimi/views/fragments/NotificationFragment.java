@@ -294,17 +294,10 @@ public class NotificationFragment extends MitooFragment {
         this.notificationDataLoaded = notificationDataLoaded;
     }
 
-    private String getCompetitionSeasonIdKey() {
-        return getString(R.string.bundle_key_competition_id_key);
-    }
-
     public int getCompetitionSeasonID(){
         return this.competitionSeasonID;
     }
 
-    private String getTeamColorKey() {
-        return getString(R.string.bundle_key_team_color_key);
-    }
 
     public int getUserID(){
         return super.getUserID();

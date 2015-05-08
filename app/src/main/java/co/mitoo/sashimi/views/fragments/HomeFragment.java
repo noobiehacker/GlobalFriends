@@ -30,6 +30,8 @@ import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
+import co.mitoo.sashimi.utils.events.UserInfoResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
 import co.mitoo.sashimi.views.adapters.CompetitionAdapter;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
@@ -83,8 +85,6 @@ public class HomeFragment extends MitooFragment {
     @Override
     public void onPause(){
         super.onPause();
-        Bundle bundle = new Bundle();
-        onSaveInstanceState(bundle);
 
     }
 
@@ -166,12 +166,12 @@ public class HomeFragment extends MitooFragment {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_feedback:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
-                                getUserInfoModel().onUserInfoRequest(HomeFragment.this.userID, false);
+                                BusProvider.post(new UserInfoRequestEvent(getUserID()));
                                 break;
                             case R.id.menu_settings:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
-                                getUserInfoModel().onUserInfoRequest(HomeFragment.this.userID , false);
                                 setLoading(true);
+                                BusProvider.post(new UserInfoRequestEvent(getUserID()));
                                 break;
                             case R.id.menu_search:
                                 FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
@@ -305,7 +305,7 @@ public class HomeFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onUserInfoReceieve(UserInfoModelResponseEvent event){
+    public void onUserInfoReceieve(UserInfoResponseEvent event){
 
         switch(getMenuItemSelected()){
             case SETTINGS:

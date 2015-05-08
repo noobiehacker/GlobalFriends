@@ -10,8 +10,13 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
@@ -21,6 +26,12 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 public class ConfirmAccountFragment extends MitooFragment {
 
     private boolean dialogButtonCreated;
+    private boolean viewLoaded = false;
+    private TextView greetingTextView ;
+    private TextView competitionTextView ;
+    private ConfirmInfo confirmInfo;
+    private Button button;
+    private String token;
 
     @Override
     public void onClick(View v) {
@@ -38,6 +49,22 @@ public class ConfirmAccountFragment extends MitooFragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            this.token = savedInstanceState.getString(getConfirmInfoKey());
+        }
+        BusProvider.post(new ConfirmingUserRequestEvent(token));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(getConfirmInfoKey(), token);
+        super.onSaveInstanceState(bundle);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,19 +80,42 @@ public class ConfirmAccountFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
-        Competition competition = getCompetitionModel().getSelectedCompetition();
-        getViewHelper().setUpConfirmAccountView(view, competition);
-        setUpConfirmLeagueText(view);
-        setUpGreetingText(view);
-        setUpButtonColor(view);
+        this.greetingTextView = (TextView) view.findViewById(R.id.confirmAccountTopText);
+        this.competitionTextView = (TextView) view.findViewById(R.id.confirmAccountCompetitionName);
+        this. button = (Button) view.findViewById(R.id.confirmJoinButton);
+        this.viewLoaded=true;
+
     }
 
+    @Subscribe
+    public void onConfirmInfoRecieve(ConfirmInfoResponseEvent event){
+        this.confirmInfo = event.getConfirmInfo();
+        updateView();
+    }
+
+    private void updateView(){
+        if(getCompetion()!=null && this.viewLoaded){
+            getViewHelper().setUpConfirmAccountView(getRootView(), getCompetion());
+            setUpConfirmLeagueText(getRootView());
+            setUpGreetingText(getRootView());
+            setUpButtonColor(getRootView());
+        }
+    }
+
+    private Competition getCompetion(){
+        if(this.confirmInfo!=null){
+            Competition[] competitions = this.confirmInfo.getCompetition_seasons();
+            if(competitions!=null && competitions.length>0){
+                return competitions[0];
+            }
+        }
+        return null;
+    }
 
     public void setUpConfirmLeagueText(View view){
 
         if(getCompetitionModel().getMyCompetition().size()==1){
             Competition selectedCompetition = getCompetitionModel().getSelectedCompetition();
-            TextView competitionTextView = (TextView) view.findViewById(R.id.confirmAccountCompetitionName);
             competitionTextView.setText(selectedCompetition.getName());
         }
 
@@ -73,7 +123,6 @@ public class ConfirmAccountFragment extends MitooFragment {
 
     public void setUpGreetingText(View view){
 
-        TextView greetingTextView = (TextView) view.findViewById(R.id.confirmAccountTopText);
         greetingTextView.setText(createGreetingText());
 
     }
@@ -106,6 +155,7 @@ public class ConfirmAccountFragment extends MitooFragment {
                 .setFragmentID(R.id.fragment_confirm_set_password)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .setBundle(createBundle())
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
 
@@ -117,7 +167,6 @@ public class ConfirmAccountFragment extends MitooFragment {
     }
 
     private void setUpButtonColor(View view){
-        Button button = (Button) view.findViewById(R.id.confirmJoinButton);
         Competition selectedCompetition = getCompetitionModel().getSelectedCompetition();
         String leagueColor = selectedCompetition.getLeague().getColor_1();
         getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
@@ -129,5 +178,15 @@ public class ConfirmAccountFragment extends MitooFragment {
 
     public void setDialogButtonCreated(boolean dialogButtonCreated) {
         this.dialogButtonCreated = dialogButtonCreated;
+    }
+
+    private String getConfirmInfoKey(){
+        return getString(R.string.bundle_key_confirm_token_key);
+    }
+
+    private Bundle createBundle(){
+        Bundle bundle = new Bundle();
+        bundle.putInt(getCompetitionSeasonIdKey() , getCompetion().getId());
+        return bundle;
     }
 }

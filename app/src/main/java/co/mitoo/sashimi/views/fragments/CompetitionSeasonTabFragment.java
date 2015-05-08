@@ -43,8 +43,9 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private boolean viewLoaded = false;
     private int competitionSeasonID;
     private List<Team> teams;
-    private int tabIndex= 0;
+    private int tabIndex = 0;
     private boolean dataLoaded = false;
+    private boolean fragmentStarted = false;
 
     @Override
     public void onClick(View v) {
@@ -73,7 +74,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
             this.competitionSeasonID = (int) savedInstanceState.get(getCompetitionSeasonIdKey());
-            this.tabIndex = getArguments().getInt(getTabIndexKey());
+            this.tabIndex = savedInstanceState.getInt(getTabIndexKey());
+            this.fragmentStarted = true;
             setTabType(this.tabIndex);
         } else {
             this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
@@ -83,10 +85,23 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
-        if(this.dataLoaded==false)
-            requestData();
+        if (this.dataLoaded == false){
+
+            if(this.fragmentStarted==true){
+
+                setRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        requestData();
+                    }
+                });
+                getHandler().postDelayed(getRunnable(), MitooConstants.durationLong);
+            }else{
+                requestData();
+            }
+        }
     }
 
     @Override
@@ -97,12 +112,11 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     @Override
-    public void requestData(){
+    public void requestData() {
         getFixtureModel();
         getTeamModel();
         BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
         BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
-        setPreDataLoading(true);
 
     }
 
@@ -132,17 +146,11 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private void updateView() {
 
         if (fixtureListRecieved() && CompetitionSeasonTabFragment.this.viewLoaded && teamDataLoaded()) {
+            getFixtureListView().setAdapter(getFixtureListAdapter());
+            setUpNoResultsView();
+            setPreDataLoading(false);
+            CompetitionSeasonTabFragment.this.viewLoaded = true;
 
-            setRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    getFixtureListView().setAdapter(getFixtureListAdapter());
-                    setUpNoResultsView();
-                    setPreDataLoading(false);
-                    CompetitionSeasonTabFragment.this.viewLoaded = true;
-                }
-            });
-            getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
         }
 
     }
@@ -153,8 +161,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onTeamDataLoaded(TeamListResponseEvent event){
-        if(!teamDataLoaded()){
+    public void onTeamDataLoaded(TeamListResponseEvent event) {
+        if (!teamDataLoaded()) {
             this.teams = event.getLsitOfTeams();
             updateView();
         }
@@ -194,10 +202,10 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     public void setTabType(MitooEnum.FixtureTabType tabType) {
         this.tabType = tabType;
-        if(tabType== MitooEnum.FixtureTabType.FIXTURE_RESULT)
-            this.tabIndex= 1;
-        if(tabType == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
-            this.tabIndex= 0;
+        if (tabType == MitooEnum.FixtureTabType.FIXTURE_RESULT)
+            this.tabIndex = 1;
+        if (tabType == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+            this.tabIndex = 0;
 
     }
 
@@ -257,12 +265,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     }
 
-    private boolean fixtureListRecieved(){
-        return getFixtureList()!=null && !getFixtureList().isEmpty();
-    }
-
-    private String getCompetitionSeasonIdKey() {
-        return getString(R.string.bundle_key_competition_id_key);
+    private boolean fixtureListRecieved() {
+        return getFixtureList() != null && !getFixtureList().isEmpty();
     }
 
     private String getTabIndexKey() {
@@ -271,14 +275,14 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        super.onSaveInstanceState(bundle);
         bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
         bundle.putInt(getTabIndexKey(), this.tabIndex);
+        super.onSaveInstanceState(bundle);
 
     }
 
-    private boolean teamDataLoaded(){
-        return this.teams!=null;
+    private boolean teamDataLoaded() {
+        return this.teams != null;
     }
 
 

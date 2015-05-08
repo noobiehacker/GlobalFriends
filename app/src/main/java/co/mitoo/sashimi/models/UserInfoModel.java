@@ -1,20 +1,21 @@
 package co.mitoo.sashimi.models;
 
-import android.os.Bundle;
-
 import com.squareup.otto.Subscribe;
 
-import co.mitoo.sashimi.R;
+import org.joda.time.DateTime;
+
 import co.mitoo.sashimi.models.jsonPojo.UserCheck;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.CheckUserEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.RetriggerEmailResponseEvent;
 import co.mitoo.sashimi.utils.events.RetriggerEmailSmsEvent;
-import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
+import co.mitoo.sashimi.utils.events.UserInfoResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -41,18 +42,20 @@ public class UserInfoModel extends MitooModel {
         this.userInfoRecieve = userInfoRecieve;
     }
 
-    public void onUserInfoRequest(int userID, boolean refresh) {
+    @Subscribe
+    public void onUserInfoRequest(UserInfoRequestEvent event) {
 
-        if (getUserInfoRecieve() == null || refresh) {
-            handleObservable(getSteakApiService().getUser(userID), UserInfoRecieve.class);
+        if (getUserInfoRecieve() == null ) {
+            handleObservable(getSteakApiService().getUser(event.getUserID()), UserInfoRecieve.class);
         } else {
             postUserInfoRecieveResponse();
         }
     }
 
-    public void requestToConfirmUser(String token, JsonSignUpSend jsonObject) {
+    @Subscribe
+    public void requestToConfirmUser(ConfirmInfoSetPasswordRequestEvent event) {
 
-        handleObservable(getSteakApiService().createUserFromConfirmation(token, jsonObject)
+        handleObservable(getSteakApiService().createUserFromConfirmation(event.getToken(), createConfirmJsonFrom(event.getPassword()))
                 , UserInfoRecieve.class);
 
     }
@@ -111,7 +114,7 @@ public class UserInfoModel extends MitooModel {
 
     private void postUserInfoRecieveResponse() {
 
-        BusProvider.post(new UserInfoModelResponseEvent(getUserInfoRecieve()));
+        BusProvider.post(new UserInfoResponseEvent(getUserInfoRecieve()));
 
     }
 
@@ -135,5 +138,19 @@ public class UserInfoModel extends MitooModel {
         sessionModel.updateSession(getUserInfoRecieve());
 
     }
+
+    private JsonSignUpSend createConfirmJsonFrom(String password) {
+
+        if(this.userInfoRecieve!=null)
+            return new JsonSignUpSend( getTimeZone(),password, this.userInfoRecieve);
+        return null;
+    }
+
+    private String getTimeZone() {
+
+        DateTime dateTime = new DateTime();
+        return dateTime.getZone().toString();
+    }
+
 
 }

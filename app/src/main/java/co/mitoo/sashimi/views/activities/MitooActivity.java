@@ -11,6 +11,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
@@ -46,7 +47,9 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooNotificationIntentReceiver;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
-import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
@@ -133,13 +136,6 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-
-        String temp = "ABC";
-
     }
 
     @Override
@@ -645,7 +641,10 @@ public class MitooActivity extends ActionBarActivity {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
 
-                if (error == null && !isDuringConfirmFlow()) {
+                if(error!=null){
+                    handleBranchError();
+                }
+                else if (!isDuringConfirmFlow()) {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
                     /*
@@ -672,10 +671,23 @@ public class MitooActivity extends ActionBarActivity {
                             BusProvider.post(new LogOutEvent());
                         MitooActivity.this.branchIODataReceived();
                     }
+                }else if(error!=null){
+                    handleBranchError();
                 }
             }
         };
         setBranchReferralInitListener(branchReferralInitListener);
+
+    }
+
+    private void handleBranchError(){
+        Log.e(getString(R.string.error_log_tag), getString(R.string.error_branch));
+
+        if(isOnSplashScreen()){
+            BusProvider.post(new BranchIOResponseEvent(null));
+            setOnSplashScreen(false);
+
+        }
 
     }
 
@@ -684,7 +696,7 @@ public class MitooActivity extends ActionBarActivity {
         if (!userIsOnInviteFlow()) {
             Invitation_token token = getModelManager().getSessionModel().getInvitation_token();
             if (token != null && token.getToken() != null) {
-                getModelManager().getConfirmInfoModel().requestConfirmationInformation(token.getToken());
+                BusProvider.post(new ConfirmingUserRequestEvent(token.getToken()));
             }
         }
     }
@@ -704,7 +716,7 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent) {
+    public void onConfirmInfoModelResponse(ConfirmInfoResponseEvent modelEvent) {
 
         FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_account)

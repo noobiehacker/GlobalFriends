@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.*;
 import android.view.View;
@@ -8,12 +7,13 @@ import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
-import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
-import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
@@ -65,7 +65,7 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onBranchIOResponse(BranchIOResponseEvent event){
 
-        setInvitationToken(getSessionModel().getInvitation_token());
+        setInvitationToken(event.getToken());
         setBranchResponseRecieved(true);
         loadFirstFragment();
 
@@ -110,7 +110,7 @@ public class SplashScreenFragment extends MitooFragment {
     public void startInviteFlow() {
 
         Invitation_token token = getInvitationToken();
-        getConfirmInfoModel().requestConfirmationInformation(token.getToken());
+        BusProvider.post(new ConfirmingUserRequestEvent(token.getToken()));
 
     }
 
@@ -177,7 +177,7 @@ public class SplashScreenFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
+    public void onConfirmInfoModelResponse(ConfirmInfoResponseEvent modelEvent){
 
         FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_account)

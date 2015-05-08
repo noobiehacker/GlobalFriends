@@ -1,26 +1,20 @@
 package co.mitoo.sashimi.views.fragments;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-
 import com.squareup.otto.Subscribe;
-
-import org.joda.time.DateTime;
-
-import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
-import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
-import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
@@ -31,6 +25,11 @@ import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 public class ConfirmSetPasswordFragment extends MitooFragment {
 
     private boolean dialogButtonCreated;
+    private int competitionSeasonID;
+    private Competition competition;
+    private boolean viewLoaded;
+    private TextView textView ;
+    private Button button ;
 
     @Override
     public void onClick(View v) {
@@ -41,6 +40,43 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
                     break;
             }
         }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.competitionSeasonID = (int) savedInstanceState.get(getCompetitionSeasonIdKey());
+        } else {
+            this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
+        }
+        BusProvider.post(new CompetitionSeasonRequestEvent(this.competitionSeasonID, getUserID()));
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
+
+    }
+
+    @Subscribe
+    public void onCompetitionLoaded(CompetitionSeasonResponseEvent event) {
+        this.competition = event.getCompetition();
+        updateView();
+
+    }
+
+    private void updateView() {
+
+        if(this.viewLoaded && this.competition!=null){
+            getViewHelper().setUpConfirmPasswordView(getRootView(), competition);
+            setUpButtonColor(getRootView());
+            setUpSetPasswordString(getRootView());
+        }
+
     }
 
     public static ConfirmSetPasswordFragment newInstance() {
@@ -63,11 +99,18 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
     protected void initializeViews(View view){
 
         super.initializeViews(view);
+        textView = (TextView) view.findViewById(R.id.setAPasswordForText);
+        button = (Button) view.findViewById(R.id.setPasswordButton);
+        this.viewLoaded= true;
+        updateView();
+
+    }
+
+    @Override
+    protected void initializeOnClickListeners(View view) {
+
         view.findViewById(R.id.setPasswordButton).setOnClickListener(this);
-        Competition competition = getCompetitionModel().getSelectedCompetition();
-        getViewHelper().setUpConfirmPasswordView(view, competition);
-        setUpButtonColor(view);
-        setUpSetPasswordString(view);
+        super.initializeOnClickListeners(view);
 
     }
 
@@ -97,24 +140,10 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
             getFormHelper().handleInvalidPassword(getPassword());
         }
         else{
-            JsonSignUpSend confirmJson = createConfirmJsonFrom();
-            String token = getSessionModel().getInvitation_token().getToken();
-            getUserInfoModel().requestToConfirmUser(token , confirmJson);
             setLoading(true);
-
+            String token = getSessionModel().getInvitation_token().getToken();
+            BusProvider.post(new ConfirmInfoSetPasswordRequestEvent(token, getPassword()));
         }
-    }
-
-    private String getTimeZone() {
-
-        DateTime dateTime = new DateTime();
-        return dateTime.getZone().toString();
-    }
-
-    private JsonSignUpSend createConfirmJsonFrom() {
-
-        UserInfoRecieve userInfo = getUserInfoModel().getUserInfoRecieve();
-        return new JsonSignUpSend(userInfo.email, getPassword(), userInfo.name, userInfo.phone, getTimeZone());
     }
 
     @Subscribe
@@ -131,15 +160,16 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
 
     private void setUpSetPasswordString(View view){
 
-        TextView textView = (TextView) view.findViewById(R.id.setAPasswordForText);
-        textView.setText(getString(R.string.confirmation_page_text_three));
+        this.textView.setText(getString(R.string.confirmation_page_text_three));
     }
 
     private void setUpButtonColor(View view){
-        Button button = (Button) view.findViewById(R.id.setPasswordButton);
-        Competition selectedCompetition = getCompetitionModel().getSelectedCompetition();
-        String leagueColor = selectedCompetition.getLeague().getColor_1();
-        getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
+
+        if(this.competition!=null){
+            String leagueColor = this.competition.getLeague().getColor_1();
+            getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
+        }
+
     }
 
     @Override

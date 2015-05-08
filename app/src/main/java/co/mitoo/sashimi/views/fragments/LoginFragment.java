@@ -8,10 +8,12 @@ import android.widget.EditText;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenAssociateRequestEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -59,8 +61,6 @@ public class LoginFragment extends MitooFragment {
         view.findViewById(R.id.loginPasswordInput).setOnClickListener(this);
         view.findViewById(R.id.forgetPasswordButton).setOnClickListener(this);
         super.initializeOnClickListeners(view);
-        /*Take out for v1
-        view.findViewById(R.id.facebookLoginButton).setOnClickListener(this);*/
 
     }
 
@@ -87,10 +87,6 @@ public class LoginFragment extends MitooFragment {
                 case R.id.loginPasswordInput:
                     passwordInputRequestFocusAction();
                     break;
-            /*Take Out for V1
-            case R.id.facebookLoginButton:
-                facebookLoginButtonAction();
-                break;*/
             }
         }
     }
@@ -120,7 +116,7 @@ public class LoginFragment extends MitooFragment {
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
 
-        getMobileTokenModel().requestDeviceTokenAssociation(getUserID(), true);
+        BusProvider.post(new MobileTokenAssociateRequestEvent(getUserID()));
 
     }
 
@@ -136,14 +132,6 @@ public class LoginFragment extends MitooFragment {
         getMitooActivity().hideSoftKeyboard();
         routeToHome();
         setLoading(false);
-    }
-
-    private void facebookLoginButtonAction(){
-        /*
-        String applicationId =  getResources().getString(R.string.API_key_facebook);
-        ArrayList<String> permissions = new ArrayList<String>();
-        permissions.add("public_profile");
-        FacebookLoginActivity.launch(getActivity(), applicationId, permissions);*/
     }
 
     private void forgetPasswordAction(){
@@ -206,23 +194,9 @@ public class LoginFragment extends MitooFragment {
         
         
       super.onActivityResult(requestCode, resultCode, data);
-        /*if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
 
-            if (resultCode == Activity.RESULT_OK) {
-                String faceBookToken = data.getStringExtra(FacebookLoginActivity.EXTRA_FACEBOOK_ACCESS_TOKEN);
-                requestAuthToken(faceBookToken);
-            }
-            else {
-                String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
-                displayTextWithToast(errorMessage);
-            }
-        }*/
     }
-    
-    private void requestAuthToken(String faceBookToken){
-        
-  //      BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
-    }
+
 
     public EditText getPassWordInput() {
         return passWordInput;
