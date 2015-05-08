@@ -1,15 +1,18 @@
 package co.mitoo.sashimi.models;
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
-import co.mitoo.sashimi.utils.events.FixtureModelResponseEvent;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
@@ -17,38 +20,48 @@ import rx.Observable;
 /**
  * Created by david on 15-03-10.
  */
-public class FixtureModel extends MitooModel{
+public class FixtureService extends MitooModel{
 
     private List<FixtureWrapper> schedule;
     private List<FixtureWrapper> result;
-    private FixtureWrapper selectedFixture;
 
-    public FixtureModel(MitooActivity activity) {
+    public FixtureService(MitooActivity activity) {
         super(activity);
     }
 
-    public void requestFixtureByCompetition(int competitionSeasonID, boolean refresh) {
+    @Subscribe
+    public void onFixtureListRequestEvent(FixtureListRequestEvent event){
 
-        if(fixtureIsEmpty() || refresh){
+        if(!getResult().isEmpty() || !getSchedule().isEmpty() ){
+            if(event.getTabType()== MitooEnum.FixtureTabType.FIXTURE_RESULT)
+                BusProvider.post(new FixtureListResponseEvent(event.getTabType(),getResult()));
+            else if(event.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+                BusProvider.post(new FixtureListResponseEvent(event.getTabType(),getSchedule()));
+        }else{
+            requestFixtureByCompetition(event.getCompetitionSeasonID());
+        }
+
+    }
+
+    public void requestFixtureByCompetition(int competitionSeasonID) {
+
+        if(fixtureIsEmpty()){
             Observable<Fixture[]> observable = getSteakApiService()
                     .getFixtureFromCompetitionID(getActivity().getString(R.string.steak_api_param_filter_all), competitionSeasonID);
             handleObservable(observable, Fixture[].class);
         }
 
-        else{
-            BusProvider.post(new FixtureModelResponseEvent());
-        }
-
     }
 
-    public void requestFixtureByFixtureID(int fixtureID, boolean refresh) {
+    @Subscribe
+    public void requestIndividualFixture(FixtureIndividualRequestEvent event) {
 
-        if(getSelectedFixture() ==null || refresh){
-            Observable<Fixture> observable = getSteakApiService().getFixtureFromFixtureID(fixtureID);
+        if(getFixtureFromModel(event.getFixtureID()) ==null ){
+            Observable<Fixture> observable = getSteakApiService().getFixtureFromFixtureID(event.getFixtureID());
             handleObservable(observable, Fixture.class);
         }
         else{
-            BusProvider.post(new FixtureModelIndividualResponse());
+            BusProvider.post(new FixtureModelIndividualResponse(getFixtureFromModel(event.getFixtureID())));
         }
 
     }
@@ -59,12 +72,12 @@ public class FixtureModel extends MitooModel{
         if (objectRecieve instanceof Fixture[]) {
             clearFixtures();
             addFixtures((Fixture[]) objectRecieve);
-            BusProvider.post(new FixtureModelResponseEvent());
+            BusProvider.post(new FixtureListResponseEvent(MitooEnum.FixtureTabType.FIXTURE_RESULT,getResult()));
+            BusProvider.post(new FixtureListResponseEvent(MitooEnum.FixtureTabType.FIXTURE_SCHEDULE,getSchedule()));
         }else if(objectRecieve instanceof Fixture) {
             Fixture fixture = (Fixture)objectRecieve;
-            setSelectedFixture(new FixtureWrapper(fixture, getActivity()));
             addFixtureToList(fixture);
-            BusProvider.post(new FixtureModelIndividualResponse());
+            BusProvider.post(new FixtureModelIndividualResponse(new FixtureWrapper(fixture , getActivity())));
         }
     }
 
@@ -109,10 +122,14 @@ public class FixtureModel extends MitooModel{
 
         for (Fixture item : fixtures) {
             FixtureWrapper fixtureWrapper = new FixtureWrapper(item , getActivity());
-            if(fixtureWrapper.isFutureFixture())
-                getSchedule().add(fixtureWrapper);
-            else
-                getResult().add(fixtureWrapper);
+            if(fixtureWrapper.isFutureFixture()){
+                if(!listContainsFixture(getSchedule(),fixtureWrapper))
+                    getSchedule().add(fixtureWrapper);
+            }
+            else{
+                if(!listContainsFixture(getResult(),fixtureWrapper))
+                    getResult().add(fixtureWrapper);
+            }
         }
         Collections.sort(getSchedule());
         Collections.sort(getResult());
@@ -180,14 +197,6 @@ public class FixtureModel extends MitooModel{
         return getSchedule().size()==0 && getResult().size() == 0;
     }
 
-    public FixtureWrapper getSelectedFixture() {
-        return selectedFixture;
-    }
-
-    public void setSelectedFixture(FixtureWrapper selectedFixture) {
-        this.selectedFixture = selectedFixture;
-    }
-
     private boolean listContainsFixture(List<FixtureWrapper> list, FixtureWrapper fixtureWrapper){
 
         boolean contains = false;
@@ -200,4 +209,6 @@ public class FixtureModel extends MitooModel{
         }
         return contains;
     }
+
+
 }

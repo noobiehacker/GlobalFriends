@@ -1,10 +1,17 @@
 package co.mitoo.sashimi.models;
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.events.TeamModelResponseEvent;
+import co.mitoo.sashimi.utils.events.TeamIndividualRequestEvent;
+import co.mitoo.sashimi.utils.events.TeamIndividualResponseEvent;
+import co.mitoo.sashimi.utils.events.TeamListRequestEvent;
+import co.mitoo.sashimi.utils.events.TeamListResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
@@ -12,27 +19,54 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
  */
 public class TeamModel extends MitooModel {
 
-
     private List<Team> competitionTeams;
 
     public TeamModel(MitooActivity activity) {
         super(activity);
     }
 
-    public void requestTeamByCompetition(int id , boolean refresh) {
-        if (getCompetitionTeams().size()==0 || refresh)
-            handleObservable(getSteakApiService().getTeamByCompetition(id), Team[].class);
+    @Subscribe
+    public void requestTeamByCompetition(TeamListRequestEvent event) {
+        if (getCompetitionTeams().size()==0 ){
+            handleObservable(getSteakApiService().getTeamByCompetition(event.getCompetitionSeasonID()), Team[].class);
+            getEventsStack().push(event);
+        }
         else
-            BusProvider.post(new TeamModelResponseEvent());
+            handleEvent(event);
+
     }
 
+    @Subscribe
+    public void requestIndividualTeam(TeamIndividualRequestEvent event) {
+        if (getCompetitionTeams().size()==0 ){
+            handleObservable(getSteakApiService().getTeamByCompetition(event.getCompetitionSeasonId()), Team[].class);
+            getEventsStack().push(event);
+        }
+        else
+            handleEvent(event);
+
+    }
 
     @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
         if (objectRecieve instanceof Team[]) {
             clearLeaguesEnquired();
             addTeams((Team[]) objectRecieve);
-            BusProvider.post(new TeamModelResponseEvent());
+            while(getEventsStack().size()>0){
+                Object event = getEventsStack().pop();
+                handleEvent(event);
+            }
+        }
+    }
+
+    private void handleEvent(Object event){
+
+        if(event instanceof  TeamIndividualRequestEvent){
+            TeamIndividualRequestEvent requestEvent = (TeamIndividualRequestEvent) event;
+            BusProvider.post(new TeamIndividualResponseEvent(this.getTeam(requestEvent.getTeamID())));
+        }
+        else if(event instanceof  TeamListRequestEvent){
+            BusProvider.post(new TeamListResponseEvent(this.competitionTeams));
         }
     }
 
@@ -76,6 +110,5 @@ public class TeamModel extends MitooModel {
         }
         return result;
     }
-
 
 }

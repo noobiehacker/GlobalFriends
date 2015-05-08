@@ -3,9 +3,9 @@ package co.mitoo.sashimi.utils.events;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 
 /**
- * Created by david on 15-03-06.
+ * Created by david on 15-05-06.
  */
-public class CompetitionModelResponseEvent {
+public class CompetitionSeasonResponseEvent {
 
     private Competition competition;
 
@@ -13,7 +13,7 @@ public class CompetitionModelResponseEvent {
         return competition;
     }
 
-    public CompetitionModelResponseEvent(Competition competition) {
+    public CompetitionSeasonResponseEvent(Competition competition) {
         this.competition = competition;
     }
 }

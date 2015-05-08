@@ -1,14 +1,11 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import com.squareup.otto.Subscribe;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.FormHelper;

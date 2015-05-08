@@ -22,6 +22,7 @@ import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
@@ -42,18 +43,16 @@ public class HomeFragment extends MitooFragment {
     private List<League> enquiredLeagueData;
     private ListView enquiredLeagueList;
     private LeagueAdapter enquiredLeagueDataAdapter;
-
     private List<Competition> myCompetitionData;
     private ListView myCompetitionList;
     private CompetitionAdapter myCompetitionDataAdapter;
-
     private View myCompetitionListFooterView;
-
     private boolean userHasUsedApp;
     private boolean registerFlow;
     private boolean enquriedLeagueDataLoaded;
     private boolean myCompetitionDataLoaded;
     private boolean logOutEventFired;
+    private int userID = MitooConstants.invalidConstant;
 
     private MitooEnum.MenuItemSelected menuItemSelected = MitooEnum.MenuItemSelected.NONE;
 
@@ -68,7 +67,24 @@ public class HomeFragment extends MitooFragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        requestData();
+        if(savedInstanceState!=null){
+            this.userID = savedInstanceState.getInt(getUserIDKey());
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt(getUserIDKey(), this.userID);
+        super.onSaveInstanceState(bundle);
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Bundle bundle = new Bundle();
+        onSaveInstanceState(bundle);
 
     }
 
@@ -100,7 +116,8 @@ public class HomeFragment extends MitooFragment {
         setUpRegisterFlowBoolean();
         refreshEnquriedLeagueData();
         refreshMyCompetitionData();
-        //setUpPopUpTask();
+        if(this.userID== MitooConstants.invalidConstant)
+            this.userID =getUserID();
     }
 
     @Override
@@ -125,8 +142,7 @@ public class HomeFragment extends MitooFragment {
     public void onResume(){
 
         super.onResume();
-        if(isBackClicked())
-            requestData();
+        requestData();
         updateMenu();
         updateListViews();
 
@@ -150,11 +166,11 @@ public class HomeFragment extends MitooFragment {
                         switch (menuItem.getItemId()) {
                             case R.id.menu_feedback:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.FEEDBACK);
-                                getUserInfoModel().onUserInfoRequest(getUserId(), false);
+                                getUserInfoModel().onUserInfoRequest(HomeFragment.this.userID, false);
                                 break;
                             case R.id.menu_settings:
                                 setMenuItemSelected(MitooEnum.MenuItemSelected.SETTINGS);
-                                getUserInfoModel().onUserInfoRequest(getUserId() , false);
+                                getUserInfoModel().onUserInfoRequest(HomeFragment.this.userID , false);
                                 setLoading(true);
                                 break;
                             case R.id.menu_search:
@@ -196,17 +212,7 @@ public class HomeFragment extends MitooFragment {
 
         super.tearDownReferences();
     }
-    
-    private int getUserId(){
-        
-        ModelManager manager = getMitooActivity().getModelManager();
-        if(manager!=null){
-            SessionRecieve session = manager.getSessionModel().getSession();
-            if(session!=null)
-                return session.id;
-        }
-        return MitooConstants.invalidConstant;
-    }
+
 
     @Override
     protected void requestData(){
@@ -220,14 +226,14 @@ public class HomeFragment extends MitooFragment {
     private void requestLeagueData(){
 
         LeagueModelEnquireRequestEvent event = new LeagueModelEnquireRequestEvent(
-                getUserId(), MitooEnum.APIRequest.UPDATE);
+                HomeFragment.this.userID, MitooEnum.APIRequest.UPDATE);
         getLeagueModel().requestEnquiredLeagues(event);
 
     }
 
     private void requestCompetitionData(){
 
-        getCompetitionModel().requestCompetition(getUserId());
+        getCompetitionModel().requestCompetition(HomeFragment.this.userID);
 
     }
 
@@ -241,10 +247,13 @@ public class HomeFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onCompetitionResponse(CompetitionModelResponseEvent event) {
+    public void onCompetitionResponse(CompetitionSeasonResponseEvent event) {
 
-        setMyCompetitionDataLoaded(true);
-        updateListViews();
+        if (event.getCompetition() == null) {
+            setMyCompetitionDataLoaded(true);
+            updateListViews();
+
+        }
 
     }
 
@@ -317,8 +326,8 @@ public class HomeFragment extends MitooFragment {
 
     @Override
     protected void handleAndDisplayError(MitooActivitiesErrorEvent error) {
-        getProgressLayout().showErrorText("");
         super.handleAndDisplayError(error);
+
     }
 
     public void refreshEnquriedLeagueData(){
@@ -395,22 +404,6 @@ public class HomeFragment extends MitooFragment {
 
     public void setEnquiredLeagueList(ListView enquiredLeagueList) {
         this.enquiredLeagueList = enquiredLeagueList;
-    }
-
-    private void setUpPopUpTask(){
-
-        if(isRegisterFlow() && !getDataHelper().feedBackHasAppeared()){
-            getDataHelper().setConfirmFeedBackPopped(true);
-            Handler handler = getHandler();
-            setRunnable( new Runnable() {
-                @Override
-                public void run() {
-                    FeedBackDialogBuilder dialog = new FeedBackDialogBuilder(getActivity());
-                    dialog.buildPrompt().show();
-                }
-            });
-            handler.postDelayed(getRunnable(), MitooConstants.feedBackPopUpTime);
-        }
     }
 
     public boolean isRegisterFlow() {
@@ -498,4 +491,5 @@ public class HomeFragment extends MitooFragment {
     public void setLogOutEventFired(boolean logOutEventFired) {
         this.logOutEventFired = logOutEventFired;
     }
+
 }

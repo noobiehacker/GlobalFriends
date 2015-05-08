@@ -1,5 +1,9 @@
 package co.mitoo.sashimi.models;
 import android.os.Handler;
+
+import java.util.Stack;
+
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
@@ -19,6 +23,8 @@ public abstract class MitooModel{
     protected DataPersistanceService persistanceService;
     protected Handler handler;
     protected Runnable backgroundRunnable;
+    private Stack<Object> events;
+
 
     private SteakApi steakApiService;
 
@@ -92,4 +98,21 @@ public abstract class MitooModel{
     }
 
     public void resetFields() {}
+
+    protected int getUserID(){
+        ModelManager manager = this.activity.getModelManager();
+        if(manager.getUserInfoModel().getUserInfoRecieve() != null)
+            return manager.getUserInfoModel().getUserInfoRecieve().id;
+        else if(manager.getSessionModel().getSession()!=null)
+            return manager.getSessionModel().getSession().id;
+        else
+            return MitooConstants.invalidConstant;
+    }
+
+    protected Stack<Object> getEventsStack(){
+        if(this.events == null)
+            this.events = new Stack<Object>();
+        return this.events;
+
+    }
 }

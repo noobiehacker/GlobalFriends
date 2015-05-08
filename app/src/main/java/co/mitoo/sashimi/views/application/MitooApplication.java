@@ -6,9 +6,13 @@ import com.urbanairship.AirshipConfigOptions;
 import com.urbanairship.Logger;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.notifications.DefaultNotificationFactory;
+
+import java.util.Stack;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.views.fragments.MitooFragment;
 
 
 /**
@@ -17,6 +21,8 @@ import co.mitoo.sashimi.utils.MitooEnum;
 
 public class MitooApplication extends Application{
 
+    public static int userID = MitooConstants.invalidConstant;
+    private Stack<MitooFragment> fragmentStack;
 
     @Override
     public void onCreate() {
@@ -60,5 +66,10 @@ public class MitooApplication extends Application{
 
     }
 
+    public Stack<MitooFragment> getFragmentStack() {
+        if (fragmentStack == null)
+            fragmentStack = new Stack<MitooFragment>();
+        return fragmentStack;
+    }
 
 }

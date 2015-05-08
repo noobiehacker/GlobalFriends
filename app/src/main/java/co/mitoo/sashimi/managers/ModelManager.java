@@ -5,7 +5,7 @@ import java.util.List;
 import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.CompetitionModel;
 import co.mitoo.sashimi.models.ConfirmInfoModel;
-import co.mitoo.sashimi.models.FixtureModel;
+import co.mitoo.sashimi.models.FixtureService;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -85,9 +85,9 @@ public class ModelManager {
         return (TeamModel) getModel(TeamModel.class);
     }
 
-    public FixtureModel getFixtureModel() {
+    public FixtureService getFixtureModel() {
 
-        return (FixtureModel )getModel(FixtureModel.class);
+        return (FixtureService)getModel(FixtureService.class);
     }
 
     public ConfirmInfoModel getConfirmInfoModel() {

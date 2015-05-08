@@ -11,7 +11,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Handler;
@@ -33,7 +32,7 @@ import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
-import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
@@ -51,7 +50,8 @@ import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
-import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
+import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
+import co.mitoo.sashimi.views.application.MitooApplication;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
@@ -66,11 +66,10 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MitooActivity extends ActionBarActivity {
 
-    public static boolean activityStarted =false;
+    public static boolean activityStarted = false;
     private MitooLocationManager locationManager;
     private Handler handler;
     private Runnable runnable;
-    private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
     private DataHelper dataHelper;
     private Picasso picasso;
@@ -78,19 +77,68 @@ public class MitooActivity extends ActionBarActivity {
     private int firstFragmentToStart = R.id.fragment_splash;
     private Branch branch;
     private AppStringHelper appStringHelper;
-    private boolean onSplashScreen= true;
+    private boolean onSplashScreen = true;
     private Queue<Object> eventQueue;
-    private Queue<NotificationRecieve> notificationQueue;
+    private Queue<NotificationReceive> notificationQueue;
     private Branch.BranchReferralInitListener branchReferralInitListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        MitooActivity.activityStarted=true;
         setContentView(R.layout.activity_mitoo);
         initializeFields();
-        startApp();
+        if (savedInstanceState == null) {
+            MitooActivity.activityStarted = true;
+            startApp();
+        }
+        setUpPersistenceData();
+
+    }
+
+    @Override
+    public void onPause() {
+        tearDownReferences();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        tearDownReferences();
+        BusProvider.unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onStop() {
+        branch.closeSession();
+        tearDownReferences();
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getBranch().initSession(getBranchReferralInitListener(), getIntent().getData(), this);
+        consumeEventsInQueue();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        String temp = "ABC";
 
     }
 
@@ -117,45 +165,20 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    public void consumeEventsInQueue(){
+    public void consumeEventsInQueue() {
 
-        if(getModelManager().getSessionModel().userIsLoggedIn()){
+        if (getModelManager().getSessionModel().userIsLoggedIn()) {
             Queue<Object> eventsQueue = getEventQueue();
-            if(!eventsQueue.isEmpty())
+            if (!eventsQueue.isEmpty())
                 popAllFragments();
-            while(!eventsQueue.isEmpty()){
+            while (!eventsQueue.isEmpty()) {
                 BusProvider.post(eventsQueue.poll());
             }
         }
 
     }
 
-    @Override
-    public void onPause() {
-        tearDownReferences();
-        super.onPause();
-    }
 
-    @Override
-    public void onDestroy() {
-        tearDownReferences();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onStop() {
-        branch.closeSession();
-        tearDownReferences();
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getBranch().initSession(getBranchReferralInitListener(), getIntent().getData(), this);
-        consumeEventsInQueue();
-
-    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -173,12 +196,12 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    private void initializeNotification(){
+    private void initializeNotification() {
 
         Bundle extra = getIntent().getBundleExtra(MitooNotificationIntentReceiver.bundleKey);
-        if(extra!=null){
-            NotificationRecieve notificationRecieve = new NotificationRecieve(extra);
-            getNotificationQueue().add(notificationRecieve);
+        if (extra != null) {
+            NotificationReceive notificationReceive = new NotificationReceive(extra);
+            getNotificationQueue().add(notificationReceive);
             getIntent().removeExtra(MitooNotificationIntentReceiver.bundleKey);
         }
 
@@ -197,7 +220,7 @@ public class MitooActivity extends ActionBarActivity {
     public void onFragmentQueueChange(LinkedList<FragmentChangeEvent> queueOfEvents) {
 
         popAllFragments();
-        while(!queueOfEvents.isEmpty())
+        while (!queueOfEvents.isEmpty())
             BusProvider.post(queueOfEvents.pop());
     }
 
@@ -284,7 +307,6 @@ public class MitooActivity extends ActionBarActivity {
     }
 
 
-
     public void popFragment() {
 
         if (getFragmentStack().size() > 0) {
@@ -333,9 +355,10 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.moveTaskToBack(true);
+            super.onBackPressed();
         } else {
-            if (getFragmentStack().peek().backPressedAllowed()) {
+
+            if (!getFragmentStack().isEmpty() && getFragmentStack().peek().backPressedAllowed()) {
                 hideSoftKeyboard();
                 MitooFragment fragmentToDesplay = getSecondTopFragment();
                 if (fragmentToDesplay != null && fragmentToDesplay.popActionRequiresDelay())
@@ -343,6 +366,7 @@ public class MitooActivity extends ActionBarActivity {
                 else
                     popFragment();
             }
+
         }
     }
 
@@ -361,7 +385,7 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     public ModelManager getModelManager() {
-        if(modelManager== null)
+        if (modelManager == null)
             this.modelManager = new ModelManager(this);
         return modelManager;
     }
@@ -389,12 +413,10 @@ public class MitooActivity extends ActionBarActivity {
 
     public void startApp() {
 
-        setFragmentStack(new Stack<MitooFragment>());
         FragmentChangeEvent event =
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
                         getFirstFragmentToStart(), MitooEnum.FragmentAnimation.NONE);
         BusProvider.post(event);
-        setUpPersistenceData();
 
     }
 
@@ -405,12 +427,12 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    private void logOutNetWorkCalls(){
+    private void logOutNetWorkCalls() {
         getModelManager().getMobileTokenModel().requestDeviceTokenDisassociation();
     }
 
     @Subscribe
-    public void logOutCleanUpAppReferences(LogOutNetworkCompleteEevent event){
+    public void logOutCleanUpAppReferences(LogOutNetworkCompleteEevent event) {
 
         getModelManager().deleteAllPersistedData();
         resetAuthToken();
@@ -428,15 +450,14 @@ public class MitooActivity extends ActionBarActivity {
 
         try {
             String emailText = getString(R.string.feedback_page_contact_mitoo_text_prefix);
-            emailText =emailText + getModelManager().getUserInfoModel().getUserInfoRecieve().email;
+            emailText = emailText + getModelManager().getUserInfoModel().getUserInfoRecieve().email;
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("message/rfc822");
             intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.mitoo_support_email_address)});
             intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mitoo_support_email_subject));
             //intent.putExtra(Intent.EXTRA_TEXT, emailText);
             startActivity(Intent.createChooser(intent, "Send identifier..."));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -445,10 +466,10 @@ public class MitooActivity extends ActionBarActivity {
 
         String appPackageName = getPackageName();
         try {
-            Uri marketUri = Uri.parse(getString(R.string.mitoo_play_store_market_prefix)+ appPackageName);
-            startActivity(new Intent(Intent.ACTION_VIEW, marketUri ));
+            Uri marketUri = Uri.parse(getString(R.string.mitoo_play_store_market_prefix) + appPackageName);
+            startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
         } catch (ActivityNotFoundException e) {
-            Uri marketUri = Uri.parse(getString(R.string.mitoo_play_store_url_prefix)+ appPackageName);
+            Uri marketUri = Uri.parse(getString(R.string.mitoo_play_store_url_prefix) + appPackageName);
             startActivity(new Intent(Intent.ACTION_VIEW, marketUri));
         }
 
@@ -456,12 +477,12 @@ public class MitooActivity extends ActionBarActivity {
 
     public void hideSoftKeyboard(View view) {
         Activity activity = this;
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    
-    public void hideSoftKeyboard(int delayed){
+
+    public void hideSoftKeyboard(int delayed) {
 
         Runnable runnable = new Runnable() {
             @Override
@@ -471,10 +492,11 @@ public class MitooActivity extends ActionBarActivity {
         };
         setRunnable(runnable);
         getHandler().postDelayed(getRunnable(), delayed);
-        
+
     }
+
     public void hideSoftKeyboard() {
-        
+
         if (this.getCurrentFocus() != null) {
             View view = this.getCurrentFocus();
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -500,7 +522,7 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     public DataHelper getDataHelper() {
-        if(dataHelper==null)
+        if (dataHelper == null)
             setDataHelper(new DataHelper(this));
         return dataHelper;
     }
@@ -508,18 +530,18 @@ public class MitooActivity extends ActionBarActivity {
     public void setDataHelper(DataHelper dataHelper) {
         this.dataHelper = dataHelper;
     }
-    
-    public void showKeyboard(){
+
+    public void showKeyboard() {
 
         if (MitooActivity.this.getCurrentFocus() != null) {
             View view = MitooActivity.this.getCurrentFocus();
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
-        
+
     }
 
-    public void showKeyboard(int delayed){
+    public void showKeyboard(int delayed) {
 
         Runnable runnable = new Runnable() {
             @Override
@@ -530,12 +552,12 @@ public class MitooActivity extends ActionBarActivity {
             }
         };
         setRunnable(runnable);
-        getHandler().postDelayed(getRunnable(),delayed);
+        getHandler().postDelayed(getRunnable(), delayed);
 
     }
 
     public Handler getHandler() {
-        if(handler == null)
+        if (handler == null)
             handler = new Handler();
         return handler;
     }
@@ -553,8 +575,8 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     private void handleCallBacks() {
-        
-        if (getHandler() != null ) {
+
+        if (getHandler() != null) {
             getHandler().removeCallbacksAndMessages(getRunnable());
         }
 
@@ -567,32 +589,24 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     public DataPersistanceService getPersistanceService() {
-        if(persistanceService==null)
+        if (persistanceService == null)
             persistanceService = new DataPersistanceService(this);
         return persistanceService;
     }
 
-    private boolean fragmentIsRoot(int id){
-        
-        return id==R.id.fragment_home || id == R.id.fragment_landing;
+    private boolean fragmentIsRoot(int id) {
+
+        return id == R.id.fragment_home || id == R.id.fragment_landing;
     }
 
-    public Stack<MitooFragment> getFragmentStack() {
-        if(fragmentStack== null)
-            fragmentStack= new Stack<MitooFragment>();
-        return fragmentStack;
-    }
 
-    public void setFragmentStack(Stack<MitooFragment> fragmentStack) {
-        this.fragmentStack = fragmentStack;
-    }
 
     public MitooLocationManager getLocationManager() {
         return locationManager;
     }
 
     public void setLocationManager(MitooLocationManager locationManager) {
-        if(locationManager== null)
+        if (locationManager == null)
             locationManager = new MitooLocationManager(this);
         this.locationManager = locationManager;
     }
@@ -614,13 +628,13 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     private Branch getBranch() {
-        if(branch ==null)
+        if (branch == null)
             branch = Branch.getInstance(this.getApplicationContext(), getAppStringHelper().getBranchAPIKey());
         return branch;
     }
 
     public AppStringHelper getAppStringHelper() {
-        if(appStringHelper==null)
+        if (appStringHelper == null)
             appStringHelper = new AppStringHelper(this);
         return appStringHelper;
     }
@@ -631,7 +645,7 @@ public class MitooActivity extends ActionBarActivity {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
 
-                if (error == null && !isDuringConfirmFlow()){
+                if (error == null && !isDuringConfirmFlow()) {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
                     /*
@@ -665,9 +679,9 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    private void branchIODataReceived(){
+    private void branchIODataReceived() {
 
-        if(!userIsOnInviteFlow()) {
+        if (!userIsOnInviteFlow()) {
             Invitation_token token = getModelManager().getSessionModel().getInvitation_token();
             if (token != null && token.getToken() != null) {
                 getModelManager().getConfirmInfoModel().requestConfirmationInformation(token.getToken());
@@ -675,14 +689,14 @@ public class MitooActivity extends ActionBarActivity {
         }
     }
 
-    private boolean userIsOnInviteFlow(){
+    private boolean userIsOnInviteFlow() {
 
-        boolean result = false ;
+        boolean result = false;
         MitooFragment fragment = (MitooFragment) getFragmentStack().peek();
-        if(fragment !=null ){
-            if(fragment instanceof ConfirmAccountFragment ||
-               fragment instanceof ConfirmSetPasswordFragment ||
-               fragment instanceof ConfirmDoneFragment)
+        if (fragment != null) {
+            if (fragment instanceof ConfirmAccountFragment ||
+                    fragment instanceof ConfirmSetPasswordFragment ||
+                    fragment instanceof ConfirmDoneFragment)
                 result = true;
         }
         return result;
@@ -690,7 +704,7 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent){
+    public void onConfirmInfoModelResponse(ConfirmInfoModelResponseEvent modelEvent) {
 
         FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_account)
@@ -702,11 +716,11 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     @Subscribe
-    public void onNotificationRecieve(NotificationEvent event){
+    public void onNotificationRecieve(NotificationEvent event) {
 
-        if(topFragmentType() == FixtureFragment.class)
-            BusProvider.post(new NotificationUpdateEvent(event.getNotificationRecieve()));
-        else{
+        if (topFragmentType() == FixtureFragment.class)
+            BusProvider.post(new NotificationUpdateResponseEvent(event.getNotificationReceive()));
+        else {
             FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_home)
                     .setTransition(MitooEnum.FragmentTransition.CHANGE)
@@ -718,7 +732,7 @@ public class MitooActivity extends ActionBarActivity {
 
             FragmentChangeEvent thirdEvent = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_fixture)
-                    .setBundle(createNotifcationBundle(event.getNotificationRecieve()))
+                    .setBundle(createNotifcationBundle(event.getNotificationReceive()))
                     .build();
 
             getEventQueue().offer(firstEvent);
@@ -727,50 +741,53 @@ public class MitooActivity extends ActionBarActivity {
 
         }
 
-        if(topFragmentType() == SplashScreenFragment.class)
+        if (topFragmentType() == SplashScreenFragment.class)
             consumeEventsInQueue();
 
     }
 
-    private Bundle createNotifcationBundle(NotificationRecieve notificationRecieve){
 
+    private Bundle createNotifcationBundle(NotificationReceive notificationReceive) {
         Bundle bundle = new Bundle();
-        String bundleValue = getDataHelper().serializeObject(notificationRecieve);
-        String bundleKey = getString(R.string.bundle_key_notification);
-        bundle.putString(bundleKey,bundleValue);
+        String value = notificationReceive.getObj_id();
+        int fixtureID = Integer.parseInt(value);
+        bundle.putInt(getFixtureIdKey(), fixtureID);
         return bundle;
+    }
 
+    private String getFixtureIdKey(){
+        return getString(R.string.bundle_key_fixture_id_key);
     }
 
     public Queue<Object> getEventQueue() {
-        if(eventQueue==null)
+        if (eventQueue == null)
             eventQueue = new LinkedList<Object>();
         return eventQueue;
     }
 
-    private void setPreviousFragmentBackClicked(){
-        if(getFragmentStack().size()>0 && getFragmentStack().peek()!=null)
+    private void setPreviousFragmentBackClicked() {
+        if (getFragmentStack().size() > 0 && getFragmentStack().peek() != null)
             getFragmentStack().peek().setBackClicked(true);
     }
 
-    public Class<?> topFragmentType(){
-        if(getFragmentStack().size()!= 0){
+    public Class<?> topFragmentType() {
+        if (getFragmentStack().size() != 0) {
             MitooFragment fragment = getFragmentStack().peek();
             return fragment.getClass();
         }
         return null;
     }
 
-    public Queue<NotificationRecieve> getNotificationQueue() {
-        if(notificationQueue==null)
-            notificationQueue= new PriorityQueue<NotificationRecieve>();
+    public Queue<NotificationReceive> getNotificationQueue() {
+        if (notificationQueue == null)
+            notificationQueue = new PriorityQueue<NotificationReceive>();
         return notificationQueue;
 
     }
 
-    public void consumeNotification(){
+    public void consumeNotification() {
 
-        while(getNotificationQueue().size()>0){
+        while (getNotificationQueue().size() > 0) {
             BusProvider.post(new NotificationEvent(getNotificationQueue().poll()));
         }
     }
@@ -783,15 +800,28 @@ public class MitooActivity extends ActionBarActivity {
         this.branchReferralInitListener = branchReferralInitListener;
     }
 
-    public boolean isDuringConfirmFlow(){
+    public boolean isDuringConfirmFlow() {
         boolean result = false;
-        if(topFragmentType()!= null ){
+        if (topFragmentType() != null) {
 
-            if(topFragmentType() == ConfirmAccountFragment.class ||
+            if (topFragmentType() == ConfirmAccountFragment.class ||
                     topFragmentType() == ConfirmSetPasswordFragment.class ||
                     topFragmentType() == ConfirmDoneFragment.class)
-                result =true;
+                result = true;
         }
         return result;
+    }
+
+    private MitooApplication getMitooApplication(){
+
+        if(getApplication() instanceof  MitooApplication){
+            return  (MitooApplication) getApplication();
+        }
+        return null;
+    }
+
+    private Stack<MitooFragment> getFragmentStack(){
+        return getMitooApplication().getFragmentStack();
+
     }
 }

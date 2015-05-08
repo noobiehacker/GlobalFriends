@@ -1,13 +1,15 @@
 package co.mitoo.sashimi.models;
+import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by david on 15-03-06.
@@ -21,6 +23,16 @@ public class CompetitionModel extends MitooModel{
         super(activity);
     }
 
+    @Subscribe
+    public void onCompetitionRequest(CompetitionSeasonRequestEvent event){
+        Competition competition = getCompetitionFromID(event.getCompetitionSeasonID());
+        if(competition!=null){
+            BusProvider.post(new CompetitionSeasonResponseEvent(competition));
+        }else{
+            requestCompetition( event.getUserID(), event.getCompetitionSeasonID());
+        }
+    }
+
     public void requestCompetition(int userID){
 
         if(competitionIsEmpty()){
@@ -31,22 +43,43 @@ public class CompetitionModel extends MitooModel{
             handleObservable(observable, Competition[].class);
         }
         else{
-            BusProvider.post(new CompetitionModelResponseEvent());
+            BusProvider.post(new CompetitionSeasonResponseEvent(null));
         }
     }
 
-    public void setSelectedCompetition(int competitionID){
+    public void requestCompetition(int userID , final int competitionSeasonID){
 
-        Competition competition = getCompetitionFromID(competitionID);
-        if(competition!=null){
-            setSelectedCompetition(competition);
+        if(competitionIsEmpty()){
+
+            String filterParam = getActivity().getString(R.string.steak_api_param_filter_all);
+            String leagueInfoParam = getActivity().getString(R.string.steak_api_param_league_info_true);
+            Observable<Competition[]> observable = getSteakApiService()
+                    .getCompetitionSeasonFromUserID(filterParam, leagueInfoParam, userID);
+            observable.subscribe(new Subscriber<Competition[]>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(Competition[] competitions) {
+                    setMyCompetition(new ArrayList<Competition>());
+                    addCompetition(competitions);
+                    BusProvider.post(new CompetitionSeasonResponseEvent(getCompetitionFromID(competitionSeasonID)));
+
+                }
+            });
         }
-
-    }
-
-    private int getUserID(){
-        SessionModel model = getActivity().getModelManager().getSessionModel();
-        return model.getSession().id;
+        else{
+            Competition competition = getCompetitionFromID(competitionSeasonID);
+            if(competition!=null)
+                BusProvider.post(new CompetitionSeasonResponseEvent(null));
+        }
     }
 
     @Override
@@ -55,7 +88,7 @@ public class CompetitionModel extends MitooModel{
         if (objectRecieve instanceof Competition[]) {
             setMyCompetition(new ArrayList<Competition>());
             addCompetition((Competition[]) objectRecieve);
-            BusProvider.post(new CompetitionModelResponseEvent());
+            BusProvider.post(new CompetitionSeasonResponseEvent(null));
         }
     }
 
@@ -104,7 +137,6 @@ public class CompetitionModel extends MitooModel{
     public Competition getCompetitionFromID(int id ){
 
         Competition result = null;
-        boolean resultFound = false;
         loop:
         for(Competition item : getMyCompetition()){
             if(item.getId()==id){
@@ -115,5 +147,7 @@ public class CompetitionModel extends MitooModel{
         return result;
 
     }
+
+
 
 }

@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.utils;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.FixtureModel;
+import co.mitoo.sashimi.models.FixtureService;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -223,18 +224,6 @@ public class FixtureViewHelper {
 
     }
 
-    private void fixtureItemClickAction(FixtureWrapper fixture){
-
-        FixtureModel model =getActivity().getModelManager().getFixtureModel();
-        model.setSelectedFixture(fixture);
-        FragmentChangeEvent event = FragmentChangeEventBuilder
-                .getSingletonInstance()
-                .setFragmentID(R.id.fragment_fixture)
-                .build();
-        BusProvider.post(event);
-
-    }
-
     private void setUpFixtureOnClickListener(View row, FixtureWrapper fixture){
 
         row.setOnClickListener(createFixtureItemClickedListener(fixture));
@@ -255,5 +244,26 @@ public class FixtureViewHelper {
 
     private DataHelper getDataHelper(){
         return getViewHelper().getActivity().getDataHelper();
+    }
+
+    private void fixtureItemClickAction(FixtureWrapper fixture){
+
+        FragmentChangeEvent event = FragmentChangeEventBuilder
+                .getSingletonInstance()
+                .setFragmentID(R.id.fragment_fixture)
+                .setBundle(createBundle(fixture))
+                .build();
+        BusProvider.post(event);
+
+    }
+
+    private Bundle createBundle(FixtureWrapper fixture){
+        Bundle bundle = new Bundle();
+        bundle.putInt(getFixtureIdKey(), fixture.getFixture().getId());
+        return bundle;
+    }
+
+    private String getFixtureIdKey(){
+        return getActivity().getString(R.string.bundle_key_fixture_id_key);
     }
 }

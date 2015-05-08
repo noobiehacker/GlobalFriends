@@ -7,7 +7,9 @@ import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.NotificationModelEvent;
+import co.mitoo.sashimi.utils.events.NotificationModelResponseEvent;
+import co.mitoo.sashimi.utils.events.NotificationRequestEvent;
+import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.RetrofitError;
 import rx.Observable;
@@ -17,59 +19,31 @@ import rx.Observable;
  */
 public class NotificationPreferenceModel extends MitooModel{
 
-    private NotificationPreferenceRecieved notificationPrefReceive;
+    private NotificationPreferenceRecieved preference;
 
     public NotificationPreferenceModel(MitooActivity activity) {
         super(activity);
     }
 
-    public void requestNotificationPreference(){
+    @Subscribe
+    public void requestNotificationPreference(NotificationRequestEvent event){
 
         Observable<NotificationPreferenceRecieved> observable = getSteakApiService()
-                .getNotificationPreference(getUserID(), getCompetitionID());
+                .getNotificationPreference(event.getUserID(), event.getCompetitionSeasonID());
         handleObservable(observable , NotificationPreferenceRecieved.class);
 
-    }
-
-    public void requestNotificationUpdate(NotificationPreferenceRecieved prefReceive){
-
-        Observable<NotificationPreferenceRecieved> observable = getSteakApiService()
-                .updateNotificationPreference(getUserID(), getCompetitionID(), prefReceive);
-        handleObservable(observable , NotificationPreferenceRecieved.class);
-
-    }
-
-    @Override
-    public void resetFields() {
-        setNotificationPrefReceive(null);
     }
 
     @Subscribe
-    public void onApiFailEvent(RetrofitError event) {
+    public void onRequestNotificationUpdate(NotificationUpdateEvent event){
 
-        BusProvider.post(new MitooActivitiesErrorEvent(event));
-    }
-
-    @Override
-    protected void handleSubscriberResponse(Object objectRecieve)  {
-
-        if(objectRecieve instanceof NotificationPreferenceRecieved){
-            setNotificationPrefReceive((NotificationPreferenceRecieved)objectRecieve);
-            BusProvider.post(new NotificationModelEvent());
-        }
+        updateNotificationModelObject(event.isChecked(), event.getNotification());
+        requestNotificationUpdate(event);
 
     }
 
-    public NotificationPreferenceRecieved getNotificationPrefReceive() {
-        return notificationPrefReceive;
-    }
-
-    public void setNotificationPrefReceive(NotificationPreferenceRecieved notificationPrefReceive) {
-        this.notificationPrefReceive = notificationPrefReceive;
-    }
-
-    public void requestNotificationPrefUpdate(boolean checked,
-                                              MitooNotification mitooNotificationObject) {
+    public void updateNotificationModelObject(boolean checked,
+                                              MitooNotification mitooNotificationObject){
 
         if(mitooNotificationObject.getNotificationType() == MitooEnum.NotificationType.EMAIL)
             requestEmailPrefUpdate(checked , mitooNotificationObject);
@@ -79,9 +53,9 @@ public class NotificationPreferenceModel extends MitooModel{
     }
 
     public void requestEmailPrefUpdate(boolean checked,
-                                              MitooNotification mitooNotificationObject) {
+                                       MitooNotification mitooNotificationObject){
 
-        group_settings group_settings = getNotificationPrefReceive().getGroup_settings();
+        group_settings group_settings = preference.getGroup_settings();
 
         switch (mitooNotificationObject.getNotificationCategory()) {
             case TeamGames:
@@ -94,13 +68,12 @@ public class NotificationPreferenceModel extends MitooModel{
                 group_settings.getGroup_league_results().setEmail(checked);
                 break;
         }
-        requestNotificationUpdate(getNotificationPrefReceive());
     }
 
     public void requestPushPrefUpdate(boolean checked,
-                                       MitooNotification mitooNotificationObject) {
+                                      MitooNotification mitooNotificationObject){
 
-        group_settings group_settings = getNotificationPrefReceive().getGroup_settings();
+        group_settings group_settings = preference.getGroup_settings();
 
         switch (mitooNotificationObject.getNotificationCategory()) {
             case TeamGames:
@@ -113,18 +86,36 @@ public class NotificationPreferenceModel extends MitooModel{
                 group_settings.getGroup_league_results().setPush(checked);
                 break;
         }
-        requestNotificationUpdate(getNotificationPrefReceive());
     }
 
-    private int getUserID(){
-        return getActivity().getModelManager().getSessionModel().getSession().id;
+    public void requestNotificationUpdate(NotificationUpdateEvent event){
+
+        Observable<NotificationPreferenceRecieved> observable = getSteakApiService()
+                .updateNotificationPreference(event.getUserID(), event.getCompetitionSeasonID(), this.preference);
+        handleObservable(observable , NotificationPreferenceRecieved.class);
 
     }
 
-    private int getCompetitionID(){
-        return getActivity().getModelManager().getCompetitionModel().getSelectedCompetition().getId();
+    @Override
+    public void resetFields() {
+    }
+
+    @Subscribe
+    public void onApiFailEvent(RetrofitError event) {
+
+        BusProvider.post(new MitooActivitiesErrorEvent(event));
+    }
+
+    @Override
+    protected void handleSubscriberResponse(Object objectRecieve)  {
+
+        if(objectRecieve instanceof NotificationPreferenceRecieved){
+            this.preference = (NotificationPreferenceRecieved)objectRecieve;
+            BusProvider.post(new NotificationModelResponseEvent((NotificationPreferenceRecieved)objectRecieve));
+        }
 
     }
+
 
 
 }

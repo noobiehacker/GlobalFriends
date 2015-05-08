@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.views.adapters;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -10,6 +11,10 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.CompetitionModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
+import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 /**
@@ -23,7 +28,6 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         super(context, resourceId, objects);
         setFragment(fragment);
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -64,7 +68,14 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         if(getFragment().getDataHelper().isClickable(view.getId()) && id!= -1) {
             Competition item = (Competition) parent.getItemAtPosition(position);
             setSelectedModelItem(item);
-            getFragment().fireFragmentChangeAction(R.id.fragment_competition);
+
+            FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                    .setFragmentID(R.id.fragment_competition)
+                    .setTransition(MitooEnum.FragmentTransition.PUSH)
+                    .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                    .setBundle(createBundle(item.getId()))
+                    .build();
+            BusProvider.post(fragmentChangeEvent);
         }
 
     }
@@ -82,4 +93,12 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         CompetitionModel model = activity.getModelManager().getCompetitionModel();
         model.setSelectedCompetition(competition);
     }
+
+    private Bundle createBundle(int competitionSeasonID){
+        String key = getFragment().getString(R.string.bundle_key_competition_id_key);
+        Bundle bundle = new Bundle();
+        bundle.putInt(key, competitionSeasonID);
+        return bundle;
+    }
+
 }

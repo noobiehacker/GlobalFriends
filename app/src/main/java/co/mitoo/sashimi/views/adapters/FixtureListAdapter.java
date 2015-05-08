@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.views.adapters;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -7,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureViewHelper;
 import co.mitoo.sashimi.utils.FixtureWrapper;
@@ -83,11 +83,10 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
 
     private void fixtureItemClickAction(FixtureWrapper fixture){
 
-        FixtureModel model =getActivity().getModelManager().getFixtureModel();
-        model.setSelectedFixture(fixture);
         FragmentChangeEvent event = FragmentChangeEventBuilder
                 .getSingletonInstance()
                 .setFragmentID(R.id.fragment_fixture)
+                .setBundle(createBundle(fixture))
                 .build();
         BusProvider.post(event);
 
@@ -95,5 +94,15 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
 
     private MitooActivity getActivity(){
         return (MitooActivity)getFragment().getActivity();
+    }
+
+    private Bundle createBundle(FixtureWrapper fixture){
+        Bundle bundle = new Bundle();
+        bundle.putInt(getFixtureIdKey(), fixture.getFixture().getId());
+        return bundle;
+    }
+
+    private String getFixtureIdKey(){
+        return this.fragment.getString(R.string.bundle_key_fixture_id_key);
     }
 }

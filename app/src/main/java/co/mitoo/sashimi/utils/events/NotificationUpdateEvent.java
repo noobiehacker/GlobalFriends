@@ -1,23 +1,37 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationRecieve;
+import co.mitoo.sashimi.models.appObject.MitooNotification;
 
 /**
- * Created by david on 15-04-09.
+ * Created by david on 15-05-07.
  */
 public class NotificationUpdateEvent {
 
-    private NotificationRecieve notificationRecieve;
+    private int userID;
+    private int competitionSeasonID;
+    private boolean checked;
+    private MitooNotification notification;
 
-    public NotificationRecieve getNotificationRecieve() {
-        return notificationRecieve;
+    public NotificationUpdateEvent(int userID, int competitionSeasonID, boolean checked, MitooNotification notification) {
+        this.userID = userID;
+        this.competitionSeasonID = competitionSeasonID;
+        this.checked = checked;
+        this.notification = notification;
     }
 
-    public void setNotificationRecieve(NotificationRecieve notificationRecieve) {
-        this.notificationRecieve = notificationRecieve;
+    public int getUserID() {
+        return userID;
     }
 
-    public NotificationUpdateEvent(NotificationRecieve notificationRecieve) {
-        this.notificationRecieve = notificationRecieve;
+    public int getCompetitionSeasonID() {
+        return competitionSeasonID;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public MitooNotification getNotification() {
+        return notification;
     }
 }

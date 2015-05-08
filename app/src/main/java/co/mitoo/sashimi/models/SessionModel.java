@@ -17,6 +17,7 @@ import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import co.mitoo.sashimi.views.application.MitooApplication;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 

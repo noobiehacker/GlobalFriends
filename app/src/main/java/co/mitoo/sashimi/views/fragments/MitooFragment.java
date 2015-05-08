@@ -3,8 +3,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +32,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.AppSettingsModel;
 import co.mitoo.sashimi.models.CompetitionModel;
 import co.mitoo.sashimi.models.ConfirmInfoModel;
-import co.mitoo.sashimi.models.FixtureModel;
+import co.mitoo.sashimi.models.FixtureService;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.MitooModel;
@@ -39,7 +41,9 @@ import co.mitoo.sashimi.models.NotificationPreferenceModel;
 import co.mitoo.sashimi.models.SessionModel;
 import co.mitoo.sashimi.models.TeamModel;
 import co.mitoo.sashimi.models.UserInfoModel;
+import co.mitoo.sashimi.models.jsonPojo.Session;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
+import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.FormHelper;
@@ -522,7 +526,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager().getTeamModel();
     }
 
-    protected FixtureModel getFixtureModel() {
+    protected FixtureService getFixtureModel() {
         return getMitooActivity().getModelManager().getFixtureModel();
     }
 
@@ -764,8 +768,20 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             return getUserInfoModel().getUserInfoRecieve().id;
         else if(getSessionModel().getSession()!=null)
             return getSessionModel().getSession().id;
-        else
-            return MitooConstants.invalidConstant;
+        else{
+
+            DataPersistanceService service = getMitooActivity().getPersistanceService();
+            String key = getActivity().getString(R.string.shared_preference_session_key);
+
+            Object object =  service.readFromPreference(key , SessionRecieve.class);
+
+            if(object instanceof  SessionRecieve){
+                SessionRecieve session = (SessionRecieve)object;
+                return session.id;
+            }else{
+                return MitooConstants.invalidConstant;
+            }
+        }
     }
 
     protected boolean isDuringConfirmFlow(){
@@ -793,4 +809,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
             }
         };
     }
+
+    protected String getUserIDKey(){
+        return getString(R.string.bundle_key_user_id_key);
+    }
+
 }

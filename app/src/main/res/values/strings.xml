@@ -379,6 +379,11 @@
     <string name="bundle_key_user_id">bundle_key_user_id</string>
     <string name="bundle_value_true">bundle_value_true</string>
     <string name="bundle_value_false">bundle_value_false</string>
+    <string name="bundle_key_competition_id_key">bundle_key_competition_id_key</string>
+    <string name="bundle_key_fixture_id_key">bundle_key_fixture_id_key</string>
+    <string name="bundle_key_tab_index_key">bundle_key_tab_index_key</string>
+    <string name="bundle_key_team_color_key">bundle_key_team_color_key</string>
+    <string name="bundle_key_user_id_key">bundle_key_user_id</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>
