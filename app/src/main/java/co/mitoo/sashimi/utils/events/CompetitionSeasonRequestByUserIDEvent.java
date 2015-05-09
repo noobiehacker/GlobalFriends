@@ -3,7 +3,7 @@ package co.mitoo.sashimi.utils.events;
 /**
  * Created by david on 15-05-06.
  */
-public class CompetitionSeasonRequestEvent {
+public class CompetitionSeasonRequestByUserIDEvent {
 
     private int competitionSeasonID;
     private int userID;
@@ -16,7 +16,7 @@ public class CompetitionSeasonRequestEvent {
         return userID;
     }
 
-    public CompetitionSeasonRequestEvent(int competitionSeasonID, int userID) {
+    public CompetitionSeasonRequestByUserIDEvent(int competitionSeasonID, int userID) {
         this.competitionSeasonID = competitionSeasonID;
         this.userID = userID;
     }

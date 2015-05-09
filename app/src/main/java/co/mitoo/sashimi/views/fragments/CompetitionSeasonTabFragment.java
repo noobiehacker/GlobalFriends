@@ -89,18 +89,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         super.onStart();
         if (this.dataLoaded == false){
 
-            if(this.fragmentStarted==true){
+            requestData();
 
-                setRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        requestData();
-                    }
-                });
-                getHandler().postDelayed(getRunnable(), MitooConstants.durationLong);
-            }else{
-                requestData();
-            }
         }
     }
 

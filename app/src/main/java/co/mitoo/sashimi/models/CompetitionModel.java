@@ -5,7 +5,8 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByUserIDEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
@@ -24,12 +25,23 @@ public class CompetitionModel extends MitooModel{
     }
 
     @Subscribe
-    public void onCompetitionRequest(CompetitionSeasonRequestEvent event){
+    public void onCompetitionUserIdRequest(CompetitionSeasonRequestByUserIDEvent event){
         Competition competition = getCompetitionFromID(event.getCompetitionSeasonID());
         if(competition!=null){
             BusProvider.post(new CompetitionSeasonResponseEvent(competition));
         }else{
-            requestCompetition( event.getUserID(), event.getCompetitionSeasonID());
+            requestCompetitionByUserID(event.getUserID(), event.getCompetitionSeasonID());
+        }
+    }
+
+
+    @Subscribe
+    public void onCompetitionCompIdRequest(CompetitionSeasonRequestByCompID event){
+        Competition competition = getCompetitionFromID(event.getCompetitionSeasonID());
+        if(competition!=null){
+            BusProvider.post(new CompetitionSeasonResponseEvent(competition));
+        }else{
+            requestCompetitionByCompetitionID(event.getCompetitionSeasonID());
         }
     }
 
@@ -47,7 +59,31 @@ public class CompetitionModel extends MitooModel{
         }
     }
 
-    public void requestCompetition(int userID , final int competitionSeasonID){
+    public void requestCompetitionByCompetitionID(int competitionSeasonID){
+
+            Observable<Competition> observable = getSteakApiService()
+                    .getCompetitionSeasonByID(competitionSeasonID);
+            observable.subscribe(new Subscriber<Competition>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onNext(Competition competition) {
+                    BusProvider.post(new CompetitionSeasonResponseEvent(competition));
+
+                }
+            });
+
+    }
+
+    public void requestCompetitionByUserID(int userID, final int competitionSeasonID){
 
         if(competitionIsEmpty()){
 

@@ -24,7 +24,7 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByUserIDEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
@@ -180,7 +180,7 @@ public class FixtureFragment extends MitooFragment {
         getCompetitionModel();
         BusProvider.post(new TeamIndividualRequestEvent(this.homeTeamID, this.competitionSeasonID));
         BusProvider.post(new TeamIndividualRequestEvent(this.awayTeamID, this.competitionSeasonID));
-        BusProvider.post(new CompetitionSeasonRequestEvent(this.competitionSeasonID ,getUserID()));
+        BusProvider.post(new CompetitionSeasonRequestByUserIDEvent(this.competitionSeasonID ,getUserID()));
     }
 
     @Subscribe

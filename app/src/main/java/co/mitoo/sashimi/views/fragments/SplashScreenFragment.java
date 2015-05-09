@@ -109,6 +109,7 @@ public class SplashScreenFragment extends MitooFragment {
 
     public void startInviteFlow() {
 
+        getConfirmInfoModel();
         Invitation_token token = getInvitationToken();
         BusProvider.post(new ConfirmingUserRequestEvent(token.getToken()));
 
@@ -170,22 +171,8 @@ public class SplashScreenFragment extends MitooFragment {
 
     }
 
-
-
     private boolean isInviteFlow(){
         return getInvitationToken()!= null && getInvitationToken().getToken()!=null;
-    }
-
-    @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoResponseEvent modelEvent){
-
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
-                .setFragmentID(R.id.fragment_confirm_account)
-                .setTransition(MitooEnum.FragmentTransition.CHANGE)
-                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                .build();
-        BusProvider.post(event);
-
     }
 
     public boolean isDialogButtonCreated() {

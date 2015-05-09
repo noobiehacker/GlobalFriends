@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.views.activities;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -18,18 +19,22 @@ import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.content.ActivityNotFoundException;
+
 import com.newrelic.agent.android.NewRelic;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Protocol;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
@@ -53,6 +58,7 @@ import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
+import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
 import co.mitoo.sashimi.views.application.MitooApplication;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
@@ -84,6 +90,7 @@ public class MitooActivity extends ActionBarActivity {
     private Queue<Object> eventQueue;
     private Queue<NotificationReceive> notificationQueue;
     private Branch.BranchReferralInitListener branchReferralInitListener;
+    private static boolean confirmFlowFired = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,8 @@ public class MitooActivity extends ActionBarActivity {
         setUpPersistenceData();
 
     }
+
+
 
     @Override
     public void onPause() {
@@ -175,7 +184,6 @@ public class MitooActivity extends ActionBarActivity {
     }
 
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -226,6 +234,10 @@ public class MitooActivity extends ActionBarActivity {
         if (fragmentIsRoot(event.getFragmentId()))
             popAllFragments();
         hideSoftKeyboard();
+
+        if(event.popPrevious())
+            popFragment();
+        
         switch (event.getTransition()) {
             case PUSH:
                 pushFragment(event);
@@ -596,7 +608,6 @@ public class MitooActivity extends ActionBarActivity {
     }
 
 
-
     public MitooLocationManager getLocationManager() {
         return locationManager;
     }
@@ -641,18 +652,23 @@ public class MitooActivity extends ActionBarActivity {
             @Override
             public void onInitFinished(JSONObject referringParams, BranchError error) {
 
-                if(error!=null){
+                if (error != null) {
                     handleBranchError();
-                }
-                else if (!isDuringConfirmFlow()) {
+                } else if (!isDuringConfirmFlow()) {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
+
+                    //TODOREMOVE
+                    token = new Invitation_token();
+                    token.setToken("HenzCxPo3nVLdrsC3QXv");
+
+
                     /*
                     *
                     Hard Coding Data for Testing
                     if (token.invitation_token!= null && token.invitation_token.equalsIgnoreCase("hxR1FZ4cPsUTyQz985SL")) {
                         token = new Invitation_token();
-                        token.setToken("Z_ryy7BchtV-s_MGEPPG");
+                        token.setToken("HenzCxPo3nVLdrsC3QXv");
                     }
                     *
                     */
@@ -671,7 +687,7 @@ public class MitooActivity extends ActionBarActivity {
                             BusProvider.post(new LogOutEvent());
                         MitooActivity.this.branchIODataReceived();
                     }
-                }else if(error!=null){
+                } else if (error != null) {
                     handleBranchError();
                 }
             }
@@ -680,10 +696,10 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    private void handleBranchError(){
+    private void handleBranchError() {
         Log.e(getString(R.string.error_log_tag), getString(R.string.error_branch));
 
-        if(isOnSplashScreen()){
+        if (isOnSplashScreen()) {
             BusProvider.post(new BranchIOResponseEvent(null));
             setOnSplashScreen(false);
 
@@ -718,12 +734,18 @@ public class MitooActivity extends ActionBarActivity {
     @Subscribe
     public void onConfirmInfoModelResponse(ConfirmInfoResponseEvent modelEvent) {
 
-        FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
-                .setFragmentID(R.id.fragment_confirm_account)
-                .setTransition(MitooEnum.FragmentTransition.CHANGE)
-                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                .build();
-        BusProvider.post(event);
+        if (MitooActivity.confirmFlowFired == false) {
+            Bundle bundle = new Bundle();
+            bundle.putString(getConfirmInfoKey(), modelEvent.getToken());
+            FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
+                    .setFragmentID(R.id.fragment_confirm_account)
+                    .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                    .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                    .setBundle(bundle)
+                    .build();
+            BusProvider.post(event);
+            MitooActivity.confirmFlowFired = true;
+        }
 
     }
 
@@ -767,7 +789,7 @@ public class MitooActivity extends ActionBarActivity {
         return bundle;
     }
 
-    private String getFixtureIdKey(){
+    private String getFixtureIdKey() {
         return getString(R.string.bundle_key_fixture_id_key);
     }
 
@@ -824,16 +846,20 @@ public class MitooActivity extends ActionBarActivity {
         return result;
     }
 
-    private MitooApplication getMitooApplication(){
+    private MitooApplication getMitooApplication() {
 
-        if(getApplication() instanceof  MitooApplication){
-            return  (MitooApplication) getApplication();
+        if (getApplication() instanceof MitooApplication) {
+            return (MitooApplication) getApplication();
         }
         return null;
     }
 
-    private Stack<MitooFragment> getFragmentStack(){
+    private Stack<MitooFragment> getFragmentStack() {
         return getMitooApplication().getFragmentStack();
 
+    }
+
+    protected String getConfirmInfoKey() {
+        return getString(R.string.bundle_key_confirm_token_key);
     }
 }

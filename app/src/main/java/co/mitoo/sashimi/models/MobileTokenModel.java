@@ -63,18 +63,6 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
 
     }
 
-    @Subscribe
-    public void onApiFailEvent(RetrofitError event) {
-
-        boolean urlIsTokenEndPoint = urlIsTokenEndPoint(event.getUrl());
-        if(event.getResponse() !=null && event.getResponse().getStatus() == 404){
-            if(urlIsTokenEndPoint)
-                fireLogOutEvent();
-        }
-        else
-            BusProvider.post(new MitooActivitiesErrorEvent(event));
-    }
-
     @Override
     protected void handleSubscriberResponse(Object objectRecieve)  {
 
@@ -116,10 +104,8 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
 
 
     public void fireLogOutEvent(){
+
         BusProvider.post(new LogOutNetworkCompleteEevent());
-/*
-        if(getFireLogOutEvent())
-        setFireLogOutEvent(true); */
 
     }
     @Override
@@ -168,7 +154,12 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
     }
 
     private boolean urlIsTokenEndPoint(String url){
-        String endPointSuffix = "/users/v1/mobile_devices/";
-        return url.toLowerCase().contains((endPointSuffix));
+        if(url!=null){
+            String endPointSuffix = "/users/v1/mobile_devices/";
+            return url.toLowerCase().contains((endPointSuffix));
+        }else{
+            return  false;
+
+        }
     }
 }

@@ -826,5 +826,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getString(R.string.bundle_key_team_color_key);
     }
 
+    protected String getConfirmInfoKey() {
+        return getString(R.string.bundle_key_confirm_token_key);
+    }
 
 }

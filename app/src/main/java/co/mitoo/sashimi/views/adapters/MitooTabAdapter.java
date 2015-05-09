@@ -15,10 +15,6 @@ public class MitooTabAdapter extends FragmentStatePagerAdapterNotV4{
     private List<MitooTab> mitooTabs;
     private FragmentManager fragmentManager;
 
-    public MitooTabAdapter(FragmentManager fm) {
-        super(fm);
-    }
-
     public MitooTabAdapter(List<MitooTab> mitooTabs ,FragmentManager fm) {
         super(fm);
         setMitooTabs(mitooTabs);

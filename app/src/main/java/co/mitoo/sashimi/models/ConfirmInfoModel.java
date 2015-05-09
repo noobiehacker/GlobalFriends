@@ -17,7 +17,7 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 public class ConfirmInfoModel extends MitooModel{
 
     private ConfirmInfo confirmInfo;
-
+    private String token;
     public ConfirmInfoModel(MitooActivity activity) {
         super(activity);
     }
@@ -25,11 +25,13 @@ public class ConfirmInfoModel extends MitooModel{
     @Subscribe
     public void requestConfirmationInformation(ConfirmingUserRequestEvent event){
 
+        if(event.getToken()!=null)
+            this.token = event.getToken();
         if(getConfirmInfo()==null){
             handleObservable(getSteakApiService().getConfirmationInfo(event.getToken()), ConfirmInfo.class) ;
         }
         else{
-            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo));
+            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo,this.token));
         }
 
     }
@@ -41,7 +43,7 @@ public class ConfirmInfoModel extends MitooModel{
             ConfirmInfo confirmInfo = (ConfirmInfo) objectRecieve;
             setConfirmInfo(confirmInfo);
             setUpDataForOtherModels(confirmInfo);
-            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo));
+            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo,this.token));
 
         }
     }

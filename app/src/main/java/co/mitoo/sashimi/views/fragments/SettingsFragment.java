@@ -10,7 +10,6 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
@@ -28,7 +27,9 @@ public class SettingsFragment extends MitooFragment {
 
     private UserInfoRecieve userInfoRecieve;
     private boolean viewLoaded = false;
-    
+    private CircleImageView circleImageView;
+    private TextView nameTextView;
+
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
@@ -106,8 +107,11 @@ public class SettingsFragment extends MitooFragment {
     @Override
     protected void initializeViews(View view){
 
-        setUpToolBar(view);
+        super.initializeViews(view);
+        this.circleImageView = (CircleImageView) view.findViewById(R.id.user_profileImage);
+        this.nameTextView= (TextView) view.findViewById(R.id.league_name);
         this.viewLoaded=true;
+        updateView();
 
     }
 
@@ -138,13 +142,10 @@ public class SettingsFragment extends MitooFragment {
     
     private void setUpUserDetails(View view){
         
-        CircleImageView imageView = (CircleImageView) view.findViewById(R.id.user_profileImage);
         getViewHelper().getPicasso().with(getActivity())
                 .load(getUserInfoRecieve().picture_medium)
-                .into(imageView);
-
-        TextView nameTextView= (TextView) view.findViewById(R.id.league_name);
-        nameTextView.setText(getUserInfoRecieve().name);
+                .into(this.circleImageView);
+        this.nameTextView.setText(getUserInfoRecieve().name);
     }
     
     private void logtOutAction(){

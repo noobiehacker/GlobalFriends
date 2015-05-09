@@ -133,7 +133,7 @@ public class MockSteakApiService implements SteakApi {
     }
 
     @Override
-    public Observable<Team[]> getCompetitionSeasonByID(@Path("id") int id) {
+    public Observable<Competition> getCompetitionSeasonByID(@Path("id") int id) {
         return null;
     }
 

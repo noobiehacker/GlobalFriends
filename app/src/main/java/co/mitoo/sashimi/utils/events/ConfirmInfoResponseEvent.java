@@ -8,12 +8,18 @@ import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 public class ConfirmInfoResponseEvent {
 
     private ConfirmInfo confirmInfo;
-
-    public ConfirmInfoResponseEvent(ConfirmInfo confirmInfo) {
-        this.confirmInfo = confirmInfo;
-    }
+    private String token;
 
     public ConfirmInfo getConfirmInfo() {
         return confirmInfo;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public ConfirmInfoResponseEvent(ConfirmInfo confirmInfo, String token) {
+        this.confirmInfo = confirmInfo;
+        this.token = token;
     }
 }
