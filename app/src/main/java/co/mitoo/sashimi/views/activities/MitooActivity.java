@@ -69,7 +69,6 @@ import co.mitoo.sashimi.utils.events.NotificationEvent;
 import co.mitoo.sashimi.views.fragments.FixtureFragment;
 import co.mitoo.sashimi.views.fragments.HomeFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
-import co.mitoo.sashimi.views.fragments.SplashScreenFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -81,7 +80,6 @@ public class MitooActivity extends ActionBarActivity {
     private MitooLocationManager locationManager;
     private Handler handler;
     private Runnable runnable;
-    private ModelManager modelManager;
     private DataHelper dataHelper;
     private Picasso picasso;
     protected DataPersistanceService persistanceService;
@@ -399,21 +397,7 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    public ModelManager getModelManager() {
-        if (modelManager == null)
-            this.modelManager = new ModelManager(this);
-        return modelManager;
-    }
 
-    private void setUpPersistenceData() {
-
-        if (MitooConstants.getPersistenceStorage()) {
-            getModelManager().readAllPersistedData();
-        } else {
-            getModelManager().deleteAllPersistedData();
-        }
-
-    }
 
     public void updateAuthToken(String auth_token) {
 
@@ -932,5 +916,15 @@ public class MitooActivity extends ActionBarActivity {
 
     protected String getCompetitionSeasonIdKey() {
         return getString(R.string.bundle_key_competition_id_key);
+    }
+
+    public ModelManager getModelManager() {
+        return getMitooApplication().getModelManager();
+    }
+
+    public void setUpPersistenceData() {
+
+       getMitooApplication().setUpPersistenceData(this);
+
     }
 }

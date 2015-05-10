@@ -10,8 +10,10 @@ import com.urbanairship.push.notifications.DefaultNotificationFactory;
 import java.util.Stack;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 
 
@@ -23,6 +25,8 @@ public class MitooApplication extends Application{
 
     public static int userID = MitooConstants.invalidConstant;
     private Stack<MitooFragment> fragmentStack;
+    private ModelManager modelManager;
+    private boolean persistedDataLoaded = false;
 
     @Override
     public void onCreate() {
@@ -70,6 +74,28 @@ public class MitooApplication extends Application{
         if (fragmentStack == null)
             fragmentStack = new Stack<MitooFragment>();
         return fragmentStack;
+    }
+
+    public ModelManager getModelManager() {
+        return this.modelManager;
+    }
+
+    public void setUpPersistenceData(MitooActivity activity) {
+
+        if(this.persistedDataLoaded==false){
+            this.modelManager = new ModelManager(activity);
+            if (MitooConstants.getPersistenceStorage()) {
+                this.modelManager.readAllPersistedData();
+            } else {
+                this.modelManager.deleteAllPersistedData();
+            }
+            this.persistedDataLoaded=true;
+        }else{
+            if(this.modelManager!=null){
+                this.modelManager.setActivity(activity);
+            }
+        }
+
     }
 
 }

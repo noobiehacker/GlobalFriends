@@ -29,6 +29,7 @@ import rx.Subscriber;
 public class UserInfoService extends MitooService {
 
     public UserInfoService(MitooActivity activity) {
+
         super(activity);
     }
 

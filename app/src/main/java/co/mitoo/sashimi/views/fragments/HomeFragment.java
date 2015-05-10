@@ -231,7 +231,7 @@ public class HomeFragment extends MitooFragment {
 
     private void requestCompetitionData(){
 
-        getCompetitionModel().requestCompetition(HomeFragment.this.userID);
+        getCompetitionModel().requestCompetition(this.userID);
 
     }
 
