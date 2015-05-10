@@ -79,7 +79,7 @@ public class SignUpFragment extends MitooFragment {
     public void onStart(){
 
         super.onResume();
-        requestFocusForTopInput(getTopEditText());
+        requestFocusForInput(getTopEditText());
 
     }
 

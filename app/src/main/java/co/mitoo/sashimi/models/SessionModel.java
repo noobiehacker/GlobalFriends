@@ -8,17 +8,13 @@ import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsPersistable;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.StaticString;
 import co.mitoo.sashimi.utils.events.SessionPersistanceResponseEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
-import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.application.MitooApplication;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
@@ -127,7 +123,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
     @Subscribe
     public void sessionPersistanceResponse(SessionPersistanceResponseEvent event) {
 
-        setSession((SessionRecieve)event.getPersistedObject());
+        setSession(event.getPersistedObject());
         updateToken();
         saveData();
         postUserRecieveResponse();
@@ -135,8 +131,8 @@ public class SessionModel extends MitooModel implements IsPersistable {
     }
     
     private void updateToken(){
-        if(getSession()!=null)
-            getActivity().updateAuthToken(this.session);
+        if(this.session!=null)
+            getActivity().updateAuthToken(this.session.auth_token);
     }
     
     public boolean userIsLoggedIn(){

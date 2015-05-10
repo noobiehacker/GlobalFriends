@@ -1,6 +1,8 @@
 package co.mitoo.sashimi.models;
 import android.location.Location;
 import com.google.android.gms.maps.model.LatLng;
+import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
@@ -12,6 +14,7 @@ import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.GpsResponseEvent;
 import co.mitoo.sashimi.utils.events.LocationModelLocationsSelectedEvent;
 import co.mitoo.sashimi.utils.events.LocationModelQueryResultEvent;
+import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
@@ -155,10 +158,6 @@ public class LocationModel extends MitooModel {
         this.client = client;
     }
 
-    public List<Prediction> getQueryResult() {
-        return queryResult;
-    }
-
     public void setQueryResult(List<Prediction> queryResult) {
         this.queryResult = queryResult;
     }
@@ -174,10 +173,6 @@ public class LocationModel extends MitooModel {
 
     public Location getCurrentLocation() {
         return currentLocation;
-    }
-
-    public void setCurrentLocation(Location currentLocation) {
-        this.currentLocation = currentLocation;
     }
 
     public boolean isUsingCurrentLocation() {
@@ -208,23 +203,14 @@ public class LocationModel extends MitooModel {
         if(reference!=null)
             this.selectedPlace = getClient().getPlace(prediction.getPlaceReference());
     }
-    
-    public void requestSelectedLocationLatLng() {
+
+    @Subscribe
+    public void requestSelectedLocationLatLng(LocationRequestEvent event){
 
         if(selectedLocationLatLng!=null)
             BusProvider.post(selectedLocationLatLng);
         else
             BusProvider.post(new LatLng(MitooConstants.invalidConstant, MitooConstants.invalidConstant));
-    }
-
-    private LatLng getSelectedLocationLatLng(){
-        if(selectedLocationLatLng==null){
-            if(getCurrentLocation()!=null){
-                LatLng currentLatLng =new LatLng(getCurrentLocation().getLatitude(),getCurrentLocation().getLongitude());
-                setSelectedLocationLatLng(currentLatLng);
-            }
-        }
-        return selectedLocationLatLng;
     }
     
     public void setSelectedLocationLatLng(LatLng selectedLocationLatLng) {

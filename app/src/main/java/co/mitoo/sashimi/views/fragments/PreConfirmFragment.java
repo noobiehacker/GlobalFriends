@@ -22,6 +22,7 @@ public class PreConfirmFragment extends MitooFragment {
     private TextView topText;
     private TextView bottomText;
     private int userID = MitooConstants.invalidConstant;
+    private String userName;
     private boolean dialogDisplayed =false;
     public static PreConfirmFragment newInstance() {
         return new PreConfirmFragment();
@@ -41,7 +42,7 @@ public class PreConfirmFragment extends MitooFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_pre_confirm,
+        View view = this.getActivity().getLayoutInflater().inflate(R.layout.fragment_pre_confirm,
                 container, false);
         initializeFields();
         initializeViews(view);
@@ -116,11 +117,26 @@ public class PreConfirmFragment extends MitooFragment {
 
     private String createBottomText(){
 
-        String result = getString(R.string.pre_confirm_page_text2)+ getIdentifierType()+ getString(R.string.pre_confirm_page_text3);
+        String result = getString(R.string.pre_confirm_page_text2)
+                + getUserName() + getString(R.string.pre_confirm_page_text3)
+                + getIdentifierType()+ getString(R.string.pre_confirm_page_text4);
         return result;
 
     }
 
+    private String getUserName(){
+
+        if(this.userName == null){
+
+            Bundle bundle = getArguments();
+            String key = getString(R.string.bundle_key_user_name);
+            String value = bundle.getString(key);
+            if(value!=null)
+                this.userName = value;
+        }
+        return userName;
+
+    }
     @Subscribe
     public void onRetriggerEventResponse(RetriggerEmailResponseEvent event){
 

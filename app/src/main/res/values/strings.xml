@@ -45,11 +45,12 @@
 
     <!--Pre Confirm Page-->
     <string name="pre_confirm_page_text1">"Check your "</string>
-    <string name="pre_confirm_page_text2">"You'll receive an "</string>
-    <string name="pre_confirm_page_text3">" to confirm your account, just click the link to login."</string>
-    <string name="pre_confirm_page_text4">"DIDN"T RECEIVE ONE? RESEND"</string>
-    <string name="pre_confirm_page_text5">email</string>
-    <string name="pre_confirm_page_text6">"text"</string>
+    <string name="pre_confirm_page_text2">"Hi "</string>
+    <string name="pre_confirm_page_text3">" you'll receive an "</string>
+    <string name="pre_confirm_page_text4">" to confirm your account, just click the link to login."</string>
+    <string name="pre_confirm_page_text5">"DIDN"T RECEIVE ONE? RESEND"</string>
+    <string name="pre_confirm_page_text6">email</string>
+    <string name="pre_confirm_page_text7">"text"</string>
 
     <string name="pre_confirm_alert_success_title">Invite resent</string>
     <string name="pre_confirm_alert_success_message">"We've sent another invite, this can take up to 10 minutes."</string>
@@ -385,6 +386,10 @@
     <string name="bundle_key_team_color_key">bundle_key_team_color_key</string>
     <string name="bundle_key_user_id_key">bundle_key_user_id</string>
     <string name="bundle_key_confirm_token_key">bundle_key_confirm_token</string>
+    <string name="bundle_key_auth_token_key">bundle_key_auth_token</string>
+    <string name="bundle_key_identifier_key">bundle_key_identifier_key</string>
+    <string name="bundle_key_identifier">bundle_key_identifier</string>
+    <string name="bundle_key_user_name">bundle_key_user_name</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>

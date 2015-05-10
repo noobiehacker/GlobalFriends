@@ -14,12 +14,14 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LocationModel;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
 import se.walkercrou.places.Place;
@@ -235,7 +237,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(event);
-        getLocationModel().requestSelectedLocationLatLng();
+        BusProvider.post(new LocationRequestEvent());
 
     }
 

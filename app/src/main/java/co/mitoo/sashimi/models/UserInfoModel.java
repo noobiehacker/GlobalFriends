@@ -122,8 +122,8 @@ public class UserInfoModel extends MitooModel {
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         setUserInfoRecieve((UserInfoRecieve) objectRecieve);
-        postUserInfoRecieveResponse();
         updateSessionModelAuthToken();
+        postUserInfoRecieveResponse();
 
     }
 

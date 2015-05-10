@@ -60,6 +60,7 @@ public class LeagueModel extends MitooModel{
 
     }
 
+    @Subscribe
     public void requestAlgoLiaSearch(AlgoliaLeagueSearchEvent event){
 
         Query algoliaQuery = new Query(event.getQuery());
@@ -73,6 +74,7 @@ public class LeagueModel extends MitooModel{
         
     }
 
+    @Subscribe
     public void requestEnquiredLeagues(LeagueModelEnquireRequestEvent event) {
 
         if(event.getApiRequestType()== MitooEnum.APIRequest.REQUEST && getLeaguesEnquired().size()!=0)
@@ -81,6 +83,7 @@ public class LeagueModel extends MitooModel{
             handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant(), event.getUserID()), League[].class);
     }
 
+    @Subscribe
     public void requestToEnquireLeague(LeagueModelEnquireRequestEvent event) {
 
         if (getSelectedLeague() != null) {
@@ -278,22 +281,8 @@ public class LeagueModel extends MitooModel{
         setEnquiredLeagues(new ArrayList<League>());
     }
 
-    public List<League> getMyleagues() {
-        return myleagues;
-    }
-
-    public void setMyleagues(List<League> myLeagues) {
-        this.myleagues = myLeagues;
-    }
-
-    public JSONObject getResults() {
-        return results;
-    }
-
     public void setResults(JSONObject results) {
         this.results = results;
     }
 
-
 }
-

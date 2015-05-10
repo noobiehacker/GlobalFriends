@@ -33,11 +33,12 @@ import retrofit.RetrofitError;
 public class ConfirmDoneFragment extends MitooFragment {
 
     private boolean dialogButtonCreated;
-    private ConfirmInfo confirmInfo;
     private Button button;
     private TextView greetingTextView;
     private boolean viewLoaded;
-    private String token;
+    private int competitionSeasonID;
+    private Competition competition;
+    private String identifier;
 
     @Override
     public void onClick(View v) {
@@ -55,17 +56,28 @@ public class ConfirmDoneFragment extends MitooFragment {
 
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            this.token = savedInstanceState.getString(getConfirmInfoKey());
+            this.competitionSeasonID = savedInstanceState.getInt(getCompetitionSeasonIdKey());
+            this.identifier = savedInstanceState.getString(getIdentifierKey());
         } else {
-            this.token = getArguments().getString(getConfirmInfoKey());
+            if(getArguments()!=null){
+                this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
+                this.identifier = getArguments().getString(getIdentifierKey());
+            }
         }
-        getConfirmInfoModel();
-        BusProvider.post(new ConfirmingUserRequestEvent(token));
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getCompetitionModel();
+        BusProvider.post(new CompetitionSeasonRequestByCompID(this.competitionSeasonID));
     }
 
     @Override
     public void onSaveInstanceState(Bundle bundle) {
-        bundle.putString(getConfirmInfoKey(), token);
+        bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
+        bundle.putString(getIdentifierKey(), this.identifier);
         super.onSaveInstanceState(bundle);
 
     }
@@ -102,27 +114,17 @@ public class ConfirmDoneFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onConfirmInfoRecieve(ConfirmInfoResponseEvent event) {
-        this.confirmInfo = event.getConfirmInfo();
+    public void onCompetitionInfoRecieve(CompetitionSeasonResponseEvent event){
+        this.competition = event.getCompetition();
         updateView(getRootView());
     }
 
     private void updateView(View view) {
-        if (this.viewLoaded && getCompetion() != null) {
-            getViewHelper().setUpConfirmDoneView(view, getCompetion());
+        if (this.viewLoaded &&this.competition != null) {
+            getViewHelper().setUpConfirmDoneView(view, this.competition);
             setUpPasswordAdviceText(view);
             setUpButtonColor(view);
         }
-    }
-
-    private Competition getCompetion() {
-        if (this.confirmInfo != null) {
-            Competition[] competitions = this.confirmInfo.getCompetition_seasons();
-            if (competitions != null && competitions.length > 0) {
-                return competitions[0];
-            }
-        }
-        return null;
     }
 
     @Override
@@ -138,8 +140,11 @@ public class ConfirmDoneFragment extends MitooFragment {
 
         if (status == 404) {
             fireLogOutEvent();
-        } else
+        } else if (status == 401) {
+            //DO NOTHING QUICK FIX BECAUSE WE WON"T HAVE 401 ON THIS PAGE
+        } else {
             super.handleHttpErrors(status);
+        }
     }
 
     @Override
@@ -148,6 +153,7 @@ public class ConfirmDoneFragment extends MitooFragment {
         view.findViewById(R.id.viewMyLeaguesButton).setOnClickListener(this);
 
     }
+
 
     public void setUpPasswordAdviceText(View view) {
 
@@ -165,7 +171,7 @@ public class ConfirmDoneFragment extends MitooFragment {
     public void onMobileTokenModelResponse(MobileTokenEventResponse event) {
 
         Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
+        bundle.putInt(getUserIDKey(), getUserID());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
@@ -178,18 +184,20 @@ public class ConfirmDoneFragment extends MitooFragment {
 
     private String createPasswordText() {
 
-        String identifierUsed = this.confirmInfo.getIdentifier_used();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(getString(R.string.confirmation_page_text_six));
-        stringBuilder.append(identifierUsed);
+        stringBuilder.append(this.identifier);
         stringBuilder.append(getString(R.string.confirmation_page_text_seven));
         return stringBuilder.toString();
 
     }
 
     private void setUpButtonColor(View view) {
-        String leagueColor = getCompetion().getLeague().getColor_1();
-        getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
+        if(this.competition!=null){
+            String leagueColor = this.competition.getLeague().getColor_1();
+            getViewHelper().setViewBackgroundDrawableColor(button, leagueColor);
+        }
+
     }
 
     public void fireLogOutEvent() {
@@ -198,5 +206,8 @@ public class ConfirmDoneFragment extends MitooFragment {
 
     }
 
+    protected String getIdentifierKey(){
+        return getString(R.string.bundle_key_identifier_key);
+    }
 
 }

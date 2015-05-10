@@ -184,6 +184,4 @@ public class CompetitionModel extends MitooModel{
 
     }
 
-
-
 }

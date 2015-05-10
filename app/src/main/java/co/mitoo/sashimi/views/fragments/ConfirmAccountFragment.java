@@ -158,11 +158,14 @@ public class ConfirmAccountFragment extends MitooFragment {
 
     private void confirmButtonAction() {
 
+        Bundle bundle = new Bundle();
+        bundle.putString(getConfirmInfoKey(), this.token);
+
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_set_password)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                .setBundle(createBundle())
+                .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
 
@@ -197,9 +200,4 @@ public class ConfirmAccountFragment extends MitooFragment {
         }
     }
 
-    private Bundle createBundle() {
-        Bundle bundle = new Bundle();
-        bundle.putString(getConfirmInfoKey(), this.token);
-        return bundle;
-    }
 }

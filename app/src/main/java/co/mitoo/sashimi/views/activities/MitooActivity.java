@@ -39,7 +39,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
-import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.AppStringHelper;
@@ -52,13 +51,11 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooNotificationIntentReceiver;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
-import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
-import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
 import co.mitoo.sashimi.views.application.MitooApplication;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
@@ -91,6 +88,7 @@ public class MitooActivity extends ActionBarActivity {
     private Queue<NotificationReceive> notificationQueue;
     private Branch.BranchReferralInitListener branchReferralInitListener;
     private static boolean confirmFlowFired = false;
+    private String authToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,17 +99,25 @@ public class MitooActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             MitooActivity.activityStarted = true;
             startApp();
+        } else{
+            this.authToken = savedInstanceState.getString(getAuthTokenKey());
+            updateAuthToken(this.authToken);
         }
         setUpPersistenceData();
 
     }
 
-
-
     @Override
     public void onPause() {
         tearDownReferences();
+        onSaveInstanceState(new Bundle());
         super.onPause();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(getAuthTokenKey(), this.authToken);
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -140,11 +146,6 @@ public class MitooActivity extends ActionBarActivity {
     protected void onRestart() {
         super.onRestart();
 
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
@@ -237,7 +238,7 @@ public class MitooActivity extends ActionBarActivity {
 
         if(event.popPrevious())
             popFragment();
-        
+
         switch (event.getTransition()) {
             case PUSH:
                 pushFragment(event);
@@ -408,10 +409,12 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-    public void updateAuthToken(SessionRecieve session) {
+    public void updateAuthToken(String auth_token) {
 
-        if (session.auth_token != null)
-            ServiceBuilder.getSingleTonInstance().setXAuthToken(session.auth_token);
+        if (auth_token != null){
+            this.authToken=auth_token;
+            ServiceBuilder.getSingleTonInstance().setXAuthToken(this.authToken);
+        }
     }
 
     public void resetAuthToken() {
@@ -658,11 +661,6 @@ public class MitooActivity extends ActionBarActivity {
 
                     Invitation_token token = getDataHelper().getInvitationToken(referringParams);
 
-                    //TODOREMOVE
-                    token = new Invitation_token();
-                    token.setToken("HenzCxPo3nVLdrsC3QXv");
-
-
                     /*
                     *
                     Hard Coding Data for Testing
@@ -720,13 +718,17 @@ public class MitooActivity extends ActionBarActivity {
     private boolean userIsOnInviteFlow() {
 
         boolean result = false;
-        MitooFragment fragment = (MitooFragment) getFragmentStack().peek();
-        if (fragment != null) {
-            if (fragment instanceof ConfirmAccountFragment ||
-                    fragment instanceof ConfirmSetPasswordFragment ||
-                    fragment instanceof ConfirmDoneFragment)
-                result = true;
+
+        if(getFragmentStack().size()>0){
+            MitooFragment fragment = (MitooFragment) getFragmentStack().peek();
+            if (fragment != null) {
+                if (fragment instanceof ConfirmAccountFragment ||
+                        fragment instanceof ConfirmSetPasswordFragment ||
+                        fragment instanceof ConfirmDoneFragment)
+                    result = true;
+            }
         }
+
         return result;
 
     }
@@ -861,5 +863,9 @@ public class MitooActivity extends ActionBarActivity {
 
     protected String getConfirmInfoKey() {
         return getString(R.string.bundle_key_confirm_token_key);
+    }
+
+    protected String getAuthTokenKey(){
+        return getString(R.string.bundle_key_auth_token_key);
     }
 }

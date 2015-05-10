@@ -2,6 +2,7 @@ package co.mitoo.sashimi.views.fragments;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class PreLoginFragment extends MitooFragment{
 
     private EditText identifierText;
     private boolean loginActionFired = false;
+    private boolean dialogDisplayed =false;
 
     @Override
     public void onClick(View v) {
@@ -62,7 +64,7 @@ public class PreLoginFragment extends MitooFragment{
     public void onResume(){
 
         super.onResume();
-        requestFocusForTopInput(this.identifierText);
+        requestFocusForInput(this.identifierText);
 
     }
 
@@ -88,8 +90,13 @@ public class PreLoginFragment extends MitooFragment{
     protected void handleHttpErrors(int statusCode) {
 
         if(statusCode == 404 ){
-            displayTextWithDialog(getString(R.string.pre_login_page_dialog_title) ,
-                    getString(R.string.pre_login_page_dialog_message), createAlertListener());
+
+            if(this.dialogDisplayed == false){
+                displayTextWithDialog(getString(R.string.pre_login_page_dialog_title) ,
+                        getString(R.string.pre_login_page_dialog_message), createAlertListener());
+                this.dialogDisplayed = true;
+            }
+
         }else{
             super.handleHttpErrors(statusCode);
         }
@@ -103,6 +110,7 @@ public class PreLoginFragment extends MitooFragment{
                 CheckUserEvent event = new CheckUserEvent(getIdentifier());
                 BusProvider.post(event);
                 this.loginActionFired = true;
+                setLoading(true);
             }else{
                 handleInvalidInputs();
             }
@@ -126,7 +134,7 @@ public class PreLoginFragment extends MitooFragment{
     private boolean handledEmptyInput() {
 
         boolean result = true;
-        if (getIdentifier().equals("")) {
+        if (TextUtils.isEmpty(this.getIdentifier())) {
             this.displayTextWithToast(getString(R.string.toast_identifier_required));
         } else {
             result = false;
@@ -136,31 +144,33 @@ public class PreLoginFragment extends MitooFragment{
 
     @Subscribe
     public void onUserChecked(UserCheck userCheck) {
+
         boolean confirmed = checkUserConfirmation(userCheck);
         if (confirmed)
-            routeToLogin();
+            routeToLogin(userCheck);
         else
             routeToPreConfirm(userCheck);
         this.loginActionFired = false;
+        setLoading(false);
 
     }
 
     private boolean checkUserConfirmation(UserCheck userCheck){
 
-        if(userCheck.getConfirmed_at()!= null && !userCheck.getConfirmed_at().isEmpty()){
-            return true;
-        }
-        return false;
+        if(TextUtils.isEmpty(userCheck.getConfirmed_at()))
+            return false;
+        return true;
     }
 
-    private void routeToLogin(){
+    private void routeToLogin(UserCheck userCheck){
 
         FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_login)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setBundle(createBundleForPreLogin(userCheck))
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                 .build();
-        postFragmentChangeEvent(event);
+        BusProvider.post(event);
 
     }
 
@@ -170,26 +180,37 @@ public class PreLoginFragment extends MitooFragment{
                 .setFragmentID(R.id.fragment_pre_confirm)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                .setBundle(createBundleForNextFragment(userCheck))
+                .setBundle(createBundleForPreConfirm(userCheck))
                 .build();
-        postFragmentChangeEvent(event);
+        BusProvider.post(event);
 
     }
 
 
-    private Bundle createBundleForNextFragment(UserCheck userCheck){
+    private Bundle createBundleForPreConfirm(UserCheck userCheck){
 
         Bundle bundle = new Bundle();
-        String identifier = "[" ;
-        if(userCheck.isHas_email() && userCheck.isHas_phone())
-            identifier = identifier + getActivity().getString(R.string.pre_confirm_page_text5) +"|" +getActivity().getString(R.string.pre_confirm_page_text6);
+        StringBuilder sb = new StringBuilder("");
+        if(userCheck.isHas_email() && userCheck.isHas_phone()){
+            sb.append(getActivity().getString(R.string.pre_confirm_page_text6));
+            sb.append("/");
+            sb.append(getActivity().getString(R.string.pre_confirm_page_text7));
+        }
         else if(userCheck.isHas_email())
-            identifier = identifier + getActivity().getString((R.string.pre_confirm_page_text5));
+            sb.append(getActivity().getString(R.string.pre_confirm_page_text6));
         else
-            identifier = identifier + getActivity().getString(R.string.pre_confirm_page_text6);
-        identifier= identifier+"]";
+            sb.append(getActivity().getString(R.string.pre_confirm_page_text7));
+        String identifier = sb.toString();
         bundle.putString(getActivity().getString(R.string.bundle_key_identifier_type),identifier);
         bundle.putString(getActivity().getString(R.string.bundle_key_user_id) , Integer.toString(userCheck.getId()));
+        bundle.putString(getActivity().getString(R.string.bundle_key_user_name) , userCheck.getName());
+        return bundle;
+    }
+
+    private Bundle createBundleForPreLogin(UserCheck userCheck){
+
+        Bundle bundle = new Bundle();
+        bundle.putString(getActivity().getString(R.string.bundle_key_identifier), getIdentifier());
         return bundle;
     }
 
@@ -208,6 +229,8 @@ public class PreLoginFragment extends MitooFragment{
 
         return new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                PreLoginFragment.this.dialogDisplayed = false;
+                PreLoginFragment.this.loginActionFired = false;
                 dialog.dismiss();
             }
         };

@@ -72,7 +72,7 @@ public class SignUpDoneFragment extends MitooFragment {
     private void viewMyLeagueButtonAction(){
 
         Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.bundle_key_from_confirm), getString(R.string.bundle_value_true));
+        bundle.putInt(getUserIDKey(), getUserID());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)

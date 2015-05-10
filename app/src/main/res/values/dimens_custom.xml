@@ -165,6 +165,7 @@
     <dimen name="pre_confirm_top_padding">30dp</dimen>
     <dimen name="pre_confirm_middle_padding">10dp</dimen>
     <dimen name="pre_confirm_bottom_padding">50dp</dimen>
+    <dimen name="pre_confirm_bottom_button_padding">25.5dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

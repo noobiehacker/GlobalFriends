@@ -1,6 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,21 +14,16 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.CompetitionModelResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
-import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.UserInfoModelResponseEvent;
 import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
@@ -50,7 +44,6 @@ public class HomeFragment extends MitooFragment {
     private CompetitionAdapter myCompetitionDataAdapter;
     private View myCompetitionListFooterView;
     private boolean userHasUsedApp;
-    private boolean registerFlow;
     private boolean enquriedLeagueDataLoaded;
     private boolean myCompetitionDataLoaded;
     private boolean logOutEventFired;
@@ -71,6 +64,8 @@ public class HomeFragment extends MitooFragment {
         super.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
             this.userID = savedInstanceState.getInt(getUserIDKey());
+        }else{
+            this.userID = getArguments().getInt(getUserIDKey());
         }
 
     }
@@ -113,7 +108,6 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeFields();
         setUpUserHasUsedAppBoolean();
-        setUpRegisterFlowBoolean();
         refreshEnquriedLeagueData();
         refreshMyCompetitionData();
         if(this.userID== MitooConstants.invalidConstant)
@@ -179,7 +173,7 @@ public class HomeFragment extends MitooFragment {
                                         .setTransition(MitooEnum.FragmentTransition.PUSH)
                                         .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                                         .build();
-                                postFragmentChangeEvent(fragmentChangeEvent);
+                                BusProvider.post(fragmentChangeEvent);
                                 break;
                         }
                     }
@@ -314,7 +308,7 @@ public class HomeFragment extends MitooFragment {
                         .setTransition(MitooEnum.FragmentTransition.PUSH)
                         .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                         .build();
-                postFragmentChangeEvent(fragmentChangeEvent);
+                BusProvider.post(fragmentChangeEvent);
                 break;
 
             case FEEDBACK:
@@ -379,10 +373,6 @@ public class HomeFragment extends MitooFragment {
         return enquiredLeagueDataAdapter;
     }
 
-    public boolean getUserHasUsedApp() {
-        return userHasUsedApp;
-    }
-
     private void setUpUserHasUsedAppBoolean(){
 
         if(getAppSettingsModel().getUserHasUsedApp() == null)
@@ -404,25 +394,6 @@ public class HomeFragment extends MitooFragment {
 
     public void setEnquiredLeagueList(ListView enquiredLeagueList) {
         this.enquiredLeagueList = enquiredLeagueList;
-    }
-
-    public boolean isRegisterFlow() {
-        return registerFlow;
-    }
-
-    public void setRegisterFlow(boolean registerFlow) {
-        this.registerFlow = registerFlow;
-    }
-
-    private void setUpRegisterFlowBoolean(){
-
-        Object bundleArg = getBundleArgumentFromKey(getString(R.string.bundle_key_from_confirm));
-        if(getDataHelper().isBundleArgumentTrue(bundleArg)){
-            setRegisterFlow(true);
-        }else{
-            setRegisterFlow(false);
-        }
-
     }
 
     @Override
@@ -488,8 +459,5 @@ public class HomeFragment extends MitooFragment {
         return logOutEventFired;
     }
 
-    public void setLogOutEventFired(boolean logOutEventFired) {
-        this.logOutEventFired = logOutEventFired;
-    }
 
 }

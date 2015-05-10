@@ -160,7 +160,8 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
     public void onUserInfoReceieve(UserInfoResponseEvent event) {
 
         Bundle bundle = new Bundle();
-        bundle.putString(getConfirmInfoKey(), this.token);
+        bundle.putInt(getCompetitionSeasonIdKey(), getCompetion().getId());
+        bundle.putString(getIdentifierKey(), getIdentifier());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_confirm_done)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
@@ -168,8 +169,16 @@ public class ConfirmSetPasswordFragment extends MitooFragment {
                 .setPopPrevious(true)
                 .setBundle(bundle)
                 .build();
-        postFragmentChangeEvent(fragmentChangeEvent);
+        BusProvider.post(fragmentChangeEvent);
 
+    }
+
+    private String getIdentifier() {
+        String identifier = "";
+        if (this.confirmInfo != null) {
+            identifier = this.confirmInfo.getIdentifier_used();
+        }
+        return identifier;
     }
 
     private void setUpSetPasswordString(View view) {

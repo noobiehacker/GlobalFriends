@@ -67,7 +67,7 @@ public class FragmentChangeEvent extends EventObject{
         this.fragmentId= fragmentId;
         this.animation = animation;
         this.bundle = bundle;
-        this.popPrevious=true;
+        this.popPrevious=pop;
     }
 
 

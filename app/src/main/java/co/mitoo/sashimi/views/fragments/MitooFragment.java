@@ -607,7 +607,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    protected void requestFocusForTopInput(final EditText editText) {
+    protected void requestFocusForInput(final EditText editText) {
 
         Runnable requestFocusRunnable = new Runnable() {
             @Override
@@ -697,10 +697,13 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void routeToHome(){
 
+        Bundle bundle = new Bundle();
+        bundle.putInt(getUserIDKey(), getUserID());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_home)
                 .setTransition(MitooEnum.FragmentTransition.CHANGE)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
 
@@ -719,7 +722,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         SessionRecieve session = getSessionModel().getSession();
         if (session != null) {
-            getMitooActivity().updateAuthToken(session);
+            getMitooActivity().updateAuthToken(session.auth_token);
             routeToHome();
         }
         else{
@@ -783,7 +786,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 SessionRecieve session = (SessionRecieve)object;
                 return session.id;
             }else{
-                return MitooConstants.invalidConstant;
+               return MitooConstants.invalidConstant;
             }
         }
     }
@@ -830,4 +833,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getString(R.string.bundle_key_confirm_token_key);
     }
 
+    protected String getIdentifierKey(){
+        return getString(R.string.bundle_key_identifier_key);
+    }
 }

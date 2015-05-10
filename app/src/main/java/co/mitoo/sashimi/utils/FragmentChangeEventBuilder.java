@@ -14,7 +14,7 @@ public class FragmentChangeEventBuilder {
     private MitooEnum.FragmentTransition transition;
     private MitooEnum.FragmentAnimation animation ;
     private Bundle bundle;
-    private boolean popPrevious=false;
+    private boolean popPrevious =false;
 
     public static FragmentChangeEventBuilder getSingletonInstance(){
         if(FragmentChangeEventBuilder.singleTonInstance==null){
@@ -49,7 +49,7 @@ public class FragmentChangeEventBuilder {
     }
 
     public FragmentChangeEventBuilder setPopPrevious(boolean bool){
-        this.popPrevious=bool;
+        this.popPrevious =bool;
         return this;
     }
 
@@ -65,7 +65,7 @@ public class FragmentChangeEventBuilder {
         setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL);
         setTransition(MitooEnum.FragmentTransition.PUSH);
         setBundle(null);
-        this.popPrevious=false;
+        this.popPrevious =false;
     }
 
     public int getFragmentId() {

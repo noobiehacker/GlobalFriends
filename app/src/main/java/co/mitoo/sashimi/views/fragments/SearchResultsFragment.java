@@ -21,6 +21,7 @@ import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
+import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 /**
@@ -81,7 +82,7 @@ public class SearchResultsFragment extends MitooFragment {
         super.onResume();
         if (searchFlowHasCopmleted() == false) {
             setLoading(true);
-            getLocationModel().requestSelectedLocationLatLng();
+            BusProvider.post(new LocationRequestEvent());
         } else {
             updateViews();
         }

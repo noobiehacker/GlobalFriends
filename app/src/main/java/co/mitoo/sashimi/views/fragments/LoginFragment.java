@@ -1,11 +1,14 @@
 package co.mitoo.sashimi.views.fragments;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
 import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -26,6 +29,7 @@ public class LoginFragment extends MitooFragment {
 
     private EditText passWordInput;
     private EditText topEditText;
+    private String presetIdentifier;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -73,7 +77,7 @@ public class LoginFragment extends MitooFragment {
         setUpToolBar(view);
 
     }
-    
+
     @Override
     public void onClick(View v) {
         if(getDataHelper().isClickable(v.getId())){
@@ -87,19 +91,24 @@ public class LoginFragment extends MitooFragment {
                 case R.id.loginPasswordInput:
                     passwordInputRequestFocusAction();
                     break;
+
             }
         }
     }
 
-    
+
     @Override
     public void onResume(){
-        
+
         super.onResume();
-        requestFocusForTopInput(getTopEditText());
+        requestFocusForInput(getTopEditText());
+        if(getPresetIdentifier()!=null){
+            getTopEditText().setText(getPresetIdentifier());
+            requestFocusForInput(getPassWordInput());
+        }
 
     }
-    
+
     private void loginButtonAction() {
 
         if (allInputsAreValid()) {
@@ -140,7 +149,7 @@ public class LoginFragment extends MitooFragment {
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                 .build();
-        postFragmentChangeEvent(fragmentChangeEvent);
+        BusProvider.post(fragmentChangeEvent);
     }
 
     private String getLoginID(){
@@ -191,12 +200,10 @@ public class LoginFragment extends MitooFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        
-        
-      super.onActivityResult(requestCode, resultCode, data);
+
+        super.onActivityResult(requestCode, resultCode, data);
 
     }
-
 
     public EditText getPassWordInput() {
         return passWordInput;
@@ -205,7 +212,7 @@ public class LoginFragment extends MitooFragment {
     public void setPassWordInput(EditText passWordInput) {
         this.passWordInput = passWordInput;
     }
-    
+
     private void passwordInputRequestFocusAction(){
         if(getPassWordInput()!=null)
             getPassWordInput().requestFocus();
@@ -229,4 +236,15 @@ public class LoginFragment extends MitooFragment {
             super.handleHttpErrors(statusCode);
     }
 
+    private String getPresetIdentifier(){
+        if(this.presetIdentifier == null){
+
+            Bundle bundle = getArguments();
+            String key = getString(R.string.bundle_key_identifier);
+            String value = bundle.getString(key);
+            if(value!=null)
+                this.presetIdentifier = value;
+        }
+        return this.presetIdentifier;
+    }
 }
