@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.CompetitionModel;
+import co.mitoo.sashimi.models.CompetitionService;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -90,7 +90,7 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
 
     private void setSelectedModelItem(Competition competition){
         MitooActivity activity = getFragment().getMitooActivity();
-        CompetitionModel model = activity.getModelManager().getCompetitionModel();
+        CompetitionService model = activity.getModelManager().getCompetitionModel();
         model.setSelectedCompetition(competition);
     }
 

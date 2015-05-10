@@ -4,11 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.NotificationPreferenceModel;
+import co.mitoo.sashimi.models.NotificationPreferenceService;
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;
@@ -133,7 +132,7 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         return result;
     }
 
-    private NotificationPreferenceModel getNotificationModel(){
+    private NotificationPreferenceService getNotificationModel(){
 
         return getFragment().getMitooActivity().getModelManager().getNotificationPreferenceModel();
     }

@@ -6,7 +6,6 @@ import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -14,11 +13,11 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 /**
  * Created by david on 15-03-20.
  */
-public class ConfirmInfoModel extends MitooModel{
+public class ConfirmInfoService extends MitooService {
 
     private ConfirmInfo confirmInfo;
     private String token;
-    public ConfirmInfoModel(MitooActivity activity) {
+    public ConfirmInfoService(MitooActivity activity) {
         super(activity);
     }
 
@@ -66,13 +65,13 @@ public class ConfirmInfoModel extends MitooModel{
         addLeagueDataToComp();
 
         ModelManager manager = getActivity().getModelManager();
-        UserInfoModel userInfoModel = manager.getUserInfoModel();
+        UserInfoService userInfoModel = manager.getUserInfoModel();
         userInfoModel.setUserInfoRecieve(confirmInfo.getUser());
 
-        LeagueModel leagueModel = manager.getLeagueModel();
+        LeagueService leagueModel = manager.getLeagueModel();
         leagueModel.setSelectedLeague(confirmInfo.getLeague());
 
-        CompetitionModel competitionModel = manager.getCompetitionModel();
+        CompetitionService competitionModel = manager.getCompetitionModel();
         competitionModel.resetFields();
         competitionModel.addCompetition(confirmInfo.getCompetition_seasons());
 

@@ -17,11 +17,11 @@ import rx.Observable;
 /**
  * Created by david on 15-04-07.
  */
-public class NotificationPreferenceModel extends MitooModel{
+public class NotificationPreferenceService extends MitooService {
 
     private NotificationPreferenceRecieved preference;
 
-    public NotificationPreferenceModel(MitooActivity activity) {
+    public NotificationPreferenceService(MitooActivity activity) {
         super(activity);
     }
 

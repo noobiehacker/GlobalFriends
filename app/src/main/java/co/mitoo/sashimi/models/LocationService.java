@@ -26,7 +26,7 @@ import se.walkercrou.places.Prediction;
 /**
  * Created by david on 15-01-09.
  */
-public class LocationModel extends MitooModel {
+public class LocationService extends MitooService {
 
     private Location currentLocation;
     private List<Prediction> queryResult;
@@ -37,7 +37,7 @@ public class LocationModel extends MitooModel {
     private ReactiveLocationProvider reactiveLocationProvider;
     private PredictionWrapper predictionWrapper;
 
-    public LocationModel(MitooActivity activity) {
+    public LocationService(MitooActivity activity) {
         super(activity);
         client = new GooglePlaces(getActivity().getString(R.string.API_key_google_places));
     }

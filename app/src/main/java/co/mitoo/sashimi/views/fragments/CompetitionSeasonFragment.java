@@ -138,6 +138,16 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     }
 
     @Override
+    protected void handleHttpErrors(int statusCode) {
+
+        if (statusCode == 404){
+            //DO NOTHING
+        }
+        else
+            super.handleHttpErrors(statusCode);
+    }
+
+    @Override
     protected void handleNetworkError() {
 
         if (getProgressLayout() != null) {

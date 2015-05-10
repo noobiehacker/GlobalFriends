@@ -15,12 +15,12 @@ import rx.Subscriber;
 /**
  * Created by david on 15-03-06.
  */
-public class CompetitionModel extends MitooModel{
+public class CompetitionService extends MitooService {
 
     private List<Competition> myCompetition;
     private Competition selectedCompetition;
 
-    public CompetitionModel(MitooActivity activity) {
+    public CompetitionService(MitooActivity activity) {
         super(activity);
     }
 

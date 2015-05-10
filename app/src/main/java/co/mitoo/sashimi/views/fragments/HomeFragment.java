@@ -196,9 +196,13 @@ public class HomeFragment extends MitooFragment {
     @Override
     protected void handleHttpErrors(int statusCode) {
 
-        super.handleHttpErrors(statusCode);
         if(statusCode == 401)
             handleAuth401Error();
+        if (statusCode == 404){
+            //DO NOTHING
+        }
+        else
+            super.handleHttpErrors(statusCode);
     }
 
     @Override

@@ -11,9 +11,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.SessionService;
 import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
@@ -174,7 +173,7 @@ public class LeagueFragment extends MitooFragment {
 
     private void joinButtonAction(){
 
-        SessionModel sessionModel =getSessionModel();
+        SessionService sessionModel =getSessionModel();
         if(sessionModel.userIsLoggedIn()){
             setLoading(true);
             int UserID = sessionModel.getSession().id;

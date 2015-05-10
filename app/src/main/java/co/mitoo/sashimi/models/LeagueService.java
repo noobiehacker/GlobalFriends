@@ -33,7 +33,7 @@ import org.apache.commons.lang.SerializationUtils;
 /**
  * Created by david on 14-12-08.
  */
-public class LeagueModel extends MitooModel{
+public class LeagueService extends MitooService {
 
     private APIClient algoliaClient;
     private Index index;
@@ -47,7 +47,7 @@ public class LeagueModel extends MitooModel{
     private League selectedLeague;
     private boolean requestingAlgolia;
 
-    public LeagueModel(MitooActivity activity) {
+    public LeagueService(MitooActivity activity) {
         super(activity);
         setUpAlgolia();
     }
@@ -127,10 +127,10 @@ public class LeagueModel extends MitooModel{
             public void run() {
 
                 try {
-                    JSONArray hits = LeagueModel.this.results.getJSONArray(getActivity().getString(R.string.algolia_result_param));
+                    JSONArray hits = LeagueService.this.results.getJSONArray(getActivity().getString(R.string.algolia_result_param));
                     ObjectMapper objectMapper = new ObjectMapper();
-                    LeagueModel.this.leagueSearchResults = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
-                    BusProvider.post(new LeagueQueryResponseEvent(LeagueModel.this.leagueSearchResults));
+                    LeagueService.this.leagueSearchResults = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
+                    BusProvider.post(new LeagueQueryResponseEvent(LeagueService.this.leagueSearchResults));
                 }
                 catch(Exception e){
                     BusProvider.post(new MitooActivitiesErrorEvent(MitooEnum.ErrorType.APP , e.toString()));

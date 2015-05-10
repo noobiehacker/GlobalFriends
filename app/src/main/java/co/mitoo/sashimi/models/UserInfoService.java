@@ -26,9 +26,9 @@ import rx.Subscriber;
  * Created by david on 15-01-21.
  */
 
-public class UserInfoModel extends MitooModel {
+public class UserInfoService extends MitooService {
 
-    public UserInfoModel(MitooActivity activity) {
+    public UserInfoService(MitooActivity activity) {
         super(activity);
     }
 
@@ -133,7 +133,7 @@ public class UserInfoModel extends MitooModel {
     }
 
     private void updateSessionModelAuthToken() {
-        SessionModel sessionModel = getActivity().getModelManager().getSessionModel();
+        SessionService sessionModel = getActivity().getModelManager().getSessionModel();
         SessionRecieve session = sessionModel.getSession();
         sessionModel.updateSession(getUserInfoRecieve());
 

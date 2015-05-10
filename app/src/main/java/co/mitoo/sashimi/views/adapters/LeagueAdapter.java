@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.LeagueService;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -84,7 +84,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
     private void setSelectedModelItem(League league){
         MitooActivity activity = getFragment().getMitooActivity();
-        LeagueModel model = activity.getModelManager().getLeagueModel();
+        LeagueService model = activity.getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
     }
 

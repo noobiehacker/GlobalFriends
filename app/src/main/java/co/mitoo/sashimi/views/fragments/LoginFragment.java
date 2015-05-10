@@ -48,6 +48,26 @@ public class LoginFragment extends MitooFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            this.presetIdentifier = savedInstanceState.getString(getIdentifierKey());
+        }else{
+            if(getArguments()!=null)
+                this.presetIdentifier = getArguments().getString(getIdentifierKey());
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(getIdentifierKey(), this.presetIdentifier);
+        super.onSaveInstanceState(bundle);
+
+    }
+
+    @Override
     protected void initializeFields() {
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_login));
@@ -102,8 +122,8 @@ public class LoginFragment extends MitooFragment {
 
         super.onResume();
         requestFocusForInput(getTopEditText());
-        if(getPresetIdentifier()!=null){
-            getTopEditText().setText(getPresetIdentifier());
+        if(this.presetIdentifier!=null){
+            getTopEditText().setText(this.presetIdentifier);
             requestFocusForInput(getPassWordInput());
         }
 
@@ -236,15 +256,4 @@ public class LoginFragment extends MitooFragment {
             super.handleHttpErrors(statusCode);
     }
 
-    private String getPresetIdentifier(){
-        if(this.presetIdentifier == null){
-
-            Bundle bundle = getArguments();
-            String key = getString(R.string.bundle_key_identifier);
-            String value = bundle.getString(key);
-            if(value!=null)
-                this.presetIdentifier = value;
-        }
-        return this.presetIdentifier;
-    }
 }

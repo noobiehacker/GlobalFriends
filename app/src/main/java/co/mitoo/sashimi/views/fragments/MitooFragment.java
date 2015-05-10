@@ -3,10 +3,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,19 +27,18 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.AppSettingsModel;
-import co.mitoo.sashimi.models.CompetitionModel;
-import co.mitoo.sashimi.models.ConfirmInfoModel;
+import co.mitoo.sashimi.models.AppSettingsService;
+import co.mitoo.sashimi.models.CompetitionService;
+import co.mitoo.sashimi.models.ConfirmInfoService;
 import co.mitoo.sashimi.models.FixtureService;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.LocationModel;
-import co.mitoo.sashimi.models.MitooModel;
-import co.mitoo.sashimi.models.MobileTokenModel;
-import co.mitoo.sashimi.models.NotificationPreferenceModel;
-import co.mitoo.sashimi.models.SessionModel;
-import co.mitoo.sashimi.models.TeamModel;
-import co.mitoo.sashimi.models.UserInfoModel;
-import co.mitoo.sashimi.models.jsonPojo.Session;
+import co.mitoo.sashimi.models.LeagueService;
+import co.mitoo.sashimi.models.LocationService;
+import co.mitoo.sashimi.models.MitooService;
+import co.mitoo.sashimi.models.MobileTokenService;
+import co.mitoo.sashimi.models.NotificationPreferenceService;
+import co.mitoo.sashimi.models.SessionService;
+import co.mitoo.sashimi.models.TeamService;
+import co.mitoo.sashimi.models.UserInfoService;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -430,19 +427,19 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         this.allowBackPressed = allowBackPressed;
     }
 
-    protected MitooModel getMitooModel(Class<?> classType) {
+    protected MitooService getMitooModel(Class<?> classType) {
 
-        if (classType == UserInfoModel.class)
+        if (classType == UserInfoService.class)
             return getMitooActivity().getModelManager().getUserInfoModel();
-        else if (classType == LeagueModel.class)
+        else if (classType == LeagueService.class)
             return getMitooActivity().getModelManager().getLeagueModel();
-        else if (classType == SessionModel.class)
+        else if (classType == SessionService.class)
             return getMitooActivity().getModelManager().getSessionModel();
-        else if (classType == LocationModel.class)
+        else if (classType == LocationService.class)
             return getMitooActivity().getModelManager().getLocationModel();
-        else if (classType == AppSettingsModel.class)
+        else if (classType == AppSettingsService.class)
             return getMitooActivity().getModelManager().getAppSettingsModel();
-        else if (classType == MobileTokenModel.class)
+        else if (classType == MobileTokenService.class)
             return getMitooActivity().getModelManager().getMobileTokenModel();
         else
             return null;
@@ -509,24 +506,24 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     }
 
 
-    protected SessionModel getSessionModel() {
+    protected SessionService getSessionModel() {
 
         return getMitooActivity().getModelManager().getSessionModel();
     }
 
-    protected LeagueModel getLeagueModel() {
+    protected LeagueService getLeagueModel() {
         return getMitooActivity().getModelManager().getLeagueModel();
     }
 
-    protected AppSettingsModel getAppSettingsModel() {
+    protected AppSettingsService getAppSettingsModel() {
         return getMitooActivity().getModelManager().getAppSettingsModel();
     }
 
-    protected CompetitionModel getCompetitionModel() {
+    protected CompetitionService getCompetitionModel() {
         return getMitooActivity().getModelManager().getCompetitionModel();
     }
 
-    protected TeamModel getTeamModel() {
+    protected TeamService getTeamModel() {
         return getMitooActivity().getModelManager().getTeamModel();
     }
 
@@ -534,23 +531,23 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getMitooActivity().getModelManager().getFixtureModel();
     }
 
-    protected UserInfoModel getUserInfoModel() {
+    protected UserInfoService getUserInfoModel() {
         return getMitooActivity().getModelManager().getUserInfoModel();
     }
 
-    protected LocationModel getLocationModel() {
+    protected LocationService getLocationModel() {
         return getMitooActivity().getModelManager().getLocationModel();
     }
 
-    protected ConfirmInfoModel getConfirmInfoModel() {
+    protected ConfirmInfoService getConfirmInfoModel() {
         return getMitooActivity().getModelManager().getConfirmInfoModel();
     }
 
-    protected MobileTokenModel getMobileTokenModel() {
+    protected MobileTokenService getMobileTokenModel() {
         return getMitooActivity().getModelManager().getMobileTokenModel();
     }
 
-    protected NotificationPreferenceModel getNotificationPreferenceModel() {
+    protected NotificationPreferenceService getNotificationPreferenceModel() {
         return getMitooActivity().getModelManager().getNotificationPreferenceModel();
     }
 

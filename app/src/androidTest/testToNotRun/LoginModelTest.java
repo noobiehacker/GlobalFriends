@@ -7,7 +7,7 @@ import org.junit.Before;
 
 import java.util.concurrent.CountDownLatch;
 
-import co.mitoo.sashimi.models.SessionModel;
+import co.mitoo.sashimi.models.SessionService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.network.mockNetwork.MockSteakApiService;
@@ -19,7 +19,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 
 public class LoginModelTest extends MitooPojoTest{
 
-    private SessionModel model;
+    private SessionService model;
     private SteakApi mockApi;
     private SessionModelResponseEvent event;
     public LoginModelTest() {
@@ -29,7 +29,7 @@ public class LoginModelTest extends MitooPojoTest{
     @Before
     public void setUp() throws Exception {
         System.setProperty("dexmaker.dexcache", getContext().getCacheDir().getPath());
-        model = new SessionModel(null);
+        model = new SessionService(null);
         BusProvider.register(this);
     }
 

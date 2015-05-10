@@ -17,7 +17,7 @@ import rx.Subscriber;
  * Created by david on 14-11-12.
  */
 
-public abstract class MitooModel{
+public abstract class MitooService {
 
     protected MitooActivity activity;
     protected DataPersistanceService persistanceService;
@@ -28,7 +28,7 @@ public abstract class MitooModel{
 
     private SteakApi steakApiService;
 
-    public MitooModel(MitooActivity activity) {
+    public MitooService(MitooActivity activity) {
         setActivity(activity);
         BusProvider.register(this);
     }

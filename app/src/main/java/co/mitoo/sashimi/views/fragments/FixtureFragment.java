@@ -46,7 +46,6 @@ public class FixtureFragment extends MitooFragment {
     private TextView locationTextView;
     private TextView statusTextView;
     private TextView addressTextView;
-    private NotificationReceive notificationReceive;
     private int fixtureID = MitooConstants.invalidConstant;
     private int competitionSeasonID = MitooConstants.invalidConstant;
     private int homeTeamID = MitooConstants.invalidConstant;
@@ -63,14 +62,26 @@ public class FixtureFragment extends MitooFragment {
         requestData();
     }
 
+    private void initializeFixtureID(Bundle savedInstanceState) {
+
+        if (savedInstanceState != null) {
+            this.fixtureID = savedInstanceState.getInt(getFixtureIdKey());
+        } else {
+            this.fixtureID = getArguments().getInt(getFixtureIdKey());
+        }
+
+    }
+
     @Subscribe
     public void onNotificationRecieve(NotificationUpdateResponseEvent event) {
-        this.notificationReceive = event.getNotificationReceive();
-        this.fixtureWrapper = null;
-        this.homeTeam = null;
-        this.awayTeam = null;
-        this.fixtureID = Integer.parseInt(event.getNotificationReceive().getObj_id());
-        requestData();
+        this.fixtureWrapper = event.getFixtureWrapper();
+        this.fixtureID = this.fixtureWrapper.getFixture().getId();
+        this.competitionSeasonID = this.fixtureWrapper.getFixture().getCompetition_season_id();
+        this.homeTeamID = this.fixtureWrapper.getFixture().getHome_team_id();
+        this.awayTeamID = this.fixtureWrapper.getFixture().getAway_team_id();
+        this.homeTeam=null;
+        this.awayTeam=null;
+        requestAddtionalData();
     }
 
     @Override
@@ -153,8 +164,9 @@ public class FixtureFragment extends MitooFragment {
     @Override
     protected void handleHttpErrors(int statusCode) {
 
-        if (statusCode == 404)
-            routeToHome();
+        if (statusCode == 404){
+            //DO NOTHING
+        }
         else
             super.handleHttpErrors(statusCode);
     }
@@ -200,6 +212,7 @@ public class FixtureFragment extends MitooFragment {
     @Subscribe
     public void onCompetitionResponse(CompetitionSeasonResponseEvent event) {
         this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
+        updateToolbar();
     }
 
     private void updateViews() {
@@ -381,18 +394,6 @@ public class FixtureFragment extends MitooFragment {
         setUpStatusText(getResources().getColor(R.color.orange_light));
     }
 
-    private int getFixtureIDFromNotifcation() {
-
-        int result = MitooConstants.invalidConstant;
-        if (getNotificationReceive() != null) {
-            String fixtureID = getNotificationReceive().getObj_id();
-            if (fixtureID != null)
-                result = Integer.parseInt(getNotificationReceive().getObj_id());
-        }
-        return result;
-
-    }
-
     private void setUpRedStatus() {
         setUpStatusText(getResources().getColor(R.color.red_light));
     }
@@ -408,23 +409,6 @@ public class FixtureFragment extends MitooFragment {
         return this.fixtureWrapper != null;
     }
 
-    public NotificationReceive getNotificationReceive() {
-        return notificationReceive;
-    }
-
-    public void setNotificationReceive(NotificationReceive notificationReceive) {
-        this.notificationReceive = notificationReceive;
-    }
-
-    private void initializeFixtureID(Bundle savedInstanceState) {
-
-        if (savedInstanceState != null) {
-            this.fixtureID = savedInstanceState.getInt(getFixtureIdKey());
-        } else {
-            this.fixtureID = getArguments().getInt(getFixtureIdKey());
-        }
-
-    }
 
     private void googleMapAction() {
 

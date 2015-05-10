@@ -40,6 +40,25 @@ public class PreConfirmFragment extends MitooFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            this.userID = savedInstanceState.getInt(getUserIDKey());
+        }else{
+            this.userID = getArguments().getInt(getUserIDKey());
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt(getUserIDKey(), this.userID);
+        super.onSaveInstanceState(bundle);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = this.getActivity().getLayoutInflater().inflate(R.layout.fragment_pre_confirm,
@@ -160,20 +179,7 @@ public class PreConfirmFragment extends MitooFragment {
     }
 
     private void resendButtonAction(){
-        BusProvider.post(new RetriggerEmailSmsEvent(Integer.toString(getUserID())));
-    }
-
-    @Override
-    public int getUserID() {
-
-        if(this.userID == MitooConstants.invalidConstant){
-            Bundle bundle = getArguments();
-            String key = getString(R.string.bundle_key_user_id);
-            String value = bundle.getString(key);
-            if(value!=null)
-                this.userID = Integer.parseInt(bundle.getString(key));
-        }
-        return userID;
+        BusProvider.post(new RetriggerEmailSmsEvent(Integer.toString(this.userID)));
     }
 
     protected DialogInterface.OnClickListener createAlertListener(){

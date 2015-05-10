@@ -106,6 +106,7 @@
     <dimen name="competition_page_team_padding">8dp</dimen>
     <dimen name="competition_page_center_container_width">98.5dp</dimen>
     <dimen name="competition_page_center_text_width">60dp</dimen>
+    <dimen name="competition_page_team_size">17.5dp</dimen>
 
     <!-- Notification page -->
     <dimen name="notification_page_title_top_padding">20dp</dimen>

@@ -14,19 +14,46 @@ import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
+import co.mitoo.sashimi.utils.events.FixtureNotificaitonRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureNotificationResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by david on 15-03-10.
  */
-public class FixtureService extends MitooModel{
+public class FixtureService extends MitooService {
 
     private List<FixtureWrapper> schedule;
     private List<FixtureWrapper> result;
 
     public FixtureService(MitooActivity activity) {
         super(activity);
+    }
+
+    @Subscribe
+    public void onFixtureNotificaitonRequestEvent(FixtureNotificaitonRequestEvent event){
+
+        Observable<Fixture> observable = getSteakApiService().getFixtureFromFixtureID(event.getFixtureID());
+        observable.subscribe(new Subscriber<Fixture>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                BusProvider.post(new FixtureNotificationResponseEvent(e));
+
+            }
+
+            @Override
+            public void onNext(Fixture fixture) {
+                BusProvider.post(new FixtureNotificationResponseEvent(new FixtureWrapper(fixture , getActivity())));
+
+            }
+        });
     }
 
     @Subscribe
@@ -75,9 +102,9 @@ public class FixtureService extends MitooModel{
             BusProvider.post(new FixtureListResponseEvent(MitooEnum.FixtureTabType.FIXTURE_RESULT,getResult()));
             BusProvider.post(new FixtureListResponseEvent(MitooEnum.FixtureTabType.FIXTURE_SCHEDULE,getSchedule()));
         }else if(objectRecieve instanceof Fixture) {
-            Fixture fixture = (Fixture)objectRecieve;
+            Fixture fixture = (Fixture) objectRecieve;
             addFixtureToList(fixture);
-            BusProvider.post(new FixtureModelIndividualResponse(new FixtureWrapper(fixture , getActivity())));
+            BusProvider.post(new FixtureModelIndividualResponse(new FixtureWrapper(fixture, getActivity())));
         }
     }
 

@@ -70,6 +70,16 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     @Override
+    protected void handleHttpErrors(int statusCode) {
+
+        if (statusCode == 404){
+            //DO NOTHING
+        }
+        else
+            super.handleHttpErrors(statusCode);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -87,16 +97,14 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (this.dataLoaded == false){
-
-            requestData();
-
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        if (allDataLoaded()==false){
+            requestData();
+        }
         updateView();
 
     }
@@ -128,21 +136,24 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setNoResultsTextView((TextView) view.findViewById(R.id.noFixturesTextView));
         setFixtureListView((ListView) view.findViewById(R.id.fixture_list_view));
-        setPreDataLoading(true);
+        if(allDataLoaded()==false)
+            setPreDataLoading(true);
         this.viewLoaded = true;
         updateView();
     }
 
     private void updateView() {
 
-        if (fixtureListRecieved() && CompetitionSeasonTabFragment.this.viewLoaded && teamDataLoaded()) {
+        if (allDataLoaded()) {
             getFixtureListView().setAdapter(getFixtureListAdapter());
             setUpNoResultsView();
             setPreDataLoading(false);
-            CompetitionSeasonTabFragment.this.viewLoaded = true;
-
         }
 
+    }
+
+    private boolean allDataLoaded(){
+        return fixtureListRecieved() && this.viewLoaded && teamDataLoaded();
     }
 
     @Override

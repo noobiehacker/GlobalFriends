@@ -21,9 +21,9 @@ import retrofit.client.Response;
  * Created by david on 14-11-11.
  */
 
-public class SessionModel extends MitooModel implements IsPersistable {
+public class SessionService extends MitooService implements IsPersistable {
 
-    public SessionModel(MitooActivity activity) {
+    public SessionService(MitooActivity activity) {
         super(activity);
     }
 

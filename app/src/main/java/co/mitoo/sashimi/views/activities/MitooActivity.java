@@ -39,6 +39,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.MitooLocationManager;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
+import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.utils.AppStringHelper;
@@ -53,9 +54,12 @@ import co.mitoo.sashimi.utils.MitooNotificationIntentReceiver;
 import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureNotificaitonRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureNotificationResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
+import co.mitoo.sashimi.utils.events.MobileTokenDisassociateRequestEvent;
 import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
 import co.mitoo.sashimi.views.application.MitooApplication;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
@@ -63,6 +67,7 @@ import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
 import co.mitoo.sashimi.utils.events.NotificationEvent;
 import co.mitoo.sashimi.views.fragments.FixtureFragment;
+import co.mitoo.sashimi.views.fragments.HomeFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import co.mitoo.sashimi.views.fragments.SplashScreenFragment;
 import io.branch.referral.Branch;
@@ -99,7 +104,7 @@ public class MitooActivity extends ActionBarActivity {
         if (savedInstanceState == null) {
             MitooActivity.activityStarted = true;
             startApp();
-        } else{
+        } else {
             this.authToken = savedInstanceState.getString(getAuthTokenKey());
             updateAuthToken(this.authToken);
         }
@@ -138,6 +143,7 @@ public class MitooActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         getBranch().initSession(getBranchReferralInitListener(), getIntent().getData(), this);
+        //CONSUME EVENTS HERE, BECAUSE ONRESUME WILL GET CALLED WHEN WE SLIDE THE NOTIFICAITON THING DOWN
         consumeEventsInQueue();
 
     }
@@ -236,7 +242,7 @@ public class MitooActivity extends ActionBarActivity {
             popAllFragments();
         hideSoftKeyboard();
 
-        if(event.popPrevious())
+        if (event.popPrevious())
             popFragment();
 
         switch (event.getTransition()) {
@@ -411,8 +417,8 @@ public class MitooActivity extends ActionBarActivity {
 
     public void updateAuthToken(String auth_token) {
 
-        if (auth_token != null){
-            this.authToken=auth_token;
+        if (auth_token != null) {
+            this.authToken = auth_token;
             ServiceBuilder.getSingleTonInstance().setXAuthToken(this.authToken);
         }
     }
@@ -439,7 +445,8 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     private void logOutNetWorkCalls() {
-        getModelManager().getMobileTokenModel().requestDeviceTokenDisassociation();
+        getModelManager().getMobileTokenModel();
+        BusProvider.post(new MobileTokenDisassociateRequestEvent());
     }
 
     @Subscribe
@@ -719,7 +726,7 @@ public class MitooActivity extends ActionBarActivity {
 
         boolean result = false;
 
-        if(getFragmentStack().size()>0){
+        if (getFragmentStack().size() > 0) {
             MitooFragment fragment = (MitooFragment) getFragmentStack().peek();
             if (fragment != null) {
                 if (fragment instanceof ConfirmAccountFragment ||
@@ -752,43 +759,78 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     @Subscribe
-    public void onNotificationRecieve(NotificationEvent event) {
+    public void onFixtureNotificationResponseEvent(FixtureNotificationResponseEvent event) {
 
-        if (topFragmentType() == FixtureFragment.class)
-            BusProvider.post(new NotificationUpdateResponseEvent(event.getNotificationReceive()));
+        if(getFragmentStack().size()>0){
+            MitooFragment fragmemt = getFragmentStack().peek();
+            if(fragmemt instanceof HomeFragment)
+                fragmemt.setLoading(false);
+        }
+
+        //IF WER ARE ON FIXTURE SCREEN
+        if (topFragmentType() == FixtureFragment.class && !event.hasError())
+            BusProvider.post(new NotificationUpdateResponseEvent(event.getFixture()));
         else {
+
+            //IF WER ARE ON OTHER SCREEN
+
+            Bundle homeBundle = new Bundle();
+            homeBundle.putInt(getUserIDKey(), getUserID());
+
+            //HOME SCREEN PUSH
             FragmentChangeEvent firstEvent = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_home)
                     .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                    .setBundle(homeBundle)
                     .build();
 
-            FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                    .setFragmentID(R.id.fragment_competition)
-                    .build();
-
-            FragmentChangeEvent thirdEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                    .setFragmentID(R.id.fragment_fixture)
-                    .setBundle(createNotifcationBundle(event.getNotificationReceive()))
-                    .build();
 
             getEventQueue().offer(firstEvent);
-            getEventQueue().offer(seconndEvent);
-            getEventQueue().offer(thirdEvent);
+
+            if (!event.hasError()) {
+                //COMPETITION SEASON SCREEN PUSH
+
+                Bundle competitionBundle = new Bundle();
+                competitionBundle.putInt(getCompetitionSeasonIdKey(), event.getFixture().getFixture().getCompetition_season_id());
+                FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                        .setFragmentID(R.id.fragment_competition)
+                        .setTransition(MitooEnum.FragmentTransition.PUSH)
+                        .setBundle(competitionBundle)
+                        .build();
+                getEventQueue().offer(seconndEvent);
+
+                //FIXTURE SCREEN PUSH
+
+                Bundle fixtureBundle = new Bundle();
+                fixtureBundle.putInt(getFixtureIdKey(), event.getFixture().getFixture().getId());
+                FragmentChangeEvent thirdEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                        .setFragmentID(R.id.fragment_fixture)
+                        .setTransition(MitooEnum.FragmentTransition.PUSH)
+                        .setBundle(fixtureBundle)
+                        .build();
+                getEventQueue().offer(thirdEvent);
+            }
+
+            if (!getFragmentStack().isEmpty())
+                consumeEventsInQueue();
 
         }
 
-        if (topFragmentType() == SplashScreenFragment.class)
-            consumeEventsInQueue();
-
     }
 
+    @Subscribe
+    public void onNotificationRecieve(NotificationEvent event) {
 
-    private Bundle createNotifcationBundle(NotificationReceive notificationReceive) {
-        Bundle bundle = new Bundle();
-        String value = notificationReceive.getObj_id();
-        int fixtureID = Integer.parseInt(value);
-        bundle.putInt(getFixtureIdKey(), fixtureID);
-        return bundle;
+        String fixtureObjectID = event.getNotificationReceive().getObj_id();
+        int fixtureID = Integer.parseInt(fixtureObjectID);
+        if(getFragmentStack().size()>0){
+            MitooFragment fragmemt = getFragmentStack().peek();
+            if(fragmemt instanceof HomeFragment)
+                fragmemt.setLoading(true);
+        }
+        getModelManager().getFixtureModel();
+        BusProvider.post(new FixtureNotificaitonRequestEvent(fixtureID));
+
     }
 
     private String getFixtureIdKey() {
@@ -865,7 +907,30 @@ public class MitooActivity extends ActionBarActivity {
         return getString(R.string.bundle_key_confirm_token_key);
     }
 
-    protected String getAuthTokenKey(){
+    protected String getAuthTokenKey() {
         return getString(R.string.bundle_key_auth_token_key);
+    }
+
+    protected String getUserIDKey() {
+        return getString(R.string.bundle_key_user_id_key);
+    }
+
+    protected int getUserID() {
+
+        DataPersistanceService service = getPersistanceService();
+        String key = getString(R.string.shared_preference_session_key);
+
+        Object object = service.readFromPreference(key, SessionRecieve.class);
+
+        if (object instanceof SessionRecieve) {
+            SessionRecieve session = (SessionRecieve) object;
+            return session.id;
+        } else {
+            return MitooConstants.invalidConstant;
+        }
+    }
+
+    protected String getCompetitionSeasonIdKey() {
+        return getString(R.string.bundle_key_competition_id_key);
     }
 }

@@ -12,7 +12,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.models.LocationService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -151,7 +151,7 @@ public class LocationSearchFragment extends MitooFragment implements AdapterView
         if(query.equals("")){
             updatePredictions(new ArrayList<IsSearchable>());
         }else{
-            LocationModel locationModel = getLocationModel();
+            LocationService locationModel = getLocationModel();
             if(locationModel!=null){
                 locationModel.searchForPrediction(query);
             }

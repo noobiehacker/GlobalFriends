@@ -9,11 +9,10 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
-import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenAssociateRequestEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenDisassociateRequestEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rx.Observable;
 
@@ -21,9 +20,9 @@ import rx.Observable;
  * Created by david on 15-03-29.
  */
 
-public class MobileTokenModel  extends MitooModel  implements IsPersistable {
+public class MobileTokenService extends MitooService implements IsPersistable {
 
-    public MobileTokenModel(MitooActivity activity) {
+    public MobileTokenService(MitooActivity activity) {
         super(activity);
     }
 
@@ -53,7 +52,8 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         }
     }
 
-    public void requestDeviceTokenDisassociation() {
+    @Subscribe
+    public void requestDeviceTokenDisassociation(MobileTokenDisassociateRequestEvent event) {
 
         if(this.channelIDSent==true)
             handleObservable(getSteakApiService().deleteDeviceAssociation(getChannelID())

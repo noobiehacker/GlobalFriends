@@ -12,7 +12,7 @@ import com.squareup.picasso.Callback;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
+import co.mitoo.sashimi.models.LeagueService;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -174,7 +174,7 @@ public class LeagueViewHelper {
 
     private void leagueListItemAction(MitooFragment fragment,League league){
 
-        LeagueModel model =getActivity().getModelManager().getLeagueModel();
+        LeagueService model =getActivity().getModelManager().getLeagueModel();
         model.setSelectedLeague(league);
         fragment.fireFragmentChangeAction(R.id.fragment_league);
 

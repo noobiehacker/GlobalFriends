@@ -3,7 +3,6 @@ import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -17,11 +16,11 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 /**
  * Created by david on 15-03-10.
  */
-public class TeamModel extends MitooModel {
+public class TeamService extends MitooService {
 
     private List<Team> competitionTeams;
 
-    public TeamModel(MitooActivity activity) {
+    public TeamService(MitooActivity activity) {
         super(activity);
     }
 

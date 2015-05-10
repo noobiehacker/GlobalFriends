@@ -2,18 +2,18 @@ package co.mitoo.sashimi.managers;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.mitoo.sashimi.models.AppSettingsModel;
-import co.mitoo.sashimi.models.CompetitionModel;
-import co.mitoo.sashimi.models.ConfirmInfoModel;
+import co.mitoo.sashimi.models.AppSettingsService;
+import co.mitoo.sashimi.models.CompetitionService;
+import co.mitoo.sashimi.models.ConfirmInfoService;
 import co.mitoo.sashimi.models.FixtureService;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.LocationModel;
-import co.mitoo.sashimi.models.MitooModel;
-import co.mitoo.sashimi.models.MobileTokenModel;
-import co.mitoo.sashimi.models.NotificationPreferenceModel;
-import co.mitoo.sashimi.models.SessionModel;
-import co.mitoo.sashimi.models.TeamModel;
-import co.mitoo.sashimi.models.UserInfoModel;
+import co.mitoo.sashimi.models.LeagueService;
+import co.mitoo.sashimi.models.LocationService;
+import co.mitoo.sashimi.models.MitooService;
+import co.mitoo.sashimi.models.MobileTokenService;
+import co.mitoo.sashimi.models.NotificationPreferenceService;
+import co.mitoo.sashimi.models.SessionService;
+import co.mitoo.sashimi.models.TeamService;
+import co.mitoo.sashimi.models.UserInfoService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
@@ -27,13 +27,13 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
 public class ModelManager {
 
     private MitooActivity activity;
-    private List<MitooModel> mitooModelList;
+    private List<MitooService> mitooServiceList;
     private List<IsPersistable> persistableList;
     protected Runnable currentRunnable;
 
     public ModelManager(MitooActivity activity) {
         setActivity(activity);
-        setMitooModelList(new ArrayList<MitooModel>());
+        setMitooModelList(new ArrayList<MitooService>());
         setPersistableList(new ArrayList<IsPersistable>());
         inializeOnStartModels();
     }
@@ -46,43 +46,43 @@ public class ModelManager {
         this.activity = activity;
     }
 
-    public LeagueModel getLeagueModel() {
+    public LeagueService getLeagueModel() {
 
-        return (LeagueModel) getModel(LeagueModel.class);
-
-    }
-
-    public SessionModel getSessionModel() {
-
-        return (SessionModel) getModel(SessionModel.class);
+        return (LeagueService) getModel(LeagueService.class);
 
     }
 
-    public UserInfoModel getUserInfoModel() {
+    public SessionService getSessionModel() {
 
-        return (UserInfoModel) getModel(UserInfoModel.class);
-
-    }
-
-    public LocationModel getLocationModel() {
-
-        return (LocationModel) getModel(LocationModel.class);
+        return (SessionService) getModel(SessionService.class);
 
     }
 
-    public AppSettingsModel getAppSettingsModel() {
+    public UserInfoService getUserInfoModel() {
 
-        return (AppSettingsModel) getModel(AppSettingsModel.class);
+        return (UserInfoService) getModel(UserInfoService.class);
+
     }
 
-    public CompetitionModel getCompetitionModel() {
+    public LocationService getLocationModel() {
 
-        return (CompetitionModel) getModel(CompetitionModel.class);
+        return (LocationService) getModel(LocationService.class);
+
     }
 
-    public TeamModel getTeamModel() {
+    public AppSettingsService getAppSettingsModel() {
 
-        return (TeamModel) getModel(TeamModel.class);
+        return (AppSettingsService) getModel(AppSettingsService.class);
+    }
+
+    public CompetitionService getCompetitionModel() {
+
+        return (CompetitionService) getModel(CompetitionService.class);
+    }
+
+    public TeamService getTeamModel() {
+
+        return (TeamService) getModel(TeamService.class);
     }
 
     public FixtureService getFixtureModel() {
@@ -90,17 +90,17 @@ public class ModelManager {
         return (FixtureService)getModel(FixtureService.class);
     }
 
-    public ConfirmInfoModel getConfirmInfoModel() {
+    public ConfirmInfoService getConfirmInfoModel() {
 
-        return (ConfirmInfoModel)getModel(ConfirmInfoModel.class);
+        return (ConfirmInfoService)getModel(ConfirmInfoService.class);
     }
 
-    public NotificationPreferenceModel getNotificationPreferenceModel() {
+    public NotificationPreferenceService getNotificationPreferenceModel() {
 
-        return (NotificationPreferenceModel)getModel(NotificationPreferenceModel.class);
+        return (NotificationPreferenceService)getModel(NotificationPreferenceService.class);
     }
 
-    private <T> MitooModel getModel(Class<T> classType) {
+    private <T> MitooService getModel(Class<T> classType) {
 
         T classModel = null;
         Object model = getModelFromList(classType);
@@ -116,19 +116,19 @@ public class ModelManager {
                 String tremp = e.toString();
 
             }
-            addModel((MitooModel) model);
+            addModel((MitooService) model);
         }
-        return (MitooModel) model;
+        return (MitooService) model;
     }
 
-    public MobileTokenModel getMobileTokenModel() {
+    public MobileTokenService getMobileTokenModel() {
 
-        MobileTokenModel mobileTokenModel = null;
-        MitooModel model = getModel(MobileTokenModel.class);
+        MobileTokenService mobileTokenModel = null;
+        MitooService model = getModel(MobileTokenService.class);
         if (model != null) {
-            mobileTokenModel  = (MobileTokenModel) model;
+            mobileTokenModel  = (MobileTokenService) model;
         } else {
-            mobileTokenModel  = new MobileTokenModel(getMitooActivity());
+            mobileTokenModel  = new MobileTokenService(getMitooActivity());
             addModel(mobileTokenModel );
         }
         return mobileTokenModel;
@@ -142,15 +142,15 @@ public class ModelManager {
         this.persistableList = persistableList;
     }
 
-    public List<MitooModel> getMitooModelList() {
-        return mitooModelList;
+    public List<MitooService> getMitooModelList() {
+        return mitooServiceList;
     }
 
-    public void setMitooModelList(List<MitooModel> mitooModelList) {
-        this.mitooModelList = mitooModelList;
+    public void setMitooModelList(List<MitooService> mitooServiceList) {
+        this.mitooServiceList = mitooServiceList;
     }
 
-    public void addModel(MitooModel modelToAdd) {
+    public void addModel(MitooService modelToAdd) {
 
         getMitooModelList().add(modelToAdd);
 
@@ -160,11 +160,11 @@ public class ModelManager {
         }
     }
 
-    public MitooModel getModelFromList(Class<?> modelClass) {
+    public MitooService getModelFromList(Class<?> modelClass) {
 
-        MitooModel result = null;
+        MitooService result = null;
         forloop:
-        for(MitooModel item : this.mitooModelList){
+        for(MitooService item : this.mitooServiceList){
             if(modelClass.isInstance(item)){
                 result = item;
             }
@@ -183,7 +183,7 @@ public class ModelManager {
 
         boolean result = false;
         forloop:
-        for(MitooModel item : this.mitooModelList){
+        for(MitooService item : this.mitooServiceList){
             if(modelClass.isInstance(item)){
                 result = true;
             }
@@ -258,7 +258,7 @@ public class ModelManager {
 
         DataHelper dataHelper = new DataHelper(getMitooActivity());
 
-        for(MitooModel item  : getMitooModelList()){
+        for(MitooService item  : getMitooModelList()){
             item.resetFields();
         }
         System.gc();
