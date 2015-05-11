@@ -10,14 +10,17 @@ import android.widget.TextView;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonSignUpSend;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
+import co.mitoo.sashimi.utils.events.LeagueRequestFromIDEvent;
+import co.mitoo.sashimi.utils.events.LeagueResponseFromIDEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
@@ -27,16 +30,58 @@ import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
  */
 public class SignUpFragment extends MitooFragment {
 
-    private League selectedLeague;
-    private boolean loggedIn;
+    private LeagueModel leagueModel;
     private EditText topEditText;
+    private TextView topSignUpText;
+    private boolean viewLoaded;
+    private int leagueID;
+
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            this.leagueID = savedInstanceState.getInt(getLeagueIDKey());
+        }else{
+            this.leagueID =  getArguments().getInt(getLeagueIDKey());
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt(getLeagueIDKey(), this.leagueID);
+        super.onSaveInstanceState(bundle);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        requestFocusForInput(getTopEditText());
+        BusProvider.post(new LeagueRequestFromIDEvent(this.leagueID));
+    }
+
+    @Subscribe
+    public void onLeagueResponse(LeagueResponseFromIDEvent event) {
+
+        if(event.getLeagueModel()!=null){
+            this.leagueModel =event.getLeagueModel();
+            updateView();
+        }
+
+    }
+
+    private void updateView(){
+
+        if(this.leagueModel !=null && getRootView()!=null && this.viewLoaded){
+            getViewHelper().setUpLeagueBackgroundView(getRootView(), this.leagueModel.getLeague());
+            setUpSignUpInfoText(getRootView());
+        }
 
     }
 
@@ -45,7 +90,6 @@ public class SignUpFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_sign_up,
                 container, false);
-        initializeFields();
         initializeViews(view);
         initializeOnClickListeners(view);
         return view;
@@ -53,33 +97,24 @@ public class SignUpFragment extends MitooFragment {
 
     @Override
     protected void initializeOnClickListeners(View view) {
-        view.findViewById(R.id.joinButton).setOnClickListener(this);
         super.initializeOnClickListeners(view);
-        /*Take out for V1
-        view.findViewById(R.id.facebookJoinButton).setOnClickListener(this);*/
+        view.findViewById(R.id.joinButton).setOnClickListener(this);
     }
 
     @Override
     protected void initializeFields() {
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_join));
-        setLoggedIn(getSessionModel().userIsLoggedIn());
     }
     
     @Override
-    protected void initializeViews(View view){
-        
+    protected void initializeViews(View view) {
+
         super.initializeViews(view);
-        getViewHelper().setUpLeagueBackgroundView(view, getSelectedLeague());
-        setTopEditText((EditText)view.findViewById(R.id.nameInput));
-        setUpSignUpInfoText(view);
-    }
-
-    @Override
-    public void onStart(){
-
-        super.onResume();
-        requestFocusForInput(getTopEditText());
+        this.topEditText = (EditText) view.findViewById(R.id.nameInput);
+        this.topSignUpText = (TextView) view.findViewById(R.id.signUpTopText);
+        this.viewLoaded = true;
+        updateView();
 
     }
 
@@ -90,10 +125,6 @@ public class SignUpFragment extends MitooFragment {
                 case R.id.joinButton:
                     joinButtonAction();
                     break;
-            /* Take Out For V1
-            case R.id.facebookJoinButton:
-                facebookJoinButtonAction();
-                break;*/
             }
         }
     }
@@ -103,22 +134,22 @@ public class SignUpFragment extends MitooFragment {
         if (allInputsAreValid()) {
             setLoading(true);
             JsonSignUpSend signUpSend = createSignUpJsonFromInput();
+
             SessionModelRequestEvent event = new SessionModelRequestEvent(MitooEnum.SessionRequestType.SIGNUP, signUpSend);
-            getSessionModel().requestSession(event);
+            BusProvider.post(event);
 
         } else {
             handleInvalidInputs();
         }
 
-   
     }
 
     @Subscribe
     public void onJoinResponse(SessionModelResponseEvent event) {
 
         setLoading(false);
-        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id);
-        getLeagueModel().requestToEnquireLeague(requestEvent);
+        LeagueModelEnquireRequestEvent requestEvent = new LeagueModelEnquireRequestEvent(event.getSession().id,this.leagueModel);
+        BusProvider.post(requestEvent);
     }
 
     @Subscribe
@@ -126,20 +157,22 @@ public class SignUpFragment extends MitooFragment {
 
         setLoading(false);
         getMitooActivity().hideSoftKeyboard();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(getLeagueIDKey(), this.leagueID);
+
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_sign_up_confirm)
                 .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .setBundle(bundle)
                 .build();
-        postFragmentChangeEvent(fragmentChangeEvent);
+        BusProvider.post(fragmentChangeEvent);
 
     }
 
     @Subscribe
     public void onError(MitooActivitiesErrorEvent error){
         super.onError(error);
-    }
-
-    private void facebookJoinButtonAction() {
     }
 
     private JsonSignUpSend createSignUpJsonFromInput() {
@@ -165,17 +198,6 @@ public class SignUpFragment extends MitooFragment {
 
     private String getTimeZone() {
         return this.getTextFromTextField(R.id.passwordInput);
-    }
-
-    public League getSelectedLeague() {
-        if(selectedLeague==null){
-            setSelectedLeague(getLeagueModel().getSelectedLeague());
-        }
-        return selectedLeague;
-    }
-
-    public void setSelectedLeague(League selectedLeague) {
-        this.selectedLeague = selectedLeague;
     }
 
     private boolean allInputsAreValid(){
@@ -228,33 +250,24 @@ public class SignUpFragment extends MitooFragment {
         return result;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
-
-    private MitooEnum.ViewType getViewType(){
-
-        return MitooEnum.ViewType.FRAGMENT;
-
-    }
-
     public EditText getTopEditText() {
         return topEditText;
     }
 
-    public void setTopEditText(EditText topEditText) {
-        this.topEditText = topEditText;
-    }
-
     private void setUpSignUpInfoText(View view){
 
-        TextView topSignUpText = (TextView)view.findViewById(R.id.signUpTopText);
-        String leagueName = getSelectedLeague().getName();
-        topSignUpText.setText(getDataHelper().createSignUpInfo(leagueName));
+        if(this.leagueModel !=null){
+            String leagueName = this.leagueModel.getLeague().getName();
+            topSignUpText.setText(getDataHelper().createSignUpInfo(leagueName));
+        }
 
+    }
+
+    private String getFirstSport(){
+        String result = "";
+        if(this.leagueModel!=null){
+            result =this.leagueModel.getLeague().getFirstSports();
+        }
+        return result ;
     }
 }

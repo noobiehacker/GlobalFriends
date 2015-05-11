@@ -297,10 +297,13 @@ public class LeagueViewHelper {
         ImageView iconImage = (ImageView) view.findViewById(R.id.enquired_list_icon);
         int iconDimenID = R.dimen.enquired_list_icon_length;
         float ratio = getActivity().getDataHelper().getFloatValue(R.dimen.width_to_height_ratio);
-        getViewHelper().getPicasso().with(getActivity())
-                .load(leagueIconUrl)
-                .transform(new LogoTransform(getViewHelper().getPixelFromDimenID(iconDimenID), ratio))
-                .into(iconImage, createListIconCallBack(view));
+        if(leagueIconUrl != null && !leagueIconUrl.isEmpty()){
+            getViewHelper().getPicasso().with(getActivity())
+                    .load(leagueIconUrl)
+                    .transform(new LogoTransform(getViewHelper().getPixelFromDimenID(iconDimenID), ratio))
+                    .into(iconImage, createListIconCallBack(view));
+        }
+
     }
 
         /*

@@ -32,7 +32,7 @@ public class MobileTokenService extends MitooService implements IsPersistable {
         return jsonDeviceInfo;
     }
 
-    public Boolean channelIDSent;
+    public boolean channelIDSent;
     public boolean fireLogOutEvent=false;
 
     public void setJsonDeviceInfo(JsonDeviceInfo jsonDeviceInfo) {

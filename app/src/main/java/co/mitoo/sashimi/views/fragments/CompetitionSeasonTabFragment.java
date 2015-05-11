@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,13 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -242,14 +239,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     public FixtureListAdapter getFixtureListAdapter() {
         if (fixtureListAdapter == null)
             fixtureListAdapter = new FixtureListAdapter(getActivity(), R.id.fixture_list_view,
-                    getFixtureList(), this);
+                    new ArrayList<FixtureModel>(), this);
         return fixtureListAdapter;
-    }
-
-    public List<FixtureModel> getFixtureList() {
-        if (fixtureList == null)
-            fixtureList = new ArrayList<FixtureModel>();
-        return fixtureList;
     }
 
     @Subscribe
@@ -266,7 +257,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     private boolean fixtureListRecieved() {
-        return getFixtureList() != null && !getFixtureList().isEmpty();
+        return this.fixtureList != null;
     }
 
     private String getTabIndexKey() {
@@ -284,6 +275,5 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private boolean teamDataLoaded() {
         return this.teams != null;
     }
-
 
 }

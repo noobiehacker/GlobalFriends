@@ -37,8 +37,10 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
 
         setUpCompetitionText(convertView, competition);
         League league = competition.getLeague();
-        setUpLeagueIcon(convertView, league);
-        setUpLeagueText(convertView, league);
+        if(league!=null){
+            setUpLeagueIcon(convertView, league);
+            setUpLeagueText(convertView, league);
+        }
         return convertView;
     }
 

@@ -27,23 +27,12 @@ public class SessionModelRequestEvent extends TokenRequestEvent {
         return loginUser;
     }
 
-    public void setLoginUser(JsonLoginSend loginUser) {
-        this.loginUser = loginUser;
-    }
-
     public JsonSignUpSend getSingUpUser() {
         return singUpUser;
-    }
-
-    public void setSingUpUser(JsonSignUpSend singUpUser) {
-        this.singUpUser = singUpUser;
     }
 
     public MitooEnum.SessionRequestType getRequestType() {
         return requestType;
     }
 
-    public void setRequestType(MitooEnum.SessionRequestType requestType) {
-        this.requestType = requestType;
-    }
 }

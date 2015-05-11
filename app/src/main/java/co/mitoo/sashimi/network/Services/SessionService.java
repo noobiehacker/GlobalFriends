@@ -40,6 +40,7 @@ public class SessionService extends MitooService implements IsPersistable {
         this.session = user;
     }
 
+    @Subscribe
     public void requestSession(SessionModelRequestEvent event) {
 
         handleRequestEvent(event);

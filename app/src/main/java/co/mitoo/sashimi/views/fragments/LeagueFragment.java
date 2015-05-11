@@ -208,8 +208,7 @@ public class LeagueFragment extends MitooFragment {
         }
         else{
             Bundle bundle = new Bundle();
-            int LeagueID = this.leagueModel.getLeague().getId();
-            bundle.putString(getString(R.string.bundle_key_league_object_id),String.valueOf(LeagueID));
+            bundle.putInt(getLeagueIDKey(), this.leagueID);
             FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_sign_up)
                     .setBundle(bundle)

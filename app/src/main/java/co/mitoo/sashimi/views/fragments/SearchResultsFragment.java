@@ -184,16 +184,6 @@ public class SearchResultsFragment extends MitooFragment {
         super.removeDynamicViews();
     }
 
-    @Override
-    public void setLoading(boolean loading) {
-        this.loading = loading;
-        if (this.loading) {
-            getProgressLayout().showProgress();
-        } else {
-            getProgressLayout().showContent();
-        }
-    }
-
     public TextView getNoResultsView() {
         return noResultsView;
     }
