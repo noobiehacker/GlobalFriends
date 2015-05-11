@@ -63,14 +63,16 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true">
 
         <activity
             android:name="co.mitoo.sashimi.views.activities.MitooActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
+            android:launchMode ="standard"
             android:screenOrientation="portrait"
+            android:alwaysRetainTaskState="true"
             android:windowSoftInputMode="adjustResize" >
 
             <intent-filter>

@@ -76,7 +76,9 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
     private void loginButtonAction(){
 
         FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
-                .setFragmentID(R.id.fragment_login)
+                .setFragmentID(R.id.fragment_pre_login)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                 .build();
         postFragmentChangeEvent(event);
 

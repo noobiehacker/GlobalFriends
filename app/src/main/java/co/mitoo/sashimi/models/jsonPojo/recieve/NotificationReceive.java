@@ -12,7 +12,7 @@ import co.mitoo.sashimi.utils.StaticString;
  */
 @JsonRootName(value = "")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NotificationRecieve {
+public class NotificationReceive {
 
     private String mitoo_action ;
     private String obj_id ;
@@ -42,12 +42,12 @@ public class NotificationRecieve {
         this.mitoo_action = mitoo_action;
     }
 
-    public NotificationRecieve(Bundle bundle) {
+    public NotificationReceive(Bundle bundle) {
         setObj_id(bundle.getString(StaticString.notificationObjID));
         setObj_type(bundle.getString(StaticString.notificationObjType));
         setMitoo_action(bundle.getString(StaticString.notificationMitooAction));
     }
 
-    public NotificationRecieve() {
+    public NotificationReceive() {
     }
 }

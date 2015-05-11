@@ -68,8 +68,8 @@
 
             <ImageView
                 android:id="@+id/leftTeamIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/competition_page_team_size"
+                android:layout_height="@dimen/competition_page_team_size"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/textContainerLayout"
                 android:src="@drawable/team_logo_tbc" />
@@ -87,8 +87,8 @@
 
             <ImageView
                 android:id="@+id/rightTeamIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/competition_page_team_size"
+                android:layout_height="@dimen/competition_page_team_size"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/textContainerLayout"
                 android:src="@drawable/team_logo_tbc" />

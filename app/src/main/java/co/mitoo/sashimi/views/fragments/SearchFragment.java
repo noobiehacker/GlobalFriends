@@ -12,17 +12,18 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LocationModel;
+import co.mitoo.sashimi.network.Services.LocationService;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooSearchViewStyle;
 import co.mitoo.sashimi.utils.PredictionWrapper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.LocationRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.adapters.SearchableAdapter;
-import se.walkercrou.places.Place;
 
 /**
  * Created by david on 14-11-05.
@@ -208,7 +209,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
 
     public void updateFragmentTitle() {
 
-        LocationModel locationModel = getLocationModel();
+        LocationService locationModel = getLocationModel();
         if (locationModel.isUsingCurrentLocation()) {
             this.fragmentTitle = getString(R.string.search_page_text_4);
 
@@ -235,7 +236,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
                 .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(event);
-        getLocationModel().requestSelectedLocationLatLng();
+        BusProvider.post(new LocationRequestEvent());
 
     }
 
@@ -348,7 +349,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void tearDownReferences() {
         super.tearDownReferences();
-        getSearchView().setIconified(true);
+        if(getSearchView()!=null)
+            getSearchView().setIconified(true);
 
     }
 
@@ -366,7 +368,7 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     private void requestGPSLocation() {
 
         if (getMitooActivity() != null) {
-            LocationModel locationModel = getMitooActivity().getModelManager().getLocationModel();
+            LocationService locationModel = getMitooActivity().getModelManager().getLocationModel();
             locationModel.GpsCurrentLocationRequest();
         }
     }

@@ -1,30 +1,36 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
+import com.squareup.otto.Subscribe;
+
 import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.events.ConfirmInfoModelResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
+import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
  * Created by david on 15-03-20.
  */
-public class ConfirmInfoModel extends MitooModel{
+public class ConfirmInfoService extends MitooService {
 
     private ConfirmInfo confirmInfo;
-
-    public ConfirmInfoModel(MitooActivity activity) {
+    private String token;
+    public ConfirmInfoService(MitooActivity activity) {
         super(activity);
     }
 
-    public void requestConfirmationInformation(String token){
+    @Subscribe
+    public void requestConfirmationInformation(ConfirmingUserRequestEvent event){
 
+        if(event.getToken()!=null)
+            this.token = event.getToken();
         if(getConfirmInfo()==null){
-            handleObservable(getSteakApiService().getConfirmationInfo(token), ConfirmInfo.class) ;
+            handleObservable(getSteakApiService().getConfirmationInfo(event.getToken()), ConfirmInfo.class) ;
         }
         else{
-            BusProvider.post(new ConfirmInfoModelResponseEvent());
+            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo,this.token));
         }
 
     }
@@ -36,7 +42,8 @@ public class ConfirmInfoModel extends MitooModel{
             ConfirmInfo confirmInfo = (ConfirmInfo) objectRecieve;
             setConfirmInfo(confirmInfo);
             setUpDataForOtherModels(confirmInfo);
-            BusProvider.post(new ConfirmInfoModelResponseEvent());
+            BusProvider.post(new ConfirmInfoResponseEvent(confirmInfo,this.token));
+
         }
     }
 
@@ -58,13 +65,13 @@ public class ConfirmInfoModel extends MitooModel{
         addLeagueDataToComp();
 
         ModelManager manager = getActivity().getModelManager();
-        UserInfoModel userInfoModel = manager.getUserInfoModel();
+        UserInfoService userInfoModel = manager.getUserInfoModel();
         userInfoModel.setUserInfoRecieve(confirmInfo.getUser());
 
-        LeagueModel leagueModel = manager.getLeagueModel();
+        LeagueService leagueModel = manager.getLeagueModel();
         leagueModel.setSelectedLeague(confirmInfo.getLeague());
 
-        CompetitionModel competitionModel = manager.getCompetitionModel();
+        CompetitionService competitionModel = manager.getCompetitionModel();
         competitionModel.resetFields();
         competitionModel.addCompetition(confirmInfo.getCompetition_seasons());
 

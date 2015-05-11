@@ -106,6 +106,7 @@
     <dimen name="competition_page_team_padding">8dp</dimen>
     <dimen name="competition_page_center_container_width">98.5dp</dimen>
     <dimen name="competition_page_center_text_width">60dp</dimen>
+    <dimen name="competition_page_team_size">17.5dp</dimen>
 
     <!-- Notification page -->
     <dimen name="notification_page_title_top_padding">20dp</dimen>
@@ -159,6 +160,13 @@
     <dimen name="notification_toggle_track_radius">12dp</dimen>
     <dimen name="notification_toggle_thumb_radius">9.5dp</dimen>
     <dimen name="notification_toggle_thumb_height">19dp</dimen>
+
+    <!-- Pre Confirm page -->
+
+    <dimen name="pre_confirm_top_padding">30dp</dimen>
+    <dimen name="pre_confirm_middle_padding">10dp</dimen>
+    <dimen name="pre_confirm_bottom_padding">50dp</dimen>
+    <dimen name="pre_confirm_bottom_button_padding">25.5dp</dimen>
 
     <!-- All Pages -->
     <dimen name="spacing_content_top">14dp</dimen>

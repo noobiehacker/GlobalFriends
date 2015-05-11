@@ -1,6 +1,6 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.models.LeagueModel;
 
 /**
  * Created by david on 15-01-22.
@@ -8,24 +8,16 @@ import co.mitoo.sashimi.utils.MitooEnum;
 public class LeagueModelEnquireRequestEvent {
     
     private int userID;
-    private MitooEnum.APIRequest apiRequestType = MitooEnum.APIRequest.REQUEST;
+    private LeagueModel leagueModel;
 
     public LeagueModelEnquireRequestEvent(int userID){
 
         this.userID = userID;
     }
 
-    public LeagueModelEnquireRequestEvent(int userID, MitooEnum.APIRequest apiRequestType) {
+    public LeagueModelEnquireRequestEvent(int userID, LeagueModel leagueModel) {
         this.userID = userID;
-        this.apiRequestType = apiRequestType;
-    }
-
-    public MitooEnum.APIRequest getApiRequestType() {
-        return apiRequestType;
-    }
-
-    public void setApiRequestType(MitooEnum.APIRequest apiRequestType) {
-        this.apiRequestType = apiRequestType;
+        this.leagueModel = leagueModel;
     }
 
     public int getUserID() {
@@ -36,4 +28,7 @@ public class LeagueModelEnquireRequestEvent {
         this.userID = userID;
     }
 
+    public LeagueModel getLeagueModel() {
+        return leagueModel;
+    }
 }

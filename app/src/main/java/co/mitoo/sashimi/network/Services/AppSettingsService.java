@@ -1,16 +1,15 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.IsPersistable;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
  * Created by david on 15-02-18.
  */
-public class AppSettingsModel extends MitooModel implements IsPersistable {
+public class AppSettingsService extends MitooService implements IsPersistable {
 
-    public AppSettingsModel(MitooActivity activity) {
+    public AppSettingsService(MitooActivity activity) {
         super(activity);
     }
 

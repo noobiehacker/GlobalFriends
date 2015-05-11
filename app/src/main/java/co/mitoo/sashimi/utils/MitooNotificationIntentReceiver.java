@@ -4,11 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.squareup.otto.Bus;
 import com.urbanairship.push.BaseIntentReceiver;
 import com.urbanairship.push.PushMessage;
 
-import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.utils.events.NotificationEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
@@ -45,8 +44,8 @@ public class MitooNotificationIntentReceiver extends BaseIntentReceiver {
         Log.i(TAG, "User clicked notification. Alert: " + message.getAlert());
         Bundle bundle = message.getPushBundle();
         if(MitooActivity.activityStarted){
-            NotificationRecieve notificationRecieve = new NotificationRecieve(bundle);
-            BusProvider.post(new NotificationEvent(notificationRecieve));
+            NotificationReceive notificationReceive = new NotificationReceive(bundle);
+            BusProvider.post(new NotificationEvent(notificationReceive));
         }else{
             Intent myIntent = new Intent(context.getApplicationContext(), MitooActivity.class);
             myIntent.putExtra(MitooNotificationIntentReceiver.bundleKey ,bundle);

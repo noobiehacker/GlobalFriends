@@ -11,10 +11,12 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLoginSend;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenAssociateRequestEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -27,6 +29,7 @@ public class LoginFragment extends MitooFragment {
 
     private EditText passWordInput;
     private EditText topEditText;
+    private String presetIdentifier;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -42,6 +45,26 @@ public class LoginFragment extends MitooFragment {
         initializeViews(view);
         initializeOnClickListeners(view);
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState!=null){
+            this.presetIdentifier = savedInstanceState.getString(getIdentifierKey());
+        }else{
+            if(getArguments()!=null)
+                this.presetIdentifier = getArguments().getString(getIdentifierKey());
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putString(getIdentifierKey(), this.presetIdentifier);
+        super.onSaveInstanceState(bundle);
+
     }
 
     @Override
@@ -62,8 +85,6 @@ public class LoginFragment extends MitooFragment {
         view.findViewById(R.id.loginPasswordInput).setOnClickListener(this);
         view.findViewById(R.id.forgetPasswordButton).setOnClickListener(this);
         super.initializeOnClickListeners(view);
-        /*Take out for v1
-        view.findViewById(R.id.facebookLoginButton).setOnClickListener(this);*/
 
     }
 
@@ -76,7 +97,7 @@ public class LoginFragment extends MitooFragment {
         setUpToolBar(view);
 
     }
-    
+
     @Override
     public void onClick(View v) {
         if(getDataHelper().isClickable(v.getId())){
@@ -90,23 +111,24 @@ public class LoginFragment extends MitooFragment {
                 case R.id.loginPasswordInput:
                     passwordInputRequestFocusAction();
                     break;
-            /*Take Out for V1
-            case R.id.facebookLoginButton:
-                facebookLoginButtonAction();
-                break;*/
+
             }
         }
     }
 
-    
+
     @Override
     public void onResume(){
-        
+
         super.onResume();
-        requestFocusForTopInput(getTopEditText());
+        requestFocusForInput(getTopEditText());
+        if(this.presetIdentifier!=null){
+            getTopEditText().setText(this.presetIdentifier);
+            requestFocusForInput(getPassWordInput());
+        }
 
     }
-    
+
     private void loginButtonAction() {
 
         if (allInputsAreValid()) {
@@ -123,7 +145,7 @@ public class LoginFragment extends MitooFragment {
     @Subscribe
     public void onLoginResponse(SessionModelResponseEvent event) {
 
-        getMobileTokenModel().requestDeviceTokenAssociation(getUserID(), true);
+        BusProvider.post(new MobileTokenAssociateRequestEvent(getUserID()));
 
     }
 
@@ -141,21 +163,13 @@ public class LoginFragment extends MitooFragment {
         setLoading(false);
     }
 
-    private void facebookLoginButtonAction(){
-        /*
-        String applicationId =  getResources().getString(R.string.API_key_facebook);
-        ArrayList<String> permissions = new ArrayList<String>();
-        permissions.add("public_profile");
-        FacebookLoginActivity.launch(getActivity(), applicationId, permissions);*/
-    }
-
     private void forgetPasswordAction(){
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_reset_password)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                 .build();
-        postFragmentChangeEvent(fragmentChangeEvent);
+        BusProvider.post(fragmentChangeEvent);
     }
 
     private String getLoginID(){
@@ -206,25 +220,9 @@ public class LoginFragment extends MitooFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        
-        
-      super.onActivityResult(requestCode, resultCode, data);
-        /*if (requestCode == FacebookLoginActivity.FACEBOOK_LOGIN_REQUEST_CODE) {
 
-            if (resultCode == Activity.RESULT_OK) {
-                String faceBookToken = data.getStringExtra(FacebookLoginActivity.EXTRA_FACEBOOK_ACCESS_TOKEN);
-                requestAuthToken(faceBookToken);
-            }
-            else {
-                String errorMessage = data.getStringExtra(FacebookLoginActivity.EXTRA_ERROR_MESSAGE);
-                displayTextWithToast(errorMessage);
-            }
-        }*/
-    }
-    
-    private void requestAuthToken(String faceBookToken){
-        
-  //      BusProvider.post(new AuthTokenExchangeRequestEvent(faceBookToken));
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     public EditText getPassWordInput() {
@@ -234,7 +232,7 @@ public class LoginFragment extends MitooFragment {
     public void setPassWordInput(EditText passWordInput) {
         this.passWordInput = passWordInput;
     }
-    
+
     private void passwordInputRequestFocusAction(){
         if(getPassWordInput()!=null)
             getPassWordInput().requestFocus();

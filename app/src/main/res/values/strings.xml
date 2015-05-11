@@ -22,7 +22,7 @@
     <string name="landing_page_slider_text2">Join a sports league that\nsuits you</string>
     <string name="landing_page_slider_text3">Stay fit and have fun in your\nnew league</string>
     <string name="landing_page_text1">FIND A SPORTS LEAGUE NEAR ME</string>
-    <string name="landing_page_text2">Already have an account? Login</string>
+    <string name="landing_page_text2">Login</string>
 
     <string name="landing_page_terms_text_1">By using Mitoo, you agree to</string>
     <string name="landing_page_terms_text_2">"our "</string>
@@ -38,6 +38,25 @@
     <string name="login_page_text4">Password</string>
     <string name="login_page_text5">Forgot?</string>
     <string name="login_page_text6">LOGIN</string>
+
+    <!-- Pre Login Page -->
+    <string name="pre_login_page_dialog_title">"That email/phone doesn't exist on Mitoo"</string>
+    <string name="pre_login_page_dialog_message">"Try a different email, phone or check the spelling"</string>
+
+    <!--Pre Confirm Page-->
+    <string name="pre_confirm_page_text1">"Check your "</string>
+    <string name="pre_confirm_page_text2">"Hi "</string>
+    <string name="pre_confirm_page_text3">" you'll receive an "</string>
+    <string name="pre_confirm_page_text4">" to confirm your account, just click the link to login."</string>
+    <string name="pre_confirm_page_text5">RESEND</string>
+    <string name="pre_confirm_page_text6">email</string>
+    <string name="pre_confirm_page_text7">"text"</string>
+
+    <string name="pre_confirm_alert_success_title">Invite resent</string>
+    <string name="pre_confirm_alert_success_message">"We've sent another invite, this can take up to 10 minutes."</string>
+
+    <string name="pre_confirm_alert_failure_title">Fail to resend invitation</string>
+    <string name="pre_confirm_alert_failure_message">Already confirmed</string>
 
     <!--Register Page-->
     <string name="join_page_title">Join</string>
@@ -166,7 +185,8 @@
     <string name="toast_email_required">Email is required</string>
     <string name="toast_password_required">Password is required</string>
     <string name="toast_phone_required">Phone number is required</string>
-    
+    <string name="toast_identifier_required">An email or phone number is required</string>
+
     <string name="toast_invalid_credentials">We can\'t find your email in our system. Please check your email and try again.</string>
     <string name="toast_invalid_email">Please enter a valid email</string>
     <string name="toast_invalid_password">Please enter a valid password</string>
@@ -300,6 +320,7 @@
     <string name="tool_bar_reset_password">Reset Password</string>
     <string name="tool_bar_confirmation">Confirmation</string>
     <string name="tool_bar_confirm_your_account">Confirm your account</string>
+    <string name="tool_bar_pre_confirm">Confirm</string>
 
     <string name="tool_bar_terms">Terms</string>
     <string name="tool_bar_near_you">Near You</string>
@@ -310,7 +331,7 @@
 
     <!--Misc -->
     <string name="mitoo_copyright_location">LONDON - SAN FRANCISCO</string>
-    <string name="mitoo_copyright_version">Version 1.1.0</string>
+    <string name="mitoo_copyright_version">Version 1.2.1</string>
     <string name="mitoo_copyright_terms">TERMS AND PRIVACY TEXT</string>
     <string name="font_bold">bold</string>
     <string name="font_italic">italic</string>
@@ -355,8 +376,21 @@
     <string name="bundle_key_first_time">bundle_key_boolean</string>
     <string name="bundle_key_from_confirm">bundle_key_from_confirm</string>
     <string name="bundle_key_notification">bundle_key_notification</string>
+    <string name="bundle_key_identifier_type">bundle_key_identifier_type</string>
+    <string name="bundle_key_user_id">bundle_key_user_id</string>
     <string name="bundle_value_true">bundle_value_true</string>
     <string name="bundle_value_false">bundle_value_false</string>
+    <string name="bundle_key_competition_id_key">bundle_key_competition_id_key</string>
+    <string name="bundle_key_fixture_id_key">bundle_key_fixture_id_key</string>
+    <string name="bundle_key_tab_index_key">bundle_key_tab_index_key</string>
+    <string name="bundle_key_team_color_key">bundle_key_team_color_key</string>
+    <string name="bundle_key_user_id_key">bundle_key_user_id</string>
+    <string name="bundle_key_confirm_token_key">bundle_key_confirm_token</string>
+    <string name="bundle_key_auth_token_key">bundle_key_auth_token</string>
+    <string name="bundle_key_identifier_key">bundle_key_identifier_key</string>
+    <string name="bundle_key_identifier">bundle_key_identifier</string>
+    <string name="bundle_key_user_name">bundle_key_user_name</string>
+    <string name="bundle_key_league_id_key">bundle_key_league_id_key</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>
@@ -365,6 +399,8 @@
 
     <!--Error -->
     <string name="error_location_serivces">Current location unavailable. Please enter a location to continue.</string>
+    <string name="error_log_tag">mitoo_error_logs</string>
+    <string name="error_branch">branch_error</string>
 
     <!--Shared Preference Hash Key -->
     <string name="shared_preference_session_key">Session Key</string>

@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
@@ -8,25 +8,22 @@ import co.mitoo.sashimi.models.jsonPojo.send.JsonResetPasswordSend;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsPersistable;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.StaticString;
 import co.mitoo.sashimi.utils.events.SessionPersistanceResponseEvent;
 import co.mitoo.sashimi.utils.events.SessionModelRequestEvent;
 import co.mitoo.sashimi.utils.events.SessionModelResponseEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ResetPasswordResponseEvent;
-import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
  * Created by david on 14-11-11.
  */
 
-public class SessionModel extends MitooModel implements IsPersistable {
+public class SessionService extends MitooService implements IsPersistable {
 
-    public SessionModel(MitooActivity activity) {
+    public SessionService(MitooActivity activity) {
         super(activity);
     }
 
@@ -43,6 +40,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
         this.session = user;
     }
 
+    @Subscribe
     public void requestSession(SessionModelRequestEvent event) {
 
         handleRequestEvent(event);
@@ -126,7 +124,7 @@ public class SessionModel extends MitooModel implements IsPersistable {
     @Subscribe
     public void sessionPersistanceResponse(SessionPersistanceResponseEvent event) {
 
-        setSession((SessionRecieve)event.getPersistedObject());
+        setSession(event.getPersistedObject());
         updateToken();
         saveData();
         postUserRecieveResponse();
@@ -134,8 +132,8 @@ public class SessionModel extends MitooModel implements IsPersistable {
     }
     
     private void updateToken(){
-        if(getSession()!=null)
-            getActivity().updateAuthToken(this.session);
+        if(this.session!=null)
+            getActivity().updateAuthToken(this.session.auth_token);
     }
     
     public boolean userIsLoggedIn(){

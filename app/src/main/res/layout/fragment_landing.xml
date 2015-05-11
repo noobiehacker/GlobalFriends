@@ -27,38 +27,37 @@
 
     <RelativeLayout
         android:id="@+id/buttonContainer"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:paddingLeft="@dimen/spacing_sides"
         android:paddingRight="@dimen/spacing_sides">
 
-
         <Button
-            android:id="@+id/searchButton"
+            android:id="@+id/signupButton"
             style="@style/darkGrayButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/general_button_height"
             android:layout_centerHorizontal="true"
-            android:text="@string/landing_page_text1" />
+            android:text="@string/landing_page_text2" />
 
         <Button
-            android:id="@+id/signupButton"
+            android:id="@+id/searchButton"
             style="@style/transparentButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/general_button_height"
-            android:layout_below="@id/searchButton"
-            android:layout_marginTop="@dimen/landing_page_middle_button_padding"
+            android:layout_below="@id/signupButton"
             android:layout_centerHorizontal="true"
-            android:text="@string/landing_page_text2" />
+            android:layout_marginTop="@dimen/landing_page_middle_button_padding"
+            android:text="@string/landing_page_text1" />
 
-            <include
-                android:id="@+id/termsPrivacyView"
-                layout="@layout/view_terms_privacy"
-                android:layout_below="@id/signupButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"/>
+        <include
+            android:id="@+id/termsPrivacyView"
+            layout="@layout/view_terms_privacy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchButton"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
