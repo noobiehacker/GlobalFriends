@@ -1,23 +1,29 @@
 package co.mitoo.sashimi.views.fragments;
+
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.NotificationModelEvent;
+import co.mitoo.sashimi.utils.events.NotificationModelResponseEvent;
+import co.mitoo.sashimi.utils.events.NotificationRequestEvent;
 import co.mitoo.sashimi.views.adapters.NotificationListAdapter;
 
 /**
@@ -39,30 +45,48 @@ public class NotificationFragment extends MitooFragment {
     private League selectedLeague;
     private NotificationPreferenceRecieved previousPreferenceState;
     private boolean notificationDataLoaded;
+    private int competitionSeasonID;
 
     @Override
     public void onClick(View v) {
     }
 
     @Override
-    public void onCreate (Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.competitionSeasonID = (int) savedInstanceState.getInt(getCompetitionSeasonIdKey());
+            this.teamColor = savedInstanceState.getInt(getTeamColorKey());
+        } else {
+            this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
+            this.teamColor = getArguments().getInt(getTeamColorKey());
+        }
         setPreDataLoading(true);
-        requestData();
     }
 
-    public static NotificationFragment  newInstance() {
+    public static NotificationFragment newInstance() {
         NotificationFragment fragment = new NotificationFragment();
         return fragment;
     }
 
     @Override
-    public void onResume(){
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
+        bundle.putInt(getTeamColorKey(), this.teamColor);
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
 
         super.onResume();
-        //QUICK FIX REFACTOR LATER
-        //Naming convention of isLoading should be hasLoaded! REFACTOR
-        if(!isLoading() && isNotificationDataLoaded())
+        requestData();
+        if (!isLoading() && isNotificationDataLoaded())
             updateView();
     }
 
@@ -70,11 +94,15 @@ public class NotificationFragment extends MitooFragment {
     protected void requestData() {
         setPreDataLoading(true);
         setNotificationDataLoaded(false);
-        getNotificationPreferenceModel().requestNotificationPreference();
+        getNotificationPreferenceModel();
+        BusProvider.post(new NotificationRequestEvent(getUserID(),this.competitionSeasonID));
+
     }
 
     @Subscribe
-    public void onNotificationModelResponse(NotificationModelEvent event){
+    public void onNotificationModelResponse(NotificationModelResponseEvent event) {
+        getPushNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
+        getEmailNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
         setNotificationDataLoaded(true);
         updateView();
     }
@@ -90,16 +118,16 @@ public class NotificationFragment extends MitooFragment {
     }
 
     public League getSelectedLeague() {
-        if(selectedLeague == null){
+        if (selectedLeague == null) {
             Competition competition = getCompetitionModel().getSelectedCompetition();
-            if(competition!=null)
-                selectedLeague=competition.getLeague();
+            if (competition != null)
+                selectedLeague = competition.getLeague();
         }
         return selectedLeague;
     }
 
     @Override
-    protected void initializeViews(View view){
+    protected void initializeViews(View view) {
 
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
@@ -109,7 +137,7 @@ public class NotificationFragment extends MitooFragment {
     }
 
     @Override
-    protected void initializeFields(){
+    protected void initializeFields() {
 
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_notifications));
@@ -117,25 +145,26 @@ public class NotificationFragment extends MitooFragment {
         setUpPushNotificationListData();
     }
 
-    private void setUpEmailNotificationListData(){
+    private void setUpEmailNotificationListData() {
 
-        for(MitooEnum.NotificationCategory item :MitooEnum.NotificationCategory.values()){
+        for (MitooEnum.NotificationCategory item : MitooEnum.NotificationCategory.values()) {
             getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.EMAIL, getMitooActivity()));
 
         }
 
     }
 
-    private void setUpPushNotificationListData(){
+    private void setUpPushNotificationListData() {
 
-        for(MitooEnum.NotificationCategory item :MitooEnum.NotificationCategory.values()){
+        for (MitooEnum.NotificationCategory item : MitooEnum.NotificationCategory.values()) {
             getPushMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
 
         }
+
     }
 
     @Subscribe
-    public void onError(MitooActivitiesErrorEvent error){
+    public void onError(MitooActivitiesErrorEvent error) {
 
         super.onError(error);
 
@@ -144,10 +173,8 @@ public class NotificationFragment extends MitooFragment {
     public int getTeamColor() {
 
         if (teamColor == MitooConstants.invalidConstant) {
-            String teamColorString = getSelectedLeague().getColor_1();
-            teamColor = getViewHelper().getColor(teamColorString);
+            teamColor = getMitooActivity().getResources().getColor(R.color.gray_dark_five);
         }
-
         return teamColor;
 
     }
@@ -183,7 +210,7 @@ public class NotificationFragment extends MitooFragment {
         this.pushNotificationListView = pushNotificationListView;
     }
 
-    private void setUpMyPushListView(View view){
+    private void setUpMyPushListView(View view) {
 
         setPushNotificationListView((ListView) view.findViewById(R.id.push_list_view));
         getViewHelper().setUpListView(getPushNotificationListView(),
@@ -191,7 +218,7 @@ public class NotificationFragment extends MitooFragment {
 
     }
 
-    private void setUpMyEmailListView(View view){
+    private void setUpMyEmailListView(View view) {
 
         setEmailNotificationListView((ListView) view.findViewById(R.id.email_list_view));
         getViewHelper().setUpListView(getEmailNotificationListView(),
@@ -200,32 +227,32 @@ public class NotificationFragment extends MitooFragment {
     }
 
     public NotificationListAdapter getEmailNotificaitonAdapter() {
-        if(emailNotificaitonAdapter == null)
+        if (emailNotificaitonAdapter == null)
             emailNotificaitonAdapter = new NotificationListAdapter(getActivity(),
-                    R.id.email_list_view, getEmailMitooNotificationList() , this);
+                    R.id.email_list_view, getEmailMitooNotificationList(), this);
         return emailNotificaitonAdapter;
     }
 
     public List<MitooNotification> getEmailMitooNotificationList() {
-        if(emailMitooNotificationList == null)
+        if (emailMitooNotificationList == null)
             emailMitooNotificationList = new ArrayList<MitooNotification>();
         return emailMitooNotificationList;
     }
 
     public NotificationListAdapter getPushNotificaitonAdapter() {
-        if(pushNotificaitonAdapter == null)
-            pushNotificaitonAdapter = new NotificationListAdapter(getActivity(), R.id.push_list_view ,
-                    getPushMitooNotificationList() , this);
+        if (pushNotificaitonAdapter == null)
+            pushNotificaitonAdapter = new NotificationListAdapter(getActivity(), R.id.push_list_view,
+                    getPushMitooNotificationList(), this);
         return pushNotificaitonAdapter;
     }
 
     public List<MitooNotification> getPushMitooNotificationList() {
-        if(pushMitooNotificationList == null)
+        if (pushMitooNotificationList == null)
             pushMitooNotificationList = new ArrayList<MitooNotification>();
         return pushMitooNotificationList;
     }
 
-    private void updateView(){
+    private void updateView() {
 
         setRunnable(new Runnable() {
             @Override
@@ -237,6 +264,7 @@ public class NotificationFragment extends MitooFragment {
                 getPushNotificaitonAdapter().notifyDataSetChanged();
             }
         });
+        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
 
     }
 
@@ -258,19 +286,20 @@ public class NotificationFragment extends MitooFragment {
 
     }
 
-    public NotificationPreferenceRecieved getPreviousPreferenceState() {
-        return previousPreferenceState;
-    }
-
-    public void setPreviousPreferenceState(NotificationPreferenceRecieved previousPreferenceState) {
-        this.previousPreferenceState = (NotificationPreferenceRecieved) previousPreferenceState.clone();
-    }
-
     public boolean isNotificationDataLoaded() {
         return notificationDataLoaded;
     }
 
     public void setNotificationDataLoaded(boolean notificationDataLoaded) {
         this.notificationDataLoaded = notificationDataLoaded;
+    }
+
+    public int getCompetitionSeasonID(){
+        return this.competitionSeasonID;
+    }
+
+
+    public int getUserID(){
+        return super.getUserID();
     }
 }

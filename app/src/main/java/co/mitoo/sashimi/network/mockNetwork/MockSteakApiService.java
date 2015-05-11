@@ -5,6 +5,7 @@ import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.models.jsonPojo.UserCheck;
 import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
@@ -118,6 +119,26 @@ public class MockSteakApiService implements SteakApi {
 
     @Override
     public Observable<NotificationPreferenceRecieved> getNotificationPreference(@Path("user_id") int user_id, @Path("competition_id") int competition_id) {
+        return null;
+    }
+
+    @Override
+    public Observable<UserCheck> checkUser(@Path("identifier") String identifier) {
+        return null;
+    }
+
+    @Override
+    public Observable<Response> retriggerConfirmationLink(@Path("id") String user_id) {
+        return null;
+    }
+
+    @Override
+    public Observable<Competition> getCompetitionSeasonByID(@Path("id") int id) {
+        return null;
+    }
+
+    @Override
+    public Observable<League> getLeagueFromLeagueID(int league_id) {
         return null;
     }
 

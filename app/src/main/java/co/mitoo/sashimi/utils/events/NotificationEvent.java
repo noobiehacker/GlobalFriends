@@ -1,23 +1,23 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationRecieve;
+import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 
 /**
  * Created by david on 15-03-29.
  */
 public class NotificationEvent {
 
-    private NotificationRecieve notificationRecieve;
+    private NotificationReceive notificationReceive;
 
-    public NotificationEvent(NotificationRecieve notificationRecieve) {
-        this.notificationRecieve = notificationRecieve;
+    public NotificationEvent(NotificationReceive notificationReceive) {
+        this.notificationReceive = notificationReceive;
     }
 
-    public NotificationRecieve getNotificationRecieve() {
-        return notificationRecieve;
+    public NotificationReceive getNotificationReceive() {
+        return notificationReceive;
     }
 
-    public void setNotificationRecieve(NotificationRecieve notificationRecieve) {
-        this.notificationRecieve = notificationRecieve;
+    public void setNotificationReceive(NotificationReceive notificationReceive) {
+        this.notificationReceive = notificationReceive;
     }
 }

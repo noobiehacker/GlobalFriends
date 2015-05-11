@@ -55,7 +55,7 @@ public class ResetPasswordFragment extends MitooFragment{
     public void onResume(){
 
         super.onResume();
-        requestFocusForTopInput(getTopEditText());
+        requestFocusForInput(getTopEditText());
 
     }
     

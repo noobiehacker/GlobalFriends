@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_pre_confirm"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_tool_bar" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/app_bar"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg1" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/pre_confirm_bottom_button_padding"
+        android:paddingLeft="@dimen/spacing_sides"
+        android:paddingRight="@dimen/spacing_sides">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/preConfirmLetterIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:src="@drawable/confirm_icon" />
+
+            <TextView
+                android:id="@+id/preConfirmText1"
+                style="@style/preConfirmPageTopText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/preConfirmLetterIcon"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/pre_confirm_top_padding"
+                android:gravity="center"
+                android:text="@string/pre_confirm_page_text1" />
+
+            <TextView
+                android:id="@+id/preConfirmText2"
+                style="@style/preConfirmPageBottomText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/preConfirmText1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/pre_confirm_middle_padding"
+                android:gravity="center"
+                android:text="@string/pre_confirm_page_text2" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/preConfirmButton"
+            style="@style/darkGrayButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/general_button_height"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/pre_confirm_page_text5" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -4,15 +4,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.NotificationPreferenceModel;
+import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.fragments.NotificationFragment;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 /**
@@ -23,6 +24,8 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
 
     private NotificationFragment fragment;
     private MitooEnum.NotificationType notificationType ;
+    private NotificationPreferenceRecieved notificationPreferenceRecieved;
+    private NotificationPreferenceRecieved previousState;
 
     public NotificationListAdapter(Context context, int resourceId, List<MitooNotification> objects, NotificationFragment fragment){
         super(context, resourceId, objects);
@@ -65,8 +68,8 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                getFragment().setPreviousPreferenceState(getNotificationModel().getNotificationPrefReceive());
-                getNotificationModel().requestNotificationPrefUpdate(isChecked, mitooNotificationPassIn);
+                NotificationListAdapter.this.previousState = NotificationListAdapter.this.notificationPreferenceRecieved;
+                BusProvider.post(new NotificationUpdateEvent(getUserID(),getCompetitionSeasonID(), isChecked, mitooNotificationPassIn));
             }
         });
 
@@ -74,9 +77,8 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
 
     private void setUpCheckStatus(CompoundButton toggle ,MitooNotification mitooNotification){
 
-        NotificationPreferenceRecieved prefReceive = getNotificationModel().getNotificationPrefReceive();
-        if(prefReceive!=null){
-            boolean switchStatus = getNotificaitonCheckStatus(prefReceive, mitooNotification);
+        if(this.notificationPreferenceRecieved!=null){
+            boolean switchStatus = getNotificaitonCheckStatus(this.notificationPreferenceRecieved, mitooNotification);
             toggle.setChecked(switchStatus);
         }
     }
@@ -130,14 +132,14 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         return result;
     }
 
-    private NotificationPreferenceModel getNotificationModel(){
+    private NotificationPreferenceService getNotificationModel(){
 
         return getFragment().getMitooActivity().getModelManager().getNotificationPreferenceModel();
     }
 
 
     public void revertToPreviousState(){
-        getNotificationModel().setNotificationPrefReceive(getFragment().getPreviousPreferenceState());
+        this.notificationPreferenceRecieved = this.previousState;
         this.notifyDataSetChanged();
     }
 
@@ -160,5 +162,17 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
 
     public void setNotificationType(MitooEnum.NotificationType notificationType) {
         this.notificationType = notificationType;
+    }
+
+    public void setNotificationPreferenceRecieved(NotificationPreferenceRecieved notificationPreferenceRecieved) {
+        this.notificationPreferenceRecieved = notificationPreferenceRecieved;
+    }
+
+    private int getUserID(){
+        return this.fragment.getUserID();
+    }
+
+    private int getCompetitionSeasonID(){
+        return this.fragment.getCompetitionSeasonID();
     }
 }

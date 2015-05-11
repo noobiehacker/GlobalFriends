@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TreeTraversingParser;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.joda.time.LocalDate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
@@ -19,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
 import co.mitoo.sashimi.models.jsonPojo.League;
@@ -487,7 +487,7 @@ public class DataHelper {
         }
     }
 
-    public void setUpFixtureSection(List<FixtureWrapper> list) {
+    public void setUpFixtureSection(List<FixtureModel> list) {
 
         //Assumption: List is already sorted
         //Run a loop thought the list and for the first fixture for a particular date
@@ -496,7 +496,7 @@ public class DataHelper {
         if(list!=null && !list.isEmpty()) {
 
             Date currentSectionDate =null;
-            for (FixtureWrapper item : list) {
+            for (FixtureModel item : list) {
                 if(currentSectionDate==null || !isSameDate(currentSectionDate , item.getFixtureDate())){
 
                     item.setFirstFixtureForDateGroup(true);

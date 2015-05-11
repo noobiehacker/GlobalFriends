@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -25,29 +23,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.models.jsonPojo.Team;
-import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.fragments.MitooFragment;
 import android.os.Handler;
-
-import org.joda.time.LocalDate;
 
 /**
  * Created by david on 15-01-20.
@@ -459,15 +443,16 @@ public class ViewHelper {
     public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText
             ,AdapterView.OnItemClickListener listener){
         int headerLayoutID =  R.layout.view_list_header;
+        //FIX
+        setUpListHeader(listView, headerLayoutID, headerText);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(listener);
-        setUpListHeader(listView, headerLayoutID, headerText);
     }
 
     public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText){
         int headerLayoutID =  R.layout.view_list_header;
-        listView.setAdapter(adapter);
         setUpListHeader(listView, headerLayoutID, headerText);
+        listView.setAdapter(adapter);
     }
 
     private DataHelper getDataHelper(){

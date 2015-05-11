@@ -4,18 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
-import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.FixtureWrapper;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.TeamListRequestEvent;
+import co.mitoo.sashimi.utils.events.TeamListResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.adapters.FixtureListAdapter;
 
@@ -25,14 +30,18 @@ import co.mitoo.sashimi.views.adapters.FixtureListAdapter;
 
 public class CompetitionSeasonTabFragment extends MitooFragment {
 
-    private LinearLayout fixtureTabContainerView;
     private MitooEnum.FixtureTabType tabType;
     private TextView noResultsTextView;
     private MitooActivity mitooActivity;
-
     private ListView fixtureListView;
     private FixtureListAdapter fixtureListAdapter;
-    private List<FixtureWrapper> fixtureList;
+    private List<FixtureModel> fixtureList;
+    private boolean viewLoaded = false;
+    private int competitionSeasonID;
+    private List<Team> teams;
+    private int tabIndex = 0;
+    private boolean dataLoaded = false;
+    private boolean fragmentStarted = false;
 
     @Override
     public void onClick(View v) {
@@ -52,8 +61,57 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if(activity instanceof  MitooActivity)
-            setMitooActivity((MitooActivity)activity);
+        if (activity instanceof MitooActivity)
+            setMitooActivity((MitooActivity) activity);
+    }
+
+    @Override
+    protected void handleHttpErrors(int statusCode) {
+
+        if (statusCode == 404){
+            //DO NOTHING
+        }
+        else
+            super.handleHttpErrors(statusCode);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.competitionSeasonID = (int) savedInstanceState.get(getCompetitionSeasonIdKey());
+            this.tabIndex = savedInstanceState.getInt(getTabIndexKey());
+            this.fragmentStarted = true;
+            setTabType(this.tabIndex);
+        } else {
+            this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
+
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (allDataLoaded()==false){
+            requestData();
+        }
+        updateView();
+
+    }
+
+    @Override
+    public void requestData() {
+        getFixtureModel();
+        getTeamModel();
+        BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
+        BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
+
     }
 
     @Override
@@ -66,27 +124,45 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         return view;
     }
 
+
     @Override
-    protected void initializeViews(View view){
+    protected void initializeViews(View view) {
 
         super.initializeViews(view);
+        setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setNoResultsTextView((TextView) view.findViewById(R.id.noFixturesTextView));
-        setUpNoResultsView();
         setFixtureListView((ListView) view.findViewById(R.id.fixture_list_view));
-        getFixtureListView().setAdapter(getFixtureListAdapter());
+        if(allDataLoaded()==false)
+            setPreDataLoading(true);
+        this.viewLoaded = true;
+        updateView();
+    }
+
+    private void updateView() {
+
+        if (allDataLoaded()) {
+            getFixtureListView().setAdapter(getFixtureListAdapter());
+            setUpNoResultsView();
+            setPreDataLoading(false);
+        }
+
+    }
+
+    private boolean allDataLoaded(){
+        return fixtureListRecieved() && this.viewLoaded && teamDataLoaded();
     }
 
     @Override
     protected void initializeFields() {
         super.initializeFields();
-        updateFixtureData();
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
-        getFixtureListAdapter().notifyDataSetChanged();
-
+    @Subscribe
+    public void onTeamDataLoaded(TeamListResponseEvent event) {
+        if (!teamDataLoaded()) {
+            this.teams = event.getLsitOfTeams();
+            updateView();
+        }
     }
 
     public TextView getNoResultsTextView() {
@@ -97,11 +173,11 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         this.noResultsTextView = noResultsTextView;
     }
 
-    private void setUpNoResultsView(){
+    private void setUpNoResultsView() {
 
-        if(getFixtureList().isEmpty()){
+        if (this.fixtureList != null && this.fixtureList.isEmpty()) {
             getNoResultsTextView().setVisibility(View.VISIBLE);
-            if(getTabType()==MitooEnum.FixtureTabType.FIXTURE_RESULT)
+            if (getTabType() == MitooEnum.FixtureTabType.FIXTURE_RESULT)
                 getNoResultsTextView().setText(getString(R.string.fixture_page_no_results));
             else
                 getNoResultsTextView().setText(getString(R.string.fixture_page_no_up_coming_games));
@@ -110,17 +186,9 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onError(MitooActivitiesErrorEvent error){
+    public void onError(MitooActivitiesErrorEvent error) {
 
         super.onError(error);
-    }
-
-    public LinearLayout getFixtureTabContainerView() {
-        return fixtureTabContainerView;
-    }
-
-    public void setFixtureTabContainerView(LinearLayout fixtureTabContainerView) {
-        this.fixtureTabContainerView = fixtureTabContainerView;
     }
 
     public MitooEnum.FixtureTabType getTabType() {
@@ -131,19 +199,28 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     public void setTabType(MitooEnum.FixtureTabType tabType) {
         this.tabType = tabType;
+        if (tabType == MitooEnum.FixtureTabType.FIXTURE_RESULT)
+            this.tabIndex = 1;
+        if (tabType == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+            this.tabIndex = 0;
+
+    }
+
+    public void setTabType(int tabIndex) {
+
+        if (tabIndex == 0)
+            this.tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+        if (tabIndex == 1)
+            this.tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+
     }
 
     @Override
     public MitooActivity getMitooActivity() {
-        if(mitooActivity!=null)
+        if (mitooActivity != null)
             return mitooActivity;
         else
             return super.getMitooActivity();
-    }
-
-    @Override
-    protected FixtureModel getFixtureModel() {
-        return getMitooActivity().getModelManager().getFixtureModel();
     }
 
     public void setMitooActivity(MitooActivity mitooActivity) {
@@ -151,6 +228,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     public ListView getFixtureListView() {
+
         return fixtureListView;
     }
 
@@ -159,37 +237,43 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     public FixtureListAdapter getFixtureListAdapter() {
-        if(fixtureListAdapter == null)
+        if (fixtureListAdapter == null)
             fixtureListAdapter = new FixtureListAdapter(getActivity(), R.id.fixture_list_view,
-                    getFixtureList() , this);
+                    new ArrayList<FixtureModel>(), this);
         return fixtureListAdapter;
     }
 
-    public List<FixtureWrapper> getFixtureList() {
-        if(fixtureList==null)
-            fixtureList = new ArrayList<FixtureWrapper>();
-        return fixtureList;
+    @Subscribe
+    public void onFixtureResponse(FixtureListResponseEvent event) {
+
+        if (getTabType() == event.getTabType() && !fixtureListRecieved()) {
+            this.fixtureList = event.getFixtureList();
+            this.fixtureListAdapter = new FixtureListAdapter(getActivity(), R.id.fixture_list_view,
+                    this.fixtureList, this);
+            this.dataLoaded = true;
+            updateView();
+        }
+
     }
 
-    public void updateFixtureData() {
+    private boolean fixtureListRecieved() {
+        return this.fixtureList != null;
+    }
 
-        List<FixtureWrapper> listOfFixtureToAdd;
-        switch(getTabType()){
-            case FIXTURE_RESULT:
-                listOfFixtureToAdd = getFixtureModel().getResult();
-                break;
-            case FIXTURE_SCHEDULE:
-                listOfFixtureToAdd = getFixtureModel().getSchedule();
-                break;
-            default:
-                listOfFixtureToAdd = getFixtureModel().getSchedule();
-        }
+    private String getTabIndexKey() {
+        return getString(R.string.bundle_key_tab_index_key);
+    }
 
-        if (listOfFixtureToAdd != null) {
-            DataHelper dataHelper = getDataHelper();
-            dataHelper.clearList(getFixtureList());
-            dataHelper.addToListList(getFixtureList(), listOfFixtureToAdd);
-        }
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
+        bundle.putInt(getTabIndexKey(), this.tabIndex);
+        super.onSaveInstanceState(bundle);
+
+    }
+
+    private boolean teamDataLoaded() {
+        return this.teams != null;
     }
 
 }

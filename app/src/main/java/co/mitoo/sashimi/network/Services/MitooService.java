@@ -1,5 +1,9 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import android.os.Handler;
+
+import java.util.Stack;
+
+import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
@@ -13,16 +17,18 @@ import rx.Subscriber;
  * Created by david on 14-11-12.
  */
 
-public abstract class MitooModel{
+public abstract class MitooService {
 
     protected MitooActivity activity;
     protected DataPersistanceService persistanceService;
     protected Handler handler;
     protected Runnable backgroundRunnable;
+    private Stack<Object> events;
+
 
     private SteakApi steakApiService;
 
-    public MitooModel(MitooActivity activity) {
+    public MitooService(MitooActivity activity) {
         setActivity(activity);
         BusProvider.register(this);
     }
@@ -74,8 +80,7 @@ public abstract class MitooModel{
             public void onError(Throwable e) {
 
                 String error = e.getMessage();
-               // if(MitooConstants.getAppEnvironment() == MitooEnum.AppEnvironment.STAGING)
-              //      BusProvider.post(new LogOutEvent());
+
             }
 
             @Override
@@ -93,4 +98,21 @@ public abstract class MitooModel{
     }
 
     public void resetFields() {}
+
+    protected int getUserID(){
+        ModelManager manager = this.activity.getModelManager();
+        if(manager.getUserInfoModel().getUserInfoRecieve() != null)
+            return manager.getUserInfoModel().getUserInfoRecieve().id;
+        else if(manager.getSessionModel().getSession()!=null)
+            return manager.getSessionModel().getSession().id;
+        else
+            return MitooConstants.invalidConstant;
+    }
+
+    protected Stack<Object> getEventsStack(){
+        if(this.events == null)
+            this.events = new Stack<Object>();
+        return this.events;
+
+    }
 }

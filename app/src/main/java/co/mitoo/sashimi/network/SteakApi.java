@@ -4,6 +4,7 @@ import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.models.jsonPojo.UserCheck;
 import co.mitoo.sashimi.models.jsonPojo.recieve.JsonDeviceInfo;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
@@ -45,11 +46,17 @@ public interface SteakApi {
     @GET("/leagues/v1/leagues")
     Observable<League[]>  getLeagueEnquiries(@Query("filter") String filter , @Query("user_id") int user_id);
 
+    @GET("/leagues/v1/leagues/{id}")
+    Observable<League>  getLeagueFromLeagueID(@Path("id") int league_id);
+
     @GET("/users/v1/users/{id}")
     Observable<UserInfoRecieve>  getUser(@Path("id") int id);
 
     @GET("/leagues/v1/competition_seasons/{id}/teams")
     Observable<Team[]> getTeamByCompetition(@Path("id") int id);
+
+    @GET("/leagues/v1/competition_seasons/{id}")
+    Observable<Competition> getCompetitionSeasonByID(@Path("id") int id);
 
     @GET("/leagues/v1/competition_seasons/{id}/fixtures")
     Observable<Fixture[]> getFixtureFromCompetitionID(@Query("filter") String filter, @Path("id") int id);
@@ -80,4 +87,10 @@ public interface SteakApi {
     @GET("/notifications/v1/users/{user_id}/preferences/competition/{competition_id}")
     Observable<NotificationPreferenceRecieved> getNotificationPreference(@Path("user_id") int user_id,
                                                                   @Path("competition_id") int competition_id);
+
+    @GET("/users/v1/user_check")
+    Observable<UserCheck> checkUser(@Query("ident") String identifier);
+
+    @POST("/users/v1/users/{id}/resend_confirmation")
+    Observable<Response> retriggerConfirmationLink(@Path("id") String user_id);
 }

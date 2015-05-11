@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import com.squareup.otto.Subscribe;
 import com.urbanairship.UAirship;
 
@@ -9,10 +9,10 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.IsPersistable;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
-import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenAssociateRequestEvent;
+import co.mitoo.sashimi.utils.events.MobileTokenDisassociateRequestEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rx.Observable;
 
@@ -20,9 +20,9 @@ import rx.Observable;
  * Created by david on 15-03-29.
  */
 
-public class MobileTokenModel  extends MitooModel  implements IsPersistable {
+public class MobileTokenService extends MitooService implements IsPersistable {
 
-    public MobileTokenModel(MitooActivity activity) {
+    public MobileTokenService(MitooActivity activity) {
         super(activity);
     }
 
@@ -32,18 +32,19 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         return jsonDeviceInfo;
     }
 
-    public Boolean channelIDSent;
+    public boolean channelIDSent;
     public boolean fireLogOutEvent=false;
 
     public void setJsonDeviceInfo(JsonDeviceInfo jsonDeviceInfo) {
         this.jsonDeviceInfo = jsonDeviceInfo;
     }
 
-    public void requestDeviceTokenAssociation(int userID , boolean refresh) {
+    @Subscribe
+    public void onRequestDeviceTokenAssociation(MobileTokenAssociateRequestEvent event) {
 
-        if(getJsonDeviceInfo() == null || refresh){
+        if(getJsonDeviceInfo() == null ){
             Observable<Response> observable = getSteakApiService()
-                    .createDeviceAssociation(userID, createDeviceInfo(getChannelID()));
+                    .createDeviceAssociation(event.getUserID(), createDeviceInfo(getChannelID()));
             handleObservable(observable , Response.class);
         }
         else{
@@ -51,7 +52,8 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         }
     }
 
-    public void requestDeviceTokenDisassociation() {
+    @Subscribe
+    public void requestDeviceTokenDisassociation(MobileTokenDisassociateRequestEvent event) {
 
         if(this.channelIDSent==true)
             handleObservable(getSteakApiService().deleteDeviceAssociation(getChannelID())
@@ -59,18 +61,6 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
         else
             fireLogOutEvent();
 
-    }
-
-    @Subscribe
-    public void onApiFailEvent(RetrofitError event) {
-
-        boolean urlIsTokenEndPoint = urlIsTokenEndPoint(event.getUrl());
-        if(event.getResponse() !=null && event.getResponse().getStatus() == 404){
-            if(urlIsTokenEndPoint)
-                fireLogOutEvent();
-        }
-        else
-            BusProvider.post(new MitooActivitiesErrorEvent(event));
     }
 
     @Override
@@ -114,10 +104,8 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
 
 
     public void fireLogOutEvent(){
+
         BusProvider.post(new LogOutNetworkCompleteEevent());
-/*
-        if(getFireLogOutEvent())
-        setFireLogOutEvent(true); */
 
     }
     @Override
@@ -166,7 +154,12 @@ public class MobileTokenModel  extends MitooModel  implements IsPersistable {
     }
 
     private boolean urlIsTokenEndPoint(String url){
-        String endPointSuffix = "/users/v1/mobile_devices/";
-        return url.toLowerCase().contains((endPointSuffix));
+        if(url!=null){
+            String endPointSuffix = "/users/v1/mobile_devices/";
+            return url.toLowerCase().contains((endPointSuffix));
+        }else{
+            return  false;
+
+        }
     }
 }

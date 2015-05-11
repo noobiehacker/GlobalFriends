@@ -12,8 +12,8 @@ import java.io.Serializable;
 public class result implements Serializable {
 
     private int id;
-    private int home_score;
-    private int away_score;
+    private String home_score;
+    private String away_score;
     private String delimiter;
 
     public int getId() {
@@ -24,19 +24,19 @@ public class result implements Serializable {
         this.id = id;
     }
 
-    public int getHome_score() {
+    public String getHome_score() {
         return home_score;
     }
 
-    public void setHome_score(int home_score) {
+    public void setHome_score(String home_score) {
         this.home_score = home_score;
     }
 
-    public int getAway_score() {
+    public String getAway_score() {
         return away_score;
     }
 
-    public void setAway_score(int away_score) {
+    public void setAway_score(String away_score) {
         this.away_score = away_score;
     }
 
