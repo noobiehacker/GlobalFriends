@@ -22,7 +22,7 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByUserIDEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -72,7 +72,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         } else {
             this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
         }
-        BusProvider.post(new CompetitionSeasonRequestByUserIDEvent(this.competitionSeasonID, getUserID()));
+        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID, getUserID()));
 
     }
 

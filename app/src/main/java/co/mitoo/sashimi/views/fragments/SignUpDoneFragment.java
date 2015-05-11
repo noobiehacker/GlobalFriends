@@ -85,7 +85,7 @@ public class SignUpDoneFragment extends MitooFragment {
 
     public League getSelectedLeague() {
         if(selectedLeague==null){
-            setSelectedLeague(getRetriever().getLeagueModel().getSelectedLeague());
+            setSelectedLeague(getLeagueModel().getSelectedLeague());
         }
         return selectedLeague;
     }

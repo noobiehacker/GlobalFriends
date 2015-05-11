@@ -188,7 +188,6 @@ public class MitooActivity extends ActionBarActivity {
 
     }
 
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -368,9 +367,8 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
-            super.onBackPressed();
+            this.moveTaskToBack(true);
         } else {
-
             if (!getFragmentStack().isEmpty() && getFragmentStack().peek().backPressedAllowed()) {
                 hideSoftKeyboard();
                 MitooFragment fragmentToDesplay = getSecondTopFragment();
@@ -394,10 +392,7 @@ public class MitooActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
     }
-
-
 
     public void updateAuthToken(String auth_token) {
 
@@ -614,10 +609,6 @@ public class MitooActivity extends ActionBarActivity {
 
     public int getFirstFragmentToStart() {
         return firstFragmentToStart;
-    }
-
-    public void setFirstFragmentToStart(int firstFragmentToStart) {
-        this.firstFragmentToStart = firstFragmentToStart;
     }
 
     public boolean isOnSplashScreen() {

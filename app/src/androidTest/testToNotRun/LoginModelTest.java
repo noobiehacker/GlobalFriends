@@ -7,7 +7,7 @@ import org.junit.Before;
 
 import java.util.concurrent.CountDownLatch;
 
-import co.mitoo.sashimi.models.SessionService;
+import co.mitoo.sashimi.network.Services.SessionService;
 import co.mitoo.sashimi.network.ServiceBuilder;
 import co.mitoo.sashimi.network.SteakApi;
 import co.mitoo.sashimi.network.mockNetwork.MockSteakApiService;

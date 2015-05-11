@@ -7,7 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.NotificationPreferenceService;
+import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;

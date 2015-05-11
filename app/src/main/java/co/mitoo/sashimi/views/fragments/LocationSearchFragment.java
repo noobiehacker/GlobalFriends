@@ -12,7 +12,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LocationService;
+import co.mitoo.sashimi.network.Services.LocationService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.IsSearchable;
 import co.mitoo.sashimi.utils.MitooConstants;

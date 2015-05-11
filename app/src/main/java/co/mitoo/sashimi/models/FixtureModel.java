@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.utils;
+package co.mitoo.sashimi.models;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.models.jsonPojo.location;
+import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.models.jsonPojo.result;
 import org.joda.time.LocalDate;
@@ -15,7 +17,7 @@ import org.joda.time.LocalDate;
 /**
  * Created by david on 15-03-11.
  */
-public class FixtureWrapper implements Comparable<FixtureWrapper>{
+public class FixtureModel implements Comparable<FixtureModel>{
 
     private Fixture fixture;
     private MitooActivity mitooActivity;
@@ -26,7 +28,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     private String displayablePlace;
     private boolean firstFixtureForDateGroup;
 
-    public FixtureWrapper(Fixture fixture , MitooActivity activity) {
+    public FixtureModel(Fixture fixture, MitooActivity activity) {
         this.fixture= fixture;
         this.mitooActivity = activity;
         initializeNullParam();
@@ -50,7 +52,7 @@ public class FixtureWrapper implements Comparable<FixtureWrapper>{
     }
 
     @Override
-    public int compareTo(FixtureWrapper another) {
+    public int compareTo(FixtureModel another) {
         if(getFixtureDate()== null)
             return -1;
         else if(another.getFixtureDate() == null)

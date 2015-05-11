@@ -31,6 +31,7 @@ public class MitooApplication extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
+        this.modelManager=null;
         UAirship.takeOff(this, createAirshipOptions(), new UAirship.OnReadyCallback() {
             @Override
             public void onAirshipReady(UAirship airship) {

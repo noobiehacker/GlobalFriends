@@ -10,7 +10,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FixtureViewHelper;
-import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -20,12 +20,12 @@ import co.mitoo.sashimi.views.fragments.MitooFragment;
  * Created by david on 15-04-13.
  */
 
-public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements AdapterView.OnItemClickListener {
+public class FixtureListAdapter extends ArrayAdapter<FixtureModel> implements AdapterView.OnItemClickListener {
 
     private MitooFragment fragment;
     private FixtureViewHelper viewHelper;
 
-    public FixtureListAdapter(Context context, int resourceId, List<FixtureWrapper> objects , MitooFragment fragment) {
+    public FixtureListAdapter(Context context, int resourceId, List<FixtureModel> objects , MitooFragment fragment) {
         super(context, resourceId, objects);
         setViewHelper(fragment.getViewHelper().getFixtureViewHelper());
     }
@@ -55,7 +55,7 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
 
         if (getFragment().getDataHelper().isClickable(view.getId()) && id != -1) {
 
-            FixtureWrapper fixture = (FixtureWrapper) parent.getItemAtPosition(position);
+            FixtureModel fixture = (FixtureModel) parent.getItemAtPosition(position);
             fixtureItemClickAction(fixture);
         }
     }
@@ -67,7 +67,7 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
         this.viewHelper = viewHelper;
     }
 
-    private void setUpDateTextView(View convertView ,FixtureWrapper wrapper ){
+    private void setUpDateTextView(View convertView ,FixtureModel wrapper ){
 
         View dateContainer = convertView.findViewById(R.id.dateTextContainer);
 
@@ -83,7 +83,7 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
 
     }
 
-    private void fixtureItemClickAction(FixtureWrapper fixture){
+    private void fixtureItemClickAction(FixtureModel fixture){
 
         FragmentChangeEvent event = FragmentChangeEventBuilder
                 .getSingletonInstance()
@@ -98,7 +98,7 @@ public class FixtureListAdapter extends ArrayAdapter<FixtureWrapper> implements 
         return (MitooActivity)getFragment().getActivity();
     }
 
-    private Bundle createBundle(FixtureWrapper fixture){
+    private Bundle createBundle(FixtureModel fixture){
         Bundle bundle = new Bundle();
         bundle.putInt(getFixtureIdKey(), fixture.getFixture().getId());
         return bundle;

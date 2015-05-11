@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import android.os.Handler;
 
 import java.util.Stack;

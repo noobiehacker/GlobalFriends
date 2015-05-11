@@ -46,6 +46,9 @@ public interface SteakApi {
     @GET("/leagues/v1/leagues")
     Observable<League[]>  getLeagueEnquiries(@Query("filter") String filter , @Query("user_id") int user_id);
 
+    @GET("/leagues/v1/leagues/{id}")
+    Observable<League>  getLeagueFromLeagueID(@Path("id") int league_id);
+
     @GET("/users/v1/users/{id}")
     Observable<UserInfoRecieve>  getUser(@Path("id") int id);
 

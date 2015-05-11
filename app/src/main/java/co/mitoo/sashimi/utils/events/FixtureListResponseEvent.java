@@ -1,7 +1,7 @@
 package co.mitoo.sashimi.utils.events;
 import java.util.List;
-import co.mitoo.sashimi.models.jsonPojo.Fixture;
-import co.mitoo.sashimi.utils.FixtureWrapper;
+
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
 
 /**
@@ -9,10 +9,10 @@ import co.mitoo.sashimi.utils.MitooEnum;
  */
 public class FixtureListResponseEvent {
 
-    private List<FixtureWrapper> fixtureList;
+    private List<FixtureModel> fixtureList;
     private MitooEnum.FixtureTabType tabType;
 
-    public List<FixtureWrapper> getFixtureList() {
+    public List<FixtureModel> getFixtureList() {
         return fixtureList;
     }
 
@@ -20,7 +20,7 @@ public class FixtureListResponseEvent {
         return tabType;
     }
 
-    public FixtureListResponseEvent( MitooEnum.FixtureTabType tabType , List<FixtureWrapper> fixtureList) {
+    public FixtureListResponseEvent( MitooEnum.FixtureTabType tabType , List<FixtureModel> fixtureList) {
         this.fixtureList = fixtureList;
         this.tabType = tabType;
     }

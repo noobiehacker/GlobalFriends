@@ -24,15 +24,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.squareup.picasso.Picasso;
-
 import java.util.Arrays;
-
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-
 import android.os.Handler;
 
 /**
@@ -445,15 +443,16 @@ public class ViewHelper {
     public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText
             ,AdapterView.OnItemClickListener listener){
         int headerLayoutID =  R.layout.view_list_header;
+        //FIX
+        setUpListHeader(listView, headerLayoutID, headerText);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(listener);
-        setUpListHeader(listView, headerLayoutID, headerText);
     }
 
     public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText){
         int headerLayoutID =  R.layout.view_list_header;
-        listView.setAdapter(adapter);
         setUpListHeader(listView, headerLayoutID, headerText);
+        listView.setAdapter(adapter);
     }
 
     private DataHelper getDataHelper(){

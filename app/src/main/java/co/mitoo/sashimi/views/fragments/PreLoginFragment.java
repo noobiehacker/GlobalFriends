@@ -202,7 +202,7 @@ public class PreLoginFragment extends MitooFragment{
             sb.append(getActivity().getString(R.string.pre_confirm_page_text7));
         String identifier = sb.toString();
         bundle.putString(getString(R.string.bundle_key_identifier_type),identifier);
-        bundle.putString(getUserIDKey(), Integer.toString(userCheck.getId()));
+        bundle.putInt(getUserIDKey(), userCheck.getId());
         bundle.putString(getString(R.string.bundle_key_user_name) , userCheck.getName());
         return bundle;
     }

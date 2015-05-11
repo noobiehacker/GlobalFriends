@@ -19,12 +19,11 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.location;
-import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByUserIDEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
@@ -39,7 +38,7 @@ import co.mitoo.sashimi.utils.events.TeamIndividualResponseEvent;
 public class FixtureFragment extends MitooFragment {
 
     private int teamColor = MitooConstants.invalidConstant;
-    private FixtureWrapper fixtureWrapper;
+    private FixtureModel fixtureModel;
     private TextView resultTextView;
     private TextView dateTextView;
     private TextView timeTextView;
@@ -74,11 +73,11 @@ public class FixtureFragment extends MitooFragment {
 
     @Subscribe
     public void onNotificationRecieve(NotificationUpdateResponseEvent event) {
-        this.fixtureWrapper = event.getFixtureWrapper();
-        this.fixtureID = this.fixtureWrapper.getFixture().getId();
-        this.competitionSeasonID = this.fixtureWrapper.getFixture().getCompetition_season_id();
-        this.homeTeamID = this.fixtureWrapper.getFixture().getHome_team_id();
-        this.awayTeamID = this.fixtureWrapper.getFixture().getAway_team_id();
+        this.fixtureModel = event.getFixtureModel();
+        this.fixtureID = this.fixtureModel.getFixture().getId();
+        this.competitionSeasonID = this.fixtureModel.getFixture().getCompetition_season_id();
+        this.homeTeamID = this.fixtureModel.getFixture().getHome_team_id();
+        this.awayTeamID = this.fixtureModel.getFixture().getAway_team_id();
         this.homeTeam=null;
         this.awayTeam=null;
         requestAddtionalData();
@@ -174,7 +173,7 @@ public class FixtureFragment extends MitooFragment {
     @Subscribe
     public void onFixtureResponse(FixtureModelIndividualResponse event) {
 
-        this.fixtureWrapper = (event.getFixture());
+        this.fixtureModel = (event.getFixture());
         this.homeTeamID = event.getFixture().getFixture().getHome_team_id();
         this.awayTeamID = event.getFixture().getFixture().getAway_team_id();
         this.competitionSeasonID = event.getFixture().getFixture().getCompetition_season_id();
@@ -192,7 +191,7 @@ public class FixtureFragment extends MitooFragment {
         getCompetitionModel();
         BusProvider.post(new TeamIndividualRequestEvent(this.homeTeamID, this.competitionSeasonID));
         BusProvider.post(new TeamIndividualRequestEvent(this.awayTeamID, this.competitionSeasonID));
-        BusProvider.post(new CompetitionSeasonRequestByUserIDEvent(this.competitionSeasonID ,getUserID()));
+        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID ,getUserID()));
     }
 
     @Subscribe
@@ -217,7 +216,7 @@ public class FixtureFragment extends MitooFragment {
 
     private void updateViews() {
 
-        if (this.viewLoaded && this.fixtureWrapper != null && teamNamesAreReady()) {
+        if (this.viewLoaded && this.fixtureModel != null && teamNamesAreReady()) {
             setUpAllTextViews();
             showAndHideLogic(getRootView());
             setUpMap();
@@ -254,15 +253,15 @@ public class FixtureFragment extends MitooFragment {
         RelativeLayout resultLayout = (RelativeLayout) view.findViewById(R.id.fixture_top_details);
         RelativeLayout mapFragmentContainer = (RelativeLayout) view.findViewById(R.id.googleMapFragmentContainer);
 
-        location location = this.fixtureWrapper.getFixture().getLocation();
-        String address = this.fixtureWrapper.getDisplayableAddress();
-        String title = this.fixtureWrapper.getDisplayablePlace();
+        location location = this.fixtureModel.getFixture().getLocation();
+        String address = this.fixtureModel.getDisplayableAddress();
+        String title = this.fixtureModel.getDisplayablePlace();
 
         boolean showLocation = (location != null);
         boolean showMap = validLatLng(location);
         boolean showAddress = (address != null && !address.equalsIgnoreCase(""));
         boolean showTitle = (title != null && !title.equalsIgnoreCase(""));
-        boolean showResult = (this.fixtureWrapper.getFixture().getResult() != null);
+        boolean showResult = (this.fixtureModel.getFixture().getResult() != null);
 
         handleViewVisibility(locationLayout, showLocation);
         handleViewVisibility(mapFragmentContainer, showMap);
@@ -337,10 +336,10 @@ public class FixtureFragment extends MitooFragment {
 
     private void setUpAllTextViews() {
 
-        this.resultTextView.setText(this.fixtureWrapper.getDisplayableScore());
-        this.dateTextView.setText(this.fixtureWrapper.getLongDisplayableDate());
-        this.locationTextView.setText(this.fixtureWrapper.getDisplayablePlace());
-        this.addressTextView.setText((this.fixtureWrapper.getDisplayableAddress()));
+        this.resultTextView.setText(this.fixtureModel.getDisplayableScore());
+        this.dateTextView.setText(this.fixtureModel.getLongDisplayableDate());
+        this.locationTextView.setText(this.fixtureModel.getDisplayablePlace());
+        this.addressTextView.setText((this.fixtureModel.getDisplayableAddress()));
         setUpStatusText();
         setUpTimeText();
 
@@ -348,14 +347,14 @@ public class FixtureFragment extends MitooFragment {
 
 
     private void setUpTimeText() {
-        String time = this.fixtureWrapper.getDisplayableTime();
+        String time = this.fixtureModel.getDisplayableTime();
         if (time.equalsIgnoreCase(getString(R.string.fixture_page_tbd)))
             time = getString(R.string.fixture_page_time) + time;
         this.timeTextView.setText(time);
     }
 
     private void setUpStatusText() {
-        MitooEnum.FixtureStatus fixtureStatus = this.fixtureWrapper.getFixtureType();
+        MitooEnum.FixtureStatus fixtureStatus = this.fixtureModel.getFixtureType();
         switch (fixtureStatus) {
             case ABANDONED:
             case VOID:
@@ -378,7 +377,7 @@ public class FixtureFragment extends MitooFragment {
         try {
             GoogleMap map = ((MapFragment) getFragmentManager()
                     .findFragmentById(R.id.googleFixtureMapFragment)).getMap();
-            getViewHelper().setUpMap(this.fixtureWrapper.getLatLng(), map);
+            getViewHelper().setUpMap(this.fixtureModel.getLatLng(), map);
             map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
@@ -401,21 +400,21 @@ public class FixtureFragment extends MitooFragment {
     private void setUpStatusText(int color) {
         this.statusTextView.setVisibility(View.VISIBLE);
         this.statusTextView.setTextColor(color);
-        this.statusTextView.setText(this.fixtureWrapper.getFixtureType().name());
+        this.statusTextView.setText(this.fixtureModel.getFixtureType().name());
     }
 
 
     private boolean fixtureDataIsReady() {
-        return this.fixtureWrapper != null;
+        return this.fixtureModel != null;
     }
 
 
     private void googleMapAction() {
 
-        LatLng latLng = this.fixtureWrapper.getLatLng();
+        LatLng latLng = this.fixtureModel.getLatLng();
         Double lat = latLng.latitude;
         Double lng = latLng.longitude;
-        String labelLocation = this.fixtureWrapper.getFixture().getLocation().getTitle();
+        String labelLocation = this.fixtureModel.getFixture().getLocation().getTitle();
         Uri uri = Uri.parse("geo:<" + lat + ">,<" + lng + ">?q=<" + lat + ">,<" + lng + ">(" + labelLocation + ")");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         getActivity().startActivity(intent);

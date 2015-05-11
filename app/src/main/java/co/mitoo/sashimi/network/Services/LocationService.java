@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import android.location.Location;
 import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;

@@ -12,7 +12,7 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LocationService;
+import co.mitoo.sashimi.network.Services.LocationService;
 import co.mitoo.sashimi.models.jsonPojo.Sport;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
@@ -349,7 +349,8 @@ public class SearchFragment extends MitooFragment implements AdapterView.OnItemC
     @Override
     public void tearDownReferences() {
         super.tearDownReferences();
-        getSearchView().setIconified(true);
+        if(getSearchView()!=null)
+            getSearchView().setIconified(true);
 
     }
 

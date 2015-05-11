@@ -17,8 +17,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.FixtureWrapper;
-import co.mitoo.sashimi.utils.MitooConstants;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
@@ -39,7 +38,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private MitooActivity mitooActivity;
     private ListView fixtureListView;
     private FixtureListAdapter fixtureListAdapter;
-    private List<FixtureWrapper> fixtureList;
+    private List<FixtureModel> fixtureList;
     private boolean viewLoaded = false;
     private int competitionSeasonID;
     private List<Team> teams;
@@ -247,9 +246,9 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         return fixtureListAdapter;
     }
 
-    public List<FixtureWrapper> getFixtureList() {
+    public List<FixtureModel> getFixtureList() {
         if (fixtureList == null)
-            fixtureList = new ArrayList<FixtureWrapper>();
+            fixtureList = new ArrayList<FixtureModel>();
         return fixtureList;
     }
 

@@ -1,12 +1,14 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.events.CompetitionListResponseEvent;
+import co.mitoo.sashimi.utils.events.CompetitionRequestByUserID;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByUserIDEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
@@ -25,12 +27,21 @@ public class CompetitionService extends MitooService {
     }
 
     @Subscribe
-    public void onCompetitionUserIdRequest(CompetitionSeasonRequestByUserIDEvent event){
+    public void onCompetitionUserIdRequest(CompetitionRequestByUserID event){
+        if(this.myCompetition!=null && !this.myCompetition.isEmpty()){
+            BusProvider.post(new CompetitionListResponseEvent(this.myCompetition));
+        }else{
+            requestCompetitionByUserID(event.getUserID());
+        }
+    }
+
+    @Subscribe
+    public void onCompetitionCompAndUserIdAnRequest(CompetitionSeasonReqByCompAndUserID event){
         Competition competition = getCompetitionFromID(event.getCompetitionSeasonID());
         if(competition!=null){
             BusProvider.post(new CompetitionSeasonResponseEvent(competition));
         }else{
-            requestCompetitionByUserID(event.getUserID(), event.getCompetitionSeasonID());
+            requestCompetitionByUserIDAndCompID(event.getUserID(), event.getCompetitionSeasonID());
         }
     }
 
@@ -45,7 +56,7 @@ public class CompetitionService extends MitooService {
         }
     }
 
-    public void requestCompetition(int userID){
+    private void requestCompetitionByUserID(int userID){
 
         if(competitionIsEmpty()){
             String filterParam = getActivity().getString(R.string.steak_api_param_filter_all);
@@ -55,11 +66,11 @@ public class CompetitionService extends MitooService {
             handleObservable(observable, Competition[].class);
         }
         else{
-            BusProvider.post(new CompetitionSeasonResponseEvent(null));
+            BusProvider.post(new CompetitionListResponseEvent(this.myCompetition));
         }
     }
 
-    public void requestCompetitionByCompetitionID(int competitionSeasonID){
+    private void requestCompetitionByCompetitionID(int competitionSeasonID){
 
             Observable<Competition> observable = getSteakApiService()
                     .getCompetitionSeasonByID(competitionSeasonID);
@@ -83,7 +94,7 @@ public class CompetitionService extends MitooService {
 
     }
 
-    public void requestCompetitionByUserID(int userID, final int competitionSeasonID){
+    private void requestCompetitionByUserIDAndCompID(int userID, final int competitionSeasonID){
 
         if(competitionIsEmpty()){
 
@@ -104,7 +115,7 @@ public class CompetitionService extends MitooService {
 
                 @Override
                 public void onNext(Competition[] competitions) {
-                    setMyCompetition(new ArrayList<Competition>());
+                    CompetitionService.this.myCompetition = new ArrayList<Competition>();
                     addCompetition(competitions);
                     BusProvider.post(new CompetitionSeasonResponseEvent(getCompetitionFromID(competitionSeasonID)));
 
@@ -122,9 +133,9 @@ public class CompetitionService extends MitooService {
     protected void handleSubscriberResponse(Object objectRecieve) {
 
         if (objectRecieve instanceof Competition[]) {
-            setMyCompetition(new ArrayList<Competition>());
+            this.myCompetition = new ArrayList<Competition>();
             addCompetition((Competition[]) objectRecieve);
-            BusProvider.post(new CompetitionSeasonResponseEvent(null));
+            BusProvider.post(new CompetitionListResponseEvent(this.myCompetition));
         }
     }
 
@@ -147,10 +158,6 @@ public class CompetitionService extends MitooService {
         if(myCompetition==null)
             myCompetition = new ArrayList<Competition>();
         return myCompetition;
-    }
-
-    public void setMyCompetition(List<Competition> myCompetition) {
-        this.myCompetition = myCompetition;
     }
 
     public Competition getSelectedCompetition() {

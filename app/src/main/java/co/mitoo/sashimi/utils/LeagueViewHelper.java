@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.utils;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -12,9 +13,10 @@ import com.squareup.picasso.Callback;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueService;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import co.mitoo.sashimi.views.widgets.MitooImageTarget;
@@ -28,7 +30,6 @@ public class LeagueViewHelper {
     private int itemLoaded = 0;
     private int iconBackGroundTasks= 0;
 
-
     public LeagueViewHelper(ViewHelper viewHelper) {
         this.viewHelper = viewHelper;
     }
@@ -37,22 +38,18 @@ public class LeagueViewHelper {
         return viewHelper;
     }
 
-    public RelativeLayout createLeagueResult(League league , View leagueListHolder){
+    public RelativeLayout createLeagueResult(LeagueModel league , View leagueListHolder){
 
         RelativeLayout leagueItemContainer = (RelativeLayout)getViewHelper().createViewFromInflator(R.layout.view_league_dynamic_header);
         this.setUpFullLeagueText(leagueItemContainer, league);
         this.setUpCheckBox(leagueItemContainer, league);
         this.setLineColor(leagueItemContainer, league);
-        this.setUpIconImageWithCallBack(leagueItemContainer, league, leagueListHolder);
+        this.setUpIconImageWithCallBack(leagueItemContainer, league.getLeague(), leagueListHolder);
         return leagueItemContainer;
     }
 
     private MitooActivity getActivity(){
         return getViewHelper().getActivity();
-    }
-
-    private DataHelper getDataHelper(){
-        return getViewHelper().getActivity().getDataHelper();
     }
 
     public void setUpIconImageWithCallBack(final View leagueItemContainer, final League league, View leagueListHolder){
@@ -67,29 +64,30 @@ public class LeagueViewHelper {
                 .into(target);
     }
 
-    public void setUpFullLeagueText(View view, League league){
+    public void setUpFullLeagueText(View view, LeagueModel league){
 
         TextView leagueSportsTextView =  (TextView) view.findViewById(R.id.leagueInfo);
-        leagueSportsTextView.setText(league.getLeagueSports());
-        getViewHelper().setUpLeagueNameText(view, league);
-        setUpCityNameText(view, league);
+        leagueSportsTextView.setText(league.getLeague().getLeagueSports());
+        getViewHelper().setUpLeagueNameText(view, league.getLeague());
+        setUpCityNameText(view, league.getLeague());
 
     }
 
-
-    public void setUpCheckBox(View view , League league){
+    public void setUpCheckBox(View view , LeagueModel league){
 
         ImageView checkBoxImageView = (ImageView) view.findViewById(R.id.checkBoxImage);
-        Boolean joinedLeague =  ! (getActivity().getModelManager().getLeagueModel().leagueIsJoinable(league));
-        if(joinedLeague)
+        if(league.isLeagueIsJoinable())
+            checkBoxImageView.setVisibility(View.GONE);
+        else{
             checkBoxImageView.setVisibility(View.VISIBLE);
+        }
 
     }
 
-    public void setLineColor(View container, League league){
+    public void setLineColor(View container, LeagueModel league){
 
         View bottomLine = (View) container.findViewById(R.id.bottomLine);
-        getViewHelper().setViewBackgroundDrawableColor(bottomLine, league.getColor_1());
+        getViewHelper().setViewBackgroundDrawableColor(bottomLine, league.getLeague().getColor_1());
 
     }
 
@@ -117,24 +115,24 @@ public class LeagueViewHelper {
     public void setUpCityNameText(View view, League league){
 
         TextView cityNameTextView =  (TextView) view.findViewById(R.id.city_name);
-        View cityContainer = (View) view .findViewById(R.id.city_name_container);
+        View cityContainer = view .findViewById(R.id.city_name_container);
         cityNameTextView.setText(league.getCity());
         cityContainer.setBackgroundDrawable(getViewHelper().createRoundLeftCorners(league.getColor_1()));
 
     }
 
-    public void addLeagueDataToList(final MitooFragment fragment, final int leagueLayout, final LinearLayout holder, List<League> leagues) {
+    public void addLeagueDataToList(final MitooFragment fragment, final int leagueLayout, final LinearLayout holder, List<LeagueModel> leagues) {
         getViewHelper().setHandler(fragment.getHandler());
         recursiveAddLeagueDataToList(fragment, leagueLayout, holder, leagues);
     }
 
-    private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<League> leagues){
+    private void recursiveAddLeagueDataToList(final MitooFragment fragment, final int leagueLayout,final LinearLayout holder, List<LeagueModel> leagues){
 
         int indexToStop= leagues.size();
 
         if(leagues.size()>indexToStop){
 
-            final List<League> leagueToLoadLater = leagues.subList(indexToStop , leagues.size());
+            final List<LeagueModel> leagueToLoadLater = leagues.subList(indexToStop , leagues.size());
             fragment.setRunnable(createRecursiveLoadList(fragment, leagueLayout, holder, leagueToLoadLater));
             getViewHelper().setRunnable(fragment.getRunnable());
             leagues = leagues.subList(0,indexToStop);
@@ -142,7 +140,7 @@ public class LeagueViewHelper {
 
         }
 
-        for(League item : leagues){
+        for(LeagueModel item : leagues){
 
             incrementIconBackgroundTasks();
             RelativeLayout layout = createLeagueResult(item, holder);
@@ -152,7 +150,7 @@ public class LeagueViewHelper {
 
     }
 
-    private Runnable createRecursiveLoadList(final MitooFragment fragment,final int leagueLayout,final LinearLayout holder,final List<League> leagueToLoadLater ){
+    private Runnable createRecursiveLoadList(final MitooFragment fragment,final int leagueLayout,final LinearLayout holder,final List<LeagueModel> leagueToLoadLater ){
         return new Runnable() {
             @Override
             public void run() {
@@ -162,7 +160,7 @@ public class LeagueViewHelper {
         };
     }
 
-    private View.OnClickListener createLeagueItemClickedListner(final MitooFragment fragment,final League itemClicked){
+    private View.OnClickListener createLeagueItemClickedListner(final MitooFragment fragment,final LeagueModel itemClicked){
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,11 +170,17 @@ public class LeagueViewHelper {
         };
     }
 
-    private void leagueListItemAction(MitooFragment fragment,League league){
+    private void leagueListItemAction(MitooFragment fragment,LeagueModel league){
 
-        LeagueService model =getActivity().getModelManager().getLeagueModel();
-        model.setSelectedLeague(league);
-        fragment.fireFragmentChangeAction(R.id.fragment_league);
+        Bundle bundle = new Bundle();
+        bundle.putInt(fragment.getString(R.string.bundle_key_league_id_key) , league.getLeague().getId());
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                .setFragmentID(R.id.fragment_league)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .setBundle(bundle)
+                .build();
+        BusProvider.post(fragmentChangeEvent);
 
     }
 

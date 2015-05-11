@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.IsPersistable;

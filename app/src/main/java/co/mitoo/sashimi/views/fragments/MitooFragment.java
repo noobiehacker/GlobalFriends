@@ -27,18 +27,18 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.AppSettingsService;
-import co.mitoo.sashimi.models.CompetitionService;
-import co.mitoo.sashimi.models.ConfirmInfoService;
-import co.mitoo.sashimi.models.FixtureService;
-import co.mitoo.sashimi.models.LeagueService;
-import co.mitoo.sashimi.models.LocationService;
-import co.mitoo.sashimi.models.MitooService;
-import co.mitoo.sashimi.models.MobileTokenService;
-import co.mitoo.sashimi.models.NotificationPreferenceService;
-import co.mitoo.sashimi.models.SessionService;
-import co.mitoo.sashimi.models.TeamService;
-import co.mitoo.sashimi.models.UserInfoService;
+import co.mitoo.sashimi.network.Services.AppSettingsService;
+import co.mitoo.sashimi.network.Services.CompetitionService;
+import co.mitoo.sashimi.network.Services.ConfirmInfoService;
+import co.mitoo.sashimi.network.Services.FixtureService;
+import co.mitoo.sashimi.network.Services.LeagueService;
+import co.mitoo.sashimi.network.Services.LocationService;
+import co.mitoo.sashimi.network.Services.MitooService;
+import co.mitoo.sashimi.network.Services.MobileTokenService;
+import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
+import co.mitoo.sashimi.network.Services.SessionService;
+import co.mitoo.sashimi.network.Services.TeamService;
+import co.mitoo.sashimi.network.Services.UserInfoService;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -47,7 +47,6 @@ import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.managers.ModelManager;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
@@ -412,11 +411,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void setFragmentTitle(String fragmentTitle) {
         this.fragmentTitle = fragmentTitle;
-    }
-
-
-    public ModelManager getRetriever() {
-        return getMitooActivity().getModelManager();
     }
 
     public boolean backPressedAllowed() {
@@ -830,7 +824,15 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         return getString(R.string.bundle_key_confirm_token_key);
     }
 
-    protected String getIdentifierKey(){
+    protected String getIdentifierKey() {
         return getString(R.string.bundle_key_identifier_key);
+    }
+
+    protected String getLeagueIDKey() {
+        return getString(R.string.bundle_key_league_id_key);
+    }
+
+    protected String getToolBarTitle(){
+        return getString(R.string.bundle_key_tool_bar_title);
     }
 }

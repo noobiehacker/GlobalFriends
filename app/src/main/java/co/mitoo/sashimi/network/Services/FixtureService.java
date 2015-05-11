@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
@@ -25,8 +25,8 @@ import rx.Subscriber;
  */
 public class FixtureService extends MitooService {
 
-    private List<FixtureWrapper> schedule;
-    private List<FixtureWrapper> result;
+    private List<FixtureModel> schedule;
+    private List<FixtureModel> result;
 
     public FixtureService(MitooActivity activity) {
         super(activity);
@@ -50,7 +50,7 @@ public class FixtureService extends MitooService {
 
             @Override
             public void onNext(Fixture fixture) {
-                BusProvider.post(new FixtureNotificationResponseEvent(new FixtureWrapper(fixture , getActivity())));
+                BusProvider.post(new FixtureNotificationResponseEvent(new FixtureModel(fixture , getActivity())));
 
             }
         });
@@ -104,7 +104,7 @@ public class FixtureService extends MitooService {
         }else if(objectRecieve instanceof Fixture) {
             Fixture fixture = (Fixture) objectRecieve;
             addFixtureToList(fixture);
-            BusProvider.post(new FixtureModelIndividualResponse(new FixtureWrapper(fixture, getActivity())));
+            BusProvider.post(new FixtureModelIndividualResponse(new FixtureModel(fixture, getActivity())));
         }
     }
 
@@ -112,14 +112,14 @@ public class FixtureService extends MitooService {
 
         Fixture[] fixtureArray = new Fixture[1];
         fixtureArray[0] = fixture;
-        FixtureWrapper fixtureWrapper = new FixtureWrapper(fixture , getActivity());
+        FixtureModel fixtureModel = new FixtureModel(fixture , getActivity());
 
-        if(fixtureWrapper.isFutureFixture()){
-            if(!listContainsFixture(getSchedule(),fixtureWrapper))
+        if(fixtureModel.isFutureFixture()){
+            if(!listContainsFixture(getSchedule(), fixtureModel))
                 addFixturesToSchedule(fixtureArray);
         }
         else{
-            if(!listContainsFixture(getResult(),fixtureWrapper))
+            if(!listContainsFixture(getResult(), fixtureModel))
                 addFixturesToResult(fixtureArray);
         }
     }
@@ -127,8 +127,8 @@ public class FixtureService extends MitooService {
     public void addFixturesToResult(Fixture[] fixtures) {
 
         for (Fixture item : fixtures) {
-            FixtureWrapper fixtureWrapper = new FixtureWrapper(item, getActivity());
-            getResult().add(fixtureWrapper);
+            FixtureModel fixtureModel = new FixtureModel(item, getActivity());
+            getResult().add(fixtureModel);
         }
         Collections.sort(getResult());
         Collections.reverse(getResult());
@@ -138,8 +138,8 @@ public class FixtureService extends MitooService {
     public void addFixturesToSchedule(Fixture[] fixtures) {
 
         for (Fixture item : fixtures) {
-            FixtureWrapper fixtureWrapper = new FixtureWrapper(item, getActivity());
-            getSchedule().add(fixtureWrapper);
+            FixtureModel fixtureModel = new FixtureModel(item, getActivity());
+            getSchedule().add(fixtureModel);
         }
         Collections.sort(getSchedule());
         getActivity().getDataHelper().setUpFixtureSection(getSchedule());
@@ -148,14 +148,14 @@ public class FixtureService extends MitooService {
     public void addFixtures(Fixture[] fixtures) {
 
         for (Fixture item : fixtures) {
-            FixtureWrapper fixtureWrapper = new FixtureWrapper(item , getActivity());
-            if(fixtureWrapper.isFutureFixture()){
-                if(!listContainsFixture(getSchedule(),fixtureWrapper))
-                    getSchedule().add(fixtureWrapper);
+            FixtureModel fixtureModel = new FixtureModel(item , getActivity());
+            if(fixtureModel.isFutureFixture()){
+                if(!listContainsFixture(getSchedule(), fixtureModel))
+                    getSchedule().add(fixtureModel);
             }
             else{
-                if(!listContainsFixture(getResult(),fixtureWrapper))
-                    getResult().add(fixtureWrapper);
+                if(!listContainsFixture(getResult(), fixtureModel))
+                    getResult().add(fixtureModel);
             }
         }
         Collections.sort(getSchedule());
@@ -172,25 +172,25 @@ public class FixtureService extends MitooService {
 
     private void clearFixtures(){
 
-        setResult(new ArrayList<FixtureWrapper>());
-        setSchedule(new ArrayList<FixtureWrapper>());
+        setResult(new ArrayList<FixtureModel>());
+        setSchedule(new ArrayList<FixtureModel>());
     }
 
-    public List<FixtureWrapper> getSchedule() {
+    public List<FixtureModel> getSchedule() {
         if(schedule == null)
-            setSchedule(new ArrayList<FixtureWrapper>());
+            setSchedule(new ArrayList<FixtureModel>());
         return schedule;
     }
 
-    public List<FixtureWrapper> getResult() {
+    public List<FixtureModel> getResult() {
         if(result == null)
-            setResult(new ArrayList<FixtureWrapper>());
+            setResult(new ArrayList<FixtureModel>());
         return result;
     }
 
-    public FixtureWrapper getFixtureFromModel(int fixtureID){
+    public FixtureModel getFixtureFromModel(int fixtureID){
 
-        FixtureWrapper result = getFixtureFromList(fixtureID , getSchedule());
+        FixtureModel result = getFixtureFromList(fixtureID , getSchedule());
         if(result!=null)
             return result;
         else
@@ -198,11 +198,11 @@ public class FixtureService extends MitooService {
 
     }
 
-    public FixtureWrapper getFixtureFromList(int fixtureID, List<FixtureWrapper> fixtureList){
+    public FixtureModel getFixtureFromList(int fixtureID, List<FixtureModel> fixtureList){
 
-        FixtureWrapper result = null;
+        FixtureModel result = null;
         loop:
-        for(FixtureWrapper item : fixtureList){
+        for(FixtureModel item : fixtureList){
             if(item.getFixture().getId()==fixtureID){
                 result = item;
                 break loop;
@@ -212,11 +212,11 @@ public class FixtureService extends MitooService {
 
     }
 
-    public void setSchedule(List<FixtureWrapper> schedule) {
+    public void setSchedule(List<FixtureModel> schedule) {
         this.schedule = schedule;
     }
 
-    public void setResult(List<FixtureWrapper> result) {
+    public void setResult(List<FixtureModel> result) {
         this.result = result;
     }
 
@@ -224,12 +224,12 @@ public class FixtureService extends MitooService {
         return getSchedule().size()==0 && getResult().size() == 0;
     }
 
-    private boolean listContainsFixture(List<FixtureWrapper> list, FixtureWrapper fixtureWrapper){
+    private boolean listContainsFixture(List<FixtureModel> list, FixtureModel fixtureModel){
 
         boolean contains = false;
         loop:
-        for(FixtureWrapper item : list){
-            if(fixtureWrapper.getFixture().getId() == item.getFixture().getId()){
+        for(FixtureModel item : list){
+            if(fixtureModel.getFixture().getId() == item.getFixture().getId()){
                 contains=true;
                 break loop;
             }

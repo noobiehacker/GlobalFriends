@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;

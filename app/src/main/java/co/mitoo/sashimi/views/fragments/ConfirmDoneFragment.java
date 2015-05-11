@@ -11,21 +11,16 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.ConfirmInfo;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByUserIDEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
-import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
-import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenAssociateRequestEvent;
 import co.mitoo.sashimi.utils.events.MobileTokenEventResponse;
-import retrofit.RetrofitError;
 
 /**
  * Created by david on 15-03-23.

@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.CompetitionService;
+import co.mitoo.sashimi.network.Services.CompetitionService;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;

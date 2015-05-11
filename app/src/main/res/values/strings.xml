@@ -48,7 +48,7 @@
     <string name="pre_confirm_page_text2">"Hi "</string>
     <string name="pre_confirm_page_text3">" you'll receive an "</string>
     <string name="pre_confirm_page_text4">" to confirm your account, just click the link to login."</string>
-    <string name="pre_confirm_page_text5">"DIDN"T RECEIVE ONE? RESEND"</string>
+    <string name="pre_confirm_page_text5">RESEND</string>
     <string name="pre_confirm_page_text6">email</string>
     <string name="pre_confirm_page_text7">"text"</string>
 
@@ -390,6 +390,7 @@
     <string name="bundle_key_identifier_key">bundle_key_identifier_key</string>
     <string name="bundle_key_identifier">bundle_key_identifier</string>
     <string name="bundle_key_user_name">bundle_key_user_name</string>
+    <string name="bundle_key_league_id_key">bundle_key_league_id_key</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>

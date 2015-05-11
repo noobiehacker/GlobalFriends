@@ -1,21 +1,21 @@
 package co.mitoo.sashimi.utils.events;
 
-import co.mitoo.sashimi.utils.FixtureWrapper;
+import co.mitoo.sashimi.models.FixtureModel;
 
 /**
  * Created by david on 15-05-09.
  */
 public class FixtureNotificationResponseEvent {
 
-    private FixtureWrapper fixture;
+    private FixtureModel fixture;
 
     private Throwable e;
 
-    public FixtureWrapper getFixture() {
+    public FixtureModel getFixture() {
         return fixture;
     }
 
-    public FixtureNotificationResponseEvent(FixtureWrapper fixture) {
+    public FixtureNotificationResponseEvent(FixtureModel fixture) {
         this.fixture = fixture;
     }
 

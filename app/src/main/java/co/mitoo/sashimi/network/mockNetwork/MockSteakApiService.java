@@ -137,6 +137,11 @@ public class MockSteakApiService implements SteakApi {
         return null;
     }
 
+    @Override
+    public Observable<League> getLeagueFromLeagueID(int league_id) {
+        return null;
+    }
+
     private <T> Observable<T> createMockRespoonse(T item){
 
             Observable<T> result = null;

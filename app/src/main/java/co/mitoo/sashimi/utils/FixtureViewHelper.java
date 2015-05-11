@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.FixtureService;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -32,7 +32,7 @@ public class FixtureViewHelper {
 
     private ViewHelper viewHelper;
 
-    private View.OnClickListener createFixtureItemClickedListener(final FixtureWrapper itemClicked){
+    private View.OnClickListener createFixtureItemClickedListener(final FixtureModel itemClicked){
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,12 +42,12 @@ public class FixtureViewHelper {
         };
     }
 
-    public void setUpFixtureForTabRefrac(List<FixtureWrapper> fixtureList, LinearLayout tabLayOutContainer) {
+    public void setUpFixtureForTabRefrac(List<FixtureModel> fixtureList, LinearLayout tabLayOutContainer) {
 
         //1)Run one loop to count up how many fixtures does a particular date have
         Map<LocalDate, Integer> map = new HashMap<LocalDate, Integer>();
         //1b)Use a hash map to count up an store the value
-        for (FixtureWrapper item : fixtureList) {
+        for (FixtureModel item : fixtureList) {
 
             if (map.containsKey(item.getJodafixtureDate())) {
                 map.put(item.getJodafixtureDate(), map.get(item.getJodafixtureDate()) + 1);
@@ -57,14 +57,14 @@ public class FixtureViewHelper {
 
         }
         //2)Second loop, for every date, get from the map on how many fixtures of a particular date has
-        Iterator<FixtureWrapper> iterator = fixtureList.iterator();
-        List<FixtureWrapper> fixtureListForOneDate = null;
+        Iterator<FixtureModel> iterator = fixtureList.iterator();
+        List<FixtureModel> fixtureListForOneDate = null;
         int itemsRemainingInList = 0;
         while (iterator.hasNext()) {
 
-            FixtureWrapper item = iterator.next();
+            FixtureModel item = iterator.next();
             if (fixtureListForOneDate == null) {
-                fixtureListForOneDate = new ArrayList<FixtureWrapper>();
+                fixtureListForOneDate = new ArrayList<FixtureModel>();
                 itemsRemainingInList = map.get(item.getJodafixtureDate());
             }
             //2a)Group the List of fixture by iterating the value count and add them all to an ArrayList
@@ -81,12 +81,12 @@ public class FixtureViewHelper {
 
     }
 
-    public RelativeLayout createFixtureForOneDate(List<FixtureWrapper> fixtureGroup){
+    public RelativeLayout createFixtureForOneDate(List<FixtureModel> fixtureGroup){
 
         RelativeLayout fixtureGroupContainer = (RelativeLayout)getViewHelper().createViewFromInflator(R.layout.view_fixture_grouped);
         LinearLayout fixtureHolder = (LinearLayout) fixtureGroupContainer.findViewById(R.id.fixtureRowContainer);
 
-        for(FixtureWrapper item : fixtureGroup){
+        for(FixtureModel item : fixtureGroup){
             MitooEnum.FixtureStatus fixtureType = item.getFixtureType();
             if(fixtureType != MitooEnum.FixtureStatus.DELETED){
                 fixtureHolder.addView(createFixtureRow(item));
@@ -96,7 +96,7 @@ public class FixtureViewHelper {
         return fixtureGroupContainer;
     }
 
-    public void setDateForFixtureGroup(RelativeLayout fixtureGroupContainer , List<FixtureWrapper> fixtureGroup){
+    public void setDateForFixtureGroup(RelativeLayout fixtureGroupContainer , List<FixtureModel> fixtureGroup){
 
         if(fixtureGroup.size()>0){
             TextView dateTextView = (TextView) fixtureGroupContainer.findViewById(R.id.dateTextField);
@@ -105,14 +105,14 @@ public class FixtureViewHelper {
         }
     }
 
-    public RelativeLayout createFixtureRow(FixtureWrapper fixture){
+    public RelativeLayout createFixtureRow(FixtureModel fixture){
 
         RelativeLayout fixtureRow = (RelativeLayout)getViewHelper().createViewFromInflator(R.layout.view_fixture_row);
         customizeFixtureRow(fixtureRow, fixture);
         return fixtureRow;
     }
 
-    private void setUpFixtureRowTeamTextView(View row, FixtureWrapper fixture){
+    private void setUpFixtureRowTeamTextView(View row, FixtureModel fixture){
 
         TextView leftTeamTextView = (TextView)row.findViewById(R.id.leftTeamName);
         TextView rightTeamTextView = (TextView)row.findViewById(R.id.rightTeamName);
@@ -142,7 +142,7 @@ public class FixtureViewHelper {
 
     }
 
-    private void setUpFixtureStamp(View row, FixtureWrapper fixture){
+    private void setUpFixtureStamp(View row, FixtureModel fixture){
 
         RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
         ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
@@ -175,7 +175,7 @@ public class FixtureViewHelper {
         }
     }
 
-    private void setUpFixtureTeamIcons(View row , FixtureWrapper fixture ) {
+    private void setUpFixtureTeamIcons(View row , FixtureModel fixture ) {
 
         ImageView leftTeamIcon = (ImageView) row.findViewById(R.id.leftTeamIcon);
         ImageView rightTeamIcon = (ImageView) row.findViewById(R.id.rightTeamIcon);
@@ -196,7 +196,7 @@ public class FixtureViewHelper {
         }
     }
 
-    private void setUpFixtureCenterText(View row , FixtureWrapper fixture ) {
+    private void setUpFixtureCenterText(View row , FixtureModel fixture ) {
 
         TextView centerText = (TextView) row.findViewById(R.id.middleTextField);
         MitooEnum.TimeFrame fixtureTimeFrame = getDataHelper().getTimeFrame(fixture.getFixtureDate());
@@ -214,7 +214,7 @@ public class FixtureViewHelper {
         }
     }
 
-    public void customizeFixtureRow(View row , FixtureWrapper fixture){
+    public void customizeFixtureRow(View row , FixtureModel fixture){
 
         setUpFixtureRowTeamTextView(row, fixture);
         setUpFixtureStamp(row, fixture);
@@ -224,7 +224,7 @@ public class FixtureViewHelper {
 
     }
 
-    private void setUpFixtureOnClickListener(View row, FixtureWrapper fixture){
+    private void setUpFixtureOnClickListener(View row, FixtureModel fixture){
 
         row.setOnClickListener(createFixtureItemClickedListener(fixture));
     }
@@ -246,7 +246,7 @@ public class FixtureViewHelper {
         return getViewHelper().getActivity().getDataHelper();
     }
 
-    private void fixtureItemClickAction(FixtureWrapper fixture){
+    private void fixtureItemClickAction(FixtureModel fixture){
 
         FragmentChangeEvent event = FragmentChangeEventBuilder
                 .getSingletonInstance()
@@ -257,7 +257,7 @@ public class FixtureViewHelper {
 
     }
 
-    private Bundle createBundle(FixtureWrapper fixture){
+    private Bundle createBundle(FixtureModel fixture){
         Bundle bundle = new Bundle();
         bundle.putInt(getFixtureIdKey(), fixture.getFixture().getId());
         return bundle;

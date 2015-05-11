@@ -1,4 +1,4 @@
-package co.mitoo.sashimi.models;
+package co.mitoo.sashimi.network.Services;
 import com.algolia.search.saas.APIClient;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
@@ -8,11 +8,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.send.JsonLeagueEnquireSend;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -20,15 +20,19 @@ import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.AlgoliaLeagueSearchEvent;
+import co.mitoo.sashimi.utils.events.LeagueRequestFromIDEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquireRequestEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.AlgoliaResponseEvent;
 import co.mitoo.sashimi.utils.events.LeagueQueryResponseEvent;
+import co.mitoo.sashimi.utils.events.LeagueResponseFromIDEvent;
+import co.mitoo.sashimi.utils.events.LeaguesAlreadyEnquiredRequest;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.client.Response;
-
+import rx.Observable;
+import rx.Subscriber;
 import org.apache.commons.lang.SerializationUtils;
 /**
  * Created by david on 14-12-08.
@@ -39,9 +43,8 @@ public class LeagueService extends MitooService {
     private Index index;
     private AlgoliaIndexListener aiListener;
 
-    private List<League> leagueSearchResults;
-    private List<League> enquiredLeagues;
-    private List<League> myleagues;
+    private List<League> searchLeagueList;
+    private List<League> enquiredLeagueList;
 
     private JSONObject results;
     private League selectedLeague;
@@ -61,6 +64,34 @@ public class LeagueService extends MitooService {
     }
 
     @Subscribe
+    public void requestLeagueFromID(LeagueRequestFromIDEvent event){
+
+        League league = getLeagueByID(event.getLeagueID());
+        if(league==null){
+            Observable<League> observable = getSteakApiService().getLeagueFromLeagueID(event.getLeagueID());
+            observable.subscribe(new Subscriber<League>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    BusProvider.post(new LeagueResponseFromIDEvent(e));
+                }
+
+                @Override
+                public void onNext(League league) {
+                    BusProvider.post(new LeagueResponseFromIDEvent(new LeagueModel(league, leagueIsJoinable(league))));
+                }
+            });
+        }else{
+            BusProvider.post(new LeagueResponseFromIDEvent(new LeagueModel(league, leagueIsJoinable(league))));
+        }
+
+    }
+
+    @Subscribe
     public void requestAlgoLiaSearch(AlgoliaLeagueSearchEvent event){
 
         Query algoliaQuery = new Query(event.getQuery());
@@ -75,10 +106,10 @@ public class LeagueService extends MitooService {
     }
 
     @Subscribe
-    public void requestEnquiredLeagues(LeagueModelEnquireRequestEvent event) {
+    public void requestEnquiredLeagues(LeaguesAlreadyEnquiredRequest event) {
 
-        if(event.getApiRequestType()== MitooEnum.APIRequest.REQUEST && getLeaguesEnquired().size()!=0)
-            BusProvider.post(new LeagueModelEnquiresResponseEvent(getLeaguesEnquired()));
+        if(this.enquiredLeagueList != null && !this.enquiredLeagueList.isEmpty())
+            BusProvider.post(new LeagueModelEnquiresResponseEvent(this.enquiredLeagueList));
         else
             handleObservable(getSteakApiService().getLeagueEnquiries(getEnquriesConstant(), event.getUserID()), League[].class);
     }
@@ -86,10 +117,8 @@ public class LeagueService extends MitooService {
     @Subscribe
     public void requestToEnquireLeague(LeagueModelEnquireRequestEvent event) {
 
-        if (getSelectedLeague() != null) {
-            JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
-            handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
-        }
+        JsonLeagueEnquireSend sendData = new JsonLeagueEnquireSend(event.getUserID(), getSelectedLeague().getFirstSports());
+        handleObservable(getSteakApiService().createLeagueEnquiries(getSelectedLeague().getId(), sendData), Response.class);
 
     }
 
@@ -129,8 +158,9 @@ public class LeagueService extends MitooService {
                 try {
                     JSONArray hits = LeagueService.this.results.getJSONArray(getActivity().getString(R.string.algolia_result_param));
                     ObjectMapper objectMapper = new ObjectMapper();
-                    LeagueService.this.leagueSearchResults = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
-                    BusProvider.post(new LeagueQueryResponseEvent(LeagueService.this.leagueSearchResults));
+                    LeagueService.this.searchLeagueList = objectMapper.readValue(hits.toString(), new TypeReference<List<League>>(){});
+                    List<LeagueModel> leagueModelList = leagueModelTransform(LeagueService.this.searchLeagueList);
+                    BusProvider.post(new LeagueQueryResponseEvent(leagueModelList));
                 }
                 catch(Exception e){
                     BusProvider.post(new MitooActivitiesErrorEvent(MitooEnum.ErrorType.APP , e.toString()));
@@ -145,6 +175,14 @@ public class LeagueService extends MitooService {
         
     }
 
+    private List<LeagueModel> leagueModelTransform(List<League> leagues){
+        List<LeagueModel> leagueModelsList = new ArrayList<LeagueModel>();
+        for(League item : leagues){
+            leagueModelsList.add(new LeagueModel(item ,leagueIsJoinable(item)));
+        }
+        return leagueModelsList;
+    }
+
     private List<League> deepCopy(List<League> league){
         List<League> results = new ArrayList<League>();
         for(League item: league){
@@ -157,7 +195,7 @@ public class LeagueService extends MitooService {
 
         League result = null;
         forloop:
-        for(League item : this.leagueSearchResults){
+        for(League item : this.searchLeagueList){
             if(result!=null)
                 break forloop;
             else if(item.getId() == ObjectID)
@@ -182,19 +220,19 @@ public class LeagueService extends MitooService {
     }
 
     public List<League> getLeaguesEnquired() {
-        if(this.enquiredLeagues ==null)
-            this.enquiredLeagues = new ArrayList<League>();
-        return this.enquiredLeagues;
+        if(this.enquiredLeagueList ==null)
+            this.enquiredLeagueList = new ArrayList<League>();
+        return this.enquiredLeagueList;
     }
 
     public void addLeagueEnquired(League[] newleaguesEnquired) {
 
-        if (this.enquiredLeagues == null) {
-            this.enquiredLeagues = new ArrayList<League>();
+        if (this.enquiredLeagueList == null) {
+            this.enquiredLeagueList = new ArrayList<League>();
         }
         DataHelper helper = getActivity().getDataHelper();
         for (League item : newleaguesEnquired) {
-            this.enquiredLeagues.add(item);
+            this.enquiredLeagueList.add(item);
         }
     }
 
@@ -203,12 +241,6 @@ public class LeagueService extends MitooService {
         if(getLeaguesEnquired() !=null && getLeaguesEnquired().size()>0)
             return getLeaguesEnquired().get(0);
         return null;
-    }
-    
-    public boolean selectedLeagueIsJoinable(){
-        
-        return leagueIsJoinable(getSelectedLeague());
-        
     }
     
     public boolean leagueIsJoinable(League league){
@@ -238,7 +270,7 @@ public class LeagueService extends MitooService {
     }
 
     public List<League> getLeagueSearchResults() {
-        return leagueSearchResults;
+        return this.searchLeagueList;
     }
 
     public boolean isRequestingAlgolia() {
@@ -259,8 +291,7 @@ public class LeagueService extends MitooService {
 
     @Override
     public void resetFields(){
-        this.enquiredLeagues =null;
-        this.leagueSearchResults = null;
+        this.searchLeagueList =null;
         this.selectedLeague = null;
         
     }
@@ -274,7 +305,7 @@ public class LeagueService extends MitooService {
     }
 
     public void setEnquiredLeagues(List<League> enquiredLeagues) {
-        this.enquiredLeagues = enquiredLeagues;
+        this.searchLeagueList = enquiredLeagues;
     }
 
     private void clearLeaguesEnquired(){

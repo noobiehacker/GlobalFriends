@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.views.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -9,9 +10,13 @@ import android.widget.TextView;
 
 import java.util.List;
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueService;
+import co.mitoo.sashimi.network.Services.LeagueService;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
+import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
+import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 
@@ -66,7 +71,17 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
     private void enquiredLeagueListItemAction(League league){
 
         setSelectedModelItem(league);
-        getFragment().fireFragmentChangeAction(R.id.fragment_league);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(fragment.getString(R.string.bundle_key_league_id_key) , league.getId());
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                .setFragmentID(R.id.fragment_league)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
+                .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                .setBundle(bundle)
+                .build();
+        BusProvider.post(fragmentChangeEvent);
+
     }
 
     public MitooFragment getFragment() {
