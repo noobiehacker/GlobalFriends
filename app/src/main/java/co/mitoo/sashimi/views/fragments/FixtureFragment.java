@@ -113,7 +113,7 @@ public class FixtureFragment extends MitooFragment {
         MapFragment f = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.googleFixtureMapFragment);
         if (f != null)
-            getFragmentManager().beginTransaction().remove(f).commit();
+            getFragmentManager().beginTransaction().remove(f).commitAllowingStateLoss();
     }
 
     @Override

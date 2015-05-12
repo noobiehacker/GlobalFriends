@@ -279,7 +279,7 @@ public class MitooActivity extends ActionBarActivity {
         setFragmentAnimation(ft, event.getAnimation());
         ft.addToBackStack(String.valueOf(event.getFragmentId()));
         ft.replace(R.id.content_frame, fragment);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         getFragmentStack().push(fragment);
 
     }
@@ -290,7 +290,7 @@ public class MitooActivity extends ActionBarActivity {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         setFragmentAnimation(ft, event.getAnimation());
         ft.replace(R.id.content_frame, fragment);
-        ft.commit();
+        ft.commitAllowingStateLoss();
         getFragmentStack().push(fragment);
 
     }
