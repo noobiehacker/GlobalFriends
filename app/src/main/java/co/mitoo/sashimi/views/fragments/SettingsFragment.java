@@ -9,6 +9,7 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -51,6 +52,8 @@ public class SettingsFragment extends MitooFragment {
     private void updateView(){
         if(userInfoRecieve!=null && this.viewLoaded==true)
             setUpUserDetails(getRootView());
+
+        EventTrackingService.userViewedProfileScreen(this.getUserID());
     }
 
 

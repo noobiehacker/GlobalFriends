@@ -14,6 +14,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -101,6 +102,10 @@ public class HomeFragment extends MitooFragment {
                 container, false);
         initializeViews(view);
         initializeOnClickListeners(view);
+
+        // Track this event
+        EventTrackingService.userViewedHomeScreen(userID);
+
         return view;
     }
 

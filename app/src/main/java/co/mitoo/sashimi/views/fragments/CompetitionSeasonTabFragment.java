@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -102,7 +103,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             requestData();
         }
         updateView();
-
     }
 
     @Override
@@ -111,7 +111,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         getTeamModel();
         BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
         BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
-
     }
 
     @Override
@@ -145,7 +144,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             setUpNoResultsView();
             setPreDataLoading(false);
         }
-
     }
 
     private boolean allDataLoaded(){

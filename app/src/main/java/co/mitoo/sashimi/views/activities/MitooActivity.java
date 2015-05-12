@@ -71,6 +71,7 @@ import co.mitoo.sashimi.views.fragments.HomeFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
+import io.keen.client.java.KeenClient;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -113,6 +114,13 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onPause() {
         tearDownReferences();
+
+        KeenClient.client().sendQueuedEventsAsync();
+
+
+
+
+
         onSaveInstanceState(new Bundle());
         super.onPause();
     }

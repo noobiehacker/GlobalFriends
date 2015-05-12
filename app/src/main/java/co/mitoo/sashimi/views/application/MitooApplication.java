@@ -7,6 +7,13 @@ import com.urbanairship.Logger;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
+import io.keen.client.java.KeenClient;
+import io.keen.client.android.AndroidKeenClientBuilder;
+import io.keen.client.java.KeenLogging;
+import io.keen.client.java.KeenProject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import co.mitoo.sashimi.R;
@@ -49,6 +56,30 @@ public class MitooApplication extends Application{
                 Logger.info("My Application Channel ID: " + channelId);
             }
         });
+
+        // If the Keen Client isn't already initialized, initialize it.
+        if (!KeenClient.isInitialized()) {
+
+            // Create a new instance of the client.
+            KeenClient client = new AndroidKeenClientBuilder(this).build();
+
+            // Get the project ID and write key from string resources, then create a project and set
+            // it as the default for the client.
+            String projectId = getString(R.string.keen_project_id);
+            String writeKey = getString(R.string.keen_write_key);
+            KeenProject project = new KeenProject(projectId, writeKey, null);
+            client.setDefaultProject(project);
+
+            // During testing, enable logging and debug mode.
+            // NOTE: REMOVE THESE LINES BEFORE SHIPPING YOUR APPLICATION!
+            KeenLogging.enableLogging();
+            client.setDebugMode(true);
+
+            setUpKeenClientGlobalProperties(client);
+
+            // Initialize the KeenClient singleton with the created client.
+            KeenClient.initialize(client);
+        }
 
     }
 
@@ -97,6 +128,14 @@ public class MitooApplication extends Application{
             }
         }
 
+    }
+
+    private void setUpKeenClientGlobalProperties(KeenClient client){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("platform", "android");
+        //@TODO Put in app version dynamically
+        map.put("app_version", "1.2.1");
+        client.setGlobalProperties(map);
     }
 
 }
