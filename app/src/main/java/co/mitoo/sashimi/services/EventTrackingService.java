@@ -24,14 +24,11 @@ public class EventTrackingService {
     }
 
     public static void userViewedCompetitionScheduleScreen(int userId, int competitionSeasonId, int leagueId) {
-
         ImmutableMap.Builder map = getImmutableMap(userId, competitionSeasonId);
 
         // Sometimes we do not always have leagueId
         if(leagueId > 0) {
-            map.put("league", ImmutableMap.<String, Object>builder().
-                    put("id", leagueId).
-                    build());
+            map.put("league", buildBasicMap(leagueId));
         }
 
         final Map<String, Object> event = map.build();
@@ -42,14 +39,11 @@ public class EventTrackingService {
     }
 
     public static void userViewedCompetitionResultsScreen(int userId, int competitionSeasonId, int leagueId) {
-
         ImmutableMap.Builder map = getImmutableMap(userId, competitionSeasonId);
 
         // Sometimes we do not always have leagueId
         if(leagueId > 0) {
-            map.put("league", ImmutableMap.<String, Object>builder().
-                    put("id", leagueId).
-                    build());
+            map.put("league", buildBasicMap(leagueId));
         }
 
         final Map<String, Object> event = map.build();
@@ -60,7 +54,6 @@ public class EventTrackingService {
     }
 
     public static void userViewedFixtureDetailsScreen(int userId, int fixtureId, int competitionSeasonId, int leagueId) {
-
         ImmutableMap.Builder map = getImmutableMap(userId, competitionSeasonId);
 
         map.put("fixture", ImmutableMap.<String, Object>builder().
@@ -69,9 +62,7 @@ public class EventTrackingService {
 
         // Sometimes we do not always have leagueId
         if(leagueId > 0) {
-            map.put("league", ImmutableMap.<String, Object>builder().
-                    put("id", leagueId).
-                    build());
+            map.put("league", buildBasicMap(leagueId));
         }
 
         final Map<String, Object> event = map.build();
@@ -82,7 +73,6 @@ public class EventTrackingService {
     }
 
     public static void userViewedNotificationPreferencesScreen(int userId, int competitionSeasonId) {
-
         final Map<String, Object> event = getImmutableMap(userId, competitionSeasonId).build();
 
         KeenClient.client().queueEvent("user_viewed_notification_preferences", event);
@@ -95,7 +85,6 @@ public class EventTrackingService {
     }
 
     public static void userEngagement(int userId, int competitionSeasonId) {
-
         Date now = new Date();
 
         // to make analysis easier through Keen we send two additional timestamps with zeroed values
@@ -127,9 +116,7 @@ public class EventTrackingService {
 
         // Competition Season might not be available
         if (competitionSeasonId != 0) {
-            map.put("competition_season", ImmutableMap.<String, Object>builder().
-                    put("id", competitionSeasonId).
-                    build());
+            map.put("competition_season", buildBasicMap(competitionSeasonId));
         }
 
         // build the map
@@ -148,16 +135,11 @@ public class EventTrackingService {
 
     // this should be called whenever a user actions a notification
     public static void userOpenedNotification(int userId, String type, String mitooObjectType, String objectId, String mitooAction) {
-
         ImmutableMap.Builder map = getImmutableMap(userId);
 
         map.put("medium", "push").
         put("type", type).
-        put("action", ImmutableMap.<String, Object>builder().
-                put("object_type", mitooObjectType).
-                put("object_id", objectId).
-                put("mitoo_action", mitooAction).
-                build());
+        put("action", buildMitooActionMap(mitooObjectType, objectId, mitooAction));
 
         final Map<String, Object> event = map.build();
 
@@ -168,29 +150,36 @@ public class EventTrackingService {
 
     // build and generate an immuntable map for a userId
     private static ImmutableMap.Builder getImmutableMap(int userId){
-
         ImmutableMap.Builder map = ImmutableMap.<String, Object>builder();
 
-        map.put("user", ImmutableMap.<String, Object>builder().
-                put("id", userId).
-                build());
+        map.put("user", buildBasicMap(userId));
 
         return map;
     }
 
     // build and generate an immuntable map for a userId and competionSeasonId
     private static ImmutableMap.Builder getImmutableMap(int userId, int competitionSeasonId){
+        ImmutableMap.Builder map = ImmutableMap.<String, Object>builder();
 
-            ImmutableMap.Builder map = ImmutableMap.<String, Object>builder();
-
-            map.put("user", ImmutableMap.<String, Object>builder().
-                            put("id", userId).
-                            build());
-
-            map.put("competition_season", ImmutableMap.<String, Object>builder().
-                            put("id", competitionSeasonId).
-                            build());
+        map.put("user", buildBasicMap(userId));
+        map.put("competition_season", buildBasicMap(competitionSeasonId));
 
         return map;
+    }
+
+    // a helper method to build a basic map with "id"
+    private static Map<String, Object> buildBasicMap(int id){
+        return ImmutableMap.<String, Object>builder().
+                put("id", id).
+                build();
+    }
+
+    // a helper method to build a map of action object
+    private static Map<String, Object> buildMitooActionMap(String objectType, String objectId, String action){
+        return ImmutableMap.<String, Object>builder().
+                put("object_type", objectType).
+                put("object_id", objectId).
+                put("mitoo_action", action).
+                build();
     }
 }
