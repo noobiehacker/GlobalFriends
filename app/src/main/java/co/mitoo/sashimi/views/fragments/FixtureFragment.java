@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,13 +108,23 @@ public class FixtureFragment extends MitooFragment {
 
     @Override
     public void onPause() {
-        super.onPause();
-        Bundle bundle = new Bundle();
-        onSaveInstanceState(bundle);
-        MapFragment f = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.googleFixtureMapFragment);
-        if (f != null)
-            getFragmentManager().beginTransaction().remove(f).commitAllowingStateLoss();
+
+        try {
+            MapFragment f = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.googleFixtureMapFragment);
+            if (f != null)
+                getFragmentManager().beginTransaction().remove(f).commitAllowingStateLoss();
+
+        } catch (Exception e) {
+
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
+
+        } finally {
+
+            super.onPause();
+
+        }
+
     }
 
     @Override

@@ -109,6 +109,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     @Override
     public void onResume() {
         super.onResume();
+        getAdapter().notifyDataSetChanged();
     }
 
     @Subscribe
@@ -176,6 +177,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
         updateView();
 
+
     }
 
     @Override
@@ -224,15 +226,19 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
                 getToolbar().setTitle(getFragmentTitle());
                 getTabHost().setPrimaryColor(getTeamColor());
             }
+            loadTabs();
         }
 
     }
 
     private void loadTabs() {
 
-        if(getPager().getAdapter()==null){
-            setUpPagerAdapter();
-            getPager().setCurrentItem(0, true);
+        if(this.viewLoaded && this.competition!=null){
+            if(getPager().getAdapter()==null){
+                setUpPagerAdapter();
+                getPager().setCurrentItem(0, true);
+
+            }
         }
 
     }
@@ -331,7 +337,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
                                         .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                                         .setBundle(createBundle())
                                         .build();
-                                postFragmentChangeEvent(fragmentChangeEvent);
+                                BusProvider.post(fragmentChangeEvent);
                                 break;
                         }
                     }
@@ -355,7 +361,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     public MaterialTabHost getTabHost() {
         return tabHost;
     }
-
 
     public void setTabHost(MaterialTabHost tabHost) {
         this.tabHost = tabHost;
@@ -426,10 +431,13 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     public void onDestroyView() {
         if (getMaterialsTabContainer() != null) {
 
-     //       getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(0));
-      //      getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(1));
+            /*getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(0));
+            getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(1));
+            getAdapter().notifyDataSetChanged();*/
             getTabHost().removeAllViews();
             getMaterialsTabContainer().removeAllViews();
+            this.pager=null;
+            this.adapter = null;
         }
         super.onDestroyView();
     }
@@ -441,6 +449,5 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         bundle.putInt(getTeamColorKey(), getTeamColor());
         return bundle;
     }
-
 
 }
