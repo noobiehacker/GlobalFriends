@@ -274,24 +274,32 @@ public class MitooActivity extends ActionBarActivity {
 
     private void pushFragment(FragmentChangeEvent event) {
 
-        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        setFragmentAnimation(ft, event.getAnimation());
-        ft.addToBackStack(String.valueOf(event.getFragmentId()));
-        ft.replace(R.id.content_frame, fragment);
-        ft.commitAllowingStateLoss();
-        getFragmentStack().push(fragment);
+        try {
+            MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            setFragmentAnimation(ft, event.getAnimation());
+            ft.addToBackStack(String.valueOf(event.getFragmentId()));
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+            getFragmentStack().push(fragment);
+        } catch (Exception e) {
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
+        }
 
     }
 
     private void swapFragment(FragmentChangeEvent event) {
 
-        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        setFragmentAnimation(ft, event.getAnimation());
-        ft.replace(R.id.content_frame, fragment);
-        ft.commitAllowingStateLoss();
-        getFragmentStack().push(fragment);
+        try {
+            MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            setFragmentAnimation(ft, event.getAnimation());
+            ft.replace(R.id.content_frame, fragment);
+            ft.commitAllowingStateLoss();
+            getFragmentStack().push(fragment);
+        } catch (Exception e) {
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
+        }
 
     }
 
@@ -321,10 +329,14 @@ public class MitooActivity extends ActionBarActivity {
 
     public void popFragment() {
 
-        if (getFragmentStack().size() > 0) {
-            getFragmentStack().pop();
-            getFragmentManager().popBackStack();
-            setPreviousFragmentBackClicked();
+        try {
+            if (getFragmentStack().size() > 0) {
+                getFragmentStack().pop();
+                getFragmentManager().popBackStack();
+                setPreviousFragmentBackClicked();
+            }
+        } catch (Exception e) {
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
         }
 
     }

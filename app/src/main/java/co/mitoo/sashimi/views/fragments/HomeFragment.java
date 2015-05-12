@@ -28,6 +28,7 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.adapters.CompetitionAdapter;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 
@@ -374,13 +375,14 @@ public class HomeFragment extends MitooFragment {
         return enquiredLeagueDataAdapter;
     }
 
-    private void setUpUserHasUsedAppBoolean(){
+    private void setUpUserHasUsedAppBoolean() {
 
-        if(getAppSettingsModel().getUserHasUsedApp() == null)
-            userHasUsedApp = false;
-        else
+        //DEFENSIVE PROGRAMING JUST IN CASE modelManger got killed
+        if (this.modelMangerExists() && getAppSettingsModel().getUserHasUsedApp() != null)
             userHasUsedApp = getAppSettingsModel().getUserHasUsedApp().booleanValue();
-        
+        else
+            userHasUsedApp = false;
+
     }
     
     public void saveUserAsSecondTimeUser(){
@@ -460,5 +462,13 @@ public class HomeFragment extends MitooFragment {
         return logOutEventFired;
     }
 
+    private boolean modelMangerExists(){
+        //DEFENSIVE PROGRAMMING TO MAKE SURE MODELMANAGER EXSIST
+        MitooActivity activity = getMitooActivity();
+        if(activity!=null){
+            return activity.getModelManager() !=null;
+        }
+        return false;
+    }
 
 }
