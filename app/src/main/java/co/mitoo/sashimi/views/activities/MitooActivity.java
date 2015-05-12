@@ -116,11 +116,8 @@ public class MitooActivity extends ActionBarActivity {
     public void onPause() {
         tearDownReferences();
 
+        // This causes queued Keen events to be sent (async) to Keen
         KeenClient.client().sendQueuedEventsAsync();
-
-
-
-
 
         onSaveInstanceState(new Bundle());
         super.onPause();

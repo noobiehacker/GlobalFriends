@@ -214,11 +214,12 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     private void setUpPagerAdapter() {
 
-        // When first setup
-        if(getPager().getCurrentItem()==0) {
-            EventTrackingService.userViewedCompetitionScheduleScreen(CompetitionSeasonFragment.this.getUserID(), CompetitionSeasonFragment.this.competitionSeasonID, 0);
-        } else if(getPager().getCurrentItem()==1){
-
+        // This is a little bit of a hack, as we already have tracking within onPageSelected (see below). However, we want to track the inital view too
+        // so this seemed like the best place for it.
+        if(getPager().getCurrentItem() == 0) {
+            EventTrackingService.userViewedCompetitionScheduleScreen(this.getUserID(), this.competitionSeasonID, 0);
+        } else if(getPager().getCurrentItem() == 1){
+            EventTrackingService.userViewedCompetitionResultsScreen(this.getUserID(), this.competitionSeasonID, 0);
         }
 
         getPager().setAdapter(getAdapter());

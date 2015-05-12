@@ -70,11 +70,6 @@ public class MitooApplication extends Application{
             KeenProject project = new KeenProject(projectId, writeKey, null);
             client.setDefaultProject(project);
 
-            // During testing, enable logging and debug mode.
-            // NOTE: REMOVE THESE LINES BEFORE SHIPPING YOUR APPLICATION!
-            KeenLogging.enableLogging();
-            client.setDebugMode(true);
-
             setUpKeenClientGlobalProperties(client);
 
             // Initialize the KeenClient singleton with the created client.
