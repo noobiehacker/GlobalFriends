@@ -42,6 +42,7 @@ import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.AppStringHelper;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -849,7 +850,13 @@ public class MitooActivity extends ActionBarActivity {
     public void consumeNotification() {
 
         while (getNotificationQueue().size() > 0) {
-            BusProvider.post(new NotificationEvent(getNotificationQueue().poll()));
+            NotificationReceive notification = getNotificationQueue().poll();
+
+            // track as notification opened event
+            //@TODO Track notification type/datum
+            EventTrackingService.userOpenedNotification(this.getUserID(), "", notification.getObj_type(), notification.getObj_id(), notification.getMitoo_action());
+
+            BusProvider.post(new NotificationEvent(notification));
         }
     }
 

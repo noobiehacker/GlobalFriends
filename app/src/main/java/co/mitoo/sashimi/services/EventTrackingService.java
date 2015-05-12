@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
 
+import co.mitoo.sashimi.views.adapters.StringListAdapter;
 import io.keen.client.java.KeenClient;
 
 /**
@@ -21,7 +22,7 @@ import io.keen.client.java.KeenClient;
 public class EventTrackingService {
 
 
-    public static void userViewedHomeScreen(int userId){
+    public static void userViewedHomeScreen(int userId) {
         final Map<String, Object> event = ImmutableMap.<String, Object>builder().
                 put("user", ImmutableMap.<String, Object>builder().
                         put("id", userId).
@@ -33,7 +34,7 @@ public class EventTrackingService {
         EventTrackingService.userEngagement(userId);
     }
 
-    public static void userViewedCompetitionScheduleScreen(int userId, int competitionSeasonId, int leagueId){
+    public static void userViewedCompetitionScheduleScreen(int userId, int competitionSeasonId, int leagueId) {
         final Map<String, Object> event = ImmutableMap.<String, Object>builder().
                 put("user", ImmutableMap.<String, Object>builder().
                         put("id", userId).
@@ -51,7 +52,7 @@ public class EventTrackingService {
         EventTrackingService.userEngagement(userId, competitionSeasonId);
     }
 
-    public static void userViewedCompetitionResultsScreen(int userId, int competitionSeasonId, int leagueId){
+    public static void userViewedCompetitionResultsScreen(int userId, int competitionSeasonId, int leagueId) {
         final Map<String, Object> event = ImmutableMap.<String, Object>builder().
                 put("user", ImmutableMap.<String, Object>builder().
                         put("id", userId).
@@ -69,7 +70,7 @@ public class EventTrackingService {
         EventTrackingService.userEngagement(userId, competitionSeasonId);
     }
 
-    public static void userViewedFixtureDetailsScreen(int userId, int fixtureId, int competitionSeasonId, int leagueId){
+    public static void userViewedFixtureDetailsScreen(int userId, int fixtureId, int competitionSeasonId, int leagueId) {
         final Map<String, Object> event = ImmutableMap.<String, Object>builder().
                 put("user", ImmutableMap.<String, Object>builder().
                         put("id", userId).
@@ -90,7 +91,7 @@ public class EventTrackingService {
         EventTrackingService.userEngagement(userId, competitionSeasonId);
     }
 
-    public static void userViewedNotificationPreferencesScreen(int userId, int competitionSeasonId){
+    public static void userViewedNotificationPreferencesScreen(int userId, int competitionSeasonId) {
         final Map<String, Object> event = ImmutableMap.<String, Object>builder().
                 put("user", ImmutableMap.<String, Object>builder().
                         put("id", userId).
@@ -105,11 +106,11 @@ public class EventTrackingService {
         EventTrackingService.userEngagement(userId, competitionSeasonId);
     }
 
-    public static void userEngagement(int userId){
+    public static void userEngagement(int userId) {
         EventTrackingService.userEngagement(userId, 0);
     }
 
-    public static void userEngagement(int userId, int competitionSeasonId){
+    public static void userEngagement(int userId, int competitionSeasonId) {
 
         Date now = new Date();
 
@@ -142,7 +143,7 @@ public class EventTrackingService {
                 put("month_of_year", monthOfYear);
 
         // Competition Season might not be available
-        if(competitionSeasonId != 0){
+        if (competitionSeasonId != 0) {
             map.put("competition_season", ImmutableMap.<String, Object>builder().
                     put("id", competitionSeasonId).
                     build());
@@ -154,7 +155,7 @@ public class EventTrackingService {
         KeenClient.client().queueEvent("user_engagement", event);
     }
 
-    public static void userViewedProfileScreen(int userId){
+    public static void userViewedProfileScreen(int userId) {
         final Map<String, Object> event = ImmutableMap.<String, Object>builder().
                 put("user", ImmutableMap.<String, Object>builder().
                         put("id", userId).
@@ -164,5 +165,26 @@ public class EventTrackingService {
         KeenClient.client().queueEvent("user_viewed_profile", event);
 
         EventTrackingService.userEngagement(userId);
+    }
+
+    // this should be called whenever a user actions a notification
+    public static void userOpenedNotification(int userId, String type, String mitooObjectType, String objectId, String mitooAction) {
+        final Map<String, Object> event = ImmutableMap.<String, Object>builder().
+                put("user", ImmutableMap.<String, Object>builder().
+                        put("id", userId).
+                        build()).
+                put("medium", "push").
+                put("type", type).
+                put("action", ImmutableMap.<String, Object>builder().
+                        put("object_type", mitooObjectType).
+                        put("object_id", objectId).
+                        put("mitoo_action", mitooAction).
+                        build()).
+                build();
+
+        KeenClient.client().queueEvent("user_opened_notification", event);
+
+        EventTrackingService.userEngagement(userId);
+
     }
 }
