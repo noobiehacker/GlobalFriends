@@ -1,12 +1,16 @@
 package co.mitoo.sashimi.views.fragments;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.TextView;
+
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import co.mitoo.sashimi.BuildConfig;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -113,6 +117,7 @@ public class LandingFragment extends MitooFragment implements BaseSliderView.OnS
         initializeSlider(view);
         initializeOnClickListeners(view);
         setUpToolBar(view);
+
     }
 
     private void initializeCallBacks(){

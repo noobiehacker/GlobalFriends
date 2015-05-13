@@ -29,6 +29,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.views.widgets.HeaderListView;
 import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import android.os.Handler;
@@ -425,10 +426,11 @@ public class ViewHelper {
         return holder;
     }
 
-    public void setUpListHeader(ListView listView , int layoutID , String headerText){
+    public View setUpListHeader(ListView listView , int layoutID , String headerText){
 
         View holder = createHeaderORFooterView(layoutID, headerText);
         listView.addHeaderView(holder);
+        return holder;
     }
 
     public View setUpListFooter(ListView listView , int layoutID , String footerText) {
@@ -453,6 +455,22 @@ public class ViewHelper {
         int headerLayoutID =  R.layout.view_list_header;
         setUpListHeader(listView, headerLayoutID, headerText);
         listView.setAdapter(adapter);
+    }
+
+    public <T> void setUpListView(HeaderListView listView, ArrayAdapter<T> adapter ,String headerText
+            ,AdapterView.OnItemClickListener listener){
+        int headerLayoutID =  R.layout.view_list_header;
+        View header = setUpListHeader(listView, headerLayoutID, headerText);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(listener);
+        listView.setHeaderView(header);
+    }
+
+    public <T> void setUpListView(HeaderListView listView, ArrayAdapter<T> adapter ,String headerText){
+        int headerLayoutID =  R.layout.view_list_header;
+        View header = setUpListHeader(listView, headerLayoutID, headerText);
+        listView.setAdapter(adapter);
+        listView.setHeaderView(header);
     }
 
     private DataHelper getDataHelper(){

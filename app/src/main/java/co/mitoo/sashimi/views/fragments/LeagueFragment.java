@@ -196,11 +196,7 @@ public class LeagueFragment extends MitooFragment {
     @Override
     public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
 
-        Animator anim ;
-        if(enter)
-            anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.enter_right);
-        else
-            anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), R.animator.exit_right);
+        Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
         final boolean enterToPassIn = enter;
         anim.addListener(new Animator.AnimatorListener() {
             @Override

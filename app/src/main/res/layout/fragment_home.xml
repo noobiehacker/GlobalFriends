@@ -23,7 +23,7 @@
         progressLayout:progress="false"
         progressLayout:progressBackground="@color/gray_light_one">
 
-        <ListView
+        <co.mitoo.sashimi.views.widgets.HeaderListView
             android:id="@+id/myLeagueListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,21 +31,13 @@
             android:descendantFocusability="blocksDescendants"
             android:scrollbars="none" />
 
-        <ListView
+        <co.mitoo.sashimi.views.widgets.HeaderListView
             android:id="@+id/enquiredLeagueListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/myLeagueListView"
             android:descendantFocusability="blocksDescendants"
             android:scrollbars="none" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/spacing_sides"
-            android:paddingRight="@dimen/spacing_sides">
-
-        </RelativeLayout>
 
     </com.github.androidprogresslayout.ProgressLayout>
 

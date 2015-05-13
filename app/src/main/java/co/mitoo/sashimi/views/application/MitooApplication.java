@@ -7,6 +7,7 @@ import com.urbanairship.Logger;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
+import co.mitoo.sashimi.BuildConfig;
 import io.keen.client.java.KeenClient;
 import io.keen.client.android.AndroidKeenClientBuilder;
 import io.keen.client.java.KeenLogging;
@@ -128,8 +129,7 @@ public class MitooApplication extends Application{
     private void setUpKeenClientGlobalProperties(KeenClient client){
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("platform", "android");
-        //@TODO Put in app version dynamically
-        map.put("app_version", "1.2.1");
+        map.put("app_version", BuildConfig.VERSION_NAME);
         client.setGlobalProperties(map);
     }
 
