@@ -20,6 +20,7 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -228,7 +229,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             }
             loadTabs();
         }
-
     }
 
     private void loadTabs() {
@@ -276,13 +276,26 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     private void setUpPagerAdapter() {
 
+        // This is a little bit of a hack, as we already have tracking within onPageSelected (see below). However, we want to track the inital view too
+        // so this seemed like the best place for it.
+        if(getPager().getCurrentItem() == 0) {
+            EventTrackingService.userViewedCompetitionScheduleScreen(this.getUserID(), this.competitionSeasonID, 0);
+        } else if(getPager().getCurrentItem() == 1){
+            EventTrackingService.userViewedCompetitionResultsScreen(this.getUserID(), this.competitionSeasonID, 0);
+        }
+
         getPager().setAdapter(getAdapter());
         getPager().setOffscreenPageLimit(2);
         getPager().setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                if (position <= getMitooTabsList().size() - 1)
-                    getTabHost().setSelectedNavigationItem(position);
+                getTabHost().setSelectedNavigationItem(position);
+
+                if(position == 0) {
+                    EventTrackingService.userViewedCompetitionScheduleScreen(CompetitionSeasonFragment.this.getUserID(), CompetitionSeasonFragment.this.competitionSeasonID, 0);
+                }else if(position == 1){
+                    EventTrackingService.userViewedCompetitionResultsScreen(CompetitionSeasonFragment.this.getUserID(), CompetitionSeasonFragment.this.competitionSeasonID, 0);
+                }
             }
         });
 
@@ -302,7 +315,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         }
         if (tab.getPosition() == 0)
             setTabselected(MitooEnum.FixtureTabType.FIXTURE_SCHEDULE);
-        else if (tab.getPosition() == 0)
+        else if (tab.getPosition() == 1)
             setTabselected(MitooEnum.FixtureTabType.FIXTURE_RESULT);
     }
 

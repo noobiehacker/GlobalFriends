@@ -20,6 +20,7 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.location;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -149,8 +150,10 @@ public class FixtureFragment extends MitooFragment {
     @Override
     public void onResume() {
 
-        super.onResume();
+        // Track this event
+        EventTrackingService.userViewedFixtureDetailsScreen(this.getUserID(), this.fixtureID, this.competitionSeasonID, 0);
 
+        super.onResume();
     }
 
     @Override

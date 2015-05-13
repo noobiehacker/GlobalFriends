@@ -162,6 +162,9 @@ dependencies {
         exclude module : 'jersey-core'
     }
 
+    // KeenIO
+    compile 'io.keen:keen-client-api-android:2.1.1@aar'
+
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')
