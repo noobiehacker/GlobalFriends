@@ -196,32 +196,41 @@ public class LeagueFragment extends MitooFragment {
     @Override
     public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
 
-        Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
-        final boolean enterToPassIn = enter;
-        anim.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+        if (nextAnim != 0) {
+            Animator anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
+            final boolean enterToPassIn = enter;
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
 
-            }
+                }
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if(enterToPassIn)
-                    BusProvider.post(new LeagueRequestFromIDEvent(LeagueFragment.this.leagueID));
-            }
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (enterToPassIn)
+                        LeagueFragment.this.onFragmentAnimationFinish();
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
+                }
 
-            }
+                @Override
+                public void onAnimationCancel(Animator animation) {
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                }
 
-            }
-        });
+                @Override
+                public void onAnimationRepeat(Animator animation) {
 
-        return anim;
+                }
+            });
+            return anim;
+        } else {
+            LeagueFragment.this.onFragmentAnimationFinish();
+            return super.onCreateAnimator(transit, enter, nextAnim);
+        }
+    }
+
+    private void onFragmentAnimationFinish(){
+        BusProvider.post(new LeagueRequestFromIDEvent(LeagueFragment.this.leagueID));
     }
 
     private void setUpInterestedButton(ViewHelper viewHelper) {

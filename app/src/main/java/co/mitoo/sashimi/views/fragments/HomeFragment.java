@@ -138,35 +138,44 @@ public class HomeFragment extends MitooFragment {
     @Override
     public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
 
-        Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
-        final boolean enterToPassIn = enter;
-        anim.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+        if(nextAnim!=0){
+            Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
+            final boolean enterToPassIn = enter;
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if(enterToPassIn){
-                    HomeFragment.this.requestData();
-                    HomeFragment.this.updateMenu();
-                    HomeFragment.this.updateListViews();
                 }
-            }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if(enterToPassIn){
+                        HomeFragment.this.onFragmentAnimationFinish();
+                    }
+                }
 
-            }
+                @Override
+                public void onAnimationCancel(Animator animation) {
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                }
 
-            }
-        });
+                @Override
+                public void onAnimationRepeat(Animator animation) {
 
-        return anim;
+                }
+            });
+            return anim;
+        }else{
+            HomeFragment.this.onFragmentAnimationFinish();
+            return super.onCreateAnimator(transit, enter, nextAnim);
+        }
+
+    }
+
+    private void onFragmentAnimationFinish(){
+        this.requestData();
+        this.updateMenu();
+        this.updateListViews();
     }
     
     @Override

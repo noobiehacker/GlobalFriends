@@ -33,9 +33,21 @@ public class ModelManager {
 
     public ModelManager(MitooActivity activity) {
         setActivity(activity);
+        initializeServices();
+    }
+
+    private void initializeServices(){
         setMitooModelList(new ArrayList<MitooService>());
         setPersistableList(new ArrayList<IsPersistable>());
         inializeOnStartModels();
+    }
+
+    //USED FOR LOGING OUT
+    public void clearAllUserServices(){
+        for(MitooService service : this.mitooServiceList){
+            BusProvider.unregister(service);
+        }
+        initializeServices();
     }
 
     public MitooActivity getMitooActivity() {

@@ -124,35 +124,46 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     @Override
     public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
 
-        Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
-        final boolean enterToPassIn = enter;
-        anim.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+        if (nextAnim != 0) {
+            Animator anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
+            final boolean enterToPassIn = enter;
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if(enterToPassIn){
-                    int id = CompetitionSeasonFragment.this.competitionSeasonID;
-                    BusProvider.post(new CompetitionSeasonReqByCompAndUserID(id, getUserID()));
                 }
-            }
 
-            @Override
-            public void onAnimationCancel(Animator animation) {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (enterToPassIn) {
+                        CompetitionSeasonFragment.this.onFragmentAnimationFinish();
 
-            }
+                    }
+                }
 
-            @Override
-            public void onAnimationRepeat(Animator animation) {
+                @Override
+                public void onAnimationCancel(Animator animation) {
 
-            }
-        });
+                }
 
-        return anim;
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
+            return anim;
+        } else {
+            CompetitionSeasonFragment.this.onFragmentAnimationFinish();
+            return super.onCreateAnimator(transit, enter, nextAnim);
+        }
     }
+
+    private void onFragmentAnimationFinish(){
+        int id = CompetitionSeasonFragment.this.competitionSeasonID;
+        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(id, getUserID()));
+    }
+
 
     @Override
     protected void initializeViews(View view) {
@@ -173,7 +184,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         }
 
         updateView();
-
 
     }
 

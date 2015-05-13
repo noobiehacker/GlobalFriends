@@ -450,6 +450,7 @@ public class MitooActivity extends ActionBarActivity {
     public void logOutCleanUpAppReferences(LogOutNetworkCompleteEevent event) {
 
         getModelManager().deleteAllPersistedData();
+        getModelManager().clearAllUserServices();
         resetAuthToken();
         popAllFragments();
 
