@@ -18,6 +18,7 @@ import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -88,6 +89,8 @@ public class NotificationFragment extends MitooFragment {
         requestData();
         if (!isLoading() && isNotificationDataLoaded())
             updateView();
+
+        EventTrackingService.userViewedNotificationPreferencesScreen(this.getUserID(), this.competitionSeasonID);
     }
 
     @Override

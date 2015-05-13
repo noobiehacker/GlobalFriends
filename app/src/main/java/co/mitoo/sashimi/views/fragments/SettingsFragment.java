@@ -7,8 +7,10 @@ import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
+import co.mitoo.sashimi.BuildConfig;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.UserInfoRecieve;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -29,6 +31,7 @@ public class SettingsFragment extends MitooFragment {
     private boolean viewLoaded = false;
     private CircleImageView circleImageView;
     private TextView nameTextView;
+    private TextView mitooVersion;
 
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
@@ -49,8 +52,10 @@ public class SettingsFragment extends MitooFragment {
     }
 
     private void updateView(){
-        if(userInfoRecieve!=null && this.viewLoaded==true)
+        if(userInfoRecieve!=null && this.viewLoaded==true){
             setUpUserDetails(getRootView());
+            EventTrackingService.userViewedProfileScreen(this.getUserID());
+        }
     }
 
 
@@ -110,6 +115,7 @@ public class SettingsFragment extends MitooFragment {
         super.initializeViews(view);
         this.circleImageView = (CircleImageView) view.findViewById(R.id.user_profileImage);
         this.nameTextView= (TextView) view.findViewById(R.id.league_name);
+        this.mitooVersion = (TextView) view.findViewById(R.id.mitooVersion);
         this.viewLoaded=true;
         updateView();
 
@@ -146,6 +152,7 @@ public class SettingsFragment extends MitooFragment {
                 .load(getUserInfoRecieve().picture_medium)
                 .into(this.circleImageView);
         this.nameTextView.setText(getUserInfoRecieve().name);
+        this.mitooVersion.setText(BuildConfig.VERSION_NAME);
     }
     
     private void logtOutAction(){

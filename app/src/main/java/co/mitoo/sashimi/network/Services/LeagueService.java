@@ -32,7 +32,6 @@ import co.mitoo.sashimi.utils.listener.AlgoliaIndexListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import retrofit.client.Response;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
 import org.apache.commons.lang.SerializationUtils;
 /**

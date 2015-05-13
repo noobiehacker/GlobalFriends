@@ -75,7 +75,7 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
                     .setFragmentID(R.id.fragment_competition)
                     .setTransition(MitooEnum.FragmentTransition.PUSH)
                     .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                    .setBundle(createBundle(item.getId()))
+                    .setBundle(createBundle(item.getId() , item.getLeague().getColor_1() , item.getName()))
                     .build();
             BusProvider.post(fragmentChangeEvent);
         }
@@ -96,10 +96,14 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         model.setSelectedCompetition(competition);
     }
 
-    private Bundle createBundle(int competitionSeasonID){
-        String key = getFragment().getString(R.string.bundle_key_competition_id_key);
+    private Bundle createBundle(int competitionSeasonID , String color , String toolBarName){
+        String competitionKey = getFragment().getString(R.string.bundle_key_competition_id_key);
+        String teamColorKey = getFragment().getString(R.string.bundle_key_team_color_key);
+        String toolBarStringKey = getFragment().getString(R.string.bundle_key_tool_bar_title);
         Bundle bundle = new Bundle();
-        bundle.putInt(key, competitionSeasonID);
+        bundle.putInt(competitionKey, competitionSeasonID);
+        bundle.putString(teamColorKey, color);
+        bundle.putString(toolBarStringKey, toolBarName);
         return bundle;
     }
 

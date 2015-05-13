@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.location;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -107,13 +109,23 @@ public class FixtureFragment extends MitooFragment {
 
     @Override
     public void onPause() {
-        super.onPause();
-        Bundle bundle = new Bundle();
-        onSaveInstanceState(bundle);
-        MapFragment f = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.googleFixtureMapFragment);
-        if (f != null)
-            getFragmentManager().beginTransaction().remove(f).commit();
+
+        try {
+            MapFragment f = (MapFragment) getFragmentManager()
+                    .findFragmentById(R.id.googleFixtureMapFragment);
+            if (f != null)
+                getFragmentManager().beginTransaction().remove(f).commitAllowingStateLoss();
+
+        } catch (Exception e) {
+
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
+
+        } finally {
+
+            super.onPause();
+
+        }
+
     }
 
     @Override
@@ -138,8 +150,10 @@ public class FixtureFragment extends MitooFragment {
     @Override
     public void onResume() {
 
-        super.onResume();
+        // Track this event
+        EventTrackingService.userViewedFixtureDetailsScreen(this.getUserID(), this.fixtureID, this.competitionSeasonID, 0);
 
+        super.onResume();
     }
 
     @Override

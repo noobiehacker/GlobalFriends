@@ -3,6 +3,7 @@ package co.mitoo.sashimi.network;
 import java.util.HashMap;
 import java.util.Map;
 
+import co.mitoo.sashimi.BuildConfig;
 import retrofit.RequestInterceptor;
 
 /**
@@ -32,7 +33,7 @@ public class InterceptorBuilder {
 
     public Map<String, String> getHeaderMappings() {
         if(headerMappings==null)
-            initalizeHeaderMapping();
+            initializeHeaderMapping();
         return headerMappings;
     }
 
@@ -44,15 +45,17 @@ public class InterceptorBuilder {
         removeHeaderMapping( "X-AUTH-TOKEN" );
     }
     
-    private void initalizeHeaderMapping(){
+    private void initializeHeaderMapping(){
         headerMappings = new HashMap<String,String>();
         headerMappings.put("Content-Type" , "application/json");
+        headerMappings.put("X-APP-VERSION" , BuildConfig.VERSION_NAME);
+        headerMappings.put("X-PLATFORM" , "Android");
     }
 
     private InterceptorBuilder addHeaderMapping(String key, String value){
 
         if(headerMappings==null)
-            initalizeHeaderMapping();
+            initializeHeaderMapping();
         headerMappings.put(key,value);
         return this;
     }

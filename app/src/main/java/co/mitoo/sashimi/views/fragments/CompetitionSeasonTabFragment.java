@@ -102,7 +102,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             requestData();
         }
         updateView();
-
     }
 
     @Override
@@ -111,7 +110,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         getTeamModel();
         BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
         BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
-
     }
 
     @Override
@@ -145,7 +143,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             setUpNoResultsView();
             setPreDataLoading(false);
         }
-
     }
 
     private boolean allDataLoaded(){

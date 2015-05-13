@@ -19,6 +19,7 @@ public class MitooTabAdapter extends FragmentStatePagerAdapterNotV4{
         super(fm);
         setMitooTabs(mitooTabs);
         setFragmentManager(fm);
+        notifyDataSetChanged();
     }
 
     @Override

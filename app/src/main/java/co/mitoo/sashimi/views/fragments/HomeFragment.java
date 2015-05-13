@@ -1,4 +1,6 @@
 package co.mitoo.sashimi.views.fragments;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,12 +16,14 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionListResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionRequestByUserID;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
 import co.mitoo.sashimi.utils.events.LeaguesAlreadyEnquiredRequest;
@@ -28,8 +32,10 @@ import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;
 import co.mitoo.sashimi.utils.events.UserInfoResponseEvent;
 import co.mitoo.sashimi.views.Dialog.FeedBackDialogBuilder;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.adapters.CompetitionAdapter;
 import co.mitoo.sashimi.views.adapters.LeagueAdapter;
+import co.mitoo.sashimi.views.widgets.HeaderListView;
 
 /**
  * Created by david on 15-01-12.
@@ -38,10 +44,10 @@ import co.mitoo.sashimi.views.adapters.LeagueAdapter;
 public class HomeFragment extends MitooFragment {
 
     private List<League> enquiredLeagueData;
-    private ListView enquiredLeagueList;
+    private HeaderListView enquiredLeagueList;
     private LeagueAdapter enquiredLeagueDataAdapter;
     private List<Competition> myCompetitionData;
-    private ListView myCompetitionList;
+    private HeaderListView  myCompetitionList;
     private CompetitionAdapter myCompetitionDataAdapter;
     private View myCompetitionListFooterView;
     private boolean userHasUsedApp;
@@ -101,6 +107,10 @@ public class HomeFragment extends MitooFragment {
                 container, false);
         initializeViews(view);
         initializeOnClickListeners(view);
+
+        // Track this event
+        EventTrackingService.userViewedHomeScreen(userID);
+
         return view;
     }
 
@@ -122,8 +132,41 @@ public class HomeFragment extends MitooFragment {
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpEnquiredListView(view, getString(R.string.home_page_text_1));
         setUpMyCompetitionListView(view, getString(R.string.home_page_text_5));
-        if(getLeagueModel().getLeaguesEnquired().size()==0 && !isBackClicked())
-            setPreDataLoading(true);
+        setPreDataLoading(true);
+    }
+
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+
+        Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
+        final boolean enterToPassIn = enter;
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if(enterToPassIn){
+                    HomeFragment.this.requestData();
+                    HomeFragment.this.updateMenu();
+                    HomeFragment.this.updateListViews();
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        return anim;
     }
     
     @Override
@@ -131,16 +174,6 @@ public class HomeFragment extends MitooFragment {
 
         super.initializeOnClickListeners(view);
         
-    }
-
-    @Override
-    public void onResume(){
-
-        super.onResume();
-        requestData();
-        updateMenu();
-        updateListViews();
-
     }
 
     @Override
@@ -269,9 +302,11 @@ public class HomeFragment extends MitooFragment {
 
         refreshEnquriedLeagueData();
         if(this.enquiredLeagueData == null || this.enquiredLeagueData.isEmpty()){
-            getEnquiredLeagueList().setVisibility(View.INVISIBLE);
+            this.enquiredLeagueList.setVisibility(View.GONE);
+            this.enquiredLeagueList.setHeaderVisibility(View.GONE);
         }else{
-            getEnquiredLeagueList().setVisibility(View.VISIBLE);
+            this.enquiredLeagueList.setVisibility(View.VISIBLE);
+            this.enquiredLeagueList.setHeaderVisibility(View.VISIBLE);
         }
 
     }
@@ -281,16 +316,19 @@ public class HomeFragment extends MitooFragment {
         refreshMyCompetitionData();
         updateMyCompetitionListFooter();
         if(this.myCompetitionData == null || this.myCompetitionData.isEmpty()){
-            getMyCompetitionList().setVisibility(View.INVISIBLE);
+            this.myCompetitionList.setVisibility(View.GONE);
+            this.myCompetitionList.setHeaderVisibility(View.GONE);
         }else{
-            getMyCompetitionList().setVisibility(View.VISIBLE);
+            this.myCompetitionList.setVisibility(View.VISIBLE);
+            this.myCompetitionList.setHeaderVisibility(View.VISIBLE);
+
         }
 
     }
 
     private void updateMyCompetitionListFooter(){
         if(getMyCompetitionData().isEmpty()){
-            View footerView = getViewHelper().setUpListFooter(getMyCompetitionList()
+            View footerView = getViewHelper().setUpListFooter(this.myCompetitionList
                     ,R.layout.view_league_list_footer, getString(R.string.home_page_text_6));
             setMyCompetitionListFooterView(footerView);
         }else{
@@ -354,16 +392,16 @@ public class HomeFragment extends MitooFragment {
 
     private void setUpEnquiredListView(View view, String headerText){
 
-        setEnquiredLeagueList((ListView) view.findViewById(R.id.enquiredLeagueListView));
-        getViewHelper().setUpListView(getEnquiredLeagueList(),
+        this.enquiredLeagueList = (HeaderListView) view.findViewById(R.id.enquiredLeagueListView);
+        getViewHelper().setUpListView(this.enquiredLeagueList,
                 getEnquiredLeagueDataAdapter(), headerText, getEnquiredLeagueDataAdapter());
 
     }
 
     private void setUpMyCompetitionListView(View view, String headerText){
 
-        setMyCompetitionList((ListView) view.findViewById(R.id.myLeagueListView));
-        getViewHelper().setUpListView(getMyCompetitionList(),
+        this.myCompetitionList = (HeaderListView) view.findViewById(R.id.myLeagueListView);
+        getViewHelper().setUpListView(this.myCompetitionList,
                 getMyCompetitionDataAdapter(), headerText, getMyCompetitionDataAdapter());
 
     }
@@ -374,27 +412,20 @@ public class HomeFragment extends MitooFragment {
         return enquiredLeagueDataAdapter;
     }
 
-    private void setUpUserHasUsedAppBoolean(){
+    private void setUpUserHasUsedAppBoolean() {
 
-        if(getAppSettingsModel().getUserHasUsedApp() == null)
-            userHasUsedApp = false;
-        else
+        //DEFENSIVE PROGRAMING JUST IN CASE modelManger got killed
+        if (this.modelMangerExists() && getAppSettingsModel().getUserHasUsedApp() != null)
             userHasUsedApp = getAppSettingsModel().getUserHasUsedApp().booleanValue();
-        
+        else
+            userHasUsedApp = false;
+
     }
     
     public void saveUserAsSecondTimeUser(){
         
         getAppSettingsModel().saveUsedAppBoolean();
         setUpUserHasUsedAppBoolean();
-    }
-
-    public ListView getEnquiredLeagueList() {
-        return enquiredLeagueList;
-    }
-
-    public void setEnquiredLeagueList(ListView enquiredLeagueList) {
-        this.enquiredLeagueList = enquiredLeagueList;
     }
 
     @Override
@@ -410,13 +441,6 @@ public class HomeFragment extends MitooFragment {
         return myCompetitionData;
     }
 
-    public ListView getMyCompetitionList() {
-        return myCompetitionList;
-    }
-
-    public void setMyCompetitionList(ListView myCompetitionList) {
-        this.myCompetitionList = myCompetitionList;
-    }
 
     public CompetitionAdapter getMyCompetitionDataAdapter() {
         if (myCompetitionDataAdapter == null)
@@ -460,5 +484,13 @@ public class HomeFragment extends MitooFragment {
         return logOutEventFired;
     }
 
+    private boolean modelMangerExists(){
+        //DEFENSIVE PROGRAMMING TO MAKE SURE MODELMANAGER EXSIST
+        MitooActivity activity = getMitooActivity();
+        if(activity!=null){
+            return activity.getModelManager() !=null;
+        }
+        return false;
+    }
 
 }

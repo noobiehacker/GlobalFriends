@@ -1,4 +1,7 @@
 package co.mitoo.sashimi.views.fragments;
+
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.github.androidprogresslayout.ProgressLayout;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.squareup.otto.Subscribe;
@@ -37,7 +42,7 @@ public class LeagueFragment extends MitooFragment {
     private int leagueID;
     private boolean viewLoaded;
     private RelativeLayout holder;
-    private GoogleMap map ;
+    private GoogleMap map;
 
     public static LeagueFragment newInstance() {
         LeagueFragment fragment = new LeagueFragment();
@@ -48,10 +53,13 @@ public class LeagueFragment extends MitooFragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             this.leagueID = savedInstanceState.getInt(getLeagueIDKey());
-        }else{
-            this.leagueID =  getArguments().getInt(getLeagueIDKey());
+            this.fragmentTitle =savedInstanceState.getString(getToolBarTitle());
+        } else {
+            this.leagueID = getArguments().getInt(getLeagueIDKey());
+            this.fragmentTitle =getArguments().getString(getToolBarTitle());
+
         }
 
     }
@@ -59,32 +67,32 @@ public class LeagueFragment extends MitooFragment {
     @Override
     public void onSaveInstanceState(Bundle bundle) {
         bundle.putInt(getLeagueIDKey(), this.leagueID);
+        bundle.putString(getToolBarTitle(), this.fragmentTitle);
         super.onSaveInstanceState(bundle);
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        BusProvider.post(new LeagueRequestFromIDEvent(this.leagueID));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_league,
-                        container, false);
+                container, false);
         initializeViews(view);
         initializeOnClickListeners(view);
         return view;
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         MapFragment f = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.googleMapFragment);
         if (f != null)
-            getFragmentManager().beginTransaction().remove(f).commit();
+            getFragmentManager().beginTransaction().remove(f).commitAllowingStateLoss();
         super.onPause();
     }
 
@@ -93,12 +101,12 @@ public class LeagueFragment extends MitooFragment {
         super.onDestroyView();
 
     }
-    
+
     @Subscribe
     public void onLeagueResponse(LeagueResponseFromIDEvent event) {
 
-        if(event.getLeagueModel()!=null){
-            this.leagueModel =event.getLeagueModel();
+        if (event.getLeagueModel() != null) {
+            this.leagueModel = event.getLeagueModel();
             updateView();
         }
 
@@ -114,31 +122,33 @@ public class LeagueFragment extends MitooFragment {
     }
 
     @Override
-    protected void initializeFields(){
+    protected void initializeFields() {
 
         super.initializeFields();
-        if(this.leagueModel!=null)
+        if (this.leagueModel != null)
             setFragmentTitle(this.leagueModel.getLeague().getName());
     }
 
     @Override
-    protected void initializeViews(View view){
-        
+    protected void initializeViews(View view) {
+
         super.initializeViews(view);
-        this.holder = (RelativeLayout)view.findViewById(R.id.league_image_holder);
-        this.interestedButton = (Button)view.findViewById(R.id.interestedButton);
+        setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
+        this.holder = (RelativeLayout) view.findViewById(R.id.league_image_holder);
+        this.interestedButton = (Button) view.findViewById(R.id.interestedButton);
         this.disabledButtonView = view.findViewById(R.id.disabledInterestedView);
-        this.readMoreTextView= (TextView) view.findViewById(R.id.read_more_text_view);
-        this.leagueDetailsTextView =(TextView)view.findViewById(R.id.league_join_details);
-        this.map=((MapFragment) getFragmentManager().findFragmentById(R.id.googleMapFragment)).getMap();
-        this.viewLoaded= true;
+        this.readMoreTextView = (TextView) view.findViewById(R.id.read_more_text_view);
+        this.leagueDetailsTextView = (TextView) view.findViewById(R.id.league_join_details);
+        this.map = ((MapFragment) getFragmentManager().findFragmentById(R.id.googleMapFragment)).getMap();
+        setPreDataLoading(true);
+        this.viewLoaded = true;
         updateView();
 
     }
 
-    private void updateView(){
+    private void updateView() {
 
-        if(this.leagueModel!=null && this.viewLoaded){
+        if (this.leagueModel != null && this.viewLoaded) {
 
             League league = this.leagueModel.getLeague();
             setUpLeagueHeaderView();
@@ -147,20 +157,22 @@ public class LeagueFragment extends MitooFragment {
             setFragmentTitle(league.getName());
             getToolbar().setTitle(getFragmentTitle());
             getViewHelper().setUpMap(league, this.map);
+            setPreDataLoading(false);
+
 
         }
 
     }
-    
-    private void setUpLeagueHeaderView(){
+
+    private void setUpLeagueHeaderView() {
 
         LeagueViewHelper leagueViewHelper = getViewHelper().getLeagueViewHelper();
         RelativeLayout leagueView = leagueViewHelper.createLeagueResult(this.leagueModel, holder);
         this.holder.addView(leagueView);
     }
-    
+
     @Override
-    protected void initializeOnClickListeners(View view){
+    protected void initializeOnClickListeners(View view) {
         view.findViewById(R.id.interestedButton).setOnClickListener(this);
         view.findViewById(R.id.read_more_text_view).setOnClickListener(this);
         super.initializeOnClickListeners(view);
@@ -181,32 +193,62 @@ public class LeagueFragment extends MitooFragment {
         }
     }
 
-    private void setUpInterestedButton(ViewHelper viewHelper){
+    @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
 
-        if(this.leagueModel.isLeagueIsJoinable()){
+        Animator anim  = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
+        final boolean enterToPassIn = enter;
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if(enterToPassIn)
+                    BusProvider.post(new LeagueRequestFromIDEvent(LeagueFragment.this.leagueID));
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+
+        return anim;
+    }
+
+    private void setUpInterestedButton(ViewHelper viewHelper) {
+
+        if (this.leagueModel.isLeagueIsJoinable()) {
             viewHelper.setViewBackgroundDrawableColor(getInterestedButton(), this.leagueModel.getLeague().getColor_1());
-        }else{
+        } else {
             getInterestedButton().setVisibility(View.GONE);
             getDisabledButtonView().setVisibility(View.VISIBLE);
         }
 
     }
 
-    private void setUpLeagueDetailsText(League league){
+    private void setUpLeagueDetailsText(League league) {
 
         getViewHelper().setTextViewTextColor(getReadMoreTextView(), league.getColor_1());
         getLeagueDetailsTextView().setText(getTruncatedAbout(league));
 
     }
 
-    private void joinButtonAction(){
+    private void joinButtonAction() {
 
-        SessionService sessionModel =getSessionModel();
-        if(sessionModel.userIsLoggedIn()){
+        SessionService sessionModel = getSessionModel();
+        if (sessionModel.userIsLoggedIn()) {
             setLoading(true);
             BusProvider.post(new LeagueModelEnquireRequestEvent(getUserID()));
-        }
-        else{
+        } else {
             Bundle bundle = new Bundle();
             bundle.putInt(getLeagueIDKey(), this.leagueID);
             FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
@@ -217,25 +259,25 @@ public class LeagueFragment extends MitooFragment {
         }
     }
 
-    private void readMoreAction(){
-        
+    private void readMoreAction() {
+
         expandLeagueDetailsTextView();
         hideReadMoreTextView();
-        
+
     }
 
-    private void expandLeagueDetailsTextView(){
-        
-        if(getLeagueDetailsTextView()!=null){
+    private void expandLeagueDetailsTextView() {
+
+        if (getLeagueDetailsTextView() != null) {
             getLeagueDetailsTextView().setText(this.leagueModel.getLeague().getAbout());
-          //  getViewHelper().updateLeagueDetailsPadding(getLeagueDetailsTextView());
+            //  getViewHelper().updateLeagueDetailsPadding(getLeagueDetailsTextView());
         }
-        getViewHelper().setViewVisibility(getReadMoreTextView(),false);
-        
+        getViewHelper().setViewVisibility(getReadMoreTextView(), false);
+
     }
 
-    private void hideReadMoreTextView(){
-        if(getReadMoreTextView()!=null)
+    private void hideReadMoreTextView() {
+        if (getReadMoreTextView() != null)
             getReadMoreTextView().setVisibility(View.GONE);
     }
 
@@ -247,9 +289,9 @@ public class LeagueFragment extends MitooFragment {
         return readMoreTextView;
     }
 
-    private String getTruncatedAbout(League league){
+    private String getTruncatedAbout(League league) {
 
-        if(league!=null && league.getAbout()!=null&& league.getAbout().length()> 100)
+        if (league != null && league.getAbout() != null && league.getAbout().length() > 100)
             return league.getAbout().substring(0, 99) + "...";
         else
             return league.getAbout();

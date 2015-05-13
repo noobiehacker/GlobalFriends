@@ -5,6 +5,9 @@
 .DS_Store
 /build
 
+# Piers's additions
+/.idea/*
+
 # jacks additions
 /.idea/gradle.xml
 /.idea/misc.xml

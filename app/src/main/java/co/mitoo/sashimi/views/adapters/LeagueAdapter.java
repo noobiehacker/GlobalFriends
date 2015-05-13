@@ -74,6 +74,7 @@ public class LeagueAdapter extends ArrayAdapter<League> implements AdapterView.O
 
         Bundle bundle = new Bundle();
         bundle.putInt(fragment.getString(R.string.bundle_key_league_id_key) , league.getId());
+        bundle.putString(fragment.getString(R.string.bundle_key_tool_bar_title) , league.getName());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_league)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)

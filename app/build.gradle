@@ -16,8 +16,8 @@ android {
         applicationId "co.mitoo.sashimi"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 12
-        versionName "1.2.1"
+        versionCode 13
+        versionName "1.2.2"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         multiDexEnabled true
 
@@ -161,6 +161,9 @@ dependencies {
         exclude module : 'jersey'
         exclude module : 'jersey-core'
     }
+
+    // KeenIO
+    compile 'io.keen:keen-client-api-android:2.1.1@aar'
 
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')

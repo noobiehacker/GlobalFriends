@@ -174,6 +174,7 @@ public class LeagueViewHelper {
 
         Bundle bundle = new Bundle();
         bundle.putInt(fragment.getString(R.string.bundle_key_league_id_key) , league.getLeague().getId());
+        bundle.putString(fragment.getString(R.string.bundle_key_tool_bar_title) , league.getLeague().getName());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_league)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)

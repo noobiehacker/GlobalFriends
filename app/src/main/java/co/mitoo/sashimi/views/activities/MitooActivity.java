@@ -42,6 +42,7 @@ import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
+import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.AppStringHelper;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -71,6 +72,7 @@ import co.mitoo.sashimi.views.fragments.HomeFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
+import io.keen.client.java.KeenClient;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -113,6 +115,10 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onPause() {
         tearDownReferences();
+
+        // This causes queued Keen events to be sent (async) to Keen
+        KeenClient.client().sendQueuedEventsAsync();
+
         onSaveInstanceState(new Bundle());
         super.onPause();
     }
@@ -274,24 +280,32 @@ public class MitooActivity extends ActionBarActivity {
 
     private void pushFragment(FragmentChangeEvent event) {
 
-        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        setFragmentAnimation(ft, event.getAnimation());
-        ft.addToBackStack(String.valueOf(event.getFragmentId()));
-        ft.replace(R.id.content_frame, fragment);
-        ft.commit();
-        getFragmentStack().push(fragment);
+        try {
+            MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            setFragmentAnimation(ft, event.getAnimation());
+            ft.addToBackStack(String.valueOf(event.getFragmentId()));
+            ft.replace(R.id.content_frame, fragment);
+            ft.commit();
+            getFragmentStack().push(fragment);
+        } catch (Exception e) {
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
+        }
 
     }
 
     private void swapFragment(FragmentChangeEvent event) {
 
-        MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        setFragmentAnimation(ft, event.getAnimation());
-        ft.replace(R.id.content_frame, fragment);
-        ft.commit();
-        getFragmentStack().push(fragment);
+        try {
+            MitooFragment fragment = FragmentFactory.getInstance().buildFragment(event);
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            setFragmentAnimation(ft, event.getAnimation());
+            ft.replace(R.id.content_frame, fragment);
+            ft.commitAllowingStateLoss();
+            getFragmentStack().push(fragment);
+        } catch (Exception e) {
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
+        }
 
     }
 
@@ -321,10 +335,14 @@ public class MitooActivity extends ActionBarActivity {
 
     public void popFragment() {
 
-        if (getFragmentStack().size() > 0) {
-            getFragmentStack().pop();
-            getFragmentManager().popBackStack();
-            setPreviousFragmentBackClicked();
+        try {
+            if (getFragmentStack().size() > 0) {
+                getFragmentStack().pop();
+                getFragmentManager().popBackStack();
+                setPreviousFragmentBackClicked();
+            }
+        } catch (Exception e) {
+            Log.i("MitooFragmentException", e.getStackTrace().toString());
         }
 
     }
@@ -841,7 +859,13 @@ public class MitooActivity extends ActionBarActivity {
     public void consumeNotification() {
 
         while (getNotificationQueue().size() > 0) {
-            BusProvider.post(new NotificationEvent(getNotificationQueue().poll()));
+            NotificationReceive notification = getNotificationQueue().poll();
+
+            // track as notification opened event
+            //@TODO Track notification type/datum
+            EventTrackingService.userOpenedNotification(this.getUserID(), "", notification.getObj_type(), notification.getObj_id(), notification.getMitoo_action());
+
+            BusProvider.post(new NotificationEvent(notification));
         }
     }
 
