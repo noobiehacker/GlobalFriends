@@ -23,22 +23,30 @@
         progressLayout:progress="false"
         progressLayout:progressBackground="@color/gray_light_one">
 
-        <co.mitoo.sashimi.views.widgets.HeaderListView
-            android:id="@+id/myLeagueListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:descendantFocusability="blocksDescendants"
-            android:scrollbars="none" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-        <co.mitoo.sashimi.views.widgets.HeaderListView
-            android:id="@+id/enquiredLeagueListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/myLeagueListView"
-            android:descendantFocusability="blocksDescendants"
-            android:scrollbars="none" />
+            <co.mitoo.sashimi.views.widgets.HeaderListView
+                android:id="@+id/myLeagueListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_weight="0.5"
+                android:descendantFocusability="blocksDescendants"
+                android:scrollbars="none" />
 
+            <co.mitoo.sashimi.views.widgets.HeaderListView
+                android:id="@+id/enquiredLeagueListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myLeagueListView"
+                android:layout_weight="0.5"
+                android:descendantFocusability="blocksDescendants"
+                android:scrollbars="none" />
+
+        </LinearLayout>
     </com.github.androidprogresslayout.ProgressLayout>
 
 </RelativeLayout>

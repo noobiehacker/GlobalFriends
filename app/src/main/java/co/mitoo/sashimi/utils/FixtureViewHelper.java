@@ -146,6 +146,12 @@ public class FixtureViewHelper {
 
         RelativeLayout alphaContainer = (RelativeLayout) row.findViewById(R.id.alphaContainer);
         ImageView stampView= (ImageView) row.findViewById(R.id.stampIcon);
+        //IF THERE IS AN IMAGE, WE CLEAR IT, REFACTOR LATER
+        boolean imageExists = true;
+        if(imageExists){
+            stampView.setImageResource(android.R.color.transparent);
+            alphaContainer.setAlpha(getActivity().getDataHelper().getFloatValue(R.dimen.regular_alpha));
+        }
         float alphaValue = getActivity().getDataHelper().getFloatValue(R.dimen.low_alpha);
         switch(fixture.getFixtureType()){
 

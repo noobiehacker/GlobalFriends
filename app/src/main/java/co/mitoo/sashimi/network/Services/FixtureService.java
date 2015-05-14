@@ -9,6 +9,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
 import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
@@ -30,6 +31,12 @@ public class FixtureService extends MitooService {
 
     public FixtureService(MitooActivity activity) {
         super(activity);
+    }
+
+    @Subscribe
+    public void onFixtureDataClearEvent(FixtureDataClearEvent event){
+        this.schedule= null;
+        this.result = null;
     }
 
     @Subscribe

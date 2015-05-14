@@ -5,6 +5,7 @@ import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
 import co.mitoo.sashimi.utils.events.CompetitionListResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionRequestByUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
@@ -43,6 +44,11 @@ public class CompetitionService extends MitooService {
         }else{
             requestCompetitionByUserIDAndCompID(event.getUserID(), event.getCompetitionSeasonID());
         }
+    }
+
+    @Subscribe
+    public void onCompetitionSeasonDataClearEvent(CompetitionDataClearEvent event){
+        this.myCompetition=null;
     }
 
 

@@ -11,6 +11,7 @@ import co.mitoo.sashimi.utils.events.TeamIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamIndividualResponseEvent;
 import co.mitoo.sashimi.utils.events.TeamListRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamListResponseEvent;
+import co.mitoo.sashimi.utils.events.TeamServiceDataClearEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 
 /**
@@ -46,7 +47,12 @@ public class TeamService extends MitooService {
 
     }
 
-    @Override
+    @Subscribe
+    public void onDataClear(TeamServiceDataClearEvent event){
+        this.competitionTeams= null;
+    }
+
+         @Override
     protected void handleSubscriberResponse(Object objectRecieve) {
         if (objectRecieve instanceof Team[]) {
             clearLeaguesEnquired();

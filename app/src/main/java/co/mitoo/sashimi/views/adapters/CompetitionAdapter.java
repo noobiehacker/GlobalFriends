@@ -14,7 +14,10 @@ import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
+import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
+import co.mitoo.sashimi.utils.events.TeamServiceDataClearEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 /**
@@ -70,7 +73,8 @@ public class CompetitionAdapter extends ArrayAdapter<Competition> implements Ada
         if(getFragment().getDataHelper().isClickable(view.getId()) && id!= -1) {
             Competition item = (Competition) parent.getItemAtPosition(position);
             setSelectedModelItem(item);
-
+            BusProvider.post(new FixtureDataClearEvent());
+            BusProvider.post(new TeamServiceDataClearEvent());
             FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                     .setFragmentID(R.id.fragment_competition)
                     .setTransition(MitooEnum.FragmentTransition.PUSH)
