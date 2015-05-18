@@ -5,15 +5,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.joda.time.LocalDate;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.jsonPojo.Team;
@@ -35,7 +27,6 @@ public class FixtureViewHelper {
 
     private ViewHelper viewHelper;
     private TeamViewHelper teamViewHelper;
-    private TeamViewModel teamViewModel;
     private View.OnClickListener createFixtureItemClickedListener(final FixtureModel itemClicked){
 
 
@@ -48,44 +39,6 @@ public class FixtureViewHelper {
         };
     }
 
-    public void setUpFixtureForTabRefrac(List<FixtureModel> fixtureList, LinearLayout tabLayOutContainer) {
-
-        //1)Run one loop to count up how many fixtures does a particular date have
-        Map<LocalDate, Integer> map = new HashMap<LocalDate, Integer>();
-        //1b)Use a hash map to count up an store the value
-        for (FixtureModel item : fixtureList) {
-
-            if (map.containsKey(item.getJodafixtureDate())) {
-                map.put(item.getJodafixtureDate(), map.get(item.getJodafixtureDate()) + 1);
-            } else {
-                map.put(item.getJodafixtureDate(), 1);
-            }
-
-        }
-        //2)Second loop, for every date, get from the map on how many fixtures of a particular date has
-        Iterator<FixtureModel> iterator = fixtureList.iterator();
-        List<FixtureModel> fixtureListForOneDate = null;
-        int itemsRemainingInList = 0;
-        while (iterator.hasNext()) {
-
-            FixtureModel item = iterator.next();
-            if (fixtureListForOneDate == null) {
-                fixtureListForOneDate = new ArrayList<FixtureModel>();
-                itemsRemainingInList = map.get(item.getJodafixtureDate());
-            }
-            //2a)Group the List of fixture by iterating the value count and add them all to an ArrayList
-            fixtureListForOneDate.add(item);
-
-            if (itemsRemainingInList == 1) {
-                //3)Create a view for this list of fixtures for one date
-                tabLayOutContainer.addView(createFixtureForOneDate(fixtureListForOneDate));
-                fixtureListForOneDate = null;
-            }
-
-            itemsRemainingInList--;
-        }
-
-    }
 
     public RelativeLayout createFixtureForOneDate(List<FixtureModel> fixtureGroup){
 
@@ -133,7 +86,7 @@ public class FixtureViewHelper {
 
     private void setUpTeamName(Team team ,TextView textView) {
 
-        getTeamViewModel().setUpTeamName(team , textView);
+        getTeamViewHelper().setUpTeamName(team , textView);
 
     }
 
@@ -189,7 +142,7 @@ public class FixtureViewHelper {
 
     private void loadTeamIcon(ImageView imageView, Team team){
 
-        getTeamViewModel().loadTeamIcon(imageView,team);
+        getTeamViewHelper().loadTeamIcon(imageView,team);
     }
 
     private void setUpFixtureCenterText(View row , FixtureModel fixture ) {
@@ -225,11 +178,11 @@ public class FixtureViewHelper {
         row.setOnClickListener(createFixtureItemClickedListener(fixture));
     }
 
-    public TeamViewModel getTeamViewModel() {
-        if(teamViewModel ==null){
-            teamViewModel = new TeamViewModel(getViewHelper());
+    public TeamViewHelper getTeamViewHelper() {
+        if(teamViewHelper ==null){
+            teamViewHelper = new TeamViewHelper(getViewHelper());
         }
-        return teamViewModel;
+        return teamViewHelper;
     }
 
     private MitooActivity getActivity(){

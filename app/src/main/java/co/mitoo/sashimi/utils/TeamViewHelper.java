@@ -9,11 +9,11 @@ import co.mitoo.sashimi.models.jsonPojo.Team;
 /**
  * Created by david on 15-04-28.
  */
-public class TeamViewModel {
+public class TeamViewHelper {
 
     private ViewHelper viewHelper;
 
-    public TeamViewModel(ViewHelper viewHelper) {
+    public TeamViewHelper(ViewHelper viewHelper) {
         this.viewHelper = viewHelper;
     }
 

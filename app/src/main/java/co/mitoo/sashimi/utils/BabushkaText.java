@@ -1,4 +1,21 @@
 package co.mitoo.sashimi.utils;
+/*
+ * Copyright (C) 2014 Henrique Boregio.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @author Henrique Boregio (hboregio@gmail.com)
+ */
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,39 +38,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by david on 15-05-19.
+ * BabushkaText is a TextView which lets you customize the styling of parts of your text via
+ * Spannables, but without the hassle of having to deal directly with Spannable themselves.
+ * <p/>
+ * The idea behind a BabushkaText is that it is made up of {@code Piece}s. Each Piece represents a
+ * section of the final text displayed by this TextView, and each Piece may be styled independently
+ * from the other Pieces. When you put it all together, the final results is still a a single
+ * TextView, but with a a very different graphic output.
  */
 public class BabushkaText extends TextView {
-
-
-/*
- * Copyright (C) 2014 Henrique Boregio.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * @author Henrique Boregio (hboregio@gmail.com)
- */
-
-
-    /**
-     * BabushkaText is a TextView which lets you customize the styling of parts of your text via
-     * Spannables, but without the hassle of having to deal directly with Spannable themselves.
-     * <p/>
-     * The idea behind a BabushkaText is that it is made up of {@code Piece}s. Each Piece represents a
-     * section of the final text displayed by this TextView, and each Piece may be styled independently
-     * from the other Pieces. When you put it all together, the final results is still a a single
-     * TextView, but with a a very different graphic output.
-     */
 
     // some default params
     private static int DEFAULT_ABSOLUTE_TEXT_SIZE;
@@ -87,6 +80,8 @@ public class BabushkaText extends TextView {
     }
 
     /**
+     * Use this method to add a {@link babushkatext.BabushkaText.Piece} to a BabushkaText.
+     * Each {@link babushkatext.BabushkaText.Piece } is added sequentially, so the
      * order you call this method matters.
      *
      * @param aPiece the Piece
@@ -128,6 +123,8 @@ public class BabushkaText extends TextView {
     }
 
     /**
+     * Get a specific {@link babushkatext.BabushkaText.Piece} in position index.
+     *
      * @param location position of Piece (0 based)
      * @return Piece o null if invalid index
      */
@@ -140,6 +137,8 @@ public class BabushkaText extends TextView {
     }
 
     /**
+     * Call this method when you're done adding {@link babushkatext.BabushkaText.Piece}s
+     * and want this TextView to display the final, styled version of it's String contents.
      * <p/>
      * You MUST also call this method whenever you make a modification to the text of a Piece that
      * has already been displayed.
@@ -232,6 +231,7 @@ public class BabushkaText extends TextView {
      * BabushkaText to display "Hello World" such that "Hello" is displayed in Bold and "World" is
      * displayed in Italics. Since these have different styles, they are both separate Pieces.
      * <p/>
+     * You create a Piece by using it's {@link babushkatext.BabushkaText.Piece.Builder}
      */
     public static class Piece {
 
@@ -261,6 +261,7 @@ public class BabushkaText extends TextView {
 
         /**
          * Sets the text of this Piece. If you're creating a new Piece, you should do so using it's
+         * {@link babushkatext.BabushkaText.Piece.Builder}.
          * <p/>
          * Use this method if you want to modify the text of an existing Piece that is already
          * displayed. After doing so, you MUST call {@code display()} for the changes to show up.
@@ -274,10 +275,12 @@ public class BabushkaText extends TextView {
 
         /**
          * Sets the text color of this Piece. If you're creating a new Piece, you should do so using it's
+         * {@link babushkatext.BabushkaText.Piece.Builder}.
          * <p/>
          * Use this method if you want to change the text color of an existing Piece that is already
          * displayed. After doing so, you MUST call {@code display()} for the changes to show up.
          *
+         * @param color of text (it is NOT android Color resources ID, use getResources().getColor(R.color.colorId) for it)
          */
         public void setTextColor(int textColor) {
             this.textColor = textColor;
@@ -407,6 +410,8 @@ public class BabushkaText extends TextView {
             }
 
             /**
+             * Creates a {@link babushkatext.BabushkaText.Piece} with the customized
+             * parameters.
              *
              * @return a Piece
              */

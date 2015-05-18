@@ -24,10 +24,7 @@ import co.mitoo.sashimi.utils.events.CompetitionListResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionRequestByUserID;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LeagueModelEnquiresResponseEvent;
-<<<<<<< HEAD
 import co.mitoo.sashimi.utils.events.LeaguesAlreadyEnquiredRequest;
-=======
->>>>>>> Finished Static elements of Standings GridView
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.UserInfoRequestEvent;

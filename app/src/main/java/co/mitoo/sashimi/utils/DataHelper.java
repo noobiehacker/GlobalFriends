@@ -515,4 +515,18 @@ public class DataHelper {
         }
         return result;
     }
+
+    public MitooEnum.FixtureTabType getFixtureTabTypeFromIndex(int index) {
+
+        MitooEnum.FixtureTabType tabType;
+        switch (index) {
+            case 0:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
+                break;
+            default:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+                break;
+        }
+        return tabType;
+    }
 }

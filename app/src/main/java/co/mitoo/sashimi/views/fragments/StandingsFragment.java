@@ -18,13 +18,12 @@ import co.mitoo.sashimi.models.appObject.StandingsRow;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.TeamViewModel;
+import co.mitoo.sashimi.utils.TeamViewHelper;
 import co.mitoo.sashimi.utils.events.LoadScoreTableEvent;
 import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.StandingsLoadedEvent;
 import co.mitoo.sashimi.views.Listener.ScrollViewListener;
-import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.widgets.ObservableScrollView;
 
 /**
@@ -36,7 +35,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     private TableLayout scoreHeaderTable;
     private TableLayout teamTable;
     private TableLayout dataTable;
-    private TeamViewModel teamViewModel;
+    private TeamViewHelper teamViewHelper;
     private ObservableScrollView leftScrollView;
     private ObservableScrollView rightScrollView;
     private List<StandingsRow> standingsRows;
@@ -311,8 +310,8 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
                 if (team != null) {
 
                     rankingsText.setText(Integer.toString(ranking));
-                    getTeamViewModel().setUpTeamName(team, teamName);
-                    getTeamViewModel().loadTeamIcon(teamIcon, team);
+                    getTeamViewHelper().setUpTeamName(team, teamName);
+                    getTeamViewHelper().loadTeamIcon(teamIcon, team);
                 }
                 this.teamTable.addView(teamContainer);
 
@@ -321,12 +320,12 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
     }
 
-    public TeamViewModel getTeamViewModel() {
+    public TeamViewHelper getTeamViewHelper() {
 
-        if (teamViewModel == null) {
-            teamViewModel = new TeamViewModel(getViewHelper());
+        if (teamViewHelper == null) {
+            teamViewHelper = new TeamViewHelper(getViewHelper());
         }
-        return teamViewModel;
+        return teamViewHelper;
 
     }
 
