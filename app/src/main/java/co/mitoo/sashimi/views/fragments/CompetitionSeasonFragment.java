@@ -115,6 +115,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     @Subscribe
     public void onCompetitionLoaded(CompetitionSeasonResponseEvent event) {
         this.competition = event.getCompetition();
+        this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
         loadTabs();
         updateView();
 
@@ -229,8 +230,8 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             setFragmentTitle(this.competition.getName());
             if (getToolbar() != null) {
                 getToolbar().setBackgroundColor(getTeamColor());
-                getToolbar().setTitle(getFragmentTitle());
                 getTabHost().setPrimaryColor(getTeamColor());
+                getToolbar().setTitle(getFragmentTitle());
             }
             loadTabs();
         }
@@ -387,7 +388,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     public int getTeamColor() {
 
         if (teamColor == MitooConstants.invalidConstant) {
-            teamColor = getViewHelper().getColor(this.leagueColor);
+            teamColor = getMitooActivity().getResources().getColor(R.color.gray_dark_five);
         }
         return teamColor;
     }

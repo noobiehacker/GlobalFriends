@@ -122,6 +122,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     public void requestData() {
         getFixtureModel();
         getTeamModel();
+        getCompetitionModel();
         BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
         BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
         BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID, getUserID()));
@@ -359,6 +360,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             String secondColorMessage = "#FF3399";
             this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
         }
+        updateView();
 
     }
 

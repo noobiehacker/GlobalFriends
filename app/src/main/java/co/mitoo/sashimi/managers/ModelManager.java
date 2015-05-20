@@ -10,6 +10,7 @@ import co.mitoo.sashimi.network.Services.LeagueService;
 import co.mitoo.sashimi.network.Services.LocationService;
 import co.mitoo.sashimi.network.Services.MitooService;
 import co.mitoo.sashimi.network.Services.MobileTokenService;
+import co.mitoo.sashimi.network.Services.NotificationInAppServices;
 import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.network.Services.SessionService;
 import co.mitoo.sashimi.network.Services.TeamService;
@@ -111,6 +112,12 @@ public class ModelManager {
 
         return (NotificationPreferenceService)getModel(NotificationPreferenceService.class);
     }
+
+    public NotificationInAppServices getNotificationInAppService() {
+
+        return (NotificationInAppServices)getModel(NotificationInAppServices.class);
+    }
+
 
     private <T> MitooService getModel(Class<T> classType) {
 
@@ -214,6 +221,9 @@ public class ModelManager {
         getAppSettingsModel();
         getLocationModel();
         getMobileTokenModel();
+        getFixtureModel();
+        getNotificationInAppService();
+
     }
 
     public void readAllPersistedData(){

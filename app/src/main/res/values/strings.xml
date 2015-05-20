@@ -432,6 +432,7 @@
     <string name="place_holder_price_two">$99.99</string>
     <string name="place_holder_sport">Football</string>
     <string name="place_holder_dummie_text">Dummie Text</string>
+    <string name="place_holder_color">464646</string>
 
     <string-array name="sports_array">
         <item>Soccer</item>

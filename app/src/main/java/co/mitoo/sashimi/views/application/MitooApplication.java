@@ -14,7 +14,10 @@ import io.keen.client.java.KeenLogging;
 import io.keen.client.java.KeenProject;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Stack;
 
 import co.mitoo.sashimi.R;
@@ -35,11 +38,13 @@ public class MitooApplication extends Application{
     private Stack<MitooFragment> fragmentStack;
     private ModelManager modelManager;
     private boolean persistedDataLoaded = false;
+    private Queue<Object> eventQueue;
 
     @Override
     public void onCreate() {
         super.onCreate();
         this.modelManager=null;
+        this.eventQueue = new LinkedList<Object>();
         UAirship.takeOff(this, createAirshipOptions(), new UAirship.OnReadyCallback() {
             @Override
             public void onAirshipReady(UAirship airship) {
@@ -133,4 +138,8 @@ public class MitooApplication extends Application{
         client.setGlobalProperties(map);
     }
 
+
+    public Queue<Object> getEventQueue() {
+        return eventQueue;
+    }
 }

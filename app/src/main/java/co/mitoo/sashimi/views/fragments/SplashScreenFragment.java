@@ -14,6 +14,7 @@ import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoSetPasswordRequestEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
+import co.mitoo.sashimi.utils.events.ConsumeNotificationEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
@@ -95,8 +96,8 @@ public class SplashScreenFragment extends MitooFragment {
 
     private void loadFirstFragment() {
 
-        if(!getMitooActivity().getNotificationQueue().isEmpty()){
-            getMitooActivity().consumeNotification();
+        if(!getMitooActivity().getMitooApplication().getEventQueue().isEmpty()){
+            BusProvider.post(new ConsumeNotificationEvent());
         }
         else if(recievedBranchIOResponse() && recievedPersistedDataResponse()){
             if(isInviteFlow())
