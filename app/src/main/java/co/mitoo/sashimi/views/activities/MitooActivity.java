@@ -943,4 +943,5 @@ public class MitooActivity extends ActionBarActivity {
        getMitooApplication().setUpPersistenceData(this);
 
     }
+
 }

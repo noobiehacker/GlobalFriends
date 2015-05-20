@@ -198,6 +198,11 @@
         <item name="fontPath">@string/DIN_Regular_Italic</item>
     </style>
 
+    <style name="leagueStatusTextBox">
+        <item name="android:textColor">@color/red_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!-- Notification page -->
 
     <style name="notificationPageTitleText">

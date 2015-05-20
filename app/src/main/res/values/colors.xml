@@ -48,5 +48,6 @@
     <color name="red_light">#F51F21</color>
     <color name="blue_sky_light">#73C4F2</color>
     <color name="green_light">#00C55D</color>
+    <color name="red_white">#FBEDED</color>
 
 </resources>

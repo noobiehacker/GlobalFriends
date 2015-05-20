@@ -840,4 +840,16 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected String getToolBarTitle(){
         return getString(R.string.bundle_key_tool_bar_title);
     }
+
+    protected String getRainOutKey(){
+        return getString(R.string.bundle_key_rain_out_key);
+    }
+
+    protected String getFirstRainOutColorKey(){
+        return getString(R.string.bundle_key_first_color_key);
+    }
+
+    protected String getSecondRainOutColorKey(){
+        return getString(R.string.bundle_key_second_color_key);
+    }
 }

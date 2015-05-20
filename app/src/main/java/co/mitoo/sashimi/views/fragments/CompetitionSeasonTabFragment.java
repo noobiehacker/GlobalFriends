@@ -1,10 +1,12 @@
 package co.mitoo.sashimi.views.fragments;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
@@ -13,16 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
+import co.mitoo.sashimi.utils.BabushkaText;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.RainOut;
 import co.mitoo.sashimi.utils.events.TeamListRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamListResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.adapters.FixtureListAdapter;
+import co.mitoo.sashimi.views.widgets.HeaderListView;
 
 /**
  * Created by david on 15-03-08.
@@ -33,7 +40,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private MitooEnum.FixtureTabType tabType;
     private TextView noResultsTextView;
     private MitooActivity mitooActivity;
-    private ListView fixtureListView;
+    private HeaderListView fixtureListView;
     private FixtureListAdapter fixtureListAdapter;
     private List<FixtureModel> fixtureList;
     private boolean viewLoaded = false;
@@ -42,6 +49,10 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private int tabIndex = 0;
     private boolean dataLoaded = false;
     private boolean fragmentStarted = false;
+    private String rainOutMessage;
+    private String firstRainOutColor;
+    private String secondRainOutColor;
+    private RainOut rainOut;
 
     @Override
     public void onClick(View v) {
@@ -81,6 +92,9 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         if (savedInstanceState != null) {
             this.competitionSeasonID = (int) savedInstanceState.get(getCompetitionSeasonIdKey());
             this.tabIndex = savedInstanceState.getInt(getTabIndexKey());
+            this.rainOutMessage = savedInstanceState.getString(getRainOutKey());
+            this.firstRainOutColor = savedInstanceState.getString(getFirstRainOutColorKey());
+            this.secondRainOutColor = savedInstanceState.getString(getSecondRainOutColorKey());
             this.fragmentStarted = true;
             setTabType(this.tabIndex);
         } else {
@@ -110,6 +124,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         getTeamModel();
         BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
         BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
+        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID, getUserID()));
     }
 
     @Override
@@ -122,14 +137,15 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         return view;
     }
 
-
     @Override
     protected void initializeViews(View view) {
 
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setNoResultsTextView((TextView) view.findViewById(R.id.noFixturesTextView));
-        setFixtureListView((ListView) view.findViewById(R.id.fixture_list_view));
+        setFixtureListView((HeaderListView) view.findViewById(R.id.fixture_list_view));
+        if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+            setUpRainOutHeader(getFixtureListView());
         if(allDataLoaded()==false)
             setPreDataLoading(true);
         this.viewLoaded = true;
@@ -141,12 +157,23 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         if (allDataLoaded()) {
             getFixtureListView().setAdapter(getFixtureListAdapter());
             setUpNoResultsView();
+            updateRainOut(this.rainOut);
             setPreDataLoading(false);
         }
     }
 
     private boolean allDataLoaded(){
-        return fixtureListRecieved() && this.viewLoaded && teamDataLoaded();
+
+        boolean rainOutDataReady = true;
+        switch (getTabType()){
+            case FIXTURE_RESULT:
+                rainOutDataReady = true;
+                break;
+            case FIXTURE_SCHEDULE:
+                rainOutDataReady = this.rainOut !=null;
+                break;
+        }
+        return fixtureListRecieved() && this.viewLoaded && teamDataLoaded() && (rainOutDataReady);
     }
 
     @Override
@@ -224,12 +251,12 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         this.mitooActivity = mitooActivity;
     }
 
-    public ListView getFixtureListView() {
+    public HeaderListView getFixtureListView() {
 
         return fixtureListView;
     }
 
-    public void setFixtureListView(ListView fixtureListView) {
+    public void setFixtureListView(HeaderListView fixtureListView) {
         this.fixtureListView = fixtureListView;
     }
 
@@ -253,6 +280,40 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     }
 
+    public void updateRainOut(RainOut event) {
+
+        if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE &&
+                getFixtureListView()!= null &&
+                getFixtureListView().getHeaderView()!=null){
+
+            View rainOutView = getFixtureListView().getHeaderView();
+            this.rainOutMessage = event.getRainOutMessage();
+            this.firstRainOutColor = event.getFirstColor();
+            this.secondRainOutColor = event.getSecondColor();
+
+            //CUSTOMIZE TEXT
+
+            BabushkaText text = (BabushkaText)rainOutView.findViewById(R.id.leagueMessage);
+            text.reset();
+            text.addPiece(new BabushkaText.Piece.Builder(getString(R.string.competition_page_league_message_prefix))
+                    .textColor(Color.parseColor(this.firstRainOutColor))
+                    .style(Typeface.BOLD)
+                    .build());
+            text.addPiece(new BabushkaText.Piece.Builder(this.rainOutMessage)
+                    .textColor(Color.parseColor(this.firstRainOutColor))
+                    .build());
+            text.display();
+
+            //CUSTOMIZE Background Color
+
+            RelativeLayout borderLayout  = (RelativeLayout)rainOutView.findViewById(R.id.rain_out_view);
+            RelativeLayout backgroundLayout = (RelativeLayout)borderLayout.findViewById(R.id.background_layout);
+            borderLayout.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
+            backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
+        }
+
+    }
+
     private boolean fixtureListRecieved() {
         return this.fixtureList != null;
     }
@@ -265,12 +326,40 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     public void onSaveInstanceState(Bundle bundle) {
         bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
         bundle.putInt(getTabIndexKey(), this.tabIndex);
+        bundle.putString(getRainOutKey(), this.rainOutMessage);
+        bundle.putString(getFirstRainOutColorKey(), this.firstRainOutColor);
+        bundle.putString(getSecondRainOutColorKey(), this.secondRainOutColor);
         super.onSaveInstanceState(bundle);
 
     }
 
     private boolean teamDataLoaded() {
         return this.teams != null;
+    }
+
+    private void setUpRainOutHeader(HeaderListView listView){
+
+        View headerView = getViewHelper().createViewFromInflator(R.layout.view_rainout_header);
+        listView.setHeaderView(headerView);
+        listView.addHeaderView(headerView);
+
+    }
+
+    @Subscribe
+    public void onCompetitionLoaded(CompetitionSeasonResponseEvent event) {
+        //TODO: REFACTOR
+        /**
+         *
+         *Hard Coding, change later
+         *
+         */
+        if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE){
+            String rainOutMessage = "May the force be with you";
+            String firstColorMessage = "#F51F21";
+            String secondColorMessage = "#FF3399";
+            this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
+        }
+
     }
 
 }

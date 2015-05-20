@@ -19,7 +19,7 @@ public class MitooTab {
     private int competitionSeasonID;
     private String competitionSeaonKey;
 
-    public MitooTab(MitooEnum.FixtureTabType tabType , int competitionSeasonID , String competitionSeaonKey) {
+    public MitooTab(MitooEnum.FixtureTabType tabType , int competitionSeasonID , String competitionSeaonKey){
         this.competitionSeasonID = competitionSeasonID;
         this.competitionSeaonKey = competitionSeaonKey;
         setFixtureTabType(tabType);

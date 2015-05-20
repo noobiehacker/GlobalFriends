@@ -154,6 +154,13 @@
     <dimen name="fixture_page_status_padding">5dp</dimen>
     <dimen name="fixture_page_time_date_padding">2.5dp</dimen>
 
+    <dimen name="competition_tab_header_outter_left_padding">12.5dp</dimen>
+    <dimen name="competition_tab_header_outter_right_padding">12.5dp</dimen>
+    <dimen name="competition_tab_header_outter_top_padding">10dp</dimen>
+
+    <dimen name="competition_tab_header_inner_vertical_padding">9dp</dimen>
+    <dimen name="competition_tab_header_inner_horizontal_padding">11.5dp</dimen>
+
     <!-- Notificaation page -->
     <dimen name="notification_toggle_track_width">27dp</dimen>
     <dimen name="notification_toggle_track_height">15dp</dimen>
@@ -177,5 +184,7 @@
     <dimen name="small_list_item_bottom_padding">14dp</dimen>
     <dimen name="small_list_item_left_padding">16dp</dimen>
     <dimen name="small_list_item_right_padding">16dp</dimen>
+
+
 
 </resources>

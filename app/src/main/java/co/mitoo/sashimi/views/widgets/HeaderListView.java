@@ -36,6 +36,10 @@ public class HeaderListView extends ListView {
         }
     }
 
+    public View getHeaderView() {
+        return headerView;
+    }
+
     public void setHeaderVisibility(int visibility){
         switch (visibility) {
             case View.GONE:

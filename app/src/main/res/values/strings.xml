@@ -276,6 +276,7 @@
     <string name="fixture_page_time">"Time "</string>
     <string name="fixture_page_no_results">This competition has no past games</string>
     <string name="fixture_page_no_up_coming_games">This competition has no upcoming games</string>
+    <string name="competition_page_league_message_prefix">League message:</string>
 
     <!--Fixture Page -->
     <string name="fixture_page_result_title">RESULT</string>
@@ -391,6 +392,9 @@
     <string name="bundle_key_identifier">bundle_key_identifier</string>
     <string name="bundle_key_user_name">bundle_key_user_name</string>
     <string name="bundle_key_league_id_key">bundle_key_league_id_key</string>
+    <string name="bundle_key_rain_out_key">bundle_key_rain_out_key</string>
+    <string name="bundle_key_first_color_key">bundle_key_first_color_key</string>
+    <string name="bundle_key_second_color_key">bundle_key_second_color_key</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>

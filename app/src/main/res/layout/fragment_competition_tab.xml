@@ -15,7 +15,7 @@
         progressLayout:progress="false"
         progressLayout:progressBackground="@color/gray_light_one">
 
-        <ListView
+        <co.mitoo.sashimi.views.widgets.HeaderListView
             android:id="@+id/fixture_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

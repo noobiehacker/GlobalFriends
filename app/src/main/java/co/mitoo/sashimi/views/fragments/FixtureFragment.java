@@ -1,6 +1,8 @@
 package co.mitoo.sashimi.views.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.services.EventTrackingService;
+import co.mitoo.sashimi.utils.BabushkaText;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooConstants;
@@ -31,6 +34,7 @@ import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
+import co.mitoo.sashimi.utils.RainOut;
 import co.mitoo.sashimi.utils.events.TeamIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamIndividualResponseEvent;
 
@@ -47,6 +51,7 @@ public class FixtureFragment extends MitooFragment {
     private TextView locationTextView;
     private TextView statusTextView;
     private TextView addressTextView;
+    private View rainOutView;
     private int fixtureID = MitooConstants.invalidConstant;
     private int competitionSeasonID = MitooConstants.invalidConstant;
     private int homeTeamID = MitooConstants.invalidConstant;
@@ -54,6 +59,10 @@ public class FixtureFragment extends MitooFragment {
     private Team homeTeam;
     private Team awayTeam;
     private boolean viewLoaded = false;
+    private String rainOutMessage;
+    private String firstRainOutColor;
+    private String secondRainOutColor;
+    private RainOut rainOut;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -135,6 +144,7 @@ public class FixtureFragment extends MitooFragment {
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         initializeAllTextViews(view);
         setPreDataLoading(true);
+        this.rainOutView = (RelativeLayout) view.findViewById(R.id.rain_out_view);
         this.viewLoaded = true;
         updateViews();
 
@@ -226,6 +236,17 @@ public class FixtureFragment extends MitooFragment {
     public void onCompetitionResponse(CompetitionSeasonResponseEvent event) {
         this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
         updateToolbar();
+        //TODO: REFACTOR
+        /**
+         *
+         *Hard Coding, change later
+         *
+         */
+        String rainOutMessage = "May the force be with you";
+        String firstColorMessage = "#F51F21";
+        String secondColorMessage = "#FF3399";
+        this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
+
     }
 
     private void updateViews() {
@@ -236,6 +257,8 @@ public class FixtureFragment extends MitooFragment {
             setUpMap();
             updateToolbar();
             setPreDataLoading(false);
+            updateRainOutView(this.rainOut);
+
         }
 
     }
@@ -446,5 +469,35 @@ public class FixtureFragment extends MitooFragment {
                 //Implement later
             }
         }
+    }
+
+    public void updateRainOutView(RainOut event) {
+
+        if(this.rainOutView!=null){
+            this.rainOutMessage = event.getRainOutMessage();
+            this.firstRainOutColor = event.getFirstColor();
+            this.secondRainOutColor = event.getSecondColor();
+
+            //CUSTOMIZE TEXT
+
+            BabushkaText text = (BabushkaText) this.rainOutView.findViewById(R.id.leagueMessage);
+            text.reset();
+            text.addPiece(new BabushkaText.Piece.Builder(getString(R.string.competition_page_league_message_prefix))
+                    .textColor(Color.parseColor(this.firstRainOutColor))
+                    .style(Typeface.BOLD)
+                    .build());
+            text.addPiece(new BabushkaText.Piece.Builder(this.rainOutMessage)
+                    .textColor(Color.parseColor(this.firstRainOutColor))
+                    .build());
+            text.display();
+
+            //CUSTOMIZE Background Color
+
+            RelativeLayout backgroundLayout = (RelativeLayout) this.rainOutView.findViewById(R.id.background_layout);
+            backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
+            this.rainOutView.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
+            this.rainOutView.setVisibility(View.VISIBLE);
+        }
+
     }
 }

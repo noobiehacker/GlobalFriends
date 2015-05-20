@@ -327,6 +327,8 @@ public class DataHelper {
             result = R.id.header_view;
         else if (layout == R.layout.view_league_list_footer)
             result = R.id.footer_view;
+        else if (layout ==R.layout.view_rainout_header)
+            result = R.id.leagueMessage;
         return result;
 
     }
