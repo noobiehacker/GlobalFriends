@@ -61,4 +61,10 @@ public class MitooNotification {
     public void setNotificationType(MitooEnum.NotificationType notificationType) {
         this.notificationType = notificationType;
     }
+
+    public boolean isHeaderObject(){
+        if(this.notificationCategory == MitooEnum.NotificationCategory.TeamGames)
+            return true;
+        return false;
+    }
 }

@@ -5,7 +5,7 @@
     android:id="@+id/border_layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/red_light"
+    android:background="@color/gray_dark_six"
     android:orientation="vertical"
     android:padding="1dp">
 
@@ -13,7 +13,7 @@
         android:id="@+id/background_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red_white"
+        android:background="@color/gray_dark_one"
         android:orientation="vertical">
 
         <co.mitoo.sashimi.utils.BabushkaText

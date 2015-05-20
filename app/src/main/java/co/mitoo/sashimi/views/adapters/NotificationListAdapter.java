@@ -7,6 +7,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
@@ -40,7 +41,31 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         MitooNotification mitooNotification = this.getItem(position);
         setUpText(convertView, mitooNotification);
         setUpToggle(convertView, mitooNotification);
+        setUpHeaderTextView(convertView,mitooNotification);
         return convertView;
+    }
+
+    private void setUpHeaderTextView(View convertView ,MitooNotification mitooNotification ){
+
+        View headerContainer = convertView.findViewById(R.id.header_container_view);
+
+        if(mitooNotification.isHeaderObject()){
+            TextView headerTextView = (TextView) headerContainer.findViewById(R.id.header_view);
+            String headerText = createHeaderText(mitooNotification.getNotificationType());
+            headerTextView.setText(headerText);
+            headerContainer.setVisibility(View.VISIBLE);
+        }
+        else{
+            headerContainer.setVisibility(View.GONE);
+        }
+
+    }
+
+    private String createHeaderText(MitooEnum.NotificationType notificationType){
+        if(notificationType== MitooEnum.NotificationType.EMAIL)
+            return getFragment().getString(R.string.notification_page_email_list_title);
+        else
+            return getFragment().getString(R.string.notification_page_push_list_title);
     }
 
     public NotificationFragment getFragment() {
@@ -86,9 +111,9 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
     private boolean getNotificaitonCheckStatus(NotificationPreferenceRecieved prefReceive, MitooNotification mitooNotification) {
         boolean result = false;
 
-        if(getNotificationType()== MitooEnum.NotificationType.EMAIL)
+        if(mitooNotification.getNotificationType()== MitooEnum.NotificationType.EMAIL)
             result = getEmailCheckStatus(prefReceive, mitooNotification);
-        else if(getNotificationType()== MitooEnum.NotificationType.PUSH)
+        else if(mitooNotification.getNotificationType()== MitooEnum.NotificationType.PUSH)
             result = getPushCheckStatus(prefReceive, mitooNotification);
 
         return result;
@@ -152,12 +177,6 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         }
         return result;
 
-    }
-
-    public MitooEnum.NotificationType getNotificationType() {
-        if(notificationType == null)
-            notificationType = MitooEnum.NotificationType.PUSH;
-        return notificationType;
     }
 
     public void setNotificationType(MitooEnum.NotificationType notificationType) {

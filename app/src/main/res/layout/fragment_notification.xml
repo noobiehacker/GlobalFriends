@@ -33,16 +33,6 @@
             android:dividerHeight="@dimen/list_divider_height"
             android:scrollbars="none"/>
 
-        <ListView
-            android:id="@+id/push_list_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/email_list_view"
-            android:descendantFocusability="blocksDescendants"
-            android:divider="@color/gray_light_three"
-            android:dividerHeight="@dimen/list_divider_height"
-            android:scrollbars="none" />
-
     </com.github.androidprogresslayout.ProgressLayout>
 
 </RelativeLayout>

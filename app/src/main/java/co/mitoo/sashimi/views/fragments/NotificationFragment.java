@@ -39,10 +39,6 @@ public class NotificationFragment extends MitooFragment {
     private NotificationListAdapter emailNotificaitonAdapter;
     private List<MitooNotification> emailMitooNotificationList;
 
-    private ListView pushNotificationListView;
-    private NotificationListAdapter pushNotificaitonAdapter;
-    private List<MitooNotification> pushMitooNotificationList;
-
     private League selectedLeague;
     private NotificationPreferenceRecieved previousPreferenceState;
     private boolean notificationDataLoaded;
@@ -104,7 +100,6 @@ public class NotificationFragment extends MitooFragment {
 
     @Subscribe
     public void onNotificationModelResponse(NotificationModelResponseEvent event) {
-        getPushNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
         getEmailNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
         setNotificationDataLoaded(true);
         updateView();
@@ -135,7 +130,6 @@ public class NotificationFragment extends MitooFragment {
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpMyEmailListView(view);
-        setUpMyPushListView(view);
 
     }
 
@@ -144,23 +138,18 @@ public class NotificationFragment extends MitooFragment {
 
         super.initializeFields();
         setFragmentTitle(getString(R.string.tool_bar_notifications));
-        setUpEmailNotificationListData();
-        setUpPushNotificationListData();
+        setUpNotificationListData();
     }
 
-    private void setUpEmailNotificationListData() {
+    private void setUpNotificationListData() {
 
         for (MitooEnum.NotificationCategory item : MitooEnum.NotificationCategory.values()) {
             getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.EMAIL, getMitooActivity()));
 
         }
 
-    }
-
-    private void setUpPushNotificationListData() {
-
         for (MitooEnum.NotificationCategory item : MitooEnum.NotificationCategory.values()) {
-            getPushMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
+            getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
 
         }
 
@@ -193,39 +182,10 @@ public class NotificationFragment extends MitooFragment {
         return getToolbar();
     }
 
-    public void setTeamColor(int teamColor) {
-        this.teamColor = teamColor;
-    }
-
-    public ListView getEmailNotificationListView() {
-        return emailNotificationListView;
-    }
-
-    public void setEmailNotificationListView(ListView emailNotificationListView) {
-        this.emailNotificationListView = emailNotificationListView;
-    }
-
-    public ListView getPushNotificationListView() {
-        return pushNotificationListView;
-    }
-
-    public void setPushNotificationListView(ListView pushNotificationListView) {
-        this.pushNotificationListView = pushNotificationListView;
-    }
-
-    private void setUpMyPushListView(View view) {
-
-        setPushNotificationListView((ListView) view.findViewById(R.id.push_list_view));
-        getViewHelper().setUpListView(getPushNotificationListView(),
-                getPushNotificaitonAdapter(), getString(R.string.notification_page_push_list_title));
-
-    }
-
     private void setUpMyEmailListView(View view) {
 
-        setEmailNotificationListView((ListView) view.findViewById(R.id.email_list_view));
-        getViewHelper().setUpListView(getEmailNotificationListView(),
-                getEmailNotificaitonAdapter(), getString(R.string.notification_page_email_list_title));
+        this.emailNotificationListView = (ListView) view.findViewById(R.id.email_list_view);
+        this.emailNotificationListView.setAdapter(getEmailNotificaitonAdapter());
 
     }
 
@@ -242,29 +202,14 @@ public class NotificationFragment extends MitooFragment {
         return emailMitooNotificationList;
     }
 
-    public NotificationListAdapter getPushNotificaitonAdapter() {
-        if (pushNotificaitonAdapter == null)
-            pushNotificaitonAdapter = new NotificationListAdapter(getActivity(), R.id.push_list_view,
-                    getPushMitooNotificationList(), this);
-        return pushNotificaitonAdapter;
-    }
-
-    public List<MitooNotification> getPushMitooNotificationList() {
-        if (pushMitooNotificationList == null)
-            pushMitooNotificationList = new ArrayList<MitooNotification>();
-        return pushMitooNotificationList;
-    }
-
     private void updateView() {
 
         setRunnable(new Runnable() {
             @Override
             public void run() {
-                getHandler().postDelayed(getRunnable(), MitooConstants.durationShort);
                 setPreDataLoading(false);
                 setPageFirstLoad(true);
                 getEmailNotificaitonAdapter().notifyDataSetChanged();
-                getPushNotificaitonAdapter().notifyDataSetChanged();
             }
         });
         getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
@@ -278,7 +223,6 @@ public class NotificationFragment extends MitooFragment {
 
             if (pageLoaded()) {
                 getEmailNotificaitonAdapter().revertToPreviousState();
-                getPushNotificaitonAdapter().revertToPreviousState();
                 displayTextWithToast(getString(R.string.error_no_internet));
             } else {
                 centerProgressLayout();
