@@ -74,7 +74,7 @@ public class MitooEnum {
     }
 
     public enum NotificationCategory {
-        TeamGames, TeamResults, LeagueResults
+        TeamGames, TeamResults, LeagueResults , RainOut
     }
 
     public enum NotificationType {

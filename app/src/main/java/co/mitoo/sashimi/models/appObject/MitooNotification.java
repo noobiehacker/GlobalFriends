@@ -49,6 +49,9 @@ public class MitooNotification {
             case LeagueResults:
                 result= getActivity().getString(R.string.notification_page_list_item_league_results);
                 break;
+            case RainOut:
+                result = "";
+                break;
         }
 
         return result;
