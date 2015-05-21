@@ -33,16 +33,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_weight="0.5"
                 android:descendantFocusability="blocksDescendants"
                 android:scrollbars="none" />
+
 
             <co.mitoo.sashimi.views.widgets.HeaderListView
                 android:id="@+id/enquiredLeagueListView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/myLeagueListView"
-                android:layout_weight="0.5"
                 android:descendantFocusability="blocksDescendants"
                 android:scrollbars="none" />
 

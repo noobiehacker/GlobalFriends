@@ -134,7 +134,6 @@ public class NotificationFragment extends MitooFragment {
 
     @Override
     protected void requestData() {
-        setPreDataLoading(true);
         getNotificationPreferenceModel();
         BusProvider.post(new NotificationRequestEvent(getUserID(),this.competitionSeasonID));
 
@@ -172,6 +171,7 @@ public class NotificationFragment extends MitooFragment {
         super.initializeViews(view);
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setUpMyEmailListView(view);
+        setPreDataLoading(true);
 
     }
 

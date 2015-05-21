@@ -3,6 +3,7 @@ package co.mitoo.sashimi.views.adapters;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.mitoo.sashimi.views.widgets.MitooTab;
@@ -32,6 +33,10 @@ public class MitooTabAdapter extends FragmentStatePagerAdapterNotV4{
     public int getCount() {
 
         return getMitooTabs().size();
+    }
+
+    public void removeAllTabs(){
+        this.mitooTabs=new ArrayList<MitooTab>();
     }
 
     @Override

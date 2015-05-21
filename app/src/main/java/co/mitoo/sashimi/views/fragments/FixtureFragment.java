@@ -20,6 +20,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.services.EventTrackingService;
@@ -236,15 +238,19 @@ public class FixtureFragment extends MitooFragment {
     public void onCompetitionResponse(CompetitionSeasonResponseEvent event) {
         this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
         updateToolbar();
-        //TODO: REFACTOR
-        /**
-         *
-         *Hard Coding, change later
-         *
-         */
-        String rainOutMessage = "May the force be with you";
-        String firstColorMessage = "#F51F21";
-        String secondColorMessage = "#FF3399";
+        Competition competition = event.getCompetition();
+
+        String rainOutMessage = competition.getRain_out_message();
+        rainOutMessage = (rainOutMessage!=null)  ? rainOutMessage : getString(R.string.place_holder_rain_out);
+
+        League league = competition.getLeague();
+
+        String firstColorMessage =  league.getColor_1();
+        firstColorMessage = (firstColorMessage!= null) ?"#" + firstColorMessage : "#" +getString(R.string.place_holder_color_one);
+
+        String secondColorMessage = league.getColor_2();
+        secondColorMessage = (secondColorMessage!= null) ?"#" + secondColorMessage :"#" +getString(R.string.place_holder_color_two);
+
         this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
 
     }

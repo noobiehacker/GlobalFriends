@@ -109,7 +109,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     @Override
     public void onResume() {
         super.onResume();
-        getAdapter().notifyDataSetChanged();
     }
 
     @Subscribe
@@ -162,8 +161,9 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     private void onFragmentAnimationFinish(){
         int id = CompetitionSeasonFragment.this.competitionSeasonID;
         BusProvider.post(new CompetitionSeasonReqByCompAndUserID(id, getUserID()));
-    }
+        getAdapter().notifyDataSetChanged();
 
+    }
 
     @Override
     protected void initializeViews(View view) {
@@ -450,13 +450,18 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     public void onDestroyView() {
         if (getMaterialsTabContainer() != null) {
 
-            /*getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(0));
-            getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(1));
-            getAdapter().notifyDataSetChanged();*/
+            getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(0)).commitAllowingStateLoss();
+            getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(1)).commitAllowingStateLoss();
+            getAdapter().removeAllTabs();
+            getAdapter().notifyDataSetChanged();
+            getPager().setOffscreenPageLimit(0);
+            getPager().removeAllViews();
+            getPager().setAdapter(null);
             getTabHost().removeAllViews();
             getMaterialsTabContainer().removeAllViews();
             this.pager=null;
             this.adapter = null;
+            System.gc();
         }
         super.onDestroyView();
     }

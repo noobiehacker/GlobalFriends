@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 /*Same class as FragmentStatePaperAdapter except not using V4 fragment*/
 
-public abstract class FragmentStatePagerAdapterNotV4  extends PagerAdapter {
+public abstract class FragmentStatePagerAdapterNotV4 extends PagerAdapter {
     private static final String TAG = "FragmentStatePagerAdapter";
     private static final boolean DEBUG = false;
 
@@ -31,6 +31,8 @@ public abstract class FragmentStatePagerAdapterNotV4  extends PagerAdapter {
     public FragmentStatePagerAdapterNotV4(FragmentManager fm) {
         mFragmentManager = fm;
     }
+
+    private boolean saveState= false;
 
     /**
      * Return the Fragment associated with a specified position.
@@ -78,7 +80,7 @@ public abstract class FragmentStatePagerAdapterNotV4  extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = (Fragment)object;
+        Fragment fragment = (Fragment) object;
 
         if (mCurTransaction == null) {
             mCurTransaction = mFragmentManager.beginTransaction();
@@ -94,7 +96,7 @@ public abstract class FragmentStatePagerAdapterNotV4  extends PagerAdapter {
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = (Fragment)object;
+        Fragment fragment = (Fragment) object;
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
                 mCurrentPrimaryItem.setMenuVisibility(false);
@@ -119,26 +121,28 @@ public abstract class FragmentStatePagerAdapterNotV4  extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return ((Fragment)object).getView() == view;
+        return ((Fragment) object).getView() == view;
     }
 
     @Override
     public Parcelable saveState() {
         Bundle state = null;
-        if (mSavedState.size() > 0) {
-            state = new Bundle();
-            Fragment.SavedState[] fss = new Fragment.SavedState[mSavedState.size()];
-            mSavedState.toArray(fss);
-            state.putParcelableArray("states", fss);
-        }
-        for (int i=0; i<mFragments.size(); i++) {
-            Fragment f = mFragments.get(i);
-            if (f != null) {
-                if (state == null) {
-                    state = new Bundle();
+        if (this.saveState) {
+            if (mSavedState.size() > 0) {
+                state = new Bundle();
+                Fragment.SavedState[] fss = new Fragment.SavedState[mSavedState.size()];
+                mSavedState.toArray(fss);
+                state.putParcelableArray("states", fss);
+            }
+            for (int i = 0; i < mFragments.size(); i++) {
+                Fragment f = mFragments.get(i);
+                if (f != null) {
+                    if (state == null) {
+                        state = new Bundle();
+                    }
+                    String key = "f" + i;
+                    mFragmentManager.putFragment(state, key, f);
                 }
-                String key = "f" + i;
-                mFragmentManager.putFragment(state, key, f);
             }
         }
         return state;
@@ -147,31 +151,44 @@ public abstract class FragmentStatePagerAdapterNotV4  extends PagerAdapter {
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
         if (state != null) {
-            Bundle bundle = (Bundle)state;
+            Bundle bundle = (Bundle) state;
             bundle.setClassLoader(loader);
             Parcelable[] fss = bundle.getParcelableArray("states");
             mSavedState.clear();
             mFragments.clear();
             if (fss != null) {
-                for (int i=0; i<fss.length; i++) {
-                    mSavedState.add((Fragment.SavedState)fss[i]);
+                for (int i = 0; i < fss.length; i++) {
+                    mSavedState.add((Fragment.SavedState) fss[i]);
                 }
             }
             Iterable<String> keys = bundle.keySet();
-            for (String key: keys) {
+            for (String key : keys) {
                 if (key.startsWith("f")) {
                     int index = Integer.parseInt(key.substring(1));
-                    Fragment f = mFragmentManager.getFragment(bundle, key);
-                    if (f != null) {
-                        while (mFragments.size() <= index) {
-                            mFragments.add(null);
+                    try {
+                        Fragment f = mFragmentManager.getFragment(bundle, key);
+                        if (f != null) {
+                            while (mFragments.size() <= index) {
+                                mFragments.add(null);
+                            }
+                            f.setMenuVisibility(false);
+                            mFragments.set(index, f);
+                        } else {
                         }
-                        f.setMenuVisibility(false);
-                        mFragments.set(index, f);
-                    } else {
+                    } catch (Exception e) {
+
                     }
+
                 }
             }
         }
+    }
+
+    public boolean isSaveState() {
+        return saveState;
+    }
+
+    public void setSaveState(boolean saveState) {
+        this.saveState = saveState;
     }
 }
