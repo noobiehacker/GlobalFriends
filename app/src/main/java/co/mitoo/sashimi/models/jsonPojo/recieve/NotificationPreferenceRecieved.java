@@ -30,19 +30,24 @@ public class NotificationPreferenceRecieved implements Serializable ,Cloneable {
         group_team_results group_team_results = new group_team_results();
         group_team_games group_team_games = new group_team_games();
         group_league_results group_league_results = new group_league_results();
+        group_league_alerts group_league_alerts = new group_league_alerts();
 
         group_team_results.setEmail(getGroup_settings().getGroup_team_results().isEmail());
         group_team_games.setEmail(getGroup_settings().getGroup_team_games().isEmail());
         group_league_results.setEmail(getGroup_settings().getGroup_league_results().isEmail());
+        group_league_alerts.setEmail(getGroup_settings().getGroup_league_alerts().isEmail());
 
         group_team_results.setPush(getGroup_settings().getGroup_team_results().isPush());
         group_team_games.setPush(getGroup_settings().getGroup_team_games().isPush());
         group_league_results.setPush(getGroup_settings().getGroup_league_results().isPush());
+        group_league_alerts.setPush(getGroup_settings().getGroup_league_alerts().isPush());
 
         group_settings.setGroup_league_results(group_league_results);
         group_settings.setGroup_team_results(group_team_results);
         group_settings.setGroup_team_games(group_team_games);
+        group_settings.setGroup_league_alerts(group_league_alerts);
         preferenceRecieved.setGroup_settings(group_settings);
+
         return preferenceRecieved;
     }
 

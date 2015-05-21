@@ -14,6 +14,7 @@ public class group_settings implements Serializable {
     private group_team_games group_team_games;
     private group_team_results group_team_results;
     private group_league_results group_league_results;
+    private group_league_alerts group_league_alerts;
 
     public group_team_games getGroup_team_games() {
         return group_team_games;
@@ -39,4 +40,13 @@ public class group_settings implements Serializable {
         this.group_league_results = group_league_results;
     }
 
+    public group_league_alerts getGroup_league_alerts() {
+        return group_league_alerts;
+    }
+
+    public void setGroup_league_alerts(group_league_alerts group_league_alerts) {
+        this.group_league_alerts = group_league_alerts;
+    }
 }
+
+

@@ -1,5 +1,7 @@
 package co.mitoo.sashimi.views.fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.NotificationModelResponseEvent;
 import co.mitoo.sashimi.utils.events.NotificationRequestEvent;
@@ -35,9 +38,9 @@ public class NotificationFragment extends MitooFragment {
 
     private int teamColor = MitooConstants.invalidConstant;
 
-    private ListView emailNotificationListView;
-    private NotificationListAdapter emailNotificaitonAdapter;
-    private List<MitooNotification> emailMitooNotificationList;
+    private ListView notificationListView;
+    private NotificationListAdapter notificaitonAdapter;
+    private List<MitooNotification> mitooNotificationList;
 
     private League selectedLeague;
     private NotificationPreferenceRecieved previousPreferenceState;
@@ -49,10 +52,54 @@ public class NotificationFragment extends MitooFragment {
     }
 
     @Override
+    public Animator onCreateAnimator(int transit, boolean enter, int nextAnim) {
+
+        if (nextAnim != 0) {
+            Animator anim = AnimatorInflater.loadAnimator(getActivity().getApplicationContext(), nextAnim);
+            final boolean enterToPassIn = enter;
+            anim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (enterToPassIn) {
+                        NotificationFragment.this.onFragmentAnimationFinish();
+
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            });
+
+            return anim;
+        } else {
+            NotificationFragment.this.onFragmentAnimationFinish();
+            return super.onCreateAnimator(transit, enter, nextAnim);
+        }
+    }
+
+    private void onFragmentAnimationFinish(){
+        requestData();
+        if (!isLoading() && isNotificationDataLoaded())
+            updateView();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            this.competitionSeasonID = (int) savedInstanceState.getInt(getCompetitionSeasonIdKey());
+            this.competitionSeasonID = savedInstanceState.getInt(getCompetitionSeasonIdKey());
             this.teamColor = savedInstanceState.getInt(getTeamColorKey());
         } else {
             this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
@@ -82,17 +129,12 @@ public class NotificationFragment extends MitooFragment {
     public void onResume() {
 
         super.onResume();
-        requestData();
-        if (!isLoading() && isNotificationDataLoaded())
-            updateView();
-
         EventTrackingService.userViewedNotificationPreferencesScreen(this.getUserID(), this.competitionSeasonID);
     }
 
     @Override
     protected void requestData() {
         setPreDataLoading(true);
-        setNotificationDataLoaded(false);
         getNotificationPreferenceModel();
         BusProvider.post(new NotificationRequestEvent(getUserID(),this.competitionSeasonID));
 
@@ -100,7 +142,7 @@ public class NotificationFragment extends MitooFragment {
 
     @Subscribe
     public void onNotificationModelResponse(NotificationModelResponseEvent event) {
-        getEmailNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
+        getNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
         setNotificationDataLoaded(true);
         updateView();
     }
@@ -144,12 +186,12 @@ public class NotificationFragment extends MitooFragment {
     private void setUpNotificationListData() {
 
         for (MitooEnum.NotificationCategory item : MitooEnum.NotificationCategory.values()) {
-            getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.EMAIL, getMitooActivity()));
+            getMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.EMAIL, getMitooActivity()));
 
         }
 
         for (MitooEnum.NotificationCategory item : MitooEnum.NotificationCategory.values()) {
-            getEmailMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
+            getMitooNotificationList().add(new MitooNotification(item, MitooEnum.NotificationType.PUSH, getMitooActivity()));
 
         }
 
@@ -184,35 +226,29 @@ public class NotificationFragment extends MitooFragment {
 
     private void setUpMyEmailListView(View view) {
 
-        this.emailNotificationListView = (ListView) view.findViewById(R.id.email_list_view);
-        this.emailNotificationListView.setAdapter(getEmailNotificaitonAdapter());
+        this.notificationListView = (ListView) view.findViewById(R.id.email_list_view);
+        this.notificationListView.setAdapter(getNotificaitonAdapter());
 
     }
 
-    public NotificationListAdapter getEmailNotificaitonAdapter() {
-        if (emailNotificaitonAdapter == null)
-            emailNotificaitonAdapter = new NotificationListAdapter(getActivity(),
-                    R.id.email_list_view, getEmailMitooNotificationList(), this);
-        return emailNotificaitonAdapter;
+    public NotificationListAdapter getNotificaitonAdapter() {
+        if (notificaitonAdapter == null)
+            notificaitonAdapter = new NotificationListAdapter(getActivity(),
+                    R.id.email_list_view, getMitooNotificationList(), this);
+        return notificaitonAdapter;
     }
 
-    public List<MitooNotification> getEmailMitooNotificationList() {
-        if (emailMitooNotificationList == null)
-            emailMitooNotificationList = new ArrayList<MitooNotification>();
-        return emailMitooNotificationList;
+    public List<MitooNotification> getMitooNotificationList() {
+        if (mitooNotificationList == null)
+            mitooNotificationList = new ArrayList<MitooNotification>();
+        return mitooNotificationList;
     }
 
     private void updateView() {
 
-        setRunnable(new Runnable() {
-            @Override
-            public void run() {
-                setPreDataLoading(false);
-                setPageFirstLoad(true);
-                getEmailNotificaitonAdapter().notifyDataSetChanged();
-            }
-        });
-        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
+        setPreDataLoading(false);
+        setPageFirstLoad(true);
+        getNotificaitonAdapter().notifyDataSetChanged();
 
     }
 
@@ -222,7 +258,7 @@ public class NotificationFragment extends MitooFragment {
         if (getProgressLayout() != null) {
 
             if (pageLoaded()) {
-                getEmailNotificaitonAdapter().revertToPreviousState();
+                getNotificaitonAdapter().revertToPreviousState();
                 displayTextWithToast(getString(R.string.error_no_internet));
             } else {
                 centerProgressLayout();

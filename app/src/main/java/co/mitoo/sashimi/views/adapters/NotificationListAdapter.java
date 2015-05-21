@@ -13,6 +13,7 @@ import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
 import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;
 import co.mitoo.sashimi.utils.BusProvider;
+import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.fragments.NotificationFragment;
@@ -37,11 +38,12 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = View.inflate(getContext(), R.layout.list_view_item_notification ,null);
+        if(convertView==null)
+            convertView = View.inflate(getContext(), R.layout.list_view_item_notification ,null);
         MitooNotification mitooNotification = this.getItem(position);
         setUpText(convertView, mitooNotification);
         setUpToggle(convertView, mitooNotification);
-        setUpHeaderTextView(convertView,mitooNotification);
+        setUpHeaderTextView(convertView, mitooNotification);
         return convertView;
     }
 
@@ -87,14 +89,14 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
     private void setUpToggle(View convertView, MitooNotification mitooNotification) {
 
         final MitooNotification mitooNotificationPassIn = mitooNotification;
-        CompoundButton toggle = (CompoundButton) convertView.findViewById(R.id.notification_switch);
+        final CompoundButton toggle = (CompoundButton) convertView.findViewById(R.id.notification_switch);
         setUpCheckStatus(toggle, mitooNotification);
-        toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        toggle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
+            public void onClick(View v) {
+                Boolean checked = !toggle.isChecked();
                 NotificationListAdapter.this.previousState = NotificationListAdapter.this.notificationPreferenceRecieved;
-                BusProvider.post(new NotificationUpdateEvent(getUserID(),getCompetitionSeasonID(), isChecked, mitooNotificationPassIn));
+                BusProvider.post(new NotificationUpdateEvent(getUserID(),getCompetitionSeasonID(),checked, mitooNotificationPassIn));
             }
         });
 
@@ -134,6 +136,9 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
             case LeagueResults:
                 result= group_settings.getGroup_league_results().isEmail();
                 break;
+            case RainOut:
+                result= group_settings.getGroup_league_alerts().isEmail();
+                break;
         }
         return result;
     }
@@ -152,6 +157,9 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
                 break;
             case LeagueResults:
                 result= group_settings.getGroup_league_results().isPush();
+                break;
+            case RainOut:
+                result= group_settings.getGroup_league_alerts().isPush();
                 break;
         }
         return result;

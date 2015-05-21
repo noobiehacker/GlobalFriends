@@ -276,7 +276,7 @@
     <string name="fixture_page_time">"Time "</string>
     <string name="fixture_page_no_results">This competition has no past games</string>
     <string name="fixture_page_no_up_coming_games">This competition has no upcoming games</string>
-    <string name="competition_page_league_message_prefix">League message:</string>
+    <string name="competition_page_league_message_prefix">Alert:</string>
 
     <!--Fixture Page -->
     <string name="fixture_page_result_title">RESULT</string>
@@ -295,7 +295,7 @@
     <string name="notification_page_list_item_team_results">Your results</string>
     <string name="notification_page_list_item_league_results">League results</string>
     <string name="notification_page_list_item_rival_results">Rival results</string>
-    <string name="notification_page_list_item_rain_out">'RainOut Alerts(TM)"</string>
+    <string name="notification_page_list_item_league_alert">"RainOut Alerts(TM)"</string>
     <!--Confirmation Page -->
 
     <string name="confirmation_page_button_one_text">JOIN</string>
@@ -433,7 +433,9 @@
     <string name="place_holder_price_two">$99.99</string>
     <string name="place_holder_sport">Football</string>
     <string name="place_holder_dummie_text">Dummie Text</string>
-    <string name="place_holder_color">464646</string>
+    <string name="place_holder_color_one">464646</string>
+    <string name="place_holder_color_two">FFFFFF</string>
+    <string name="place_holder_rain_out">Your rain out messages will appear here when your league makes an announcement</string>
 
     <string-array name="sports_array">
         <item>Soccer</item>

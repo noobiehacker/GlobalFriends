@@ -67,6 +67,9 @@ public class NotificationPreferenceService extends MitooService {
             case LeagueResults:
                 group_settings.getGroup_league_results().setEmail(checked);
                 break;
+            case RainOut:
+                group_settings.getGroup_league_alerts().setEmail(checked);
+                break;
         }
     }
 
@@ -84,6 +87,9 @@ public class NotificationPreferenceService extends MitooService {
                 break;
             case LeagueResults:
                 group_settings.getGroup_league_results().setPush(checked);
+                break;
+            case RainOut:
+                group_settings.getGroup_league_alerts().setPush(checked);
                 break;
         }
     }

@@ -14,6 +14,8 @@ import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BabushkaText;
 import co.mitoo.sashimi.utils.BusProvider;
@@ -355,9 +357,20 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
          *
          */
         if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE){
-            String rainOutMessage = "May the force be with you";
-            String firstColorMessage = "#F51F21";
-            String secondColorMessage = "#FF3399";
+
+            Competition competition = event.getCompetition();
+
+            String rainOutMessage = competition.getRain_out_message();
+            rainOutMessage = (rainOutMessage!=null)  ? rainOutMessage : getString(R.string.place_holder_rain_out);
+
+            League league = competition.getLeague();
+
+            String firstColorMessage =  league.getColor_1();
+            firstColorMessage = (firstColorMessage!= null) ?"#" + firstColorMessage : "#" +getString(R.string.place_holder_color_one);
+
+            String secondColorMessage = league.getColor_2();
+            secondColorMessage = (secondColorMessage!= null) ?"#" + secondColorMessage :"#" +getString(R.string.place_holder_color_two);
+
             this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
         }
         updateView();

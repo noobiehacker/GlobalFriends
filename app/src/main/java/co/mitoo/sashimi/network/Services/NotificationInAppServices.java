@@ -100,7 +100,7 @@ public class NotificationInAppServices extends MitooService {
 
                 Bundle competitionBundle = new Bundle();
                 competitionBundle.putInt(getCompetitionSeasonIdKey(), event.getFixture().getFixture().getCompetition_season_id());
-                competitionBundle.putString(getTeamColorKey(), getActivity().getString(R.string.place_holder_color));
+                competitionBundle.putString(getTeamColorKey(), getActivity().getString(R.string.place_holder_color_one));
                 FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
                         .setFragmentID(R.id.fragment_competition)
                         .setTransition(MitooEnum.FragmentTransition.PUSH)
