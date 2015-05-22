@@ -151,7 +151,7 @@ public class NotificationFragment extends MitooFragment {
     @Subscribe
     public void onNotificationModelUpdateResponse(NotificationModelUpdateResponse event){
         getNotificaitonAdapter().setNotificationPreferenceRecieved(event.getPreferenceRecieved());
-        createUpdateCompletePopUp();
+        //createUpdateCompletePopUp();
     }
 
     @Override

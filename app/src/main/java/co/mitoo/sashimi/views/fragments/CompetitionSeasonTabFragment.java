@@ -327,10 +327,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
                 RelativeLayout backgroundLayout = (RelativeLayout) borderLayout.findViewById(R.id.background_layout);
                 borderLayout.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
                 backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
-                rainOutView.setVisibility(View.VISIBLE);
             } else {
-                rainOutView.setVisibility(View.GONE);
-
+                getFixtureListView().removeHeaderView(getFixtureListView().getHeaderView());
             }
 
         }

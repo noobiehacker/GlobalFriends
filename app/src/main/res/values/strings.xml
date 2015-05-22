@@ -297,7 +297,7 @@
     <string name="notification_page_list_item_team_results">Your results</string>
     <string name="notification_page_list_item_league_results">League results</string>
     <string name="notification_page_list_item_rival_results">Rival results</string>
-    <string name="notification_page_list_item_league_alert">"RainOut Alerts \u2122"</string>
+    <string name="notification_page_list_item_league_alert">"RainOut Alerts\u2122"</string>
     <!--Confirmation Page -->
 
     <string name="confirmation_page_button_one_text">JOIN</string>

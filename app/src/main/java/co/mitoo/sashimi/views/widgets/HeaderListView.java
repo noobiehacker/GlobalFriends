@@ -1,11 +1,9 @@
 package co.mitoo.sashimi.views.widgets;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import co.mitoo.sashimi.R;
 
 /**
@@ -15,7 +13,6 @@ public class HeaderListView extends ListView {
 
     private View headerView;
     private TextView headerTextView;
-
     public HeaderListView(Context context) {
         super(context);
     }
@@ -53,18 +50,25 @@ public class HeaderListView extends ListView {
     }
 
     private void showHeaderView() {
-        if (this.headerTextView != null) {
-            this.headerTextView.setVisibility(View.VISIBLE);
-        } else if (this.headerView != null) {
-            this.headerView.setVisibility(View.VISIBLE);
-        }
+
+        setSubViewsVisibility(View.VISIBLE);
+
     }
 
     private void hideHeaderView() {
+
+        setSubViewsVisibility(View.GONE);
+
+    }
+
+    private void setSubViewsVisibility(int viewsVisibility){
+
         if (this.headerTextView != null) {
-            this.headerTextView.setVisibility(View.GONE);
-        } else if (this.headerView != null) {
-            this.headerView.setVisibility(View.GONE);
+            this.headerTextView.setVisibility(viewsVisibility);
         }
+        if (this.headerView != null) {
+            this.headerView.setVisibility(viewsVisibility);
+        }
+
     }
 }
