@@ -223,6 +223,7 @@ public class ModelManager {
         getMobileTokenModel();
         getFixtureModel();
         getNotificationInAppService();
+        getCompetitionModel();
 
     }
 

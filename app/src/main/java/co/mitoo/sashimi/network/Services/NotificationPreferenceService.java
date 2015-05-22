@@ -8,11 +8,14 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.NotificationModelResponseEvent;
+import co.mitoo.sashimi.utils.events.NotificationModelUpdateResponse;
 import co.mitoo.sashimi.utils.events.NotificationRequestEvent;
 import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
+import co.mitoo.sashimi.views.fragments.NotificationFragment;
 import retrofit.RetrofitError;
 import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by david on 15-04-07.
@@ -94,11 +97,27 @@ public class NotificationPreferenceService extends MitooService {
         }
     }
 
-    public void requestNotificationUpdate(NotificationUpdateEvent event){
+    public void requestNotificationUpdate(NotificationUpdateEvent event) {
 
         Observable<NotificationPreferenceRecieved> observable = getSteakApiService()
                 .updateNotificationPreference(event.getUserID(), event.getCompetitionSeasonID(), this.preference);
-        handleObservable(observable , NotificationPreferenceRecieved.class);
+        observable.subscribe(new Subscriber<NotificationPreferenceRecieved>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(NotificationPreferenceRecieved notificationPreferenceRecieved) {
+                NotificationPreferenceService.this.preference = (NotificationPreferenceRecieved)notificationPreferenceRecieved;
+                BusProvider.post(new NotificationModelUpdateResponse((NotificationPreferenceRecieved)notificationPreferenceRecieved));
+            }
+        });
 
     }
 

@@ -2,6 +2,7 @@ package co.mitoo.sashimi.views.fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.NotificationModelResponseEvent;
+import co.mitoo.sashimi.utils.events.NotificationModelUpdateResponse;
 import co.mitoo.sashimi.utils.events.NotificationRequestEvent;
 import co.mitoo.sashimi.views.adapters.NotificationListAdapter;
 
@@ -144,6 +146,12 @@ public class NotificationFragment extends MitooFragment {
         getNotificaitonAdapter().setNotificationPreferenceRecieved(event.getNotificationPrefReceive());
         setNotificationDataLoaded(true);
         updateView();
+    }
+
+    @Subscribe
+    public void onNotificationModelUpdateResponse(NotificationModelUpdateResponse event){
+        getNotificaitonAdapter().setNotificationPreferenceRecieved(event.getPreferenceRecieved());
+        createUpdateCompletePopUp();
     }
 
     @Override
@@ -285,4 +293,15 @@ public class NotificationFragment extends MitooFragment {
     public int getUserID(){
         return super.getUserID();
     }
+
+
+    private void createUpdateCompletePopUp(){
+
+        displayTextWithDialog(getString(R.string.prompt_success_title),
+                getString(R.string.prompt_settings_updated),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }});
+    }
+
 }

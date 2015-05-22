@@ -16,8 +16,8 @@ android {
         applicationId "co.mitoo.sashimi"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 14
-        versionName "1.2.3"
+        versionCode 15
+        versionName "1.2.4"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         multiDexEnabled true
 
@@ -161,6 +161,10 @@ dependencies {
         exclude module : 'jersey'
         exclude module : 'jersey-core'
     }
+
+    //ALERT PRO
+    //compile 'com.github.fengdai:alertdialogpro-theme-material:0.2.3'
+
 
     // KeenIO
     compile 'io.keen:keen-client-api-android:2.1.1@aar'

@@ -25,10 +25,16 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
+import co.mitoo.sashimi.utils.events.CompetitionNotificationUpdateResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonTabRefreshEvent;
+import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
+import co.mitoo.sashimi.utils.events.FixtureNotificationUpdateResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
+import co.mitoo.sashimi.utils.events.TeamServiceDataClearEvent;
 import co.mitoo.sashimi.views.adapters.MitooTabAdapter;
 import co.mitoo.sashimi.views.widgets.MitooMaterialsTab;
 import co.mitoo.sashimi.views.widgets.MitooTab;
@@ -65,6 +71,20 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         CompetitionSeasonFragment fragment = new CompetitionSeasonFragment();
         return fragment;
 
+    }
+
+    @Subscribe
+    public void onNotificationRecieve(CompetitionNotificationUpdateResponseEvent event) {
+
+        Competition competition =event.getCompetition();
+        this.competitionSeasonID = competition.getId();
+        this.leagueColor=  competition.getLeague().getColor_1();
+        this.fragmentTitle = competition.getName();
+        onFragmentAnimationFinish();
+
+        BusProvider.post(new TeamServiceDataClearEvent());
+        BusProvider.post(new FixtureDataClearEvent());
+        BusProvider.post(new CompetitionSeasonTabRefreshEvent(this.competitionSeasonID));
     }
 
     @Override
@@ -162,7 +182,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
         int id = CompetitionSeasonFragment.this.competitionSeasonID;
         BusProvider.post(new CompetitionSeasonReqByCompAndUserID(id, getUserID()));
         getAdapter().notifyDataSetChanged();
-
     }
 
     @Override
@@ -448,6 +467,12 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     @Override
     public void onDestroyView() {
+
+        removeReferencesForTabs();
+        super.onDestroyView();
+    }
+
+    private void removeReferencesForTabs(){
         if (getMaterialsTabContainer() != null) {
 
             getAdapter().getFragmentManager().beginTransaction().remove(getAdapter().getItem(0)).commitAllowingStateLoss();
@@ -463,7 +488,6 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             this.adapter = null;
             System.gc();
         }
-        super.onDestroyView();
     }
 
 

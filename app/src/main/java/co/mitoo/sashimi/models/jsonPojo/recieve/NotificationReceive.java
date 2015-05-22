@@ -1,6 +1,7 @@
 package co.mitoo.sashimi.models.jsonPojo.recieve;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonRootName;
@@ -43,9 +44,11 @@ public class NotificationReceive {
     }
 
     public NotificationReceive(Bundle bundle) {
+
         setObj_id(bundle.getString(StaticString.notificationObjID));
         setObj_type(bundle.getString(StaticString.notificationObjType));
         setMitoo_action(bundle.getString(StaticString.notificationMitooAction));
+
     }
 
     public NotificationReceive() {

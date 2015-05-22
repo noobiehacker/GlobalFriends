@@ -1,12 +1,14 @@
 package co.mitoo.sashimi.views.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Invitation_token;
+import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -19,6 +21,7 @@ import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataDeletedEvent;
 import co.mitoo.sashimi.utils.events.ModelPersistedDataLoadedEvent;
+import co.mitoo.sashimi.utils.events.NotificationEvent;
 
 /**
  * Created by david on 14-11-05.
@@ -96,14 +99,21 @@ public class SplashScreenFragment extends MitooFragment {
 
     private void loadFirstFragment() {
 
-        if(!getMitooActivity().getMitooApplication().getEventQueue().isEmpty()){
-            BusProvider.post(new ConsumeNotificationEvent());
-        }
-        else if(recievedBranchIOResponse() && recievedPersistedDataResponse()){
-            if(isInviteFlow())
-                startInviteFlow();
-            else
-                startRegularFlow();
+        if (recievedBranchIOResponse() && recievedPersistedDataResponse()) {
+
+            NotificationReceive notificationReceive = getMitooActivity().getMitooApplication().getNotificationReceive();
+            //NOTIFICATION FLOW
+            if (notificationReceive!= null) {
+                BusProvider.post(new NotificationEvent(notificationReceive));
+                getMitooActivity().getMitooApplication().setNotificationReceive(null);
+            } else{
+                //REGULAR FLOW
+                if (isInviteFlow())
+                    startInviteFlow();
+                else
+                    startRegularFlow();
+            }
+
         }
 
     }

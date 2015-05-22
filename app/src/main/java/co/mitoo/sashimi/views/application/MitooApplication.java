@@ -8,6 +8,7 @@ import com.urbanairship.UAirship;
 import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
 import co.mitoo.sashimi.BuildConfig;
+import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import io.keen.client.java.KeenClient;
 import io.keen.client.android.AndroidKeenClientBuilder;
 import io.keen.client.java.KeenLogging;
@@ -39,6 +40,7 @@ public class MitooApplication extends Application{
     private ModelManager modelManager;
     private boolean persistedDataLoaded = false;
     private Queue<Object> eventQueue;
+    private NotificationReceive notificationReceive;
 
     @Override
     public void onCreate() {
@@ -141,5 +143,13 @@ public class MitooApplication extends Application{
 
     public Queue<Object> getEventQueue() {
         return eventQueue;
+    }
+
+    public NotificationReceive getNotificationReceive() {
+        return notificationReceive;
+    }
+
+    public void setNotificationReceive(NotificationReceive notificationReceive) {
+        this.notificationReceive = notificationReceive;
     }
 }

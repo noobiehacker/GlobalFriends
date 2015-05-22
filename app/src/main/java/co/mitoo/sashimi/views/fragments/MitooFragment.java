@@ -1,6 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -18,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -53,7 +49,6 @@ import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.utils.events.LeagueRequestFromIDEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
@@ -283,6 +278,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     public void displayTextWithDialog(String title, String message , DialogInterface.OnClickListener listenner){
 
+        //TODO: REFACTORED TO USE PRO AND FIGURE OUT THEMEING OPTIONS
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title)
                .setMessage(message)
@@ -716,9 +712,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void startRegularFlow(){
 
-        SessionRecieve session = getSessionModel().getSession();
-        if (session != null) {
-            getMitooActivity().updateAuthToken(session.auth_token);
+        if (getSessionModel()!=null && getSessionModel().getSession() != null) {
+            getMitooActivity().updateAuthToken(getSessionModel().getSession().auth_token);
             routeToHome();
         }
         else{
@@ -852,4 +847,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected String getSecondRainOutColorKey(){
         return getString(R.string.bundle_key_second_color_key);
     }
+
+
 }

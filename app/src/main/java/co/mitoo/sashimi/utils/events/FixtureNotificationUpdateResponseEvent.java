@@ -5,11 +5,11 @@ import co.mitoo.sashimi.models.FixtureModel;
 /**
  * Created by david on 15-04-09.
  */
-public class NotificationUpdateResponseEvent {
+public class FixtureNotificationUpdateResponseEvent {
 
     private FixtureModel fixtureModel;
 
-    public NotificationUpdateResponseEvent(FixtureModel fixtureModel) {
+    public FixtureNotificationUpdateResponseEvent(FixtureModel fixtureModel) {
         this.fixtureModel = fixtureModel;
     }
 

@@ -88,4 +88,8 @@ public class MitooEnum {
     public enum ConfirmFlow {
         SIGNUP, INVITE
     }
+
+    public enum RoutingDestination {
+        FIXTURE, COMPETITIONSEASON
+    }
 }

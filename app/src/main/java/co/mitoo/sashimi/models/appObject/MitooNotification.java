@@ -70,4 +70,15 @@ public class MitooNotification {
             return true;
         return false;
     }
+
+    public boolean equals(MitooNotification anotherNotification){
+
+        boolean result = false;
+        if(anotherNotification!=null){
+            result = this.getNotificationType() == anotherNotification.getNotificationType();
+            result = result && this.getNotificationCategory() == anotherNotification.getNotificationCategory();
+        }
+        return result;
+
+    }
 }

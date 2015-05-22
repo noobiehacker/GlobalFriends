@@ -1,11 +1,15 @@
 package co.mitoo.sashimi.views.adapters;
+
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
 import java.util.List;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
@@ -17,7 +21,9 @@ import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.fragments.NotificationFragment;
+
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
 /**
  * Created by david on 15-03-12.
  */
@@ -25,11 +31,14 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
 
     private NotificationFragment fragment;
-    private MitooEnum.NotificationType notificationType ;
+    private MitooEnum.NotificationType notificationType;
     private NotificationPreferenceRecieved notificationPreferenceRecieved;
     private NotificationPreferenceRecieved previousState;
+    private MitooNotification lastNotificationTouched;
+    private boolean lastCheckStatus;
+    //WORK AROUND TO STOP EVENT FROM FIRING TWICE
 
-    public NotificationListAdapter(Context context, int resourceId, List<MitooNotification> objects, NotificationFragment fragment){
+    public NotificationListAdapter(Context context, int resourceId, List<MitooNotification> objects, NotificationFragment fragment) {
         super(context, resourceId, objects);
         setNotificationType(getNotificationTypeFromList(objects));
         setFragment(fragment);
@@ -38,8 +47,7 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(convertView==null)
-            convertView = View.inflate(getContext(), R.layout.list_view_item_notification ,null);
+        convertView = View.inflate(getContext(), R.layout.list_view_item_notification, null);
         MitooNotification mitooNotification = this.getItem(position);
         setUpText(convertView, mitooNotification);
         setUpToggle(convertView, mitooNotification);
@@ -47,24 +55,23 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         return convertView;
     }
 
-    private void setUpHeaderTextView(View convertView ,MitooNotification mitooNotification ){
+    private void setUpHeaderTextView(View convertView, MitooNotification mitooNotification) {
 
         View headerContainer = convertView.findViewById(R.id.header_container_view);
 
-        if(mitooNotification.isHeaderObject()){
+        if (mitooNotification.isHeaderObject()) {
             TextView headerTextView = (TextView) headerContainer.findViewById(R.id.header_view);
             String headerText = createHeaderText(mitooNotification.getNotificationType());
             headerTextView.setText(headerText);
             headerContainer.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             headerContainer.setVisibility(View.GONE);
         }
 
     }
 
-    private String createHeaderText(MitooEnum.NotificationType notificationType){
-        if(notificationType== MitooEnum.NotificationType.EMAIL)
+    private String createHeaderText(MitooEnum.NotificationType notificationType) {
+        if (notificationType == MitooEnum.NotificationType.EMAIL)
             return getFragment().getString(R.string.notification_page_email_list_title);
         else
             return getFragment().getString(R.string.notification_page_push_list_title);
@@ -78,108 +85,130 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         this.fragment = fragment;
     }
 
-    private void setUpText(View convertView, MitooNotification mitooNotification){
+    private void setUpText(View convertView, MitooNotification mitooNotification) {
 
         TextView notificationTextView = (TextView) convertView.findViewById(R.id.list_item_text_view);
-        String notificationText =mitooNotification.getNotificationText();
+        String notificationText = mitooNotification.getNotificationText();
         notificationTextView.setText(notificationText);
 
     }
 
-    private void setUpToggle(View convertView, MitooNotification mitooNotification) {
+    private void setUpToggle(View convertView, final MitooNotification mitooNotification) {
 
         final MitooNotification mitooNotificationPassIn = mitooNotification;
         final CompoundButton toggle = (CompoundButton) convertView.findViewById(R.id.notification_switch);
         setUpCheckStatus(toggle, mitooNotification);
-        toggle.setOnClickListener(new View.OnClickListener() {
+        toggle.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                Boolean checked = !toggle.isChecked();
-                NotificationListAdapter.this.previousState = NotificationListAdapter.this.notificationPreferenceRecieved;
-                BusProvider.post(new NotificationUpdateEvent(getUserID(),getCompetitionSeasonID(),checked, mitooNotificationPassIn));
+            public boolean onTouch(View v, MotionEvent event) {
+                if(triggerTouchEvent(toggle, mitooNotification)){
+                    NotificationListAdapter.this.lastCheckStatus= toggle.isChecked();
+                    NotificationListAdapter.this.lastNotificationTouched = mitooNotificationPassIn;
+                    NotificationListAdapter.this.previousState = NotificationListAdapter.this.notificationPreferenceRecieved;
+                    BusProvider.post(new NotificationUpdateEvent(getUserID(), getCompetitionSeasonID(), !toggle.isChecked(), mitooNotificationPassIn));
+                }
+                return false;
             }
         });
 
+        /*
+        toggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                NotificationListAdapter.this.previousState = NotificationListAdapter.this.notificationPreferenceRecieved;
+                BusProvider.post(new NotificationUpdateEvent(getUserID(), getCompetitionSeasonID(), isChecked, mitooNotificationPassIn));
+
+            }
+        });*/
+
     }
 
-    private void setUpCheckStatus(CompoundButton toggle ,MitooNotification mitooNotification){
+    private boolean triggerTouchEvent(CompoundButton toggle, final MitooNotification notification){
+        return this.lastNotificationTouched== null ||
+                !notification.equals(this.lastNotificationTouched)||
+                (this.lastCheckStatus !=toggle.isChecked()) && (notification.equals(this.lastNotificationTouched));
+    }
 
-        if(this.notificationPreferenceRecieved!=null){
+    private void setUpCheckStatus(CompoundButton toggle, MitooNotification mitooNotification) {
+
+        if (this.notificationPreferenceRecieved != null) {
             boolean switchStatus = getNotificaitonCheckStatus(this.notificationPreferenceRecieved, mitooNotification);
-            toggle.setChecked(switchStatus);
+            if (toggle.isChecked() != switchStatus)
+                toggle.setChecked(switchStatus);
         }
     }
 
     private boolean getNotificaitonCheckStatus(NotificationPreferenceRecieved prefReceive, MitooNotification mitooNotification) {
         boolean result = false;
 
-        if(mitooNotification.getNotificationType()== MitooEnum.NotificationType.EMAIL)
+        if (mitooNotification.getNotificationType() == MitooEnum.NotificationType.EMAIL)
             result = getEmailCheckStatus(prefReceive, mitooNotification);
-        else if(mitooNotification.getNotificationType()== MitooEnum.NotificationType.PUSH)
+        else if (mitooNotification.getNotificationType() == MitooEnum.NotificationType.PUSH)
             result = getPushCheckStatus(prefReceive, mitooNotification);
 
         return result;
     }
 
-    private boolean getEmailCheckStatus(NotificationPreferenceRecieved prefReceive, MitooNotification mitooNotification){
+    private boolean getEmailCheckStatus(NotificationPreferenceRecieved prefReceive, MitooNotification mitooNotification) {
 
         boolean result = false;
 
         group_settings group_settings = prefReceive.getGroup_settings();
-        switch(mitooNotification.getNotificationCategory()){
+        switch (mitooNotification.getNotificationCategory()) {
             case TeamGames:
-                result= group_settings.getGroup_team_games().isEmail();
+                result = group_settings.getGroup_team_games().isEmail();
                 break;
             case TeamResults:
-                result= group_settings.getGroup_team_results().isEmail();
+                result = group_settings.getGroup_team_results().isEmail();
                 break;
             case LeagueResults:
-                result= group_settings.getGroup_league_results().isEmail();
+                result = group_settings.getGroup_league_results().isEmail();
                 break;
             case RainOut:
-                result= group_settings.getGroup_league_alerts().isEmail();
+                result = group_settings.getGroup_league_alerts().isEmail();
                 break;
         }
         return result;
     }
 
-    private boolean getPushCheckStatus(NotificationPreferenceRecieved prefReceive, MitooNotification mitooNotification){
+    private boolean getPushCheckStatus(NotificationPreferenceRecieved prefReceive, MitooNotification mitooNotification) {
 
         boolean result = false;
 
         group_settings group_settings = prefReceive.getGroup_settings();
-        switch(mitooNotification.getNotificationCategory()){
+        switch (mitooNotification.getNotificationCategory()) {
             case TeamGames:
-                result= group_settings.getGroup_team_games().isPush();
+                result = group_settings.getGroup_team_games().isPush();
                 break;
             case TeamResults:
-                result= group_settings.getGroup_team_results().isPush();
+                result = group_settings.getGroup_team_results().isPush();
                 break;
             case LeagueResults:
-                result= group_settings.getGroup_league_results().isPush();
+                result = group_settings.getGroup_league_results().isPush();
                 break;
             case RainOut:
-                result= group_settings.getGroup_league_alerts().isPush();
+                result = group_settings.getGroup_league_alerts().isPush();
                 break;
         }
         return result;
     }
 
-    private NotificationPreferenceService getNotificationModel(){
+    private NotificationPreferenceService getNotificationModel() {
 
         return getFragment().getMitooActivity().getModelManager().getNotificationPreferenceModel();
     }
 
 
-    public void revertToPreviousState(){
+    public void revertToPreviousState() {
         this.notificationPreferenceRecieved = this.previousState;
         this.notifyDataSetChanged();
     }
 
-    public MitooEnum.NotificationType getNotificationTypeFromList(List<MitooNotification> objects){
+    public MitooEnum.NotificationType getNotificationTypeFromList(List<MitooNotification> objects) {
 
         MitooEnum.NotificationType result = MitooEnum.NotificationType.PUSH;
-        if(objects!=null && !objects.isEmpty()){
+        if (objects != null && !objects.isEmpty()) {
             MitooNotification notification = objects.get(0);
             result = notification.getNotificationType();
         }
@@ -195,11 +224,11 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
         this.notificationPreferenceRecieved = notificationPreferenceRecieved;
     }
 
-    private int getUserID(){
+    private int getUserID() {
         return this.fragment.getUserID();
     }
 
-    private int getCompetitionSeasonID(){
+    private int getCompetitionSeasonID() {
         return this.fragment.getCompetitionSeasonID();
     }
 }

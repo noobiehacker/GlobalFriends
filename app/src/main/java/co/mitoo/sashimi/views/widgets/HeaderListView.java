@@ -40,7 +40,7 @@ public class HeaderListView extends ListView {
         return headerView;
     }
 
-    public void setHeaderVisibility(int visibility){
+    public void setHeaderVisibility(int visibility) {
         switch (visibility) {
             case View.GONE:
             case View.INVISIBLE:
@@ -55,11 +55,16 @@ public class HeaderListView extends ListView {
     private void showHeaderView() {
         if (this.headerTextView != null) {
             this.headerTextView.setVisibility(View.VISIBLE);
+        } else if (this.headerView != null) {
+            this.headerView.setVisibility(View.VISIBLE);
         }
     }
 
     private void hideHeaderView() {
-        if (this.headerTextView != null)
+        if (this.headerTextView != null) {
             this.headerTextView.setVisibility(View.GONE);
+        } else if (this.headerView != null) {
+            this.headerView.setVisibility(View.GONE);
+        }
     }
 }

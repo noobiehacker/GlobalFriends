@@ -213,6 +213,8 @@
     <string name="prompt_confirm_409_Message">Your account has been confirmed.</string>
     <string name="prompt_confirm_401_title">Link Expired</string>
     <string name="prompt_confirm_401_Message">Sorry, this link has expired.</string>
+    <string name="prompt_success_title">Success</string>
+    <string name="prompt_settings_updated">Your notification settings has been updated</string>
     <string name="prompt_yes">Yes</string>
     <string name="prompt_no">No</string>
     <string name="prompt_ok">OK</string>
@@ -276,7 +278,7 @@
     <string name="fixture_page_time">"Time "</string>
     <string name="fixture_page_no_results">This competition has no past games</string>
     <string name="fixture_page_no_up_coming_games">This competition has no upcoming games</string>
-    <string name="competition_page_league_message_prefix">Alert:</string>
+    <string name="competition_page_league_message_prefix">"Alert: "</string>
 
     <!--Fixture Page -->
     <string name="fixture_page_result_title">RESULT</string>
@@ -295,7 +297,7 @@
     <string name="notification_page_list_item_team_results">Your results</string>
     <string name="notification_page_list_item_league_results">League results</string>
     <string name="notification_page_list_item_rival_results">Rival results</string>
-    <string name="notification_page_list_item_league_alert">"RainOut Alerts(TM)"</string>
+    <string name="notification_page_list_item_league_alert">"RainOut Alerts \u2122"</string>
     <!--Confirmation Page -->
 
     <string name="confirmation_page_button_one_text">JOIN</string>
@@ -345,6 +347,8 @@
     <string name="mitoo_faq_url">http://docs.mitoo.co?mobile-app=true</string>
     <string name="mitoo_play_store_url_prefix">https://play.google.com/store/apps/details?id=</string>
     <string name="mitoo_play_store_market_prefix">market://details?id=</string>
+    <string name="mitoo_notification_fixture">fixture</string>
+    <string name="mitoo_notification_competition">competition_season</string>
 
     <!--Font Path -->
     <string name="DIN_Regular_Italic">fonts/din_comp_ita.ttf</string>

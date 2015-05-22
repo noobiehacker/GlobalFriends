@@ -25,7 +25,7 @@ public class Competition  implements Serializable {
     private String reg_close_date;
     private League league;
     private location location;
-    private String rain_out_message;
+    private rain_out_message rain_out_message;
 
     public int getId() {
         return id;
@@ -156,12 +156,12 @@ public class Competition  implements Serializable {
         this.league = league;
     }
 
-    public void setRain_out_message(String rain_out_message) {
-        this.rain_out_message = rain_out_message;
+    public rain_out_message getRain_out_message() {
+        return rain_out_message;
     }
 
-    public String getRain_out_message() {
-        return rain_out_message;
+    public void setRain_out_message(rain_out_message rain_out_message) {
+        this.rain_out_message = rain_out_message;
     }
 }
 

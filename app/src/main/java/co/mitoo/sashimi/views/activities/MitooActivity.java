@@ -31,7 +31,6 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -42,7 +41,6 @@ import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.network.ServiceBuilder;
-import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.AppStringHelper;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
@@ -56,20 +54,14 @@ import co.mitoo.sashimi.utils.events.BranchIOResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmInfoResponseEvent;
 import co.mitoo.sashimi.utils.events.ConfirmingUserRequestEvent;
 import co.mitoo.sashimi.utils.events.ConsumeNotificationEvent;
-import co.mitoo.sashimi.utils.events.FixtureNotificaitonRequestEvent;
-import co.mitoo.sashimi.utils.events.FixtureNotificationResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MobileTokenDisassociateRequestEvent;
-import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
 import co.mitoo.sashimi.views.application.MitooApplication;
 import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
 import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
-import co.mitoo.sashimi.utils.events.NotificationEvent;
-import co.mitoo.sashimi.views.fragments.FixtureFragment;
-import co.mitoo.sashimi.views.fragments.HomeFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -94,6 +86,8 @@ public class MitooActivity extends ActionBarActivity {
     private Branch.BranchReferralInitListener branchReferralInitListener;
     private static boolean confirmFlowFired = false;
     private String authToken;
+    private boolean notifcationRetrieved = false;
+    private boolean onResumeCalled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +109,6 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     public void onPause() {
         tearDownReferences();
-
         // This causes queued Keen events to be sent (async) to Keen
         KeenClient.client().sendQueuedEventsAsync();
         onSaveInstanceState(new Bundle());
@@ -145,8 +138,12 @@ public class MitooActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        this.onResumeCalled = true;
         getBranch().initSession(getBranchReferralInitListener(), getIntent().getData(), this);
-        BusProvider.post(new ConsumeNotificationEvent());
+        if(this.notifcationRetrieved){
+            consumeEventsInQueue();
+        }
+
     }
 
     @Override
@@ -172,13 +169,37 @@ public class MitooActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    @Subscribe
+    public void onConsumeNotifcationEvent(ConsumeNotificationEvent event){
+        this.notifcationRetrieved = true;
+        consumeEventsInQueue();
+    }
+
+    public void consumeEventsInQueue() {
+
+        if (this.notifcationRetrieved == true &&
+                this.onResumeCalled == true &&
+                getModelManager().getSessionModel().userIsLoggedIn()) {
+
+            this.notifcationRetrieved= false;
+            if (!getEventQueue().isEmpty())
+                popAllFragments();
+            while (!getEventQueue().isEmpty()) {
+                BusProvider.post(getEventQueue().poll());
+            }
+        }
 
     }
 
+    private Queue<Object> getEventQueue(){
+        MitooApplication application = (MitooApplication) getApplication();
+        return application.getEventQueue();
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -200,8 +221,7 @@ public class MitooActivity extends ActionBarActivity {
 
         Bundle extra = getIntent().getBundleExtra(MitooNotificationIntentReceiver.bundleKey);
         if (extra != null) {
-            NotificationReceive notificationReceive = new NotificationReceive(extra);
-            BusProvider.post(new NotificationEvent(notificationReceive));
+            getMitooApplication().setNotificationReceive(new NotificationReceive(extra));
             getIntent().removeExtra(MitooNotificationIntentReceiver.bundleKey);
         }
 
@@ -586,6 +606,7 @@ public class MitooActivity extends ActionBarActivity {
 
     public void tearDownReferences() {
 
+        this.onResumeCalled = false;
         handleCallBacks();
 
     }

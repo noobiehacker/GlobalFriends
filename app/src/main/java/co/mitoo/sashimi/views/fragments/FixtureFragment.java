@@ -21,7 +21,6 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.services.EventTrackingService;
@@ -34,9 +33,9 @@ import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureModelIndividualResponse;
+import co.mitoo.sashimi.utils.events.FixtureNotificationUpdateResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.events.NotificationUpdateResponseEvent;
-import co.mitoo.sashimi.utils.RainOut;
+import co.mitoo.sashimi.utils.RainOutModel;
 import co.mitoo.sashimi.utils.events.TeamIndividualRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamIndividualResponseEvent;
 
@@ -64,7 +63,7 @@ public class FixtureFragment extends MitooFragment {
     private String rainOutMessage;
     private String firstRainOutColor;
     private String secondRainOutColor;
-    private RainOut rainOut;
+    private RainOutModel rainOutModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,7 @@ public class FixtureFragment extends MitooFragment {
     }
 
     @Subscribe
-    public void onNotificationRecieve(NotificationUpdateResponseEvent event) {
+    public void onNotificationRecieve(FixtureNotificationUpdateResponseEvent event) {
         this.fixtureModel = event.getFixtureModel();
         this.fixtureID = this.fixtureModel.getFixture().getId();
         this.competitionSeasonID = this.fixtureModel.getFixture().getCompetition_season_id();
@@ -236,34 +235,25 @@ public class FixtureFragment extends MitooFragment {
 
     @Subscribe
     public void onCompetitionResponse(CompetitionSeasonResponseEvent event) {
+
         this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
         updateToolbar();
         Competition competition = event.getCompetition();
-
-        String rainOutMessage = competition.getRain_out_message();
-        rainOutMessage = (rainOutMessage!=null)  ? rainOutMessage : getString(R.string.place_holder_rain_out);
-
-        League league = competition.getLeague();
-
-        String firstColorMessage =  league.getColor_1();
-        firstColorMessage = (firstColorMessage!= null) ?"#" + firstColorMessage : "#" +getString(R.string.place_holder_color_one);
-
-        String secondColorMessage = league.getColor_2();
-        secondColorMessage = (secondColorMessage!= null) ?"#" + secondColorMessage :"#" +getString(R.string.place_holder_color_two);
-
-        this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
+        RainOutModel model = new RainOutModel(competition.getRain_out_message());
+        this.rainOutModel = model;
+        updateViews();
 
     }
 
     private void updateViews() {
 
-        if (this.viewLoaded && this.fixtureModel != null && teamNamesAreReady()) {
+        if (this.rainOutModel !=null && this.viewLoaded && this.fixtureModel != null && teamNamesAreReady()) {
             setUpAllTextViews();
             showAndHideLogic(getRootView());
             setUpMap();
             updateToolbar();
             setPreDataLoading(false);
-            updateRainOutView(this.rainOut);
+            updateRainOutView(this.rainOutModel);
 
         }
 
@@ -477,16 +467,17 @@ public class FixtureFragment extends MitooFragment {
         }
     }
 
-    public void updateRainOutView(RainOut event) {
+    public void updateRainOutView(RainOutModel event) {
 
-        if(this.rainOutView!=null){
-            this.rainOutMessage = event.getRainOutMessage();
-            this.firstRainOutColor = event.getFirstColor();
-            this.secondRainOutColor = event.getSecondColor();
+        if(this.rainOutView!=null &&this.rainOutModel.getRainOutMessage()!=null){
+
+            this.rainOutMessage = this.rainOutModel.getRainOutMessage().getMessage();
+            this.firstRainOutColor = parseRainOutColor(this.rainOutModel.getRainOutMessage().getColor());
+            this.secondRainOutColor = "#" + getString(R.string.place_holder_color_two);
 
             //CUSTOMIZE TEXT
 
-            BabushkaText text = (BabushkaText) this.rainOutView.findViewById(R.id.leagueMessage);
+            BabushkaText text = (BabushkaText)rainOutView.findViewById(R.id.leagueMessage);
             text.reset();
             text.addPiece(new BabushkaText.Piece.Builder(getString(R.string.competition_page_league_message_prefix))
                     .textColor(Color.parseColor(this.firstRainOutColor))
@@ -499,11 +490,32 @@ public class FixtureFragment extends MitooFragment {
 
             //CUSTOMIZE Background Color
 
-            RelativeLayout backgroundLayout = (RelativeLayout) this.rainOutView.findViewById(R.id.background_layout);
+            RelativeLayout borderLayout  = (RelativeLayout)rainOutView.findViewById(R.id.rain_out_view);
+            RelativeLayout backgroundLayout = (RelativeLayout)borderLayout.findViewById(R.id.background_layout);
+            borderLayout.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
             backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
-            this.rainOutView.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
             this.rainOutView.setVisibility(View.VISIBLE);
+        }else{
+            this.rainOutView.setVisibility(View.GONE);
+
         }
 
+    }
+
+    private String parseRainOutColor(String color) {
+
+        String returnColor =color;
+        if (color != null) {
+
+            if (color.length() == 7)
+                returnColor = color;
+            else if (color.length() == 6)
+                returnColor =  "#" + color;
+
+        } else {
+            returnColor =  "#" + getString(R.string.place_holder_color_one);
+
+        }
+        return returnColor;
     }
 }

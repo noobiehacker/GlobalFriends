@@ -1,4 +1,5 @@
 package co.mitoo.sashimi.views.fragments;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -8,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
@@ -21,12 +24,15 @@ import co.mitoo.sashimi.utils.BabushkaText;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
+import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonTabRefreshEvent;
+import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
 import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
-import co.mitoo.sashimi.utils.RainOut;
+import co.mitoo.sashimi.utils.RainOutModel;
 import co.mitoo.sashimi.utils.events.TeamListRequestEvent;
 import co.mitoo.sashimi.utils.events.TeamListResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -54,7 +60,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private String rainOutMessage;
     private String firstRainOutColor;
     private String secondRainOutColor;
-    private RainOut rainOut;
+    private RainOutModel rainOutModel;
 
     @Override
     public void onClick(View v) {
@@ -81,10 +87,9 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     @Override
     protected void handleHttpErrors(int statusCode) {
 
-        if (statusCode == 404){
+        if (statusCode == 404) {
             //DO NOTHING
-        }
-        else
+        } else
             super.handleHttpErrors(statusCode);
     }
 
@@ -101,7 +106,6 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             setTabType(this.tabIndex);
         } else {
             this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
-
         }
 
     }
@@ -114,7 +118,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (allDataLoaded()==false){
+        if (allDataLoaded() == false) {
             requestData();
         }
         updateView();
@@ -147,12 +151,19 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         setNoResultsTextView((TextView) view.findViewById(R.id.noFixturesTextView));
         setFixtureListView((HeaderListView) view.findViewById(R.id.fixture_list_view));
-        if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+        if (this.getTabType() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
             setUpRainOutHeader(getFixtureListView());
-        if(allDataLoaded()==false)
+        if (allDataLoaded() == false)
             setPreDataLoading(true);
         this.viewLoaded = true;
         updateView();
+    }
+
+    @Subscribe
+    public void onCompetitionSeasonRefresh(CompetitionSeasonTabRefreshEvent event) {
+        this.competitionSeasonID = event.getCompetitionSeasonID();
+        requestData();
+
     }
 
     private void updateView() {
@@ -160,20 +171,20 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         if (allDataLoaded()) {
             getFixtureListView().setAdapter(getFixtureListAdapter());
             setUpNoResultsView();
-            updateRainOut(this.rainOut);
+            updateRainOut(this.rainOutModel);
             setPreDataLoading(false);
         }
     }
 
-    private boolean allDataLoaded(){
+    private boolean allDataLoaded() {
 
         boolean rainOutDataReady = true;
-        switch (getTabType()){
+        switch (getTabType()) {
             case FIXTURE_RESULT:
                 rainOutDataReady = true;
                 break;
             case FIXTURE_SCHEDULE:
-                rainOutDataReady = this.rainOut !=null;
+                rainOutDataReady = this.rainOutModel != null;
                 break;
         }
         return fixtureListRecieved() && this.viewLoaded && teamDataLoaded() && (rainOutDataReady);
@@ -283,38 +294,64 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     }
 
-    public void updateRainOut(RainOut event) {
+    public void updateRainOut(RainOutModel event) {
 
-        if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE &&
-                getFixtureListView()!= null &&
-                getFixtureListView().getHeaderView()!=null){
+        if (this.getTabType() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE &&
+                getFixtureListView() != null &&
+                getFixtureListView().getHeaderView() != null) {
 
             View rainOutView = getFixtureListView().getHeaderView();
-            this.rainOutMessage = event.getRainOutMessage();
-            this.firstRainOutColor = event.getFirstColor();
-            this.secondRainOutColor = event.getSecondColor();
 
-            //CUSTOMIZE TEXT
+            if (this.rainOutModel.getRainOutMessage() != null) {
 
-            BabushkaText text = (BabushkaText)rainOutView.findViewById(R.id.leagueMessage);
-            text.reset();
-            text.addPiece(new BabushkaText.Piece.Builder(getString(R.string.competition_page_league_message_prefix))
-                    .textColor(Color.parseColor(this.firstRainOutColor))
-                    .style(Typeface.BOLD)
-                    .build());
-            text.addPiece(new BabushkaText.Piece.Builder(this.rainOutMessage)
-                    .textColor(Color.parseColor(this.firstRainOutColor))
-                    .build());
-            text.display();
+                this.rainOutMessage = this.rainOutModel.getRainOutMessage().getMessage();
+                this.firstRainOutColor = parseRainOutColor(this.rainOutModel.getRainOutMessage().getColor());
+                this.secondRainOutColor = "#" + getString(R.string.place_holder_color_two);
 
-            //CUSTOMIZE Background Color
+                //CUSTOMIZE TEXT
 
-            RelativeLayout borderLayout  = (RelativeLayout)rainOutView.findViewById(R.id.rain_out_view);
-            RelativeLayout backgroundLayout = (RelativeLayout)borderLayout.findViewById(R.id.background_layout);
-            borderLayout.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
-            backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
+                BabushkaText text = (BabushkaText) rainOutView.findViewById(R.id.leagueMessage);
+                text.reset();
+                text.addPiece(new BabushkaText.Piece.Builder(getString(R.string.competition_page_league_message_prefix))
+                        .textColor(Color.parseColor(this.firstRainOutColor))
+                        .style(Typeface.BOLD)
+                        .build());
+                text.addPiece(new BabushkaText.Piece.Builder(this.rainOutMessage)
+                        .textColor(Color.parseColor(this.firstRainOutColor))
+                        .build());
+                text.display();
+
+                //CUSTOMIZE Background Color
+
+                RelativeLayout borderLayout = (RelativeLayout) rainOutView.findViewById(R.id.rain_out_view);
+                RelativeLayout backgroundLayout = (RelativeLayout) borderLayout.findViewById(R.id.background_layout);
+                borderLayout.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
+                backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
+                rainOutView.setVisibility(View.VISIBLE);
+            } else {
+                rainOutView.setVisibility(View.GONE);
+
+            }
+
         }
 
+    }
+
+    private String parseRainOutColor(String color) {
+
+        String returnColor =color;
+        if (color != null) {
+
+            if (color.length() == 7)
+                returnColor = color;
+            else if (color.length() == 6)
+                returnColor =  "#" + color;
+
+        } else {
+            returnColor =  "#" + getString(R.string.place_holder_color_one);
+
+        }
+        return returnColor;
     }
 
     private boolean fixtureListRecieved() {
@@ -340,7 +377,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         return this.teams != null;
     }
 
-    private void setUpRainOutHeader(HeaderListView listView){
+    private void setUpRainOutHeader(HeaderListView listView) {
 
         View headerView = getViewHelper().createViewFromInflator(R.layout.view_rainout_header);
         listView.setHeaderView(headerView);
@@ -356,24 +393,14 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
          *Hard Coding, change later
          *
          */
-        if(this.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE){
+        if (this.getTabType() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE) {
 
             Competition competition = event.getCompetition();
 
-            String rainOutMessage = competition.getRain_out_message();
-            rainOutMessage = (rainOutMessage!=null)  ? rainOutMessage : getString(R.string.place_holder_rain_out);
-
-            League league = competition.getLeague();
-
-            String firstColorMessage =  league.getColor_1();
-            firstColorMessage = (firstColorMessage!= null) ?"#" + firstColorMessage : "#" +getString(R.string.place_holder_color_one);
-
-            String secondColorMessage = league.getColor_2();
-            secondColorMessage = (secondColorMessage!= null) ?"#" + secondColorMessage :"#" +getString(R.string.place_holder_color_two);
-
-            this.rainOut = new RainOut(rainOutMessage, firstColorMessage, secondColorMessage);
+            RainOutModel model = new RainOutModel(competition.getRain_out_message());
+            this.rainOutModel = model;
+            updateView();
         }
-        updateView();
 
     }
 

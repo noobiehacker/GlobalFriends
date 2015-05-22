@@ -1,16 +1,24 @@
 package co.mitoo.sashimi.network.Services;
+import android.util.Log;
+
 import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
+import co.mitoo.sashimi.models.jsonPojo.Fixture;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
 import co.mitoo.sashimi.utils.events.CompetitionListResponseEvent;
+import co.mitoo.sashimi.utils.events.CompetitionNotificationRequestEvent;
+import co.mitoo.sashimi.utils.events.CompetitionNotificationResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionRequestByUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
+import co.mitoo.sashimi.utils.events.FixtureNotificaitonRequestEvent;
+import co.mitoo.sashimi.utils.events.FixtureNotificationResponseEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
 import rx.Subscriber;
@@ -60,6 +68,30 @@ public class CompetitionService extends MitooService {
         }else{
             requestCompetitionByCompetitionID(event.getCompetitionSeasonID());
         }
+    }
+
+    @Subscribe
+    public void onCompetitionNotificaitonRequestEvent(CompetitionNotificationRequestEvent event){
+
+        Observable<Competition> observable = getSteakApiService().getCompetitionSeasonByID(event.getCompetitionSeasonID());
+        observable.subscribe(new Subscriber<Competition>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                BusProvider.post(new CompetitionNotificationResponseEvent(e));
+
+            }
+
+            @Override
+            public void onNext(Competition competition) {
+                BusProvider.post(new CompetitionNotificationResponseEvent(competition));
+
+            }
+        });
     }
 
     private void requestCompetitionByUserID(int userID){
