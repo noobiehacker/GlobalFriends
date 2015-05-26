@@ -26,6 +26,7 @@ import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonTabRefreshEvent;
 import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
@@ -61,7 +62,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     private String firstRainOutColor;
     private String secondRainOutColor;
     private RainOutModel rainOutModel;
-
+    private View rainOutView;
     @Override
     public void onClick(View v) {
     }
@@ -131,7 +132,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
         getCompetitionModel();
         BusProvider.post(new FixtureListRequestEvent(getTabType(), this.competitionSeasonID));
         BusProvider.post(new TeamListRequestEvent(this.competitionSeasonID));
-        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID, getUserID()));
+        BusProvider.post(new CompetitionSeasonRequestByCompID(this.competitionSeasonID));
     }
 
     @Override
@@ -300,7 +301,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
                 getFixtureListView() != null &&
                 getFixtureListView().getHeaderView() != null) {
 
-            View rainOutView = getFixtureListView().getHeaderView();
+            View rainOutView = this.rainOutView;
 
             if (this.rainOutModel.getRainOutMessage() != null) {
 
@@ -322,15 +323,28 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
                 text.display();
 
                 //CUSTOMIZE Background Color
-
                 RelativeLayout borderLayout = (RelativeLayout) rainOutView.findViewById(R.id.rain_out_view);
                 RelativeLayout backgroundLayout = (RelativeLayout) borderLayout.findViewById(R.id.background_layout);
                 borderLayout.setBackgroundColor(Color.parseColor(this.firstRainOutColor));
                 backgroundLayout.setBackgroundColor(Color.parseColor(this.secondRainOutColor));
+                displayRainOutView(true);
             } else {
-                getFixtureListView().removeHeaderView(getFixtureListView().getHeaderView());
+                displayRainOutView(false);
+
             }
 
+        }
+
+    }
+
+    private void displayRainOutView(boolean display){
+
+        RelativeLayout container = (RelativeLayout)getFixtureListView().getHeaderView();
+        View rainOutHeader = container.findViewById(R.id.rain_out_view);
+        if(rainOutHeader==null && display){
+            container.addView(this.rainOutView);
+        }else if(!display && rainOutHeader!=null){
+            container.removeView(this.rainOutView);
         }
 
     }
@@ -377,7 +391,8 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     private void setUpRainOutHeader(HeaderListView listView) {
 
-        View headerView = getViewHelper().createViewFromInflator(R.layout.view_rainout_header);
+        this.rainOutView = getViewHelper().createViewFromInflator(R.layout.view_rainout_header);
+        View headerView = new RelativeLayout(getActivity());
         listView.setHeaderView(headerView);
         listView.addHeaderView(headerView);
 
@@ -385,16 +400,9 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
     @Subscribe
     public void onCompetitionLoaded(CompetitionSeasonResponseEvent event) {
-        //TODO: REFACTOR
-        /**
-         *
-         *Hard Coding, change later
-         *
-         */
-        if (this.getTabType() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE) {
 
+        if (event.getCompetition() != null && event.getCompetition().getId() == this.competitionSeasonID) {
             Competition competition = event.getCompetition();
-
             RainOutModel model = new RainOutModel(competition.getRain_out_message());
             this.rainOutModel = model;
             updateView();

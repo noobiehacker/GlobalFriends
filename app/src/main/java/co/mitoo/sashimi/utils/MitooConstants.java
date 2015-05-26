@@ -47,10 +47,12 @@ public final class MitooConstants {
         if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.PRODUCTION.name()))
             return MitooEnum.SteakEndPoint.PRODUCTION;
         else if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.STAGING.name())){
-            return MitooConstants.mitooDevelopmentEndPoint;
+            return MitooEnum.SteakEndPoint.STAGING;
+        }else if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.LOCALHOST.name())){
+            return MitooEnum.SteakEndPoint.LOCALHOST;
         }
         else
-            return MitooEnum.SteakEndPoint.STAGING;
+            return mitooDevelopmentEndPoint;
     }
 
     public static MitooEnum.AppEnvironment getAppEnvironment() {
@@ -59,6 +61,8 @@ public final class MitooConstants {
             return MitooEnum.AppEnvironment.PRODUCTION;
         else if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.STAGING.name()))
             return MitooEnum.AppEnvironment.STAGING;
+        else if(BuildConfig.FLAVOR.equalsIgnoreCase(MitooEnum.AppEnvironment.LOCALHOST.name()))
+            return MitooEnum.AppEnvironment.LOCALHOST;
         else
             return MitooEnum.AppEnvironment.STAGING;
 

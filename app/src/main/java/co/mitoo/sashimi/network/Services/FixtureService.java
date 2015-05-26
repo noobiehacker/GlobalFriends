@@ -1,10 +1,8 @@
 package co.mitoo.sashimi.network.Services;
 import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
@@ -64,39 +62,34 @@ public class FixtureService extends MitooService {
     }
 
     @Subscribe
-    public void onFixtureListRequestEvent(FixtureListRequestEvent event){
+    public void onFixtureListRequestEvent(FixtureListRequestEvent event) {
 
-        if(!getResult().isEmpty() || !getSchedule().isEmpty() ){
-            if(event.getTabType()== MitooEnum.FixtureTabType.FIXTURE_RESULT)
-                BusProvider.post(new FixtureListResponseEvent(event.getTabType(),getResult()));
-            else if(event.getTabType()== MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
-                BusProvider.post(new FixtureListResponseEvent(event.getTabType(),getSchedule()));
-        }else{
-            requestFixtureByCompetition(event.getCompetitionSeasonID());
+        if (!getResult().isEmpty() || !getSchedule().isEmpty()) {
+            if (event.getTabType() == MitooEnum.FixtureTabType.FIXTURE_RESULT)
+                BusProvider.post(new FixtureListResponseEvent(event.getTabType(), getResult()));
+            else if (event.getTabType() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE)
+                BusProvider.post(new FixtureListResponseEvent(event.getTabType(), getSchedule()));
         }
+        requestFixtureByCompetition(event.getCompetitionSeasonID());
 
     }
 
     public void requestFixtureByCompetition(int competitionSeasonID) {
 
-        if(fixtureIsEmpty()){
-            Observable<Fixture[]> observable = getSteakApiService()
-                    .getFixtureFromCompetitionID(getActivity().getString(R.string.steak_api_param_filter_all), competitionSeasonID);
-            handleObservable(observable, Fixture[].class);
-        }
+        Observable<Fixture[]> observable = getSteakApiService()
+                .getFixtureFromCompetitionID(getActivity().getString(R.string.steak_api_param_filter_all), competitionSeasonID);
+        handleObservable(observable, Fixture[].class);
 
     }
 
     @Subscribe
     public void requestIndividualFixture(FixtureIndividualRequestEvent event) {
 
-        if(getFixtureFromModel(event.getFixtureID()) ==null ){
-            Observable<Fixture> observable = getSteakApiService().getFixtureFromFixtureID(event.getFixtureID());
-            handleObservable(observable, Fixture.class);
-        }
-        else{
+        if(getFixtureFromModel(event.getFixtureID()) !=null ){
             BusProvider.post(new FixtureModelIndividualResponse(getFixtureFromModel(event.getFixtureID())));
         }
+        Observable<Fixture> observable = getSteakApiService().getFixtureFromFixtureID(event.getFixtureID());
+        handleObservable(observable, Fixture.class);
 
     }
 

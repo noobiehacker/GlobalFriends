@@ -47,6 +47,13 @@ public class SplashScreenFragment extends MitooFragment {
                              Bundle savedInstanceState) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_splash,
                 container, false);
+        setRunnable(new Runnable() {
+            @Override
+            public void run() {
+                regularFlow();
+            }
+        });
+        getHandler().postDelayed(getRunnable(), 15000);
         return view;
     }
     
@@ -101,21 +108,26 @@ public class SplashScreenFragment extends MitooFragment {
 
         if (recievedBranchIOResponse() && recievedPersistedDataResponse()) {
 
+            getHandler().removeCallbacks(getRunnable());
             NotificationReceive notificationReceive = getMitooActivity().getMitooApplication().getNotificationReceive();
             //NOTIFICATION FLOW
             if (notificationReceive!= null) {
                 BusProvider.post(new NotificationEvent(notificationReceive));
                 getMitooActivity().getMitooApplication().setNotificationReceive(null);
             } else{
-                //REGULAR FLOW
-                if (isInviteFlow())
-                    startInviteFlow();
-                else
-                    startRegularFlow();
+                regularFlow();
             }
 
         }
 
+    }
+
+    private void regularFlow(){
+        //REGULAR FLOW
+        if (isInviteFlow())
+            startInviteFlow();
+        else
+            startRegularFlow();
     }
 
     public void startInviteFlow() {

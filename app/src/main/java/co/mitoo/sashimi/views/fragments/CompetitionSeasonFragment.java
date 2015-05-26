@@ -28,6 +28,7 @@ import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
 import co.mitoo.sashimi.utils.events.CompetitionNotificationUpdateResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
+import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonTabRefreshEvent;
 import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
@@ -133,10 +134,13 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     @Subscribe
     public void onCompetitionLoaded(CompetitionSeasonResponseEvent event) {
-        this.competition = event.getCompetition();
-        this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
-        loadTabs();
-        updateView();
+
+        if (event.getCompetition() != null && event.getCompetition().getId() == this.competitionSeasonID) {
+            this.competition = event.getCompetition();
+            this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
+            loadTabs();
+            updateView();
+        }
 
     }
 
@@ -179,8 +183,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     }
 
     private void onFragmentAnimationFinish(){
-        int id = CompetitionSeasonFragment.this.competitionSeasonID;
-        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(id, getUserID()));
+        BusProvider.post(new CompetitionSeasonRequestByCompID(this.competitionSeasonID));
         getAdapter().notifyDataSetChanged();
     }
 

@@ -49,9 +49,8 @@ public class CompetitionService extends MitooService {
         Competition competition = getCompetitionFromID(event.getCompetitionSeasonID());
         if(competition!=null){
             BusProvider.post(new CompetitionSeasonResponseEvent(competition));
-        }else{
-            requestCompetitionByUserIDAndCompID(event.getUserID(), event.getCompetitionSeasonID());
         }
+            requestCompetitionByUserIDAndCompID(event.getUserID(), event.getCompetitionSeasonID());
     }
 
     @Subscribe
@@ -61,13 +60,12 @@ public class CompetitionService extends MitooService {
 
 
     @Subscribe
-    public void onCompetitionCompIdRequest(CompetitionSeasonRequestByCompID event){
+    public void onCompetitionCompIdRequest(CompetitionSeasonRequestByCompID event) {
         Competition competition = getCompetitionFromID(event.getCompetitionSeasonID());
-        if(competition!=null){
+        if (competition != null) {
             BusProvider.post(new CompetitionSeasonResponseEvent(competition));
-        }else{
-            requestCompetitionByCompetitionID(event.getCompetitionSeasonID());
         }
+        requestCompetitionByCompetitionID(event.getCompetitionSeasonID());
     }
 
     @Subscribe
@@ -132,39 +130,32 @@ public class CompetitionService extends MitooService {
 
     }
 
-    private void requestCompetitionByUserIDAndCompID(int userID, final int competitionSeasonID){
+    private void requestCompetitionByUserIDAndCompID(int userID, final int competitionSeasonID) {
 
-        if(competitionIsEmpty()){
+        String filterParam = getActivity().getString(R.string.steak_api_param_filter_all);
+        String leagueInfoParam = getActivity().getString(R.string.steak_api_param_league_info_true);
+        Observable<Competition[]> observable = getSteakApiService()
+                .getCompetitionSeasonFromUserID(filterParam, leagueInfoParam, userID);
+        observable.subscribe(new Subscriber<Competition[]>() {
+            @Override
+            public void onCompleted() {
 
-            String filterParam = getActivity().getString(R.string.steak_api_param_filter_all);
-            String leagueInfoParam = getActivity().getString(R.string.steak_api_param_league_info_true);
-            Observable<Competition[]> observable = getSteakApiService()
-                    .getCompetitionSeasonFromUserID(filterParam, leagueInfoParam, userID);
-            observable.subscribe(new Subscriber<Competition[]>() {
-                @Override
-                public void onCompleted() {
+            }
 
-                }
+            @Override
+            public void onError(Throwable e) {
 
-                @Override
-                public void onError(Throwable e) {
+            }
 
-                }
+            @Override
+            public void onNext(Competition[] competitions) {
+                CompetitionService.this.myCompetition = new ArrayList<Competition>();
+                addCompetition(competitions);
+                BusProvider.post(new CompetitionSeasonResponseEvent(getCompetitionFromID(competitionSeasonID)));
 
-                @Override
-                public void onNext(Competition[] competitions) {
-                    CompetitionService.this.myCompetition = new ArrayList<Competition>();
-                    addCompetition(competitions);
-                    BusProvider.post(new CompetitionSeasonResponseEvent(getCompetitionFromID(competitionSeasonID)));
+            }
+        });
 
-                }
-            });
-        }
-        else{
-            Competition competition = getCompetitionFromID(competitionSeasonID);
-            if(competition!=null)
-                BusProvider.post(new CompetitionSeasonResponseEvent(null));
-        }
     }
 
     @Override

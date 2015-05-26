@@ -34,6 +34,10 @@ android {
         staging {
             applicationId "co.mitoo.sashimi.staging"
         }
+
+        localhost {
+            applicationId "co.mitoo.sashimi.localhost"
+        }
     }
 
     signingConfigs {
@@ -72,8 +76,6 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/NOTICE.txt'
-    }
-    productFlavors {
     }
 
     defaultConfig {

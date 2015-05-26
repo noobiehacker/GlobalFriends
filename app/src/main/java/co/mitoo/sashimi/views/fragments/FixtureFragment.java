@@ -320,15 +320,6 @@ public class FixtureFragment extends MitooFragment {
 
     }
 
-    public int getTeamColor() {
-        if (teamColor == MitooConstants.invalidConstant) {
-
-            teamColor = getMitooActivity().getResources().getColor(R.color.gray_dark_five);
-
-        }
-        return teamColor;
-    }
-
     public String getFixtureTitle() {
 
         if (this.homeTeam != null && this.awayTeam != null) {
@@ -435,12 +426,6 @@ public class FixtureFragment extends MitooFragment {
         this.statusTextView.setTextColor(color);
         this.statusTextView.setText(this.fixtureModel.getFixtureType().name());
     }
-
-
-    private boolean fixtureDataIsReady() {
-        return this.fixtureModel != null;
-    }
-
 
     private void googleMapAction() {
 

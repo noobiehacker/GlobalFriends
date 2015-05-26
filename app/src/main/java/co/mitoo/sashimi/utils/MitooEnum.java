@@ -46,7 +46,7 @@ public class MitooEnum {
     }
 
     public enum AppEnvironment {
-        PRODUCTION, STAGING
+        PRODUCTION, STAGING , LOCALHOST
     }
 
     public enum SteakEndPoint {
