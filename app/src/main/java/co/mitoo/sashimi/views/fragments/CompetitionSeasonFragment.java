@@ -1,5 +1,4 @@
 package co.mitoo.sashimi.views.fragments;
-
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.os.Build;
@@ -11,13 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
 import com.github.androidprogresslayout.ProgressLayout;
 import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.services.EventTrackingService;
@@ -25,14 +21,11 @@ import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
 import co.mitoo.sashimi.utils.events.CompetitionNotificationUpdateResponseEvent;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonTabRefreshEvent;
 import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
-import co.mitoo.sashimi.utils.events.FixtureNotificationUpdateResponseEvent;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.TeamServiceDataClearEvent;
@@ -237,7 +230,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
     @Override
     protected void handleNetworkError() {
 
-        if (getProgressLayout() != null) {
+        if (getProgressLayout() != null && allDataLoaded()) {
 
             centerProgressLayout();
             getProgressLayout().removeAllViews();
@@ -248,7 +241,7 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
 
     private void updateView() {
 
-        if(this.viewLoaded && this.competition!=null){
+        if(allDataLoaded()){
             setFragmentTitle(this.competition.getName());
             if (getToolbar() != null) {
                 getToolbar().setBackgroundColor(getTeamColor());
@@ -257,6 +250,10 @@ public class CompetitionSeasonFragment extends MitooFragment implements Material
             }
             loadTabs();
         }
+    }
+
+    private boolean allDataLoaded(){
+        return this.viewLoaded && this.competition!=null;
     }
 
     private void loadTabs() {

@@ -723,11 +723,13 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void centerProgressLayout(){
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)getProgressLayout().getLayoutParams();
-        params.addRule(RelativeLayout.CENTER_VERTICAL);
-        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        getProgressLayout().setLayoutParams(params);
-        getProgressLayout().setGravity(Gravity.CENTER);
+        if(getProgressLayout()!=null){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)getProgressLayout().getLayoutParams();
+            params.addRule(RelativeLayout.CENTER_VERTICAL);
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            getProgressLayout().setLayoutParams(params);
+            getProgressLayout().setGravity(Gravity.CENTER);
+        }
 
     }
 

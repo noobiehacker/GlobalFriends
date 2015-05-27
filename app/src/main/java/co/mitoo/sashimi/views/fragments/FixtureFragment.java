@@ -163,14 +163,14 @@ public class FixtureFragment extends MitooFragment {
 
         // Track this event
         EventTrackingService.userViewedFixtureDetailsScreen(this.getUserID(), this.fixtureID, this.competitionSeasonID, 0);
-
         super.onResume();
+
     }
 
     @Override
     protected void handleNetworkError() {
 
-        if (getProgressLayout() != null) {
+        if (getProgressLayout() != null && allDataLoaded()) {
 
             centerProgressLayout();
             getProgressLayout().removeAllViews();
@@ -247,7 +247,7 @@ public class FixtureFragment extends MitooFragment {
 
     private void updateViews() {
 
-        if (this.rainOutModel !=null && this.viewLoaded && this.fixtureModel != null && teamNamesAreReady()) {
+        if (allDataLoaded()) {
             setUpAllTextViews();
             showAndHideLogic(getRootView());
             setUpMap();
@@ -257,6 +257,10 @@ public class FixtureFragment extends MitooFragment {
 
         }
 
+    }
+
+    private boolean allDataLoaded(){
+        return this.rainOutModel !=null && this.viewLoaded && this.fixtureModel != null && teamNamesAreReady();
     }
 
     private void updateToolbar() {

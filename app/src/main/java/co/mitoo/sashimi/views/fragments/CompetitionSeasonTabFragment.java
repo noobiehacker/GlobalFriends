@@ -95,6 +95,18 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     }
 
     @Override
+    protected void handleNetworkError() {
+
+        if (getProgressLayout() != null && allDataLoaded()) {
+
+            centerProgressLayout();
+            getProgressLayout().removeAllViews();
+            getProgressLayout().addView(createNetworkFailureView());
+        }
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
