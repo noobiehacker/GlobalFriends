@@ -3,7 +3,7 @@ import com.squareup.otto.Subscribe;
 
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
-import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;
+import co.mitoo.sashimi.models.jsonPojo.recieve.notification.GroupSettings;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -12,7 +12,6 @@ import co.mitoo.sashimi.utils.events.NotificationModelUpdateResponse;
 import co.mitoo.sashimi.utils.events.NotificationRequestEvent;
 import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.fragments.NotificationFragment;
 import retrofit.RetrofitError;
 import rx.Observable;
 import rx.Subscriber;
@@ -58,20 +57,20 @@ public class NotificationPreferenceService extends MitooService {
     public void requestEmailPrefUpdate(boolean checked,
                                        MitooNotification mitooNotificationObject){
 
-        group_settings group_settings = preference.getGroup_settings();
+        GroupSettings group_settings = preference.getGroup_settings();
 
         switch (mitooNotificationObject.getNotificationCategory()) {
             case TeamGames:
-                group_settings.getGroup_team_games().setEmail(checked);
+                group_settings.getGroupTeamGames().setEmail(checked);
                 break;
             case TeamResults:
-                group_settings.getGroup_team_results().setEmail(checked);
+                group_settings.getGroupTeamResults().setEmail(checked);
                 break;
             case LeagueResults:
-                group_settings.getGroup_league_results().setEmail(checked);
+                group_settings.getGroupLeagueResults().setEmail(checked);
                 break;
             case RainOut:
-                group_settings.getGroup_league_alerts().setEmail(checked);
+                group_settings.getGroupLeagueAlerts().setEmail(checked);
                 break;
         }
     }
@@ -79,20 +78,20 @@ public class NotificationPreferenceService extends MitooService {
     public void requestPushPrefUpdate(boolean checked,
                                       MitooNotification mitooNotificationObject){
 
-        group_settings group_settings = preference.getGroup_settings();
+        GroupSettings group_settings = preference.getGroup_settings();
 
         switch (mitooNotificationObject.getNotificationCategory()) {
             case TeamGames:
-                group_settings.getGroup_team_games().setPush(checked);
+                group_settings.getGroupTeamGames().setPush(checked);
                 break;
             case TeamResults:
-                group_settings.getGroup_team_results().setPush(checked);
+                group_settings.getGroupTeamResults().setPush(checked);
                 break;
             case LeagueResults:
-                group_settings.getGroup_league_results().setPush(checked);
+                group_settings.getGroupLeagueResults().setPush(checked);
                 break;
             case RainOut:
-                group_settings.getGroup_league_alerts().setPush(checked);
+                group_settings.getGroupLeagueAlerts().setPush(checked);
                 break;
         }
     }

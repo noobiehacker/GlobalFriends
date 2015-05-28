@@ -7,11 +7,12 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Fixture;
+import co.mitoo.sashimi.models.jsonPojo.Result;
 import co.mitoo.sashimi.models.jsonPojo.location;
 import co.mitoo.sashimi.utils.DataHelper;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.models.jsonPojo.result;
+
 import org.joda.time.LocalDate;
 
 /**
@@ -92,9 +93,9 @@ public class FixtureModel implements Comparable<FixtureModel>{
 
     public String getDisplayableScore(){
         if(displayableScore == null){
-            result result = getFixture().getResult();
-            if(result!=null)
-                displayableScore = result.getHome_score() + result.getDelimiter() +result.getAway_score();
+            Result Result = getFixture().getResult();
+            if(Result !=null)
+                displayableScore = Result.getHome_score() + Result.getDelimiter() + Result.getAway_score();
             else
                 displayableScore = getMitooActivity().getString(R.string.fixture_page_tbd);
         }

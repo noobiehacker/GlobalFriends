@@ -1,24 +1,23 @@
 package co.mitoo.sashimi.utils;
 
-import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.jsonPojo.rain_out_message;
+import co.mitoo.sashimi.models.jsonPojo.RainOutMessage;
 
 /**
  * Created by david on 15-05-19.
  */
 public class RainOutModel {
 
-    private rain_out_message rainOutMessage;
+    private RainOutMessage rainOutMessage;
 
-    public rain_out_message getRainOutMessage() {
+    public RainOutMessage getRainOutMessage() {
         return rainOutMessage;
     }
 
-    public void setRainOutMessage(rain_out_message rainOutMessage) {
+    public void setRainOutMessage(RainOutMessage rainOutMessage) {
         this.rainOutMessage = rainOutMessage;
     }
 
-    public RainOutModel(rain_out_message rainOutMessage) {
+    public RainOutModel(RainOutMessage rainOutMessage) {
         this.rainOutMessage = rainOutMessage;
     }
 }

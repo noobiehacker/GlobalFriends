@@ -245,7 +245,7 @@ public class FixtureFragment extends MitooFragment {
         this.teamColor = getViewHelper().getColor(event.getCompetition().getLeague().getColor_1());
         updateToolbar();
         Competition competition = event.getCompetition();
-        RainOutModel model = new RainOutModel(competition.getRain_out_message());
+        RainOutModel model = new RainOutModel(competition.getRainOutMessage());
         this.rainOutModel = model;
         updateViews();
 

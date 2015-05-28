@@ -1,7 +1,8 @@
 package co.mitoo.sashimi.models.jsonPojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by david on 15-03-09.
@@ -15,7 +16,7 @@ public class Fixture implements Serializable {
     private int competition_season_id;
     private int home_team_id;
     private int away_team_id;
-    private result result;
+    private Result Result;
     private location location;
     private boolean time_tbc;
     private String local_time;
@@ -62,12 +63,13 @@ public class Fixture implements Serializable {
         this.away_team_id = away_team_id;
     }
 
-    public result getResult() {
-        return result;
+    public Result getResult() {
+        return Result;
     }
 
-    public void setResult(result result) {
-        this.result = result;
+    @JsonProperty("result")
+    public void setResult(Result Result) {
+        this.Result = Result;
     }
 
     public location getLocation() {

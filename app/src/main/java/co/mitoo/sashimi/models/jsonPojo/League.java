@@ -1,5 +1,6 @@
 package co.mitoo.sashimi.models.jsonPojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 
@@ -29,7 +30,7 @@ public class League implements Serializable {
     private String cover;
     private String cover_mobile;
     private String cover_mobile_tall;
-    private _geoLoc _geoloc;
+    private GeoLocation _geoloc;
     private location location;
     private String[] sports;
     private MitooImageTarget iconTarget;
@@ -117,11 +118,12 @@ public class League implements Serializable {
         this.id = id;
     }
 
-    public _geoLoc get_geoloc() {
+    public GeoLocation get_geoloc() {
         return _geoloc;
     }
 
-    public void set_geoloc(_geoLoc _geoloc) {
+    @JsonProperty("_geoLoc")
+    public void set_geoloc(GeoLocation _geoloc) {
         this._geoloc = _geoloc;
     }
 

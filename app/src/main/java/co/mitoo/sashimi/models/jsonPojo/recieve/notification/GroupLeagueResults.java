@@ -1,15 +1,16 @@
 package co.mitoo.sashimi.models.jsonPojo.recieve.notification;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
 
 /**
  * Created by david on 15-04-08.
  */
-
+@JsonRootName("group_league_results")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class group_league_results  implements Serializable {
+public class GroupLeagueResults implements Serializable {
 
     private boolean email;
     private boolean push;

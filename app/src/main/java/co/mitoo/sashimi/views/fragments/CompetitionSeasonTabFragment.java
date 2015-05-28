@@ -18,18 +18,14 @@ import java.util.List;
 
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
-import co.mitoo.sashimi.models.jsonPojo.League;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BabushkaText;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.models.FixtureModel;
 import co.mitoo.sashimi.utils.MitooEnum;
-import co.mitoo.sashimi.utils.events.CompetitionDataClearEvent;
-import co.mitoo.sashimi.utils.events.CompetitionSeasonReqByCompAndUserID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonRequestByCompID;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonResponseEvent;
 import co.mitoo.sashimi.utils.events.CompetitionSeasonTabRefreshEvent;
-import co.mitoo.sashimi.utils.events.FixtureDataClearEvent;
 import co.mitoo.sashimi.utils.events.FixtureListRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureListResponseEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
@@ -417,7 +413,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
         if (event.getCompetition() != null && event.getCompetition().getId() == this.competitionSeasonID) {
             Competition competition = event.getCompetition();
-            RainOutModel model = new RainOutModel(competition.getRain_out_message());
+            RainOutModel model = new RainOutModel(competition.getRainOutMessage());
             this.rainOutModel = model;
             updateView();
         }

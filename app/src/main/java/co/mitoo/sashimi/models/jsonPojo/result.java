@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class result implements Serializable {
+public class Result implements Serializable {
 
     private int id;
     private String home_score;

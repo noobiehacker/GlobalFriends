@@ -1,6 +1,8 @@
 package co.mitoo.sashimi.models.jsonPojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import java.io.Serializable;
 
@@ -25,7 +27,8 @@ public class Competition  implements Serializable {
     private String reg_close_date;
     private League league;
     private location location;
-    private rain_out_message rain_out_message;
+
+    private RainOutMessage RainOutMessage;
 
     public int getId() {
         return id;
@@ -156,12 +159,13 @@ public class Competition  implements Serializable {
         this.league = league;
     }
 
-    public rain_out_message getRain_out_message() {
-        return rain_out_message;
+    public RainOutMessage getRainOutMessage() {
+        return RainOutMessage;
     }
 
-    public void setRain_out_message(rain_out_message rain_out_message) {
-        this.rain_out_message = rain_out_message;
+    @JsonProperty("rain_out_message")
+    public void setRainOutMessage(RainOutMessage rainOutMessage) {
+        this.RainOutMessage = rainOutMessage;
     }
 }
 

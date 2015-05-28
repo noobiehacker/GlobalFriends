@@ -11,18 +11,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.FixtureModel;
+import co.mitoo.sashimi.models.jsonPojo.recieve.notification.GroupSettings;
 import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.models.appObject.MitooNotification;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationPreferenceRecieved;
-import co.mitoo.sashimi.models.jsonPojo.recieve.notification.group_settings;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.NotificationUpdateEvent;
 import co.mitoo.sashimi.views.fragments.NotificationFragment;
-
-import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
  * Created by david on 15-03-12.
@@ -154,19 +150,19 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
 
         boolean result = false;
 
-        group_settings group_settings = prefReceive.getGroup_settings();
+        GroupSettings group_settings = prefReceive.getGroup_settings();
         switch (mitooNotification.getNotificationCategory()) {
             case TeamGames:
-                result = group_settings.getGroup_team_games().isEmail();
+                result = group_settings.getGroupTeamGames().isEmail();
                 break;
             case TeamResults:
-                result = group_settings.getGroup_team_results().isEmail();
+                result = group_settings.getGroupTeamResults().isEmail();
                 break;
             case LeagueResults:
-                result = group_settings.getGroup_league_results().isEmail();
+                result = group_settings.getGroupLeagueResults().isEmail();
                 break;
             case RainOut:
-                result = group_settings.getGroup_league_alerts().isEmail();
+                result = group_settings.getGroupLeagueAlerts().isEmail();
                 break;
         }
         return result;
@@ -176,19 +172,19 @@ public class NotificationListAdapter extends ArrayAdapter<MitooNotification> {
 
         boolean result = false;
 
-        group_settings group_settings = prefReceive.getGroup_settings();
+        GroupSettings group_settings = prefReceive.getGroup_settings();
         switch (mitooNotification.getNotificationCategory()) {
             case TeamGames:
-                result = group_settings.getGroup_team_games().isPush();
+                result = group_settings.getGroupTeamGames().isPush();
                 break;
             case TeamResults:
-                result = group_settings.getGroup_team_results().isPush();
+                result = group_settings.getGroupTeamResults().isPush();
                 break;
             case LeagueResults:
-                result = group_settings.getGroup_league_results().isPush();
+                result = group_settings.getGroupLeagueResults().isPush();
                 break;
             case RainOut:
-                result = group_settings.getGroup_league_alerts().isPush();
+                result = group_settings.getGroupLeagueAlerts().isPush();
                 break;
         }
         return result;

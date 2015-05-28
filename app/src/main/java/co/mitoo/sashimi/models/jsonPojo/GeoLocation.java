@@ -3,7 +3,7 @@ package co.mitoo.sashimi.models.jsonPojo;
 /**
  * Created by david on 15-01-15.
  */
-public class _geoLoc {
+public class GeoLocation {
     private double lat;
     private double lng;
 

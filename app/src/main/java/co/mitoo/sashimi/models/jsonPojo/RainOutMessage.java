@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  */
 @JsonRootName(value = "rain_out_message")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class rain_out_message {
+public class RainOutMessage {
 
     private int id;
     private String message;
