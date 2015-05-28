@@ -8,6 +8,12 @@ import co.mitoo.sashimi.models.jsonPojo.Competition;
 public class CompetitionNotificationUpdateResponseEvent {
 
     private Competition competition;
+    private String mitooAction;
+
+    public CompetitionNotificationUpdateResponseEvent(Competition competition, String mitooAction) {
+        this.competition = competition;
+        this.mitooAction = mitooAction;
+    }
 
     public CompetitionNotificationUpdateResponseEvent(Competition competition) {
         this.competition = competition;
@@ -17,7 +23,7 @@ public class CompetitionNotificationUpdateResponseEvent {
         return competition;
     }
 
-    public void setCompetition(Competition competition) {
-        this.competition = competition;
+    public String getMitooAction() {
+        return mitooAction;
     }
 }

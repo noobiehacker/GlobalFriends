@@ -86,6 +86,8 @@ public class CompetitionService extends MitooService {
 
             @Override
             public void onNext(Competition competition) {
+                removeCompetition(competition);
+                addCompetition(competition);
                 BusProvider.post(new CompetitionNotificationResponseEvent(competition));
 
             }
@@ -123,6 +125,8 @@ public class CompetitionService extends MitooService {
 
                 @Override
                 public void onNext(Competition competition) {
+                    removeCompetition(competition);
+                    addCompetition(competition);
                     BusProvider.post(new CompetitionSeasonResponseEvent(competition));
 
                 }
@@ -172,6 +176,21 @@ public class CompetitionService extends MitooService {
 
         for (Competition item : competitions) {
             getMyCompetition().add(item);
+        }
+
+    }
+
+    public void addCompetition(Competition competition) {
+
+        getMyCompetition().add(competition);
+
+    }
+
+    public void removeCompetition(Competition competition) {
+
+        for(int i = 0 ; i<getMyCompetition().size() ; i++){
+            if(getMyCompetition().get(i).getId() == competition.getId())
+                getMyCompetition().remove(i);
         }
 
     }

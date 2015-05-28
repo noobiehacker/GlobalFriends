@@ -175,6 +175,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
     @Subscribe
     public void onCompetitionSeasonRefresh(CompetitionSeasonTabRefreshEvent event) {
         this.competitionSeasonID = event.getCompetitionSeasonID();
+        this.fixtureList=null;
         requestData();
 
     }
@@ -186,6 +187,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
             setUpNoResultsView();
             updateRainOut(this.rainOutModel);
             setPreDataLoading(false);
+            getFixtureListAdapter().notifyDataSetChanged();
         }
     }
 
@@ -311,7 +313,7 @@ public class CompetitionSeasonTabFragment extends MitooFragment {
 
         if (this.getTabType() == MitooEnum.FixtureTabType.FIXTURE_SCHEDULE &&
                 getFixtureListView() != null &&
-                getFixtureListView().getHeaderView() != null) {
+                this.rainOutView != null) {
 
             View rainOutView = this.rainOutView;
 

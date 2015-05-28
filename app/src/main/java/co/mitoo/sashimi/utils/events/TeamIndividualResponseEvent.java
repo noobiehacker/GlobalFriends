@@ -8,12 +8,18 @@ import co.mitoo.sashimi.models.jsonPojo.Team;
 public class TeamIndividualResponseEvent {
 
     private Team team;
+    private int teamID;
 
     public Team getTeam() {
         return team;
     }
 
-    public TeamIndividualResponseEvent(Team team) {
+    public int getTeamID() {
+        return teamID;
+    }
+
+    public TeamIndividualResponseEvent( int teamID , Team team) {
         this.team = team;
+        this.teamID = teamID;
     }
 }

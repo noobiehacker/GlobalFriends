@@ -78,6 +78,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private boolean popActionRequiresDelay = false;
     private boolean backClicked =false;
     private boolean foreGround;
+    protected boolean isResumed = false;
 
     protected String getTextFromTextField(int textFieldId) {
         EditText textField = (EditText) getActivity().findViewById(textFieldId);
@@ -98,6 +99,8 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         handleNetwork();
         registerBus();
         setPageFirstLoad(false);
+        this.isResumed= true;
+
     }
 
     @Override
@@ -377,6 +380,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         getMitooActivity().hideSoftKeyboard();
         setForeGround(false);
         setLoading(false);
+        this.isResumed =false;
     }
 
     @Override
@@ -848,6 +852,14 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected String getSecondRainOutColorKey(){
         return getString(R.string.bundle_key_second_color_key);
+    }
+
+    protected String getMitooActionKey() {
+        return getActivity().getString(R.string.bundle_key_mitoo_action);
+    }
+
+    protected String getTabIndexSelectedKey() {
+        return getActivity().getString(R.string.bundle_key_tab_index_key);
     }
 
 

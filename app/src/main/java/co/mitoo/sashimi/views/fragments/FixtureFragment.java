@@ -216,20 +216,26 @@ public class FixtureFragment extends MitooFragment {
         getCompetitionModel();
         BusProvider.post(new TeamIndividualRequestEvent(this.homeTeamID, this.competitionSeasonID));
         BusProvider.post(new TeamIndividualRequestEvent(this.awayTeamID, this.competitionSeasonID));
-        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID ,getUserID()));
+        BusProvider.post(new CompetitionSeasonReqByCompAndUserID(this.competitionSeasonID, getUserID()));
     }
 
     @Subscribe
     public void onTeamResponse(TeamIndividualResponseEvent event) {
 
-        Team team = event.getTeam();
-        if (team.getId() == this.homeTeamID)
-            this.homeTeam = team;
-        else if (team.getId() == this.awayTeamID)
-            this.awayTeam = team;
+        Team newTeamObject = event.getTeam();
+        if (newTeamObject == null) {
+            newTeamObject = new Team();
+            newTeamObject.setName(getString(R.string.fixture_page_tbd));
+        }
+
+        if (event.getTeamID() == this.homeTeamID)
+            this.homeTeam = newTeamObject;
+        if (event.getTeamID() == this.awayTeamID)
+            this.awayTeam = newTeamObject;
+        //BOTH TEAMS COULD HAVE SAME ID
+
         updateToolbar();
         updateViews();
-
 
     }
 

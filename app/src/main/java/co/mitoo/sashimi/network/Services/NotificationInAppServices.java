@@ -3,6 +3,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
@@ -35,6 +39,7 @@ public class NotificationInAppServices extends MitooService {
     public NotificationInAppServices(MitooActivity activity) {
         super(activity);
     }
+    private List<NotificationReceive> notificationInQueue = new ArrayList<NotificationReceive>();
 
     @Subscribe
     public void onNotificationRecieve(NotificationEvent event) {
@@ -42,6 +47,7 @@ public class NotificationInAppServices extends MitooService {
         NotificationReceive notification = event.getNotificationReceive();
         EventTrackingService.userOpenedNotification(this.getUserID(), "", notification.getObj_type(), notification.getObj_id(), notification.getMitoo_action());
         MitooEnum.RoutingDestination destination = getRoutingDestination(event.getNotificationReceive());
+        this.notificationInQueue.add(notification);
 
         if(destination == MitooEnum.RoutingDestination.FIXTURE){
             String fixtureObjectID = event.getNotificationReceive().getObj_id();
@@ -89,7 +95,13 @@ public class NotificationInAppServices extends MitooService {
 
         //IF WER ARE ON Competition SCREEN
         if (getActivity().topFragmentType() == CompetitionSeasonFragment.class && !event.hasError()){
-            BusProvider.post(new CompetitionNotificationUpdateResponseEvent(event.getCompetition()));
+
+            String mitooAction = getMitooActionFromID(event.getCompetition().getId());
+            if(mitooAction!=null)
+                BusProvider.post(new CompetitionNotificationUpdateResponseEvent(event.getCompetition(), mitooAction));
+            else
+                BusProvider.post(new CompetitionNotificationUpdateResponseEvent(event.getCompetition()));
+
         }
         else {
 
@@ -177,6 +189,8 @@ public class NotificationInAppServices extends MitooService {
         Bundle competitionBundle = new Bundle();
         competitionBundle.putInt(getCompetitionSeasonIdKey(), competitionSeasonID);
         competitionBundle.putString(getTeamColorKey(), getActivity().getString(R.string.place_holder_color_one));
+        if(getMitooActionFromID(competitionSeasonID)!=null)
+            competitionBundle.putString(getMitooActionKey(), getMitooActionFromID(competitionSeasonID));
         FragmentChangeEvent seconndEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_competition)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
@@ -184,6 +198,36 @@ public class NotificationInAppServices extends MitooService {
                 .build();
         getEventQueue().offer(seconndEvent);
 
+    }
+
+    private String getMitooActionFromID(int id){
+        NotificationReceive notificationReceive = findNotificationInQueue(id);
+        if(notificationReceive!=null){
+            return notificationReceive.getMitoo_action();
+        }else{
+            return null;
+        }
+    }
+
+    private NotificationReceive findNotificationInQueue(int id){
+
+        NotificationReceive result = null;
+        if(this.notificationInQueue!=null && !this.notificationInQueue.isEmpty()){
+
+            loop:
+            for(NotificationReceive item : this.notificationInQueue){
+                String objectID= item.getObj_id();
+                if(objectID!=null){
+                    int notificationID = Integer.parseInt(objectID);
+                    if(notificationID == id){
+                        result = item;
+                        break loop;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     private void queueFixtureFragment(int fixtureID){
@@ -213,6 +257,10 @@ public class NotificationInAppServices extends MitooService {
 
     protected String getTeamColorKey() {
         return getActivity().getString(R.string.bundle_key_team_color_key);
+    }
+
+    protected String getMitooActionKey() {
+        return getActivity().getString(R.string.bundle_key_mitoo_action);
     }
 
     private Stack<MitooFragment> getFragmentStack(){

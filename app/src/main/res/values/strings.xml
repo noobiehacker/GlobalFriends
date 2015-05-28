@@ -400,6 +400,8 @@
     <string name="bundle_key_rain_out_key">bundle_key_rain_out_key</string>
     <string name="bundle_key_first_color_key">bundle_key_first_color_key</string>
     <string name="bundle_key_second_color_key">bundle_key_second_color_key</string>
+    <string name="bundle_key_mitoo_action">bundle_key_mitoo_action</string>
+    <string name="bundle_key_tab_index_selected">bundle_key_tab_index_selected</string>
 
     <!--String Helper -->
     <string name="google_place_api_geocode">geocode</string>

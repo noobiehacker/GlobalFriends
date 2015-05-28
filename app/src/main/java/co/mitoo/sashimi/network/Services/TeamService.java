@@ -68,7 +68,7 @@ public class TeamService extends MitooService {
 
         if(event instanceof  TeamIndividualRequestEvent){
             TeamIndividualRequestEvent requestEvent = (TeamIndividualRequestEvent) event;
-            BusProvider.post(new TeamIndividualResponseEvent(this.getTeam(requestEvent.getTeamID())));
+            BusProvider.post(new TeamIndividualResponseEvent(requestEvent.getTeamID() ,this.getTeam(requestEvent.getTeamID())));
         }
         else if(event instanceof  TeamListRequestEvent){
             BusProvider.post(new TeamListResponseEvent(this.competitionTeams));
@@ -106,12 +106,11 @@ public class TeamService extends MitooService {
 
         Team result = null;
         loop:
-        for(Team item : getCompetitionTeams()){
-            if(item.getId() == id){
+        for(Team item : getCompetitionTeams()) {
+            if (item.getId() == id) {
                 result = item;
-            }
-            if(result!=null)
                 break loop;
+            }
         }
         return result;
     }
