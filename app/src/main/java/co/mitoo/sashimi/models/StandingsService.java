@@ -11,22 +11,23 @@ import java.util.Map;
 
 import co.mitoo.sashimi.models.appObject.StandingsRow;
 import co.mitoo.sashimi.models.jsonPojo.recieve.standings.StandingsJSON;
+import co.mitoo.sashimi.network.Services.MitooService;
 import co.mitoo.sashimi.services.BaseService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
 import co.mitoo.sashimi.utils.events.StandingsLoadedEvent;
+import co.mitoo.sashimi.views.activities.MitooActivity;
 import rx.Observable;
 import rx.Subscriber;
 
 /**
  * Created by david on 15-04-20.
  */
-public class StandingsService extends BaseService {
+public class StandingsService extends MitooService {
 
-
-
-    public StandingsService() {
+    public StandingsService(MitooActivity activity) {
+        super(activity);
     }
 
     @Subscribe

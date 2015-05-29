@@ -80,8 +80,6 @@ public class BabushkaText extends TextView {
     }
 
     /**
-     * Use this method to add a {@link babushkatext.BabushkaText.Piece} to a BabushkaText.
-     * Each {@link babushkatext.BabushkaText.Piece } is added sequentially, so the
      * order you call this method matters.
      *
      * @param aPiece the Piece
@@ -123,7 +121,6 @@ public class BabushkaText extends TextView {
     }
 
     /**
-     * Get a specific {@link babushkatext.BabushkaText.Piece} in position index.
      *
      * @param location position of Piece (0 based)
      * @return Piece o null if invalid index
@@ -137,7 +134,6 @@ public class BabushkaText extends TextView {
     }
 
     /**
-     * Call this method when you're done adding {@link babushkatext.BabushkaText.Piece}s
      * and want this TextView to display the final, styled version of it's String contents.
      * <p/>
      * You MUST also call this method whenever you make a modification to the text of a Piece that
@@ -231,7 +227,6 @@ public class BabushkaText extends TextView {
      * BabushkaText to display "Hello World" such that "Hello" is displayed in Bold and "World" is
      * displayed in Italics. Since these have different styles, they are both separate Pieces.
      * <p/>
-     * You create a Piece by using it's {@link babushkatext.BabushkaText.Piece.Builder}
      */
     public static class Piece {
 
@@ -261,7 +256,6 @@ public class BabushkaText extends TextView {
 
         /**
          * Sets the text of this Piece. If you're creating a new Piece, you should do so using it's
-         * {@link babushkatext.BabushkaText.Piece.Builder}.
          * <p/>
          * Use this method if you want to modify the text of an existing Piece that is already
          * displayed. After doing so, you MUST call {@code display()} for the changes to show up.
@@ -275,12 +269,10 @@ public class BabushkaText extends TextView {
 
         /**
          * Sets the text color of this Piece. If you're creating a new Piece, you should do so using it's
-         * {@link babushkatext.BabushkaText.Piece.Builder}.
          * <p/>
          * Use this method if you want to change the text color of an existing Piece that is already
          * displayed. After doing so, you MUST call {@code display()} for the changes to show up.
          *
-         * @param color of text (it is NOT android Color resources ID, use getResources().getColor(R.color.colorId) for it)
          */
         public void setTextColor(int textColor) {
             this.textColor = textColor;
@@ -410,7 +402,6 @@ public class BabushkaText extends TextView {
             }
 
             /**
-             * Creates a {@link babushkatext.BabushkaText.Piece} with the customized
              * parameters.
              *
              * @return a Piece

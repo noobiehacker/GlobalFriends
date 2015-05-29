@@ -116,15 +116,11 @@ public class ModelManager {
         return (NotificationPreferenceService)getModel(NotificationPreferenceService.class);
 
     }
-/*
-=======
-    //TODO:
-    /*
->>>>>>> Finished Static elements of Standings GridView
-    public StandingsService getStandingsModel() {
 
-        return (StandingsService)getModel(StandingsService.class);
-    }*/
+    public StandingsService getStandingsService() {
+
+        return (StandingsService) getModel(StandingsService.class);
+    }
 
     public NotificationInAppServices getNotificationInAppService() {
 
@@ -237,6 +233,7 @@ public class ModelManager {
         getFixtureModel();
         getNotificationInAppService();
         getCompetitionModel();
+        getStandingsService();
 
     }
 

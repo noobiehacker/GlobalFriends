@@ -40,7 +40,6 @@ public class MitooApplication extends Application{
     private boolean persistedDataLoaded = false;
     private Queue<Object> eventQueue;
     private NotificationReceive notificationReceive;
-    private StandingsService service;
 
     @Override
     public void onCreate() {
@@ -48,7 +47,6 @@ public class MitooApplication extends Application{
         this.modelManager = null;
         this.eventQueue = new LinkedList<Object>();
         this.modelManager = null;
-        service = new StandingsService();
         UAirship.takeOff(this, createAirshipOptions(), new UAirship.OnReadyCallback() {
             @Override
             public void onAirshipReady(UAirship airship) {

@@ -48,6 +48,13 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.competitionSeasonID = (int) savedInstanceState.get(getCompetitionSeasonIdKey());
+
+        } else {
+            this.competitionSeasonID = getArguments().getInt(getCompetitionSeasonIdKey());
+        }
+
     }
 
     @Override
@@ -57,6 +64,13 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
             }
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        bundle.putInt(getCompetitionSeasonIdKey(), this.competitionSeasonID);
+        super.onSaveInstanceState(bundle);
+
     }
 
     public static StandingsFragment newInstance() {
@@ -92,8 +106,6 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     protected void initializeFields() {
 
         super.initializeFields();
-        String bundleValue = getArguments().getString(getString(R.string.bundle_key_competition_id));
-        this.competitionSeasonID = Integer.parseInt(bundleValue);
         this.tableLoaded =false;
 
     }
@@ -108,13 +120,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     @Override
     protected void requestData() {
         setPreDataLoading(true);
-        setRunnable(new Runnable() {
-            @Override
-            public void run() {
-                BusProvider.post(new LoadStandingsEvent(StandingsFragment.this.competitionSeasonID));
-            }
-        });
-        getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
+        BusProvider.post(new LoadStandingsEvent(StandingsFragment.this.competitionSeasonID));
         this.dataRequested=true;
     }
 
@@ -150,6 +156,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
         this.dataReceived = true;
         this.standingsRows = event.getStandingRows();
         loadStandingsView();
+        setUpScoreTable(StandingsFragment.this.standingsRows);
 
     }
 
@@ -162,14 +169,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
     private void attemptToLoadTable(){
         if (this.tabClicked == true && this.dataReceived == true) {
-
-            setRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    setUpScoreTable(StandingsFragment.this.standingsRows);
-                }
-            });
-            getHandler().postDelayed(getRunnable(), MitooConstants.durationMedium);
+            setUpScoreTable(StandingsFragment.this.standingsRows);
 
         }
     }

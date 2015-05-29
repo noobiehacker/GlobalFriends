@@ -18,15 +18,18 @@ public class MitooTab {
     private MitooEnum.FixtureTabType fixtureTabType;
     private int competitionSeasonID;
     private String competitionSeaonKey;
-    private Bundle fragmentArgument;
 
-    public MitooTab(MitooEnum.FixtureTabType tabType , int competitionSeasonID , String competitionSeaonKey){
+    public MitooTab(MitooEnum.FixtureTabType tabType , String competitionSeaonKey , int competitionSeasonID ,
+                    MitooMaterialsTab tab){
         this.competitionSeasonID = competitionSeasonID;
         this.competitionSeaonKey = competitionSeaonKey;
+        this.fixtureTabType = tabType;
+        this.tab= tab;
     }
-    public MitooTab(MitooEnum.FixtureTabType tabType , Bundle fragmentArgument){
-        this.fragmentArgument = fragmentArgument;
-        setFixtureTabType(tabType);
+
+    public MitooTab(MitooEnum.FixtureTabType tabType , MitooMaterialsTab tab){
+        this.fixtureTabType = tabType;
+        this.tab= tab;
     }
 
     public MitooFragment getFragment() {
@@ -40,39 +43,15 @@ public class MitooTab {
                 case FIXTURE_SCHEDULE:
                 default:
                     fragment = FragmentFactory.getInstance()
-                            .createTabFragment(R.id.fragment_competition_tab, getFixtureTabType());
-                    fragment.setArguments(createBundle());
+                            .createTabFragment(R.id.fragment_competition_tab, this.fixtureTabType);
                     break;
 
             }
-            fragment.setArguments(this.fragmentArgument);
+            fragment.setArguments(createBundle());
+
         }
         return fragment;
     }
-
-    public MitooMaterialsTab getTab() {
-        return tab;
-    }
-
-    public void setTab(MitooMaterialsTab tab) {
-        this.tab = tab;
-    }
-
-    public void setFragment(MitooFragment fragment) {
-
-        this.fragment = fragment;
-    }
-
-    public MitooEnum.FixtureTabType getFixtureTabType() {
-        if (fixtureTabType == null)
-            fixtureTabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
-        return fixtureTabType;
-    }
-
-    public void setFixtureTabType(MitooEnum.FixtureTabType fixtureTabType) {
-        this.fixtureTabType = fixtureTabType;
-    }
-
 
     private Bundle createBundle() {
         Bundle bundle = new Bundle();
@@ -80,4 +59,7 @@ public class MitooTab {
         return bundle;
     }
 
+    public MitooMaterialsTab getTab() {
+        return tab;
+    }
 }

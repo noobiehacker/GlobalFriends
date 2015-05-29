@@ -523,6 +523,12 @@ public class DataHelper {
             case 0:
                 tabType = MitooEnum.FixtureTabType.FIXTURE_SCHEDULE;
                 break;
+            case 1:
+                tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
+                break;
+            case 2:
+                tabType = MitooEnum.FixtureTabType.TEAM_STANDINGS;
+                break;
             default:
                 tabType = MitooEnum.FixtureTabType.FIXTURE_RESULT;
                 break;
