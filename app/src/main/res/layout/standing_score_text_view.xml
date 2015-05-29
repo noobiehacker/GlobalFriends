@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/score_text_view"
@@ -17,7 +18,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="@dimen/list_divider_height"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/score_text_view"
         android:background="@color/gray_light_three"></View>
 
 </RelativeLayout>

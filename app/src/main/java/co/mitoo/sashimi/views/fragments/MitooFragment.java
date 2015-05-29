@@ -701,6 +701,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void routeToHome(){
 
+        //USE THIS PART TO SHORT CIRCUIT APP TO WHERE YOU WANT
+
+        //TODO:REFACTOR
+
+
         Bundle bundle = new Bundle();
         bundle.putInt(getUserIDKey(), getUserID());
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
@@ -710,6 +715,22 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
+
+                /*
+
+        Bundle bundle = new Bundle();
+        bundle.putInt(getUserIDKey(), getUserID());
+        bundle.putInt(getCompetitionSeasonIdKey(), 46791);
+        FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                .setFragmentID(R.id.fragment_standings)
+                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setAnimation(MitooEnum.FragmentAnimation.VERTICAL)
+                .setBundle(bundle)
+                .build();
+        postFragmentChangeEvent(fragmentChangeEvent);
+
+                        */
+
 
     }
 

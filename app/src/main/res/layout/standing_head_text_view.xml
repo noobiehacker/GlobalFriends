@@ -12,6 +12,7 @@
         android:layout_marginTop="@dimen/spacing_section_title_top"
         android:layout_marginLeft="@dimen/standings_score_width_padding"
         android:layout_marginRight="@dimen/standings_score_width_padding"
+        android:maxLines="1"
         android:textAllCaps="true" />
 
 
