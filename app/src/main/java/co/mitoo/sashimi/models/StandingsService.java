@@ -48,7 +48,7 @@ public class StandingsService extends MitooService {
             @Override
             public void onNext(StandingsJSON objectRecieve) {
 
-                StandingsJSON steakStanding = objectRecieve;
+                StandingsJSON steakStanding = (StandingsJSON) objectRecieve;
                 BusProvider.post(new StandingsLoadedEvent(standingsTransform(steakStanding)));
             }
         });
@@ -58,11 +58,24 @@ public class StandingsService extends MitooService {
     private List<StandingsRow> standingsTransform(StandingsJSON json) {
 
         String headKey = "head";
-
         List<StandingsRow> result = new ArrayList<StandingsRow>();
+
+        //Add head
+
+        //TODO: REMOVE LATER
+
+
+        String[] dataNew = new String[5];
+        for (int i = 0; i < 5; i++) {
+            dataNew[i] = json.getCols()[i];
+        }
+        json.setCols(dataNew);
         List<String> headData = getDataFromMap(json.getCols(), json.getData().get(headKey));
         result.add(new StandingsRow(MitooConstants.standingHead, headData));
 
+        //Add the rest of the columns
+
+        //TODO:REMOVE REFACTOR
         for (int id : json.getSeries()) {
             List<String> mapData = getDataFromMap(json.getCols(), json.getData().get(Integer.toString(id)));
             result.add(new StandingsRow(id, mapData));

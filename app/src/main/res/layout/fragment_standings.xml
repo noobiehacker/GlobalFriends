@@ -6,8 +6,7 @@
     android:background="@color/gray_light_one"
     android:orientation="vertical">
 
-    <com.github.androidprogresslayout.ProgressLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.github.androidprogresslayout.ProgressLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:progressLayout="http://schemas.android.com/apk/res-auto"
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
@@ -16,56 +15,44 @@
         progressLayout:progress="false"
         progressLayout:progressBackground="@color/gray_light_one">
 
-        <LinearLayout
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/static_team_header"
+            android:layout_width="@dimen/standings_left_scroll_view_width"
+            android:layout_height="@dimen/standings_header_height"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            >
+
+            <TextView
+                android:id="@+id/score_text_view"
+                style="@style/standingsHeaderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_section_title_bottom"
+                android:layout_marginTop="@dimen/spacing_section_title_top"
+                android:layout_marginLeft="@dimen/standings_score_width_padding"
+                android:layout_marginRight="@dimen/standings_score_width_padding"
+                android:maxLines="1"
+                android:text="@string/standing_page_header_text"
+                android:textAllCaps="true" />
+
+        </RelativeLayout>
+
+        <co.mitoo.sashimi.views.widgets.HeaderListView
+            android:id="@+id/team_list_view"
+            android:layout_width="@dimen/standings_left_scroll_view_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/static_team_header"
+            android:descendantFocusability="blocksDescendants"
+            android:scrollbars="none" />
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/grid_score_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="@dimen/standings_left_scroll_view_width"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/header_view"
-                    style="@style/standingsHeaderText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_section_title_bottom"
-                    android:layout_marginLeft="@dimen/standings_page_ranking_width"
-                    android:layout_marginTop="@dimen/spacing_section_title_top"
-                    android:text="@string/standing_page_header_text"
-                    android:textAllCaps="true" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/list_divider_height"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/gray_light_three"></View>
-
-                <co.mitoo.sashimi.views.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/leftScrollView"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:scrollbars="vertical">
-
-                    <TableLayout
-                        android:id="@+id/teamTableLayout"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" />
-
-                </co.mitoo.sashimi.views.widgets.ObservableScrollView>
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/grid_score_view"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:clipToPadding="false"/>
-
-        </LinearLayout>
+            android:layout_toRightOf="@id/static_team_header"
+            android:clipToPadding="false" />
 
     </com.github.androidprogresslayout.ProgressLayout>
 

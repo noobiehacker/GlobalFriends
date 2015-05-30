@@ -171,7 +171,7 @@ dependencies {
 
     // KeenIO
     compile 'io.keen:keen-client-api-android:2.1.1@aar'
-
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
     //UI
 /*    compile 'com.github.ksoichiro:android-observablescrollview:v1.5.1'
     compile 'me.grantland:autofittextview:0.2.+'

@@ -26,7 +26,7 @@ public class FixtureViewHelper {
     }
 
     private ViewHelper viewHelper;
-    private TeamViewHelper teamViewHelper;
+    private TeamViewModel teamViewModel;
     private View.OnClickListener createFixtureItemClickedListener(final FixtureModel itemClicked){
 
 
@@ -86,7 +86,7 @@ public class FixtureViewHelper {
 
     private void setUpTeamName(Team team ,TextView textView) {
 
-        getTeamViewHelper().setUpTeamName(team , textView);
+        getTeamViewModel().setUpTeamName(team , textView);
 
     }
 
@@ -142,7 +142,7 @@ public class FixtureViewHelper {
 
     private void loadTeamIcon(ImageView imageView, Team team){
 
-        getTeamViewHelper().loadTeamIcon(imageView,team);
+        getTeamViewModel().loadTeamIcon(imageView,team);
     }
 
     private void setUpFixtureCenterText(View row , FixtureModel fixture ) {
@@ -178,11 +178,11 @@ public class FixtureViewHelper {
         row.setOnClickListener(createFixtureItemClickedListener(fixture));
     }
 
-    public TeamViewHelper getTeamViewHelper() {
-        if(teamViewHelper ==null){
-            teamViewHelper = new TeamViewHelper(getViewHelper());
+    public TeamViewModel getTeamViewModel() {
+        if(teamViewModel ==null){
+            teamViewModel = new TeamViewModel(getViewHelper());
         }
-        return teamViewHelper;
+        return teamViewModel;
     }
 
     private MitooActivity getActivity(){

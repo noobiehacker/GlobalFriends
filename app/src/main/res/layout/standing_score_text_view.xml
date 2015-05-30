@@ -12,6 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/standings_score_width_padding"
         android:layout_marginRight="@dimen/standings_score_width_padding"
+        android:singleLine="true"
         android:gravity="center"
         android:textAllCaps="true" />
 

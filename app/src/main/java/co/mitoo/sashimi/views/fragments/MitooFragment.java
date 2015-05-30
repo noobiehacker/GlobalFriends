@@ -705,6 +705,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         //TODO:REFACTOR
 
+                /*
 
         Bundle bundle = new Bundle();
         bundle.putInt(getUserIDKey(), getUserID());
@@ -716,7 +717,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
 
-                /*
+                        */
 
         Bundle bundle = new Bundle();
         bundle.putInt(getUserIDKey(), getUserID());
@@ -729,7 +730,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
 
-                        */
 
 
     }

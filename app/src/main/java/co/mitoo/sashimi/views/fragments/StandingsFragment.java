@@ -1,9 +1,8 @@
 package co.mitoo.sashimi.views.fragments;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,14 @@ import co.mitoo.sashimi.models.appObject.StandingsRow;
 import co.mitoo.sashimi.models.jsonPojo.Team;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.MitooConstants;
-import co.mitoo.sashimi.utils.TeamViewHelper;
-import co.mitoo.sashimi.utils.events.LoadScoreTableEvent;
+import co.mitoo.sashimi.utils.TeamViewModel;
 import co.mitoo.sashimi.utils.events.LoadStandingsEvent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.events.StandingsLoadedEvent;
 import co.mitoo.sashimi.views.Listener.ScrollViewListener;
 import co.mitoo.sashimi.views.adapters.ScoreGridAdapter;
+import co.mitoo.sashimi.views.adapters.StandingsTeamAdapter;
+import co.mitoo.sashimi.views.widgets.HeaderListView;
 import co.mitoo.sashimi.views.widgets.ObservableScrollView;
 
 /**
@@ -37,7 +37,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
     private int competitionSeasonID;
     private TableLayout teamTable;
-    private TeamViewHelper teamViewHelper;
+    private TeamViewModel teamViewModel;
     private ObservableScrollView leftScrollView;
     private ObservableScrollView rightScrollView;
     private List<StandingsRow> standingsRows;
@@ -48,6 +48,8 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     private boolean tableLoaded;
     private RecyclerView recyclerView;
     private ScoreGridAdapter gridAdapter;
+    private HeaderListView teamListView;
+    private StandingsTeamAdapter teamAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
     }
 
     private void setUpGridScoreView() {
-        final GridLayoutManager recyclerManager = new GridLayoutManager(getActivity(), 11, LinearLayoutManager.HORIZONTAL, false);
+        final StaggeredGridLayoutManager recyclerManager = new StaggeredGridLayoutManager( 5, StaggeredGridLayoutManager.VERTICAL);
         this.recyclerView.setLayoutManager(recyclerManager);
     }
 
@@ -104,10 +106,9 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
         setProgressLayout((ProgressLayout) view.findViewById(R.id.progressLayout));
         this.tabClicked = false;
 //        this.scoreHeaderTable = (TableLayout) view.findViewById(R.id.scoreHeaderView);
-        this.leftScrollView = (ObservableScrollView) view.findViewById(R.id.leftScrollView);
-        this.teamTable = (TableLayout) view.findViewById(R.id.teamTableLayout);
         //      this.rightViewProgressLayout = (ProgressLayout) view.findViewById(R.id.rightTableProgressLayout);
         this.recyclerView = (RecyclerView) view.findViewById(R.id.grid_score_view);
+        this.teamListView = (HeaderListView) view.findViewById(R.id.team_list_view);
         setPreDataLoading(true);
 
     }
@@ -153,19 +154,35 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
         this.dataReceived = true;
         this.standingsRows = event.getStandingRows();
-        setUpTeamView(this.standingsRows);
-        setUpScoreTable(getScoreDataFromStandingsRows(this.standingsRows),this.standingsRows.size());
+        setUpScoreTable(getScoreDataFromStandingsRows(this.standingsRows),5);
 
     }
 
     private List<String> getScoreDataFromStandingsRows(List<StandingsRow> standingsRows) {
 
         List<String> result = new ArrayList<String>();
+        boolean firstItem = true;
 
-        for (int i = 0; i < standingsRows.size(); i++) {
-            for (StandingsRow item : standingsRows) {
-                result.add(item.getScore().get(i));
+        for (StandingsRow item : standingsRows) {
+/*
+            if (firstItem) {
+                result.add(getString(R.string.standing_page_header_text));
+                firstItem = !firstItem;
+            } else {
+                Team team = getDataHelper().getTeam(item.getId());
+                if (team == null) {
+
+                    team = new Team();
+                    team.setName("Hello Team");
+                    team.setLogo_small("http://www.bet.com/news/sports/photos/sports-buzz/2014/04/sports-buzz-4-27-5-3/_jcr_content/leftcol/flipbook/flipbookimage.flipfeature.dimg/052913-sports-teams-logo-golden-state-warriors.jpg");
+                }
+
+                result.add(team.getName());
             }
+            result.addAll(item.getScore());*/
+
+            result.addAll(item.getScore());
+
         }
 
         return result;
@@ -175,6 +192,8 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
         this.gridAdapter = new ScoreGridAdapter(scoreData, rowCount);
         this.recyclerView.setAdapter(this.gridAdapter);
+        this.teamAdapter = new StandingsTeamAdapter(getActivity(), R.id.team_list_view, this.standingsRows,this);
+        this.teamListView.setAdapter(this.teamAdapter);
 
    /*     this.rightScrollView = (ObservableScrollView) getActivity().getLayoutInflater().inflate(R.layout.view_standings_data_table, null);
 
@@ -291,8 +310,8 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
                 }
 
                 rankingsText.setText(Integer.toString(ranking));
-                getTeamViewHelper().setUpTeamName(team, teamName);
-                getTeamViewHelper().loadTeamIcon(teamIcon, team);
+                getTeamViewModel().setUpTeamName(team, teamName);
+                getTeamViewModel().loadTeamIcon(teamIcon, team);
 
                 this.teamTable.addView(teamContainer);
 
@@ -301,12 +320,12 @@ public class StandingsFragment extends MitooFragment implements ScrollViewListen
 
     }
 
-    public TeamViewHelper getTeamViewHelper() {
+    public TeamViewModel getTeamViewModel() {
 
-        if (teamViewHelper == null) {
-            teamViewHelper = new TeamViewHelper(getViewHelper());
+        if (teamViewModel == null) {
+            teamViewModel = new TeamViewModel(getViewHelper());
         }
-        return teamViewHelper;
+        return teamViewModel;
 
     }
 
