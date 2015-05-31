@@ -1,15 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_splash"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue" >
+    android:background="@color/blue">
+
+    //Top
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/untitled_3_01" />
- </RelativeLayout>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/logo_06" />
+
+    //Bottom
+
+    <TextView
+        android:id="@+id/firstText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
+    <TextView
+        android:id="@+id/secondText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:textColor="@color/white"
+        android:text="@string/selection_screen_text_four"
+        android:textSize="15sp" />
+
+
+    <RelativeLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secondText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/seekerIconContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/untitled3_13"
+                android:padding="3dp"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/seekerIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/untitled3_09" />
+            </RelativeLayout>
+
+
+            <ImageView
+                android:id="@+id/hostIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_sides"
+                android:layout_toRightOf="@id/seekerIconContainer"
+                android:background="@drawable/untitled3_10" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/thirdContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topContainer"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+
+
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/selection_screen_text_five"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/thirdContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal">
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/facebookIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/untitled3_11" />
+
+
+            <ImageView
+                android:id="@+id/linkinIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spacing_sides"
+                android:layout_toRightOf="@id/facebookIcon"
+                android:background="@drawable/untitled3_12" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button"
+        style="@style/whiteButton"
+        android:layout_width="200dp"
+        android:layout_height="@dimen/general_button_height"
+        android:layout_below="@+id/bottomContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/landing_page_middle_button_padding"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:text="@string/selection_screen_text_two" />
+
+</RelativeLayout>

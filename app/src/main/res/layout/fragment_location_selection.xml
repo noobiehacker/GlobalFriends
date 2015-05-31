@@ -3,6 +3,7 @@
     android:id="@+id/fragment_location_selection"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textColor="@color/white"
     android:background="@color/white">
 
     <TextView
@@ -13,6 +14,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/blue"
         android:gravity="center"
+
         android:text="@string/location_screen_text_one"
         android:textSize="15sp" />
 
@@ -43,18 +45,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_two" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/firstRowText"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_three" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_four" />
 
         </RelativeLayout>
@@ -73,6 +81,7 @@
             android:id="@+id/singaporeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:background="@drawable/untitled_1_02" />
 
         <RelativeLayout
@@ -87,18 +96,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_five" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/secondRowText"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_six" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_seven" />
 
         </RelativeLayout>
@@ -131,18 +146,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_eight" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/thirdRowText"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_nine" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+
                 android:text="@string/location_screen_text_ten" />
 
         </RelativeLayout>
@@ -151,7 +172,7 @@
 
     <Button
         android:id="@+id/button"
-        style="@style/greenButton"
+        style="@style/blueButton"
         android:layout_width="100dp"
         android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/thirdContainer"

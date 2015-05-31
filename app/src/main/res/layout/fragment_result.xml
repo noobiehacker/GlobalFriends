@@ -30,18 +30,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:textSize="15sp"
+                android:textColor="@color/white"
                 android:text="@string/location_screen_text_two" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/firstRowText"
+                android:textColor="@color/white"
+
+                android:textSize="15sp"
                 android:text="@string/location_screen_text_three" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:textColor="@color/white"
+                android:textSize="15sp"
                 android:text="@string/location_screen_text_four" />
 
         </RelativeLayout>
@@ -55,7 +62,8 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/topContainer"
         android:layout_centerHorizontal="true"
-        android:text="@string/location_screen_text_eight"
+        android:textSize="20sp"
+        android:text="@string/result_screen_text_one"
         android:textColor="@color/blue" />
 
     <RelativeLayout
@@ -63,9 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/infoTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal">
-
+        android:layout_centerHorizontal="true">
 
         <RelativeLayout
             android:id="@+id/topIconRow"
@@ -91,11 +97,13 @@
                         android:id="@+id/internationImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/untitled3_14" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:layout_below="@id/internationImageView"
                         android:text="@string/result_screen_text_three"
                         android:textColor="@color/blue" />
@@ -107,18 +115,21 @@
                     android:id="@+id/tourismView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_big"
                     android:layout_toRightOf="@id/internationView">
 
                     <ImageView
                         android:id="@+id/tourismImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/untitled3_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tourismImageView"
+                        android:layout_centerHorizontal="true"
                         android:text="@string/result_screen_text_four"
                         android:textColor="@color/blue" />
                 </RelativeLayout>
@@ -148,6 +159,7 @@
 
                     <ImageView
                         android:id="@+id/technologyImageView"
+                        android:layout_centerHorizontal="true"
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -159,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/technologyImageView"
                         android:text="@string/result_screen_text_five"
+                        android:layout_centerHorizontal="true"
 
                         android:textColor="@color/blue" />
 
@@ -167,13 +180,16 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_big"
                     android:layout_toRightOf="@id/technologyView">
 
                     <ImageView
                         android:id="@+id/financeView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/untitled3_17" />
+                        android:background="@drawable/untitled3_17"
+                        android:layout_centerHorizontal="true"
+                        />
 
 
                     <TextView
@@ -181,6 +197,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/financeView"
                         android:text="@string/result_screen_text_six"
+                        android:layout_centerHorizontal="true"
 
                         android:textColor="@color/blue" />
                 </RelativeLayout>
@@ -193,8 +210,8 @@
 
     <Button
         android:id="@+id/button"
-        style="@style/greenButton"
-        android:layout_width="100dp"
+        style="@style/blueButton"
+        android:layout_width="200dp"
         android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/bottomContainer"
         android:layout_centerHorizontal="true"

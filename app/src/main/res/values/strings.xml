@@ -2,7 +2,7 @@
 <resources>
 
     <!-- App related -->
-    <string name="app_name">Global Friends</string>
+    <string name="app_name">Parachute</string>
     <string name="platform_name">Android</string>
     <string name="action_settings">Settings</string>
     <string name="action_register">Register</string>
@@ -482,7 +482,7 @@
     <string name="selection_screen_text_five">Connect me with</string>
 
     <string name="interest_screen_text_one">Are these your interests?</string>
-    <string name="interest_screen_text_two">Are these your skills?</string>
+    <string name="interest_screen_text_two">What are you looking for?</string>
     <string name="interest_screen_text_three">Are these your next?</string>
     <string name="interest_screen_text_four">Interest?</string>
     <string name="interest_screen_text_five">Skill?</string>
@@ -501,7 +501,7 @@
 
 
 
-    <string name="result_screen_text_one">San Francisco is the best tech hub in the world</string>
+    <string name="result_screen_text_one">San Francisco is the best tech hub =D</string>
     <string name="result_screen_text_two">Read more</string>
     <string name="result_screen_text_three">International</string>
 
@@ -510,6 +510,10 @@
     <string name="result_screen_text_six">Finance</string>
 
     <string name="result_screen_text_seven">My network</string>
+
+    <string name="network_screen_text_one">Friends</string>
+    <string name="network_screen_text_two">Interests</string>
+    <string name="network_screen_text_three">Needs</string>
 
 
 

@@ -47,7 +47,7 @@ public class ResultFragment extends  MitooFragment {
                     //  case R.id.searchButton:
 
                     FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                            .setFragmentID(R.id.fragment_interest)
+                            .setFragmentID(R.id.fragment_network)
                             .setTransition(MitooEnum.FragmentTransition.PUSH)
                             .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                             .build();
@@ -60,7 +60,7 @@ public class ResultFragment extends  MitooFragment {
 
     @Override
     protected void initializeOnClickListeners(View view){
-        view.findViewById(R.id.topContainer).setOnClickListener(this);
+        view.findViewById(R.id.button).setOnClickListener(this);
         //      view.findViewById(R.id.searchButton).setOnClickListener(this);
 
     }

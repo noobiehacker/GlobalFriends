@@ -35,8 +35,8 @@ public class FragmentFactory {
             case R.id.fragment_splash:
                 result = SplashScreenFragment.newInstance();
                 break;
-            case R.id.fragment_interest_confirm:
-                result = InterestConfirmFragment.newInstance();
+            case R.id.fragment_network:
+                result = NetworkFragment.newInstance();
                 break;
             case R.id.fragment_interest:
                 result = InterestFragment.newInstance();
@@ -53,8 +53,8 @@ public class FragmentFactory {
             case R.id.fragment_result:
                 result = ResultFragment.newInstance();
                 break;
-            case R.id.fragment_selection:
-                result = SelectionFragment.newInstance();
+            case R.id.fragment_contact:
+                result = ContactFragment.newInstance();
                 break;
             case R.id.fragment_home:
                 result = HomeFragment.newInstance();

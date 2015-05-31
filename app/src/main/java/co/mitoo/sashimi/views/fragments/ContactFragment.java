@@ -10,17 +10,17 @@ import co.mitoo.sashimi.R;
 /**
  * Created by david on 15-05-30.
  */
-public class SelectionFragment extends  MitooFragment {
+public class ContactFragment extends  MitooFragment {
 
-    public static SelectionFragment newInstance() {
-        SelectionFragment fragment = new SelectionFragment();
+    public static ContactFragment newInstance() {
+        ContactFragment fragment = new ContactFragment();
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_selection,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_contact,
                 container, false);
         initializeViews(view);
         initializeFields();

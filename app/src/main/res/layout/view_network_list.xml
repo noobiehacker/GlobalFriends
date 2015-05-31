@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:src="@drawable/untitled2_09" />
+
+    <RelativeLayout
+        android:id="@+id/rightContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/spacing_normal"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/profileImage"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="John Doe" />
+
+        <TextView
+            android:id="@+id/positionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_below="@id/nameTextView"
+            android:text="CEO of Google" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_below="@id/positionTextView"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/firstContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/firstIconImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/untitled3_18" />
+
+                <TextView
+                    android:id="@+id/firstTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/firstIconImage"
+                    android:text="30" />
+
+                <ImageView
+                    android:id="@+id/secondIconImage"
+                    android:layout_toRightOf="@id/firstTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_big"
+                    android:src="@drawable/untitled3_19" />
+
+                <TextView
+                    android:id="@+id/secondTextView"
+                    android:layout_toRightOf="@id/secondIconImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30" />
+
+                <ImageView
+                    android:id="@+id/thirdIconImage"
+                    android:layout_toRightOf="@id/secondIconImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_big"
+                    android:src="@drawable/untitled3_20" />
+
+                <TextView
+                    android:id="@+id/thirdTextView"
+                    android:layout_toRightOf="@id/thirdIconImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

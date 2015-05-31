@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:background="@drawable/untitled_3_01" />
+        android:background="@drawable/logo_06" />
 
     //Bottom
 
@@ -26,7 +26,8 @@
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/selection_screen_text_three"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
 
@@ -37,6 +38,7 @@
         android:layout_below="@+id/firstText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_normal"
+        android:textColor="@color/white"
         android:text="@string/selection_screen_text_four"
         android:textSize="15sp" />
 
@@ -54,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -62,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/untitled3_13"
+                android:padding="3dp"
                 android:orientation="horizontal">
 
 
@@ -90,6 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/topContainer"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+
+
         android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/selection_screen_text_five"
         android:textSize="15sp" />
@@ -107,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
             android:orientation="horizontal">
 
             <ImageView
@@ -131,8 +137,8 @@
 
     <Button
         android:id="@+id/button"
-        style="@style/greenButton"
-        android:layout_width="100dp"
+        style="@style/whiteButton"
+        android:layout_width="200dp"
         android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/bottomContainer"
         android:layout_centerHorizontal="true"
