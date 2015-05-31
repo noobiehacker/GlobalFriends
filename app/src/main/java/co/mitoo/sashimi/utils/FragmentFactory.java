@@ -35,7 +35,7 @@ public class FragmentFactory {
             case R.id.fragment_splash:
                 result = SplashScreenFragment.newInstance();
                 break;
-            case R.id.fragment_sign_up:
+        /*    case R.id.fragment_sign_up:
                 result = SignUpFragment.newInstance();
                 break;
             case R.id.fragment_login:
@@ -96,7 +96,7 @@ public class FragmentFactory {
                 result = PreConfirmFragment.newInstance();
             case R.id.fragment_standings:
                 result = StandingsFragment.newInstance();
-                break;
+                break;*/
             default:
                 result = SplashScreenFragment.newInstance();
         }
@@ -106,9 +106,9 @@ public class FragmentFactory {
     public MitooFragment createTabFragment(int fragmentID , MitooEnum.FixtureTabType tabType){
         MitooFragment result = null;
         switch (fragmentID) {
-            case R.id.fragment_competition_tab:
+/*            case R.id.fragment_competition_tab:
                 result = CompetitionSeasonTabFragment.newInstance(tabType);
-                break;
+                break;*/
             default:
                 result = SplashScreenFragment.newInstance();
         }

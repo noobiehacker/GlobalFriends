@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_landing"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg1">
+    android:layout_height="match_parent">
+//    android:background="@drawable/bg1">
 
 
     <com.daimajia.slider.library.SliderLayout
@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/mitoo_header_assets" />
+        android:layout_marginTop="70dp"/>
+//        android:background="@drawable/mitoo_header_assets" />
 
     //Bottom
 
@@ -51,13 +51,13 @@
             android:layout_marginTop="@dimen/landing_page_middle_button_padding"
             android:text="@string/landing_page_text1" />
 
-        <include
+       <!-- <include
             android:id="@+id/termsPrivacyView"
             layout="@layout/view_terms_privacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/searchButton"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true" /> -->
 
     </RelativeLayout>
 

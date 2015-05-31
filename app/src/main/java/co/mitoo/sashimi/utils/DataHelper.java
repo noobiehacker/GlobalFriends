@@ -323,6 +323,7 @@ public class DataHelper {
     //TODO: ReFACTOR
     public int getTextViewIDFromLayout(int layout) {
 
+        /*
         int result = MitooConstants.invalidConstant;
         if (layout == R.layout.view_list_header)
             result = R.id.header_view;
@@ -332,7 +333,8 @@ public class DataHelper {
             result = R.id.leagueMessage;
         else if (layout == R.layout.view_standings_list_header)
             result = R.id.header_view;
-        return result;
+        return result;*/
+        return 1;
 
     }
 

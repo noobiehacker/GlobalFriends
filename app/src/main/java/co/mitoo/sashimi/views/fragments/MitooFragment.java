@@ -39,19 +39,15 @@ import co.mitoo.sashimi.network.Services.NotificationPreferenceService;
 import co.mitoo.sashimi.network.Services.SessionService;
 import co.mitoo.sashimi.network.Services.TeamService;
 import co.mitoo.sashimi.network.Services.UserInfoService;
-import co.mitoo.sashimi.models.FixtureModel;
-import co.mitoo.sashimi.models.LeagueModel;
 import co.mitoo.sashimi.models.jsonPojo.recieve.SessionRecieve;
 import co.mitoo.sashimi.network.DataPersistanceService;
 import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.DataHelper;
-import co.mitoo.sashimi.utils.FormHelper;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.ViewHelper;
 import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MitooActivitiesErrorEvent;
 import co.mitoo.sashimi.utils.listener.LocationServicesPromptOnclickListener;
 import co.mitoo.sashimi.views.activities.MitooActivity;
@@ -74,7 +70,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     private ProgressDialog progressDialog;
     private ViewHelper viewHelper;
     private ViewGroup rootView;
-    private FormHelper formHelper;
+//    private FormHelper formHelper;
     private boolean pageFirstLoad = true;
     private ProgressLayout progressLayout;
     private boolean popActionRequiresDelay = false;
@@ -158,7 +154,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected void initializeViews(View view) {
 
         initializeStatusBarColor();
-        setUpToolBar(view);
+//        setUpToolBar(view);
         setRootView((ViewGroup) view);
 
     }
@@ -199,7 +195,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
             centerProgressLayout();
             getProgressLayout().removeAllViews();
-            getProgressLayout().addView(createNetworkFailureView());
+//            getProgressLayout().addView(createNetworkFailureView());
             displayTextWithToast(getString(R.string.error_no_internet));
 
         }
@@ -228,7 +224,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     protected void handleNetwork(){
         //if (getMitooActivity()!=null && !getMitooActivity().NetWorkConnectionIsOn())
-            //displayTextWithToast(getString(R.string.error_no_internet));
+        //displayTextWithToast(getString(R.string.error_no_internet));
 
     }
 
@@ -286,9 +282,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         //TODO: REFACTORED TO USE PRO AND FIGURE OUT THEMEING OPTIONS
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(title)
-               .setMessage(message)
-               .setPositiveButton(getString(R.string.prompt_ok),listenner)
-               .setCancelable(false);
+                .setMessage(message)
+                .setPositiveButton(getString(R.string.prompt_ok),listenner)
+                .setCancelable(false);
 
         builder.create().show();
     }
@@ -394,7 +390,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
     }
 
-    protected Toolbar setUpToolBar(View view) {
+/*    protected Toolbar setUpToolBar(View view) {
 
         setToolbar((Toolbar) view.findViewById(R.id.app_bar));
         if (getToolbar() != null) {
@@ -410,7 +406,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
         }
         return toolbar;
 
-    }
+    }*/
 
     public String getFragmentTitle() {
         return fragmentTitle;
@@ -626,11 +622,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
     }
 
-    public FormHelper getFormHelper() {
+/*    public FormHelper getFormHelper() {
         if (formHelper == null)
             formHelper = new FormHelper(this);
         return formHelper;
-    }
+    }*/
 
     public boolean pageLoaded() {
         return pageFirstLoad;
@@ -705,7 +701,6 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         //TODO:REFACTOR
 
-                /*
 
         Bundle bundle = new Bundle();
         bundle.putInt(getUserIDKey(), getUserID());
@@ -717,7 +712,7 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
 
-                        */
+                /*
 
         Bundle bundle = new Bundle();
         bundle.putInt(getUserIDKey(), getUserID());
@@ -729,6 +724,9 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 .setBundle(bundle)
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);
+
+                                */
+
 
 
 
@@ -783,10 +781,10 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
     protected void onNetWorkFailure(){
     }
 
-    protected View createNetworkFailureView(){
+/*    protected View createNetworkFailureView(){
         RelativeLayout layout = (RelativeLayout) getViewHelper().createRelativeLayoutFromInflator(R.layout.view_networkfailure_text_view);
         return layout;
-    }
+    }*/
 
     public boolean isForeGround() {
         return foreGround;
@@ -812,27 +810,27 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
                 SessionRecieve session = (SessionRecieve)object;
                 return session.id;
             }else{
-               return MitooConstants.invalidConstant;
+                return MitooConstants.invalidConstant;
             }
         }
     }
 
-    protected boolean isDuringConfirmFlow(){
+/*    protected boolean isDuringConfirmFlow(){
         boolean result = false;
         if(getMitooActivity()!=null && getMitooActivity().topFragmentType()!= null ){
 
             if(getMitooActivity().topFragmentType() == ConfirmAccountFragment.class ||
-               getMitooActivity().topFragmentType() == ConfirmSetPasswordFragment.class ||
-               getMitooActivity().topFragmentType() == ConfirmDoneFragment.class)
+                    getMitooActivity().topFragmentType() == ConfirmSetPasswordFragment.class ||
+                    getMitooActivity().topFragmentType() == ConfirmDoneFragment.class)
                 result =true;
         }
         return result;
-    }
+    }*/
 
-    protected void handleAuth401Error(){
+/*    protected void handleAuth401Error(){
         if(!isDuringConfirmFlow())
             BusProvider.post(new LogOutNetworkCompleteEevent());
-    }
+    }*/
 
     protected DialogInterface.OnClickListener createRegularFlowDialogListner(){
 

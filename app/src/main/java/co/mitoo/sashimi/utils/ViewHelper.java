@@ -8,10 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -28,8 +25,6 @@ import java.util.Arrays;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.Competition;
 import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.views.widgets.HeaderListView;
-import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import android.os.Handler;
 import co.mitoo.sashimi.views.widgets.HeaderGridView;
@@ -59,7 +54,7 @@ public class ViewHelper {
    
 
     private void setUpStaticLeagueBackground(final View leagueItemHolder, League league) {
-
+/*
         ImageView leagueBackgroundImageView = (ImageView) leagueItemHolder.findViewById(R.id.leagueBackGround);
         MitooImageTarget target = new MitooImageTarget(leagueBackgroundImageView);
         league.setLeagueCover(target);
@@ -71,11 +66,11 @@ public class ViewHelper {
                     .fit()
                     .centerCrop()
                     .into(leagueBackgroundImageView);
-        }
+        }*/
 
     }
 
-    public void setUpConfirmAccountView(View fragmentView, Competition competition){
+  /*  public void setUpConfirmAccountView(View fragmentView, Competition competition){
 
         League league = competition.getLeague();
         setUpStaticLeagueBackground(fragmentView, league);
@@ -85,7 +80,7 @@ public class ViewHelper {
                 .load(leagueIconUrl)
                 .into(iconImage);
         setUpLeagueNameText(fragmentView, competition.getLeague());
-    }
+    }*/
 
     public void setUpConfirmPasswordView(View fragmentView, Competition competition){
 
@@ -94,7 +89,7 @@ public class ViewHelper {
 
     }
 
-    public void setUpConfirmDoneView(View fragmentView, Competition competition){
+  /*  public void setUpConfirmDoneView(View fragmentView, Competition competition){
 
         League league = competition.getLeague();
         setUpStaticLeagueBackground(fragmentView, league);
@@ -105,19 +100,19 @@ public class ViewHelper {
                 .into(iconImage);
         setUpLeagueNameText(fragmentView, competition.getLeague());
 
-    }
+    }*/
 
     public void setUpLeagueBackgroundView(View fragmentView, League league){
         setUpStaticLeagueBackground(fragmentView, league);
 
     }
     
-    public void setUpLeagueNameText(View view, League league){
+  /*  public void setUpLeagueNameText(View view, League league){
 
         TextView leagueNameTextView =  (TextView) view.findViewById(R.id.league_name);
         leagueNameTextView.setText(league.getName());
 
-    }
+    }*/
 
     public void setTextViewTextColor(TextView view, String color){
         int colorID = getColor(color);
@@ -455,7 +450,7 @@ public class ViewHelper {
         return holder;
     }
 
-    public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText
+ /*   public <T> void setUpListView(ListView listView, ArrayAdapter<T> adapter ,String headerText
             ,AdapterView.OnItemClickListener listener){
         int headerLayoutID =  R.layout.view_list_header;
         //FIX
@@ -484,7 +479,7 @@ public class ViewHelper {
         View header = setUpListHeader(listView, headerLayoutID, headerText);
         listView.setAdapter(adapter);
         listView.setHeaderView(header);
-    }
+    }*/
 
     private DataHelper getDataHelper(){
         return getActivity().getDataHelper();
@@ -496,10 +491,10 @@ public class ViewHelper {
         return leagueViewHelper;
     }
 
-    public FixtureViewHelper getFixtureViewHelper() {
+/*    public FixtureViewHelper getFixtureViewHelper() {
         if(fixtureViewHelper==null)
             fixtureViewHelper = new FixtureViewHelper(this);
         return fixtureViewHelper;
-    }
+    }*/
 
 }

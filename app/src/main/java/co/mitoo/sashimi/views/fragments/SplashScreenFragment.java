@@ -76,7 +76,6 @@ public class SplashScreenFragment extends MitooFragment {
     @Subscribe
     public void onBranchIOResponse(BranchIOResponseEvent event){
 
-        setInvitationToken(event.getToken());
         setBranchResponseRecieved(true);
         loadFirstFragment();
 
@@ -124,7 +123,8 @@ public class SplashScreenFragment extends MitooFragment {
 
     private void regularFlow(){
         //REGULAR FLOW
-        if (isInviteFlow())
+        boolean isInviteFlow = true;
+        if (isInviteFlow)
             startInviteFlow();
         else
             startRegularFlow();
@@ -132,77 +132,7 @@ public class SplashScreenFragment extends MitooFragment {
 
     public void startInviteFlow() {
 
-        getConfirmInfoModel();
-        Invitation_token token = getInvitationToken();
-        BusProvider.post(new ConfirmingUserRequestEvent(token.getToken()));
 
     }
 
-    public Invitation_token getInvitationToken() {
-        return invitationToken;
-    }
-
-    public void setInvitationToken(Invitation_token invitationToken) {
-        this.invitationToken = invitationToken;
-    }
-
-    @Override
-    protected void handleHttpErrors(int statusCode) {
-
-        if (statusCode == 401 || statusCode == 409) {
-            if (statusCode == 401)
-                handle401Error();
-            else if (statusCode == 409)
-                handle409Error();
-        } else
-            super.handleHttpErrors(statusCode);
-    }
-
-    private void handle401Error() {
-
-        if (!isDialogButtonCreated()) {
-            setDialogButtonCreated(true);
-            displayTextWithDialog(getString(R.string.prompt_confirm_401_title),
-                    getString(R.string.prompt_confirm_401_Message),
-                    createRegularFlowDialogListner());
-        }
-
-    }
-
-    private void handle409Error() {
-        if (!isDialogButtonCreated()) {
-            setDialogButtonCreated(true);
-            displayTextWithDialog(getString(R.string.prompt_confirm_409_title),
-                    getString(R.string.prompt_confirm_409_Message),
-                    createRegularFlowDialogListner());
-        }
-
-    }
-
-    @Override
-    protected void handleNetworkError() {
-
-        displayTextWithToast(getString(R.string.error_no_internet));
-        startRegularFlow();
-
-    }
-
-    @Override
-    protected void handleNetwork(){
-        if (getMitooActivity()!=null && !getMitooActivity().NetWorkConnectionIsOn())
-          displayTextWithToast(getString(R.string.error_no_internet));
-
-    }
-
-    private boolean isInviteFlow(){
-        return getInvitationToken()!= null && getInvitationToken().getToken()!=null;
-    }
-
-    public boolean isDialogButtonCreated() {
-        return dialogButtonCreated;
-    }
-
-    public void setDialogButtonCreated(boolean dialogButtonCreated) {
-        this.dialogButtonCreated = dialogButtonCreated;
-    }
 }

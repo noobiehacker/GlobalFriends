@@ -174,14 +174,16 @@
     <dimen name="pre_confirm_middle_padding">10dp</dimen>
     <dimen name="pre_confirm_bottom_padding">50dp</dimen>
     <dimen name="pre_confirm_bottom_button_padding">25.5dp</dimen>
+
     <!-- Standings page -->
+
     <dimen name="standings_page_team_lhs_margin">8dp</dimen>
     <dimen name="standings_page_ranking_width">38dp</dimen>
     <dimen name="standings_right_row_height">48dp</dimen>
     <dimen name="standings_left_row_height">48dp</dimen>
     <dimen name="standings_header_height">50dp</dimen>
     <dimen name="standings_score_width_padding">10dp</dimen>
-    <dimen name="standings_left_scroll_view_width">190dp</dimen>
+    <dimen name="standings_left_scroll_view_width">180dp</dimen>
     <dimen name="standings_icon_size">17.5dp</dimen>
 
     <!-- All Pages -->

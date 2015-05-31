@@ -17,14 +17,14 @@ import co.mitoo.sashimi.views.activities.MitooActivity;
  */
 public class FixtureViewHelper {
 
-    public FixtureViewHelper(ViewHelper viewHelper) {
+/*    public FixtureViewHelper(ViewHelper viewHelper) {
         this.viewHelper = viewHelper;
     }
 
     public ViewHelper getViewHelper() {
         return viewHelper;
-    }
-
+    }*/
+/*
     private ViewHelper viewHelper;
     private TeamViewModel teamViewModel;
     private View.OnClickListener createFixtureItemClickedListener(final FixtureModel itemClicked){
@@ -212,5 +212,5 @@ public class FixtureViewHelper {
 
     private String getFixtureIdKey(){
         return getActivity().getString(R.string.bundle_key_fixture_id_key);
-    }
+    }*/
 }

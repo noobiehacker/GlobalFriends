@@ -135,7 +135,7 @@ public class MitooSearchViewStyle extends SearchViewStyle{
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.addRule(RelativeLayout.RIGHT_OF, R.id.search_view_image_icon);
+        //params.addRule(RelativeLayout.RIGHT_OF, R.id.search_view_image_icon);
         getSearchView().setLayoutParams(params);
         setMainAutoCompletePadding();
         setUpRemaining();

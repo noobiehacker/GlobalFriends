@@ -9,23 +9,20 @@ import com.urbanairship.push.notifications.DefaultNotificationFactory;
 
 import co.mitoo.sashimi.BuildConfig;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
+import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.keen.client.java.KeenClient;
 import io.keen.client.android.AndroidKeenClientBuilder;
-import io.keen.client.java.KeenLogging;
 import io.keen.client.java.KeenProject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.managers.ModelManager;
-import co.mitoo.sashimi.models.StandingsService;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.fragments.MitooFragment;
 
 
 /**

@@ -1,25 +1,4 @@
 package co.mitoo.sashimi.utils;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.squareup.picasso.Callback;
-
-import java.util.List;
-
-import co.mitoo.sashimi.R;
-import co.mitoo.sashimi.models.LeagueModel;
-import co.mitoo.sashimi.models.jsonPojo.League;
-import co.mitoo.sashimi.utils.events.BackGroundTaskCompleteEvent;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
-import co.mitoo.sashimi.views.activities.MitooActivity;
-import co.mitoo.sashimi.views.fragments.MitooFragment;
-import co.mitoo.sashimi.views.widgets.MitooImageTarget;
 
 /**
  * Created by david on 15-03-13.
@@ -34,7 +13,7 @@ public class LeagueViewHelper {
         this.viewHelper = viewHelper;
     }
 
-    public ViewHelper getViewHelper() {
+/*    public ViewHelper getViewHelper() {
         return viewHelper;
     }
 
@@ -281,11 +260,11 @@ public class LeagueViewHelper {
 
     }
 
-    /*
+    *//*
      *
       Use for the two list view on home screen
     *
-    */
+    *//*
 
     public void setUpLeagueListIcon(final View view, League league){
 
@@ -310,7 +289,7 @@ public class LeagueViewHelper {
                 .placeholder(R.color.over_lay_black)
                 .transform(new LogoTransform(getViewHelper().getPixelFromDimenID(iconDimenID), ratio))
                 .into(iconImage, createListIconCallBack(view));
-    }
+    }*/
 
         /*
      *
@@ -318,12 +297,12 @@ public class LeagueViewHelper {
     *
     */
 
-    public Runnable getRunnable() {
+/*    public Runnable getRunnable() {
         return getViewHelper().getRunnable();
     }
 
     public Handler getHandler() {
         return getViewHelper().getHandler();
-    }
+    }*/
 
 }

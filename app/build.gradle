@@ -13,11 +13,11 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.0"
     defaultConfig {
-        applicationId "co.mitoo.sashimi"
+        applicationId "com.global.friends"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 16
-        versionName "1.2.4"
+        versionCode 1
+        versionName "0.0.1"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
         multiDexEnabled true
 
@@ -28,15 +28,15 @@ android {
 
     productFlavors {
         production {
-            applicationId "co.mitoo.sashimi"
+            applicationId "com.global.friends"
         }
 
         staging {
-            applicationId "co.mitoo.sashimi.staging"
+            applicationId "com.global.friends.staging"
         }
 
         localhost {
-            applicationId "co.mitoo.sashimi.localhost"
+            applicationId "com.global.friends.localhost"
         }
     }
 
@@ -160,20 +160,16 @@ dependencies {
     //compile 'com.jakewharton:butterknife:6.0.0'
     //Urban Airship
     compile 'com.urbanairship:urbanairship-lib:+@aar'
-    compile ('com.urbanairship:java-client:0.3.1'){
-        exclude module : 'jersey'
-        exclude module : 'jersey-core'
+    compile ('com.urbanairship:java-client:0.3.1') {
+        exclude module: 'jersey'
+        exclude module: 'jersey-core'
     }
-
-    //ALERT PRO
-    //compile 'com.github.fengdai:alertdialogpro-theme-material:0.2.3'
-
 
     // KeenIO
     compile 'io.keen:keen-client-api-android:2.1.1@aar'
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
     //UI
-/*    compile 'com.github.ksoichiro:android-observablescrollview:v1.5.1'
+    compile 'com.github.ksoichiro:android-observablescrollview:v1.5.1'
     compile 'me.grantland:autofittextview:0.2.+'
     compile 'com.romainpiel.shimmer:library:1.4.0@aar'
     compile 'com.fmsirvent:parallaxeverywhere:1.0.4'
@@ -184,7 +180,7 @@ dependencies {
     compile 'com.orhanobut:dialogplus:1.5@aar'
     compile 'com.yalantis:contextmenu:1.0.4'
     compile 'com.github.fengdai:alertdialogpro-theme-material:0.2.3'
-    compile 'com.baoyz.pullrefreshlayout:library:1.0.1'*/
+    compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
 
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')

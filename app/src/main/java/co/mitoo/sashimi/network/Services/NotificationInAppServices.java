@@ -1,11 +1,8 @@
 package co.mitoo.sashimi.network.Services;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
@@ -13,7 +10,6 @@ import co.mitoo.sashimi.R;
 import co.mitoo.sashimi.models.jsonPojo.recieve.NotificationReceive;
 import co.mitoo.sashimi.services.EventTrackingService;
 import co.mitoo.sashimi.utils.BusProvider;
-import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooEnum;
 import co.mitoo.sashimi.utils.events.CompetitionNotificationRequestEvent;
 import co.mitoo.sashimi.utils.events.CompetitionNotificationResponseEvent;
@@ -22,12 +18,9 @@ import co.mitoo.sashimi.utils.events.ConsumeNotificationEvent;
 import co.mitoo.sashimi.utils.events.FixtureNotificaitonRequestEvent;
 import co.mitoo.sashimi.utils.events.FixtureNotificationResponseEvent;
 import co.mitoo.sashimi.utils.events.FixtureNotificationUpdateResponseEvent;
-import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 import co.mitoo.sashimi.utils.events.NotificationEvent;
 import co.mitoo.sashimi.views.activities.MitooActivity;
 import co.mitoo.sashimi.views.application.MitooApplication;
-import co.mitoo.sashimi.views.fragments.CompetitionSeasonFragment;
-import co.mitoo.sashimi.views.fragments.FixtureFragment;
 import co.mitoo.sashimi.views.fragments.HomeFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 
@@ -87,7 +80,7 @@ public class NotificationInAppServices extends MitooService {
         BusProvider.post(new ConsumeNotificationEvent());
 
     }
-
+/*
     @Subscribe
     public void onCompetitionNotificationResponseEvent(CompetitionNotificationResponseEvent event) {
 
@@ -119,9 +112,9 @@ public class NotificationInAppServices extends MitooService {
 
         }
 
-    }
+    }*/
 
-    @Subscribe
+  /*  @Subscribe
     public void onFixtureNotificationResponseEvent(FixtureNotificationResponseEvent event) {
 
         disableHomeScreenLoading();
@@ -147,7 +140,7 @@ public class NotificationInAppServices extends MitooService {
                 consumeEventsInQueue();
 
         }
-    }
+    }*/
 
     private void disableHomeScreenLoading(){
 
@@ -168,7 +161,7 @@ public class NotificationInAppServices extends MitooService {
     }
 
     private void queueHomeFragment(){
-
+/*
         Bundle homeBundle = new Bundle();
         homeBundle.putInt(getUserIDKey(), getUserID());
 
@@ -180,13 +173,13 @@ public class NotificationInAppServices extends MitooService {
                 .build();
 
 
-        getEventQueue().offer(firstEvent);
+        getEventQueue().offer(firstEvent);*/
 
     }
 
     private void queueCompetitionFragment(int competitionSeasonID){
 
-        Bundle competitionBundle = new Bundle();
+/*        Bundle competitionBundle = new Bundle();
         competitionBundle.putInt(getCompetitionSeasonIdKey(), competitionSeasonID);
         competitionBundle.putString(getTeamColorKey(), getActivity().getString(R.string.place_holder_color_one));
         if(getMitooActionFromID(competitionSeasonID)!=null)
@@ -196,7 +189,7 @@ public class NotificationInAppServices extends MitooService {
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setBundle(competitionBundle)
                 .build();
-        getEventQueue().offer(seconndEvent);
+        getEventQueue().offer(seconndEvent);*/
 
     }
 
@@ -232,14 +225,14 @@ public class NotificationInAppServices extends MitooService {
 
     private void queueFixtureFragment(int fixtureID){
 
-        Bundle fixtureBundle = new Bundle();
+/*        Bundle fixtureBundle = new Bundle();
         fixtureBundle.putInt(getFixtureIdKey(), fixtureID);
         FragmentChangeEvent thirdEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(R.id.fragment_fixture)
                 .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setBundle(fixtureBundle)
                 .build();
-        getEventQueue().offer(thirdEvent);
+        getEventQueue().offer(thirdEvent);*/
 
     }
 

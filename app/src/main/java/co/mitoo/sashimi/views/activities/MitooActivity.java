@@ -59,9 +59,6 @@ import co.mitoo.sashimi.utils.events.LogOutEvent;
 import co.mitoo.sashimi.utils.events.LogOutNetworkCompleteEevent;
 import co.mitoo.sashimi.utils.events.MobileTokenDisassociateRequestEvent;
 import co.mitoo.sashimi.views.application.MitooApplication;
-import co.mitoo.sashimi.views.fragments.ConfirmAccountFragment;
-import co.mitoo.sashimi.views.fragments.ConfirmDoneFragment;
-import co.mitoo.sashimi.views.fragments.ConfirmSetPasswordFragment;
 import co.mitoo.sashimi.views.fragments.MitooFragment;
 import io.branch.referral.Branch;
 import io.branch.referral.BranchError;
@@ -211,7 +208,7 @@ public class MitooActivity extends ActionBarActivity {
         setUpNewRelic();
         setUpInitialCalligraphy();
         setLocationManager(new MitooLocationManager(this));
-        setUpBranch();
+//        setUpBranch();
         initializeNotification();
         BusProvider.register(this);
 
@@ -462,7 +459,7 @@ public class MitooActivity extends ActionBarActivity {
 
         FragmentChangeEvent fragmentChangeEvent =
                 new FragmentChangeEvent(this, MitooEnum.FragmentTransition.NONE,
-                        R.id.fragment_landing, MitooEnum.FragmentAnimation.HORIZONTAL);
+                        R.id.fragment_splash, MitooEnum.FragmentAnimation.HORIZONTAL);
 
         BusProvider.post(fragmentChangeEvent);
 
@@ -618,8 +615,8 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     private boolean fragmentIsRoot(int id) {
-
-        return id == R.id.fragment_home || id == R.id.fragment_landing;
+        return true;
+        //return id == R.id.fragment_home || id == R.id.fragment_landing;
     }
 
 
@@ -657,110 +654,6 @@ public class MitooActivity extends ActionBarActivity {
         return appStringHelper;
     }
 
-    private void setUpBranch() {
-
-        Branch.BranchReferralInitListener branchReferralInitListener = new Branch.BranchReferralInitListener() {
-            @Override
-            public void onInitFinished(JSONObject referringParams, BranchError error) {
-
-                if (error != null) {
-                    handleBranchError();
-                } else if (!isDuringConfirmFlow()) {
-
-                    Invitation_token token = getDataHelper().getInvitationToken(referringParams);
-
-                    /*
-                    *
-                    Hard Coding Data for Testing
-                    if (token.invitation_token!= null && token.invitation_token.equalsIgnoreCase("hxR1FZ4cPsUTyQz985SL")) {
-                        token = new Invitation_token();
-                        token.setToken("HenzCxPo3nVLdrsC3QXv");
-                    }
-                    *
-                    */
-                   /* if (token.invitation_token!= null ) {
-                        token = new Invitation_token();
-                        token.setToken("Z_ryy7BchtV-s_MGEPPG");
-                    }*/
-                    getModelManager().getSessionModel().setInvitation_token(token);
-                    if (isOnSplashScreen()) {
-
-                        BusProvider.post(new BranchIOResponseEvent(getModelManager().getSessionModel().getInvitation_token()));
-                        setOnSplashScreen(false);
-
-                    } else {
-                        if (token.invitation_token != null && getModelManager().getSessionModel().userIsLoggedIn())
-                            BusProvider.post(new LogOutEvent());
-                        MitooActivity.this.branchIODataReceived();
-                    }
-                } else if (error != null) {
-                    handleBranchError();
-                }
-            }
-        };
-        setBranchReferralInitListener(branchReferralInitListener);
-
-    }
-
-    private void handleBranchError() {
-        Log.e(getString(R.string.error_log_tag), getString(R.string.error_branch));
-
-        if (isOnSplashScreen()) {
-            BusProvider.post(new BranchIOResponseEvent(null));
-            setOnSplashScreen(false);
-
-        }
-
-    }
-
-    private void branchIODataReceived() {
-
-        if (!userIsOnInviteFlow()) {
-            Invitation_token token = getModelManager().getSessionModel().getInvitation_token();
-            if (token != null && token.getToken() != null) {
-                BusProvider.post(new ConfirmingUserRequestEvent(token.getToken()));
-            }
-        }
-    }
-
-    private boolean userIsOnInviteFlow() {
-
-        boolean result = false;
-
-        if (getFragmentStack().size() > 0) {
-            MitooFragment fragment = (MitooFragment) getFragmentStack().peek();
-            if (fragment != null) {
-                if (fragment instanceof ConfirmAccountFragment ||
-                        fragment instanceof ConfirmSetPasswordFragment ||
-                        fragment instanceof ConfirmDoneFragment)
-                    result = true;
-            }
-        }
-
-        return result;
-
-    }
-
-    @Subscribe
-    public void onConfirmInfoModelResponse(ConfirmInfoResponseEvent modelEvent) {
-
-        if (MitooActivity.confirmFlowFired == false) {
-            Bundle bundle = new Bundle();
-            bundle.putString(getConfirmInfoKey(), modelEvent.getToken());
-            FragmentChangeEvent event = FragmentChangeEventBuilder.getSingletonInstance()
-                    .setFragmentID(R.id.fragment_confirm_account)
-                    .setTransition(MitooEnum.FragmentTransition.CHANGE)
-                    .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                    .setBundle(bundle)
-                    .build();
-            BusProvider.post(event);
-            MitooActivity.confirmFlowFired = true;
-        }
-
-    }
-
-
-
 
     private void setPreviousFragmentBackClicked() {
         if (getFragmentStack().size() > 0 && getFragmentStack().peek() != null)
@@ -779,21 +672,6 @@ public class MitooActivity extends ActionBarActivity {
         return branchReferralInitListener;
     }
 
-    public void setBranchReferralInitListener(Branch.BranchReferralInitListener branchReferralInitListener) {
-        this.branchReferralInitListener = branchReferralInitListener;
-    }
-
-    public boolean isDuringConfirmFlow() {
-        boolean result = false;
-        if (topFragmentType() != null) {
-
-            if (topFragmentType() == ConfirmAccountFragment.class ||
-                    topFragmentType() == ConfirmSetPasswordFragment.class ||
-                    topFragmentType() == ConfirmDoneFragment.class)
-                result = true;
-        }
-        return result;
-    }
 
     public MitooApplication getMitooApplication() {
 
@@ -816,17 +694,6 @@ public class MitooActivity extends ActionBarActivity {
         return getString(R.string.bundle_key_auth_token_key);
     }
 
-    protected String getUserIDKey() {
-        return getString(R.string.bundle_key_user_id_key);
-    }
-
-    protected String getCompetitionSeasonIdKey() {
-        return getString(R.string.bundle_key_competition_id_key);
-    }
-
-    protected String getFixtureIdKey() {
-        return getString(R.string.bundle_key_fixture_id_key);
-    }
 
     protected int getUserID() {
 
