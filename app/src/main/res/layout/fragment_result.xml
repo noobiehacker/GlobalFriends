@@ -1,14 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_result"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/topContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstText"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/sanfranciscoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/untitled_1_01" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@color/blue"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/firstRowText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/location_screen_text_two" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/firstRowText"
+                android:text="@string/location_screen_text_three" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@string/location_screen_text_four" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/infoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/topContainer"
+        android:layout_centerHorizontal="true"
+        android:text="@string/location_screen_text_eight"
+        android:textColor="@color/blue" />
+
+    <RelativeLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_normal">
+
+
+        <RelativeLayout
+            android:id="@+id/topIconRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/internationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+
+                        android:id="@+id/internationImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled3_14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/internationImageView"
+                        android:text="@string/result_screen_text_three"
+                        android:textColor="@color/blue" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/tourismView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/internationView">
+
+                    <ImageView
+                        android:id="@+id/tourismImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled3_15" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tourismImageView"
+                        android:text="@string/result_screen_text_four"
+                        android:textColor="@color/blue" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottomIconRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/topIconRow"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/technologyView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/technologyImageView"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled3_16" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/technologyImageView"
+                        android:text="@string/result_screen_text_five"
+
+                        android:textColor="@color/blue" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/technologyView">
+
+                    <ImageView
+                        android:id="@+id/financeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled3_17" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/financeView"
+                        android:text="@string/result_screen_text_six"
+
+                        android:textColor="@color/blue" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
     <Button
         android:id="@+id/button"
-        style="@style/transparentButton"
-        android:layout_width="match_parent"
+        style="@style/greenButton"
+        android:layout_width="100dp"
         android:layout_height="@dimen/general_button_height"
+        android:layout_below="@+id/bottomContainer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/landing_page_middle_button_padding"
-        android:text="@string/selection_screen_text_two" />
-</LinearLayout>
+        android:paddingLeft="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:text="@string/result_screen_text_seven" />
+
+</RelativeLayout>

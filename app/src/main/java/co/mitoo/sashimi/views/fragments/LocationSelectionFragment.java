@@ -37,9 +37,10 @@ public class LocationSelectionFragment extends MitooFragment {
         if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
                 case R.id.button:
+                case R.id.topContainer:
                     fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                             .setFragmentID(R.id.fragment_result)
-                            .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                            .setTransition(MitooEnum.FragmentTransition.PUSH)
                             .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                             .build();
                     BusProvider.post(fragmentChangeEvent);
@@ -53,6 +54,7 @@ public class LocationSelectionFragment extends MitooFragment {
     @Override
     protected void initializeOnClickListeners(View view){
         view.findViewById(R.id.button).setOnClickListener(this);
+        view.findViewById(R.id.topContainer).setOnClickListener(this);
 
     }
 

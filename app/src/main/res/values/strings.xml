@@ -490,13 +490,13 @@
 
     <string name="location_screen_text_one">Based on your background, we suggest these cities for you</string>
     <string name="location_screen_text_two">San Francisco</string>
-    <string name="location_screen_text_three">California</string>
+    <string name="location_screen_text_three">" California"</string>
     <string name="location_screen_text_four">200 connections"</string>
     <string name="location_screen_text_five">Singapore</string>
-    <string name="location_screen_text_six">Singapore</string>
+    <string name="location_screen_text_six">" Singapore"</string>
     <string name="location_screen_text_seven">100 connections</string>
     <string name="location_screen_text_eight">Hong Kong</string>
-    <string name="location_screen_text_nine">Hong Kong</string>
+    <string name="location_screen_text_nine">" Hong Kong"</string>
     <string name="location_screen_text_ten">50 connections</string>
 
 

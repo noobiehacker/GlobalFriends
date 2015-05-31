@@ -11,11 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal"
         android:textColor="@color/blue"
         android:gravity="center"
         android:text="@string/location_screen_text_one"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:id="@+id/topContainer"
@@ -23,7 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/firstText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal">
+        android:layout_marginTop="@dimen/spacing_small"
+        >
 
         <ImageView
             android:id="@+id/sanfranciscoView"
@@ -67,13 +67,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/topContainer"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal">
+        android:layout_marginTop="@dimen/spacing_small">
 
         <ImageView
             android:id="@+id/singaporeView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/untitled_1_01" />
+            android:background="@drawable/untitled_1_02" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -111,13 +111,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/secondContainer"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal">
+        android:layout_marginTop="@dimen/spacing_small">
 
         <ImageView
             android:id="@+id/hongKongView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/untitled_1_01" />
+            android:background="@drawable/untitled_1_03" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -156,9 +156,10 @@
         android:layout_height="@dimen/general_button_height"
         android:layout_below="@+id/thirdContainer"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/landing_page_middle_button_padding"
         android:paddingLeft="@dimen/spacing_normal"
         android:paddingRight="@dimen/spacing_normal"
-        android:text="@string/interest_screen_text_six" />
+        android:text="@string/interest_screen_text_six"
+        android:layout_marginTop="@dimen/spacing_small"/>
+
 
 </RelativeLayout>
