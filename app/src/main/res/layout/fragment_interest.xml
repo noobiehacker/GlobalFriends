@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_landing"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_interest"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue">
-
+    android:background="@color/white">
 
     //Top
 
@@ -14,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="70dp"
         android:background="@drawable/untitled_3_01" />
 
     //Bottom
@@ -26,7 +25,8 @@
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/selection_screen_text_three"
+        android:text="@string/interest_screen_text_two"
+        android:textColor="@color/blue"
         android:textSize="20sp" />
 
 
@@ -47,42 +47,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/secondText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal">
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/spacing_sides"
+        android:paddingRight="@dimen/spacing_sides">
 
-
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/seekerIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:id="@+id/seekerIconContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/untitled3_13"
-                android:orientation="horizontal">
+            android:background="@drawable/untitled_3_02" />
 
 
-                <ImageView
-                    android:id="@+id/seekerIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/untitled3_09" />
-            </RelativeLayout>
+        <ImageView
+            android:id="@+id/hostIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/seekerIcon"
+            android:background="@drawable/untitled_3_03"
+            android:paddingLeft="@dimen/spacing_sides" />
 
-
-            <ImageView
-                android:id="@+id/hostIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_sides"
-                android:layout_toRightOf="@id/seekerIconContainer"
-                android:background="@drawable/untitled3_10" />
-
-        </RelativeLayout>
     </RelativeLayout>
+
 
     <TextView
         android:id="@+id/thirdContainer"
@@ -94,6 +80,7 @@
         android:text="@string/selection_screen_text_five"
         android:textSize="15sp" />
 
+
     <RelativeLayout
         android:id="@+id/bottomContainer"
         android:layout_width="match_parent"
@@ -104,7 +91,7 @@
 
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/spacing_normal"
@@ -114,18 +101,18 @@
                 android:id="@+id/facebookIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/untitled3_11" />
+                android:background="@drawable/untitled_3_04" />
 
 
             <ImageView
                 android:id="@+id/linkinIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_sides"
                 android:layout_toRightOf="@id/facebookIcon"
-                android:background="@drawable/untitled3_12" />
-
+                android:background="@drawable/untitled_3_05"
+                android:paddingLeft="@dimen/spacing_sides" />
         </RelativeLayout>
+
 
     </RelativeLayout>
 
@@ -139,6 +126,6 @@
         android:layout_marginTop="@dimen/landing_page_middle_button_padding"
         android:paddingLeft="@dimen/spacing_normal"
         android:paddingRight="@dimen/spacing_normal"
-        android:text="@string/selection_screen_text_two" />
+        android:text="@string/interest_screen_text_six" />
 
-</RelativeLayout>
+</LinearLayout>

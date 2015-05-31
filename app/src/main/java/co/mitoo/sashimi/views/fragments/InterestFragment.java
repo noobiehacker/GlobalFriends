@@ -14,17 +14,17 @@ import co.mitoo.sashimi.utils.events.FragmentChangeEvent;
 /**
  * Created by david on 15-05-30.
  */
-public class ConnectFragment extends  MitooFragment {
+public class InterestFragment extends  MitooFragment {
 
-    public static ConnectFragment newInstance() {
-        ConnectFragment fragment = new ConnectFragment();
+    public static InterestFragment newInstance() {
+        InterestFragment fragment = new InterestFragment();
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_connect,
+        View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_interest,
                 container, false);
         initializeViews(view);
         initializeFields();
@@ -37,8 +37,8 @@ public class ConnectFragment extends  MitooFragment {
             switch (v.getId()) {
                 case R.id.button:
                     FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                            .setFragmentID(R.id.fragment_interest_confirm)
-                            .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                            .setFragmentID(R.id.fragment_location_selection)
+                            .setTransition(MitooEnum.FragmentTransition.PUSH)
                             .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                             .build();
                     BusProvider.post(fragmentChangeEvent);

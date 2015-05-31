@@ -7,6 +7,13 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="greenButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/round_green_solid</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <style name="lightGrayButton">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/rounded_light_gray_solid</item>

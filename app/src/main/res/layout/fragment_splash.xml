@@ -3,7 +3,7 @@
     android:id="@+id/fragment_splash"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black" >
+    android:background="@color/blue" >
 
     <ImageView
         android:id="@+id/logo"
@@ -11,5 +11,5 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/mitoo_white" />
+        android:background="@drawable/untitled_3_01" />
  </RelativeLayout>

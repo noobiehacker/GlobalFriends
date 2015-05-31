@@ -37,18 +37,10 @@ public class InterestConfirmFragment extends  MitooFragment {
         FragmentChangeEvent fragmentChangeEvent ;
         if(getDataHelper().isClickable(v.getId())){
             switch (v.getId()) {
-                case R.id.topButton:
+                case R.id.button:
                     fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                             .setFragmentID(R.id.fragment_location_selection)
-                            .setTransition(MitooEnum.FragmentTransition.CHANGE)
-                            .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
-                            .build();
-                    BusProvider.post(fragmentChangeEvent);
-                    break;
-                case R.id.bottomButton:
-                    fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
-                            .setFragmentID(R.id.fragment_option)
-                            .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                            .setTransition(MitooEnum.FragmentTransition.PUSH)
                             .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                             .build();
                     BusProvider.post(fragmentChangeEvent);
@@ -60,8 +52,7 @@ public class InterestConfirmFragment extends  MitooFragment {
 
     @Override
     protected void initializeOnClickListeners(View view){
-        view.findViewById(R.id.topButton).setOnClickListener(this);
-        view.findViewById(R.id.bottomButton).setOnClickListener(this);
+        view.findViewById(R.id.button).setOnClickListener(this);
 
     }
 

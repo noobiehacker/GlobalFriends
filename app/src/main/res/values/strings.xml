@@ -2,7 +2,7 @@
 <resources>
 
     <!-- App related -->
-    <string name="app_name">Mitoo</string>
+    <string name="app_name">Global Friends</string>
     <string name="platform_name">Android</string>
     <string name="action_settings">Settings</string>
     <string name="action_register">Register</string>
@@ -476,8 +476,42 @@
 
     <!--Global Friends-->
 
-    <string name="selection_screen_text_one">HOST</string>
-    <string name="selection_screen_text_two">SEEKER</string>
+    <string name="selection_screen_text_two">Find Friends</string>
+    <string name="selection_screen_text_three">Global Friends</string>
+    <string name="selection_screen_text_four">I am</string>
+    <string name="selection_screen_text_five">Connect me with</string>
+
+    <string name="interest_screen_text_one">Are these your interests?</string>
+    <string name="interest_screen_text_two">Are these your skills?</string>
+    <string name="interest_screen_text_three">Are these your next?</string>
+    <string name="interest_screen_text_four">Interest?</string>
+    <string name="interest_screen_text_five">Skill?</string>
+    <string name="interest_screen_text_six">Next</string>
+
+    <string name="location_screen_text_one">Based on your background, we suggest these cities for you</string>
+    <string name="location_screen_text_two">San Francisco</string>
+    <string name="location_screen_text_three">California</string>
+    <string name="location_screen_text_four">200 connections"</string>
+    <string name="location_screen_text_five">Singapore</string>
+    <string name="location_screen_text_six">Singapore</string>
+    <string name="location_screen_text_seven">100 connections</string>
+    <string name="location_screen_text_eight">Hong Kong</string>
+    <string name="location_screen_text_nine">Hong Kong</string>
+    <string name="location_screen_text_ten">50 connections</string>
+
+
+
+    <string name="result_screen_text_one">San Francisco is the best tech hub in the world</string>
+    <string name="result_screen_text_two">Read more</string>
+    <string name="result_screen_text_three">International</string>
+
+    <string name="result_screen_text_four">Tourism</string>
+    <string name="result_screen_text_five">Technology</string>
+    <string name="result_screen_text_six">Finance</string>
+
+    <string name="result_screen_text_seven">My network</string>
+
+
 
     <string name="connect_screen_text_one">CONNECT</string>
 

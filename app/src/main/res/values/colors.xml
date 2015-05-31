@@ -41,7 +41,8 @@
     <color name="purple">#662c91</color>
     <color name="blue_navy">#1840A5</color>
     <color name="blue_sky">#4FADE3</color>
-    <color name="green">#009245</color>
+    <color name="green">#8DC63F</color>
+    <color name="blue">#2E3192</color>
 
     <!--Web UI palette -->
 
@@ -50,5 +51,6 @@
     <color name="blue_sky_light">#73C4F2</color>
     <color name="green_light">#00C55D</color>
     <color name="red_white">#FBEDED</color>
+
 
 </resources>

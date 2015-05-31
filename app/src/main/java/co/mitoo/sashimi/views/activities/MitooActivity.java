@@ -615,8 +615,7 @@ public class MitooActivity extends ActionBarActivity {
     }
 
     private boolean fragmentIsRoot(int id) {
-        return true;
-        //return id == R.id.fragment_home || id == R.id.fragment_landing;
+        return id == R.id.fragment_home || id == R.id.fragment_landing;
     }
 
 

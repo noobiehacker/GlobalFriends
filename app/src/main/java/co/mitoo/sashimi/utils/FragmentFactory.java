@@ -38,8 +38,8 @@ public class FragmentFactory {
             case R.id.fragment_interest_confirm:
                 result = InterestConfirmFragment.newInstance();
                 break;
-            case R.id.fragment_connect:
-                result = ConnectFragment.newInstance();
+            case R.id.fragment_interest:
+                result = InterestFragment.newInstance();
                 break;
             case R.id.fragment_location_selection:
                 result = LocationSelectionFragment.newInstance();
