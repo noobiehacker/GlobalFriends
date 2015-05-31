@@ -53,7 +53,7 @@ public class SplashScreenFragment extends MitooFragment {
                 regularFlow();
             }
         });
-        getHandler().postDelayed(getRunnable(), 15000);
+        getHandler().postDelayed(getRunnable(), 1000);
         return view;
     }
     
@@ -123,11 +123,7 @@ public class SplashScreenFragment extends MitooFragment {
 
     private void regularFlow(){
         //REGULAR FLOW
-        boolean isInviteFlow = true;
-        if (isInviteFlow)
-            startInviteFlow();
-        else
-            startRegularFlow();
+        routeToLanding();
     }
 
     public void startInviteFlow() {

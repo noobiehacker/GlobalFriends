@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.mitoo.sashimi.R;
+import co.mitoo.sashimi.utils.BusProvider;
 import co.mitoo.sashimi.utils.FragmentChangeEventBuilder;
 import co.mitoo.sashimi.utils.MitooConstants;
 import co.mitoo.sashimi.utils.MitooEnum;
@@ -24,6 +25,25 @@ public class LandingFragment extends MitooFragment{
     public static LandingFragment newInstance() {
         LandingFragment fragment = new LandingFragment();
         return fragment;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(getDataHelper().isClickable(v.getId())){
+            switch (v.getId()) {
+                case R.id.signupButton:
+                case R.id.searchButton:
+
+                    FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
+                            .setFragmentID(R.id.fragment_connect)
+                            .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                            .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
+                            .build();
+                    BusProvider.post(fragmentChangeEvent);
+                    break;
+            }
+        }
+
     }
 
     @Override
@@ -66,14 +86,9 @@ public class LandingFragment extends MitooFragment{
 
     @Override
     protected void initializeOnClickListeners(View view){
-
-
-    }
-
-    @Override
-    public void onClick(View v) {
+        view.findViewById(R.id.signupButton).setOnClickListener(this);
+        view.findViewById(R.id.searchButton).setOnClickListener(this);
 
     }
-
 
 }

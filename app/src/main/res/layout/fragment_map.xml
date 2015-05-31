@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_home"
+    android:id="@+id/fragment_map"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
@@ -8,6 +8,7 @@
         style="@style/transparentButton"
         android:layout_width="match_parent"
         android:layout_height="@dimen/general_button_height"
+        android:layout_below="@id/signupButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/landing_page_middle_button_padding"
         android:text="@string/selection_screen_text_two" />

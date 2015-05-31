@@ -35,43 +35,32 @@ public class FragmentFactory {
             case R.id.fragment_splash:
                 result = SplashScreenFragment.newInstance();
                 break;
-        /*    case R.id.fragment_sign_up:
-                result = SignUpFragment.newInstance();
+            case R.id.fragment_interest_confirm:
+                result = InterestConfirmFragment.newInstance();
                 break;
-            case R.id.fragment_login:
-                result = LoginFragment.newInstance();
+            case R.id.fragment_connect:
+                result = ConnectFragment.newInstance();
                 break;
-            case R.id.fragment_reset_password:
-                result = ResetPasswordFragment.newInstance();
+            case R.id.fragment_location_selection:
+                result = LocationSelectionFragment.newInstance();
                 break;
-            case R.id.fragment_search:
-                result = SearchFragment.newInstance();
+            case R.id.fragment_map:
+                result = MapFragment.newInstance();
                 break;
-            case R.id.fragment_location_search:
-                result = LocationSearchFragment.newInstance();
+            case R.id.fragment_option:
+                result = OptionsFragment.newInstance();
                 break;
-            case R.id.fragment_search_results:
-                result = SearchResultsFragment.newInstance();
+            case R.id.fragment_result:
+                result = ResultFragment.newInstance();
                 break;
-            case R.id.fragment_league:
-                result = LeagueFragment.newInstance();
-                break;
-            case R.id.fragment_settings:
-                result = SettingsFragment.newInstance();
-                break;
-            case R.id.fragment_sign_up_confirm:
-                result = SignUpDoneFragment.newInstance();
+            case R.id.fragment_selection:
+                result = SelectionFragment.newInstance();
                 break;
             case R.id.fragment_home:
                 result = HomeFragment.newInstance();
                 break;
-            case R.id.fragment_feed_back:
-                result = FeedBackFragment.newInstance();
-                break;
-            case R.id.fragment_about_mitoo:
-                result = AboutMitooFragment.newInstance();
-                break;
-            case R.id.fragment_competition:
+
+          /*  case R.id.fragment_competition:
                 result = CompetitionSeasonFragment.newInstance();
                 break;
             case R.id.fragment_notification:

@@ -473,5 +473,18 @@
         <item>Bar Games</item>
         <item>Floor Hockey</item>
     </string-array>
-    
+
+    <!--Global Friends-->
+
+    <string name="selection_screen_text_one">HOST</string>
+    <string name="selection_screen_text_two">SEEKER</string>
+
+    <string name="connect_screen_text_one">CONNECT</string>
+
+    <string name="Interest_confirm_screen_text_one">Are these your interests?</string>
+
+    <string name="Options_screen_text_one">Please pick more interests!</string>
+
+    <string name="Location_selection_screen_text_one">Top Location</string>
+
 </resources>

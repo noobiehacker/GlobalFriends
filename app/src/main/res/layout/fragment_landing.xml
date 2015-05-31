@@ -39,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/general_button_height"
             android:layout_centerHorizontal="true"
-            android:text="@string/landing_page_text2" />
+            android:text="@string/selection_screen_text_one" />
+
 
         <Button
             android:id="@+id/searchButton"
@@ -49,7 +50,7 @@
             android:layout_below="@id/signupButton"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/landing_page_middle_button_padding"
-            android:text="@string/landing_page_text1" />
+            android:text="@string/selection_screen_text_two" />
 
        <!-- <include
             android:id="@+id/termsPrivacyView"
