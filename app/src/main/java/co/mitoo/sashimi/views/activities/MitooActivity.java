@@ -75,7 +75,7 @@ public class MitooActivity extends ActionBarActivity {
     private DataHelper dataHelper;
     private Picasso picasso;
     protected DataPersistanceService persistanceService;
-    private int firstFragmentToStart = R.id.fragment_splash;
+    private int firstFragmentToStart = R.id.fragment_landing;
     private Branch branch;
     private AppStringHelper appStringHelper;
     private boolean onSplashScreen = true;

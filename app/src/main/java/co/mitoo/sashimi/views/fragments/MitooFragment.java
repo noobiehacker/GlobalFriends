@@ -736,10 +736,11 @@ public abstract class MitooFragment extends Fragment implements View.OnClickList
 
         int startingFragmentId = R.id.fragment_landing;
         //int startingFragmentId = R.id.fragment_interest;
+        //int startingFragmentId = R.id.fragment_contact;
 
         FragmentChangeEvent fragmentChangeEvent = FragmentChangeEventBuilder.getSingletonInstance()
                 .setFragmentID(startingFragmentId)
-                .setTransition(MitooEnum.FragmentTransition.CHANGE)
+                .setTransition(MitooEnum.FragmentTransition.PUSH)
                 .setAnimation(MitooEnum.FragmentAnimation.HORIZONTAL)
                 .build();
         postFragmentChangeEvent(fragmentChangeEvent);

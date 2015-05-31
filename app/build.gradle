@@ -182,6 +182,7 @@ dependencies {
     compile 'com.github.fengdai:alertdialogpro-theme-material:0.2.3'
     compile 'com.baoyz.pullrefreshlayout:library:1.0.1'
 
+    //compile 'com.facebook.shimmer:shimmer:0.1.0@aar'
     // Espresso
     androidTestCompile files('lib/espresso-1.1.jar')
     androidTestCompile files('lib/testrunner-1.1.jar')

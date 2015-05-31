@@ -14,8 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_below="@+id/logo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/interest_screen_text_two"
+        android:text="@string/interest_screen_text_one"
         android:textColor="@color/blue"
         android:textSize="20sp" />
 
@@ -37,36 +36,71 @@
 
             <TableRow>
 
-                <ImageView
-                    android:id="@+id/firstIcon"
+                <RelativeLayout
+                    android:id="@+id/firstIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/untitled4_01" />
+                    android:background="@drawable/untitled3_13"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
 
+                    <ImageView
+                        android:id="@+id/firstIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled4_01" />
 
-                <ImageView
-                    android:id="@+id/secondIcon"
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/secondIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/firstIcon"
-                    android:background="@drawable/untitled4_02"
-                    android:paddingLeft="@dimen/spacing_sides" />
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_toRightOf="@id/secondIconContainer"
+                    android:background="@drawable/untitled3_13"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:id="@+id/secondIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled4_02"
+                        android:paddingLeft="@dimen/spacing_sides" />
+
+                </RelativeLayout>
+
+
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginTop="@dimen/spacing_normal">
 
-                <ImageView
-                    android:id="@+id/thirdIcon"
 
+                <RelativeLayout
+                    android:id="@+id/thirdIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/untitled4_03" />
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_toRightOf="@id/secondIconContainer"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:id="@+id/thirdIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled4_03" />
+
+                </RelativeLayout>
 
 
                 <ImageView
                     android:id="@+id/fourthIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
                     android:layout_toRightOf="@id/thirdIcon"
                     android:background="@drawable/untitled4_04"
                     android:paddingLeft="@dimen/spacing_sides" />
@@ -103,36 +137,61 @@
 
             <TableRow>
 
-                <ImageView
-                    android:id="@+id/fifthIcon"
+                <RelativeLayout
+                    android:id="@+id/fifthIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/untitled4_05" />
+                    android:background="@drawable/untitled3_13"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:id="@+id/fifthIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled4_05" />
+
+
+                </RelativeLayout>
 
 
                 <ImageView
                     android:id="@+id/sixthIcon"
+
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
                     android:layout_toRightOf="@id/firstIcon"
                     android:background="@drawable/untitled4_06"
                     android:paddingLeft="@dimen/spacing_sides" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:layout_marginTop="@dimen/spacing_normal">
 
-                <ImageView
-                    android:id="@+id/seventhIcon"
-
+                <RelativeLayout
+                    android:id="@+id/sevenIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/untitled4_07" />
+                    android:background="@drawable/untitled3_13"
+                    android:orientation="horizontal"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:id="@+id/seventhIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/untitled4_07" />
+
+                </RelativeLayout>
 
 
                 <ImageView
                     android:id="@+id/eightthIcon"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/spacing_normal"
                     android:layout_toRightOf="@id/thirdIcon"
                     android:background="@drawable/untitled4_08"
                     android:paddingLeft="@dimen/spacing_sides" />
