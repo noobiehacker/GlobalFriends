@@ -12,10 +12,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/last_logo" />
-
+        android:layout_marginTop="@dimen/spacing_big"
+        android:background="@drawable/last_logo"/>
     //Bottom
+
+ <!--   <TextView
+        android:id="@+id/firstText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toplogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="20sp" />-->
 
     <TextView
         android:id="@+id/firstText"
@@ -23,19 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toplogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
-
-
-    <TextView
-        android:id="@+id/secondText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/firstText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
         android:text="@string/selection_screen_text_four"
         android:textColor="@color/white"
         android:textSize="15sp" />
@@ -45,9 +43,9 @@
         android:id="@+id/topContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/secondText"
+        android:layout_below="@+id/firstText"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_normal">
+        android:layout_marginTop="@dimen/spacing_small">
 
 
         <RelativeLayout
@@ -101,8 +99,6 @@
         android:layout_below="@+id/topContainer"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_normal"
-
-
         android:text="@string/selection_screen_text_five"
         android:textColor="@color/white"
         android:textSize="15sp" />
@@ -120,7 +116,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/spacing_small"
             android:orientation="horizontal">
 
 

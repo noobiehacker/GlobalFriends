@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing_normal"
-                    android:layout_toRightOf="@id/secondIconContainer"
+                    android:layout_toRightOf="@id/firstIconContainer"
                     android:background="@drawable/untitled3_13"
                     android:orientation="horizontal"
                     android:padding="3dp">
@@ -66,8 +66,7 @@
                         android:id="@+id/secondIcon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/untitled4_02"
-                        android:paddingLeft="@dimen/spacing_sides" />
+                        android:background="@drawable/untitled4_02"/>
 
                 </RelativeLayout>
 
@@ -81,8 +80,6 @@
                     android:id="@+id/thirdIconContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_normal"
-                    android:layout_toRightOf="@id/secondIconContainer"
                     android:background="@color/white"
                     android:orientation="horizontal"
                     android:padding="3dp">
@@ -101,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/spacing_normal"
-                    android:layout_toRightOf="@id/thirdIcon"
+                    android:layout_toRightOf="@id/thirdIconContainer"
                     android:background="@drawable/untitled4_04"
                     android:paddingLeft="@dimen/spacing_sides" />
             </TableRow>
